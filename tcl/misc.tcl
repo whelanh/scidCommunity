@@ -624,6 +624,41 @@ namespace eval gameclock {
     return [expr {int($size * 1.9)}]
   }
   ################################################################################
+  # Fit the face into the box its frame offers, keeping the face's aspect: the
+  # analog face is square, a digital one is digitalWidth:height (1.9:1). The face
+  # grows to the largest size that fits, so a wide frame does not leave a small
+  # box floating in it. A size that would not change anything is skipped, which
+  # is what keeps a <Configure> binding from looping on its own resize.
+  proc setSize { n boxW boxH } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return }
+    if {$boxW < 24 || $boxH < 24} { return }
+    if {$data(display$n) eq "digital"} {
+      set h $boxH
+      set w [expr {int($h * 1.9)}]
+      if {$w > $boxW} {
+        set w $boxW
+        set h [expr {int($w / 1.9)}]
+      }
+    } else {
+      set w [expr {$boxW < $boxH ? $boxW : $boxH}]
+      set h $w
+    }
+    if {[$data(id$n) cget -width] == $w && [$data(id$n) cget -height] == $h} { return }
+    $data(id$n) configure -width $w -height $h
+    $data(id$n) delete all
+    ::gameclock::face $n
+    ::gameclock::draw $n
+  }
+
+  # Fit the face of clock `n` into `frame`, less a margin for its border.
+  proc fit { frame n {margin 10} } {
+    if {![winfo exists $frame]} { return }
+    set bw [expr {[winfo width $frame] - 2 * $margin}]
+    set bh [expr {[winfo height $frame] - 2 * $margin}]
+    ::gameclock::setSize $n $bw $bh
+  }
+  ################################################################################
   # The items a face carries when nothing is running: the numerals of the
   # analog face, and nothing at all for a digital one.
   proc face { n } {

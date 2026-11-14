@@ -259,5 +259,52 @@ foreach {name want} {showDigitalClock 1 clockFromGame 1} {
         [set ::sergame::$name] $want
 }
 
+##############################################################################
+puts "\nthe presentation follows the space"
+# The window picks the arrangement that makes the faces bigger: side by side only
+# when its faces are strictly larger than stacked ones, a tie stacked (a taller
+# frame leaves the board more width).
+
+lassign [::sergame::clockLayout 800 200] o1 s1
+checkEq "a wide window puts the faces side by side" $o1 "side"
+checkEq "and their size is what the box allows" $s1 200
+
+lassign [::sergame::clockLayout 400 700] o2 s2
+checkEq "a tall window stacks them" $o2 "stacked"
+checkEq "and their size is what the box allows" $s2 340
+
+lassign [::sergame::clockLayout 400 400] o3 s3
+checkEq "a square window stacks them (a tie is not a reason to move)" $o3 "stacked"
+checkEq "at the size both arrangements allow" $s3 190
+
+# Wider than tall is already side by side, and the size is the one that follows.
+lassign [::sergame::clockLayout 220 200] o4 s4
+checkEq "a window a little wider than tall is side by side" $o4 "side"
+checkEq "at the size only that arrangement allows" $s4 100
+
+##############################################################################
+puts "\na face fills its frame and keeps its aspect"
+# The analog face is square; the digital one is 1.9:1 from the height it is
+# given, and it is capped by the width.
+proc faceSize {n} {
+    return [list [::gameclock::width $n] [.faces.clock$n cget -height]]
+}
+
+gameclock::setDisplay 1 digital
+::gameclock::setSize 1 400 100
+checkEq "a digital face takes the height it is given" [faceSize 1] [list 190 100]
+::gameclock::setSize 1 120 100
+checkEq "and is capped by a narrow frame" [faceSize 1] [list 120 63]
+
+gameclock::setDisplay 1 analog
+::gameclock::setSize 1 400 100
+checkEq "an analog face is the square the box allows" [faceSize 1] [list 100 100]
+::gameclock::setSize 1 60 200
+checkEq "and follows the smaller dimension" [faceSize 1] [list 60 60]
+
+set before [faceSize 1]
+::gameclock::setSize 1 60 200
+checkEq "a size that changes nothing is not re-applied" [faceSize 1] $before
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -544,11 +544,18 @@ namespace eval sergame {
     pack [ttk::separator $w.line2 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.finformations -side top -fill both -pady 5 -padx 10
     pack $w.fclocks -side top -fill both -pady 5 -padx 10
-    # The two faces share one row: stacked, they spent the game window's height
-    # on two large faces and left the board no room. White stays left whatever
-    # the player's colour, so the row never reorders under the reader; the
+    # The presentation follows the space: side by side when that makes the faces
+    # bigger than stacking them, one over the other when it does not. White stays
+    # first in either direction, so the order never changes under the reader; the
     # frames' own labels say which side is which.
-    pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
+    set ::sergame::clockOrientation ""
+    bind $w.fclocks <Configure> [list ::sergame::clockLayoutApply $w]
+    bind $w.fclockw <Configure> [list ::gameclock::fit $w.fclockw 1]
+    bind $w.fclockb <Configure> [list ::gameclock::fit $w.fclockb 2]
+    pack $w.fclockw $w.fclockb -side top -fill both -expand 1 -padx 10 -pady 5
+    # The first arrangement is decided once the window has a size: <Configure>
+    # arrives with it, but a window that is created and never shown has none.
+    after idle [list ::sergame::clockLayoutApply $w]
     pack $w.fbuttons -side top -pady "10 15"
 
     ttk::checkbutton $w.fdisplay.b1 -text $::tr(showblunderexists) -variable ::sergame::showblunder
@@ -621,6 +628,46 @@ namespace eval sergame {
         stop { destroy .coachWin }
     }
     return 0
+  }
+
+  # Which way round the two faces go, and the face size that follows: for a box
+  # of boxW x boxH with `gap` between the faces,
+  #   side by side -- each face gets (boxW-gap)/2 wide and boxH tall
+  #   stacked      -- each face gets boxW wide and (boxH-gap)/2 tall
+  # and a face is square as far as this decision goes (a digital face fills its
+  # frame at 1.9:1 from the height it is given, so the comparison holds for both).
+  # Side by side wins only when its faces are strictly larger; a tie stacks,
+  # because a taller frame leaves the board more width.
+  proc clockLayout {boxW boxH {gap 20}} {
+    set sideW [expr {($boxW - $gap) / 2}]
+    set side [expr {$sideW < $boxH ? $sideW : $boxH}]
+    set stackH [expr {($boxH - $gap) / 2}]
+    set stack [expr {$boxW < $stackH ? $boxW : $stackH}]
+    if {$side > $stack} { return [list side $side] }
+    return [list stacked $stack]
+  }
+
+  # Apply it to a game window: re-pack only when the answer changes, so the
+  # <Configure> binding cannot loop on its own rearrangement.
+  proc clockLayoutApply {w} {
+    if {![winfo exists $w.fclocks]} { return }
+    set bw [winfo width $w.fclocks]
+    set bh [winfo height $w.fclocks]
+    if {$bw < 2 || $bh < 2} { return }
+    lassign [::sergame::clockLayout $bw $bh] orientation size
+    if {$orientation ne $::sergame::clockOrientation} {
+      set ::sergame::clockOrientation $orientation
+      catch { pack forget $w.fclockw $w.fclockb }
+      if {$orientation eq "side"} {
+        pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
+      } else {
+        pack $w.fclockw $w.fclockb -side top -fill both -expand 1 -padx 10 -pady 5
+      }
+      update idletasks
+    }
+    # The frames have their new geometry now: fit each face into it.
+    ::gameclock::fit $w.fclockw 1
+    ::gameclock::fit $w.fclockb 2
   }
 
   proc abortGame { { n 1 } } {
