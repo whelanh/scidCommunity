@@ -125,10 +125,10 @@ comes first, so a capped pass can finish shallower than `::review::depth`, and a
 verdict then rests on a shallower search than the setting promised. That is the
 trade the cap asks for, and it is why the cap is off by default.
 
-**One setting, one surface.** The time cap is set in Review Settings; the old
-annotate dialog that showed it beside a seconds spinner is gone with the
-Analysis window. Every pass reads `::review::passLimits`, so a cap set here
-reaches Game Review, Move Comment and Batch annotate.
+**One setting, one surface.** The time cap is set in Review Settings — the only
+surface that has it since #437 deleted the legacy annotate dialog. Every pass
+reads `::review::passLimits`, so a cap set here reaches Game Review, Move Comment
+and Batch annotate.
 
 **A bound never displaces a verdict.** A capped search can report a MultiPV slot
 as `lowerbound`/`upperbound` at the depth it had reached and only then finish the
@@ -139,7 +139,7 @@ at the same depth is "not deeper") or overwrite an exact line already in hand, a
 the ply would have been written with no verdict at all.
 
 The pass runs on its own engine connection (id 20), so it never restarts the
-search the user is watching in the analysis pane.
+search the user is watching in an engine window.
 
 **Cancel** stops the pass: no further position is started, the engine is closed
 and nothing is written.
@@ -192,7 +192,7 @@ The answer comes from the position, not from a model:
   cap as the ceiling. The connection is given the review pass's thread and hash
   budget, not the preset's full reservation: it is a second engine process. A
   `NewGame` carries the game's variant before the `Go`, so a Chess960 position is
-  not searched as orthodox. It does not borrow the analysis window's engine and
+  not searched as orthodox. It does not borrow an engine window's engine and
   does not touch the review pass's connection: a probe and a review can be alive
   at the same time;
 - the connection is **closed in the reply that delivered the move**, not one

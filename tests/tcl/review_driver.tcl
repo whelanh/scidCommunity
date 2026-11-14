@@ -684,7 +684,7 @@ proc sc_game {args} {
     return ""
 }
 set ::fakeExtra ""
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         if {!$::fakeLevel} { return 0 }
         if {$::fakeVarFirst eq ""} { set ::fakeVarFirst $moves }
@@ -2401,7 +2401,7 @@ proc sc_game {args} {
     }
     return ""
 }
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves

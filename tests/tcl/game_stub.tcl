@@ -283,10 +283,11 @@ proc sc_var {sub args} {
 
 # The classic inserts moves into the variation it just created.
 proc sc_move_add {args} { return 0 }
-# ... through the uci layer, which is where the variation writers send them: the
-# variation is dropped by this model, so nothing is added.
-namespace eval ::uci {}
-proc ::uci::sc_move_add {moves} { return 0 }
+# ... through the formatter module, which is where the variation writers send
+# them (#437 §6 deleted the ::uci wrapper): the variation is dropped by this
+# model, so nothing is added.
+namespace eval ::ucifmt {}
+proc ::ucifmt::sc_move_add {moves} { return 0 }
 
 proc sc_game {sub args} {
     switch -- $sub {

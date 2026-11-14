@@ -362,20 +362,15 @@ set ::sergame::storeEval 0
 set ::sergame::storeEvalAll 0
 set ::sergame::coachIndex 0
 set ::sergame::playerColor "white"
-# The game's clock and increment, in milliseconds. They were the first slot's
-# limit keys in ::uci::uciInfo until #437 §4 gave the game its own; the Analysis
-# window's own values below are still its, and still saved.
+# The game's clock and increment, in milliseconds. Until #437 §4 they were the
+# first Analysis slot's limit keys in ::uci::uciInfo; the game has its own now,
+# and the slot keys are gone entirely (#437 §6 deleted the window and the old
+# pipe mode). The one-time migration further down still reads them out of a
+# pre-#437 options file, and is the only reader left.
 set ::sergame::wtime [expr 5 * 60 * 1000]
 set ::sergame::winc  [expr 10 * 1000]
 set ::sergame::btime [expr 5 * 60 * 1000]
 set ::sergame::binc  [expr 10 * 1000]
-set ::uci::uciInfo(wtime1) [expr 5 * 60 * 1000 ]
-set ::uci::uciInfo(winc1) [expr 10 * 1000 ]
-set ::uci::uciInfo(btime1) [expr 5 * 60 * 1000 ]
-set ::uci::uciInfo(binc1) [expr 10 * 1000 ]
-set ::uci::uciInfo(fixeddepth1) 3
-set ::uci::uciInfo(fixednodes1) 10000
-set ::uci::uciInfo(movetime1) 3000
 
 # Defaults for initial directories:
 set initialDir(base) "."
@@ -621,12 +616,17 @@ if {[file exists $optionsFile] && [catch {safeLoadConfig $optionsFile}]} {
   tk_messageBox -message $::errorInfo
 }
 
-# One-time migration for #437 §4: the Play-versus-Engine clock was saved in the
-# first Analysis slot's keys (::uci::uciInfo(wtime1) etc.) and now lives in the
-# game's own (::sergame::wtime etc.). A file written before that move holds the
-# old keys but not the new, so carry the clock over once instead of silently
-# resetting a saved time control to the default. A new-format file already
-# names ::sergame::wtime and is left alone.
+# One-time migration for #437 §4: the Play-versus-Engine clock used to be saved
+# in the first Analysis slot's keys (::uci::uciInfo(wtime1) etc.) and now lives
+# in the game's own (::sergame::wtime etc.). A file written before that move
+# holds the old keys but not the new, so carry the clock over once instead of
+# silently resetting a saved time control to the default. A new-format file
+# already names ::sergame::wtime and is left alone.
+#
+# #437 §6 stopped setting and saving those slot keys, so nothing but an old
+# options file can define them now. This block stays for exactly that case: it
+# is the only remaining reader, every read is behind catch, and deleting it
+# would reset the clock of anyone who upgrades from a pre-#437 build.
 if {[file exists $optionsFile]} {
   set _oldfmtClock 0
   catch {
@@ -765,8 +765,6 @@ proc options.write {} {
           ::sergame::depth ::sergame::movetime ::sergame::nodes ::sergame::ponder ::sergame::isOpening \
           ::sergame::coachIndex ::sergame::playerColor \
           ::sergame::wtime ::sergame::winc ::sergame::btime ::sergame::binc \
-          ::uci::uciInfo(wtime1) ::uci::uciInfo(winc1) ::uci::uciInfo(btime1) ::uci::uciInfo(binc1) \
-          ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
           FilterMaxMoves FilterMinMoves FilterStepMoves FilterMaxElo FilterMinElo FilterStepElo \
           FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard } {

@@ -244,7 +244,7 @@ proc ::tablebase::queryTablebaseResult {fen} {
 #
 proc ::tablebase::uciToSan {uciMove fen} {
     # Delegate to the existing, robust UCI->SAN conversion utility
-    return [::uci::formatPv $uciMove $fen]
+    return [::ucifmt::formatPv $uciMove $fen]
 }
 
 # ::tablebase::lookupPosition

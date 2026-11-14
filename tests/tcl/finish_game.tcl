@@ -143,8 +143,8 @@ proc sc_game {args} {
 }
 proc sc_move {args} { lappend ::calls "move $args" ; return "" }
 proc undoFeature {args} { return }
-namespace eval ::uci {}
-proc ::uci::sc_move_add {uci} {
+namespace eval ::ucifmt {}
+proc ::ucifmt::sc_move_add {uci} {
     lappend ::calls "add $uci"
     lappend ::played $uci
     incr ::idx

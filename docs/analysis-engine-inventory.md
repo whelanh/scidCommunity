@@ -6,6 +6,8 @@ Measured at **`97efd988`** (upstream `github`, 2026-11-11, after #436 closed). C
 
 The point of the document is the **decision** column, not the number. A number with no decision is what "a blind delete" looks like.
 
+**The table below is a snapshot taken at `97efd988`, not a description of today's tree.** Each phase appended its measured deltas under *Deltas measured while landing the phases*, and *What the tree looks like now* at the end is the closing state after #437 §6: one engine substrate, one formatter, no Analysis Engine.
+
 ## What #436 already removed
 
 - `tcl/main.tcl`, `tcl/file/epd.tcl`, `tcl/tools/enginelist.tcl`: no `::uci::`, `::analysis(` or `analysisWin` sites left. The doors are shut.
@@ -208,10 +210,59 @@ The table above is the measurement at `97efd988`. Where a phase moved a file, th
     - `tests/tcl/analysis_doors.tcl` now scans every `.tcl` under `tcl/` for a **call** to any of the 57 procs the deletion took, unqualified or as `::name`, skipping comments and namespace-local definitions, and then lifts and runs `::notify::privPosChanged` with its siblings stubbed so the chain has to reach `::epd::updateEpdWins`;
     - `tests/tcl/options_write.tcl` reads the writer's list out of `options.tcl` and fails if any name in it has no setter anywhere in `tcl/`;
     - `tests/tcl/sergame_engine.tcl` no longer stubs `toAbsPath`, so its "a preset that will not start" case exercises the real branch.
-  - **The rest of the old pipe mode went with it.** `tcl/tools/uci.tcl` kept ~800 lines of the `startEngine`/`sendToEngine`/`closeUCIengine` mode and the engine-options dialog, all unreachable at HEAD, and they still called five globals this phase deleted (`::sendToEngine`, `logEngineNote`, `updateAnalysisText`, `::checkEngineIsAlive`, `::resetEngine`, and `toAbsPath`). Rather than leave them dangling for §6, the block is deleted: the file now holds only the three one-line `::ucifmt::` wrappers (43 lines, down from 877), which §6 replaces and then deletes the file. `tcl/tools/wbdetect.tcl` (270 lines) went the same way — its single proc `detectWBEngine` has no caller, and its 22 `logEngineNote` calls and its `::analysis(...)` writes died with the window; `tcl/start.tcl` no longer sources it.
+  - **The rest of the old pipe mode went with it.** `tcl/tools/uci.tcl` kept ~800 lines of the `startEngine`/`sendToEngine`/`closeUCIengine` mode and the engine-options dialog, all unreachable at HEAD, and they still called eight globals this phase deleted (`::sendToEngine`, `::checkEngineIsAlive`, `::resetEngine`, `logEngineNote`, `logEngine`, `updateAnalysisText`, `onUciOk` and `toAbsPath`). Rather than leave them dangling for §6, the block is deleted: the file now holds only the three one-line `::ucifmt::` wrappers (43 lines, down from 877), which §6 replaces and then deletes the file. `tcl/tools/wbdetect.tcl` (270 lines) went the same way — its single proc `detectWBEngine` has no caller, and its 22 `logEngineNote` calls and its `::analysis(...)` writes died with the window; `tcl/start.tcl` no longer sources it.
   - **Left for §6:** the `::uci::uciInfo` slot keys `tcl/options.tcl` persists. The `::analysis(...)` array is *gone*: its only writers were in `tcl/tools/analysis.tcl` and in the two blocks above, so `grep -rn '::analysis(' tcl/` now answers nothing at all — stricter than the phase plan's "`tcl/tools/uci.tcl` and nothing else". §5 also reworded the history line at `tcl/tools/epd_analysis.tcl:7` (it used to spell the retired array's name) so that grep stayed exact while the writers lived.
   - **Keys:** 23 catalogue keys had no reader once the module was gone (`Annotate*`, `ShowInfo`, `ShowAnalysisBoard`, `StopEngine`, `StopNow`, `StopAfterThisGame`, `MoveOutOfBook`, `LastBookMove`, `Comments`, `GameReview`, `ReviewProgressAnalysisPane`, …). They were removed from `english.tcl` and the other 28 catalogues with `tcl/lang/removedeadlang.tcl`; `checklangs.tcl` reports the same state as before the change (no out-of-order entries; the three pre-existing `ToolsDownloadTWIC` gaps are untouched). `serbian.tcl` is out of sync on purpose and keeps its copy.
   - **Tests:** `annotate_dialog`, `annotate_dialog_syntax`, `annotate_parity`, `annotate_run`, `annotate_cancel` and `annotate_writers` are deleted with their subject; the two marks that survive get `tests/tcl/review_marks.tcl` (54 checks), because `review_driver.tcl` only stubs them.
+
+- **§6 — the pipe mode, the wrappers and the slot keys.** The last of the table above. `tcl/tools/uci.tcl` is **deleted** (it held three one-line `::ucifmt::` wrappers and a FROZEN note, and nothing on them): §6 repointed its eight remaining callers first — `epd_analysis.tcl` (two, behind the `info commands` guard, which now names `::ucifmt::formatPv`), `game_review.tcl` (two `sc_move_add`), `review_progress.tcl`, `stored_eval.tcl`, `tablebase.tcl`, `lichess_eval.tcl`, `lichess_openex.tcl` and `tactics.tcl` — and deleted the wrappers in the same commit, so no caller is left on a namespace that no longer exists. `tcl/start.tcl` no longer sources the file.
+
+  `tcl/options.tcl` loses both halves of the Analysis slot state: the seven `::uci::uciInfo(...)` defaults (`:370-376`) and the seven names in the writer's saved list (`:765-766`). What remains of that array is the one-time #437 §4 migration (`:617-643`), which reads a **pre-#437 file's** saved clock out of the four `wtime1`/`winc1`/`btime1`/`binc1` keys and carries it to `::sergame::wtime` etc. — every read behind `catch`, and the only reader left in the tree.
+
+  Measured with `git grep -c` over `tcl/` (`docs/analysis-engine-inventory.md`'s own
+  reproduction recipes):
+
+  | Grep | `97efd988` (this table) | §5 head `ecb33b06` | §6 head |
+  |---|---:|---:|---:|
+  | `::uci::` | 172 | 37 | **16** |
+  | `::analysis(` | 71 | **0** | **0** |
+  | `analysisWin` | 83 | **0** | **0** |
+  | `uciInfo` | 173 | 15 | **6** |
+
+  The 16 `::uci::` lines left: `tcl/enginecomm.tcl`'s four protocol procs
+  (`:595`, `:630`, `:669`, `:820`) and the four dispatch entries that name them
+  (`:375-379`), the options migration's four `catch` reads and its two comments, one
+  history comment in `review_driver.tcl:240` and one in `uci_format.tcl`. The six
+  `uciInfo` lines are all in `tcl/options.tcl`: the migration's four reads and two
+  comments. No file but `tcl/enginecomm.tcl` defines a `::uci::` proc.
+
+  `tests/tcl/analysis_doors.tcl` grows the checks that keep this true: `tcl/tools/uci.tcl` is gone, no `::uci::` name survives but the four protocol procs and the saved-clock reader, the three formatters are defined in `tcl/tools/uci_format.tcl`, `start.tcl` sources that module, and EPD's guard names it.
+
+## What the tree looks like now
+
+The retirement is complete, and this is the end state the inventory was measuring
+towards. Counted over `tcl/` at the #437 §6 head:
+
+- **One engine substrate.** `tcl/enginecomm.tcl` — `::engine::connect`/`send`/`reply`
+  with per-connection state (`::engine::state`) — carries the Engine Window, the
+  review pass, Play versus Engine (two `::engineNoWin` connections), the Tactics
+  trainer and the EPD pass. There is no pipe, no shared slot array and no `vwait`
+  on an engine reply.
+- **One formatter.** `tcl/tools/uci_format.tcl` (`::ucifmt::`: `sc_move_add`,
+  `formatPv`, `formatPvAfterMoves`) is the only UCI→notation code; the `::uci`
+  namespace holds the UCI *protocol* procs only (`sendOptions`, `sendNewGame`,
+  `sendGo`, `parseline`, `tcl/enginecomm.tcl:595-820`), dispatched beside the
+  `::xboard::` ones. **The namespace stays; the pipe mode does not.**
+- **No Analysis Engine.** No window, no `analysis.tcl`, no `makeAnalysisWin`, no
+  `::analysis(...)` array, no `configAnnotation`, no `wbdetect.tcl`. `docs/review-ui.md`
+  describes the review surface that replaced it; `docs/engine-consolidation.md`
+  is the history of the plan that did not get built.
+- **Two retired features, named rather than lost silently:** Review game and
+  Calvar (the trainer pair, §3a) and the classic annotator with its book comments
+  and its autoplay button (§5, §3a). What survives of the annotator is the two
+  marks Review Settings drives — `::reviewannotate::writeTactical` and
+  `::reviewannotate::openingMark` — reached only through
+  `::reviewdriver::writeResults`' `info commands` guards.
 
 ## Reproducing the numbers
 

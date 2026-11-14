@@ -49,9 +49,12 @@ proc ::epdanalysis::pvSAN {fen pv} {
             return [join [::epdanalysis::bareMoves $out] " "]
         }
     }
-    if {[llength [info commands ::uci::formatPv]]} {
+    # The tree's UCI->SAN formatter. ::ucifmt is its own module, sourced at
+    # start.tcl next to this file, so the guard is what tells a harness that
+    # stubs it (the EPD pass is tested headless) from the app.
+    if {[llength [info commands ::ucifmt::formatPv]]} {
         set out ""
-        catch { set out [::uci::formatPv $pv $fen] }
+        catch { set out [::ucifmt::formatPv $pv $fen] }
         if {$out ne ""} {
             return [join [::epdanalysis::bareMoves [split $out]] " "]
         }

@@ -1155,7 +1155,6 @@ windows/present.tcl
 move.tcl
 main.tcl
 tools/uci_format.tcl
-tools/uci.tcl
 tools/stored_eval.tcl
 tools/lichess_eval.tcl
 tools/lichess_puzzles.tcl

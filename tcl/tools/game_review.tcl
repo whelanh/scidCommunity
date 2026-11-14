@@ -1437,7 +1437,7 @@ proc ::review::writeMove {ply label eval_cp lines {engine ""}} {
                 if {[catch {
                     sc_var create
                     foreach uci $pv {
-                        if {[::uci::sc_move_add $uci]} {
+                        if {[::ucifmt::sc_move_add $uci]} {
                             set bad "the variation move $uci was rejected"
                             break
                         }
@@ -1682,7 +1682,7 @@ proc ::review::writeNodeBranch {index engine lines played node} {
         if {[catch {
             sc_var create
             foreach uci $pv {
-                if {[::uci::sc_move_add $uci]} {
+                if {[::ucifmt::sc_move_add $uci]} {
                     set bad "the variation move $uci was rejected"
                     break
                 }

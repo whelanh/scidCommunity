@@ -113,7 +113,7 @@ foreach {all key} [regexp -all -inline {\$::tr\((\w+)\)} $tacticsSrc] {
 namespace eval ::engineNoWin {}
 namespace eval ::engine {}
 namespace eval ::enginecfg {}
-namespace eval ::uci {}
+namespace eval ::ucifmt {}
 
 set ::engConn {}          ;# {id preset} of the connection the trainer opened
 set ::engSent {}          ;# one {id message data} per ::engine::send
@@ -143,13 +143,13 @@ proc ::engine::send {id msg {data ""}} {
 # the trainer's MultiPV belongs to its own connection.
 proc ::enginecfg::setOption {args} { incr ::engCfgWrites }
 
-# The tree's PV formatter (::ucifmt:: after #437 §6). The trainer hands it the
-# engine's UCI line and the position it searched; the map below is the SAN the
-# real formatter produces for those moves.
+# The tree's PV formatter (tcl/tools/uci_format.tcl, ::ucifmt::). The trainer
+# hands it the engine's UCI line and the position it searched; the map below is
+# the SAN the real formatter produces for those moves.
 array set ::SAN {
     e2e4 e4 e7e5 e5 d1h5 Qh5 g8f6 Nf6 h5f7 Qxf7 f1c4 Bc4 b8c6 Nc6 a2a3 a3
 }
-proc ::uci::formatPv {pv fen} {
+proc ::ucifmt::formatPv {pv fen} {
     fake::log "formatPv [join $pv] | $fen"
     set out {}
     foreach u $pv {
@@ -480,8 +480,11 @@ foreach line [split $tacticsSrc "\n"] {
     if {[string first "::analysis(" $line] >= 0} { incr analysisUses }
     if {[string first "engineSlot" $line] >= 0} { incr slotUses }
 }
-check "the only ::uci:: call left is the PV formatter" \
-    [expr {[llength $uciUses] == 1 && [string first "::uci::formatPv" [lindex $uciUses 0]] >= 0}]
+# #437 §6 deleted ::uci's three formatting wrappers: the trainer's one remaining
+# call is the formatter, and it goes to the module that owns it.
+checkEq "the trainer has no ::uci:: call left" $uciUses {}
+check "and formats its line through ::ucifmt::formatPv" \
+    [expr {[string first "::ucifmt::formatPv" $tacticsSrc] >= 0}]
 checkEq "nothing reads the Analysis window's array" $analysisUses 0
 checkEq "the engine slot is gone" $slotUses 0
 check "no engine-slot state is read" [expr {[string first "uciInfo" $tacticsSrc] < 0}]

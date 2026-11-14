@@ -479,7 +479,7 @@ namespace eval tactics {
         return
     }
     # A UCI score in pawns from White's point of view, the form the referee has
-    # always compared (it is what the legacy analysis reader in uci.tcl wrote
+    # always compared (it is what the legacy pipe-mode analysis reader wrote
     # into the multiPV row): a cp score is the engine's own, a mate is the
     # ±327.xx sentinel its distance produces.
     proc whiteScore { score scoreType fen } {
@@ -501,13 +501,14 @@ namespace eval tactics {
         }
         return [expr {double($cp) / 100.0}]
     }
-    # The line of the search in flight, as SAN, through the tree's formatter.
+    # The line of the search in flight, as SAN, through the tree's formatter
+    # (tcl/tools/uci_format.tcl).
     proc lineSAN {} {
         variable search
         if {![dict size $search]} { return "" }
         set pv [dict get $search pv]
         if {$pv eq ""} { return "" }
-        return [::uci::formatPv $pv [dict get $search fen]]
+        return [::ucifmt::formatPv $pv [dict get $search fen]]
     }
     # The connection died: stop the referee, tell the user, close the session.
     proc engineGone {} {

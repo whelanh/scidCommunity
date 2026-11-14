@@ -1182,12 +1182,12 @@ proc ::lichess_openex::formatNumber {n} {
 
 # ::lichess_openex::uciToSan
 #   Converts a UCI move (e.g. "e2e4") to SAN using the existing
-#   ::uci::formatPv utility and the given FEN position.
+#   ::ucifmt::formatPv utility and the given FEN position.
 #   Returns the original UCI string if conversion fails.
 #
 proc ::lichess_openex::uciToSan {uciMove fen} {
     if {$uciMove eq ""} { return "" }
-    if {[catch {set san [::uci::formatPv [list $uciMove] $fen]}]} {
+    if {[catch {set san [::ucifmt::formatPv [list $uciMove] $fen]}]} {
         return $uciMove
     }
     if {$san eq "" || $san eq $uciMove} {
