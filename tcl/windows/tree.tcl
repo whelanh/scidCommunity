@@ -122,6 +122,9 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
 
   $w.menu.opt add checkbutton -label Annotations -variable tree(nagsAutopopulate$baseNumber) -command "::tree::refresh $baseNumber"
 
+  $w.menu.opt add checkbutton -label TreeOptAutoLoadMask -variable ::tree::mask::autoLoadMask
+  set helpMessage($w.menu.opt,3) TreeOptAutoLoadMask
+
   $w.menu.helpmenu add command -label TreeHelpTree -accelerator F1 -command {helpWindow Tree}
   $w.menu.helpmenu add command -label TreeHelpIndex -command {helpWindow Index}
 
@@ -184,7 +187,23 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   wm minsize $w 40 5
   ::createToplevelFinalize $w
 
-  ::tree::refresh $baseNumber
+  # Open the last used mask automatically when the user has asked for it.
+  # A mask is shared by every tree window, so only the first tree window
+  # opens it; the others keep the mask that is already open.
+  if {$::tree::mask::autoLoadMask && $::tree::mask::maskFile eq ""} {
+    set lastMask [lindex $::tree::mask::recentMask 0]
+    set loaded 0
+    if {$lastMask ne ""} {
+      # "autoLoad" makes a missing or damaged file non-fatal: the tree window
+      # still opens, without a mask.
+      set loaded [::tree::mask::open $lastMask autoLoad]
+    }
+    if {!$loaded} {
+      ::tree::refresh $baseNumber
+    }
+  } else {
+    ::tree::refresh $baseNumber
+  }
   set ::tree::cachesize($baseNumber) [lindex [sc_tree cacheinfo $baseNumber] 0]
 }
 ################################################################################
@@ -1643,7 +1662,7 @@ proc ::tree::mask::safeReadMaskFile {filename} {
 ################################################################################
 #
 ################################################################################
-proc ::tree::mask::open { {filename ""} } {
+proc ::tree::mask::open { {filename ""} {mode ""} } {
   global ::tree::mask::maskSerialized ::tree::mask::mask ::tree::mask::recentMask
 
   if {$filename == ""} {
@@ -1659,36 +1678,55 @@ proc ::tree::mask::open { {filename ""} } {
     array unset ::tree::mask::mask
     array set ::tree::mask::mask {}
     if {![::tree::mask::safeReadMaskFile $filename]} {
-      tk_messageBox -title "scidCommunity" -icon error -type ok \
-          -message "Invalid or corrupted mask file: [file tail $filename]"
-      return
+      set ::tree::mask::maskFile ""
+      set ::tree::mask::dirty 0
+      # An automatic open must not stop a tree window from opening.
+      if {$mode ne "autoLoad"} {
+        tk_messageBox -title "scidCommunity" -icon error -type ok \
+            -message "Invalid or corrupted mask file: [file tail $filename]"
+      }
+      return 0
     }
     array set mask $maskSerialized
     set maskSerialized {}
     set ::tree::mask::maskFile $filename
     set ::tree::mask::dirty 0
     ::tree::refresh
+    ::tree::mask::addRecent $filename
+    return 1
+  }
+  return 0
+}
 
-    if { [lsearch $recentMask $filename ] == -1 } {
-      set recentMask [ linsert $recentMask 0 $filename]
-      if {[llength $recentMask] > $::tree::mask::maxRecent } {
-        set recentMask [ lreplace $recentMask  [ expr $::tree::mask::maxRecent -1 ] end ]
-      }
+################################################################################
+# addRecent - remember a mask as the most recently used one.
+# The list is saved in the options file; the first entry is also what the
+# "Auto-load last mask" tree option opens.
+################################################################################
+proc ::tree::mask::addRecent {filename} {
+  global ::tree::mask::recentMask
 
-      # update recent masks menu entry
-      foreach i [sc_base list] {
-        set w .treeWin$i
-        if { [winfo exists $w] } {
-          $w.menu.mask.recent delete 0 end
-          foreach f $::tree::mask::recentMask {
-            $w.menu.mask.recent add command -label $f -command [list ::tree::mask::open $f]
-          }
-        }
-      }
-
-    }
+  # Move a mask that is already listed to the front, so that the first entry
+  # is always the mask used last.
+  set pos [lsearch -exact $recentMask $filename]
+  if {$pos != -1} {
+    set recentMask [lreplace $recentMask $pos $pos]
+  }
+  set recentMask [linsert $recentMask 0 $filename]
+  if {[llength $recentMask] > $::tree::mask::maxRecent} {
+    set recentMask [lreplace $recentMask $::tree::mask::maxRecent end]
   }
 
+  # update recent masks menu entry
+  foreach baseNumber [sc_base list] {
+    set w .treeWin$baseNumber
+    if {[winfo exists $w]} {
+      $w.menu.mask.recent delete 0 end
+      foreach f $recentMask {
+        $w.menu.mask.recent add command -label $f -command [list ::tree::mask::open $f]
+      }
+    }
+  }
 }
 ################################################################################
 #
