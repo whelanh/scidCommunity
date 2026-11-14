@@ -514,13 +514,9 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
       # the tree alone.
       if {[info exists ::treeFilterUpdating_] &&
           [llength $::treeFilterUpdating_] == 0} {
-        # Keep the retained rows inert until the scheduled refresh replaces
-        # them: they belong to the previous position.
+        # The position changed while the stats ran. Keep the retained rows
+        # inert: ::updateTreeFilter schedules the refresh once notify returns.
         set tree(stale$baseNumber) 1
-        after idle {
-          unset -nocomplain ::treeFilterUpdating_
-          ::updateTreeFilter
-        }
         return
       }
       # Otherwise the user pressed Stop. Keep the previous tree rather than
