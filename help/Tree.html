@@ -163,16 +163,24 @@
     being searched for is in the cache.
   </p>
   <p>
-    The maximum number of lines in the cache can be configured with
+    The maximum number of positions in the cache can be configured with
     <b><i>
         <font color="#990000">Cache size</font>
       </i></b>
-    in the tree window File menu. The default is up to 1000 lines.
+    in the tree window File menu. The default is up to 1000 positions.
+  </p>
+  <p>
+    The cache is also limited in memory (512&nbsp;MB by default). On a very
+    large database a single cached position can need a few megabytes, so the
+    cache may hold fewer positions than the selected number. This keeps it
+    from competing with the operating system's file cache for the database
+    itself. When a refresh is slow, the status bar shows how long the search
+    and the move statistics took.
   </p>
 
   <p>
     <center>
-      <font size=-1>(Updated: scidCommunity, February 2026)</font>
+      <font size=-1>(Updated: scidCommunity, November 2026)</font>
     </center>
   </p>
 

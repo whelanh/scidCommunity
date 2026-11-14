@@ -194,6 +194,9 @@ inline Tcl_Obj* ObjMaker(unsigned long long v) {
 	ASSERT(v <= static_cast<unsigned long long>(std::numeric_limits<int>::max()));
 	return Tcl_NewIntObj(static_cast<int>(v));
 }
+inline Tcl_Obj* ObjMaker(long long v) {
+	return Tcl_NewWideIntObj(static_cast<Tcl_WideInt>(v));
+}
 inline Tcl_Obj* ObjMaker(double v) {
 	return Tcl_NewDoubleObj(v);
 }

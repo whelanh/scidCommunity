@@ -39,6 +39,7 @@ const errorT
     ERROR_FileVersion    = 109,
     ERROR_OldScidVersion = 110,
     ERROR_FileReadOnly   = 111,
+    ERROR_Busy           = 112,
     ERROR_CompactRemove  = 121,
 
     // Memory Allocation, corrupt data

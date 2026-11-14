@@ -90,6 +90,11 @@ UI_res_t sc_base_close(scidBaseT* dbase, UI_handle_t ti, int, const char**) {
 	if (dbase->getFileName() == "<clipbase>") {
 		return UI_Result(ti, ERROR_BadArg, "Cannot close clipbase.");
 	}
+	if (dbase->isBusy()) {
+		return UI_Result(
+		    ti, ERROR_BadArg,
+		    "Cannot close a database while a tree operation is running.");
+	}
 	dbase->Close();
 	return UI_Result(ti, OK);
 }
@@ -110,6 +115,11 @@ UI_res_t sc_base_compact(scidBaseT* dbase, UI_handle_t ti, int argc,
 	const char* usage = "Usage: sc_base compact baseId [stats]";
 
 	if (argc == 3) {
+		if (dbase->isBusy()) {
+			return UI_Result(ti, ERROR_BadArg,
+			                 "Cannot compact a database while a tree "
+			                 "operation is running.");
+		}
 		errorT res = dbase->compact(UI_CreateProgress(ti));
 		return UI_Result(ti, res);
 	} else if (argc == 4 && std::strcmp("stats", argv[3]) == 0) {
@@ -139,6 +149,8 @@ UI_res_t sc_base_copygames(scidBaseT* dbase, UI_handle_t ti, int argc, const cha
 	auto targetBase = DBasePool::getBase(strGetUnsigned(argv[4]));
 	if (targetBase == 0)
 		return UI_Result(ti, ERROR_BadArg, "sc_base copygames error: wrong targetBaseId");
+	if (targetBase->isBusy())
+		return UI_Result(ti, ERROR_Busy);
 
 	errorT err = OK;
 	const HFilter filter = dbase->getFilter(argv[3]);
@@ -522,6 +534,9 @@ UI_res_t sc_base_import(scidBaseT* dbase, UI_handle_t ti, int argc,
 	// if (pgn)
 	auto codec = ICodecDatabase::PGN;
 
+	if (dbase->isBusy())
+		return UI_Result(ti, ERROR_Busy);
+
 	auto nImported = dbase->numGames();
 	std::string errorMsg;
 	const auto filename = argv[3];
@@ -558,6 +573,9 @@ UI_res_t sc_base_import_nodup(scidBaseT* dbase, UI_handle_t ti, int argc,
 	const char* usage = "Usage: sc_base import_nodup baseId filename";
 	if (argc != 4)
 		return UI_Result(ti, ERROR_BadArg, usage);
+
+	if (dbase->isBusy())
+		return UI_Result(ti, ERROR_Busy);
 
 	gamenumT nImported = 0;
 	gamenumT nSkipped = 0;

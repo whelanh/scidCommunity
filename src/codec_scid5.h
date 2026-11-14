@@ -193,6 +193,10 @@ public: // ICodecDatabase interface
 		return set_db_info(std::string(name).append(new_value));
 	};
 
+	void setSequentialAccess(bool sequential) final {
+		gfile_.setSequentialAccess(sequential);
+	}
+
 	ByteBuffer getGameData(uint64_t offset, uint32_t length) final {
 		auto data = gfile_.view_at(offset, length);
 		if (data.size() != length)

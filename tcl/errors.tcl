@@ -41,6 +41,7 @@ namespace eval ERROR {
   set FileVersion      109
   set OldScidVersion   110
   set FileReadOnly     111
+  set Busy             112
   set CompactRemove    121
   set MallocFailed     151
   set CorruptData      152
@@ -108,6 +109,8 @@ after idle {
     "Old format Scid file, now out of date."
   set ::ERROR::msg($::ERROR::FileReadOnly) \
     $::tr(ErrReadOnly)
+  set ::ERROR::msg($::ERROR::Busy) \
+    "The database is busy with a tree operation. Please wait for it to finish."
 
   set ::ERROR::msg(CompactCreate) \
     "A temporary database from a previous unsuccessfully compact operation already exists.\nPlease remove the files with suffix __COMPACT__ and retry.\n"

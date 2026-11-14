@@ -42,6 +42,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   set tree(locked$baseNumber) $locked
   set tree(base$baseNumber) $baseNumber
   set tree(status$baseNumber) ""
+  set tree(stale$baseNumber) 0
   set tree(order$baseNumber) "frequency"
   set tree(allgames$baseNumber) 1
   set tree(movedepth$baseNumber) $tree(moveDepth)
@@ -184,7 +185,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   ::createToplevelFinalize $w
 
   ::tree::refresh $baseNumber
-  set ::tree::cachesize($baseNumber) [sc_tree cacheinfo $baseNumber]
+  set ::tree::cachesize($baseNumber) [lindex [sc_tree cacheinfo $baseNumber] 0]
 }
 ################################################################################
 proc ::tree::hideCtxtMenu { baseNumber } {
@@ -196,6 +197,9 @@ proc ::tree::hideCtxtMenu { baseNumber } {
 }
 ################################################################################
 proc ::tree::selectCallback { baseNumber move } {
+  # After a cancelled refresh the displayed moves belong to the previous
+  # position; acting on them would play a move of the wrong position.
+  if {$::tree(stale$baseNumber)} { return }
   if {$::tree(autorefresh$baseNumber)} {
     tree::select $move $baseNumber
   }
@@ -449,6 +453,19 @@ proc ::tree::restoreButtons {w} {
     $w.buttons.stop configure -state disabled -command {}
 }
 
+# Clear the training flags a cancelled refresh would otherwise leave behind.
+# Only the base that owns the pending state is touched: userMovePending is
+# set on a human move, before trainingReplyBase is known, so it is cleared
+# for the training base independently of it.
+proc ::tree::cancelPendingTraining { baseNumber } {
+  if { $::tree::trainingReplyBase == $baseNumber } {
+    set ::tree::trainingReplyBase 0
+  }
+  if { $::tree::trainingBase != 0 && $baseNumber == $::tree::trainingBase } {
+    set ::tree::userMovePending 0
+  }
+}
+
 proc ::tree::refresh { { baseNumber "" }} {
     if { $baseNumber != "" && [lsearch -exact [sc_base list] $baseNumber] == -1 } {
         displayLines $baseNumber "Error: the file is not open."
@@ -474,8 +491,21 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
                                   $tree(order$baseNumber) $tree(movedepth$baseNumber) } moves]
   if { $err } {
     set tree(status$baseNumber) ""
+    if { $::errorCode == $::ERROR::UserCancel } {
+      # Keep the previous tree rather than replacing it with an error, but
+      # mark it stale: it describes the previous position and its moves must
+      # not be applied to the current one.
+      set tree(stale$baseNumber) 1
+      # The cancelled refresh will not evaluate the training reply, so drop
+      # the flags instead of letting an unrelated position consume them.
+      ::tree::cancelPendingTraining $baseNumber
+      ::tree::restoreButtons $w
+      $w.buttons.graph configure -state disabled
+      return
+    }
     set moves [ERROR::getErrorMsg]
   }
+  set tree(stale$baseNumber) 0
   catch {$w.f.tl itemconfigure 0 -foreground darkBlue}
 
   # Extract evaluation NAGs from games and populate the mask or autoNag array
@@ -1135,6 +1165,16 @@ proc ::tree::status { msg baseNumber } {
       append status "   $::tr(Filter)"
       append status ": [::windows::gamelist::filterText "" $baseNumber]"
     }
+    # Show how long the last refresh took when it was noticeable, so a slow
+    # tree can be diagnosed without a profiler.
+    if {![catch {sc_tree timing $baseNumber} timing]} {
+      lassign $timing searchMs statsMs cacheHit
+      if {$searchMs + $statsMs >= 250} {
+        append status "   $::tr(TreeTimingSearch) [format %.1f [expr {$searchMs / 1000.0}]]s"
+        append status " / $::tr(TreeTimingStats) [format %.1f [expr {$statsMs / 1000.0}]]s"
+        if {$cacheHit} { append status " (cache)" }
+      }
+    }
   }
   $w.status configure -text $status
 }
@@ -1296,6 +1336,9 @@ proc ::tree::graphRedraw { baseNumber } {
 proc ::tree::graph { baseNumber {bpress 0}} {
   set w .treeGraph$baseNumber
   if {! [winfo exists .treeWin$baseNumber]} { return }
+  # The graph plots ::tree::treeData, which still holds the previous position
+  # after a cancelled refresh; its title comes from the current position.
+  if {$::tree(stale$baseNumber)} { return }
   if {! [winfo exists $w]} {
     toplevel $w
     setWinLocation $w
