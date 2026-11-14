@@ -651,32 +651,20 @@ namespace eval sergame {
 
   # The type size a face can reach in a w x h cell: the measure the arrangement is
   # chosen by. A dial's numerals are 0.10 of its diameter, so the cell's smaller
-  # side limits them; the digits are limited by the cell's height and by what seven
-  # glyphs need across. Their aspect is measured, not assumed - the font is the
-  # user's, and a preference change has no event to hang a remeasure on.
+  # side limits them; the digits are whatever ::gameclock draws them at, which is
+  # its own question (height, width, and what the font's glyphs measure). Asking
+  # the face rather than estimating it is what keeps the score honest: an estimate
+  # here and a shrink there chose an arrangement for a size that never appeared.
   proc faceTypeSize {mode w h} {
     if {$w < 8 || $h < 8} { return 1 }
     if {$mode eq "digital"} {
-      set aspect [::sergame::digitalAspect]
-      set byH [expr {int(($h - 8) * 0.62)}]
-      set byW [expr {int(($w - 8) / $aspect)}]
-      set t [expr {$byH < $byW ? $byH : $byW}]
+      set t [::gameclock::digitalTypeSize 1 $w $h]
     } else {
       set dial [expr {($w < $h ? $w : $h) - 12}]
       set t [expr {int($dial * 0.10)}]
     }
     if {$t < 8} { set t 8 }
     return $t
-  }
-
-  # How wide the digits are against how tall, measured now (one font measure of a
-  # reference string), so the answer follows the user's font.
-  proc digitalAspect {} {
-    set f [::gameclock::faceFont 1 100 bold]
-    set wpx [font measure $f "0:00:00"]
-    set hpx [font metrics $f -linespace]
-    if {$hpx < 1} { set hpx 1 }
-    return [expr {double($wpx) / $hpx}]
   }
 
   # Which way round the two faces go, and the type size that follows: side by side
@@ -790,6 +778,9 @@ namespace eval sergame {
     # A digital face is wider than the analog one, so the window's floor is the
     # row the current faces make.
     catch { wm minsize .coachWin [::sergame::clockRowMinWidth] 0 }
+    # The faces changed shape but the area did not, so no <Configure> follows and
+    # the arrangement would keep answering the question the old face asked.
+    catch { ::sergame::clockLayoutApply .coachWin }
   }
 
   # The narrowest the game window may be: one row holding both faces and the
@@ -819,17 +810,32 @@ namespace eval sergame {
     }]} {
       return {}
     }
+    # getGame returns the whole game, past the position on the board as well. A
+    # Play picked up from move 20 of a finished game takes its times from move
+    # 20, so the scan stops at the plies the board has played.
+    set limit [llength [sc_pos moves]]
+    # Which side's move ends on an odd ply: White, unless the game starts from a
+    # position with Black to move.
+    set firstSide "white"
+    if {[llength $game] && [llength [split [lindex [lindex $game 0] 2]]] > 1} {
+      set firstSide [lindex [split [lindex $game 0] 2] 1]
+    }
     set wsec ""
     set bsec ""
     set ply 0
     foreach pos $game {
+      if {$ply > $limit} { break }
       if {[lindex $pos 0] != 0 || [lindex $pos 1] != 0} { continue }
       set comment [lindex $pos 4]
       if {[regexp {\[%clk\s*([0-9]+):([0-9]+):([0-9]+)\s*\]} $comment -> h m s]} {
+        # scan, not expr on the captured text: 08 and 09 are not octal numbers,
+        # and a clock reading 0:08:09 is an ordinary one.
+        scan $h %d h
+        scan $m %d m
+        scan $s %d s
         set sec [expr {$h * 3600 + $m * 60 + $s}]
-        # ply 0 is the position before any move, so an odd ply ends a White
-        # move and an even one (past the start) ends a Black move.
-        if {$ply % 2 == 1} { set wsec $sec } elseif {$ply > 0} { set bsec $sec }
+        set white [expr {($ply % 2 == 1) == ($firstSide eq "white")}]
+        if {$white} { set wsec $sec } elseif {$ply > 0} { set bsec $sec }
       }
       incr ply
     }
@@ -1244,6 +1250,23 @@ namespace eval sergame {
     ::sergame::stSet $n depth $depth
     ::sergame::stSet $n score [::sergame::whiteScore $score $scoreType $fen]
     if {$pv ne ""} { ::sergame::stSet $n pv [::ucifmt::formatPv $pv $fen] }
+    # The coach keeps searching while the player thinks, so the score, the blunder
+    # warning and the NAG have to follow the lines as they arrive - the polling loop
+    # used to refresh them every 200 ms. One refresh per turn of the event loop,
+    # however many lines come in: the display is a label, not a log.
+    if {[sc_pos side] != $::sergame::engineColor} {
+      if {![info exists ::sergame::coachRefresh]} {
+        set ::sergame::coachRefresh 1
+        after idle ::sergame::coachRefreshNow
+      }
+    }
+    return
+  }
+
+  # One coalesced refresh of the coach's presentation: see onInfo.
+  proc coachRefreshNow {} {
+    unset -nocomplain ::sergame::coachRefresh
+    ::sergame::updateAnalysisText
     return
   }
 

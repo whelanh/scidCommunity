@@ -1526,7 +1526,14 @@ proc addMoveUCI {{moveUCI} {animate "-animate"}} {
 
     if { [::fics::setPremove $sq1 $sq2] || ! [::fics::playerCanMove]} { return 0 } ;# not player's turn
 
-    if {! [::move::Follow $moveUCI] && ! [addMoveEx $moveUCI var "-pgn $animate"]} {
+    if {[::move::Follow $moveUCI]} {
+        # The move was already in the tree, so it did not pass through addMoveEx:
+        # the play mode still has to hear that it is on the board (see postmove
+        # there), or a game driven by that event stops waiting for it.
+        if {[info exists ::playMode]} {
+            catch { eval "$::playMode postmove" }
+        }
+    } elseif {! [addMoveEx $moveUCI var "-pgn $animate"]} {
         return 0
     }
 

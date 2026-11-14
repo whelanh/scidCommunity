@@ -371,14 +371,31 @@ checkEq "and back again, when side by side wins clearly" $o "side"
 # a wide short box is where the two modes disagree.
 lassign [::sergame::clockLayout digital 900 300] d1 dsize
 lassign [::sergame::clockLayout analog 900 300] a1 asize
-checkEq "both modes agree side by side in a wide box" [list $d1 $a1] [list side side]
+# The two faces do not have to agree: the dials are limited by the cell's height,
+# which a side-by-side cell keeps in full; the digits are seven glyphs wide, which
+# a stacked cell keeps in full. The layout asks the face that is on screen.
+checkEq "a wide box lays the dials side by side" $a1 "side"
+checkEq "and asks the digits its own question" $d1 "stacked"
 lassign [::sergame::clockLayout digital 700 700] d2 dsize2
 checkEq "a tall box stacks the digits too" $d2 "stacked"
+# The digits and the dial answer differently in the same box: seven glyphs need the
+# width a side-by-side cell splits and a stacked cell keeps, so a 500x400 clock area
+# stacks the digits where it keeps the dials side by side. This is the pair of
+# answers the layout has to ask the right face for.
+lassign [::sergame::clockLayout digital 500 400 side] dOri dSize
+lassign [::sergame::clockLayout analog 500 400 side] aOri aSize
+checkEq "the digits stack in a box the dials lay side by side" [list $dOri $aOri] [list stacked side]
 
-# The type size a cell allows, and that the digital aspect is measured (not 3.2 by
-# assumption): the ratio of a reference string in this font.
-set aspect [::sergame::digitalAspect]
-check "the digital aspect was measured" [expr {$aspect > 1.0 && $aspect < 12.0}] "aspect $aspect"
+# The type size a cell allows. For the digits it is the size the face is DRAWN at,
+# not an estimate of it: the layout scores an arrangement by this number, and an
+# estimate chose arrangements for a size that then never appeared on screen.
+checkEq "the digital size the layout scores is the size the face draws" \
+    [::sergame::faceTypeSize digital 400 200] [::gameclock::digitalTypeSize 1 400 200]
+check "the digits are shrunk to the box's width, not merely estimated from an em" \
+    [expr {[::gameclock::digitalTypeSize 1 400 200] < [::gameclock::digitalFont 400 200]}] \
+    "drawn [::gameclock::digitalTypeSize 1 400 200] vs em bound [::gameclock::digitalFont 400 200]"
+checkEq "a dial's numerals are a tenth of its smaller side" \
+    [::sergame::faceTypeSize analog 400 200] 18
 check "a bigger cell allows bigger digits" \
     [expr {[::sergame::faceTypeSize digital 400 200] > [::sergame::faceTypeSize digital 200 100]}]
 

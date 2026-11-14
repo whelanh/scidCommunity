@@ -735,8 +735,23 @@ namespace eval gameclock {
     return [list $fam $size $weight]
   }
 
-  # The point size of the h:mm:ss text in a w x h box: most of the box, not a
-  # quarter of it. Seven glyphs at about 0.54em need the width; the height allows
+  # The size the h:mm:ss text is DRAWN at in a w x h box, which is also the number
+  # the layout scores an arrangement by. digitalFont is where it starts; the font's
+  # own advance widths decide the rest, because an em estimate cannot know them and
+  # a narrow frame clipped the digits left and right.
+  proc digitalTypeSize {n w h} {
+    set fs [::gameclock::digitalFont $w $h]
+    set fnt [::gameclock::faceFont $n $fs bold]
+    set need [font measure $fnt "0:00:00"]
+    if {$need > 0 && $need > $w} {
+      set fs [expr {int($fs * $w * 0.94 / $need)}]
+      if {$fs < 6} { set fs 6 }
+    }
+    return $fs
+  }
+
+  # The point size of the h:mm:ss text in a w x h box before the measuring pass:
+  # most of the box, not a quarter of it. Seven glyphs at about 0.54em need the width; the height allows
   # about 0.62 of it before the digits touch the frame; the smaller wins, because
   # a filling face can be wide and short or narrow and tall.
   proc digitalFont { w h } {
@@ -843,20 +858,8 @@ namespace eval gameclock {
       set eh [format "%d" [expr abs($sec) / 60 / 60] ]
       set em [format "%02d" [expr (abs($sec) / 60) % 60] ]
       set es [format "%02d" [expr abs($sec) % 60] ]
-      # The font follows the box in both directions: the height sets how tall the
-      # digits may be, the width what seven of them need, and the smaller wins -
-      # a filling face can be wide and short, or narrow and tall.
-      set fs [::gameclock::digitalFont $w $h]
-      # An em estimate cannot know the chosen font's real advance widths, and a
-      # narrow frame clipped the digits left and right. Measure the string and
-      # shrink once until it fits.
+      set fs [::gameclock::digitalTypeSize $n $w $h]
       set fnt [::gameclock::faceFont $n $fs bold]
-      set need [font measure $fnt "$eh:$em:$es"]
-      if {$need > 0 && $need > $w} {
-        set fs [expr {int($fs * $w * 0.94 / $need)}]
-        if {$fs < 6} { set fs 6 }
-        set fnt [::gameclock::faceFont $n $fs bold]
-      }
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
           -font $fnt -tag aig$n
     } elseif {$display eq "both"} {

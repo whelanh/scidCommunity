@@ -431,6 +431,12 @@ proc sc_pos {sub args} {
             }
         }
         side        { return $::fake::side }
+        moves {
+            # The moves from the game's start to the position on the board: what
+            # a scan of the game's recorded times has to stop at. (A comment
+            # between switch arms is a list element, not a comment.)
+            return $::fake::moves
+        }
         fen         {
             # The fake board does not move pieces; it names a position. At the
             # first ply that name is the classic string the transport checks pin.
@@ -576,6 +582,23 @@ proc ::gameclock::setDisplay {n display} { set ::fake::gcMode($n) $display }
 proc ::gameclock::faceFont {n size {weight ""}} {
     if {$weight eq ""} { return [list Helvetica $size] }
     return [list Helvetica $size $weight]
+}
+# The size the real face draws the digits at, and the number the game window's
+# layout scores an arrangement by: the box's height and width bound the em, then
+# the font's own advance widths decide the rest.
+proc ::gameclock::digitalFont {w h} {
+    set byh [expr {$h > 32 ? int($h * 0.62) : 8}]
+    set byw [expr {int($w / 3.8)}]
+    return [expr {$byh < $byw ? $byh : $byw}]
+}
+proc ::gameclock::digitalTypeSize {n w h} {
+    set fs [::gameclock::digitalFont $w $h]
+    set need [font measure [::gameclock::faceFont $n $fs bold] "0:00:00"]
+    if {$need > 0 && $need > $w} {
+        set fs [expr {int($fs * $w * 0.94 / $need)}]
+        if {$fs < 6} { set fs 6 }
+    }
+    return $fs
 }
 # A filling face draws itself at its canvas's size; the stub has no canvas, so
 # it records the request and reports the size it was told to take.
@@ -1796,12 +1819,15 @@ set area_w [winfo width $gw.fclocks]
 set area_h [winfo height $gw.fclocks]
 check "the clock area takes the window's leftover space" \
     [expr {$area_w > 800 && $area_h > 300}] "area ${area_w}x${area_h}"
-# Proportional, not a fixed margin: each face sits inside a labelled frame, and
-# the label and padding take a few dozen pixels off every edge.
-check "White's face fills most of its half" \
-    [expr {$cw1 > $area_w * 0.45 && $ch1 > $area_h * 0.85}] "face ${cw1}x${ch1}"
-check "Black's face fills the other half" \
-    [expr {$cw2 > $area_w * 0.45 && $ch2 > $area_h * 0.85}] "face ${cw2}x${ch2}"
+# A face fills the frame it was given, whichever arrangement hands it that frame:
+# the label and the padding take a few dozen pixels off every edge, so the test is
+# against the frame's own size rather than a share of the area.
+foreach {n cw ch} [list w $cw1 $ch1 b $cw2 $ch2] {
+    set fw [winfo width $gw.fclocks.$n]
+    set fh [winfo height $gw.fclocks.$n]
+    check "the [expr {$n eq "w" ? "White" : "Black"}] face fills its frame" \
+        [expr {$cw > $fw - 30 && $ch > $fh - 45}] "face ${cw}x${ch} in frame ${fw}x${fh}"
+}
 check "both faces are the same size" \
     [expr {abs($cw1 - $cw2) < 8 && abs($ch1 - $ch2) < 8}]
 
@@ -1814,8 +1840,13 @@ foreach id [after info] {
 }
 check "postmove runs the game loop and leaves no timer behind" [expr {!$pending}]
 
-# The arrangement follows the window: wide puts the faces side by side, tall stacks
-# them, and the geometry follows the decision.
+# The arrangement follows the window's shape - asked of the face that is on screen.
+# The dials answer a wide window with one row and a tall one with a column; the
+# digits answer differently, because seven glyphs need the width a side-by-side cell
+# splits in half (tests/tcl/sergame_ui.tcl pins that pair). This window's own face is
+# the dial here so both answers are exercised.
+set ::sergame::showDigitalClock 0
+::sergame::applyClockFace
 wm geometry $gw 1100x700
 update
 ::sergame::clockLayoutApply $gw
@@ -1828,7 +1859,7 @@ set engineFrame [expr {$playerFrame eq "w" ? "b" : "w"}]
 check "White's clock is first when side by side" \
     [expr {[winfo x $gw.fclocks.w] < [winfo x $gw.fclocks.b]}]
 
-wm geometry $gw 600x900
+wm geometry $gw 700x1100
 update
 ::sergame::clockLayoutApply $gw
 checkEq "a tall window stacks them" $::sergame::clockOrientation "stacked"
@@ -1837,6 +1868,9 @@ check "the engine's clock is on top when stacked" \
     [expr {[winfo y $gw.fclocks.$engineFrame] < [winfo y $gw.fclocks.$playerFrame]}]
 check "the stacked faces still have room" \
     [expr {[winfo width $gw.fclocks.w] > 40 && [winfo height $gw.fclocks.w] > 40}]
+# Back to the window's own face for what follows.
+set ::sergame::showDigitalClock 1
+::sergame::applyClockFace
 
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
@@ -1904,6 +1938,8 @@ proc seedGame {} {
         {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
         {0 0 {fen2} {} {[%clk 0:04:59]} e5 e7e5}
     }
+    # The board is on the second move, so the scan of the game stops there.
+    set ::fake::moves {e4 e5}
 }
 
 gameDefaults
@@ -1959,6 +1995,7 @@ set ::fake::gamePositions {
     {0 0 {start} {} {} {} {}}
     {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
 }
+set ::fake::moves {e4}
 ::sergame::play
 quiet
 checkEq "a half-recorded game keeps the mover's time and starts the other side" \
@@ -1974,6 +2011,85 @@ quiet
 checkEq "a fresh game still starts from the configured control" \
     [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 300 300]
 checkIn "and says so" $::sergame::clockLabel [::tr ClocksRestarted]
+endGame
+
+# A game that goes on past the position Play starts from: the time a clock is
+# seeded with is the one recorded AT that position, not the one at the end of the
+# game. And 0:08:09 is an ordinary clock reading - Tcl reads 08 as a bad octal
+# number, so the fields are parsed as decimal and a game that records one can
+# still start.
+proc laterGame {} {
+    set ::fake::gamePositions {
+        {0 0 {start} {} {} {} {}}
+        {0 0 {fen1} {} {[%clk 0:08:09]} e4 e2e4}
+        {0 0 {fen2} {} {[%clk 0:07:59]} e5 e7e5}
+        {0 0 {fen3} {} {[%clk 0:08:01]} Nf3 g1f3}
+        {0 0 {fen4} {} {[%clk 0:07:01]} Nc6 b8c6}
+    }
+    # The board is on 1...e5: the two moves after it are the game's future.
+    set ::fake::moves {e4 e5}
+}
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+laterGame
+::sergame::play
+quiet
+checkEq "the clocks come from the position Play starts at, not from the end of the game" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 489 479]
+endGame
+
+# A game that starts from a position with Black to move: the first recorded move
+# is Black's, so its time belongs to Black's clock.
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+set ::fake::gamePositions {
+    {0 0 {8/8/8/8/8/8/8/K6k b - - 0 1} {} {} {} {}}
+    {0 0 {fen1} {} {[%clk 0:09:00]} e5 e7e5}
+    {0 0 {fen2} {} {[%clk 0:08:30]} Nf3 g1f3}
+}
+set ::fake::moves {e5 Nf3}
+::sergame::play
+quiet
+checkEq "a game that starts with Black to move gives Black's time to Black's clock" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 510 540]
+endGame
+
+# The coach's later lines reach the window on their own now that nothing polls:
+# an InfoPV during the player's turn asks for one refresh, however many lines
+# arrive in the same turn of the event loop.
+gameDefaults
+fake::reset
+set ::sergame::engineColor black
+set ::fake::side white
+set ::sergame::waitPlayerMove 1
+::sergame::stSet 2 search "coach"
+set ::sergame::refreshed 0
+rename ::sergame::updateAnalysisText ::sergame::updateAnalysisTextReal
+proc ::sergame::updateAnalysisText {} { incr ::sergame::refreshed }
+::sergame::onInfo 2 {1 12 12 1000 500000 3 0 100 -35 cp {} e2e4 e7e5}
+::sergame::onInfo 2 {1 13 13 1200 520000 3 0 130 -40 cp {} e2e4 e7e5}
+update
+checkEq "the coach's later lines refresh the window without a poll" $::sergame::refreshed 1
+::sergame::stSet 2 search ""
+rename ::sergame::updateAnalysisText {}
+rename ::sergame::updateAnalysisTextReal ::sergame::updateAnalysisText
+endGame
+
+# Changing the face changes what fits the box, and no <Configure> follows it: the
+# arrangement has to be asked again there, or the window keeps the old answer.
+gameDefaults
+fake::reset
+::sergame::play
+quiet
+set ::sergame::faceAsked 0
+rename ::sergame::clockLayoutApply ::sergame::clockLayoutApplyReal
+proc ::sergame::clockLayoutApply {w} { incr ::sergame::faceAsked }
+::sergame::applyClockFace
+checkEq "a face change asks the arrangement again" $::sergame::faceAsked 1
+rename ::sergame::clockLayoutApply {}
+rename ::sergame::clockLayoutApplyReal ::sergame::clockLayoutApply
 endGame
 
 puts "\n$checks checks, $fails failures"
