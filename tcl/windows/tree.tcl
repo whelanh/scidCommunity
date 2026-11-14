@@ -474,6 +474,11 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
                                   $tree(order$baseNumber) $tree(movedepth$baseNumber) } moves]
   if { $err } {
     set tree(status$baseNumber) ""
+    if { $::errorCode == $::ERROR::UserCancel } {
+      # Keep the previous tree rather than replacing it with an error.
+      ::tree::restoreButtons $w
+      return
+    }
     set moves [ERROR::getErrorMsg]
   }
   catch {$w.f.tl itemconfigure 0 -foreground darkBlue}

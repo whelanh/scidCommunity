@@ -167,11 +167,15 @@ public:
 		sequential_ = sequential;
 		madvise(mappedData_, mappedSize_,
 		        sequential ? MADV_SEQUENTIAL : MADV_RANDOM);
+#if defined(__linux__)
 		if (fd_ >= 0) {
 			posix_fadvise(fd_, 0, 0,
 			              sequential ? POSIX_FADV_SEQUENTIAL
 			                         : POSIX_FADV_RANDOM);
 		}
+#endif
+#else
+		(void)sequential; // the Windows cache manager always reads ahead
 #endif
 	}
 
