@@ -770,6 +770,8 @@ translate V TreeTrainingMoveNotInBase {המהלך הזה לא נמצא במסד 
 translate V LockTree {לִנְעוֹל}
 translate V TreeDepth {עומק עץ (חצי מהלכים):}
 translate V TreeLocked {נָעוּל}
+translate V TreeTimingSearch {לְחַפֵּשׂ}
+translate V TreeTimingStats {סטטיסטיקות}
 translate V TreeBest {טוֹב בִּיוֹתֵר}
 translate V TreeBestGames {משחקי העץ הטובים ביותר}
 translate V TreeFindAnyAnn {כל הערה}
@@ -1622,6 +1624,7 @@ translate V NameEditSelect {משחקים לעריכה}
 translate V NameEditReplace {לְהַחלִיף}
 translate V NameEditWith {עִם}
 translate V NameEditMatches {התאמות: הקש Ctrl+1 עד Ctrl+9 כדי לבחור}
+translate V NameEditWildcard {תו כללי לשמות: * = כל תווים (1* = מתחיל ב-1, *Whelan = מסתיים ב-Whelan)}
 
 # Check games window:
 translate V CheckGames {בדוק משחקים}

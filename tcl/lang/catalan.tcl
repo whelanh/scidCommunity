@@ -795,6 +795,8 @@ translate K TreeTrainingMoveNotInBase {Aquest moviment no es troba a la base de 
 translate K LockTree {Bloquejar}
 translate K TreeDepth {Profunditat de l'arbre (meitat de moviments):}
 translate K TreeLocked {Bloquejat}
+translate K TreeTimingSearch {cerca}
+translate K TreeTimingStats {estadístiques}
 translate K TreeBest {Millor}
 translate K TreeBestGames {Millors partides de l'arbre}
 translate K TreeFindAnyAnn {qualsevol anotació}
@@ -1657,6 +1659,7 @@ translate K NameEditSelect {Partides a editar}
 translate K NameEditReplace {Reemplaçar}
 translate K NameEditWith {amb}
 translate K NameEditMatches {Ja hi son: Presionar Ctrl+1 a Ctrl+9 per seleccionar-ne}
+translate K NameEditWildcard {Comodí per als noms: * = qualsevol caràcter (1* = comença amb 1, *Whelan = acaba amb Whelan)}
 
 # Check games window:
 translate K CheckGames {Veure partides}

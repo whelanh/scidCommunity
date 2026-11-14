@@ -810,6 +810,8 @@ translate L TreeTrainingMoveNotInBase {Această mutare nu se află în baza de d
 translate L LockTree {Blocare}
 translate L TreeDepth {Adâncimea copacului (jumătate de mișcări):}
 translate L TreeLocked {încuiat}
+translate L TreeTimingSearch {căutare}
+translate L TreeTimingStats {statistici}
 translate L TreeBest {Cel mai bun}
 translate L TreeBestGames {Cele mai bune jocuri cu copaci}
 translate L TreeFindAnyAnn {orice adnotare}
@@ -1662,6 +1664,7 @@ translate L NameEditSelect {Jocuri de editat}
 translate L NameEditReplace {Înlocui}
 translate L NameEditWith {cu}
 translate L NameEditMatches {Potriviri: apăsați Ctrl+1 până la Ctrl+9 pentru a selecta}
+translate L NameEditWildcard {Wildcard pentru nume: * = orice caracter (1* = începe cu 1, *Whelan = se termină cu Whelan)}
 
 # Check games window:
 translate L CheckGames {Verificați jocurile}

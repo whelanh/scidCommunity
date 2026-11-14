@@ -773,6 +773,8 @@ translate T TreeTrainingMoveNotInBase {Bu hamle veritabanında yok.}
 translate T LockTree {Kilit}
 translate T TreeDepth {Ağaç derinliği (yarım hamle):}
 translate T TreeLocked {kilitli}
+translate T TreeTimingSearch {aramak}
+translate T TreeTimingStats {istatistikler}
 translate T TreeBest {En iyi}
 translate T TreeBestGames {En İyi Ağaç Oyunları}
 translate T TreeFindAnyAnn {herhangi bir açıklama}
@@ -1625,6 +1627,7 @@ translate T NameEditSelect {Düzenlenecek oyunlar}
 translate T NameEditReplace {Yer değiştirmek}
 translate T NameEditWith {ile}
 translate T NameEditMatches {Eşleşmeler: Seçmek için Ctrl+1 ila Ctrl+9 tuşlarına basın}
+translate T NameEditWildcard {İsimler için joker karakter: * = herhangi bir karakter (1* = 1 ile başlar, *Whelan = Whelan ile biter)}
 
 # Check games window:
 translate T CheckGames {Oyunları kontrol et}

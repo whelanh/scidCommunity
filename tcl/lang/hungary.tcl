@@ -777,6 +777,8 @@ translate H TreeTrainingMoveNotInBase {Ez a lépés nem szerepel az adatbázisba
 translate H LockTree {Rögzítés}
 translate H TreeDepth {Fa mélysége (fél mozgás):}
 translate H TreeLocked {rögzítve}
+translate H TreeTimingSearch {keresés}
+translate H TreeTimingStats {statisztika}
 translate H TreeBest {Legjobb}
 translate H TreeBestGames {A fa legjobb játszmái}
 translate H TreeFindAnyAnn {bármilyen megjegyzés}
@@ -1635,6 +1637,7 @@ translate H NameEditSelect {Szerkesztendõ játszmák}
 translate H NameEditReplace {Cserél}
 translate H NameEditWith {Erre}
 translate H NameEditMatches {Egyezések: Ctrl+1...Ctrl+9 választ.}
+translate H NameEditWildcard {A nevek helyettesítő karaktere: * = tetszőleges karakter (1* = 1-gyel kezdődik, *Whelan = Whelanre végződik)}
 
 # Check games window:
 translate H CheckGames {Ellenõrizze a játékokat}

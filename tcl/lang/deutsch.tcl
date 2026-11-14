@@ -809,6 +809,8 @@ translate D TreeTrainingMoveNotInBase {Dieser Umzug ist nicht in der Datenbank.}
 translate D LockTree {Anbinden}
 translate D TreeDepth {Baumtiefe (halbe Züge):}
 translate D TreeLocked {angebunden}
+translate D TreeTimingSearch {suchen}
+translate D TreeTimingStats {Statistiken}
 translate D TreeBest {Beste}
 translate D TreeBestGames {Beste Zugbaumpartien}
 translate D TreeFindAnyAnn {beliebige Anmerkung}
@@ -1680,6 +1682,7 @@ translate D NameEditSelect {Welche Spiele sollen geändert werden?}
 translate D NameEditReplace {Ersetze}
 translate D NameEditWith {durch}
 translate D NameEditMatches {Vorschlag mit Strg+1 - Strg+9 auswählen}
+translate D NameEditWildcard {Platzhalter für Namen: * = beliebige Zeichen (1* = beginnt mit 1, *Whelan = endet mit Whelan)}
 
 # Check games window:
 translate D CheckGames {Konsistenzprüfung}

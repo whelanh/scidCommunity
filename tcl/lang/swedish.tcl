@@ -780,6 +780,8 @@ translate W TreeTrainingMoveNotInBase {Denna flytt finns inte i databasen.}
 translate W LockTree {Lås}
 translate W TreeDepth {Träddjup (halva rörelser):}
 translate W TreeLocked {Låst}
+translate W TreeTimingSearch {söka}
+translate W TreeTimingStats {statistik}
 translate W TreeBest {Bäst}
 translate W TreeBestGames {Bästa partier i trädet}
 translate W TreeFindAnyAnn {valfri kommentar}
@@ -1640,6 +1642,7 @@ translate W NameEditSelect {Partier att redigera}
 translate W NameEditReplace {Ersätt}
 translate W NameEditWith {med}
 translate W NameEditMatches {Matchar: Tryck Ctrl+1 till Ctrl+9 för att välja}
+translate W NameEditWildcard {Jokertecken för namn: * = alla tecken (1* = börjar med 1, *Whelan = slutar med Whelan)}
 
 # Check games window:
 translate W CheckGames {Kontrollera partier}

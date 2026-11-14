@@ -799,6 +799,8 @@ translate N TreeTrainingMoveNotInBase {Deze zet staat niet in de database.}
 translate N LockTree {Boom Vergrendelen}
 translate N TreeDepth {Boomdiepte (halve zetten):}
 translate N TreeLocked {Vergrendeld}
+translate N TreeTimingSearch {zoekopdracht}
+translate N TreeTimingStats {statistieken}
 translate N TreeBest {Beste}
 translate N TreeBestGames {Boom Beste partijen}
 translate N TreeFindAnyAnn {willekeurige annotatie}
@@ -1659,6 +1661,7 @@ translate N NameEditSelect {Partijen om te wijzigen}
 translate N NameEditReplace {Vervangen}
 translate N NameEditWith {met}
 translate N NameEditMatches {Gelijken: Druk Ctrl+1 tot Ctrl+9 om te selecteren}
+translate N NameEditWildcard {Wildcard voor namen: * = willekeurige tekens (1* = begint met 1, *Whelan = eindigt met Whelan)}
 
 # Check games window:
 translate N CheckGames {Controleer spellen}

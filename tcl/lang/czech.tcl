@@ -774,6 +774,8 @@ translate C TreeTrainingMoveNotInBase {Tento přesun není v databázi.}
 translate C LockTree {Zamknout}
 translate C TreeDepth {Hloubka stromu (pl tahu):}
 translate C TreeLocked {Zamknuto}
+translate C TreeTimingSearch {vyhledávání}
+translate C TreeTimingStats {statistiky}
 translate C TreeBest {Nejlep}
 translate C TreeBestGames {Nejlep partie stromu}
 translate C TreeFindAnyAnn {jakákoli anotace}
@@ -1634,6 +1636,7 @@ translate C NameEditSelect {Partie k editaci}
 translate C NameEditReplace {Nahradit}
 translate C NameEditWith {}
 translate C NameEditMatches {Shoduje se: Stiskni Ctrl+1 a Ctrl+9 pro vbr}
+translate C NameEditWildcard {Zástupný znak pro jména: * = libovolné znaky (1* = začíná 1, *Whelan = končí Whelan)}
 
 # Check games window:
 translate C CheckGames {Zkontrolujte hry}

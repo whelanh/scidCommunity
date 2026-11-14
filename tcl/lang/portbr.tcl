@@ -782,6 +782,8 @@ translate B TreeTrainingMoveNotInBase {Esta movimentação não está no banco d
 translate B LockTree {Travamento}
 translate B TreeDepth {Profundidade da árvore (meio movimento):}
 translate B TreeLocked {Travada} 
+translate B TreeTimingSearch {procurar}
+translate B TreeTimingStats {estatísticas}
 translate B TreeBest {Melhor}
 translate B TreeBestGames {Melhores jogos da árvore}
 translate B TreeFindAnyAnn {qualquer anotação}
@@ -1642,6 +1644,7 @@ translate B NameEditSelect {Jogos para editar}
 translate B NameEditReplace {Substituir}
 translate B NameEditWith {com}
 translate B NameEditMatches {Confere: Pressione Ctrl+1 a Ctrl+9 para selecionar}
+translate B NameEditWildcard {Curinga para nomes: * = quaisquer caracteres (1* = começa com 1, *Whelan = termina com Whelan)}
 
 # Check games window:
 translate B CheckGames {Marcar jogos}

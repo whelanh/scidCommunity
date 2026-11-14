@@ -782,6 +782,8 @@ translate F TreeTrainingMoveNotInBase {Ce mouvement n'est pas dans la base de do
 translate F LockTree {Verrouiller}
 translate F TreeDepth {Profondeur de l'arbre (demi-mouvements) :}
 translate F TreeLocked {verrouillé}
+translate F TreeTimingSearch {recherche}
+translate F TreeTimingStats {statistiques}
 translate F TreeBest {Meilleur}
 translate F TreeBestGames {Arbre des meilleures parties}
 translate F TreeFindAnyAnn {toute annotation}
@@ -1642,6 +1644,7 @@ translate F NameEditSelect {Parties à éditer}
 translate F NameEditReplace {Remplacer}
 translate F NameEditWith {avec}
 translate F NameEditMatches {Correspondances: Presser Ctrl+1 à Ctrl+9 pour sélectionner}
+translate F NameEditWildcard {Caractère générique pour les noms : * = n'importe quel caractère (1* = commence par 1, *Whelan = se termine par Whelan)}
 
 # Check games window:
 translate F CheckGames {Vérifier les jeux}

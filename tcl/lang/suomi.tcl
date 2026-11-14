@@ -808,6 +808,8 @@ translate U TreeTrainingMoveNotInBase {Tämä siirto ei ole tietokannassa.}
 translate U LockTree {Lukitse}
 translate U TreeDepth {Puun syvyys (puolet liikkeet):}
 translate U TreeLocked {lukittu}
+translate U TreeTimingSearch {haku}
+translate U TreeTimingStats {tilastot}
 translate U TreeBest {Paras}
 translate U TreeBestGames {Parhaat pelit}
 translate U TreeFindAnyAnn {mikä tahansa kommentti}
@@ -1668,6 +1670,7 @@ translate U NameEditSelect {Muokattavat pelit}
 translate U NameEditReplace {Korvaa}
 translate U NameEditWith {kanssa}
 translate U NameEditMatches {Osumat: Tee valinta painamalla Ctrl+1 - Ctrl+9}
+translate U NameEditWildcard {Jokerimerkki nimille: * = mitkä tahansa merkit (1* = alkaa 1:llä, *Whelan = päättyy Whelan)}
 
 # Check games window:
 translate U CheckGames {Tarkista pelit}

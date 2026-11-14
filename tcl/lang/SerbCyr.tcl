@@ -810,6 +810,8 @@ translate J TreeTrainingMoveNotInBase {Овај потез није у бази 
 translate J LockTree {Закључај}
 translate J TreeDepth {Дубина стабла (половине):}
 translate J TreeLocked {закључано}
+translate J TreeTimingSearch {тражи}
+translate J TreeTimingStats {статистика}
 translate J TreeBest {Најбољи}
 translate J TreeBestGames {Најбоље игре са дрветом}
 translate J TreeFindAnyAnn {било који коментар}
@@ -1662,6 +1664,7 @@ translate J NameEditSelect {Игре за уређивање}
 translate J NameEditReplace {Замените}
 translate J NameEditWith {са}
 translate J NameEditMatches {Подударања: Притисните Цтрл+1 до Цтрл+9 да бисте изабрали}
+translate J NameEditWildcard {Џокер за имена: * = било који карактер (1* = почиње са 1, *Вхелан = завршава се са Вхелан)}
 
 # Check games window:
 translate J CheckGames {Проверите игре}

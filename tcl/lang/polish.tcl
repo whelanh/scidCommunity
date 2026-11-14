@@ -809,6 +809,8 @@ translate P TreeTrainingMoveNotInBase {Tego posunięcia nie ma w bazie danych.}
 translate P LockTree {Zablokuj}
 translate P TreeDepth {Półposunięcia:}
 translate P TreeLocked {zablokowane}
+translate P TreeTimingSearch {szukaj}
+translate P TreeTimingStats {statystyki}
 translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
 translate P TreeFindAnyAnn {dowolna adnotacja}
@@ -1668,6 +1670,7 @@ translate P NameEditSelect {Partie do edycji}
 translate P NameEditReplace {Zamień}
 translate P NameEditWith {na}
 translate P NameEditMatches {Dopasowania: naciśnij Ctrl+1 do Ctrl+9, aby wybrać}
+translate P NameEditWildcard {Symbol wieloznaczny dla nazw: * = dowolne znaki (1* = zaczyna się od 1, *Whelan = kończy się na Whelan)}
 
 # Check games window:
 translate P CheckGames {Sprawdź partie}

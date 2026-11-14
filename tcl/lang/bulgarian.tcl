@@ -810,6 +810,8 @@ translate g TreeTrainingMoveNotInBase {Този ход не е в базата �
 translate g LockTree {Заключване}
 translate g TreeDepth {Дълбочина на дървото (половина ходове):}
 translate g TreeLocked {заключено}
+translate g TreeTimingSearch {търсене}
+translate g TreeTimingStats {статистика}
 translate g TreeBest {Най-доброто}
 translate g TreeBestGames {Най-добрите игри с дървета}
 translate g TreeFindAnyAnn {всяка анотация}
@@ -1662,6 +1664,7 @@ translate g NameEditSelect {Игри за редактиране}
 translate g NameEditReplace {Сменете}
 translate g NameEditWith {с}
 translate g NameEditMatches {Съвпадения: Натиснете Ctrl+1 до Ctrl+9, за да изберете}
+translate g NameEditWildcard {Заместващ знак за имена: * = всякакви знаци (1* = започва с 1, *Whelan = завършва с Whelan)}
 
 # Check games window:
 translate g CheckGames {Проверете игрите}

@@ -769,6 +769,8 @@ translate h TreeTrainingMoveNotInBase {यह कदम डेटाबेस �
 translate h LockTree {ताला}
 translate h TreeDepth {पेड़ की गहराई (आधी चाल):}
 translate h TreeLocked {बंद}
+translate h TreeTimingSearch {खोज}
+translate h TreeTimingStats {आँकड़े}
 translate h TreeBest {श्रेष्ठ}
 translate h TreeBestGames {सर्वश्रेष्ठ वृक्ष खेल}
 translate h TreeFindAnyAnn {कोई भी टिप्पणी}
@@ -1621,6 +1623,7 @@ translate h NameEditSelect {संपादित करने के लिए 
 translate h NameEditReplace {प्रतिस्थापित करें}
 translate h NameEditWith {साथ}
 translate h NameEditMatches {मिलान: चयन करने के लिए Ctrl+1 से Ctrl+9 दबाएँ}
+translate h NameEditWildcard {नामों के लिए वाइल्डकार्ड: * = कोई भी अक्षर (1* = 1 से शुरू होता है, *व्हेलन = व्हेलन पर समाप्त होता है)}
 
 # Check games window:
 translate h CheckGames {खेलों की जाँच करें}

@@ -801,6 +801,8 @@ translate G TreeTrainingMoveNotInBase {Αυτή η κίνηση δεν βρίσ�
 translate G LockTree {Κλείδωμα}
 translate G TreeDepth {Βάθος δέντρου (μισές κινήσεις):}
 translate G TreeLocked {κλειδωμένο}
+translate G TreeTimingSearch {έρευνα}
+translate G TreeTimingStats {στατιστικά}
 translate G TreeBest {Καλύτερο}
 translate G TreeBestGames {Οι καλύτερες παρτίδες του δένδρου}
 translate G TreeFindAnyAnn {οποιοσδήποτε σχολιασμός}
@@ -1661,6 +1663,7 @@ translate G NameEditSelect {Παρτίδες για επεξεργασία}
 translate G NameEditReplace {Αντικατάσταση}
 translate G NameEditWith {με}
 translate G NameEditMatches {Ταιριάσματα: Για επιλογή, πατήστε Ctrl+1 έως Ctrl+9}
+translate G NameEditWildcard {Μπαλαντέρ για ονόματα: * = οποιοιδήποτε χαρακτήρες (1* = αρχίζει με 1, *Whelan = τελειώνει με Whelan)}
 
 # Check games window:
 translate G CheckGames {Έλεγχος παρτίδων}

@@ -779,6 +779,8 @@ translate O TreeTrainingMoveNotInBase {Dette trekket er ikke i databasen.}
 translate O LockTree {Lås}
 translate O TreeDepth {Tredybde (halve bevegelser):}
 translate O TreeLocked {låst}
+translate O TreeTimingSearch {søk}
+translate O TreeTimingStats {statistikk}
 translate O TreeBest {Beste}
 translate O TreeBestGames {Idealtrepartier}
 translate O TreeFindAnyAnn {enhver kommentar}
@@ -1637,6 +1639,7 @@ translate O NameEditSelect {Partier som skal redigeres}
 translate O NameEditReplace {Erstatt}
 translate O NameEditWith {med}
 translate O NameEditMatches {Treff: Trykk Ctrl+1 til Ctrl+9 for å velge}
+translate O NameEditWildcard {Jokertegn for navn: * = alle tegn (1* = starter med 1, *Whelan = slutter med Whelan)}
 
 # Check games window:
 translate O CheckGames {Sjekk spill}

@@ -769,6 +769,8 @@ translate Z TreeTrainingMoveNotInBase {Hatua hii haiko kwenye hifadhidata.}
 translate Z LockTree {Funga}
 translate Z TreeDepth {Kina cha mti (nusu hatua):}
 translate Z TreeLocked {imefungwa}
+translate Z TreeTimingSearch {tafuta}
+translate Z TreeTimingStats {takwimu}
 translate Z TreeBest {Bora zaidi}
 translate Z TreeBestGames {Michezo Bora ya Miti}
 translate Z TreeFindAnyAnn {maelezo yoyote}
@@ -1621,6 +1623,7 @@ translate Z NameEditSelect {Michezo ya kuhariri}
 translate Z NameEditReplace {Badilisha}
 translate Z NameEditWith {na}
 translate Z NameEditMatches {Zinazolingana: Bonyeza Ctrl+1 hadi Ctrl+9 ili kuchagua}
+translate Z NameEditWildcard {Wildcard kwa majina: * = herufi zozote (1* = huanza na 1, *Whelan = inaisha na Whelan)}
 
 # Check games window:
 translate Z CheckGames {Angalia michezo}

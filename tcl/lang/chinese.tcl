@@ -746,6 +746,8 @@ translate M TreeTrainingMoveNotInBase {此动作不在数据库中。}
 translate M LockTree {锁定}
 translate M TreeDepth {树深度（半步）：}
 translate M TreeLocked {locked}
+translate M TreeTimingSearch {搜索}
+translate M TreeTimingStats {统计数据}
 translate M TreeBest {最佳}
 translate M TreeBestGames {Best Tree Games}
 translate M TreeFindAnyAnn {任意评注}
@@ -1598,6 +1600,7 @@ translate M NameEditSelect {要编辑的游戏}
 translate M NameEditReplace {代替}
 translate M NameEditWith {和}
 translate M NameEditMatches {匹配：按 Ctrl+1 至 Ctrl+9 进行选择}
+translate M NameEditWildcard {名称通配符：* = 任何字符（1* = 以 1 开头，*Whelan = 以 Whelan 结尾）}
 
 # Check games window:
 translate M CheckGames {检查游戏}

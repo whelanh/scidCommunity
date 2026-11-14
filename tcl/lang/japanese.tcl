@@ -810,6 +810,8 @@ translate A TreeTrainingMoveNotInBase {この動きはデータベースにあ�
 translate A LockTree {ロック}
 translate A TreeDepth {ツリーの深さ (半分の移動):}
 translate A TreeLocked {ロックされた}
+translate A TreeTimingSearch {検索}
+translate A TreeTimingStats {統計}
 translate A TreeBest {最高}
 translate A TreeBestGames {ベストツリーゲーム}
 translate A TreeFindAnyAnn {任意の注釈}
@@ -1662,6 +1664,7 @@ translate A NameEditSelect {編集するゲーム}
 translate A NameEditReplace {交換する}
 translate A NameEditWith {と}
 translate A NameEditMatches {一致: Ctrl+1 ～ Ctrl+9 を押して選択します}
+translate A NameEditWildcard {名前のワイルドカード: * = 任意の文字 (1* = 1 で始まり、*Whelan = Whelan で終わる)}
 
 # Check games window:
 translate A CheckGames {ゲームをチェックする}

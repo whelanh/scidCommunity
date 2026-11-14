@@ -776,6 +776,8 @@ translate R TreeTrainingMoveNotInBase {Этого хода нет в базе д
 translate R LockTree {Блокировка}
 translate R TreeDepth {Глубина дерева (половина хода):}
 translate R TreeLocked {Заблокировано}
+translate R TreeTimingSearch {поиск}
+translate R TreeTimingStats {статистика}
 translate R TreeBest {Лучший}
 translate R TreeBestGames {Дерево лучших партий}
 translate R TreeFindAnyAnn {любая аннотация}
@@ -1636,6 +1638,7 @@ translate R NameEditSelect {Партии для редактирования}
 translate R NameEditReplace {Заменить}
 translate R NameEditWith {с}
 translate R NameEditMatches {Совпадения: нажмите Ctrl+1 - Ctrl+9 для выбора}
+translate R NameEditWildcard {Подстановочный знак для имен: * = любые символы (1* = начинается с 1, *Whelan = заканчивается на Whelan)}
 
 # Check games window:
 translate R CheckGames {Проверенные партии}

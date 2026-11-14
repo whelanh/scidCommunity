@@ -780,6 +780,8 @@ translate I TreeTrainingMoveNotInBase {Questa mossa non è nel database.}
 translate I LockTree {Blocca}
 translate I TreeDepth {Profondità dell'albero (metà mosse):}
 translate I TreeLocked {Bloccato}
+translate I TreeTimingSearch {ricerca}
+translate I TreeTimingStats {statistiche}
 translate I TreeBest {Migliore}
 translate I TreeBestGames {Migliori partite}
 translate I TreeFindAnyAnn {qualsiasi annotazione}
@@ -1635,6 +1637,7 @@ translate I NameEditSelect {Partite da editare}
 translate I NameEditReplace {Sostituisci}
 translate I NameEditWith {con}
 translate I NameEditMatches {Corrispondenze: digita da Ctrl+1 ad Ctrl+9 per scegliere}
+translate I NameEditWildcard {Carattere jolly per i nomi: * = qualsiasi carattere (1* = inizia con 1, *Whelan = termina con Whelan)}
 
 # Check games window:
 translate I CheckGames {Controlla partite}

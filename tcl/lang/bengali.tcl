@@ -769,6 +769,8 @@ translate b TreeTrainingMoveNotInBase {এই পদক্ষেপটি ডা
 translate b LockTree {তালা}
 translate b TreeDepth {গাছের গভীরতা (অর্ধেক চাল):}
 translate b TreeLocked {তালাবদ্ধ}
+translate b TreeTimingSearch {অনুসন্ধান}
+translate b TreeTimingStats {পরিসংখ্যান}
 translate b TreeBest {সেরা}
 translate b TreeBestGames {সেরা গাছ গেম}
 translate b TreeFindAnyAnn {যেকোনো টীকা}
@@ -1621,6 +1623,7 @@ translate b NameEditSelect {সম্পাদনা করার জন্য �
 translate b NameEditReplace {প্রতিস্থাপন করুন}
 translate b NameEditWith {সঙ্গে}
 translate b NameEditMatches {মিল: নির্বাচন করতে Ctrl+1 থেকে Ctrl+9 টিপুন}
+translate b NameEditWildcard {নামের জন্য ওয়াইল্ডকার্ড: * = যেকোনো অক্ষর (1* = 1 দিয়ে শুরু হয়, *Whelan = Whelan দিয়ে শেষ হয়)}
 
 # Check games window:
 translate b CheckGames {গেম চেক করুন}

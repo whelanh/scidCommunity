@@ -770,6 +770,8 @@ translate Q TreeTrainingMoveNotInBase {Цього ходу немає в баз�
 translate Q LockTree {Замок}
 translate Q TreeDepth {Глибина дерева (половина ходу):}
 translate Q TreeLocked {заблокований}
+translate Q TreeTimingSearch {пошук}
+translate Q TreeTimingStats {статистика}
 translate Q TreeBest {Найкращий}
 translate Q TreeBestGames {Найкращі ігри про дерева}
 translate Q TreeFindAnyAnn {будь-яка анотація}
@@ -1622,6 +1624,7 @@ translate Q NameEditSelect {Ігри для редагування}
 translate Q NameEditReplace {Замінити}
 translate Q NameEditWith {з}
 translate Q NameEditMatches {Збіги: натисніть від Ctrl+1 до Ctrl+9, щоб вибрати}
+translate Q NameEditWildcard {Символ підстановки для імен: * = будь-які символи (1* = починається з 1, *Whelan = закінчується на Whelan)}
 
 # Check games window:
 translate Q CheckGames {Перевірити ігри}

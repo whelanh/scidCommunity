@@ -826,6 +826,8 @@ translate S TreeTrainingMoveNotInBase {Este movimiento no está en la base de da
 translate S LockTree {Bloquear}
 translate S TreeDepth {Profundidad del árbol (medios movimientos):}
 translate S TreeLocked {Bloqueado}
+translate S TreeTimingSearch {buscar}
+translate S TreeTimingStats {estadísticas}
 translate S TreeBest {Mejor}
 translate S TreeBestGames {Mejores partidas del árbol}
 translate S TreeFindAnyAnn {cualquier anotación}
@@ -1688,6 +1690,7 @@ translate S NameEditSelect {Partidas a editar}
 translate S NameEditReplace {Reemplazar}
 translate S NameEditWith {con}
 translate S NameEditMatches {Encuentros: Presionar Ctrl+1 a Ctrl+9 para seleccionarlo}
+translate S NameEditWildcard {Comodín para nombres: * = cualquier carácter (1* = comienza con 1, *Whelan = termina con Whelan)}
 
 # Check games window:
 translate S CheckGames {Revisar partidas}

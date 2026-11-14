@@ -810,6 +810,8 @@ translate k TreeTrainingMoveNotInBase {이 이동은 데이터베이스에 없�
 translate k LockTree {잠그다}
 translate k TreeDepth {트리(반쯤 이동):}
 translate k TreeLocked {잠긴}
+translate k TreeTimingSearch {찾다}
+translate k TreeTimingStats {통계}
 translate k TreeBest {의}
 translate k TreeBestGames {최고의 나무 게임}
 translate k TreeFindAnyAnn {모든 주석}
@@ -1662,6 +1664,7 @@ translate k NameEditSelect {편집할 게임}
 translate k NameEditReplace {분리다}
 translate k NameEditWith {~와 함께}
 translate k NameEditMatches {찾기 항목: Ctrl+1~Ctrl+9를 입력 선택}
+translate k NameEditWildcard {이름 와일드카드: * = 모든 문자(1* = 1로 시작, *Whelan = Whelan으로 끝남)}
 
 # Check games window:
 translate k CheckGames {게임 확인}
