@@ -790,6 +790,8 @@ menuText E TreeOptFastmode "Fast mode" 0 {Fast mode for updates (no move transpo
 menuText E TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mode for updates}
 menuText E TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText E TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
+menuText E TreeOptAutoLoadMask "Auto-load last mask" 0 \
+  {Open the most recently used mask automatically when a tree window opens}
 menuText E TreeOptTraining "Training" 0 {Turn on/off tree training mode}
 menuText E TreeOptDepth "Plies" 0 {Number of plies (half moves) to display in tree (1-4)}
 menuText E TreeOptAutosave "Auto-Save Cache File" 0 \

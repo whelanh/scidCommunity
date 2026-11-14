@@ -271,6 +271,8 @@ set tree(moveDepth) 1
 
 ### Tree/mask options:
 set ::tree::mask::recentMask {}
+# Open the most recently used mask when a tree window opens.
+set ::tree::mask::autoLoadMask 0
 
 # Defaults for the PGN window:
 # if ::pgn::showColor is 1, the PGN text will be colorized.
@@ -753,6 +755,7 @@ proc options.write {} {
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
           ::pgn::repetitionAlert \
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
+          ::tree::mask::autoLoadMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           enginePvDisplayLength enginewin_history \
           blunderThreshold autoplayDelay animateDelay boardCoords \

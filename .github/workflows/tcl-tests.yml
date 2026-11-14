@@ -183,6 +183,11 @@ jobs:
       - name: Options file save
         run: tclsh tests/tcl/options_write.tcl
 
+      # Discussion #486: the Tree Options checkbutton, the last used mask
+      # opening with the tree, and no modal error when that mask has gone.
+      - name: Tree mask auto-load
+        run: tclsh tests/tcl/mask_autoload.tcl
+
       # The downloader's failure and cancel paths: a failed curl/wget must not
       # install a truncated file, and cancel must kill the child, not wait on it.
       - name: Update download
