@@ -476,6 +476,11 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
     set tree(status$baseNumber) ""
     if { $::errorCode == $::ERROR::UserCancel } {
       # Keep the previous tree rather than replacing it with an error.
+      # The cancelled refresh will not evaluate the training reply, so drop
+      # the flag instead of letting an unrelated position consume it.
+      if { $::tree::trainingReplyBase == $baseNumber } {
+        set ::tree::trainingReplyBase 0
+      }
       ::tree::restoreButtons $w
       return
     }

@@ -1178,16 +1178,31 @@ unsigned treeStatThreads(gamenumT n) {
 void accumulateTreeStats(const scidBaseT& base, const HFilter& filter,
                          int moveDepth, gamenumT begin, gamenumT end,
                          TreeStatAccumulator& acc, std::atomic<gamenumT>* done,
+                         std::atomic<unsigned>* filled,
                          std::atomic<bool>* stop) {
 	constexpr gamenumT REP_FREQ = 32 * 1024;
 	gamenumT rep = 0;
 	FullMove seq[4];
 
+	// Snapshot this range before any progress is reported. The progress
+	// callback pumps Tcl events, so a re-entrant search could otherwise
+	// rewrite the filter while the workers are reading it. The monitor
+	// waits for every worker to reach this point before pumping events.
+	// The serial path (filled == nullptr) reports no progress and reads the
+	// filter directly.
+	std::vector<byte> flags;
+	if (filled) {
+		flags.resize(end - begin);
+		for (gamenumT i = begin; i < end; ++i) flags[i - begin] = filter.get(i);
+		filled->fetch_add(1, std::memory_order_release);
+		filled->notify_all();
+	}
+
 	for (gamenumT gnum = begin; gnum < end; ++gnum) {
 		if (stop && stop->load(std::memory_order_acquire))
 			break;
 
-		uint ply = filter.get(gnum);
+		uint ply = filled ? flags[gnum - begin] : filter.get(gnum);
 		if (ply != 0) {
 			ply--;
 			const IndexEntry* ie = base.getIndexEntry(gnum);
@@ -1258,11 +1273,12 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter,
 	if (nThreads <= 1) {
 		TreeStatAccumulator acc;
 		accumulateTreeStats(*this, filter, moveDepth, 0, n, acc, nullptr,
-		                    nullptr);
+		                    nullptr, nullptr);
 		res = std::move(acc.nodes);
 	} else {
 		std::vector<TreeStatAccumulator> accs(nThreads);
 		std::atomic<gamenumT> done{0};
+		std::atomic<unsigned> filled{0};
 		std::atomic<bool> stop{false};
 		std::vector<std::thread> jobs;
 		jobs.reserve(nThreads);
@@ -1273,7 +1289,16 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter,
 			    static_cast<uint64_t>(i + 1) * n / nThreads);
 			jobs.emplace_back(accumulateTreeStats, std::cref(*this),
 			                  std::cref(filter), moveDepth, begin, end,
-			                  std::ref(accs[i]), &done, &stop);
+			                  std::ref(accs[i]), &done, &filled, &stop);
+		}
+
+		// Wait for every range to be snapshotted before reporting progress:
+		// report() pumps the UI event loop, which may start another filter
+		// write on this base.
+		unsigned nFilled = filled.load(std::memory_order_acquire);
+		while (nFilled != nThreads) {
+			filled.wait(nFilled, std::memory_order_acquire);
+			nFilled = filled.load(std::memory_order_acquire);
 		}
 
 		gamenumT reported = 0;
