@@ -1795,6 +1795,15 @@ check "Black's face fills the other half" \
 check "both faces are the same size" \
     [expr {abs($cw1 - $cw2) < 8 && abs($ch1 - $ch2) < 8}]
 
+# The game loop is event-driven: the play mode's postmove runs it, and no timer
+# is left waiting for the side to change.
+catch { ::sergame::callback postmove }
+set pending 0
+foreach id [after info] {
+    if {[string first "sergame::engineGo" [after info $id]] >= 0} { set pending 1 }
+}
+check "postmove runs the game loop and leaves no timer behind" [expr {!$pending}]
+
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
 check "the window's minimum width holds both faces and their frames" \

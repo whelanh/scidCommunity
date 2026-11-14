@@ -728,11 +728,13 @@ namespace eval gameclock {
     set size [expr {$w < $h ? $w : $h}]
     set cx [expr {$w / 2}]
     set cy [expr {$h / 2}]
-    set r [expr {($size - 15) / 2.0}]
-    # The numerals scale with the dial: drawn in the default font they stayed at
-    # about ten pixels however big the face was, which is not legible.
+    # The radius leaves room for the numerals themselves: a glyph centred on the
+    # radius extends half a glyph beyond it, which is what clipped 12 and 6.
     set nf [expr {int($size * 0.10)}]
     if {$nf < 8} { set nf 8 }
+    set r [expr {($size - $nf) / 2.0 - 2}]
+    # The numerals scale with the dial: drawn in the default font they stayed at
+    # about ten pixels however big the face was, which is not legible.
     # The numerals take the face's own foreground. setColor already stores the
     # contrasting colour there (white hands on the black clock, black on the
     # white one), so using it is what makes black numerals impossible.
@@ -826,8 +828,18 @@ namespace eval gameclock {
       # digits may be, the width what seven of them need, and the smaller wins -
       # a filling face can be wide and short, or narrow and tall.
       set fs [::gameclock::digitalFont $w $h]
+      # An em estimate cannot know the chosen font's real advance widths, and a
+      # narrow frame clipped the digits left and right. Measure the string and
+      # shrink once until it fits.
+      set fnt [::gameclock::faceFont $n $fs bold]
+      set need [font measure $fnt "$eh:$em:$es"]
+      if {$need > 0 && $need > $w} {
+        set fs [expr {int($fs * $w * 0.94 / $need)}]
+        if {$fs < 6} { set fs 6 }
+        set fnt [::gameclock::faceFont $n $fs bold]
+      }
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
-          -font [::gameclock::faceFont $n $fs bold] -tag aig$n
+          -font $fnt -tag aig$n
     } elseif {$display eq "both"} {
       # the analog face's own small text, drawn inside it
       set m [format "%02d" [expr abs($sec) / 60] ]

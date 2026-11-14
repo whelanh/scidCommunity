@@ -639,6 +639,12 @@ namespace eval sergame {
             }
             return 1
         }
+        postmove {
+            # The player's move is on the board: run the game loop from the event
+            # rather than from a timer that kept asking whether the side changed.
+            ::sergame::engineGo 1
+            return 0
+        }
         stop { destroy .coachWin }
     }
     return 0
@@ -1198,7 +1204,8 @@ namespace eval sergame {
     if { [sc_pos side] != $::sergame::engineColor } {
       set ::sergame::waitPlayerMove 1
       ::sergame::updateAnalysisText
-      after 200 ::sergame::engineGo $n
+      # No poll: ::sergame::callback's postmove runs this loop when the player's
+      # move lands, and the engine's reply runs it through ::sergame::answer.
       return
     }
 

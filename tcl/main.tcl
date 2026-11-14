@@ -1472,6 +1472,12 @@ proc addMoveEx {{move} {action "var"} {notify "-pgn -animate"}} {
 
     ::notify::PosChanged {*}$notify
     ::pgn::CheckRepetition
+    # The move has landed. A play mode is a game driver, and it must not have to
+    # poll the side to move to find out: premove said "a move is coming", postmove
+    # says "it is on the board".
+    if {[info exists ::playMode]} {
+        catch { eval "$::playMode postmove" }
+    }
     return 1
 }
 

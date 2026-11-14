@@ -324,6 +324,30 @@ foreach it [.box.clock1 find all] {
 }
 check "an analog face draws inside the box it is given" [expr {$ok}]
 
+# A numeral centred on the radius used to hang outside the canvas at 12 and 6; a
+# tall box is where that shows.
+.box configure -width 420 -height 300
+::gameclock::setDisplay 1 analog
+update
+::gameclock::redraw 1
+set out 0
+foreach it [.box.clock1 find all] {
+    if {[.box.clock1 type $it] ne "text"} { continue }
+    lassign [.box.clock1 bbox $it] x0 y0 x1 y1
+    if {$y0 < 0 || $y1 > 300 || $x0 < 0 || $x1 > 420} { set out 1 }
+}
+check "the dial's numerals stay inside a tall canvas" [expr {!$out}]
+
+# And the digits are measured, not estimated: in a narrow box they shrink to fit
+# instead of being clipped left and right.
+.box configure -width 200 -height 300
+::gameclock::setDisplay 1 digital
+update
+::gameclock::redraw 1
+set txt [lindex [.box.clock1 find all] 0]
+lassign [.box.clock1 bbox $txt] x0 y0 x1 y1
+check "the digits fit a narrow canvas" [expr {$x0 >= 0 && $x1 <= 200}] "text ${x0}..${x1} in 200"
+
 # The numerals take the face's own contrast colour: the black clock's were drawn
 # black on black and could not be read at all.
 ::gameclock::setColor 1 white
