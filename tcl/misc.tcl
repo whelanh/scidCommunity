@@ -661,6 +661,47 @@ namespace eval gameclock {
     return [expr {int($size * 1.9)}]
   }
 
+  # The family the face is set in: Helvetica where it exists (Windows maps it to
+  # Arial), otherwise the first sans family this Tk has. A family that is not
+  # installed silently falls back to a default size, which looks exactly like a
+  # size bug.
+  variable famCache
+  proc family {} {
+    variable famCache
+    if {[info exists famCache]} { return $famCache }
+    set have [font families]
+    foreach cand {Helvetica Arial "Liberation Sans" "DejaVu Sans" "Nimbus Sans" Sans} {
+      if {[lsearch -exact $have $cand] >= 0} { set famCache $cand ; return $cand }
+    }
+    # A Tk with only the bitmap "fixed" family (no Xft) cannot scale any text at
+    # all: name no family there, so the face keeps the platform default it always
+    # had instead of pinning a bitmap font.
+    set famCache ""
+    if {[llength $have] > 1} { set famCache [lindex $have 0] }
+    return $famCache
+  }
+
+  # A font description for a face: family, size, weight - with no family named
+  # when this Tk has none to name.
+  proc faceFont { n size {weight ""} } {
+    set fam [::gameclock::family]
+    if {$fam eq ""} {
+      # No family to name: a named font carries the size and weight on its own.
+      # A bare list would be read as "family size", which is the wrong way round.
+      set name "gameclockFace${size}x${weight}"
+      if {[lsearch -exact [font names] $name] < 0} {
+        if {$weight eq ""} {
+          font create $name -size $size
+        } else {
+          font create $name -size $size -weight $weight
+        }
+      }
+      return $name
+    }
+    if {$weight eq ""} { return [list $fam $size] }
+    return [list $fam $size $weight]
+  }
+
   # The point size of the h:mm:ss text in a w x h box: most of the box, not a
   # quarter of it. Seven glyphs at about 0.54em need the width; the height allows
   # about 0.62 of it before the digits touch the frame; the smaller wins, because
@@ -688,11 +729,16 @@ namespace eval gameclock {
     set cx [expr {$w / 2}]
     set cy [expr {$h / 2}]
     set r [expr {($size - 15) / 2.0}]
+    # The numerals scale with the dial: drawn in the default font they stayed at
+    # about ten pixels however big the face was, which is not legible.
+    set nf [expr {int($size * 0.10)}]
+    if {$nf < 8} { set nf 8 }
     for {set i 1} {$i<13} {incr i} {
       set a [expr {$i/6.*acos(-1)}]
       set x [expr {$cx + $r * sin($a)}]
       set y [expr {$cy - $r * cos($a)}]
-      $data(id$n) create text $x $y -text $i -tag clock$n
+      $data(id$n) create text $x $y -text $i -tag clock$n \
+          -font [::gameclock::faceFont $n $nf]
     }
   }
   ################################################################################
@@ -776,7 +822,7 @@ namespace eval gameclock {
       # a filling face can be wide and short, or narrow and tall.
       set fs [::gameclock::digitalFont $w $h]
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
-          -font [list Helvetica $fs bold] -tag aig$n
+          -font [::gameclock::faceFont $n $fs bold] -tag aig$n
     } elseif {$display eq "both"} {
       # the analog face's own small text, drawn inside it
       set m [format "%02d" [expr abs($sec) / 60] ]
