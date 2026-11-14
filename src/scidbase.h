@@ -233,6 +233,15 @@ struct scidBaseT {
 	getFilterComponents(std::string_view filterId) const;
 
 	const Stats& getStats() const;
+
+	/// Timings of the last Tree-window refresh, for diagnostics.
+	struct TreeTiming {
+		long long search_ms = 0;
+		long long stats_ms = 0;
+		bool search_cache_hit = false;
+	};
+	TreeTiming treeTiming;
+
 	/// Compute the move statistics for the games included in @e filter.
 	/// The work is spread over several threads (see SCID_TREE_THREADS) and
 	/// can be cancelled through @e progress; @e cancelled reports that.

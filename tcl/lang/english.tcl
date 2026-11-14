@@ -809,6 +809,8 @@ translate E TreeTrainingMoveNotInBase {This move is not in the database.}
 translate E LockTree {Lock}
 translate E TreeDepth {Plies:}
 translate E TreeLocked {locked}
+translate E TreeTimingSearch {search}
+translate E TreeTimingStats {stats}
 translate E TreeBest {Best}
 translate E TreeBestGames {Best Tree Games}
 translate E TreeFindAnyAnn {any annotation}

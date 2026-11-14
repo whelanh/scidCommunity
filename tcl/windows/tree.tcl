@@ -184,7 +184,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   ::createToplevelFinalize $w
 
   ::tree::refresh $baseNumber
-  set ::tree::cachesize($baseNumber) [sc_tree cacheinfo $baseNumber]
+  set ::tree::cachesize($baseNumber) [lindex [sc_tree cacheinfo $baseNumber] 0]
 }
 ################################################################################
 proc ::tree::hideCtxtMenu { baseNumber } {
@@ -1134,6 +1134,16 @@ proc ::tree::status { msg baseNumber } {
     if {! $tree(allgames$baseNumber)} {
       append status "   $::tr(Filter)"
       append status ": [::windows::gamelist::filterText "" $baseNumber]"
+    }
+    # Show how long the last refresh took when it was noticeable, so a slow
+    # tree can be diagnosed without a profiler.
+    if {![catch {sc_tree timing $baseNumber} timing]} {
+      lassign $timing searchMs statsMs cacheHit
+      if {$searchMs + $statsMs >= 250} {
+        append status "   $::tr(TreeTimingSearch) [format %.1f [expr {$searchMs / 1000.0}]]s"
+        append status " / $::tr(TreeTimingStats) [format %.1f [expr {$statsMs / 1000.0}]]s"
+        if {$cacheHit} { append status " (cache)" }
+      }
     }
   }
   $w.status configure -text $status

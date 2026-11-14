@@ -20,6 +20,7 @@ set(SCID_CORE
   ../src/textbuf.cpp
   ../src/misc.cpp
   ../src/matsig.cpp
+  ../src/filter.cpp
 )
 
 find_package(Threads REQUIRED)

@@ -33,6 +33,7 @@ set(SCID_BASE
   ../src/stored.cpp
   ../src/game.cpp ../src/position.cpp ../src/textbuf.cpp ../src/misc.cpp
   ../src/matsig.cpp
+  ../src/filter.cpp
 )
 add_library(scid_base ${SCID_BASE})
 target_include_directories(scid_base PUBLIC ../src)

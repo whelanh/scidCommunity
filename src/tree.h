@@ -165,8 +165,30 @@ class CompressedFilter {
 
 public:
 	CompressedFilter() = default;
-	CompressedFilter(CompressedFilter&&) = default;
+	CompressedFilter(CompressedFilter&& o) noexcept
+	    : CompressedData(o.CompressedData), CFilterSize(o.CFilterSize),
+	      CompressedLength(o.CompressedLength) {
+		o.CompressedData = nullptr;
+		o.CFilterSize = 0;
+		o.CompressedLength = 0;
+	}
+	CompressedFilter& operator=(CompressedFilter&& o) noexcept {
+		if (this != &o) {
+			delete[] CompressedData;
+			CompressedData = o.CompressedData;
+			CFilterSize = o.CFilterSize;
+			CompressedLength = o.CompressedLength;
+			o.CompressedData = nullptr;
+			o.CFilterSize = 0;
+			o.CompressedLength = 0;
+		}
+		return *this;
+	}
+	CompressedFilter(const CompressedFilter&) = delete;
+	CompressedFilter& operator=(const CompressedFilter&) = delete;
 	~CompressedFilter() { delete[] CompressedData; }
+
+	size_t CompressedSize() const { return CompressedLength; }
 
 	void CompressFrom(Filter* filter);
 	errorT UncompressTo(Filter* filter) const;
@@ -197,6 +219,27 @@ class TreeCache {
 	std::list<Key> lruList_;
 	std::unordered_map<Key, std::pair<Entry, std::list<Key>::iterator>> lruMap_;
 	size_t maxSize_ = 0;
+	size_t maxBytes_ = 0;
+	size_t usedBytes_ = 0;
+
+	// Approximate cost of the two copies of the key and of the list/map
+	// nodes, so the byte budget tracks actual memory rather than only the
+	// compressed filters.
+	static constexpr size_t kEntryOverhead = 512;
+
+	static size_t entryBytes(const Entry& e) {
+		return e.cfilter_.CompressedSize() + kEntryOverhead;
+	}
+
+	void evictLru() {
+		const Key& lruKey = lruList_.back();
+		auto it = lruMap_.find(lruKey);
+		if (it != lruMap_.end()) {
+			usedBytes_ -= entryBytes(it->second.first);
+			lruMap_.erase(it);
+		}
+		lruList_.pop_back();
+	}
 
 	static Key makeKey(const pieceT *board, colorT toMove) {
 		Key k(65, '\0');
@@ -207,20 +250,31 @@ class TreeCache {
 	}
 
 public:
+	/// Default upper bound for the memory held by cached filters.  A base
+	/// with millions of games can otherwise keep gigabytes of compressed
+	/// filters, competing with the OS page cache for the game file.
+	static constexpr size_t DefaultMaxBytes = 512ull << 20;
+
 	void Clear() {
 		lruList_.clear();
 		lruMap_.clear();
+		usedBytes_ = 0;
 	}
 
 	size_t Size() const { return maxSize_; }
+	size_t MaxEntries() const { return maxSize_; }
+	size_t Count() const { return lruMap_.size(); }
+	size_t MaxBytes() const { return maxBytes_; }
+	size_t UsedBytes() const { return usedBytes_; }
 
-	void CacheResize(size_t max_size) {
+	void CacheResize(size_t max_size, size_t max_bytes = DefaultMaxBytes) {
 		Clear();
 		maxSize_ = max_size;
+		maxBytes_ = max_bytes;
 	}
 
 	template <typename PosT> void cacheAdd(PosT const& pos, Filter& filter) {
-		if (maxSize_ == 0)
+		if (maxSize_ == 0 || maxBytes_ == 0)
 			return;
 
 		const Key key = makeKey(pos.GetBoard(), pos.GetToMove());
@@ -228,27 +282,39 @@ public:
 		auto it = lruMap_.find(key);
 		if (it != lruMap_.end()) {
 			// Update existing entry (move to front of LRU list).
+			usedBytes_ -= entryBytes(it->second.first);
+			it->second.first.cfilter_.CompressFrom(&filter);
+			usedBytes_ += entryBytes(it->second.first);
 			lruList_.erase(it->second.second);
 			lruList_.push_front(key);
 			it->second.second = lruList_.begin();
-			it->second.first.cfilter_.CompressFrom(&filter);
+			while (usedBytes_ > maxBytes_ && !lruList_.empty())
+				evictLru();
 			return;
 		}
 
-		// Evict LRU entry if at capacity.
-		if (lruMap_.size() >= maxSize_) {
-			const Key &lruKey = lruList_.back();
-			lruMap_.erase(lruKey);
-			lruList_.pop_back();
+		// Build the entry first: the compressed size decides whether it fits
+		// and how many older entries must be evicted.
+		Entry entry;
+		std::copy(pos.GetBoard(), pos.GetBoard() + 64, entry.board_);
+		entry.toMove_ = pos.GetToMove();
+		entry.cfilter_.CompressFrom(&filter);
+		const size_t need = entryBytes(entry);
+		if (need > maxBytes_)
+			return; // a single entry may not consume the whole budget
+
+		// Evict until both the entry count and the byte budget allow it.
+		while (!lruList_.empty() &&
+		       (lruMap_.size() >= maxSize_ || usedBytes_ + need > maxBytes_)) {
+			evictLru();
 		}
 
 		// Insert new entry at front.
 		lruList_.push_front(key);
 		auto &slot = lruMap_[key];
 		slot.second = lruList_.begin();
-		std::copy(pos.GetBoard(), pos.GetBoard() + 64, slot.first.board_);
-		slot.first.toMove_ = pos.GetToMove();
-		slot.first.cfilter_.CompressFrom(&filter);
+		slot.first = std::move(entry);
+		usedBytes_ += need;
 	}
 
 	template <typename PosT>

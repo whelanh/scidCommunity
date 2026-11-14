@@ -2079,15 +2079,23 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
           bool useCache = (argc == 5);
 
           auto const &pos = *db->game->GetCurrentPos();
-          if (useCache &&
-              dbase->treeCache.cacheRestore(pos, *dbase->treeFilter))
-            return UI_Result(ti, OK);
+          const auto t0 = std::chrono::steady_clock::now();
+          const bool cacheHit =
+              useCache &&
+              dbase->treeCache.cacheRestore(pos, *dbase->treeFilter);
+          if (!cacheHit) {
+            if (!SearchPos(pos).setFilter(*dbase, filter,
+                                          UI_CreateProgress(ti)))
+              return UI_Result(ti, ERROR_UserCancel);
 
-          if (!SearchPos(pos).setFilter(*dbase, filter, UI_CreateProgress(ti)))
-            return UI_Result(ti, ERROR_UserCancel);
-
-          if (useCache)
-            dbase->treeCache.cacheAdd(pos, *dbase->treeFilter);
+            if (useCache)
+              dbase->treeCache.cacheAdd(pos, *dbase->treeFilter);
+          }
+          dbase->treeTiming.search_ms =
+              std::chrono::duration_cast<std::chrono::milliseconds>(
+                  std::chrono::steady_clock::now() - t0)
+                  .count();
+          dbase->treeTiming.search_cache_hit = cacheHit;
 
           return UI_Result(ti, OK);
         }
@@ -8228,8 +8236,9 @@ int sc_report_select(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 //  SEARCH and TREE functions
 
 int sc_tree(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
-  static const char *options[] = {"stats", "cachesize", "cacheinfo", "nags", nullptr};
-  enum { TREE_STATS, TREE_CACHESIZE, TREE_CACHEINFO, TREE_NAGS };
+  static const char *options[] = {"stats", "cachesize", "cacheinfo", "nags",
+                                  "timing", nullptr};
+  enum { TREE_STATS, TREE_CACHESIZE, TREE_CACHEINFO, TREE_NAGS, TREE_TIMING };
 
   int index = -1;
   if (argc > 1) {
@@ -8248,6 +8257,19 @@ int sc_tree(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case TREE_NAGS:
     return sc_tree_nags(cd, ti, argc, argv);
+
+  case TREE_TIMING: {
+    if (argc != 3)
+      return errorResult(ti, "Usage: sc_tree timing <base>");
+    auto base = DBasePool::getBase(strGetUnsigned(argv[2]));
+    if (!base)
+      return UI_Result(ti, ERROR_BadArg, 0);
+    UI_List res(3);
+    res.push_back(static_cast<int>(base->treeTiming.search_ms));
+    res.push_back(static_cast<int>(base->treeTiming.stats_ms));
+    res.push_back(base->treeTiming.search_cache_hit ? 1 : 0);
+    return UI_Result(ti, OK, res);
+  }
 
   default:
     return InvalidCommand(ti, "sc_tree", options);
@@ -8292,7 +8314,16 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     moveDepth = 4;
 
   Position searchPos = *(db->game->GetCurrentPos());
-  auto tree = base->getTreeStat(filter, moveDepth);
+  const auto t0 = std::chrono::steady_clock::now();
+  bool cancelled = false;
+  auto tree =
+      base->getTreeStat(filter, moveDepth, UI_CreateProgress(ti), &cancelled);
+  base->treeTiming.stats_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(
+          std::chrono::steady_clock::now() - t0)
+          .count();
+  if (cancelled)
+    return UI_Result(ti, ERROR_UserCancel);
 
   // Calculate ECO for a move sequence (use ECO after all moves applied)
   auto calc_eco = [&](auto const &moves) {
@@ -8475,26 +8506,36 @@ int sc_tree_stats(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 // sc_tree_cachesize:
 //    set cache size
 int sc_tree_cachesize(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
-  if (argc != 4) {
-    return errorResult(ti, "Usage: sc_tree cachesize <base> <size>");
+  if (argc != 4 && argc != 5) {
+    return errorResult(ti,
+                       "Usage: sc_tree cachesize <base> <entries> [<bytes>]");
   }
   auto base = DBasePool::getBase(strGetInteger(argv[2]));
-  if (base)
-    base->treeCache.CacheResize(strGetUnsigned(argv[3]));
+  if (base) {
+    const size_t maxBytes = (argc == 5)
+                                ? strGetUnsigned(argv[4])
+                                : TreeCache::DefaultMaxBytes;
+    base->treeCache.CacheResize(strGetUnsigned(argv[3]), maxBytes);
+  }
   return TCL_OK;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_tree_cacheinfo:
-//    returns a list of 2 values : used slots and max cache size
+//    returns {maxEntries usedEntries maxBytes usedBytes}
 int sc_tree_cacheinfo(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (argc != 3) {
     return errorResult(ti, "Usage: sc_tree cacheinfo <base>");
   }
   auto base = DBasePool::getBase(strGetInteger(argv[2]));
-  if (base)
-    return UI_Result(ti, OK, base->treeCache.Size());
+  if (!base)
+    return UI_Result(ti, OK, 0);
 
-  return UI_Result(ti, OK, 0);
+  UI_List res(4);
+  res.push_back(static_cast<unsigned long long>(base->treeCache.MaxEntries()));
+  res.push_back(static_cast<unsigned long long>(base->treeCache.Count()));
+  res.push_back(static_cast<unsigned long long>(base->treeCache.MaxBytes()));
+  res.push_back(static_cast<unsigned long long>(base->treeCache.UsedBytes()));
+  return UI_Result(ti, OK, res);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_tree_nags:

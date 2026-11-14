@@ -60,23 +60,47 @@ the number of pages touched (and `read_bytes`) cannot be hidden.
 
 ## Reference numbers
 
-Linux, 64 threads, 2,000,000 synthetic games (115 MB `.sg5`), depth 1:
+Linux, 2,000,000 synthetic games (115 MB `.sg5`), depth 1, cold:
 
 | scenario | revision | search ms | stats ms | major faults |
 |---|---|---|---|---|
-| start | before | 7.9 | 1243.8 | 22,301 |
-| start | after | 7.6 | 47.0 | 15 |
-| 1.e4 | before | 28.6 | 53.6 | 0 |
-| 1.e4 | after | 29.8 | 8.4 | 0 |
+| start | before | 2.8 | 667.4 | 22,301 |
+| start | after | 3.0 | 39.3 | 15 |
+| 1.e4 | before | 21.0 | 28.4 | 0 |
+| 1.e4 | after | 20.2 | 2.7 | 0 |
+| 1.e4 c5 | before | 13.0 | 24.7 | 0 |
+| 1.e4 c5 | after | 13.3 | 2.4 | 0 |
 
-Depth 4, 2,000,000 games:
+Depth 4, same base, cold:
 
 | scenario | revision | stats ms | nodes |
 |---|---|---|---|
-| start | before | 775.3 | 53,618 |
-| start | after | 87.6 | 53,618 |
-| 1.e4 | before | 452.0 | 19 |
-| 1.e4 | after | 28.8 | 19 |
+| start | before | 1054.6 | 53,618 |
+| start | after | 100.1 | 53,618 |
+| 1.e4 | before | 586.0 | 19 |
+| 1.e4 | after | 29.2 | 19 |
+
+Worst case (all games have stored-line code 0, so the statistics must read
+every game body), 2,000,000 games, depth 1, cold:
+
+| scenario | revision | stats ms | major faults |
+|---|---|---|---|
+| start | before | 816.3 | 22,993 |
+| start | after | 42.2 | 15 |
+
+Statistics phase, start position, depth 1, by worker count:
+
+| threads | cold ms | warm ms |
+|---|---|---|
+| 1 | 51.5 | 46.2 |
+| 2 | 40.6 | 23.9 |
+| 4 | 38.9 | 13.4 |
+| 8 | 39.7 | 7.2 |
+| 16 | 38.2 | 4.2 |
+
+Once the page cache is warm the pass scales with the cores (11x at 16
+threads); when it is cold the sequential readahead makes it disk-bound, so
+extra threads buy little.
 
 The digests of the statistics are identical to the previous revision at
 depths 1-4 on every scenario.

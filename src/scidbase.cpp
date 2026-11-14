@@ -1161,15 +1161,18 @@ struct TreeStatAccumulator {
 
 unsigned treeStatThreads(gamenumT n) {
 	unsigned maxThreads = std::thread::hardware_concurrency();
+	// An explicit count is honoured as-is (tests and benchmarks use this to
+	// compare the serial and parallel paths on a small base).
 	if (const char* env = std::getenv("SCID_TREE_THREADS")) {
 		long v = std::strtol(env, nullptr, 10);
 		if (v > 0) maxThreads = static_cast<unsigned>(v);
+	} else {
+		maxThreads = std::min(maxThreads, static_cast<unsigned>(n / (128 * 1024)));
 	}
 	// The per-thread partial maps are merged at the end, so keep the number
 	// of shards moderate even on machines with many cores.
 	if (maxThreads > 16) maxThreads = 16;
-	const unsigned byGames = static_cast<unsigned>(n / (128 * 1024));
-	return std::max(1u, std::min(maxThreads, byGames));
+	return std::max(1u, maxThreads);
 }
 
 void accumulateTreeStats(const scidBaseT& base, const HFilter& filter,
