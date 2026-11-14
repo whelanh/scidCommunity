@@ -58,6 +58,7 @@ template <size_t kWriteBuffer = 8192> class FileMap {
 	char* mappedData_ = nullptr;
 	size_t mappedSize_ = 0;
 	size_t fileSize_ = 0;
+	bool sequential_ = false; // POSIX: current madvise() hint
 	char writeBuffer_[kWriteBuffer];
 	size_t bufferPos_ = 0;
 
@@ -138,6 +139,40 @@ public:
 		size_t available = mappedSize_ - offset;
 		size_t actualCount = std::min(count, available);
 		return {mappedData_ + offset, actualCount};
+	}
+
+	/**
+	 * Selects the expected access pattern of subsequent reads.
+	 *
+	 * The default (false) suits random, per-game reads: the mapping is created
+	 * with MADV_RANDOM, which avoids polluting the page cache with readahead
+	 * when the application jumps between games.
+	 *
+	 * Base-wide passes (tree search, move statistics, NAG collection) walk
+	 * thousands of games in game-number order. For those, call this with
+	 * @e sequential = true: readahead is re-enabled and the kernel may drop
+	 * pages already consumed, which turns a cold scan from one fault per 4 KiB
+	 * page into a streamed read.
+	 */
+	void setSequentialAccess(bool sequential) {
+		if (!mappedData_
+#ifdef _WIN32
+		    // Windows uses the system cache-manager readahead for mappings.
+#else
+		    || sequential_ == sequential
+#endif
+		)
+			return;
+#ifndef _WIN32
+		sequential_ = sequential;
+		madvise(mappedData_, mappedSize_,
+		        sequential ? MADV_SEQUENTIAL : MADV_RANDOM);
+		if (fd_ >= 0) {
+			posix_fadvise(fd_, 0, 0,
+			              sequential ? POSIX_FADV_SEQUENTIAL
+			                         : POSIX_FADV_RANDOM);
+		}
+#endif
 	}
 
 	/**
@@ -399,6 +434,7 @@ private:
 #endif
 
 		mappedSize_ = fileSize_;
+		sequential_ = false;
 		return true;
 	}
 
@@ -408,6 +444,7 @@ private:
 			mappedData_ = nullptr;
 		}
 		mappedSize_ = 0;
+		sequential_ = false;
 	}
 
 #endif // _WIN32

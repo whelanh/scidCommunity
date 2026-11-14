@@ -98,6 +98,10 @@ public:
 	virtual ByteBuffer getGameData(uint64_t offset, uint32_t length) = 0;
 	virtual ByteBuffer getGameMoves(IndexEntry const& ie) = 0;
 
+	/// Hint the expected access pattern of the next game reads.
+	/// Codecs without a memory-mapped game file can ignore this.
+	virtual void setSequentialAccess(bool) {}
+
 	/**
 	 * Add a game to the database.
 	 * @param ie:   the header data of the source game.
