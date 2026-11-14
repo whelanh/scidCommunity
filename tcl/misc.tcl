@@ -733,11 +733,16 @@ namespace eval gameclock {
     # about ten pixels however big the face was, which is not legible.
     set nf [expr {int($size * 0.10)}]
     if {$nf < 8} { set nf 8 }
+    # The numerals take the face's own foreground. setColor already stores the
+    # contrasting colour there (white hands on the black clock, black on the
+    # white one), so using it is what makes black numerals impossible.
+    if {![info exists data(fg$n)]} { set data(fg$n) "black" }
+    set ncolor $data(fg$n)
     for {set i 1} {$i<13} {incr i} {
       set a [expr {$i/6.*acos(-1)}]
       set x [expr {$cx + $r * sin($a)}]
       set y [expr {$cy - $r * cos($a)}]
-      $data(id$n) create text $x $y -text $i -tag clock$n \
+      $data(id$n) create text $x $y -text $i -tag clock$n -fill $ncolor \
           -font [::gameclock::faceFont $n $nf]
     }
   }

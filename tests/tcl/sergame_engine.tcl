@@ -1815,8 +1815,11 @@ set ::sergame::showDigitalClock 0
 fake::reset
 ::sergame::play
 quiet
-checkEq "with the preference off the game asks for the analog face" $::fake::gcMode(1) "analog"
-checkEq "on both clocks" $::fake::gcMode(2) "analog"
+# With the preference off the game asks for the face it has always drawn: the
+# dial with the small digital time in it, not a bare dial.
+checkEq "with the preference off the game asks for the dial with its time" \
+    $::fake::gcMode(1) "both"
+checkEq "on both clocks" $::fake::gcMode(2) "both"
 # An analog face is drawn as a square inside whatever box it fills; that is the
 # real widget's business and is checked in tests/tcl/sergame_ui.tcl. Here the face
 # keeps the frame it was given, in either mode.

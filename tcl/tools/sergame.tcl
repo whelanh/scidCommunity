@@ -616,6 +616,15 @@ namespace eval sergame {
     switch $cmd {
         premove {
             if { $::sergame::waitPlayerMove } {
+              # The times a "Try Again" must come back to are the ones standing
+              # when the player pressed. Capture them here, before the board
+              # changes: the copy in engineGo's poll only happens if the poll
+              # wins the race with the engine's reply, and when it loses it the
+              # dialog restores a PREVIOUS move's clocks - which reads as the
+              # clock not reverting at all.
+              set ::sergame::takebackClockW [::gameclock::getSec 1]
+              set ::sergame::takebackClockB [::gameclock::getSec 2]
+              set ::sergame::takebackPending 1
               # Player is about to move — cancel any pending deferred-eval
               # from the previous engine move so it doesn't land on the
               # wrong position, then freeze the coach's eval BEFORE the
@@ -663,7 +672,8 @@ namespace eval sergame {
   # no mode of their own, so neither changes.
   proc clockFace {} {
     if {$::sergame::showDigitalClock} { return "digital" }
-    return "analog"
+    # The face this window always had: the dial with the small digital time in it.
+    return "both"
   }
 
   # Re-face both clocks in place, for the preference changing mid-game.
@@ -1201,10 +1211,17 @@ namespace eval sergame {
       # liveScore/livePv were already frozen in the premove callback
       # before the board changed — cannot be sign-corrupted.
 
-      set takebackClockW [::gameclock::getSec 1]
-      set takebackClockB [::gameclock::getSec 2]
-      set ::sergame::takebackClockW $takebackClockW
-      set ::sergame::takebackClockB $takebackClockB
+      if {[info exists ::sergame::takebackPending] && $::sergame::takebackPending} {
+        # premove already recorded the times before the move; use those.
+        unset ::sergame::takebackPending
+        set takebackClockW $::sergame::takebackClockW
+        set takebackClockB $::sergame::takebackClockB
+      } else {
+        set takebackClockW [::gameclock::getSec 1]
+        set takebackClockB [::gameclock::getSec 2]
+        set ::sergame::takebackClockW $takebackClockW
+        set ::sergame::takebackClockB $takebackClockB
+      }
 
       clocks toggle $n
       if {[repetition]} { return }

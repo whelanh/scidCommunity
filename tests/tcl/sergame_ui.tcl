@@ -324,5 +324,29 @@ foreach it [.box.clock1 find all] {
 }
 check "an analog face draws inside the box it is given" [expr {$ok}]
 
+# The numerals take the face's own contrast colour: the black clock's were drawn
+# black on black and could not be read at all.
+::gameclock::setColor 1 white
+::gameclock::setDisplay 1 analog
+update
+update
+set fills {}
+foreach it [.box.clock1 find all] {
+    if {[.box.clock1 type $it] eq "text"} { lappend fills [.box.clock1 itemcget $it -fill] }
+}
+check "numerals on a white face are dark" \
+    [expr {[llength $fills] > 0 && [lsearch -exact $fills black] >= 0}]
+::gameclock::setColor 1 black
+update
+update
+::gameclock::redraw 1
+set fills {}
+foreach it [.box.clock1 find all] {
+    if {[.box.clock1 type $it] eq "text"} { lappend fills [.box.clock1 itemcget $it -fill] }
+}
+check "numerals on the black clock are light" \
+    [expr {[llength $fills] > 0 && [lsearch -exact $fills white] >= 0}] \
+    "fills: $fills"
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
