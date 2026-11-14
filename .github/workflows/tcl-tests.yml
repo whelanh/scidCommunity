@@ -323,6 +323,12 @@ jobs:
       - name: Game Info comment markup
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/game_info_comment.tcl
 
+      # The Name Editor's '*' wildcard through the built binary's sc_name
+      # commands: prefix/suffix/substring patterns, the filter selection, and
+      # the player-name match on the Rating tab.
+      - name: Name Editor wildcards
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/name_editor_wildcard.tcl
+
       # An in-progress online game is updated in place when its finished PGN
       # arrives, rather than adding a second copy.
       - name: Import updates an online game by Link

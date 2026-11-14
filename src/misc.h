@@ -242,6 +242,43 @@ inline int strCompareRound(const char* str1, const char* str2) {
 	return (a < b) ? -1 : 1;
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// strWildcardMatch():
+//    Matches @e str against @e pattern, where '*' matches any sequence of
+//    characters (including an empty one).  Matching is case-sensitive, the
+//    same as the exact name matching used by the Name Editor.  There is no
+//    escape character: every '*' in the pattern is a wildcard.
+//
+//    Examples: "1*" matches "1", "1060.1.761"; "*Whelan" matches "John Whelan".
+inline bool strWildcardMatch(const char* pattern, const char* str) {
+	ASSERT(pattern != nullptr && str != nullptr);
+	const char* p = pattern;
+	const char* s = str;
+	const char* star = nullptr;
+	const char* star_s = nullptr;
+
+	while (*s != '\0') {
+		if (*p == '*') {
+			star = p++;
+			star_s = s;
+		} else if (*p == *s) {
+			++p;
+			++s;
+		} else if (star != nullptr) {
+			// Backtrack to the character after the last '*', and try
+			// consuming one more character with it.
+			p = star + 1;
+			s = ++star_s;
+		} else {
+			return false;
+		}
+	}
+	while (*p == '*')
+		++p;
+
+	return *p == '\0';
+}
+
 inline bool strEqual(const char* str1, const char* str2) {
 	ASSERT(str1 != nullptr && str2 != nullptr);
 	return (std::strcmp(str1, str2) == 0);

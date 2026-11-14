@@ -52,6 +52,7 @@
 #include <set>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
 
 // Tcl 8.6/9.0 compatibility: Tcl_Size introduced in 9.0
 #ifndef TCL_MAJOR_VERSION
@@ -6428,12 +6429,28 @@ int sc_name_edit(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     newDate = date_EncodeFromString(argv[5]);
   }
 
-  // Find the existing name in the namebase:
+  // Find the existing name(s) in the namebase.  A '*' in oldName is a
+  // wildcard: "1*" matches every name starting with 1, "*Whelan" matches
+  // every name ending in Whelan, and "*" matches all names.  Matching is
+  // case-sensitive, like the exact match.
   idNumberT newID = 0;
   idNumberT oldID = 0;
+  bool wildcard = false;
+  std::unordered_set<idNumberT> wildcardIDs;
   if (option != OPT_DATE && option != OPT_EVENTDATE) {
-    if (dbase->getNameBase()->FindExactName(nt, oldName, &oldID) != OK)
+    wildcard = (std::strchr(oldName, '*') != nullptr);
+    if (wildcard) {
+      auto const &names = dbase->getNameBase()->getNames()[nt];
+      for (auto const &[name, id] : names) {
+        if (strWildcardMatch(oldName, name))
+          wildcardIDs.insert(id);
+      }
+      if (wildcardIDs.empty())
+        return UI_Result(ti, OK, 0);
+    } else if (dbase->getNameBase()->FindExactName(nt, oldName, &oldID) !=
+               OK) {
       return UI_Result(ti, OK, 0);
+    }
   }
 
   // Set up crosstable game criteria if necessary:
@@ -6482,8 +6499,10 @@ int sc_name_edit(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   case OPT_RATING:
     changes = dbase->transformIndex(hf, prg, [&](IndexEntry &ie) {
       bool bTB = inCTable(ie);
-      bool bWH = (ie.GetWhite() == oldID);
-      bool bBK = (ie.GetBlack() == oldID);
+      bool bWH = wildcard ? (wildcardIDs.count(ie.GetWhite()) != 0)
+                          : (ie.GetWhite() == oldID);
+      bool bBK = wildcard ? (wildcardIDs.count(ie.GetBlack()) != 0)
+                          : (ie.GetBlack() == oldID);
       if (bTB && (bWH || bBK)) {
         if (bWH) {
           ie.SetWhiteElo(newRating);
@@ -6506,7 +6525,9 @@ int sc_name_edit(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
           newID = v.front(); // store the newID
         },
         [&](idNumberT id, const IndexEntry &ie) {
-          return (id == oldID && inCTable(ie)) ? newID : id;
+          bool matches = wildcard ? (wildcardIDs.count(id) != 0)
+                                  : (id == oldID);
+          return (matches && inCTable(ie)) ? newID : id;
         });
   }
 
@@ -7137,18 +7158,19 @@ int sc_name_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // sc_name_match: returns the first N matching names,
-//    or fewer if there are not N matches, given a substring
-//    to search for.
+//    or fewer if there are not N matches, given a prefix or a wildcard
+//    pattern to search for.  In a pattern, '*' matches any sequence of
+//    characters, so "1*" is a prefix match and "*Whelan" a suffix match.
 //    Output is a Tcl list, to be read in pairs: the first element of
 //    each pair is the frequency, the second contains the name.
 //
 //    1st arg: "p" (player) / "e" (event) / "s" (site) / "r" (round)
-//    2nd arg: prefix string to search for.
+//    2nd arg: prefix or wildcard pattern to search for.
 //    3rd arg: maximum number of matches to return.
 //    Example: sc_nameMatch player "Speel" 10
 int sc_name_match(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   const char *usage =
-      "Usage: sc_name match [-elo] <nameType> <prefix> <maxMatches>";
+      "Usage: sc_name match [-elo] <nameType> <prefix|pattern> <maxMatches>";
 
   int arg = 2;
   int argsleft = argc - 2;
@@ -7175,7 +7197,30 @@ int sc_name_match(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   if (maxMatches == 0) {
     return TCL_OK;
   }
-  auto matches = db->getNameBase()->getFirstMatches(nt, prefix, maxMatches);
+  auto nb = db->getNameBase();
+  std::vector<idNumberT> matches;
+  if (std::strchr(prefix, '*') == nullptr) {
+    matches = nb->getFirstMatches(nt, prefix, maxMatches);
+  } else {
+    // Wildcard search: use the literal part before the first '*' to skip to
+    // the relevant part of the sorted name index, then filter.  A pattern
+    // starting with '*' starts at the beginning of the index.
+    std::string_view pattern(prefix);
+    std::string literal(prefix, pattern.find('*'));
+    auto const &names = nb->getNames()[nt];
+    for (auto it = names.lower_bound(literal.c_str());
+         it != names.end() && matches.size() < maxMatches; ++it) {
+      if (!literal.empty()) {
+        const char *name = it->first;
+        if (std::strlen(name) < literal.size() ||
+            !std::equal(literal.begin(), literal.end(), name))
+          break;
+      }
+      if (strWildcardMatch(prefix, it->first))
+        matches.push_back(it->second);
+    }
+  }
+
   for (auto nameID : matches) {
     uint freq = db->getNameFreq(nt, nameID);
     const char *str = db->getNameBase()->GetName(nt, nameID);
