@@ -64,7 +64,7 @@ public:
 		eloWhiteSum += o.eloWhiteSum;
 		eloBlackSum += o.eloBlackSum;
 		yearSum += o.yearSum;
-		for (int i = 0; i < NUM_RESULT_TYPES; ++i)
+		for (uint i = 0; i < NUM_RESULT_TYPES; ++i)
 			freq[i] += o.freq[i];
 		eloCount += o.eloCount;
 		yearCount += o.yearCount;

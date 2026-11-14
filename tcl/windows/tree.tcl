@@ -405,6 +405,10 @@ proc ::tree::select { move baseNumber } {
 
 ################################################################################
 
+# Share of the tree window's progress bar used by the position search; the
+# move stats, usually the slower step, fill the rest.
+set ::tree::searchShare 0.3
+
 # Returns the list of databases whose tree filter needs to be updated when
 # the position of the main board changes.
 # It must also disable commands that depend on the current position.
@@ -425,7 +429,9 @@ proc ::tree::listTreeBases {{base ""}} {
             $w.buttons.stop configure -state normal
             $w.progress coords bar 0 0 0 0
             grid $w.progress -in $w.statusframe -column 0 -row 0 -sticky nsew
-            set progress "$w.progress [lindex [grid bbox $w.statusframe] 2] 100"
+            # One bar for both steps: the search fills its first part and
+            # the move stats (::tree::dorefresh) the rest.
+            set progress "$w.progress [lindex [grid bbox $w.statusframe] 2] 100 $::tree::searchShare"
             $w.buttons.stop configure -command "
                 ::cancelUpdateTreeFilter [list $progress]
                 ::tree::restoreButtons $w
@@ -487,14 +493,36 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   if { $tree(allgames$baseNumber) == 0 } {
     set filter [sc_filter compose $baseNumber "dbfilter" "tree"]
   }
+  # Continue the bar the search started: the stats fill its remaining part.
+  # Outside ::updateTreeFilter there is no bar, and the stats run unguided.
+  if {[info exists ::treeFilterUpdating_]} {
+    progressBarContinue $w.progress [lindex [grid bbox $w.statusframe] 2] 100 \
+        $::tree::searchShare
+    # ::cancelUpdateTreeFilter only cancels the bar when this window is the
+    # last pending entry. The search for this base has already finished, so
+    # let Stop cancel the stats directly even when another window (a game
+    # list with a position mask) is also waiting for the same base.
+    $w.buttons.stop configure -command "::progressBarCancel"
+  }
   set err [ catch { sc_tree stats $baseNumber $filter $tree(training$baseNumber) \
                                   $tree(order$baseNumber) $tree(movedepth$baseNumber) } moves]
   if { $err } {
     set tree(status$baseNumber) ""
     if { $::errorCode == $::ERROR::UserCancel } {
-      # Keep the previous tree rather than replacing it with an error, but
-      # mark it stale: it describes the previous position and its moves must
-      # not be applied to the current one.
+      # If updateTreeFilter cleared its guard, the position changed while the
+      # stats were running and a fresh refresh is due; schedule it and leave
+      # the tree alone.
+      if {[info exists ::treeFilterUpdating_] &&
+          [llength $::treeFilterUpdating_] == 0} {
+        # The position changed while the stats ran. Keep the retained rows
+        # inert: ::updateTreeFilter schedules the refresh once notify returns.
+        set tree(stale$baseNumber) 1
+        return
+      }
+      # Otherwise the user pressed Stop. Keep the previous tree rather than
+      # replacing it with an error, but mark it stale: it describes the
+      # previous position and its moves must not be applied to the current
+      # one.
       set tree(stale$baseNumber) 1
       # The cancelled refresh will not evaluate the training reply, so drop
       # the flags instead of letting an unrelated position consume them.

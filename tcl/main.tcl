@@ -359,6 +359,15 @@ proc ::updateTreeFilter {{base ""}} {
             return
         }
         ::notify::filter $base tree
+        if { [llength $::treeFilterUpdating_] == 0 } {
+            # The position changed while the move stats were running; the
+            # tree window has kept its rows inert, so refresh again.
+            after idle {
+                unset ::treeFilterUpdating_
+                ::updateTreeFilter
+            }
+            return
+        }
     }
     unset ::treeFilterUpdating_
 }
