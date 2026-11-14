@@ -27,10 +27,13 @@
 #include "sortcache.h"
 #include "stored.h"
 #include <algorithm>
+#include <atomic>
 #include <cctype>
+#include <cstdlib>
 #include <cstring>
 #include <filesystem>
 #include <string_view>
+#include <thread>
 #include <unordered_map>
 
 std::pair<ICodecDatabase*, errorT>
@@ -1117,102 +1120,210 @@ scidBaseT::Stats::getEcoStats(const char* ecoStr) const {
 	return 0;
 }
 
-std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter, int moveDepth) const {
+namespace {
+
+// Each FullMove is a uint32_t; pack up to 4 of them into a uint64_t pair used
+// as a hash-map key so lookup is O(1) instead of O(number of nodes).
+// We use two uint64_t words to cover all 4 moves (128 bits total).
+struct MoveSeqKey {
+	uint64_t lo = 0; // moves 0-1
+	uint64_t hi = 0; // moves 2-3
+	bool operator==(const MoveSeqKey& o) const noexcept {
+		return lo == o.lo && hi == o.hi;
+	}
+};
+struct MoveSeqKeyHash {
+	size_t operator()(const MoveSeqKey& k) const noexcept {
+		// FNV-1a-inspired combine
+		size_t h = k.lo ^ (k.lo >> 33);
+		h ^= (k.hi * 0xff51afd7ed558ccdULL);
+		return h;
+	}
+};
+
+MoveSeqKey makeMoveSeqKey(const FullMove* seq, int size) {
+	MoveSeqKey k;
+	uint32_t words[4] = {0, 0, 0, 0};
+	for (int i = 0; i < size && i < 4; ++i) {
+		static_assert(sizeof(FullMove) == sizeof(uint32_t));
+		std::memcpy(&words[i], &seq[i], sizeof(uint32_t));
+	}
+	k.lo = (static_cast<uint64_t>(words[0]) << 32) | words[1];
+	k.hi = (static_cast<uint64_t>(words[2]) << 32) | words[3];
+	return k;
+}
+
+// Partial results accumulated by one worker thread.
+struct TreeStatAccumulator {
+	std::unordered_map<MoveSeqKey, size_t, MoveSeqKeyHash> index;
+	std::vector<TreeNode> nodes;
+};
+
+unsigned treeStatThreads(gamenumT n) {
+	unsigned maxThreads = std::thread::hardware_concurrency();
+	if (const char* env = std::getenv("SCID_TREE_THREADS")) {
+		long v = std::strtol(env, nullptr, 10);
+		if (v > 0) maxThreads = static_cast<unsigned>(v);
+	}
+	// The per-thread partial maps are merged at the end, so keep the number
+	// of shards moderate even on machines with many cores.
+	if (maxThreads > 16) maxThreads = 16;
+	const unsigned byGames = static_cast<unsigned>(n / (128 * 1024));
+	return std::max(1u, std::min(maxThreads, byGames));
+}
+
+void accumulateTreeStats(const scidBaseT& base, const HFilter& filter,
+                         int moveDepth, gamenumT begin, gamenumT end,
+                         TreeStatAccumulator& acc, std::atomic<gamenumT>* done,
+                         std::atomic<bool>* stop) {
+	constexpr gamenumT REP_FREQ = 32 * 1024;
+	gamenumT rep = 0;
+	FullMove seq[4];
+
+	for (gamenumT gnum = begin; gnum < end; ++gnum) {
+		if (stop && stop->load(std::memory_order_acquire))
+			break;
+
+		uint ply = filter.get(gnum);
+		if (ply != 0) {
+			ply--;
+			const IndexEntry* ie = base.getIndexEntry(gnum);
+
+			// Extract move sequence of length moveDepth (or shorter if the
+			// game ends). The fixed array avoids a heap allocation per game.
+			int count = 0;
+			for (int depth = 0; depth < moveDepth; ++depth) {
+				// StoredLine is in memory; only fall back to the game body
+				// when the index does not carry this move.
+				FullMove move =
+				    StoredLine::getMove(ie->GetStoredLineCode(), ply + depth);
+				if (!move)
+					move = base.getGame(ie).getMove(ply + depth);
+				if (!move)
+					break;
+				seq[count++] = move;
+			}
+
+			if (count != 0) {
+				const MoveSeqKey key = makeMoveSeqKey(seq, count);
+				auto [mapIt, inserted] = acc.index.emplace(key, acc.nodes.size());
+				if (inserted) {
+					acc.nodes.emplace_back(
+					    std::vector<FullMove>(seq, seq + count));
+				}
+				TreeNode& node = acc.nodes[mapIt->second];
+				node.add(ie->GetResult(), ie->GetWhiteElo(),
+				         ie->GetBlackElo(), ie->GetYear());
+				node.lengthSum += (ie->GetNumHalfMoves() + 1) / 2;
+				node.lengthCount++;
+			}
+		}
+
+		if (done && ++rep % REP_FREQ == 0) {
+			done->fetch_add(REP_FREQ, std::memory_order_relaxed);
+			done->notify_one();
+		}
+	}
+
+	if (done) {
+		done->fetch_add(rep % REP_FREQ, std::memory_order_relaxed);
+		done->notify_one();
+	}
+}
+
+} // namespace
+
+std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter,
+                                             int moveDepth,
+                                             const Progress& progress,
+                                             bool* cancelled) const {
 	std::vector<TreeNode> res;
+	if (cancelled) *cancelled = false;
+
+	// Base-wide scan: let the OS read ahead instead of faulting one page at
+	// a time (the mapping is otherwise in MADV_RANDOM mode).
+	ScanModeGuard scan(*this);
 
 	// Clamp moveDepth to valid range [1, 4]
 	if (moveDepth < 1) moveDepth = 1;
 	if (moveDepth > 4) moveDepth = 4;
 
-	// Each FullMove is a uint32_t; pack up to 4 of them into a uint64_t pair
-	// used as a hash-map key so lookup is O(1) instead of O(number of nodes).
-	// We use two uint64_t words to cover all 4 moves (128 bits total).
-	struct MoveSeqKey {
-		uint64_t lo = 0; // moves 0-1
-		uint64_t hi = 0; // moves 2-3
-		bool operator==(const MoveSeqKey& o) const noexcept {
-			return lo == o.lo && hi == o.hi;
+	const gamenumT n = numGames();
+	if (n == 0) return res;
+
+	const unsigned nThreads = treeStatThreads(n);
+	if (nThreads <= 1) {
+		TreeStatAccumulator acc;
+		accumulateTreeStats(*this, filter, moveDepth, 0, n, acc, nullptr,
+		                    nullptr);
+		res = std::move(acc.nodes);
+	} else {
+		std::vector<TreeStatAccumulator> accs(nThreads);
+		std::atomic<gamenumT> done{0};
+		std::atomic<bool> stop{false};
+		std::vector<std::thread> jobs;
+		jobs.reserve(nThreads);
+		for (unsigned i = 0; i < nThreads; ++i) {
+			const gamenumT begin = static_cast<gamenumT>(
+			    static_cast<uint64_t>(i) * n / nThreads);
+			const gamenumT end = static_cast<gamenumT>(
+			    static_cast<uint64_t>(i + 1) * n / nThreads);
+			jobs.emplace_back(accumulateTreeStats, std::cref(*this),
+			                  std::cref(filter), moveDepth, begin, end,
+			                  std::ref(accs[i]), &done, &stop);
 		}
-	};
-	struct MoveSeqKeyHash {
-		size_t operator()(const MoveSeqKey& k) const noexcept {
-			// FNV-1a-inspired combine
-			size_t h = k.lo ^ (k.lo >> 33);
-			h ^= (k.hi * 0xff51afd7ed558ccdULL);
-			return h;
-		}
-	};
-	auto makeKey = [](const std::vector<FullMove>& seq) -> MoveSeqKey {
-		MoveSeqKey k;
-		// Each FullMove is 32 bits; pack two per 64-bit word.
-		// FullMove stores m_ as uint32_t; we reach it via memcpy-safe cast.
-		uint32_t words[4] = {0, 0, 0, 0};
-		for (size_t i = 0; i < seq.size() && i < 4; ++i) {
-			static_assert(sizeof(FullMove) == sizeof(uint32_t));
-			std::memcpy(&words[i], &seq[i], sizeof(uint32_t));
-		}
-		k.lo = (static_cast<uint64_t>(words[0]) << 32) | words[1];
-		k.hi = (static_cast<uint64_t>(words[2]) << 32) | words[3];
-		return k;
-	};
 
-	// Map from packed move-sequence key -> index into res
-	std::unordered_map<MoveSeqKey, size_t, MoveSeqKeyHash> nodeIndex;
-
-	for (gamenumT gnum = 0, n = numGames(); gnum < n; gnum++) {
-		uint ply = filter.get(gnum);
-		if (ply == 0)
-			continue;
-		else
-			ply--;
-
-		const IndexEntry* ie = getIndexEntry(gnum);
-
-		// Extract move sequence of length moveDepth (or shorter if game ends)
-		std::vector<FullMove> moveSequence;
-		moveSequence.reserve(moveDepth);
-
-		// Try to get moves from StoredLine first (faster), then from full game
-		for (int depth = 0; depth < moveDepth; depth++) {
-			FullMove move = StoredLine::getMove(ie->GetStoredLineCode(), ply + depth);
-			if (!move) {
-				// StoredLine doesn't have this move, get from full game
-				auto gameView = getGame(ie);
-				move = gameView.getMove(ply + depth);
-			}
-
-			if (!move) {
-				// Game ends before reaching desired depth
+		gamenumT reported = 0;
+		while (reported != n) {
+			done.wait(reported, std::memory_order_relaxed);
+			reported = done.load(std::memory_order_relaxed);
+			if (!progress.report(reported, n)) {
+				stop.store(true, std::memory_order_release);
 				break;
 			}
+		}
+		for (auto& job : jobs) job.join();
 
-			moveSequence.push_back(move);
+		if (stop.load(std::memory_order_acquire)) {
+			if (cancelled) *cancelled = true;
+			return {};
 		}
 
-		// Skip if no moves found (shouldn't happen, but be safe)
-		if (moveSequence.empty())
-			continue;
-
-		// O(1) lookup / insert via hash map
-		MoveSeqKey key = makeKey(moveSequence);
-		auto [mapIt, inserted] = nodeIndex.emplace(key, res.size());
-		if (inserted) {
-			res.emplace_back(moveSequence);
+		// Merge the shards. The first shard keeps its nodes; the others are
+		// folded into it or appended as new nodes.
+		res = std::move(accs[0].nodes);
+		auto& index = accs[0].index;
+		for (unsigned i = 1; i < nThreads; ++i) {
+			for (auto& node : accs[i].nodes) {
+				const MoveSeqKey key = makeMoveSeqKey(
+				    node.moves.data(), static_cast<int>(node.moves.size()));
+				auto [mapIt, inserted] = index.emplace(key, res.size());
+				if (inserted)
+					res.push_back(std::move(node));
+				else
+					res[mapIt->second].merge(node);
+			}
 		}
-		res[mapIt->second].add(ie->GetResult(), ie->GetWhiteElo(),
-		                       ie->GetBlackElo(), ie->GetYear());
-		res[mapIt->second].lengthSum +=
-		    (ie->GetNumHalfMoves() + 1) / 2;
-		res[mapIt->second].lengthCount++;
 	}
 
-	std::sort(res.begin(), res.end(), TreeNode::cmp_ngames_desc());
+	// Most games first; ties are broken on the move sequence so the output
+	// does not depend on the order of the games in the database.
+	std::sort(res.begin(), res.end(), [](auto const& a, auto const& b) {
+		if (a.freq[0] != b.freq[0]) return a.freq[0] > b.freq[0];
+		const size_t common = std::min(a.moves.size(), b.moves.size());
+		for (size_t i = 0; i < common; ++i) {
+			if (!(a.moves[i] == b.moves[i]))
+				return a.moves[i].getSAN() < b.moves[i].getSAN();
+		}
+		return a.moves.size() < b.moves.size();
+	});
 	return res;
 }
 
 std::vector<scidBaseT::TreeNAGEntry>
 scidBaseT::getTreeNAGs(const HFilter& filter, eloT minElo) const {
 	std::vector<TreeNAGEntry> results;
+	ScanModeGuard scan(*this);
 	std::map<std::string, std::map<byte, uint>> nagHist;
 	std::map<std::string, std::pair<uint64_t, uint>> eloData;
 

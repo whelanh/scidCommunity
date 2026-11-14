@@ -58,6 +58,20 @@ public:
 		}
 	}
 
+	/// Add the totals accumulated by another node for the same move sequence.
+	/// Used to merge the per-thread partial results of getTreeStat().
+	void merge(const TreeNode& o) {
+		eloWhiteSum += o.eloWhiteSum;
+		eloBlackSum += o.eloBlackSum;
+		yearSum += o.yearSum;
+		for (int i = 0; i < NUM_RESULT_TYPES; ++i)
+			freq[i] += o.freq[i];
+		eloCount += o.eloCount;
+		yearCount += o.yearCount;
+		lengthSum += o.lengthSum;
+		lengthCount += o.lengthCount;
+	}
+
 	/// @return a value in the range [0, 1000] representing the score percentage
 	/// from the white prospective (999 = white won 99.9% of the games).
 	int score() const {
