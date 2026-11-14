@@ -584,9 +584,10 @@ namespace eval gameclock {
   #   digital -- the text alone: no hands, no numerals, no face ring.
   variable modes {both analog digital}
   ################################################################################
-  proc new { parent n { size 100 } {showfall 0} {display both} } {
+  proc new { parent n { size 100 } {showfall 0} {display both} { fill 0 } } {
     global ::gameclock::data
     if {[lsearch -exact $::gameclock::modes $display] < 0} { set display "both" }
+    set data(fill$n) $fill
     set data(display$n) $display
     # The older flag kept its meaning: is a digital text drawn at all?
     set data(digital$n) [expr {$display ne "analog"}]
@@ -594,14 +595,24 @@ namespace eval gameclock {
     set data(id$n) ""
     if {$parent != ""} {
       set data(id$n) $parent.clock$n
-      # A digital face is text, not a circle: it is given the width the text
-      # needs instead of the square of the analog face.
-      if {$display eq "digital"} {
-        canvas $data(id$n) -height $size -width [::gameclock::digitalWidth $size]
+      if {$fill} {
+        # A filling face asks for nothing: it takes the space its parent gives it
+        # and draws to that size. A canvas that requests a size it then redraws
+        # from feeds its own request back into the layout, which is how a row of
+        # two faces ended up with one of them squeezed out.
+        canvas $data(id$n) -height 1 -width 1 -highlightthickness 0
+        pack $data(id$n) -side top -fill both -expand 1
+        bind $data(id$n) <Configure> [list ::gameclock::redraw $n]
       } else {
-        canvas $data(id$n) -height $size -width $size
+        # A digital face is text, not a circle: it is given the width the text
+        # needs instead of the square of the analog face.
+        if {$display eq "digital"} {
+          canvas $data(id$n) -height $size -width [::gameclock::digitalWidth $size]
+        } else {
+          canvas $data(id$n) -height $size -width $size
+        }
+        pack $data(id$n) -side top -anchor center
       }
-      pack $data(id$n) -side top -anchor center
       ::gameclock::face $n
       bind $data(id$n) <Button-1> "::gameclock::toggleClock $n"
     }
@@ -610,6 +621,32 @@ namespace eval gameclock {
     ::gameclock::reset $n
     ::gameclock::draw $n
   }
+  ################################################################################
+  # The size a face draws to: what its canvas actually has, and the size it asked
+  # for until it has been mapped. Drawing from the real size is what lets a face
+  # fill a frame without requesting geometry of its own.
+  proc sizeOf { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return {0 0} }
+    set w [winfo width $data(id$n)]
+    set h [winfo height $data(id$n)]
+    if {$w < 2 || $h < 2} {
+      set w [$data(id$n) cget -width]
+      set h [$data(id$n) cget -height]
+    }
+    return [list $w $h]
+  }
+
+  # Draw the face again at the size it has now. What a filling face does on every
+  # <Configure>; it changes no geometry, so it cannot drive the layout.
+  proc redraw { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return }
+    $data(id$n) delete all
+    ::gameclock::face $n
+    ::gameclock::draw $n
+  }
+
   ################################################################################
   # The width a face is drawn at: 0 when it has no canvas at all. A caller that
   # sizes a window to its clocks reads this instead of a geometry pass.
@@ -623,42 +660,6 @@ namespace eval gameclock {
   proc digitalWidth { size } {
     return [expr {int($size * 1.9)}]
   }
-  ################################################################################
-  # Fit the face into the box its frame offers, keeping the face's aspect: the
-  # analog face is square, a digital one is digitalWidth:height (1.9:1). The face
-  # grows to the largest size that fits, so a wide frame does not leave a small
-  # box floating in it. A size that would not change anything is skipped, which
-  # is what keeps a <Configure> binding from looping on its own resize.
-  proc setSize { n boxW boxH } {
-    global ::gameclock::data
-    if {![winfo exists $data(id$n)]} { return }
-    if {$boxW < 24 || $boxH < 24} { return }
-    if {$data(display$n) eq "digital"} {
-      set h $boxH
-      set w [expr {int($h * 1.9)}]
-      if {$w > $boxW} {
-        set w $boxW
-        set h [expr {int($w / 1.9)}]
-      }
-    } else {
-      set w [expr {$boxW < $boxH ? $boxW : $boxH}]
-      set h $w
-    }
-    if {[$data(id$n) cget -width] == $w && [$data(id$n) cget -height] == $h} { return }
-    $data(id$n) configure -width $w -height $h
-    $data(id$n) delete all
-    ::gameclock::face $n
-    ::gameclock::draw $n
-  }
-
-  # Fit the face of clock `n` into `frame`, less a margin for its border.
-  proc fit { frame n {margin 10} } {
-    if {![winfo exists $frame]} { return }
-    set bw [expr {[winfo width $frame] - 2 * $margin}]
-    set bh [expr {[winfo height $frame] - 2 * $margin}]
-    ::gameclock::setSize $n $bw $bh
-  }
-  ################################################################################
   # The items a face carries when nothing is running: the numerals of the
   # analog face, and nothing at all for a digital one.
   proc face { n } {
@@ -666,8 +667,7 @@ namespace eval gameclock {
     if {![winfo exists $data(id$n)]} { return }
     $data(id$n) delete clock$n
     if {$data(display$n) eq "digital"} { return }
-    set w [$data(id$n) cget -width]
-    set h [$data(id$n) cget -height]
+    lassign [::gameclock::sizeOf $n] w h
     set size [expr {$w < $h ? $w : $h}]
     for {set i 1} {$i<13} {incr i} {
       set a [expr {$i/6.*acos(-1)}]
@@ -685,15 +685,18 @@ namespace eval gameclock {
     set data(display$n) $display
     set data(digital$n) [expr {$display ne "analog"}]
     if {![winfo exists $data(id$n)]} { return }
+    if {$data(fill$n)} {
+      # A filling face owns no size: redraw at the one it has.
+      ::gameclock::redraw $n
+      return
+    }
     set h [$data(id$n) cget -height]
     if {$display eq "digital"} {
       $data(id$n) configure -width [::gameclock::digitalWidth $h]
     } else {
       $data(id$n) configure -width $h
     }
-    $data(id$n) delete all
-    ::gameclock::face $n
-    ::gameclock::draw $n
+    ::gameclock::redraw $n
   }
   ################################################################################
   proc draw { n } {
@@ -712,8 +715,7 @@ namespace eval gameclock {
     if {! [winfo exists $data(id$n)]} { return }
     $data(id$n) delete aig$n
 
-    set w [$data(id$n) cget -width ]
-    set h [$data(id$n) cget -height ]
+    lassign [::gameclock::sizeOf $n] w h
     set cx [ expr $w / 2 ]
     set cy [ expr $h / 2 ]
     if {$w < $h} {
@@ -750,8 +752,15 @@ namespace eval gameclock {
       set eh [format "%d" [expr abs($sec) / 60 / 60] ]
       set em [format "%02d" [expr (abs($sec) / 60) % 60] ]
       set es [format "%02d" [expr abs($sec) % 60] ]
+      # The font follows the box in both directions: the height sets how tall the
+      # digits may be, the width what seven of them need, and the smaller wins -
+      # a filling face can be wide and short, or narrow and tall.
+      set byh [expr {$h > 32 ? int($h / 4) : 8}]
+      set byw [expr {int($w / 4.6)}]
+      set fs [expr {$byh < $byw ? $byh : $byw}]
+      if {$fs < 8} { set fs 8 }
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
-          -font [list Helvetica [expr {$h > 32 ? int($h / 4) : 8}] bold] -tag aig$n
+          -font [list Helvetica $fs bold] -tag aig$n
     } elseif {$display eq "both"} {
       # the analog face's own small text, drawn inside it
       set m [format "%02d" [expr abs($sec) / 60] ]

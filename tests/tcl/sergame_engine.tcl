@@ -549,7 +549,7 @@ proc ::utils::validate::floatScale {args} { return }
 # counter runs upwards from -wtime), stop answers 1 only for a clock that was
 # running, and add takes seconds off the counter.
 namespace eval ::gameclock {}
-proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"}} {
+proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"} {fill 0}} {
     # The face the caller asked for, and a real canvas for it: the window's
     # geometry -- one row of clocks, and a minimum size that holds it -- is what
     # the harness reads back, so the faces have to be the size they really are.
@@ -564,11 +564,10 @@ proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"}} {
     return
 }
 proc ::gameclock::setDisplay {n display} { set ::fake::gcMode($n) $display }
-# The game window fits each face into its frame on <Configure>; the stub has no
-# canvas to size, so it records the request.
-proc ::gameclock::fit {frame n {margin 10}} {
-    lappend ::fake::gcFit "fit $n [winfo width $frame]x[winfo height $frame]"
-}
+# A filling face draws itself at its canvas's size; the stub has no canvas, so
+# it records the request and reports the size it was told to take.
+proc ::gameclock::redraw {n} { lappend ::fake::gcFit "redraw $n" }
+proc ::gameclock::sizeOf {n} { return {88 88} }
 # The real widget's accessor: the width a face is drawn at.
 proc ::gameclock::width {n} {
     if {![info exists ::fake::gcCanvas($n)]} { return 0 }
@@ -1762,6 +1761,31 @@ checkEq "both clock frames were packed" \
 # can see: that both faces were packed at all.
 check "both clock frames were packed" \
     [expr {[winfo exists $gw.fclockw] && [winfo exists $gw.fclockb]}]
+# Both faces must have room: one squeezed to nothing is the shape the layout
+# loop produced when a face sized itself from the frame it was filling.
+update
+check "White's clock has a size" \
+    [expr {[winfo width $gw.fclockw] > 20 && [winfo height $gw.fclockw] > 20}] \
+    "w=[winfo width $gw.fclockw] h=[winfo height $gw.fclockw]"
+check "Black's clock has a size" \
+    [expr {[winfo width $gw.fclockb] > 20 && [winfo height $gw.fclockb] > 20}] \
+    "w=[winfo width $gw.fclockb] h=[winfo height $gw.fclockb]"
+
+# And the arrangement must settle: a decision taken from a box the decision
+# itself changes repacks forever, which is what "constantly redraws" was.
+set ::oriFlips 0
+rename ::sergame::clockLayoutApply ::sergame::clockLayoutApply_real
+proc ::sergame::clockLayoutApply {w} {
+    set before $::sergame::clockOrientation
+    ::sergame::clockLayoutApply_real $w
+    if {$::sergame::clockOrientation ne $before} { incr ::oriFlips }
+}
+for {set i 0} {$i < 20} {incr i} { update ; after 5 ; update }
+check "the arrangement settles after its first decision" [expr {$::oriFlips <= 2}] \
+    "flipped $::oriFlips times in 20 event loops"
+rename ::sergame::clockLayoutApply {}
+rename ::sergame::clockLayoutApply_real ::sergame::clockLayoutApply
+
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
 check "the window's minimum width holds both faces and their frames" \

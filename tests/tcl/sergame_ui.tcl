@@ -284,27 +284,42 @@ checkEq "at the size only that arrangement allows" $s4 100
 
 ##############################################################################
 puts "\na face fills its frame and keeps its aspect"
-# The analog face is square; the digital one is 1.9:1 from the height it is
-# given, and it is capped by the width.
-proc faceSize {n} {
-    return [list [::gameclock::width $n] [.faces.clock$n cget -height]]
+# A filling face asks for no size: its canvas takes the frame's space and the
+# face is drawn to whatever that is. That is what keeps two faces in a row from
+# sizing each other out of the window.
+frame .box -width 400 -height 100
+pack propagate .box 0
+pack .box
+::gameclock::new .box 1 88 0 digital 1
+update
+lassign [::gameclock::sizeOf 1] w h
+checkEq "a filling face draws at the size its frame gives it" [list $w $h] [list 400 100]
+
+# The digital text fits the box it is drawn in, in both directions.
+set txt [lindex [.box.clock1 find all] 0]
+set fs [lindex [.box.clock1 itemcget $txt -font] end-1]
+check "the digits are no taller than a quarter of the box" [expr {$fs <= $h / 4}]
+check "and seven of them fit the width" [expr {$fs * 4.6 <= $w}]
+lassign [.box.clock1 bbox $txt] x0 y0 x1 y1
+check "the drawn text is inside the canvas" [expr {$x0 >= 0 && $x1 <= $w && $y0 >= 0 && $y1 <= $h}]
+
+# A short box gets smaller digits, not clipped ones.
+.box configure -height 40
+update
+set txt [lindex [.box.clock1 find all] 0]
+lassign [.box.clock1 bbox $txt] x0 y0 x1 y1
+check "a short box shrinks the digits to fit" [expr {$y1 - $y0 <= 40 && $x1 <= 400}]
+
+# Analog draws from the same size: the numerals sit inside a square of the box.
+::gameclock::setDisplay 1 analog
+.box configure -height 100
+update
+set ok 1
+foreach it [.box.clock1 find all] {
+    lassign [.box.clock1 bbox $it] x0 y0 x1 y1
+    if {$x0 < 0 || $y0 < 0 || $x1 > 400 || $y1 > 100} { set ok 0 }
 }
-
-gameclock::setDisplay 1 digital
-::gameclock::setSize 1 400 100
-checkEq "a digital face takes the height it is given" [faceSize 1] [list 190 100]
-::gameclock::setSize 1 120 100
-checkEq "and is capped by a narrow frame" [faceSize 1] [list 120 63]
-
-gameclock::setDisplay 1 analog
-::gameclock::setSize 1 400 100
-checkEq "an analog face is the square the box allows" [faceSize 1] [list 100 100]
-::gameclock::setSize 1 60 200
-checkEq "and follows the smaller dimension" [faceSize 1] [list 60 60]
-
-set before [faceSize 1]
-::gameclock::setSize 1 60 200
-checkEq "a size that changes nothing is not re-applied" [faceSize 1] $before
+check "an analog face draws inside the box it is given" [expr {$ok}]
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -543,15 +543,19 @@ namespace eval sergame {
     pack $w.fthreshold -side top -fill both -pady 5 -padx 10
     pack [ttk::separator $w.line2 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.finformations -side top -fill both -pady 5 -padx 10
-    pack $w.fclocks -side top -fill both -pady 5 -padx 10
+    # A fixed height, not the children's: when the faces decide the height, each
+    # arrangement changes the box that chooses the next one and the window
+    # redraws itself in a loop. With the height fixed the answer depends only on
+    # the width, so it settles after one decision.
+    pack propagate $w.fclocks 0
+    $w.fclocks configure -height [::sergame::clockAreaHeight]
+    pack $w.fclocks -side top -fill x -pady 5 -padx 10
     # The presentation follows the space: side by side when that makes the faces
     # bigger than stacking them, one over the other when it does not. White stays
     # first in either direction, so the order never changes under the reader; the
     # frames' own labels say which side is which.
     set ::sergame::clockOrientation ""
     bind $w.fclocks <Configure> [list ::sergame::clockLayoutApply $w]
-    bind $w.fclockw <Configure> [list ::gameclock::fit $w.fclockw 1]
-    bind $w.fclockb <Configure> [list ::gameclock::fit $w.fclockb 2]
     pack $w.fclockw $w.fclockb -side top -fill both -expand 1 -padx 10 -pady 5
     # The first arrangement is decided once the window has a size: <Configure>
     # arrives with it, but a window that is created and never shown has none.
@@ -581,8 +585,10 @@ namespace eval sergame {
     ttk::button $w.fbuttons.close -textvar ::tr(Abort) -command "destroy .coachWin"
     pack $w.fbuttons.close -expand yes -fill both -padx 20 -pady 2
 
-    ::gameclock::new $w.fclockw 1 88 0 [::sergame::clockFace]
-    ::gameclock::new $w.fclockb 2 88 0 [::sergame::clockFace]
+    # fill: the face takes its frame's space and draws to it. 88 is only what it
+    # asks for until the window has a size.
+    ::gameclock::new $w.fclockw 1 88 0 [::sergame::clockFace] 1
+    ::gameclock::new $w.fclockb 2 88 0 [::sergame::clockFace] 1
     # Colour each clock face to match its side: white clock = white face with
     # black markings, black clock = black face with white markings.
     ::gameclock::setColor 1 white
@@ -630,6 +636,10 @@ namespace eval sergame {
     return 0
   }
 
+  # The height the clock area keeps, both arrangements: two faces and the gap,
+  # so a stacked pair and a side-by-side pair take the same vertical space.
+  proc clockAreaHeight {} { return 196 }
+
   # Which way round the two faces go, and the face size that follows: for a box
   # of boxW x boxH with `gap` between the faces,
   #   side by side -- each face gets (boxW-gap)/2 wide and boxH tall
@@ -652,7 +662,9 @@ namespace eval sergame {
   proc clockLayoutApply {w} {
     if {![winfo exists $w.fclocks]} { return }
     set bw [winfo width $w.fclocks]
-    set bh [winfo height $w.fclocks]
+    # The height the area keeps, not the one the faces currently make: reading
+    # the live height here is what made the window redraw itself in a loop.
+    set bh [::sergame::clockAreaHeight]
     if {$bw < 2 || $bh < 2} { return }
     lassign [::sergame::clockLayout $bw $bh] orientation size
     if {$orientation ne $::sergame::clockOrientation} {
@@ -666,8 +678,6 @@ namespace eval sergame {
       update idletasks
     }
     # The frames have their new geometry now: fit each face into it.
-    ::gameclock::fit $w.fclockw 1
-    ::gameclock::fit $w.fclockb 2
   }
 
   proc abortGame { { n 1 } } {
