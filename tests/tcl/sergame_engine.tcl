@@ -1820,8 +1820,18 @@ check "both clock frames are in the window" \
 # The clocks fill the space they are given: size the window, then read the
 # geometry back. This is the check the earlier attempts lacked - the faces must
 # take the area's width AND its height, not a strip at the bottom of it.
-wm geometry $gw 1000x800
-update
+# A compositor (Hyprland) caps a managed window's size, so wm geometry alone
+# never reaches the widget. forceGeometry withdraws, drops the WM hint, sets the
+# size and re-maps; xvfb needs none of it and the sequence is harmless there.
+proc forceGeometry {w geom} {
+    catch { wm withdraw $w }
+    update idletasks
+    catch { wm overrideredirect $w 1 }
+    wm geometry $w $geom
+    catch { wm deiconify $w }
+    update
+}
+forceGeometry $gw 1000x800
 ::sergame::clockLayoutApply $gw
 update
 lassign [::gameclock::sizeOf 1] cw1 ch1
@@ -1858,8 +1868,7 @@ check "postmove runs the game loop and leaves no timer behind" [expr {!$pending}
 # the dial here so both answers are exercised.
 set ::sergame::showDigitalClock 0
 ::sergame::applyClockFace
-wm geometry $gw 1100x700
-update
+forceGeometry $gw 1100x700
 ::sergame::clockLayoutApply $gw
 checkEq "a wide window goes side by side" $::sergame::clockOrientation "side"
 checkEq "and the two faces share one row" [winfo y $gw.fclocks.w] [winfo y $gw.fclocks.b]
@@ -1870,8 +1879,7 @@ set engineFrame [expr {$playerFrame eq "w" ? "b" : "w"}]
 check "White's clock is first when side by side" \
     [expr {[winfo x $gw.fclocks.w] < [winfo x $gw.fclocks.b]}]
 
-wm geometry $gw 700x1100
-update
+forceGeometry $gw 700x1100
 ::sergame::clockLayoutApply $gw
 checkEq "a tall window stacks them" $::sergame::clockOrientation "stacked"
 checkEq "and the faces share one column" [winfo x $gw.fclocks.w] [winfo x $gw.fclocks.b]

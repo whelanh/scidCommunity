@@ -368,9 +368,13 @@ lassign [::sergame::clockLayout analog 900 300 stacked] o w6
 checkEq "and back again, when side by side wins clearly" $o "side"
 
 # The digits are rectangles, so the same box that suits a dial need not suit them:
-# a wide short box is where the two modes disagree.
-lassign [::sergame::clockLayout digital 900 300] d1 dsize
-lassign [::sergame::clockLayout analog 900 300] a1 asize
+# a wide short box is where the two modes disagree. 600x300, not 900x300: at 900
+# the side-by-side cell is wide enough that the digits only just overrun it, so
+# whether it shrinks below the stacked cell depends on the font the display maps
+# "0:00:00" into. At 600 the side cell is width-limited and the stacked cell is
+# height-limited, so the answer is the same on every font.
+lassign [::sergame::clockLayout digital 600 300] d1 dsize
+lassign [::sergame::clockLayout analog 600 300] a1 asize
 # The two faces do not have to agree: the dials are limited by the cell's height,
 # which a side-by-side cell keeps in full; the digits are seven glyphs wide, which
 # a stacked cell keeps in full. The layout asks the face that is on screen.
