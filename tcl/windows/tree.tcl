@@ -485,11 +485,17 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
       set tree(stale$baseNumber) 1
       # The cancelled refresh will not evaluate the training reply, so drop
       # the flags instead of letting an unrelated position consume them.
+      # userMovePending is set on a human move, before trainingReplyBase is
+      # known, so it is cleared for the training base independently.
       if { $::tree::trainingReplyBase == $baseNumber } {
         set ::tree::trainingReplyBase 0
+      }
+      if { $::tree::trainingBase != 0 &&
+           $baseNumber == $::tree::trainingBase } {
         set ::tree::userMovePending 0
       }
       ::tree::restoreButtons $w
+      $w.buttons.graph configure -state disabled
       return
     }
     set moves [ERROR::getErrorMsg]
@@ -1325,6 +1331,9 @@ proc ::tree::graphRedraw { baseNumber } {
 proc ::tree::graph { baseNumber {bpress 0}} {
   set w .treeGraph$baseNumber
   if {! [winfo exists .treeWin$baseNumber]} { return }
+  # The graph plots ::tree::treeData, which still holds the previous position
+  # after a cancelled refresh; its title comes from the current position.
+  if {$::tree(stale$baseNumber)} { return }
   if {! [winfo exists $w]} {
     toplevel $w
     setWinLocation $w

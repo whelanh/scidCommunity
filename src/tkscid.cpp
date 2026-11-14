@@ -1198,6 +1198,11 @@ int sc_clipbase(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 
   switch (index) {
   case CLIP_CLEAR:
+    if (clipbase->isBusy()) {
+      return UI_Result(ti, ERROR_BadArg,
+                       "Cannot clear the clipbase while a tree operation is "
+                       "running.");
+    }
     clipbase->Close();
     DBasePool::clearClipBase();
     break;

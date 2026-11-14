@@ -115,6 +115,11 @@ UI_res_t sc_base_compact(scidBaseT* dbase, UI_handle_t ti, int argc,
 	const char* usage = "Usage: sc_base compact baseId [stats]";
 
 	if (argc == 3) {
+		if (dbase->isBusy()) {
+			return UI_Result(ti, ERROR_BadArg,
+			                 "Cannot compact a database while a tree "
+			                 "operation is running.");
+		}
 		errorT res = dbase->compact(UI_CreateProgress(ti));
 		return UI_Result(ti, res);
 	} else if (argc == 4 && std::strcmp("stats", argv[3]) == 0) {
