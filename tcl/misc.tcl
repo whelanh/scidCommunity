@@ -681,6 +681,31 @@ namespace eval gameclock {
     return $famCache
   }
 
+  # Everything about a dial that both the numerals and the hands need: its centre,
+  # the square it inscribes, the radius the numerals sit on, and the numeral size.
+  # The radius leaves room for a glyph, since a numeral centred on it extends half
+  # a glyph beyond it.
+  proc dialGeometry { n w h } {
+    set size [expr {$w < $h ? $w : $h}]
+    set cx [expr {$w / 2}]
+    set cy [expr {$h / 2}]
+    set nf [expr {int($size * 0.10)}]
+    if {$nf < 8} { set nf 8 }
+    # The allowance is the glyph's LINE SPACE, not its point size: a 30-point
+    # numeral is about 47 pixels tall, and measuring by the point size put 12 and
+    # 6 six pixels outside the canvas.
+    set lh [font metrics [::gameclock::faceFont $n $nf] -linespace]
+    set r [expr {($size - $lh) / 2.0 - 2}]
+    return [list $cx $cy $size $r $nf $lh]
+  }
+
+  # Where the dial's own h:mm text sits: midway between the hub and the numerals,
+  # so the gap to the centre equals the gap to the numerals. Both gaps are measured
+  # edge to edge, which is why the text's own height cancels out of the answer.
+  proc innerOffset { r lh } {
+    return [expr {($r - $lh / 2.0) / 2}]
+  }
+
   # The point size of the dial's own h:mm text, inside the face: it scales with
   # the dial, at about the size the numerals are set.
   proc innerFont { size } {
@@ -729,18 +754,10 @@ namespace eval gameclock {
     $data(id$n) delete clock$n
     if {$data(display$n) eq "digital"} { return }
     lassign [::gameclock::sizeOf $n] w h
-    # The dial is the largest square the box holds, CENTRED in it. Laying the
-    # numerals out around (size/2, size/2) was right when a canvas was exactly
-    # size x size; a filling canvas is wide, and that put the dial in the corner
-    # while the hands stayed centred on the canvas.
-    set size [expr {$w < $h ? $w : $h}]
-    set cx [expr {$w / 2}]
-    set cy [expr {$h / 2}]
-    # The radius leaves room for the numerals themselves: a glyph centred on the
-    # radius extends half a glyph beyond it, which is what clipped 12 and 6.
-    set nf [expr {int($size * 0.10)}]
-    if {$nf < 8} { set nf 8 }
-    set r [expr {($size - $nf) / 2.0 - 2}]
+    # The dial is the largest square the box holds, CENTRED in it: laying the
+    # numerals out around (size/2, size/2) was right only while a canvas was
+    # exactly size x size, and a filling canvas is usually wider than tall.
+    lassign [::gameclock::dialGeometry $n $w $h] cx cy size r nf lh
     # The numerals scale with the dial: drawn in the default font they stayed at
     # about ten pixels however big the face was, which is not legible.
     # The numerals take the face's own foreground. setColor already stores the
@@ -796,13 +813,7 @@ namespace eval gameclock {
     $data(id$n) delete aig$n
 
     lassign [::gameclock::sizeOf $n] w h
-    set cx [ expr $w / 2 ]
-    set cy [ expr $h / 2 ]
-    if {$w < $h} {
-      set size [ expr $w - 15 ]
-    } else  {
-      set size [ expr $h - 15 ]
-    }
+    lassign [::gameclock::dialGeometry $n $w $h] cx cy size r nf lh
 
     if { $sec > 0 && $data(showfallen$n) } {
       set color "red"
@@ -854,7 +865,8 @@ namespace eval gameclock {
       # clock grew.
       set m [format "%02d" [expr abs($sec) / 60] ]
       set s [format "%02d" [expr abs($sec) % 60] ]
-      $data(id$n) create text $cx [expr {$cy + $size * 0.30}] -text "$m:$s" \
+      set iy [expr {$cy + [::gameclock::innerOffset $r $lh]}]
+      $data(id$n) create text $cx $iy -text "$m:$s" \
           -anchor center -fill $color \
           -font [::gameclock::faceFont $n [::gameclock::innerFont $size]] -tag aig$n
     }

@@ -324,6 +324,30 @@ foreach it [.box.clock1 find all] {
 }
 check "the dial draws its own time" [expr {[llength $inner] == 1}] "items: $inner"
 
+# ...and it sits midway between the hub and the numerals: the gap from it up to
+# the centre equals the gap from it down to the 6, measured on the drawn boxes.
+.box configure -width 420 -height 300
+update
+::gameclock::redraw 1
+set inner_bb ""
+set six_bb ""
+foreach it [.box.clock1 find all] {
+    if {[.box.clock1 type $it] ne "text"} { continue }
+    set t [.box.clock1 itemcget $it -text]
+    if {[string first ":" $t] >= 0} { set inner_bb [.box.clock1 bbox $it] }
+    if {$t eq "6"} { set six_bb [.box.clock1 bbox $it] }
+}
+if {$inner_bb eq "" || $six_bb eq ""} {
+    check "the dial's time and its 6 are both drawn" 0 "inner=$inner_bb six=$six_bb"
+} else {
+    lassign [::gameclock::sizeOf 1] cw ch
+    set hub [expr {$ch / 2}]
+    set gapUp [expr {[lindex $inner_bb 1] - $hub}]
+    set gapDown [expr {[lindex $six_bb 1] - [lindex $inner_bb 3]}]
+    check "the time sits midway between the hub and the numerals" \
+        [expr {abs($gapUp - $gapDown) <= 3}] "up=$gapUp down=$gapDown"
+}
+
 checkEq "the dial's own time is a tenth of the dial" [::gameclock::innerFont 460] 50
 checkEq "and shrinks with it" [::gameclock::innerFont 200] 22
 check "but never below readable" [expr {[::gameclock::innerFont 40] >= 8}]
@@ -336,10 +360,14 @@ check "never smaller than readable" [expr {[::gameclock::digitalFont 20 20] >= 8
 ::gameclock::setDisplay 1 analog
 .box configure -height 100
 update
+::gameclock::redraw 1
+# Judge against the canvas's own size: the box has been resized several times by
+# this point, and a constant would test the test.
+lassign [::gameclock::sizeOf 1] bw bh
 set ok 1
 foreach it [.box.clock1 find all] {
     lassign [.box.clock1 bbox $it] x0 y0 x1 y1
-    if {$x0 < 0 || $y0 < 0 || $x1 > 400 || $y1 > 100} { set ok 0 }
+    if {$x0 < 0 || $y0 < 0 || $x1 > $bw || $y1 > $bh} { set ok 0 }
 }
 check "an analog face draws inside the box it is given" [expr {$ok}]
 
@@ -349,11 +377,12 @@ check "an analog face draws inside the box it is given" [expr {$ok}]
 ::gameclock::setDisplay 1 analog
 update
 ::gameclock::redraw 1
+lassign [::gameclock::sizeOf 1] tw th
 set out 0
 foreach it [.box.clock1 find all] {
     if {[.box.clock1 type $it] ne "text"} { continue }
     lassign [.box.clock1 bbox $it] x0 y0 x1 y1
-    if {$y0 < 0 || $y1 > 300 || $x0 < 0 || $x1 > 420} { set out 1 }
+    if {$y0 < 0 || $y1 > $th || $x0 < 0 || $x1 > $tw} { set out 1 }
 }
 check "the dial's numerals stay inside a tall canvas" [expr {!$out}]
 
