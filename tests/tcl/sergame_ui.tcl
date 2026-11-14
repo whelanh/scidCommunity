@@ -308,6 +308,25 @@ check "the dial uses the box's height" [expr {$bbh > 120}] "dial $bbw x $bbh"
 
 # The digits take most of the box. The rule is a function of the box, so it is
 # checked as one: a live canvas in this harness has no geometry to draw into.
+# It has to be there, and it has to scale: an item created without -text passes
+# every size check while showing nothing.
+::gameclock::setDisplay 1 analog
+update
+::gameclock::redraw 1
+::gameclock::setDisplay 1 both
+update
+::gameclock::redraw 1
+set inner {}
+foreach it [.box.clock1 find all] {
+    if {[.box.clock1 type $it] ne "text"} { continue }
+    set t [.box.clock1 itemcget $it -text]
+    if {[string first ":" $t] >= 0} { lappend inner $t }
+}
+check "the dial draws its own time" [expr {[llength $inner] == 1}] "items: $inner"
+
+checkEq "the dial's own time is a tenth of the dial" [::gameclock::innerFont 460] 50
+checkEq "and shrinks with it" [::gameclock::innerFont 200] 22
+check "but never below readable" [expr {[::gameclock::innerFont 40] >= 8}]
 checkEq "a 400x200 box is width-limited" [::gameclock::digitalFont 400 200] 105
 checkEq "a wide short box sets them from its height" [::gameclock::digitalFont 600 100] 62
 checkEq "a narrow tall box sets them from its width" [::gameclock::digitalFont 120 400] 31

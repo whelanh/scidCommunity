@@ -681,6 +681,14 @@ namespace eval gameclock {
     return $famCache
   }
 
+  # The point size of the dial's own h:mm text, inside the face: it scales with
+  # the dial, at about the size the numerals are set.
+  proc innerFont { size } {
+    set fs [expr {int($size * 0.11)}]
+    if {$fs < 8} { set fs 8 }
+    return $fs
+  }
+
   # A font description for a face: family, size, weight - with no family named
   # when this Tk has none to name.
   proc faceFont { n size {weight ""} } {
@@ -841,10 +849,14 @@ namespace eval gameclock {
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
           -font $fnt -tag aig$n
     } elseif {$display eq "both"} {
-      # the analog face's own small text, drawn inside it
+      # The dial's own time, inside it. It scales with the face like the numerals
+      # do: drawn in the default font it stayed at ten pixels however large the
+      # clock grew.
       set m [format "%02d" [expr abs($sec) / 60] ]
       set s [format "%02d" [expr abs($sec) % 60] ]
-      $data(id$n) create text $cx [expr $cy + $size/4 ] -text "$m:$s" -anchor center -fill $color -tag aig$n
+      $data(id$n) create text $cx [expr {$cy + $size * 0.30}] -text "$m:$s" \
+          -anchor center -fill $color \
+          -font [::gameclock::faceFont $n [::gameclock::innerFont $size]] -tag aig$n
     }
   }
   ################################################################################
