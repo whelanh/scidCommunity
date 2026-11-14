@@ -1267,6 +1267,10 @@ std::vector<TreeNode> scidBaseT::getTreeStat(const HFilter& filter,
 	std::vector<TreeNode> res;
 	if (cancelled) *cancelled = false;
 
+	// The progress callback pumps UI events; keep the base from being closed
+	// while the workers use it.
+	BusyGuard busy(*this);
+
 	// Base-wide scan: let the OS read ahead instead of faulting one page at
 	// a time (the mapping is otherwise in MADV_RANDOM mode).
 	ScanModeGuard scan(*this);

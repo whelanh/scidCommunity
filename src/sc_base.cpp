@@ -90,6 +90,11 @@ UI_res_t sc_base_close(scidBaseT* dbase, UI_handle_t ti, int, const char**) {
 	if (dbase->getFileName() == "<clipbase>") {
 		return UI_Result(ti, ERROR_BadArg, "Cannot close clipbase.");
 	}
+	if (dbase->isBusy()) {
+		return UI_Result(
+		    ti, ERROR_BadArg,
+		    "Cannot close a database while a tree operation is running.");
+	}
 	dbase->Close();
 	return UI_Result(ti, OK);
 }

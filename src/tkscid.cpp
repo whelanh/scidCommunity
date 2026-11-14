@@ -8531,10 +8531,10 @@ int sc_tree_cacheinfo(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
     return UI_Result(ti, OK, 0);
 
   UI_List res(4);
-  res.push_back(static_cast<unsigned long long>(base->treeCache.MaxEntries()));
-  res.push_back(static_cast<unsigned long long>(base->treeCache.Count()));
-  res.push_back(static_cast<unsigned long long>(base->treeCache.MaxBytes()));
-  res.push_back(static_cast<unsigned long long>(base->treeCache.UsedBytes()));
+  res.push_back(static_cast<long long>(base->treeCache.MaxEntries()));
+  res.push_back(static_cast<long long>(base->treeCache.Count()));
+  res.push_back(static_cast<long long>(base->treeCache.MaxBytes()));
+  res.push_back(static_cast<long long>(base->treeCache.UsedBytes()));
   return UI_Result(ti, OK, res);
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~

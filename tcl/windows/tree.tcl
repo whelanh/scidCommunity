@@ -42,6 +42,7 @@ proc ::tree::make { { baseNumber -1 } {locked 0} } {
   set tree(locked$baseNumber) $locked
   set tree(base$baseNumber) $baseNumber
   set tree(status$baseNumber) ""
+  set tree(stale$baseNumber) 0
   set tree(order$baseNumber) "frequency"
   set tree(allgames$baseNumber) 1
   set tree(movedepth$baseNumber) $tree(moveDepth)
@@ -196,6 +197,9 @@ proc ::tree::hideCtxtMenu { baseNumber } {
 }
 ################################################################################
 proc ::tree::selectCallback { baseNumber move } {
+  # After a cancelled refresh the displayed moves belong to the previous
+  # position; acting on them would play a move of the wrong position.
+  if {$::tree(stale$baseNumber)} { return }
   if {$::tree(autorefresh$baseNumber)} {
     tree::select $move $baseNumber
   }
@@ -475,17 +479,22 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   if { $err } {
     set tree(status$baseNumber) ""
     if { $::errorCode == $::ERROR::UserCancel } {
-      # Keep the previous tree rather than replacing it with an error.
+      # Keep the previous tree rather than replacing it with an error, but
+      # mark it stale: it describes the previous position and its moves must
+      # not be applied to the current one.
+      set tree(stale$baseNumber) 1
       # The cancelled refresh will not evaluate the training reply, so drop
-      # the flag instead of letting an unrelated position consume it.
+      # the flags instead of letting an unrelated position consume them.
       if { $::tree::trainingReplyBase == $baseNumber } {
         set ::tree::trainingReplyBase 0
+        set ::tree::userMovePending 0
       }
       ::tree::restoreButtons $w
       return
     }
     set moves [ERROR::getErrorMsg]
   }
+  set tree(stale$baseNumber) 0
   catch {$w.f.tl itemconfigure 0 -foreground darkBlue}
 
   # Extract evaluation NAGs from games and populate the mask or autoNag array

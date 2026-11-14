@@ -185,6 +185,33 @@ TEST_F(Test_TreeStat, reports_counts_and_totals) {
 		EXPECT_GE(stats[i - 1].freq[0], stats[i].freq[0]);
 }
 
+TEST_F(Test_TreeStat, base_is_busy_while_progress_is_reported) {
+	setThreads("4");
+	const Position pos = positionFromSan("");
+	const std::string name = dbase_.newFilter();
+	HFilter filter = dbase_.getFilter(name);
+	ASSERT_TRUE(SearchPos(pos).setFilter(dbase_, filter, Progress()));
+
+	struct Probe : Progress::Impl {
+		const scidBaseT* db;
+		bool* seen;
+		Probe(const scidBaseT* d, bool* s) : db(d), seen(s) {}
+		bool report(size_t, size_t, const char*) override {
+			if (db->isBusy()) *seen = true;
+			return true;
+		}
+	};
+	bool seen = false;
+	{
+		Progress progress(new Probe(&dbase_, &seen));
+		const auto res = dbase_.getTreeStat(filter, 1, progress);
+		EXPECT_FALSE(res.empty());
+	}
+	EXPECT_TRUE(seen);
+	EXPECT_FALSE(dbase_.isBusy());
+	setThreads(nullptr);
+}
+
 TEST_F(Test_TreeStat, cancellation_reports_and_returns_empty) {
 	struct Cancel : Progress::Impl {
 		bool report(size_t, size_t, const char*) override { return false; }

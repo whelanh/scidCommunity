@@ -28,6 +28,7 @@
 #include "namebase.h"
 #include "tree.h"
 #include <array>
+#include <atomic>
 #include <map>
 #include <cassert>
 #include <filesystem>
@@ -179,6 +180,14 @@ struct scidBaseT {
 	void setSequentialAccess(bool sequential) const {
 		if (codec_) codec_->setSequentialAccess(sequential);
 	}
+
+	/// True while a base-wide operation that pumps UI events is running.
+	/// Such an operation must not have the base closed underneath it.
+	bool isBusy() const {
+		return busy_.load(std::memory_order_relaxed) != 0;
+	}
+	void beginBusy() const { busy_.fetch_add(1, std::memory_order_relaxed); }
+	void endBusy() const { busy_.fetch_sub(1, std::memory_order_relaxed); }
 
 	errorT importGames(const scidBaseT* srcBase, const HFilter& filter,
 	                   const Progress& progress);
@@ -468,6 +477,8 @@ private:
 	// Declared by pointer so this widely included header stays free of the
 	// platform headers the lock needs.
 	std::unique_ptr<filelock::Lock> lock_;
+	// Number of base-wide operations pumping UI events (see BusyGuard).
+	mutable std::atomic<unsigned> busy_{0};
 
 private:
 	errorT openHelper(ICodecDatabase::Codec dbtype, fileModeT mode,
@@ -523,6 +534,22 @@ private:
 		}
 		return std::make_pair(OK, nCorrections);
 	}
+};
+
+/// Marks a base as busy for the duration of an operation that pumps UI
+/// events (tree search, move statistics). The UI refuses to close a busy
+/// base, because the callbacks can dispatch a close while workers still use
+/// the index and the game file.
+class BusyGuard {
+	const scidBaseT& base_;
+
+public:
+	explicit BusyGuard(const scidBaseT& base) : base_(base) {
+		base_.beginBusy();
+	}
+	~BusyGuard() { base_.endBusy(); }
+	BusyGuard(const BusyGuard&) = delete;
+	BusyGuard& operator=(const BusyGuard&) = delete;
 };
 
 /// Temporarily mark the game file as sequentially accessed for a base-wide

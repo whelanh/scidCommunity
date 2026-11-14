@@ -152,6 +152,9 @@ public:
 	/// position in their main line.
 	bool setFilter(scidBaseT const& base, HFilter& filter,
 	               const Progress& progress) const {
+		// progress.report pumps UI events; keep the base from being closed
+		// while the workers use it.
+		BusyGuard busy(base);
 		if (toMove_ == BLACK)
 			return SetFilter<BLACK>(base, filter, progress);
 
