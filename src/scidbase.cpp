@@ -216,6 +216,12 @@ errorT scidBaseT::beginTransaction() {
 	if (err_open_) // Allow modifications only if open returned OK
 		return err_open_;
 
+	// A base-wide scan pumps UI events; a write dispatched from the callback
+	// (import, copy games, save, rename...) would resize the index and game
+	// file while the workers are reading them.
+	if (isBusy())
+		return ERROR_Busy;
+
 	if (isReadOnly())
 		return ERROR_FileReadOnly;
 

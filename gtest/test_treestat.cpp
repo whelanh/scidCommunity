@@ -185,6 +185,16 @@ TEST_F(Test_TreeStat, reports_counts_and_totals) {
 		EXPECT_GE(stats[i - 1].freq[0], stats[i].freq[0]);
 }
 
+TEST_F(Test_TreeStat, writes_are_refused_while_busy) {
+	dbase_.beginBusy();
+	std::string errMsg;
+	EXPECT_EQ(ERROR_Busy,
+	          dbase_.importGames(ICodecDatabase::PGN, "/nonexistent/bench.pgn",
+	                             Progress(), errMsg));
+	dbase_.endBusy();
+	EXPECT_FALSE(dbase_.isBusy());
+}
+
 TEST_F(Test_TreeStat, base_is_busy_while_progress_is_reported) {
 	setThreads("4");
 	const Position pos = positionFromSan("");

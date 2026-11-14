@@ -453,6 +453,19 @@ proc ::tree::restoreButtons {w} {
     $w.buttons.stop configure -state disabled -command {}
 }
 
+# Clear the training flags a cancelled refresh would otherwise leave behind.
+# Only the base that owns the pending state is touched: userMovePending is
+# set on a human move, before trainingReplyBase is known, so it is cleared
+# for the training base independently of it.
+proc ::tree::cancelPendingTraining { baseNumber } {
+  if { $::tree::trainingReplyBase == $baseNumber } {
+    set ::tree::trainingReplyBase 0
+  }
+  if { $::tree::trainingBase != 0 && $baseNumber == $::tree::trainingBase } {
+    set ::tree::userMovePending 0
+  }
+}
+
 proc ::tree::refresh { { baseNumber "" }} {
     if { $baseNumber != "" && [lsearch -exact [sc_base list] $baseNumber] == -1 } {
         displayLines $baseNumber "Error: the file is not open."
@@ -485,15 +498,7 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
       set tree(stale$baseNumber) 1
       # The cancelled refresh will not evaluate the training reply, so drop
       # the flags instead of letting an unrelated position consume them.
-      # userMovePending is set on a human move, before trainingReplyBase is
-      # known, so it is cleared for the training base independently.
-      if { $::tree::trainingReplyBase == $baseNumber } {
-        set ::tree::trainingReplyBase 0
-      }
-      if { $::tree::trainingBase != 0 &&
-           $baseNumber == $::tree::trainingBase } {
-        set ::tree::userMovePending 0
-      }
+      ::tree::cancelPendingTraining $baseNumber
       ::tree::restoreButtons $w
       $w.buttons.graph configure -state disabled
       return

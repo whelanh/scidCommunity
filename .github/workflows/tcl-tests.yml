@@ -188,6 +188,11 @@ jobs:
       - name: Update download
         run: tclsh tests/tcl/updatecheck_download.tcl
 
+      # Cancelling a Tree refresh clears a pending training move on the
+      # training base, but not when a different base is cancelled.
+      - name: Tree cancel clears a pending training move
+        run: tclsh tests/tcl/tree_cancel_training.tcl
+
   tk-dialogs:
     name: dialogs under Tk
     runs-on: ubuntu-latest
