@@ -812,8 +812,11 @@ namespace eval sergame {
     }
     # getGame returns the whole game, past the position on the board as well. A
     # Play picked up from move 20 of a finished game takes its times from move
-    # 20, so the scan stops at the plies the board has played.
-    set limit [llength [sc_pos moves]]
+    # 20, so the scan stops at the plies the board has played. That count comes
+    # from pgnOffset, which is the moves played before this position plus one -
+    # NOT from `sc_pos moves`, which lists the legal moves of the position.
+    set limit [expr {[sc_pos pgnOffset] - 1}]
+    if {$limit < 0} { set limit 0 }
     # Which side's move ends on an odd ply: White, unless the game starts from a
     # position with Black to move.
     set firstSide "white"

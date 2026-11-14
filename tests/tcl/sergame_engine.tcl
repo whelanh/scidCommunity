@@ -186,6 +186,7 @@ foreach {all key} [regexp -all -inline {\$::tr\((\w+)\)} $sergameSrc] {
 # -------------------------------------------------------------- the fake game --
 namespace eval fake {
     variable moves {}        ;# SAN of the line on the board
+    variable ply 0           ;# plies played before the position on the board
     variable cursor 0
     variable side white
     variable prevSAN ""
@@ -363,6 +364,7 @@ proc fake::reset {} {
     array set ::fake::goes {}
     array unset ::fake::stopmove
     set ::fake::moves {}
+    set ::fake::ply 0
     set ::fake::cursor 0
     set ::fake::side white
     set ::fake::prevSAN ""
@@ -431,11 +433,20 @@ proc sc_pos {sub args} {
             }
         }
         side        { return $::fake::side }
+        pgnOffset {
+            # The plies played before the position on the board, plus one, as
+            # GetPgnOffset counts them: the scan of the game's recorded times
+            # stops here. (A comment between switch arms is a list element, not a
+            # comment - it has to live inside an arm.)
+            return [expr {$::fake::ply + 1}]
+        }
         moves {
-            # The moves from the game's start to the position on the board: what
-            # a scan of the game's recorded times has to stop at. (A comment
-            # between switch arms is a list element, not a comment.)
-            return $::fake::moves
+            # The LEGAL moves of the position, which is what the real command
+            # returns. A long list, twice the plies a fixture has played: a scan
+            # that mistook it for a ply count would run into the game's future.
+            return [lrange {a3 a4 b3 b4 c3 c4 d3 d4 e3 e4 f3 f4 g3 g4 h3 h4
+                Na3 Nc3 Nf3 Nh3 Ra2 Rb1 Bb2 Bc4 Bd2 Be2 Be3 Bf4 Bg2 Bh3 Bg5 Bh6
+                Qd2 Qd3 Ke2 Kf1 Kh1 Kg1 Kf2 Kf3 Kg3 Kh3 Kh2 Qe1 Qc1 Qb1 Qa1} 0 end]
         }
         fen         {
             # The fake board does not move pieces; it names a position. At the
@@ -1939,7 +1950,7 @@ proc seedGame {} {
         {0 0 {fen2} {} {[%clk 0:04:59]} e5 e7e5}
     }
     # The board is on the second move, so the scan of the game stops there.
-    set ::fake::moves {e4 e5}
+    set ::fake::ply 2
 }
 
 gameDefaults
@@ -1995,7 +2006,7 @@ set ::fake::gamePositions {
     {0 0 {start} {} {} {} {}}
     {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
 }
-set ::fake::moves {e4}
+set ::fake::ply 1
 ::sergame::play
 quiet
 checkEq "a half-recorded game keeps the mover's time and starts the other side" \
@@ -2026,8 +2037,10 @@ proc laterGame {} {
         {0 0 {fen3} {} {[%clk 0:08:01]} Nf3 g1f3}
         {0 0 {fen4} {} {[%clk 0:07:01]} Nc6 b8c6}
     }
-    # The board is on 1...e5: the two moves after it are the game's future.
-    set ::fake::moves {e4 e5}
+    # The board is on 1...e5: the two moves after it are the game's future. The
+    # position has 44 legal moves, twice the plies played: a scan that read the
+    # legal-move list as a ply count would run on into the game's future.
+    set ::fake::ply 2
 }
 gameDefaults
 fake::reset
@@ -2049,7 +2062,7 @@ set ::fake::gamePositions {
     {0 0 {fen1} {} {[%clk 0:09:00]} e5 e7e5}
     {0 0 {fen2} {} {[%clk 0:08:30]} Nf3 g1f3}
 }
-set ::fake::moves {e5 Nf3}
+set ::fake::ply 2
 ::sergame::play
 quiet
 checkEq "a game that starts with Black to move gives Black's time to Black's clock" \
