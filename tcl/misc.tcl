@@ -389,15 +389,31 @@ proc progressWindow { title text {button ""} {command "progressBarCancel"} } {
   progressBarSet $w.f.c 401 21
 }
 
-proc progressBarSet { canvasname width height } {
+# scale < 1 lets the operation fill only the first part of the bar, so that a
+# following one (see progressBarContinue) completes the same bar.
+proc progressBarSet { canvasname width height {scale 1.0} } {
   update idletasks
   set ::progressCanvas(name) $canvasname
   set ::progressCanvas(w) $width
   set ::progressCanvas(h) $height
   set ::progressCanvas(cancel) 0
+  set ::progressCanvas(offset) 0.0
+  set ::progressCanvas(scale) $scale
   set ::progressCanvas(init) 1
   set ::progressCanvas(time) [clock milliseconds]
-  after idle { unset ::progressCanvas(init) }
+  after idle { unset -nocomplain ::progressCanvas(init) }
+}
+
+# Let a second operation fill the rest of the bar, from offset to the end,
+# keeping the start time and a pending cancel request.
+proc progressBarContinue { canvasname width height offset } {
+  set ::progressCanvas(name) $canvasname
+  set ::progressCanvas(w) $width
+  set ::progressCanvas(h) $height
+  set ::progressCanvas(offset) $offset
+  set ::progressCanvas(scale) [expr {1.0 - $offset}]
+  set ::progressCanvas(init) 1
+  after idle { unset -nocomplain ::progressCanvas(init) }
 }
 
 proc progressBarCancel { } {
@@ -419,6 +435,7 @@ proc progressCallBack {done {msg ""}} {
     return -code break
   }
 
+  set done [expr {$::progressCanvas(offset) + $done * $::progressCanvas(scale)}]
   set elapsed [expr { [clock milliseconds] - $::progressCanvas(time) }]
   if {$done != 0} {
     set estimated [expr { int($elapsed / double($done) / 1000) }]
