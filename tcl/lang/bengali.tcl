@@ -1875,6 +1875,10 @@ translate b SpecificOpening {নির্দিষ্ট খোলার}
 translate b StartNewGame {নতুন গেম শুরু করুন}
 translate b Opening {খোলা হচ্ছে}
 translate b StartFromCurrentPosition {বর্তমান অবস্থান থেকে শুরু করুন}
+translate b ShowDigitalClock {Show digital clock}
+translate b ClockFromGame {Start from the time recorded in the game}
+translate b ClocksContinued {Clocks continued from the game}
+translate b ClocksRestarted {Clocks restarted}
 translate b FixedDepth {স্থির গভীরতা}
 translate b Nodes {নোড}
 translate b Depth {গভীরতা}

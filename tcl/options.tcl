@@ -367,6 +367,10 @@ set ::sergame::movetime 0
 set ::sergame::nodes 10000
 set ::sergame::ponder 0
 set ::sergame::useChessClock 1
+# The game window's display and clock preferences: a digital clock face, and a
+# Play started mid-position continuing from the game's own recorded times.
+set ::sergame::showDigitalClock 1
+set ::sergame::clockFromGame 1
 set ::sergame::showblunder 1
 set ::sergame::showblundervalue 1
 set ::sergame::showevaluation 1
@@ -773,6 +777,7 @@ proc options.write {} {
           ::utils::sound::moveSoundOnly ::utils::sound::soundTheme \
           ::sergame::threshold ::sergame::isLimitedAnalysisTime ::sergame::showblunder ::sergame::showblundervalue \
           ::sergame::showevaluation ::sergame::analysisTime ::sergame::useChessClock ::sergame::storeEval \
+          ::sergame::showDigitalClock ::sergame::clockFromGame \
           ::sergame::storeEvalAll \
           ::sergame::chosenOpening ::sergame::chosenEngine ::sergame::useBook ::sergame::bookToUse \
           ::sergame::startFromCurrent ::sergame::coachIsWatching ::sergame::timeMode \

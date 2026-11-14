@@ -1947,6 +1947,10 @@ translate D SpecificOpening {Ausgewählte Eröffnung}
 translate D StartNewGame {Neue Partie}
 translate D Opening {Eröffnung}
 translate D StartFromCurrentPosition {Von aktueller Position starten}
+translate D ShowDigitalClock {Show digital clock}
+translate D ClockFromGame {Start from the time recorded in the game}
+translate D ClocksContinued {Clocks continued from the game}
+translate D ClocksRestarted {Clocks restarted}
 translate D FixedDepth {Feste Tiefe}
 translate D Nodes {Knoten} 
 translate D Depth {Tiefe}

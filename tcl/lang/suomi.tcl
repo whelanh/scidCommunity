@@ -1928,6 +1928,10 @@ translate U SpecificOpening {Tietty avaus}
 translate U StartNewGame {Aloita uusi peli}
 translate U Opening {Avaus}
 translate U StartFromCurrentPosition {Aloita tämänhetkisestä asemasta}
+translate U ShowDigitalClock {Show digital clock}
+translate U ClockFromGame {Start from the time recorded in the game}
+translate U ClocksContinued {Clocks continued from the game}
+translate U ClocksRestarted {Clocks restarted}
 translate U FixedDepth {Kiinteä syvyys}
 translate U Nodes {Noodit}
 translate U Depth {Syvyys}

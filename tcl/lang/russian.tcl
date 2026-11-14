@@ -1899,6 +1899,10 @@ translate R SpecificOpening {Особый дебют}
 translate R StartNewGame {Начать новую партию}
 translate R Opening {Дебют}
 translate R StartFromCurrentPosition {Начать с текущей позиции}
+translate R ShowDigitalClock {Show digital clock}
+translate R ClockFromGame {Start from the time recorded in the game}
+translate R ClocksContinued {Clocks continued from the game}
+translate R ClocksRestarted {Clocks restarted}
 translate R FixedDepth {Фиксированная глубина}
 translate R Nodes {Узлы}
 translate R Depth {Глубина}

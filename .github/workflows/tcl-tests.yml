@@ -263,6 +263,13 @@ jobs:
       - name: Play versus Engine engine layer
         run: xvfb-run -a wish tests/tcl/sergame_engine.tcl
 
+      # The window's reader-facing choices: the two clock faces in one row with
+      # a minimum size that holds them, the face the preference asks for, and
+      # where a mid-game Play takes its clocks from. Separate from the engine
+      # harness because this one runs ::gameclock for real.
+      - name: Play versus Engine window
+        run: xvfb-run -a wish tests/tcl/sergame_ui.tcl
+
       - name: Finish Game dialog
         run: xvfb-run -a wish tests/tcl/finish_game_dialog.tcl
 

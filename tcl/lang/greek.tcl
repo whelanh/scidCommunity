@@ -1924,6 +1924,10 @@ translate G SpecificOpening {Συγκεκριμένο άνοιγμα}
 translate G StartNewGame {Έναρξη νέας παρτίδας}
 translate G Opening {Άνοιγμα}
 translate G StartFromCurrentPosition {Εκκίνηση από την τρέχουσα θέση}
+translate G ShowDigitalClock {Show digital clock}
+translate G ClockFromGame {Start from the time recorded in the game}
+translate G ClocksContinued {Clocks continued from the game}
+translate G ClocksRestarted {Clocks restarted}
 translate G FixedDepth {Σταθερού βάθους}
 translate G Nodes {Κόμβοι}
 translate G Depth {Βάθος}

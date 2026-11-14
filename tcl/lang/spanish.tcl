@@ -1950,6 +1950,10 @@ translate S SpecificOpening {Apertura específica}
 translate S StartNewGame {Empezar partida nueva}
 translate S Opening {Abriendo}
 translate S StartFromCurrentPosition {Empezar desde la posición actual}
+translate S ShowDigitalClock {Show digital clock}
+translate S ClockFromGame {Start from the time recorded in the game}
+translate S ClocksContinued {Clocks continued from the game}
+translate S ClocksRestarted {Clocks restarted}
 translate S FixedDepth {Profundidad fija}
 translate S Nodes {Nodos} 
 translate S Depth {Profundidad}

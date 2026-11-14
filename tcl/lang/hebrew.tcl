@@ -1876,6 +1876,10 @@ translate V SpecificOpening {פתיחה ספציפית}
 translate V StartNewGame {התחל משחק חדש}
 translate V Opening {פְּתִיחָה}
 translate V StartFromCurrentPosition {התחל מהמיקום הנוכחי}
+translate V ShowDigitalClock {Show digital clock}
+translate V ClockFromGame {Start from the time recorded in the game}
+translate V ClocksContinued {Clocks continued from the game}
+translate V ClocksRestarted {Clocks restarted}
 translate V FixedDepth {עומק קבוע}
 translate V Nodes {צמתים}
 translate V Depth {עוֹמֶק}

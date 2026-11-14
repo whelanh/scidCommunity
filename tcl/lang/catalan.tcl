@@ -1919,6 +1919,10 @@ translate K SpecificOpening {Obertura específica}
 translate K StartNewGame {Iniciar nova partida}
 translate K Opening {Obrint}
 translate K StartFromCurrentPosition {Iniciar des de la posició actual}
+translate K ShowDigitalClock {Show digital clock}
+translate K ClockFromGame {Start from the time recorded in the game}
+translate K ClocksContinued {Clocks continued from the game}
+translate K ClocksRestarted {Clocks restarted}
 translate K FixedDepth {Profunditat fixe}
 translate K Nodes {Nodes} 
 translate K Depth {Profunditat}

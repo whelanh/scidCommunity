@@ -576,28 +576,239 @@ proc format_clock_from_seconds {seconds} {
 ################################################################################
 namespace eval gameclock {
   array set data {}
+  # What a face draws, chosen by the caller that builds it:
+  #   both    -- the analog face with a small digital text inside it. This is
+  #              what every caller drew before the choice existed, so it is the
+  #              default and FICS and Tactics (which pass no mode) keep it.
+  #   analog  -- the face alone: hands and numerals, no text.
+  #   digital -- the text alone: no hands, no numerals, no face ring.
+  variable modes {both analog digital}
   ################################################################################
-  proc new { parent n { size 100 } {showfall 0} } {
+  proc new { parent n { size 100 } {showfall 0} {display both} { fill 0 } } {
     global ::gameclock::data
+    if {[lsearch -exact $::gameclock::modes $display] < 0} { set display "both" }
+    set data(fill$n) $fill
+    set data(display$n) $display
+    # The older flag kept its meaning: is a digital text drawn at all?
+    set data(digital$n) [expr {$display ne "analog"}]
     set data(showfallen$n) $showfall
     set data(id$n) ""
     if {$parent != ""} {
       set data(id$n) $parent.clock$n
-      canvas $data(id$n) -height $size -width $size
-      pack $data(id$n) -side top -anchor center
-      for {set i 1} {$i<13} {incr i} {
-        set a [expr {$i/6.*acos(-1)}]
-        set x [expr { ($size/2 + (($size-15)/2)*sin($a) ) }]
-        set y [expr { ($size/2 - (($size-15)/2)*cos($a) ) }]
-        $data(id$n) create text $x $y -text $i -tag clock$n
+      if {$fill} {
+        # A filling face asks for nothing: it takes the space its parent gives it
+        # and draws to that size. A canvas that requests a size it then redraws
+        # from feeds its own request back into the layout, which is how a row of
+        # two faces ended up with one of them squeezed out.
+        canvas $data(id$n) -height 1 -width 1 -highlightthickness 0
+        pack $data(id$n) -side top -fill both -expand 1
+        bind $data(id$n) <Configure> [list ::gameclock::redraw $n]
+      } else {
+        # A digital face is text, not a circle: it is given the width the text
+        # needs instead of the square of the analog face.
+        if {$display eq "digital"} {
+          canvas $data(id$n) -height $size -width [::gameclock::digitalWidth $size]
+        } else {
+          canvas $data(id$n) -height $size -width $size
+        }
+        pack $data(id$n) -side top -anchor center
       }
+      ::gameclock::face $n
       bind $data(id$n) <Button-1> "::gameclock::toggleClock $n"
     }
     set data(fg$n) "black"
     set data(running$n) 0
-    set data(digital$n) 1
     ::gameclock::reset $n
     ::gameclock::draw $n
+  }
+  ################################################################################
+  # The size a face draws to: what its canvas actually has, and the size it asked
+  # for until it has been mapped. Drawing from the real size is what lets a face
+  # fill a frame without requesting geometry of its own.
+  proc sizeOf { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return {0 0} }
+    set w [winfo width $data(id$n)]
+    set h [winfo height $data(id$n)]
+    if {$w < 2 || $h < 2} {
+      set w [$data(id$n) cget -width]
+      set h [$data(id$n) cget -height]
+    }
+    return [list $w $h]
+  }
+
+  # Draw the face again at the size it has now. What a filling face does on every
+  # <Configure>; it changes no geometry, so it cannot drive the layout.
+  proc redraw { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return }
+    $data(id$n) delete all
+    ::gameclock::face $n
+    ::gameclock::draw $n
+  }
+
+  ################################################################################
+  # The width a face is drawn at: 0 when it has no canvas at all. A caller that
+  # sizes a window to its clocks reads this instead of a geometry pass.
+  proc width { n } {
+    global ::gameclock::data
+    if {![info exists data(id$n)] || ![winfo exists $data(id$n)]} { return 0 }
+    return [$data(id$n) cget -width]
+  }
+  ################################################################################
+  # The width a digital face needs for an h:mm:ss text at this height.
+  proc digitalWidth { size } {
+    return [expr {int($size * 1.9)}]
+  }
+
+  # The family the face is set in: Helvetica where it exists (Windows maps it to
+  # Arial), otherwise the first sans family this Tk has. A family that is not
+  # installed silently falls back to a default size, which looks exactly like a
+  # size bug.
+  variable famCache
+  proc family {} {
+    variable famCache
+    if {[info exists famCache]} { return $famCache }
+    set have [font families]
+    foreach cand {Helvetica Arial "Liberation Sans" "DejaVu Sans" "Nimbus Sans" Sans} {
+      if {[lsearch -exact $have $cand] >= 0} { set famCache $cand ; return $cand }
+    }
+    # A Tk with only the bitmap "fixed" family (no Xft) cannot scale any text at
+    # all: name no family there, so the face keeps the platform default it always
+    # had instead of pinning a bitmap font.
+    set famCache ""
+    if {[llength $have] > 1} { set famCache [lindex $have 0] }
+    return $famCache
+  }
+
+  # Everything about a dial that both the numerals and the hands need: its centre,
+  # the square it inscribes, the radius the numerals sit on, and the numeral size.
+  # The radius leaves room for a glyph, since a numeral centred on it extends half
+  # a glyph beyond it.
+  proc dialGeometry { n w h } {
+    set size [expr {$w < $h ? $w : $h}]
+    set cx [expr {$w / 2}]
+    set cy [expr {$h / 2}]
+    set nf [expr {int($size * 0.10)}]
+    if {$nf < 8} { set nf 8 }
+    # The allowance is the glyph's LINE SPACE, not its point size: a 30-point
+    # numeral is about 47 pixels tall, and measuring by the point size put 12 and
+    # 6 six pixels outside the canvas.
+    set lh [font metrics [::gameclock::faceFont $n $nf] -linespace]
+    set r [expr {($size - $lh) / 2.0 - 2}]
+    return [list $cx $cy $size $r $nf $lh]
+  }
+
+  # Where the dial's own h:mm text sits: midway between the hub and the numerals,
+  # so the gap to the centre equals the gap to the numerals. Both gaps are measured
+  # edge to edge, which is why the text's own height cancels out of the answer.
+  proc innerOffset { r lh } {
+    return [expr {($r - $lh / 2.0) / 2}]
+  }
+
+  # The point size of the dial's own h:mm text, inside the face: it scales with
+  # the dial, at about the size the numerals are set.
+  proc innerFont { size } {
+    set fs [expr {int($size * 0.11)}]
+    if {$fs < 8} { set fs 8 }
+    return $fs
+  }
+
+  # A font description for a face: family, size, weight - with no family named
+  # when this Tk has none to name.
+  proc faceFont { n size {weight ""} } {
+    set fam [::gameclock::family]
+    if {$fam eq ""} {
+      # No family to name: a named font carries the size and weight on its own.
+      # A bare list would be read as "family size", which is the wrong way round.
+      set name "gameclockFace${size}x${weight}"
+      if {[lsearch -exact [font names] $name] < 0} {
+        if {$weight eq ""} {
+          font create $name -size $size
+        } else {
+          font create $name -size $size -weight $weight
+        }
+      }
+      return $name
+    }
+    if {$weight eq ""} { return [list $fam $size] }
+    return [list $fam $size $weight]
+  }
+
+  # The size the h:mm:ss text is DRAWN at in a w x h box, which is also the number
+  # the layout scores an arrangement by. digitalFont is where it starts; the font's
+  # own advance widths decide the rest, because an em estimate cannot know them and
+  # a narrow frame clipped the digits left and right.
+  proc digitalTypeSize {n w h} {
+    set fs [::gameclock::digitalFont $w $h]
+    set fnt [::gameclock::faceFont $n $fs bold]
+    set need [font measure $fnt "0:00:00"]
+    if {$need > 0 && $need > $w} {
+      set fs [expr {int($fs * $w * 0.94 / $need)}]
+      if {$fs < 6} { set fs 6 }
+    }
+    return $fs
+  }
+
+  # The point size of the h:mm:ss text in a w x h box before the measuring pass:
+  # most of the box, not a quarter of it. Seven glyphs at about 0.54em need the width; the height allows
+  # about 0.62 of it before the digits touch the frame; the smaller wins, because
+  # a filling face can be wide and short or narrow and tall.
+  proc digitalFont { w h } {
+    set byh [expr {$h > 32 ? int($h * 0.62) : 8}]
+    set byw [expr {int($w / 3.8)}]
+    set fs [expr {$byh < $byw ? $byh : $byw}]
+    if {$fs < 8} { set fs 8 }
+    return $fs
+  }
+  # The items a face carries when nothing is running: the numerals of the
+  # analog face, and nothing at all for a digital one.
+  proc face { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return }
+    $data(id$n) delete clock$n
+    if {$data(display$n) eq "digital"} { return }
+    lassign [::gameclock::sizeOf $n] w h
+    # The dial is the largest square the box holds, CENTRED in it: laying the
+    # numerals out around (size/2, size/2) was right only while a canvas was
+    # exactly size x size, and a filling canvas is usually wider than tall.
+    lassign [::gameclock::dialGeometry $n $w $h] cx cy size r nf lh
+    # The numerals scale with the dial: drawn in the default font they stayed at
+    # about ten pixels however big the face was, which is not legible.
+    # The numerals take the face's own foreground. setColor already stores the
+    # contrasting colour there (white hands on the black clock, black on the
+    # white one), so using it is what makes black numerals impossible.
+    if {![info exists data(fg$n)]} { set data(fg$n) "black" }
+    set ncolor $data(fg$n)
+    for {set i 1} {$i<13} {incr i} {
+      set a [expr {$i/6.*acos(-1)}]
+      set x [expr {$cx + $r * sin($a)}]
+      set y [expr {$cy - $r * cos($a)}]
+      $data(id$n) create text $x $y -text $i -tag clock$n -fill $ncolor \
+          -font [::gameclock::faceFont $n $nf]
+    }
+  }
+  ################################################################################
+  # Change the look of an existing face and redraw it: the game window's
+  # preference can change while the game is running.
+  proc setDisplay { n display } {
+    global ::gameclock::data
+    if {[lsearch -exact $::gameclock::modes $display] < 0} { return }
+    set data(display$n) $display
+    set data(digital$n) [expr {$display ne "analog"}]
+    if {![winfo exists $data(id$n)]} { return }
+    if {$data(fill$n)} {
+      # A filling face owns no size: redraw at the one it has.
+      ::gameclock::redraw $n
+      return
+    }
+    set h [$data(id$n) cget -height]
+    if {$display eq "digital"} {
+      $data(id$n) configure -width [::gameclock::digitalWidth $h]
+    } else {
+      $data(id$n) configure -width $h
+    }
+    ::gameclock::redraw $n
   }
   ################################################################################
   proc draw { n } {
@@ -616,15 +827,8 @@ namespace eval gameclock {
     if {! [winfo exists $data(id$n)]} { return }
     $data(id$n) delete aig$n
 
-    set w [$data(id$n) cget -width ]
-    set h [$data(id$n) cget -height ]
-    set cx [ expr $w / 2 ]
-    set cy [ expr $h / 2 ]
-    if {$w < $h} {
-      set size [ expr $w - 15 ]
-    } else  {
-      set size [ expr $h - 15 ]
-    }
+    lassign [::gameclock::sizeOf $n] w h
+    lassign [::gameclock::dialGeometry $n $w $h] cx cy size r nf lh
 
     if { $sec > 0 && $data(showfallen$n) } {
       set color "red"
@@ -634,18 +838,40 @@ namespace eval gameclock {
 
     if {$color == "white"} {set fg "black"} else {set fg "white"}
 
-    foreach divisor {30 1800 21600} length "[expr $size/2 * 0.8] [expr $size/2 * 0.7] [expr $size/2 * 0.4]" \
-        width {1 2 3} {
-          set angle [expr {$sec * acos(-1) / $divisor}]
-          set x [expr {$cx + $length * sin($angle)}]
-          set y [expr {$cy - $length * cos($angle)}]
-          $data(id$n) create line $cx $cy $x $y -width $width -tags aig$n -fill $color
-        }
-    # draw a digital clock
-    if {$data(digital$n)} {
+    if {![info exists data(display$n)]} {
+      # A clock created before the display choice existed draws as it always did.
+      set data(display$n) "both"
+    }
+    set display $data(display$n)
+    if {$display ne "digital"} {
+      foreach divisor {30 1800 21600} length "[expr $size/2 * 0.8] [expr $size/2 * 0.7] [expr $size/2 * 0.4]" \
+          width {1 2 3} {
+            set angle [expr {$sec * acos(-1) / $divisor}]
+            set x [expr {$cx + $length * sin($angle)}]
+            set y [expr {$cy - $length * cos($angle)}]
+            $data(id$n) create line $cx $cy $x $y -width $width -tags aig$n -fill $color
+      }
+    }
+    if {$display eq "digital"} {
+      # The whole face is the clock: h:mm:ss, set large enough to read from the
+      # board, with the hours recomputed here -- `h` above is the canvas height.
+      set eh [format "%d" [expr abs($sec) / 60 / 60] ]
+      set em [format "%02d" [expr (abs($sec) / 60) % 60] ]
+      set es [format "%02d" [expr abs($sec) % 60] ]
+      set fs [::gameclock::digitalTypeSize $n $w $h]
+      set fnt [::gameclock::faceFont $n $fs bold]
+      $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
+          -font $fnt -tag aig$n
+    } elseif {$display eq "both"} {
+      # The dial's own time, inside it. It scales with the face like the numerals
+      # do: drawn in the default font it stayed at ten pixels however large the
+      # clock grew.
       set m [format "%02d" [expr abs($sec) / 60] ]
       set s [format "%02d" [expr abs($sec) % 60] ]
-      $data(id$n) create text $cx [expr $cy + $size/4 ] -text "$m:$s" -anchor center -fill $color -tag aig$n
+      set iy [expr {$cy + [::gameclock::innerOffset $r $lh]}]
+      $data(id$n) create text $cx $iy -text "$m:$s" \
+          -anchor center -fill $color \
+          -font [::gameclock::faceFont $n [::gameclock::innerFont $size]] -tag aig$n
     }
   }
   ################################################################################
@@ -756,7 +982,10 @@ namespace eval gameclock {
       set bg "black"
     }
     set ::gameclock::data(fg$n) $fg
+    if {![winfo exists $::gameclock::data(id$n)]} { return }
     $::gameclock::data(id$n) configure -background $bg
+    # A digital face has neither numerals nor hands; itemconfigure on an empty
+    # tag list is what colours what is there.
     $::gameclock::data(id$n) itemconfigure clock$n -fill $fg
     $::gameclock::data(id$n) itemconfigure aig$n -fill $fg
   }

@@ -1903,6 +1903,10 @@ translate W SpecificOpening {Specifik öppning}
 translate W StartNewGame {Starta nytt parti}
 translate W Opening {Öppning}
 translate W StartFromCurrentPosition {Starta från den aktuella positionen}
+translate W ShowDigitalClock {Show digital clock}
+translate W ClockFromGame {Start from the time recorded in the game}
+translate W ClocksContinued {Clocks continued from the game}
+translate W ClocksRestarted {Clocks restarted}
 translate W FixedDepth {Fast sökdjup}
 translate W Nodes {Noder} 
 translate W Depth {Sökdjup}

@@ -2829,6 +2829,10 @@ translate Y Opening {Opening}
 translate Y RandomLevel {Random level}
 # ====== TODO To be translated ======
 translate Y StartFromCurrentPosition {Start from current position}
+translate Y ShowDigitalClock {Show digital clock}
+translate Y ClockFromGame {Start from the time recorded in the game}
+translate Y ClocksContinued {Clocks continued from the game}
+translate Y ClocksRestarted {Clocks restarted}
 # ====== TODO To be translated ======
 translate Y FixedDepth {Fixed depth}
 # ====== TODO To be translated ======
