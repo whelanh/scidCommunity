@@ -28,7 +28,9 @@
 #include "stored.h"
 #include <algorithm>
 #include <cctype>
+#include <cstring>
 #include <filesystem>
+#include <string_view>
 #include <unordered_map>
 
 std::pair<ICodecDatabase*, errorT>
@@ -422,6 +424,13 @@ uint64_t nameHashOfUnknownId(idNumberT id) {
 	return hash;
 }
 
+// Combine the two player hashes. Used to limit the Link lookup to games
+// between the same two players, which avoids decoding the whole database
+// merely to find an updated version of one game.
+uint64_t combinePlayers(uint64_t whiteHash, uint64_t blackHash) {
+	return (whiteHash ^ blackHash) * kFnvPrime;
+}
+
 // Combine the individual fingerprint components into a single 64-bit key.
 uint64_t combineFingerprint(uint64_t whiteHash, uint64_t blackHash, dateT date,
                             resultT result) {
@@ -432,17 +441,97 @@ uint64_t combineFingerprint(uint64_t whiteHash, uint64_t blackHash, dateT date,
 	return key;
 }
 
+// True if a comment contains nothing but the clock/eval annotations that the
+// online sites write automatically. Any text the user added makes the copy
+// worth keeping rather than overwriting.
+bool isAutomaticComment(std::string_view comment) {
+	auto skipSpace = [&](size_t pos) {
+		while (pos < comment.size() &&
+		       std::isspace(static_cast<unsigned char>(comment[pos])))
+			++pos;
+		return pos;
+	};
+
+	size_t pos = 0;
+	while (true) {
+		pos = skipSpace(pos);
+		if (pos == comment.size())
+			return true;
+		if (comment[pos] != '[')
+			return false;
+
+		auto end = comment.find(']', pos + 1);
+		if (end == std::string_view::npos)
+			return false;
+		std::string_view token = comment.substr(pos + 1, end - pos - 1);
+		if (token.rfind("%clk ", 0) != 0 &&
+		    token.rfind("%eval ", 0) != 0 &&
+		    token.rfind("%emt ", 0) != 0)
+			return false;
+		pos = end + 1;
+	}
+}
+
+// True if the old copy has analysis the user would not want replaced: a
+// variation, a NAG, a coloured square/arrow, or a text comment. Clock and
+// evaluation comments written by chess.com/Lichess do not count.
+bool gameHasUserAnnotations(Game& game, const IndexEntry& ie) {
+	if (ie.GetVariationsFlag() || ie.GetNagsFlag())
+		return true;
+	for (const auto& pos : gamepos::collectPositions(game)) {
+		if (pos.RAVdepth > 0 || !pos.NAGs.empty())
+			return true;
+		if (!isAutomaticComment(pos.comment))
+			return true;
+	}
+	return false;
+}
+
+// Return the stable identity of an online game: the chess.com Link tag, or
+// the Lichess game URL stored in the Site tag. Empty for local PGNs.
+std::string gameLink(const Game& game) {
+	// Only a chess.com game URL. A generic Link tag could be a page shared by
+	// many games, which must not make them overwrite one another.
+	if (const char* link = game.FindExtraTag("Link"); link) {
+		if (std::strncmp(link, "https://www.chess.com/game/", 27) == 0 ||
+		    std::strncmp(link, "http://www.chess.com/game/", 26) == 0) {
+			return link;
+		}
+	}
+
+	// Only a Lichess game URL, not a study/tournament URL shared by many
+	// games. Lichess game ids are eight alphanumeric characters.
+	const char* site = game.GetSiteStr();
+	const char* lichess = nullptr;
+	if (site && std::strncmp(site, "https://lichess.org/", 20) == 0)
+		lichess = site + 20;
+	else if (site && std::strncmp(site, "http://lichess.org/", 19) == 0)
+		lichess = site + 19;
+	if (lichess && std::strlen(lichess) == 8 &&
+	    std::strspn(lichess,
+	                "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") ==
+	        8) {
+		return site;
+	}
+	return {};
+}
+
 } // namespace
 
 errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
                                    const char* filename,
                                    const Progress& progress,
                                    std::string& errorMsg, gamenumT& nImported,
-                                   gamenumT& nSkipped) {
+                                   gamenumT& nSkipped, gamenumT& nUpdated,
+                                   std::vector<gamenumT>& updatedGames) {
 	ASSERT(dbtype == ICodecDatabase::PGN);
 	nImported = 0;
 	nSkipped = 0;
+	nUpdated = 0;
+	updatedGames.clear();
 	gamenumT nRestored = 0;
+	gamenumT nKeptAnnotated = 0;
+	uint64_t nChess960Errors = 0;
 
 	if (auto errModify = beginTransaction())
 		return errModify;
@@ -473,6 +562,12 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 
 	std::vector<DupKey> index;
 	index.reserve(numGames);
+	// Existing games grouped by their two players. A game that changed while
+	// it was being played (or whose Result was corrected) keeps the same
+	// chess.com Link but may fail the exact fingerprint; this bucket lets us
+	// find it without decoding the whole database.
+	std::unordered_map<uint64_t, std::vector<gamenumT>> byPlayers;
+	byPlayers.reserve(std::min<size_t>(numGames, 100000));
 	for (gamenumT g = 0; g < numGames; ++g) {
 		if ((g & 0x1FFF) == 0 && !progress.report(g, numGames)) {
 			endTransaction();
@@ -489,6 +584,7 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 		                        : nameHashOfUnknownId(blackId);
 		index.push_back(
 		    {combineFingerprint(wh, bl, ie->GetDate(), ie->GetResult()), g});
+		byPlayers[combinePlayers(wh, bl)].push_back(g);
 	}
 	std::sort(index.begin(), index.end());
 
@@ -496,6 +592,7 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 	// duplicates within the batch itself.
 	struct BatchEntry {
 		std::vector<std::string> moves;
+		gamenumT gnum;
 	};
 	std::unordered_map<uint64_t, std::vector<BatchEntry>> batch;
 
@@ -529,16 +626,110 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 		return res;
 	};
 
+	// Links of games added during this run, so a later record for the same
+	// online game can update the earlier one instead of adding a second copy.
+	std::unordered_map<std::string, gamenumT> batchLinks;
+
+	// Find an existing game with the same online identity. Only the games
+	// between the same two players are decoded, which keeps this cheap.
+	auto findLinked = [&](const std::string& link, uint64_t playersKey) {
+		auto bucket = byPlayers.find(playersKey);
+		if (bucket == byPlayers.end())
+			return INVALID_GAMEID;
+
+		gamenumT deletedMatch = INVALID_GAMEID;
+		for (auto gnum : bucket->second) {
+			const IndexEntry* ie = getIndexEntry(gnum);
+			Game existing;
+			if (getGame(*ie, existing) != OK)
+				continue;
+			if (gameLink(existing) != link)
+				continue;
+			if (!ie->GetDeleteFlag())
+				return gnum;
+			if (deletedMatch == INVALID_GAMEID)
+				deletedMatch = gnum;
+		}
+		return deletedMatch;
+	};
+
+	// Replace an existing game with the newly parsed version, preserving the
+	// user's flags and any extra tags the new PGN no longer carries. Comments
+	// and variations belong to the old move graph and are replaced with the
+	// incoming game's annotations (normally just the online clock comments).
+	auto updateExisting = [&](gamenumT gnum, Game& game, uint64_t whiteHash,
+	                          uint64_t blackHash, uint64_t& updatedKey) {
+		updatedKey = 0;
+		const IndexEntry oldIE = *getIndexEntry(gnum);
+		char flags[IndexEntry::IDX_NUM_FLAGS + 1] = {};
+		oldIE.GetFlagStr(flags, "WBMENPTKQ!?U123456");
+		game.SetScidFlags(flags);
+
+		Game oldGame;
+		if (getGame(oldIE, oldGame) == OK) {
+			if (gameHasUserAnnotations(oldGame, oldIE)) {
+				// Keep the user's analysis. Do not add a second copy either:
+				// the existing game already represents this Link.
+				if (oldIE.GetDeleteFlag()) {
+					IndexEntry restored = oldIE;
+					restored.SetDeleteFlag(false);
+					if (auto err = codec_->saveIndexEntry(restored, gnum))
+						return err;
+					idx->replaceEntry(restored, gnum);
+				}
+				++nKeptAnnotated;
+				++nSkipped;
+				return OK;
+			}
+			for (const auto& tag : oldGame.GetExtraTags()) {
+				if (game.FindExtraTag(tag.first.c_str()) == nullptr)
+					game.addTag(tag.first, tag.second);
+			}
+		}
+
+		std::vector<byte> buf;
+		auto [ie, tags] = game.Encode(buf);
+		const uint64_t newKey = combineFingerprint(
+		    whiteHash, blackHash, ie.GetDate(), ie.GetResult());
+		if (oldIE.GetNumHalfMoves() > ie.GetNumHalfMoves()) {
+			// Never replace a longer game with a shorter one. If the longer
+			// copy was marked deleted, bring it back instead.
+			if (oldIE.GetDeleteFlag()) {
+				IndexEntry restored = oldIE;
+				restored.SetDeleteFlag(false);
+				if (auto err = codec_->saveIndexEntry(restored, gnum))
+					return err;
+				idx->replaceEntry(restored, gnum);
+			}
+			++nSkipped;
+			return OK;
+		}
+
+		ie.SetDeleteFlag(false);
+		auto err = codec_->saveGame(ie, tags, {buf.data(), buf.size()}, gnum);
+		if (err == ERROR_CodecChess960) {
+			++nChess960Errors;
+			return OK;
+		}
+		if (err != OK)
+			return err;
+		++nUpdated;
+		updatedGames.push_back(gnum);
+		updatedKey = newKey;
+		return OK;
+	};
+
 	CodecPgn pgn;
 	auto res = pgn.open(filename, FMODE_ReadOnly);
 	if (res == OK) {
-		uint64_t nChess960Errors = 0;
 		std::vector<byte> buf;
 		res = CodecPgn::parseGames(progress, pgn, [&](Game& game) {
+			const uint64_t whiteHash = nameNormHash(game.GetWhiteStr());
+			const uint64_t blackHash = nameNormHash(game.GetBlackStr());
 			const uint64_t key = combineFingerprint(
-			    nameNormHash(game.GetWhiteStr()),
-			    nameNormHash(game.GetBlackStr()), game.GetDate(),
-			    game.GetResult());
+			    whiteHash, blackHash, game.GetDate(), game.GetResult());
+			const uint64_t playersKey = combinePlayers(whiteHash, blackHash);
+			const std::string link = gameLink(game);
 
 			auto moves = game.mainLineUCI();
 
@@ -570,6 +761,52 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 				return OK;
 			}
 
+			// The online game may already exist with different moves/result
+			// (e.g. a daily game imported while it was still in progress).
+			// Update that copy instead of adding another one.
+			if (!link.empty()) {
+				gamenumT linked = INVALID_GAMEID;
+				auto batchLink = batchLinks.find(link);
+				if (batchLink != batchLinks.end())
+					linked = batchLink->second;
+				else
+					linked = findLinked(link, playersKey);
+
+				if (linked != INVALID_GAMEID) {
+					uint64_t updatedKey = 0;
+					auto err = updateExisting(linked, game, whiteHash, blackHash,
+					                          updatedKey);
+					if (err != OK)
+						return err;
+					if (updatedKey != 0) {
+						// Subsequent games in this batch must compare against
+						// the updated moves/Result, not the replaced ones.
+						auto pos = std::lower_bound(
+						    index.begin(), index.end(), DupKey{updatedKey, linked},
+						    [](const DupKey& a, const DupKey& b) {
+							    return a.key < b.key;
+						    });
+						index.insert(pos, {updatedKey, linked});
+
+						for (auto it = batch.begin(); it != batch.end();) {
+							auto& entries = it->second;
+							entries.erase(
+							    std::remove_if(entries.begin(), entries.end(),
+							                   [&](const BatchEntry& entry) {
+								                   return entry.gnum == linked;
+							                   }),
+							    entries.end());
+							if (entries.empty())
+								it = batch.erase(it);
+							else
+								++it;
+						}
+						batch[updatedKey].push_back({moves, linked});
+					}
+					return OK;
+				}
+			}
+
 			buf.clear();
 			auto [ie, tags] = game.Encode(buf);
 			auto err = codec_->addGame(ie, tags, {buf.data(), buf.size()});
@@ -581,10 +818,19 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 				return err;
 
 			++nImported;
-			batch[key].push_back({std::move(moves)});
+			if (!link.empty())
+				batchLinks[link] = this->numGames() - 1;
+			batch[key].push_back(
+			    {std::move(moves), this->numGames() - 1});
 			return OK;
 		});
 		errorMsg = pgn.parseErrors();
+		if (nKeptAnnotated) {
+			errorMsg.append("Kept ");
+			errorMsg.append(std::to_string(nKeptAnnotated));
+			errorMsg.append(
+			    " annotated existing game(s) unchanged instead of overwriting them.\n");
+		}
 		if (nRestored) {
 			errorMsg.append("Restored ");
 			errorMsg.append(std::to_string(nRestored));

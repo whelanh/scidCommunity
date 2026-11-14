@@ -693,6 +693,7 @@ translate E ImportStripComments {Strip comments from imported games}
 translate E Clipbase {Clipbase}
 translate E NoWritableDatabases {There are no writable databases open. Please open or create a database first.}
 translate E Imported {Imported}
+translate E Updated {Updated}
 translate E Into {into}
 translate E Skipped {Skipped}
 translate E DuplicateGame {duplicate game}
