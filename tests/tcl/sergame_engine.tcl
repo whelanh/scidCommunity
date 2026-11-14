@@ -186,7 +186,7 @@ foreach {all key} [regexp -all -inline {\$::tr\((\w+)\)} $sergameSrc] {
 # -------------------------------------------------------------- the fake game --
 namespace eval fake {
     variable moves {}        ;# SAN of the line on the board
-    variable ply 0           ;# plies played before the position on the board
+    variable offset 0        ;# sc_pos pgnOffset for the position on the board
     variable cursor 0
     variable side white
     variable prevSAN ""
@@ -364,7 +364,7 @@ proc fake::reset {} {
     array set ::fake::goes {}
     array unset ::fake::stopmove
     set ::fake::moves {}
-    set ::fake::ply 0
+    set ::fake::offset 0
     set ::fake::cursor 0
     set ::fake::side white
     set ::fake::prevSAN ""
@@ -434,11 +434,11 @@ proc sc_pos {sub args} {
         }
         side        { return $::fake::side }
         pgnOffset {
-            # The plies played before the position on the board, plus one, as
-            # GetPgnOffset counts them: the scan of the game's recorded times
-            # stops here. (A comment between switch arms is a list element, not a
-            # comment - it has to live inside an arm.)
-            return [expr {$::fake::ply + 1}]
+            # What GetPgnOffset answers for the position on the board: one more
+            # than the PGN nodes before it, variation nodes included. The scan of
+            # the game's recorded times stops here. (A comment between switch arms
+            # is a list element, not a comment - it has to live inside an arm.)
+            return $::fake::offset
         }
         moves {
             # The LEGAL moves of the position, which is what the real command
@@ -1944,13 +1944,16 @@ puts "\nwhere the clocks start: the game's own times, or the configured control"
 # leaves it: each move's comment carries [%clk] with the time its mover had
 # left. The clocks continue from those times; the game window says so.
 proc seedGame {} {
+    # A real FEN: its side field is "w", and it is the field the scan reads to
+    # know which colour the odd plies belong to.
     set ::fake::gamePositions {
-        {0 0 {start} {} {} {} {}}
+        {0 0 {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} {} {} {} {}}
         {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
         {0 0 {fen2} {} {[%clk 0:04:59]} e5 e7e5}
     }
-    # The board is on the second move, so the scan of the game stops there.
-    set ::fake::ply 2
+    # The board is on the second move, so the scan of the game stops there:
+    # pgnOffset is one more than the nodes before it.
+    set ::fake::offset 3
 }
 
 gameDefaults
@@ -2003,10 +2006,10 @@ gameDefaults
 fake::reset
 set ::sergame::startFromCurrent 1
 set ::fake::gamePositions {
-    {0 0 {start} {} {} {} {}}
+    {0 0 {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} {} {} {} {}}
     {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
 }
-set ::fake::ply 1
+set ::fake::offset 2
 ::sergame::play
 quiet
 checkEq "a half-recorded game keeps the mover's time and starts the other side" \
@@ -2031,16 +2034,16 @@ endGame
 # still start.
 proc laterGame {} {
     set ::fake::gamePositions {
-        {0 0 {start} {} {} {} {}}
+        {0 0 {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} {} {} {} {}}
         {0 0 {fen1} {} {[%clk 0:08:09]} e4 e2e4}
         {0 0 {fen2} {} {[%clk 0:07:59]} e5 e7e5}
         {0 0 {fen3} {} {[%clk 0:08:01]} Nf3 g1f3}
         {0 0 {fen4} {} {[%clk 0:07:01]} Nc6 b8c6}
     }
     # The board is on 1...e5: the two moves after it are the game's future. The
-    # position has 44 legal moves, twice the plies played: a scan that read the
-    # legal-move list as a ply count would run on into the game's future.
-    set ::fake::ply 2
+    # position has 44 legal moves, many more than the two plies played: a scan
+    # that read the legal-move list as a ply count would run into that future.
+    set ::fake::offset 3
 }
 gameDefaults
 fake::reset
@@ -2050,6 +2053,28 @@ laterGame
 quiet
 checkEq "the clocks come from the position Play starts at, not from the end of the game" \
     [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 489 479]
+endGame
+
+# A variation hanging off an earlier move: pgnOffset counts its node, so the stop
+# has to be counted the same way. Counting mainline plies drifts by the number of
+# variation nodes before the board, and the scan then reads a time the board has
+# not reached.
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+set ::fake::gamePositions {
+    {0 0 {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} {} {} {} {}}
+    {0 0 {fen1} {} {[%clk 0:08:00]} e4 e2e4}
+    {1 0 {fenVar} {} {[%clk 0:07:00]} d4 d2d4}
+    {0 0 {fen2} {} {[%clk 0:06:40]} e5 e7e5}
+    {0 0 {fen3} {} {[%clk 0:06:20]} Nf3 g1f3}
+}
+# The board is on 2.Nf3; one variation node sits before it, so pgnOffset is 5.
+set ::fake::offset 5
+::sergame::play
+quiet
+checkEq "a variation before the board does not shift the scan's stop" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 380 400]
 endGame
 
 # A game that starts from a position with Black to move: the first recorded move
@@ -2062,7 +2087,7 @@ set ::fake::gamePositions {
     {0 0 {fen1} {} {[%clk 0:09:00]} e5 e7e5}
     {0 0 {fen2} {} {[%clk 0:08:30]} Nf3 g1f3}
 }
-set ::fake::ply 2
+set ::fake::offset 3
 ::sergame::play
 quiet
 checkEq "a game that starts with Black to move gives Black's time to Black's clock" \

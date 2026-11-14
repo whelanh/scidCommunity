@@ -812,22 +812,28 @@ namespace eval sergame {
     }
     # getGame returns the whole game, past the position on the board as well. A
     # Play picked up from move 20 of a finished game takes its times from move
-    # 20, so the scan stops at the plies the board has played. That count comes
-    # from pgnOffset, which is the moves played before this position plus one -
-    # NOT from `sc_pos moves`, which lists the legal moves of the position.
-    set limit [expr {[sc_pos pgnOffset] - 1}]
-    if {$limit < 0} { set limit 0 }
+    # 20, so the scan stops at the position the board is on.
+    #
+    # That stop is counted in the same units pgnOffset counts, because pgnOffset
+    # is one more than the moves before this position and the list getGame
+    # returns is in the same PGN order - variation nodes included. Counting them
+    # the other way (the mainline plies) drifts as soon as a variation sits
+    # before the board. `sc_pos moves` would not do at all: it is the position's
+    # legal moves, not a count of anything played.
+    set limit [sc_pos pgnOffset]
     # Which side's move ends on an odd ply: White, unless the game starts from a
-    # position with Black to move.
-    set firstSide "white"
+    # position with Black to move. A FEN names that side "w" or "b".
+    set firstSide "w"
     if {[llength $game] && [llength [split [lindex [lindex $game 0] 2]]] > 1} {
-      set firstSide [lindex [split [lindex $game 0] 2] 1]
+      set firstSide [string index [lindex [split [lindex [lindex $game 0] 2]] 1] 0]
     }
     set wsec ""
     set bsec ""
+    set node 0
     set ply 0
     foreach pos $game {
-      if {$ply > $limit} { break }
+      if {$node >= $limit} { break }
+      incr node
       if {[lindex $pos 0] != 0 || [lindex $pos 1] != 0} { continue }
       set comment [lindex $pos 4]
       if {[regexp {\[%clk\s*([0-9]+):([0-9]+):([0-9]+)\s*\]} $comment -> h m s]} {
@@ -837,7 +843,7 @@ namespace eval sergame {
         scan $m %d m
         scan $s %d s
         set sec [expr {$h * 3600 + $m * 60 + $s}]
-        set white [expr {($ply % 2 == 1) == ($firstSide eq "white")}]
+        set white [expr {($ply % 2 == 1) == ($firstSide eq "w")}]
         if {$white} { set wsec $sec } elseif {$ply > 0} { set bsec $sec }
       }
       incr ply
