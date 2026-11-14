@@ -189,16 +189,20 @@ TEST_F(Test_TreeStat, cancellation_reports_and_returns_empty) {
 	struct Cancel : Progress::Impl {
 		bool report(size_t, size_t, const char*) override { return false; }
 	};
-	setThreads("4");
-	const Position pos = positionFromSan("");
-	const std::string name = dbase_.newFilter();
-	HFilter filter = dbase_.getFilter(name);
-	ASSERT_TRUE(SearchPos(pos).setFilter(dbase_, filter, Progress()));
+	// Cover both the parallel path and the serial path (small bases, or an
+	// explicit single worker); both must service cancellation.
+	for (const char* threads : {"4", "1"}) {
+		setThreads(threads);
+		const Position pos = positionFromSan("");
+		const std::string name = dbase_.newFilter();
+		HFilter filter = dbase_.getFilter(name);
+		ASSERT_TRUE(SearchPos(pos).setFilter(dbase_, filter, Progress()));
 
-	bool cancelled = false;
-	Progress progress(new Cancel());
-	const auto res = dbase_.getTreeStat(filter, 1, progress, &cancelled);
-	EXPECT_TRUE(cancelled);
-	EXPECT_TRUE(res.empty());
+		bool cancelled = false;
+		Progress progress(new Cancel());
+		const auto res = dbase_.getTreeStat(filter, 1, progress, &cancelled);
+		EXPECT_TRUE(cancelled) << threads << " thread(s)";
+		EXPECT_TRUE(res.empty()) << threads << " thread(s)";
+	}
 	setThreads(nullptr);
 }
