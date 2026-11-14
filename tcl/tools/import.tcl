@@ -252,8 +252,32 @@ proc importPgnFile {{base} {fnames ""}} {
 #   (cancelled, no writable database, or import failure). It never raises.
 #
 #   If <strip> is non-empty ("comments", "commentsnonag", "variations" or
-#   "all"), the newly imported games have that content stripped as part of the
-#   import, using the same routine as the Game List batch strip feature.
+#   "all"), the newly imported and updated games have that content stripped as
+#   part of the import, using the same routine as the Game List batch strip
+#   feature.
+
+# importStripGames:
+#   Build the "game_0" list to pass to ::game::StripSelected: appended games
+#   plus games that an import updated in place, without duplicates.
+proc importStripGames {numBefore numAfter updatedGames} {
+  set seen [dict create]
+  set games {}
+  for {set g [expr {$numBefore + 1}]} {$g <= $numAfter} {incr g} {
+    set item "${g}_0"
+    if {![dict exists $seen $item]} {
+      dict set seen $item 1
+      lappend games $item
+    }
+  }
+  foreach g $updatedGames {
+    set item "${g}_0"
+    if {![dict exists $seen $item]} {
+      dict set seen $item 1
+      lappend games $item
+    }
+  }
+  return $games
+}
 proc importPgnNoDup {pgnfile title {strip ""}} {
   set bases {}
   foreach i [sc_base list] {
@@ -329,13 +353,11 @@ proc importPgnNoDup {pgnfile title {strip ""}} {
   set nSkipped  [lindex $result 1]
   set nUpdated  [lindex $result 2]
   set warnings  [lindex $result 3]
+  set updatedGames [lindex $result 4]
 
-  if {$strip ne "" && $nImported > 0} {
+  if {$strip ne "" && ($nImported > 0 || $nUpdated > 0)} {
     set numAfter [sc_base numGames $base]
-    set games {}
-    for {set g [expr {$numBefore + 1}]} {$g <= $numAfter} {incr g} {
-      lappend games "${g}_0"
-    }
+    set games [importStripGames $numBefore $numAfter $updatedGames]
     ::game::StripSelected $base $games $strip 0
   }
 

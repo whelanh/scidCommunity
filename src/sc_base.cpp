@@ -548,10 +548,10 @@ UI_res_t sc_base_import(scidBaseT* dbase, UI_handle_t ti, int argc,
  * adding a second copy.
  *
  * Return:
- *   On success, returns a list of four elements: the number of games
+ *   On success, returns a list of five elements: the number of games
  *   imported, the number of games skipped as duplicates, the number of
- *   existing games updated, and a string containing import errors or
- *   warnings.
+ *   existing games updated, a string containing import errors or warnings,
+ *   and the 1-based numbers of the updated games.
  */
 UI_res_t sc_base_import_nodup(scidBaseT* dbase, UI_handle_t ti, int argc,
                               const char** argv) {
@@ -562,18 +562,24 @@ UI_res_t sc_base_import_nodup(scidBaseT* dbase, UI_handle_t ti, int argc,
 	gamenumT nImported = 0;
 	gamenumT nSkipped = 0;
 	gamenumT nUpdated = 0;
+	std::vector<gamenumT> updatedGames;
 	std::string errorMsg;
 	const auto filename = argv[3];
-	if (auto err = dbase->importGamesNoDup(ICodecDatabase::PGN, filename,
-	                                       UI_CreateProgress(ti), errorMsg,
-	                                       nImported, nSkipped, nUpdated))
+	if (auto err = dbase->importGamesNoDup(
+	        ICodecDatabase::PGN, filename, UI_CreateProgress(ti), errorMsg,
+	        nImported, nSkipped, nUpdated, updatedGames))
 		return UI_Result(ti, err);
 
-	UI_List res(4);
+	UI_List updatedList(updatedGames.size());
+	for (auto gnum : updatedGames)
+		updatedList.push_back(gnum + 1);
+
+	UI_List res(5);
 	res.push_back(nImported);
 	res.push_back(nSkipped);
 	res.push_back(nUpdated);
 	res.push_back(errorMsg);
+	res.push_back(updatedList);
 	return UI_Result(ti, OK, res);
 }
 

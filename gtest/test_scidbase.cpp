@@ -410,10 +410,11 @@ TEST_F(Test_Scidbase, importGamesNoDup_skipsAndRestoresDeletedGames) {
 		gamenumT nImported = 0;
 		gamenumT nSkipped = 0;
 		gamenumT nUpdated = 0;
+		std::vector<gamenumT> updatedGames;
 		std::string errorMsg;
 		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
 		                                  errorMsg, nImported, nSkipped,
-		                                  nUpdated);
+		                                  nUpdated, updatedGames);
 		return std::make_tuple(err, nImported, nSkipped, nUpdated);
 	};
 
@@ -472,10 +473,22 @@ TEST_F(Test_Scidbase, importGamesNoDup_updatesByOnlineLink) {
 	    "[Link \"https://www.chess.com/game/daily/123456\"]\n"
 	    "\n"
 	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0\n");
+	const auto noLinkPgn = std::string(
+	    "[Event \"Live Chess\"]\n"
+	    "[Site \"Chess.com\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"1-0\"]\n"
+	    "\n"
+	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0\n");
 	const auto shortPath = std::filesystem::temp_directory_path() /
 	                       "scid_import_nodup_link_short.pgn";
 	const auto longPath = std::filesystem::temp_directory_path() /
 	                      "scid_import_nodup_link_long.pgn";
+	const auto noLinkPath = std::filesystem::temp_directory_path() /
+	                        "scid_import_nodup_link_none.pgn";
 	{
 		std::ofstream out(shortPath);
 		out << shortPgn;
@@ -484,6 +497,10 @@ TEST_F(Test_Scidbase, importGamesNoDup_updatesByOnlineLink) {
 		std::ofstream out(longPath);
 		out << longPgn;
 	}
+	{
+		std::ofstream out(noLinkPath);
+		out << noLinkPgn;
+	}
 
 	scidBaseT dbase;
 	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
@@ -491,10 +508,11 @@ TEST_F(Test_Scidbase, importGamesNoDup_updatesByOnlineLink) {
 		gamenumT nImported = 0;
 		gamenumT nSkipped = 0;
 		gamenumT nUpdated = 0;
+		std::vector<gamenumT> updatedGames;
 		std::string errorMsg;
 		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
 		                                  errorMsg, nImported, nSkipped,
-		                                  nUpdated);
+		                                  nUpdated, updatedGames);
 		return std::make_tuple(err, nImported, nSkipped, nUpdated);
 	};
 
@@ -531,6 +549,84 @@ TEST_F(Test_Scidbase, importGamesNoDup_updatesByOnlineLink) {
 	EXPECT_EQ(1u, nSkipped);
 	EXPECT_EQ(0u, nUpdated);
 	ASSERT_EQ(1u, dbase.numGames());
+
+	// A later copy without a Link must still match the updated fingerprint.
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(noLinkPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	EXPECT_EQ(0u, nImported);
+	EXPECT_EQ(1u, nSkipped);
+	EXPECT_EQ(0u, nUpdated);
+	ASSERT_EQ(1u, dbase.numGames());
+
+	std::filesystem::remove(shortPath);
+	std::filesystem::remove(longPath);
+	std::filesystem::remove(noLinkPath);
+}
+
+TEST_F(Test_Scidbase, importGamesNoDup_updatesByLichessUrl) {
+	const auto shortPgn = std::string(
+	    "[Event \"rated blitz game\"]\n"
+	    "[Site \"https://lichess.org/abcd1234\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"*\"]\n"
+	    "\n"
+	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 *\n");
+	const auto longPgn = std::string(
+	    "[Event \"rated blitz game\"]\n"
+	    "[Site \"https://lichess.org/abcd1234\"]\n"
+	    "[Date \"2026.11.10\"]\n"
+	    "[Round \"-\"]\n"
+	    "[White \"alice\"]\n"
+	    "[Black \"bob\"]\n"
+	    "[Result \"1-0\"]\n"
+	    "\n"
+	    "1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 1-0\n");
+	const auto shortPath = std::filesystem::temp_directory_path() /
+	                       "scid_import_nodup_lichess_short.pgn";
+	const auto longPath = std::filesystem::temp_directory_path() /
+	                      "scid_import_nodup_lichess_long.pgn";
+	{
+		std::ofstream out(shortPath);
+		out << shortPgn;
+	}
+	{
+		std::ofstream out(longPath);
+		out << longPgn;
+	}
+
+	scidBaseT dbase;
+	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
+	const auto import = [&](const char* file) {
+		gamenumT nImported = 0;
+		gamenumT nSkipped = 0;
+		gamenumT nUpdated = 0;
+		std::vector<gamenumT> updatedGames;
+		std::string errorMsg;
+		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
+		                                  errorMsg, nImported, nSkipped,
+		                                  nUpdated, updatedGames);
+		return std::make_tuple(err, nImported, nSkipped, nUpdated);
+	};
+
+	auto [err, nImported, nSkipped, nUpdated] =
+	    import(shortPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	ASSERT_EQ(1u, nImported);
+	const gamenumT shortHalfMoves =
+	    dbase.getIndexEntry(0)->GetNumHalfMoves();
+
+	std::tie(err, nImported, nSkipped, nUpdated) =
+	    import(longPath.string().c_str());
+	ASSERT_EQ(OK, err);
+	EXPECT_EQ(0u, nImported);
+	EXPECT_EQ(0u, nSkipped);
+	EXPECT_EQ(1u, nUpdated);
+	ASSERT_EQ(1u, dbase.numGames());
+	EXPECT_GT(dbase.getIndexEntry(0)->GetNumHalfMoves(), shortHalfMoves);
 
 	std::filesystem::remove(shortPath);
 	std::filesystem::remove(longPath);
@@ -578,10 +674,11 @@ TEST_F(Test_Scidbase, importGamesNoDup_keepsAnnotatedCopy) {
 		gamenumT nImported = 0;
 		gamenumT nSkipped = 0;
 		gamenumT nUpdated = 0;
+		std::vector<gamenumT> updatedGames;
 		std::string errorMsg;
 		auto err = dbase.importGamesNoDup(ICodecDatabase::PGN, file, {},
 		                                  errorMsg, nImported, nSkipped,
-		                                  nUpdated);
+		                                  nUpdated, updatedGames);
 		return std::make_tuple(err, nImported, nSkipped, nUpdated);
 	};
 

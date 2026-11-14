@@ -21,6 +21,11 @@ proc check {label cond {detail ""}} {
     }
 }
 
+source [file join [file dirname [info script]] .. .. tcl tools import.tcl]
+set stripGames [lsort [importStripGames 5 7 {6 10}]]
+check "the strip list covers appended and updated games once" \
+    [expr {$stripGames eq [lsort {6_0 7_0 10_0}]}] "stripGames=$stripGames"
+
 set stem [file join /tmp "scid_import_link_[pid]"]
 set shortPgn "${stem}_short.pgn"
 set longPgn "${stem}_long.pgn"
@@ -48,8 +53,9 @@ close $fd
 set h [sc_base create SCID5 "${stem}_db"]
 lassign [sc_base import_nodup $h $shortPgn] ni ns nu
 check "the short game is imported once" [expr {$ni == 1 && $ns == 0 && $nu == 0}] "imported=$ni skipped=$ns updated=$nu"
-lassign [sc_base import_nodup $h $longPgn] ni ns nu
+lassign [sc_base import_nodup $h $longPgn] ni ns nu warnings updatedGames
 check "the finished game updates the short copy" [expr {$ni == 0 && $ns == 0 && $nu == 1}] "imported=$ni skipped=$ns updated=$nu"
+check "the update reports its game number" [expr {$updatedGames eq "1"}] "updatedGames=$updatedGames"
 check "there is still one game" [expr {[sc_base numGames $h] == 1}] "games=[sc_base numGames $h]"
 sc_game load 1
 set pgn [sc_game pgn -tags 0]

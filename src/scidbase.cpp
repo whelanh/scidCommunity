@@ -503,10 +503,10 @@ std::string gameLink(const Game& game) {
 	// games. Lichess game ids are eight alphanumeric characters.
 	const char* site = game.GetSiteStr();
 	const char* lichess = nullptr;
-	if (site && std::strncmp(site, "https://lichess.org/", 19) == 0)
+	if (site && std::strncmp(site, "https://lichess.org/", 20) == 0)
+		lichess = site + 20;
+	else if (site && std::strncmp(site, "http://lichess.org/", 19) == 0)
 		lichess = site + 19;
-	else if (site && std::strncmp(site, "http://lichess.org/", 18) == 0)
-		lichess = site + 18;
 	if (lichess && std::strlen(lichess) == 8 &&
 	    std::strspn(lichess,
 	                "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") ==
@@ -522,11 +522,13 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
                                    const char* filename,
                                    const Progress& progress,
                                    std::string& errorMsg, gamenumT& nImported,
-                                   gamenumT& nSkipped, gamenumT& nUpdated) {
+                                   gamenumT& nSkipped, gamenumT& nUpdated,
+                                   std::vector<gamenumT>& updatedGames) {
 	ASSERT(dbtype == ICodecDatabase::PGN);
 	nImported = 0;
 	nSkipped = 0;
 	nUpdated = 0;
+	updatedGames.clear();
 	gamenumT nRestored = 0;
 	gamenumT nKeptAnnotated = 0;
 	uint64_t nChess960Errors = 0;
@@ -590,6 +592,7 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 	// duplicates within the batch itself.
 	struct BatchEntry {
 		std::vector<std::string> moves;
+		gamenumT gnum;
 	};
 	std::unordered_map<uint64_t, std::vector<BatchEntry>> batch;
 
@@ -654,7 +657,9 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 	// user's flags and any extra tags the new PGN no longer carries. Comments
 	// and variations belong to the old move graph and are replaced with the
 	// incoming game's annotations (normally just the online clock comments).
-	auto updateExisting = [&](gamenumT gnum, Game& game) {
+	auto updateExisting = [&](gamenumT gnum, Game& game, uint64_t whiteHash,
+	                          uint64_t blackHash, uint64_t& updatedKey) {
+		updatedKey = 0;
 		const IndexEntry oldIE = *getIndexEntry(gnum);
 		char flags[IndexEntry::IDX_NUM_FLAGS + 1] = {};
 		oldIE.GetFlagStr(flags, "WBMENPTKQ!?U123456");
@@ -684,6 +689,8 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 
 		std::vector<byte> buf;
 		auto [ie, tags] = game.Encode(buf);
+		const uint64_t newKey = combineFingerprint(
+		    whiteHash, blackHash, ie.GetDate(), ie.GetResult());
 		if (oldIE.GetNumHalfMoves() > ie.GetNumHalfMoves()) {
 			// Never replace a longer game with a shorter one. If the longer
 			// copy was marked deleted, bring it back instead.
@@ -707,6 +714,8 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 		if (err != OK)
 			return err;
 		++nUpdated;
+		updatedGames.push_back(gnum);
+		updatedKey = newKey;
 		return OK;
 	};
 
@@ -763,8 +772,39 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 				else
 					linked = findLinked(link, playersKey);
 
-				if (linked != INVALID_GAMEID)
-					return updateExisting(linked, game);
+				if (linked != INVALID_GAMEID) {
+					uint64_t updatedKey = 0;
+					auto err = updateExisting(linked, game, whiteHash, blackHash,
+					                          updatedKey);
+					if (err != OK)
+						return err;
+					if (updatedKey != 0) {
+						// Subsequent games in this batch must compare against
+						// the updated moves/Result, not the replaced ones.
+						auto pos = std::lower_bound(
+						    index.begin(), index.end(), DupKey{updatedKey, linked},
+						    [](const DupKey& a, const DupKey& b) {
+							    return a.key < b.key;
+						    });
+						index.insert(pos, {updatedKey, linked});
+
+						for (auto it = batch.begin(); it != batch.end();) {
+							auto& entries = it->second;
+							entries.erase(
+							    std::remove_if(entries.begin(), entries.end(),
+							                   [&](const BatchEntry& entry) {
+								                   return entry.gnum == linked;
+							                   }),
+							    entries.end());
+							if (entries.empty())
+								it = batch.erase(it);
+							else
+								++it;
+						}
+						batch[updatedKey].push_back({moves, linked});
+					}
+					return OK;
+				}
 			}
 
 			buf.clear();
@@ -780,7 +820,8 @@ errorT scidBaseT::importGamesNoDup(ICodecDatabase::Codec dbtype,
 			++nImported;
 			if (!link.empty())
 				batchLinks[link] = this->numGames() - 1;
-			batch[key].push_back({std::move(moves)});
+			batch[key].push_back(
+			    {std::move(moves), this->numGames() - 1});
 			return OK;
 		});
 		errorMsg = pgn.parseErrors();
