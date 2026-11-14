@@ -694,6 +694,7 @@ translate g ImportStripComments {Премахване на коментари о
 translate g Clipbase {Clipbase}
 translate g NoWritableDatabases {Няма отворени бази данни с възможност за запис. Моля, първо отворете или създайте база данни.}
 translate g Imported {Внесени}
+translate g Updated {Актуализиран}
 translate g Into {в}
 translate g Skipped {Пропуснато}
 translate g DuplicateGame {дублирана игра}

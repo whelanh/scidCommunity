@@ -694,6 +694,7 @@ translate L ImportStripComments {Eliminați comentariile din jocurile importate}
 translate L Clipbase {Clipbase}
 translate L NoWritableDatabases {Nu există baze de date inscriptibile deschise. Mai întâi deschideți sau creați o bază de date.}
 translate L Imported {Importat}
+translate L Updated {Actualizat}
 translate L Into {în}
 translate L Skipped {Sărit}
 translate L DuplicateGame {joc duplicat}

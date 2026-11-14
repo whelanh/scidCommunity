@@ -692,6 +692,7 @@ translate U ImportStripComments {Poista kommentit tuoduista peleistä}
 translate U Clipbase {Clipbase}
 translate U NoWritableDatabases {Kirjoitettavia tietokantoja ei ole auki. Avaa tai luo ensin tietokanta.}
 translate U Imported {Tuotu}
+translate U Updated {Päivitetty}
 translate U Into {sisään}
 translate U Skipped {Ohitettu}
 translate U DuplicateGame {kaksoispeli}

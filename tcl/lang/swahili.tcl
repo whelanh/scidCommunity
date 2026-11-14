@@ -653,6 +653,7 @@ translate Z ImportStripComments {Ondoa maoni kutoka kwa michezo iliyoingizwa}
 translate Z Clipbase {Clipbase}
 translate Z NoWritableDatabases {Hakuna hifadhidata zinazoweza kuandikwa zilizofunguliwa. Tafadhali fungua au unda hifadhidata kwanza.}
 translate Z Imported {Imeingizwa}
+translate Z Updated {Imesasishwa}
 translate Z Into {ndani}
 translate Z Skipped {Imerukwa}
 translate Z DuplicateGame {mchezo wa kurudia}

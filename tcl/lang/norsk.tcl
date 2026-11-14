@@ -663,6 +663,7 @@ translate O ImportStripComments {Fjern kommentarer fra importerte spill}
 translate O Clipbase {Klippbase}
 translate O NoWritableDatabases {Det er ingen skrivbare databaser åpne. Vennligst åpne eller opprett en database først.}
 translate O Imported {Importert}
+translate O Updated {Oppdatert}
 translate O Into {inn i}
 translate O Skipped {Hoppet over}
 translate O DuplicateGame {duplikatspill}

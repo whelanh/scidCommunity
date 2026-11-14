@@ -653,6 +653,7 @@ translate h ImportStripComments {आयातित खेलों से ट�
 translate h Clipbase {क्लिपबेस}
 translate h NoWritableDatabases {कोई लिखने योग्य डेटाबेस खुला नहीं है. कृपया पहले एक डेटाबेस खोलें या बनाएं।}
 translate h Imported {आयातित}
+translate h Updated {अद्यतन}
 translate h Into {में}
 translate h Skipped {छोड़ा गया}
 translate h DuplicateGame {डुप्लिकेट गेम}

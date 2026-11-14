@@ -662,6 +662,7 @@ translate B ImportStripComments {Retirar comentários de jogos importados}
 translate B Clipbase {Base de clipe}
 translate B NoWritableDatabases {Não há bancos de dados graváveis ​​abertos. Abra ou crie um banco de dados primeiro.}
 translate B Imported {Importado}
+translate B Updated {Atualizado}
 translate B Into {em}
 translate B Skipped {Ignorado}
 translate B DuplicateGame {jogo duplicado}

@@ -657,6 +657,7 @@ translate C ImportStripComments {Odstraňte komentáře z importovaných her}
 translate C Clipbase {Clipbase}
 translate C NoWritableDatabases {Nejsou otevřené žádné zapisovatelné databáze. Nejprve prosím otevřete nebo vytvořte databázi.}
 translate C Imported {Importováno}
+translate C Updated {Aktualizováno}
 translate C Into {do}
 translate C Skipped {Přeskočeno}
 translate C DuplicateGame {duplicitní hra}

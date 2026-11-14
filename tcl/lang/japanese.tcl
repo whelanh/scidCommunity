@@ -694,6 +694,7 @@ translate A ImportStripComments {インポートされたゲームからコメ�
 translate A Clipbase {クリップベース}
 translate A NoWritableDatabases {開いている書き込み可能なデータベースがありません。まずデータベースを開くか作成してください。}
 translate A Imported {輸入品}
+translate A Updated {更新されました}
 translate A Into {の中へ}
 translate A Skipped {スキップされました}
 translate A DuplicateGame {重複したゲーム}

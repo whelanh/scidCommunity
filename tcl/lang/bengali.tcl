@@ -653,6 +653,7 @@ translate b ImportStripComments {আমদানি করা গেম থে�
 translate b Clipbase {ক্লিপবেস}
 translate b NoWritableDatabases {কোন লিখনযোগ্য ডাটাবেস খোলা নেই. অনুগ্রহ করে প্রথমে একটি ডাটাবেস খুলুন বা তৈরি করুন।}
 translate b Imported {আমদানিকৃত}
+translate b Updated {আপডেট করা হয়েছে}
 translate b Into {মধ্যে}
 translate b Skipped {এড়িয়ে গেছে}
 translate b DuplicateGame {ডুপ্লিকেট খেলা}

@@ -660,6 +660,7 @@ translate R ImportStripComments {Удаление комментариев из 
 translate R Clipbase {База клипов}
 translate R NoWritableDatabases {Нет открытых доступных для записи баз данных. Пожалуйста, сначала откройте или создайте базу данных.}
 translate R Imported {Импортировано}
+translate R Updated {Обновлено}
 translate R Into {в}
 translate R Skipped {Пропущено}
 translate R DuplicateGame {дубликат игры}

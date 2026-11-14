@@ -676,6 +676,7 @@ translate K ImportStripComments {Elimina els comentaris dels jocs importats}
 translate K Clipbase {Clipbase}
 translate K NoWritableDatabases {No hi ha bases de dades escrites obertes. Obriu o creeu una base de dades primer.}
 translate K Imported {Importat}
+translate K Updated {Actualitzat}
 translate K Into {a}
 translate K Skipped {Saltat}
 translate K DuplicateGame {joc duplicat}

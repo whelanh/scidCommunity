@@ -630,6 +630,7 @@ translate M ImportStripComments {删除导入游戏的评论}
 translate M Clipbase {剪辑库}
 translate M NoWritableDatabases {没有打开的可写数据库。请先打开或创建数据库。}
 translate M Imported {进口}
+translate M Updated {已更新}
 translate M Into {进入}
 translate M Skipped {跳过}
 translate M DuplicateGame {重复游戏}

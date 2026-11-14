@@ -657,6 +657,7 @@ translate T ImportStripComments {İçe aktarılan oyunlardaki yorumları kaldır
 translate T Clipbase {Klip tabanı}
 translate T NoWritableDatabases {Açık yazılabilir veritabanları yok. Lütfen önce bir veritabanı açın veya oluşturun.}
 translate T Imported {İthal}
+translate T Updated {Güncellendi}
 translate T Into {içine}
 translate T Skipped {Atlandı}
 translate T DuplicateGame {yinelenen oyun}

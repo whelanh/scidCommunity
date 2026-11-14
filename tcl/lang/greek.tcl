@@ -685,6 +685,7 @@ translate G ImportStripComments {Διαγραφή σχολίων από εισα
 translate G Clipbase {Clipbase}
 translate G NoWritableDatabases {Δεν υπάρχουν ανοιχτές βάσεις δεδομένων με δυνατότητα εγγραφής. Ανοίξτε ή δημιουργήστε πρώτα μια βάση δεδομένων.}
 translate G Imported {Εισαγόμενος}
+translate G Updated {Ενημερώθηκε}
 translate G Into {σε}
 translate G Skipped {Παράλειψη}
 translate G DuplicateGame {διπλό παιχνίδι}

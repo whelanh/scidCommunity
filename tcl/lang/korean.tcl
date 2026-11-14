@@ -694,6 +694,7 @@ translate k ImportStripComments {수입 게임에서 댓글 제거}
 translate k Clipbase {클립베이스}
 translate k NoWritableDatabases {쓰기 가능한 데이터베이스가 열려 있지 않습니다. 먼저 데이터베이스를 열거나 생성하세요.}
 translate k Imported {수입됨}
+translate k Updated {업데이트됨}
 translate k Into {~ 안으로}
 translate k Skipped {건너뛰었습니다.}
 translate k DuplicateGame {중복 게임}

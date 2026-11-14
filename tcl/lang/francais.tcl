@@ -669,6 +669,7 @@ translate F ImportStripComments {Supprimer les commentaires des jeux importés}
 translate F Clipbase {Base de clip}
 translate F NoWritableDatabases {Aucune base de données accessible en écriture n'est ouverte. Veuillez d'abord ouvrir ou créer une base de données.}
 translate F Imported {Importé}
+translate F Updated {Mis à jour}
 translate F Into {dans}
 translate F Skipped {Sauté}
 translate F DuplicateGame {jeu en double}

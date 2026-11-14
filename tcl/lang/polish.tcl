@@ -693,6 +693,7 @@ translate P ImportStripComments {Usuń komentarze z importowanych partii}
 translate P Clipbase {Schowek}
 translate P NoWritableDatabases {Nie ma otwartej bazy danych z możliwością zapisu. Najpierw otwórz lub utwórz bazę danych.}
 translate P Imported {Zaimportowano}
+translate P Updated {Zaktualizowano}
 translate P Into {do}
 translate P Skipped {Pominięto}
 translate P DuplicateGame {duplikat partii}

@@ -694,6 +694,7 @@ translate S ImportStripComments {Eliminar comentarios de juegos importados}
 translate S Clipbase {Base de clips}
 translate S NoWritableDatabases {No hay bases de datos grabables abiertas. Primero abra o cree una base de datos.}
 translate S Imported {Importado}
+translate S Updated {Actualizado}
 translate S Into {en}
 translate S Skipped {Saltado}
 translate S DuplicateGame {juego duplicado}

@@ -654,6 +654,7 @@ translate Q ImportStripComments {Видалити коментарі з імпо
 translate Q Clipbase {Кліпбаза}
 translate Q NoWritableDatabases {Немає відкритих баз даних для запису. Спочатку відкрийте або створіть базу даних.}
 translate Q Imported {Імпортні}
+translate Q Updated {Оновлено}
 translate Q Into {в}
 translate Q Skipped {Пропущено}
 translate Q DuplicateGame {дублююча гра}

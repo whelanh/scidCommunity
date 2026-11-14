@@ -694,6 +694,7 @@ translate J ImportStripComments {Уклоните коментаре из уве
 translate J Clipbase {Цлипбасе}
 translate J NoWritableDatabases {Нема отворених база података за писање. Прво отворите или креирајте базу података.}
 translate J Imported {Увезено}
+translate J Updated {Ажурирано}
 translate J Into {инто}
 translate J Skipped {Скиппед}
 translate J DuplicateGame {дупликат игре}

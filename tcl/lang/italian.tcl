@@ -661,6 +661,7 @@ translate I ImportStripComments {Elimina i commenti dai giochi importati}
 translate I Clipbase {Clipbase}
 translate I NoWritableDatabases {Non ci sono database scrivibili aperti. Per prima cosa apri o crea un database.}
 translate I Imported {Importato}
+translate I Updated {Aggiornato}
 translate I Into {in}
 translate I Skipped {Saltato}
 translate I DuplicateGame {gioco duplicato}

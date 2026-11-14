@@ -661,6 +661,7 @@ translate H ImportStripComments {Törölje le az importált játékok megjegyzé
 translate H Clipbase {Klipbázis}
 translate H NoWritableDatabases {Nincsenek nyitva írható adatbázisok. Először nyissa meg vagy hozzon létre egy adatbázist.}
 translate H Imported {Importált}
+translate H Updated {Frissítve}
 translate H Into {-ba}
 translate H Skipped {Kihagyva}
 translate H DuplicateGame {duplikált játék}

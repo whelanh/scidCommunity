@@ -687,6 +687,7 @@ translate D ImportStripComments {Entfernen Sie Kommentare aus importierten Spiel
 translate D Clipbase {Clipbase}
 translate D NoWritableDatabases {Es sind keine beschreibbaren Datenbanken geöffnet. Bitte öffnen oder erstellen Sie zunächst eine Datenbank.}
 translate D Imported {Importiert}
+translate D Updated {Aktualisiert}
 translate D Into {hinein}
 translate D Skipped {Übersprungen}
 translate D DuplicateGame {Spiel duplizieren}

@@ -682,6 +682,7 @@ translate N ImportStripComments {Verwijder opmerkingen uit geïmporteerde games}
 translate N Clipbase {Clipbasis}
 translate N NoWritableDatabases {Er zijn geen beschrijfbare databases geopend. Open of maak eerst een database.}
 translate N Imported {Geïmporteerd}
+translate N Updated {Bijgewerkt}
 translate N Into {naar binnen}
 translate N Skipped {Overgeslagen}
 translate N DuplicateGame {duplicaat spel}
