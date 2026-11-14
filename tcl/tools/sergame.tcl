@@ -535,27 +535,28 @@ namespace eval sergame {
     # fclockw always holds the white clock (gameclock 1);
     # fclockb always holds the black clock (gameclock 2).
     # Labels show the actual colours of the clocks they contain.
-    ttk::labelframe $w.fclockw -text "$::tr(Time) $::tr(White)"
-    ttk::labelframe $w.fclockb -text "$::tr(Time) $::tr(Black)"
+    ttk::labelframe $w.fclocks.w -text "$::tr(Time) $::tr(White)"
+    ttk::labelframe $w.fclocks.b -text "$::tr(Time) $::tr(Black)"
     ttk::frame $w.fbuttons
     pack $w.fdisplay -side top -fill both -pady 5 -padx 10
     pack [ttk::separator $w.line1 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.fthreshold -side top -fill both -pady 5 -padx 10
     pack [ttk::separator $w.line2 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.finformations -side top -fill both -pady 5 -padx 10
-    # A fixed height, not the children's: when the faces decide the height, each
-    # arrangement changes the box that chooses the next one and the window
-    # redraws itself in a loop. With the height fixed the answer depends only on
-    # the width, so it settles after one decision.
-    pack propagate $w.fclocks 0
-    $w.fclocks configure -height [::sergame::clockAreaHeight]
-    pack $w.fclocks -side top -fill x -pady 5 -padx 10
+    # The clock area takes whatever vertical space the window has left, and the
+    # two frames share it equally: grid with weights, not pack, because a packed
+    # row can only ask for a height and this row must fill the one it is given.
+    pack $w.fclocks -side top -fill both -expand 1 -pady 5 -padx 10
     # The presentation follows the space: side by side when that makes the faces
     # bigger than stacking them, one over the other when it does not. White stays
     # first in either direction, so the order never changes under the reader; the
     # frames' own labels say which side is which.
     set ::sergame::clockOrientation ""
-    pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
+    grid columnconfigure $w.fclocks 0 -weight 1 -uniform faces
+    grid columnconfigure $w.fclocks 1 -weight 1 -uniform faces
+    grid rowconfigure $w.fclocks 0 -weight 1
+    grid $w.fclocks.w -row 0 -column 0 -sticky nsew -padx 4 -pady 4
+    grid $w.fclocks.b -row 0 -column 1 -sticky nsew -padx 4 -pady 4
     # The first arrangement is decided once the window has a size: <Configure>
     # arrives with it, but a window that is created and never shown has none.
     pack $w.fbuttons -side top -pady "10 15"
@@ -585,8 +586,8 @@ namespace eval sergame {
 
     # fill: the face takes its frame's space and draws to it. 88 is only what it
     # asks for until the window has a size.
-    ::gameclock::new $w.fclockw 1 88 0 [::sergame::clockFace] 1
-    ::gameclock::new $w.fclockb 2 88 0 [::sergame::clockFace] 1
+    ::gameclock::new $w.fclocks.w 1 88 0 [::sergame::clockFace] 1
+    ::gameclock::new $w.fclocks.b 2 88 0 [::sergame::clockFace] 1
     # Colour each clock face to match its side: white clock = white face with
     # black markings, black clock = black face with white markings.
     ::gameclock::setColor 1 white
@@ -633,10 +634,6 @@ namespace eval sergame {
     }
     return 0
   }
-
-  # The height the clock area keeps, both arrangements: two faces and the gap,
-  # so a stacked pair and a side-by-side pair take the same vertical space.
-  proc clockAreaHeight {} { return 196 }
 
   proc abortGame { { n 1 } } {
     ::setPlayMode ""

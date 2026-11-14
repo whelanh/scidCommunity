@@ -556,10 +556,17 @@ proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"} {fill 0
     set ::fake::gcMode($n) $display
     set ::fake::gc(c$n) 0
     if {$parent ne ""} {
-        set w [expr {$display eq "digital" ? int($size * 1.9) : $size}]
         set ::fake::gcCanvas($n) $parent.clock$n
-        canvas $::fake::gcCanvas($n) -height $size -width $w
-        pack $::fake::gcCanvas($n) -side top -anchor center
+        if {$fill} {
+            # A filling face asks for nothing and takes the frame's space: the
+            # window's geometry is what this harness measures.
+            canvas $::fake::gcCanvas($n) -height 1 -width 1 -highlightthickness 0
+            pack $::fake::gcCanvas($n) -side top -fill both -expand 1
+        } else {
+            set w [expr {$display eq "digital" ? int($size * 1.9) : $size}]
+            canvas $::fake::gcCanvas($n) -height $size -width $w
+            pack $::fake::gcCanvas($n) -side top -anchor center
+        }
     }
     return
 }
@@ -567,7 +574,12 @@ proc ::gameclock::setDisplay {n display} { set ::fake::gcMode($n) $display }
 # A filling face draws itself at its canvas's size; the stub has no canvas, so
 # it records the request and reports the size it was told to take.
 proc ::gameclock::redraw {n} { lappend ::fake::gcFit "redraw $n" }
-proc ::gameclock::sizeOf {n} { return {88 88} }
+proc ::gameclock::sizeOf {n} {
+    if {[info exists ::fake::gcCanvas($n)] && [winfo exists $::fake::gcCanvas($n)]} {
+        return [list [winfo width $::fake::gcCanvas($n)] [winfo height $::fake::gcCanvas($n)]]
+    }
+    return {88 88}
+}
 # The real widget's accessor: the width a face is drawn at.
 proc ::gameclock::width {n} {
     if {![info exists ::fake::gcCanvas($n)]} { return 0 }
@@ -1753,26 +1765,35 @@ checkEq "the game window is built" $rc 0 $err
 quiet
 update idletasks
 set gw .coachWin
-checkEq "both clock frames were packed" \
-    [list [winfo manager $gw.fclockw] [winfo manager $gw.fclockb]] [list pack pack]
+checkEq "both clock frames are gridded in the clock area" \
+    [list [winfo manager $gw.fclocks.w] [winfo manager $gw.fclocks.b]] [list grid grid]
 # The arrangement itself is decided from the box and is checked in
 # tests/tcl/sergame_ui.tcl (side, stacked, and the tie that stacks). A window
 # built under xvfb has no size until it is mapped, so this file asserts what it
 # can see: that both faces were packed at all.
-check "both clock frames were packed" \
-    [expr {[winfo exists $gw.fclockw] && [winfo exists $gw.fclockb]}]
-# Both faces must have room: one squeezed to nothing is the shape the layout
-# loop produced when a face sized itself from the frame it was filling.
-update
-check "White's clock has a size" \
-    [expr {[winfo width $gw.fclockw] > 20 && [winfo height $gw.fclockw] > 20}] \
-    "w=[winfo width $gw.fclockw] h=[winfo height $gw.fclockw]"
-check "Black's clock has a size" \
-    [expr {[winfo width $gw.fclockb] > 20 && [winfo height $gw.fclockb] > 20}] \
-    "w=[winfo width $gw.fclockb] h=[winfo height $gw.fclockb]"
-
+check "both clock frames are in the window" \
+    [expr {[winfo exists $gw.fclocks.w] && [winfo exists $gw.fclocks.b]
+           && [winfo manager $gw.fclocks.w] ne "" && [winfo manager $gw.fclocks.b] ne ""}]
 # Both faces fill their frames; nothing repacks them, so there is no decision to
 # settle. The one row this window makes is checked above by both sizes.
+
+# The clocks fill the space they are given: size the window, then read the
+# geometry back. This is the check the earlier attempts lacked - the faces must
+# take the area's width AND its height, not a strip at the bottom of it.
+wm geometry $gw 1000x800
+update
+lassign [::gameclock::sizeOf 1] cw1 ch1
+lassign [::gameclock::sizeOf 2] cw2 ch2
+set area_w [winfo width $gw.fclocks]
+set area_h [winfo height $gw.fclocks]
+check "the clock area takes the window's leftover space" \
+    [expr {$area_w > 800 && $area_h > 300}] "area ${area_w}x${area_h}"
+check "White's face fills most of its half" \
+    [expr {$cw1 > ($area_w / 2 - 40) && $ch1 > ($area_h - 40)}] "face ${cw1}x${ch1}"
+check "Black's face fills the other half" \
+    [expr {$cw2 > ($area_w / 2 - 40) && $ch2 > ($area_h - 40)}] "face ${cw2}x${ch2}"
+check "both faces are the same size" \
+    [expr {abs($cw1 - $cw2) < 8 && abs($ch1 - $ch2) < 8}]
 
 set minW [lindex [wm minsize $gw] 0]
 set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
@@ -1780,7 +1801,7 @@ check "the window's minimum width holds both faces and their frames" \
     [expr {$minW > $faces}] "minimum $minW, faces $faces"
 check "and the old 45 px floor is gone" [expr {$minW > 45}] "minimum $minW"
 check "both faces are inside the clock row" \
-    [expr {[winfo x $gw.fclockb] >= [winfo x $gw.fclocks]}]
+    [expr {[winfo x $gw.fclocks.b] >= [winfo x $gw.fclocks]}]
 
 # The preference decides the face the game asks ::gameclock for: on (the
 # default) is the digital one, off is the analog face.
@@ -1796,9 +1817,11 @@ fake::reset
 quiet
 checkEq "with the preference off the game asks for the analog face" $::fake::gcMode(1) "analog"
 checkEq "on both clocks" $::fake::gcMode(2) "analog"
-checkEq "and the analog face is still a square" \
-    [list [.coachWin.fclockw.clock1 cget -width] [.coachWin.fclockw.clock1 cget -height]] \
-    [list 88 88]
+# An analog face is drawn as a square inside whatever box it fills; that is the
+# real widget's business and is checked in tests/tcl/sergame_ui.tcl. Here the face
+# keeps the frame it was given, in either mode.
+check "the analog face is still the game's own canvas" \
+    [expr {[winfo exists .coachWin.fclocks.w.clock1]}]
 set ::sergame::showDigitalClock 1
 ::sergame::applyClockFace
 checkEq "turning it back on re-faces the running game" $::fake::gcMode(1) "digital"
