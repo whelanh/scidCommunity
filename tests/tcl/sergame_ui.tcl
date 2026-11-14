@@ -275,7 +275,7 @@ checkEq "a filling face draws at the size its frame gives it" [list $w $h] [list
 # The digital text fits the box it is drawn in, in both directions.
 set txt [lindex [.box.clock1 find all] 0]
 set fs [lindex [.box.clock1 itemcget $txt -font] end-1]
-check "the digits are no taller than a quarter of the box" [expr {$fs <= $h / 4}]
+check "the digits are allowed most of the box" [expr {$fs > $h / 3 && $fs <= $h}]
 check "and seven of them fit the width" [expr {$fs * 4.6 <= $w}]
 lassign [.box.clock1 bbox $txt] x0 y0 x1 y1
 check "the drawn text is inside the canvas" [expr {$x0 >= 0 && $x1 <= $w && $y0 >= 0 && $y1 <= $h}]
@@ -286,6 +286,32 @@ update
 set txt [lindex [.box.clock1 find all] 0]
 lassign [.box.clock1 bbox $txt] x0 y0 x1 y1
 check "a short box shrinks the digits to fit" [expr {$y1 - $y0 <= 40 && $x1 <= 400}]
+
+# The dial is centred in a wide box, not parked in its corner: the numerals'
+# bounding box is centred within a few percent of the canvas centre, and it is
+# about the height of the box.
+::gameclock::setDisplay 1 analog
+.box configure -height 200
+update
+set xs {} ; set ys {}
+foreach it [.box.clock1 find all] {
+    lassign [.box.clock1 bbox $it] x0 y0 x1 y1
+    lappend xs $x0 $x1 ; lappend ys $y0 $y1
+}
+set bbw [expr {[lindex [lsort -integer $xs] end] - [lindex [lsort -integer $xs] 0]}]
+set bbh [expr {[lindex [lsort -integer $ys] end] - [lindex [lsort -integer $ys] 0]}]
+set cx [expr {[lindex [lsort -integer $xs] 0] + $bbw / 2}]
+set cy [expr {[lindex [lsort -integer $ys] 0] + $bbh / 2}]
+check "the dial is centred in the box" \
+    [expr {abs($cx - 200) < 30 && abs($cy - 100) < 20}] "centre $cx,$cy in 400x200"
+check "the dial uses the box's height" [expr {$bbh > 120}] "dial $bbw x $bbh"
+
+# The digits take most of the box. The rule is a function of the box, so it is
+# checked as one: a live canvas in this harness has no geometry to draw into.
+checkEq "a 400x200 box is width-limited" [::gameclock::digitalFont 400 200] 105
+checkEq "a wide short box sets them from its height" [::gameclock::digitalFont 600 100] 62
+checkEq "a narrow tall box sets them from its width" [::gameclock::digitalFont 120 400] 31
+check "never smaller than readable" [expr {[::gameclock::digitalFont 20 20] >= 8}]
 
 # Analog draws from the same size: the numerals sit inside a square of the box.
 ::gameclock::setDisplay 1 analog

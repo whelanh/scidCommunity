@@ -660,6 +660,18 @@ namespace eval gameclock {
   proc digitalWidth { size } {
     return [expr {int($size * 1.9)}]
   }
+
+  # The point size of the h:mm:ss text in a w x h box: most of the box, not a
+  # quarter of it. Seven glyphs at about 0.54em need the width; the height allows
+  # about 0.62 of it before the digits touch the frame; the smaller wins, because
+  # a filling face can be wide and short or narrow and tall.
+  proc digitalFont { w h } {
+    set byh [expr {$h > 32 ? int($h * 0.62) : 8}]
+    set byw [expr {int($w / 3.8)}]
+    set fs [expr {$byh < $byw ? $byh : $byw}]
+    if {$fs < 8} { set fs 8 }
+    return $fs
+  }
   # The items a face carries when nothing is running: the numerals of the
   # analog face, and nothing at all for a digital one.
   proc face { n } {
@@ -668,11 +680,18 @@ namespace eval gameclock {
     $data(id$n) delete clock$n
     if {$data(display$n) eq "digital"} { return }
     lassign [::gameclock::sizeOf $n] w h
+    # The dial is the largest square the box holds, CENTRED in it. Laying the
+    # numerals out around (size/2, size/2) was right when a canvas was exactly
+    # size x size; a filling canvas is wide, and that put the dial in the corner
+    # while the hands stayed centred on the canvas.
     set size [expr {$w < $h ? $w : $h}]
+    set cx [expr {$w / 2}]
+    set cy [expr {$h / 2}]
+    set r [expr {($size - 15) / 2.0}]
     for {set i 1} {$i<13} {incr i} {
       set a [expr {$i/6.*acos(-1)}]
-      set x [expr { ($size/2 + (($size-15)/2)*sin($a) ) }]
-      set y [expr { ($size/2 - (($size-15)/2)*cos($a) ) }]
+      set x [expr {$cx + $r * sin($a)}]
+      set y [expr {$cy - $r * cos($a)}]
       $data(id$n) create text $x $y -text $i -tag clock$n
     }
   }
@@ -755,10 +774,7 @@ namespace eval gameclock {
       # The font follows the box in both directions: the height sets how tall the
       # digits may be, the width what seven of them need, and the smaller wins -
       # a filling face can be wide and short, or narrow and tall.
-      set byh [expr {$h > 32 ? int($h / 4) : 8}]
-      set byw [expr {int($w / 4.6)}]
-      set fs [expr {$byh < $byw ? $byh : $byw}]
-      if {$fs < 8} { set fs 8 }
+      set fs [::gameclock::digitalFont $w $h]
       $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
           -font [list Helvetica $fs bold] -tag aig$n
     } elseif {$display eq "both"} {
