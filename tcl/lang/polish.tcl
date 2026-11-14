@@ -1929,6 +1929,10 @@ translate P SpecificOpening {Wybrany debiut}
 translate P StartNewGame {Rozpocznij nową partię}
 translate P Opening {Debiut}
 translate P StartFromCurrentPosition {Rozpocznij od bieżącej pozycji}
+translate P ShowDigitalClock {Show digital clock}
+translate P ClockFromGame {Start from the time recorded in the game}
+translate P ClocksContinued {Clocks continued from the game}
+translate P ClocksRestarted {Clocks restarted}
 translate P FixedDepth {Stała głębokość}
 translate P Nodes {Węzły}
 translate P Depth {Głębokość}

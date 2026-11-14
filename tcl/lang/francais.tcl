@@ -1903,6 +1903,10 @@ translate F SpecificOpening {Ouverture spécifique}
 translate F StartNewGame {Nouvelle partie}
 translate F Opening {Ouverture}
 translate F StartFromCurrentPosition {Jouer depuis la position actuelle}
+translate F ShowDigitalClock {Show digital clock}
+translate F ClockFromGame {Start from the time recorded in the game}
+translate F ClocksContinued {Clocks continued from the game}
+translate F ClocksRestarted {Clocks restarted}
 translate F FixedDepth {Profondeur fixe}
 translate F Nodes {Noeuds} 
 translate F Depth {Profondeur}

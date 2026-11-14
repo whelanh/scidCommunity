@@ -62,6 +62,19 @@ namespace eval sergame {
   set scoreLabel 0.0
   set coachNag ""
 
+  # --- the game window's preferences -----------------------------------------
+  # Show the clocks as digital faces: the text alone, no hands and no face
+  # ring. Saved by options.tcl like the game's other settings; default on.
+  # FICS and Tactics build their clocks without this, so neither changes.
+  if {![info exists showDigitalClock]} { set showDigitalClock 1 }
+  # A Play started from a position mid-game starts its clocks from the times
+  # the game records for that position ([%clk] comments). Off = restart them
+  # from the configured time control. Falls back to the configured times when
+  # the game records none, and the game window says which it used.
+  if {![info exists clockFromGame]} { set clockFromGame 1 }
+  # The game window's line about the clocks; clocks init fills it.
+  set clockLabel ""
+
   # list of fen positions played to detect 3 fold repetition
   set lFen {}
 
@@ -237,6 +250,14 @@ namespace eval sergame {
     $w.ftime.clock.whitespseconds set [expr $::sergame::winc /  1000]
     $w.ftime.clock.blackspminutes set [expr $::sergame::btime / (60 * 1000)]
     $w.ftime.clock.blackspseconds set [expr $::sergame::binc /  1000 ]
+
+    # A Play started from a position mid-game: continue from the times the game
+    # records for it, or restart both clocks from the times above. The game
+    # window says which it used.
+    incr row
+    ttk::checkbutton $w.ftime.clock.cbClockFromGame -text $::tr(ClockFromGame) \
+        -variable ::sergame::clockFromGame
+    grid $w.ftime.clock.cbClockFromGame -row $row -column 0 -columnspan 5 -sticky w -pady {5 0}
 
     # --- Engine thinking mode ---
     ttk::separator $w.ftime.sep -orient horizontal
@@ -428,6 +449,7 @@ namespace eval sergame {
     set ::sergame::blunderWarningLabel ""
     set ::sergame::scoreLabel ""
     set ::sergame::coachNag ""
+    set ::sergame::clockLabel ""
 
     set ::sergame::activeColor $::sergame::playerColor
     if {$::sergame::activeColor == "random"} {
@@ -522,21 +544,19 @@ namespace eval sergame {
     pack [ttk::separator $w.line2 -orient horizontal] -side top -fill x -padx 10 -pady 5
     pack $w.finformations -side top -fill both -pady 5 -padx 10
     pack $w.fclocks -side top -fill both -pady 5 -padx 10
-    # Stack the clocks vertically: the engine's clock goes above the player's
-    # clock. The engine plays the opposite colour to the player, so choose the
-    # top frame accordingly (engine is black when the player is white, and
-    # engine is white when the player is black).
-    if {$::sergame::activeColor == "white"} {
-      pack $w.fclockb $w.fclockw -side top -fill x -padx 10 -pady 5
-    } else {
-      pack $w.fclockw $w.fclockb -side top -fill x -padx 10 -pady 5
-    }
+    # The two faces share one row: stacked, they spent the game window's height
+    # on two large faces and left the board no room. White stays left whatever
+    # the player's colour, so the row never reorders under the reader; the
+    # frames' own labels say which side is which.
+    pack $w.fclockw $w.fclockb -side left -fill both -expand 1 -padx 10 -pady 5
     pack $w.fbuttons -side top -pady "10 15"
 
     ttk::checkbutton $w.fdisplay.b1 -text $::tr(showblunderexists) -variable ::sergame::showblunder
     ttk::checkbutton $w.fdisplay.b2 -text $::tr(showblundervalue) -variable ::sergame::showblundervalue
     ttk::checkbutton $w.fdisplay.b5 -text $::tr(showscore) -variable ::sergame::showevaluation
-    pack $w.fdisplay.b1 $w.fdisplay.b2 $w.fdisplay.b5 -anchor w
+    ttk::checkbutton $w.fdisplay.b6 -text $::tr(ShowDigitalClock) -variable ::sergame::showDigitalClock \
+        -command ::sergame::applyClockFace
+    pack $w.fdisplay.b1 $w.fdisplay.b2 $w.fdisplay.b5 $w.fdisplay.b6 -anchor w
 
     ttk::label $w.fthreshold.l -text $::tr(moveblunderthreshold) -wraplength 300
     ttk::scale $w.fthreshold.t -orient horizontal -from 0.0 -to 10.0 -length 200 \
@@ -546,26 +566,30 @@ namespace eval sergame {
 
     ttk::label $w.finformations.l1 -textvariable ::sergame::blunderWarningLabel -background linen
     ttk::label $w.finformations.l3 -textvariable ::sergame::scoreLabel -foreground WhiteSmoke -background SlateGray
-    pack $w.finformations.l1 $w.finformations.l3 -padx 5 -pady 5 -side top -fill x
+    ttk::label $w.finformations.lclock -textvariable ::sergame::clockLabel
+    pack $w.finformations.l1 $w.finformations.l3 $w.finformations.lclock -padx 5 -pady 5 -side top -fill x
 
     ::sergame::resetBlunderLabels
 
     ttk::button $w.fbuttons.close -textvar ::tr(Abort) -command "destroy .coachWin"
     pack $w.fbuttons.close -expand yes -fill both -padx 20 -pady 2
 
-    ::gameclock::new $w.fclockb 2 88
-    ::gameclock::new $w.fclockw 1 88
+    ::gameclock::new $w.fclockw 1 88 0 [::sergame::clockFace]
+    ::gameclock::new $w.fclockb 2 88 0 [::sergame::clockFace]
     # Colour each clock face to match its side: white clock = white face with
     # black markings, black clock = black face with white markings.
     ::gameclock::setColor 1 white
     ::gameclock::setColor 2 black
     ::gameclock::reset 1
     ::gameclock::reset 2
+    # The smallest the window may be is the row the two clocks make: at the old
+    # 45 px floor a side-by-side pair clipped its right-hand face. The faces'
+    # own widths, not a geometry pass: a clock face is drawn at a known size.
+    wm minsize $w [::sergame::clockRowMinWidth] 0
 
     bind $w <F1> { helpWindow PlayVsEngine }
     bind $w <Destroy> "if {\[string equal $w %W\]} {::sergame::abortGame}"
     bind $w <Escape> "destroy .coachWin"
-    wm minsize $w 45 0
     createToplevelFinalize $w
 
     ::setPlayMode "::sergame::callback"
@@ -622,15 +646,111 @@ namespace eval sergame {
   ################################################################################
   # clocks: manage game clocks (counting up or down)
   ################################################################################
+  # The face the game asks ::gameclock for: the digital one when the preference
+  # is on (its default), the analog face when it is off. FICS and Tactics pass
+  # no mode of their own, so neither changes.
+  proc clockFace {} {
+    if {$::sergame::showDigitalClock} { return "digital" }
+    return "analog"
+  }
+
+  # Re-face both clocks in place, for the preference changing mid-game.
+  proc applyClockFace {} {
+    if {![winfo exists .coachWin]} { return }
+    foreach n {1 2} { catch { ::gameclock::setDisplay $n [::sergame::clockFace] } }
+    # A digital face is wider than the analog one, so the window's floor is the
+    # row the current faces make.
+    catch { wm minsize .coachWin [::sergame::clockRowMinWidth] 0 }
+  }
+
+  # The narrowest the game window may be: one row holding both faces and the
+  # frames they sit in.
+  proc clockRowMinWidth {} {
+    set w [expr {[::gameclock::width 1] + [::gameclock::width 2] + 80}]
+    if {$w < 360} { set w 360 }
+    return $w
+  }
+
+  # A time as the game writes it: h:mm:ss, the shape [%clk] carries.
+  proc clockText {sec} {
+    if {$sec < 0} { set sec 0 }
+    return [format "%d:%02d:%02d" [expr {$sec / 3600}] \
+        [expr {($sec / 60) % 60}] [expr {$sec % 60}]]
+  }
+
+  # The remaining time each side's last move records, read from the game's own
+  # clock comments ([%clk h:mm:ss], which ::gameclock::storeTimeComment writes
+  # on every move of a game played here). Returns {whiteSeconds blackSeconds}
+  # with "" for a side the game does not record (it has not moved yet), or an
+  # empty list when the game records neither. Only the mainline counts: a
+  # variation's clocks are of the position it leaves, not of the game.
+  proc recordedClocks {} {
+    if {[catch {
+      set game [sc_base getGame [sc_base current] [sc_game number] live]
+    }]} {
+      return {}
+    }
+    set wsec ""
+    set bsec ""
+    set ply 0
+    foreach pos $game {
+      if {[lindex $pos 0] != 0 || [lindex $pos 1] != 0} { continue }
+      set comment [lindex $pos 4]
+      if {[regexp {\[%clk\s*([0-9]+):([0-9]+):([0-9]+)\s*\]} $comment -> h m s]} {
+        set sec [expr {$h * 3600 + $m * 60 + $s}]
+        # ply 0 is the position before any move, so an odd ply ends a White
+        # move and an even one (past the start) ends a Black move.
+        if {$ply % 2 == 1} { set wsec $sec } elseif {$ply > 0} { set bsec $sec }
+      }
+      incr ply
+    }
+    if {$wsec eq "" && $bsec eq ""} { return {} }
+    return [list $wsec $bsec]
+  }
+
+  # What the two clocks start from, and which of the two answers it was:
+  # {whiteSeconds blackSeconds source}, source "game" or "restart". A game
+  # started mid-position continues from the times the game records for it when
+  # the preference asks for them and the game has them; a side with no record
+  # (it has not moved yet) starts from the configured time, which is exactly
+  # what its clock would hold.
+  proc seedClockSeconds {n} {
+    set wtime [expr {[::sergame::st $n wtime 0] / 1000}]
+    set btime [expr {[::sergame::st $n btime 0] / 1000}]
+    if {!$::sergame::clockFromGame} { return [list $wtime $btime "restart"] }
+    set recorded [::sergame::recordedClocks]
+    if {[llength $recorded] != 2} { return [list $wtime $btime "restart"] }
+    lassign $recorded wsec bsec
+    if {$wsec ne ""} { set wtime $wsec }
+    if {$bsec ne ""} { set btime $bsec }
+    return [list $wtime $btime "game"]
+  }
+
+  # The game window's line about the clocks: which of the two it used, and the
+  # times it started them at, so a mid-game Play never quietly resets a clock.
+  proc setClockLabel {source wsec bsec} {
+    set wt [::sergame::clockText $wsec]
+    set bt [::sergame::clockText $bsec]
+    if {$source eq "game"} {
+      set head $::tr(ClocksContinued)
+    } else {
+      set head $::tr(ClocksRestarted)
+    }
+    set ::sergame::clockLabel "$head: $::tr(White) $wt, $::tr(Black) $bt"
+  }
+
   proc clocks {cmd {n 1}} {
     switch $cmd {
       init {
           if {$::sergame::useChessClock} {
-            ::gameclock::setSec 1 [expr 0 - [::sergame::st $n wtime 0]/1000]
-            ::gameclock::setSec 2 [expr 0 - [::sergame::st $n btime 0]/1000]
+            lassign [::sergame::seedClockSeconds $n] wsec bsec source
+            ::gameclock::setSec 1 [expr 0 - $wsec]
+            ::gameclock::setSec 2 [expr 0 - $bsec]
+            ::sergame::setClockLabel $source $wsec $bsec
           } else {
             ::gameclock::reset 1
             ::gameclock::reset 2
+            set ::sergame::clockLabel ""
           }
       }
       start {
@@ -673,6 +793,18 @@ namespace eval sergame {
     ::notify::PosChanged -pgn
   }
 
+  # The colour the blunder dialog's best-move line is written in: the colour
+  # layer's coach blue (tcl/tools/comment_colors.tcl), chosen for 4.46:1 on the
+  # darkest bundled background. The hardcoded #1a1aff this replaces was ~1.4:1
+  # there and unreadable on a dark theme -- pre-existing debt from c3c0659b,
+  # not a regression of this module's port.
+  proc bestMoveColor {} {
+    if {[info exists ::commentcolors::coachColor]} {
+      return $::commentcolors::coachColor
+    }
+    return "#3B82F6"
+  }
+
   proc blunderDialog {msg bestMoveText} {
     set w .blunderDialog
     if {[winfo exists $w]} { destroy $w }
@@ -692,7 +824,7 @@ namespace eval sergame {
     pack $w.sep -fill x -padx 10
 
     ttk::frame $w.best
-    ttk::label $w.best.l -text "" -wraplength 400 -foreground "#1a1aff"
+    ttk::label $w.best.l -text "" -wraplength 400 -foreground [::sergame::bestMoveColor]
     pack $w.best.l -padx 15 -pady {10 5}
     pack $w.best -fill x
 

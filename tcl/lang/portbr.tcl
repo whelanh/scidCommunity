@@ -1905,6 +1905,10 @@ translate B SpecificOpening {Abertura específica}
 translate B StartNewGame {Iniciar novo jogo}
 translate B Opening {Abertura}
 translate B StartFromCurrentPosition {Iniciar a partir da posição corrente}
+translate B ShowDigitalClock {Show digital clock}
+translate B ClockFromGame {Start from the time recorded in the game}
+translate B ClocksContinued {Clocks continued from the game}
+translate B ClocksRestarted {Clocks restarted}
 translate B FixedDepth {Profundidade fixa}
 translate B Nodes {Ns} 
 translate B Depth {Profundidade}

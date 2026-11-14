@@ -271,11 +271,24 @@ proc fake::say {id line} {
     catch { flush $::fake::peer($id) }
 }
 
-proc fake::readable {id} {
-    if {![::info exists ::fake::peer($id)]} { return }
-    set chan $::fake::peer($id)
-    if {[catch { chan eof $chan } eof]} { return }
-    if {$eof} { catch { chan event $chan readable {} } ; return }
+proc fake::readable {id chan} {
+    # The handler is per channel, and an id's peer can be replaced when the game
+    # is played again: a handler left registered for the old channel is readable
+    # at EOF for ever, and an unbounded `update` in the harness spins on it.
+    if {![::info exists ::fake::peer($id)] || $::fake::peer($id) ne $chan} {
+        catch { chan event $chan readable {} }
+        return
+    }
+    if {[catch { chan eof $chan } eof]} {
+        catch { chan event $chan readable {} }
+        return
+    }
+    if {$eof} {
+        catch { chan event $chan readable {} }
+        catch { chan close $chan }
+        unset -nocomplain ::fake::peer($id)
+        return
+    }
     while {[catch { gets $chan line } n] == 0 && $n >= 0} {
         lappend ::fake::sent($id) $line
         fake::onLine $id $line
@@ -367,6 +380,9 @@ proc fake::reset {} {
     set ::fake::nags {}
     set ::fake::blunder ""
     set ::fake::blunderChoice 2
+    array unset ::fake::gcMode
+    array unset ::fake::gcCanvas
+    set ::fake::gamePositions {}
 }
 
 # --------------------------------------------------------------- the engine --
@@ -386,7 +402,7 @@ proc ::engineNoWin::initEngine {id name cb {options ""}} {
     chan configure $engineSide -buffering line -blocking 0
     ::engine::handshake_ $id {uci}
     chan event $scidSide readable [list ::engine::onMessages_ $id $scidSide]
-    chan event $engineSide readable [list fake::readable $id]
+    chan event $engineSide readable [list fake::readable $id $engineSide]
     return 1
 }
 proc ::engineNoWin::closeEngine {id} { ::engine::close $id }
@@ -503,7 +519,17 @@ proc sc_game {sub args} {
 }
 proc sc_var {args} { return "" }
 proc toAbsPath {path} { return $path }
-proc sc_base {args} { return 1 }
+# The game a mid-game Play starts on: the positions sc_base getGame returns,
+# each as {RAVdepth RAVnum fen nags comment san uci}. Empty by default, so a
+# scenario that does not seed one starts from a game the harness records no
+# times for.
+set ::fake::gamePositions {}
+proc sc_base {args} {
+    switch -- [lindex $args 0] {
+        getGame { return $::fake::gamePositions }
+    }
+    return 1
+}
 namespace eval ::game {}
 proc ::game::Clear {} { return "" }
 namespace eval ::board {}
@@ -523,7 +549,26 @@ proc ::utils::validate::floatScale {args} { return }
 # counter runs upwards from -wtime), stop answers 1 only for a clock that was
 # running, and add takes seconds off the counter.
 namespace eval ::gameclock {}
-proc ::gameclock::new {parent n {size 100} {showfall 0}} { set ::fake::gc(c$n) 0 ; return }
+proc ::gameclock::new {parent n {size 100} {showfall 0} {display "both"}} {
+    # The face the caller asked for, and a real canvas for it: the window's
+    # geometry -- one row of clocks, and a minimum size that holds it -- is what
+    # the harness reads back, so the faces have to be the size they really are.
+    set ::fake::gcMode($n) $display
+    set ::fake::gc(c$n) 0
+    if {$parent ne ""} {
+        set w [expr {$display eq "digital" ? int($size * 1.9) : $size}]
+        set ::fake::gcCanvas($n) $parent.clock$n
+        canvas $::fake::gcCanvas($n) -height $size -width $w
+        pack $::fake::gcCanvas($n) -side top -anchor center
+    }
+    return
+}
+proc ::gameclock::setDisplay {n display} { set ::fake::gcMode($n) $display }
+# The real widget's accessor: the width a face is drawn at.
+proc ::gameclock::width {n} {
+    if {![info exists ::fake::gcCanvas($n)]} { return 0 }
+    return [$::fake::gcCanvas($n) cget -width]
+}
 proc ::gameclock::setColor {args} { return }
 proc ::gameclock::reset {n} { set ::fake::gcRun(r$n) 0 ; set ::fake::gc(c$n) 0 }
 proc ::gameclock::getSec {n} { return [expr {0 - $::fake::gc(c$n)}] }
@@ -994,6 +1039,8 @@ proc gameDefaults {} {
     set ::sergame::nodes 10000
     set ::sergame::ponder 0
     set ::sergame::useChessClock 1
+    set ::sergame::showDigitalClock 1
+    set ::sergame::clockFromGame 1
     set ::sergame::showblunder 1
     set ::sergame::showblundervalue 1
     set ::sergame::showevaluation 1
@@ -1685,6 +1732,162 @@ check "and leaves exactly one game window" \
     [expr {[llength [winfo children .]] == [llength [lsort -unique [winfo children .]]]}]
 catch { destroy .coachWin }
 catch { destroy .fdockcoachWin }
+
+##############################################################################
+puts "\nthe game window: one row of clocks, the face the preference asks for"
+##############################################################################
+# The window's layout is checked by geometry, not by a screenshot: the two
+# clock frames are packed in one row, white on the left, and the window cannot
+# be made narrower than the row they make (the old floor was 45 px, at which
+# the right-hand face was clipped).
+gameDefaults
+fake::reset
+catch { destroy .coachWin }
+catch { destroy .fdockcoachWin }
+set rc [catch { ::sergame::play } err]
+checkEq "the game window is built" $rc 0 $err
+quiet
+update idletasks
+set gw .coachWin
+checkEq "both clock frames were packed" \
+    [list [winfo manager $gw.fclockw] [winfo manager $gw.fclockb]] [list pack pack]
+checkEq "they share one row" [winfo y $gw.fclockw] [winfo y $gw.fclockb]
+check "White's clock is the left-hand face" \
+    [expr {[winfo x $gw.fclockw] < [winfo x $gw.fclockb]}] \
+    "white at [winfo x $gw.fclockw], black at [winfo x $gw.fclockb]"
+check "and its neighbour is beside it, not above it" \
+    [expr {[winfo x $gw.fclockb] > 0 && [winfo x $gw.fclockb] > [winfo x $gw.fclockw]}]
+set minW [lindex [wm minsize $gw] 0]
+set faces [expr {[::gameclock::width 1] + [::gameclock::width 2]}]
+check "the window's minimum width holds both faces and their frames" \
+    [expr {$minW > $faces}] "minimum $minW, faces $faces"
+check "and the old 45 px floor is gone" [expr {$minW > 45}] "minimum $minW"
+check "both faces are inside the clock row" \
+    [expr {[winfo x $gw.fclockb] >= [winfo x $gw.fclocks]}]
+
+# The preference decides the face the game asks ::gameclock for: on (the
+# default) is the digital one, off is the analog face.
+checkEq "the preference is on by default" $::sergame::showDigitalClock 1
+checkEq "so White's clock is asked for as a digital face" $::fake::gcMode(1) "digital"
+checkEq "and so is Black's" $::fake::gcMode(2) "digital"
+endGame
+
+gameDefaults
+set ::sergame::showDigitalClock 0
+fake::reset
+::sergame::play
+quiet
+checkEq "with the preference off the game asks for the analog face" $::fake::gcMode(1) "analog"
+checkEq "on both clocks" $::fake::gcMode(2) "analog"
+checkEq "and the analog face is still a square" \
+    [list [.coachWin.fclockw.clock1 cget -width] [.coachWin.fclockw.clock1 cget -height]] \
+    [list 88 88]
+set ::sergame::showDigitalClock 1
+::sergame::applyClockFace
+checkEq "turning it back on re-faces the running game" $::fake::gcMode(1) "digital"
+endGame
+set ::sergame::showDigitalClock 1
+
+# The shared widget is opt-in: FICS and Tactics pass no face and keep the one
+# they have always drawn (the analog face with its small text inside).
+foreach {file label} {fics.tcl FICS tactics.tcl Tactics} {
+    set src [readText [file join $root tcl tools $file]]
+    set calls {}
+    foreach line [split $src "\n"] {
+        set trimmed [string trim $line]
+        if {[string match "::gameclock::new *" $trimmed]} { lappend calls $trimmed }
+    }
+    check "$label builds clocks through ::gameclock::new" [expr {[llength $calls] > 0}]
+    set fifth 0
+    foreach call $calls {
+        if {[llength $call] > 5} { incr fifth }
+    }
+    checkEq "$label passes no face, so keeps today's appearance" $fifth 0
+}
+
+##############################################################################
+puts "\nwhere the clocks start: the game's own times, or the configured control"
+##############################################################################
+# A game Play is started on mid-position, as ::gameclock::storeTimeComment
+# leaves it: each move's comment carries [%clk] with the time its mover had
+# left. The clocks continue from those times; the game window says so.
+proc seedGame {} {
+    set ::fake::gamePositions {
+        {0 0 {start} {} {} {} {}}
+        {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
+        {0 0 {fen2} {} {[%clk 0:04:59]} e5 e7e5}
+    }
+}
+
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+seedGame
+::sergame::play
+quiet
+checkEq "the clocks continue from the times the game records" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 272 299]
+checkIn "the game window says the times came from the game" \
+    $::sergame::clockLabel [::tr ClocksContinued]
+checkIn "with White's recorded time" $::sergame::clockLabel "0:04:32"
+checkIn "and Black's" $::sergame::clockLabel "0:04:59"
+endGame
+
+# The same game, with the preference off: both clocks restart from the
+# configured control, and the window says that instead.
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+set ::sergame::clockFromGame 0
+seedGame
+::sergame::play
+quiet
+checkEq "with the preference off the clocks restart from the settings" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 300 300]
+checkIn "and the game window says the clocks were restarted" \
+    $::sergame::clockLabel [::tr ClocksRestarted]
+checkNotIn "not that they were continued" $::sergame::clockLabel [::tr ClocksContinued]
+endGame
+
+# A game that records no clock at all (imported without times, or barely
+# started): the configured control is the only answer, and the fallback says so.
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+::sergame::play
+quiet
+checkEq "a game with no recorded times starts from the configured control" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 300 300]
+checkIn "and says the clocks were restarted" \
+    $::sergame::clockLabel [::tr ClocksRestarted]
+endGame
+
+# One side recorded, the other not: the side that has not moved yet is exactly
+# where the configured time control would have it, and the clocks are said to
+# be the game's because the side that has moved continues from its own time.
+gameDefaults
+fake::reset
+set ::sergame::startFromCurrent 1
+set ::fake::gamePositions {
+    {0 0 {start} {} {} {} {}}
+    {0 0 {fen1} {} {[%clk 0:04:32]} e4 e2e4}
+}
+::sergame::play
+quiet
+checkEq "a half-recorded game keeps the mover's time and starts the other side" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 272 300]
+endGame
+
+# A clock game that is not started from a position is unaffected: no game
+# record of a position means nothing to continue from.
+gameDefaults
+fake::reset
+::sergame::play
+quiet
+checkEq "a fresh game still starts from the configured control" \
+    [list [::gameclock::getSec 1] [::gameclock::getSec 2]] [list 300 300]
+checkIn "and says so" $::sergame::clockLabel [::tr ClocksRestarted]
+endGame
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

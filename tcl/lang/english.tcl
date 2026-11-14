@@ -1932,6 +1932,10 @@ translate E SpecificOpening {Specific opening}
 translate E StartNewGame {Start new game}
 translate E Opening {Opening}
 translate E StartFromCurrentPosition {Start from current position}
+translate E ShowDigitalClock {Show digital clock}
+translate E ClockFromGame {Start from the time recorded in the game}
+translate E ClocksContinued {Clocks continued from the game}
+translate E ClocksRestarted {Clocks restarted}
 translate E FixedDepth {Fixed depth}
 translate E Nodes {Nodes}
 translate E Depth {Depth}

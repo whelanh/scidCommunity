@@ -1916,6 +1916,10 @@ translate k SpecificOpening {특정개시}
 translate k StartNewGame {새로운 게임 시작}
 translate k Opening {당신에게}
 translate k StartFromCurrentPosition {현재 위치에서 시작}
+translate k ShowDigitalClock {Show digital clock}
+translate k ClockFromGame {Start from the time recorded in the game}
+translate k ClocksContinued {Clocks continued from the game}
+translate k ClocksRestarted {Clocks restarted}
 translate k FixedDepth {고정된 크기}
 translate k Nodes {구분}
 translate k Depth {규모}

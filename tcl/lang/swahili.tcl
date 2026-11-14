@@ -1875,6 +1875,10 @@ translate Z SpecificOpening {Ufunguzi maalum}
 translate Z StartNewGame {Anza mchezo mpya}
 translate Z Opening {Ufunguzi}
 translate Z StartFromCurrentPosition {Anza kutoka kwa nafasi ya sasa}
+translate Z ShowDigitalClock {Show digital clock}
+translate Z ClockFromGame {Start from the time recorded in the game}
+translate Z ClocksContinued {Clocks continued from the game}
+translate Z ClocksRestarted {Clocks restarted}
 translate Z FixedDepth {Kina kisichobadilika}
 translate Z Nodes {Nodi}
 translate Z Depth {Kina}

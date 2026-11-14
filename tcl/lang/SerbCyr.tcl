@@ -1916,6 +1916,10 @@ translate J SpecificOpening {Специфично отварање}
 translate J StartNewGame {Започните нову игру}
 translate J Opening {Отварање}
 translate J StartFromCurrentPosition {Почните са тренутне позиције}
+translate J ShowDigitalClock {Show digital clock}
+translate J ClockFromGame {Start from the time recorded in the game}
+translate J ClocksContinued {Clocks continued from the game}
+translate J ClocksRestarted {Clocks restarted}
 translate J FixedDepth {Фиксна дубина}
 translate J Nodes {Чворови}
 translate J Depth {Дубина}

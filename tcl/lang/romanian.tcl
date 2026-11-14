@@ -1916,6 +1916,10 @@ translate L SpecificOpening {Deschidere specifica}
 translate L StartNewGame {Începeți un nou joc}
 translate L Opening {Deschidere}
 translate L StartFromCurrentPosition {Începeți de la poziția curentă}
+translate L ShowDigitalClock {Show digital clock}
+translate L ClockFromGame {Start from the time recorded in the game}
+translate L ClocksContinued {Clocks continued from the game}
+translate L ClocksRestarted {Clocks restarted}
 translate L FixedDepth {Adâncime fixă}
 translate L Nodes {Noduri}
 translate L Depth {Adâncime}

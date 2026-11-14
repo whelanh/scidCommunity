@@ -1876,6 +1876,10 @@ translate Q SpecificOpening {Конкретне відкриття}
 translate Q StartNewGame {Почніть нову гру}
 translate Q Opening {відкриття}
 translate Q StartFromCurrentPosition {Почати з поточної позиції}
+translate Q ShowDigitalClock {Show digital clock}
+translate Q ClockFromGame {Start from the time recorded in the game}
+translate Q ClocksContinued {Clocks continued from the game}
+translate Q ClocksRestarted {Clocks restarted}
 translate Q FixedDepth {Фіксована глибина}
 translate Q Nodes {Вузли}
 translate Q Depth {Глибина}

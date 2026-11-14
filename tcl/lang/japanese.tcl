@@ -1916,6 +1916,10 @@ translate A SpecificOpening {特定の開口部}
 translate A StartNewGame {新しいゲームを始める}
 translate A Opening {オープニング}
 translate A StartFromCurrentPosition {現在の位置から開始}
+translate A ShowDigitalClock {Show digital clock}
+translate A ClockFromGame {Start from the time recorded in the game}
+translate A ClocksContinued {Clocks continued from the game}
+translate A ClocksRestarted {Clocks restarted}
 translate A FixedDepth {固定深さ}
 translate A Nodes {ノード}
 translate A Depth {深さ}

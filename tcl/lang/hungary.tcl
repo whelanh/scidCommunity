@@ -1898,6 +1898,10 @@ translate H SpecificOpening {Meghatározott megnyitás}
 translate H StartNewGame {Új játszma}
 translate H Opening {Megnyitás}
 translate H StartFromCurrentPosition {Ez legyen a kezdõállás}
+translate H ShowDigitalClock {Show digital clock}
+translate H ClockFromGame {Start from the time recorded in the game}
+translate H ClocksContinued {Clocks continued from the game}
+translate H ClocksRestarted {Clocks restarted}
 translate H FixedDepth {Adott mélység}
 translate H Nodes {Csomópont} 
 translate H Depth {Mélység}

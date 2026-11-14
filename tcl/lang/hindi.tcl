@@ -1875,6 +1875,10 @@ translate h SpecificOpening {विशिष्ट उद्घाटन}
 translate h StartNewGame {नया खेल प्रारंभ करें}
 translate h Opening {प्रारंभिक}
 translate h StartFromCurrentPosition {वर्तमान स्थिति से प्रारंभ करें}
+translate h ShowDigitalClock {Show digital clock}
+translate h ClockFromGame {Start from the time recorded in the game}
+translate h ClocksContinued {Clocks continued from the game}
+translate h ClocksRestarted {Clocks restarted}
 translate h FixedDepth {निश्चित गहराई}
 translate h Nodes {नोड्स}
 translate h Depth {गहराई}

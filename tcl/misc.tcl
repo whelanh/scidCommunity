@@ -576,27 +576,88 @@ proc format_clock_from_seconds {seconds} {
 ################################################################################
 namespace eval gameclock {
   array set data {}
+  # What a face draws, chosen by the caller that builds it:
+  #   both    -- the analog face with a small digital text inside it. This is
+  #              what every caller drew before the choice existed, so it is the
+  #              default and FICS and Tactics (which pass no mode) keep it.
+  #   analog  -- the face alone: hands and numerals, no text.
+  #   digital -- the text alone: no hands, no numerals, no face ring.
+  variable modes {both analog digital}
   ################################################################################
-  proc new { parent n { size 100 } {showfall 0} } {
+  proc new { parent n { size 100 } {showfall 0} {display both} } {
     global ::gameclock::data
+    if {[lsearch -exact $::gameclock::modes $display] < 0} { set display "both" }
+    set data(display$n) $display
+    # The older flag kept its meaning: is a digital text drawn at all?
+    set data(digital$n) [expr {$display ne "analog"}]
     set data(showfallen$n) $showfall
     set data(id$n) ""
     if {$parent != ""} {
       set data(id$n) $parent.clock$n
-      canvas $data(id$n) -height $size -width $size
-      pack $data(id$n) -side top -anchor center
-      for {set i 1} {$i<13} {incr i} {
-        set a [expr {$i/6.*acos(-1)}]
-        set x [expr { ($size/2 + (($size-15)/2)*sin($a) ) }]
-        set y [expr { ($size/2 - (($size-15)/2)*cos($a) ) }]
-        $data(id$n) create text $x $y -text $i -tag clock$n
+      # A digital face is text, not a circle: it is given the width the text
+      # needs instead of the square of the analog face.
+      if {$display eq "digital"} {
+        canvas $data(id$n) -height $size -width [::gameclock::digitalWidth $size]
+      } else {
+        canvas $data(id$n) -height $size -width $size
       }
+      pack $data(id$n) -side top -anchor center
+      ::gameclock::face $n
       bind $data(id$n) <Button-1> "::gameclock::toggleClock $n"
     }
     set data(fg$n) "black"
     set data(running$n) 0
-    set data(digital$n) 1
     ::gameclock::reset $n
+    ::gameclock::draw $n
+  }
+  ################################################################################
+  # The width a face is drawn at: 0 when it has no canvas at all. A caller that
+  # sizes a window to its clocks reads this instead of a geometry pass.
+  proc width { n } {
+    global ::gameclock::data
+    if {![info exists data(id$n)] || ![winfo exists $data(id$n)]} { return 0 }
+    return [$data(id$n) cget -width]
+  }
+  ################################################################################
+  # The width a digital face needs for an h:mm:ss text at this height.
+  proc digitalWidth { size } {
+    return [expr {int($size * 1.9)}]
+  }
+  ################################################################################
+  # The items a face carries when nothing is running: the numerals of the
+  # analog face, and nothing at all for a digital one.
+  proc face { n } {
+    global ::gameclock::data
+    if {![winfo exists $data(id$n)]} { return }
+    $data(id$n) delete clock$n
+    if {$data(display$n) eq "digital"} { return }
+    set w [$data(id$n) cget -width]
+    set h [$data(id$n) cget -height]
+    set size [expr {$w < $h ? $w : $h}]
+    for {set i 1} {$i<13} {incr i} {
+      set a [expr {$i/6.*acos(-1)}]
+      set x [expr { ($size/2 + (($size-15)/2)*sin($a) ) }]
+      set y [expr { ($size/2 - (($size-15)/2)*cos($a) ) }]
+      $data(id$n) create text $x $y -text $i -tag clock$n
+    }
+  }
+  ################################################################################
+  # Change the look of an existing face and redraw it: the game window's
+  # preference can change while the game is running.
+  proc setDisplay { n display } {
+    global ::gameclock::data
+    if {[lsearch -exact $::gameclock::modes $display] < 0} { return }
+    set data(display$n) $display
+    set data(digital$n) [expr {$display ne "analog"}]
+    if {![winfo exists $data(id$n)]} { return }
+    set h [$data(id$n) cget -height]
+    if {$display eq "digital"} {
+      $data(id$n) configure -width [::gameclock::digitalWidth $h]
+    } else {
+      $data(id$n) configure -width $h
+    }
+    $data(id$n) delete all
+    ::gameclock::face $n
     ::gameclock::draw $n
   }
   ################################################################################
@@ -634,15 +695,30 @@ namespace eval gameclock {
 
     if {$color == "white"} {set fg "black"} else {set fg "white"}
 
-    foreach divisor {30 1800 21600} length "[expr $size/2 * 0.8] [expr $size/2 * 0.7] [expr $size/2 * 0.4]" \
-        width {1 2 3} {
-          set angle [expr {$sec * acos(-1) / $divisor}]
-          set x [expr {$cx + $length * sin($angle)}]
-          set y [expr {$cy - $length * cos($angle)}]
-          $data(id$n) create line $cx $cy $x $y -width $width -tags aig$n -fill $color
-        }
-    # draw a digital clock
-    if {$data(digital$n)} {
+    if {![info exists data(display$n)]} {
+      # A clock created before the display choice existed draws as it always did.
+      set data(display$n) "both"
+    }
+    set display $data(display$n)
+    if {$display ne "digital"} {
+      foreach divisor {30 1800 21600} length "[expr $size/2 * 0.8] [expr $size/2 * 0.7] [expr $size/2 * 0.4]" \
+          width {1 2 3} {
+            set angle [expr {$sec * acos(-1) / $divisor}]
+            set x [expr {$cx + $length * sin($angle)}]
+            set y [expr {$cy - $length * cos($angle)}]
+            $data(id$n) create line $cx $cy $x $y -width $width -tags aig$n -fill $color
+      }
+    }
+    if {$display eq "digital"} {
+      # The whole face is the clock: h:mm:ss, set large enough to read from the
+      # board, with the hours recomputed here -- `h` above is the canvas height.
+      set eh [format "%d" [expr abs($sec) / 60 / 60] ]
+      set em [format "%02d" [expr (abs($sec) / 60) % 60] ]
+      set es [format "%02d" [expr abs($sec) % 60] ]
+      $data(id$n) create text $cx $cy -text "$eh:$em:$es" -anchor center -fill $color \
+          -font [list Helvetica [expr {$h > 32 ? int($h / 4) : 8}] bold] -tag aig$n
+    } elseif {$display eq "both"} {
+      # the analog face's own small text, drawn inside it
       set m [format "%02d" [expr abs($sec) / 60] ]
       set s [format "%02d" [expr abs($sec) % 60] ]
       $data(id$n) create text $cx [expr $cy + $size/4 ] -text "$m:$s" -anchor center -fill $color -tag aig$n
@@ -756,7 +832,10 @@ namespace eval gameclock {
       set bg "black"
     }
     set ::gameclock::data(fg$n) $fg
+    if {![winfo exists $::gameclock::data(id$n)]} { return }
     $::gameclock::data(id$n) configure -background $bg
+    # A digital face has neither numerals nor hands; itemconfigure on an empty
+    # tag list is what colours what is there.
     $::gameclock::data(id$n) itemconfigure clock$n -fill $fg
     $::gameclock::data(id$n) itemconfigure aig$n -fill $fg
   }

@@ -1899,6 +1899,10 @@ translate I SpecificOpening {Apertura Specifica}
 translate I StartNewGame {Inizia una nuova partita}
 translate I Opening {Apertura}
 translate I StartFromCurrentPosition {Parti dalla posizione attuale}
+translate I ShowDigitalClock {Show digital clock}
+translate I ClockFromGame {Start from the time recorded in the game}
+translate I ClocksContinued {Clocks continued from the game}
+translate I ClocksRestarted {Clocks restarted}
 translate I FixedDepth {Profondità fissa}
 translate I Nodes {Nodi}
 translate I Depth {Profondità}

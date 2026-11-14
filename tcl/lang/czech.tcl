@@ -1897,6 +1897,10 @@ translate C SpecificOpening {Vybran zahjen}
 translate C StartNewGame {Zat novou hru}
 translate C Opening {Zahjen}
 translate C StartFromCurrentPosition {Zat z aktuln pozice}
+translate C ShowDigitalClock {Show digital clock}
+translate C ClockFromGame {Start from the time recorded in the game}
+translate C ClocksContinued {Clocks continued from the game}
+translate C ClocksRestarted {Clocks restarted}
 translate C FixedDepth {Pevn hloubka}
 translate C Nodes {Uzly} 
 translate C Depth {Hloubka}

@@ -1922,6 +1922,10 @@ translate N SpecificOpening {Specifieke opening}
 translate N StartNewGame {Start nieuwe partij}
 translate N Opening {Opening}
 translate N StartFromCurrentPosition {Start vanaf de huidige stelling}
+translate N ShowDigitalClock {Show digital clock}
+translate N ClockFromGame {Start from the time recorded in the game}
+translate N ClocksContinued {Clocks continued from the game}
+translate N ClocksRestarted {Clocks restarted}
 translate N FixedDepth {Vaste diepte}
 translate N Nodes {Knooppunten} 
 translate N Depth {Diepte}

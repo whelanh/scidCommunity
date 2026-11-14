@@ -1852,6 +1852,10 @@ translate M SpecificOpening {具体开盘}
 translate M StartNewGame {开始新游戏}
 translate M Opening {开幕}
 translate M StartFromCurrentPosition {从当前位置开始}
+translate M ShowDigitalClock {Show digital clock}
+translate M ClockFromGame {Start from the time recorded in the game}
+translate M ClocksContinued {Clocks continued from the game}
+translate M ClocksRestarted {Clocks restarted}
 translate M FixedDepth {固定深度}
 translate M Nodes {节点}
 translate M Depth {深度}

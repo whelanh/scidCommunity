@@ -1916,6 +1916,10 @@ translate g SpecificOpening {Специфичен отвор}
 translate g StartNewGame {Започнете нова игра}
 translate g Opening {Отваряне}
 translate g StartFromCurrentPosition {Започнете от текущата позиция}
+translate g ShowDigitalClock {Show digital clock}
+translate g ClockFromGame {Start from the time recorded in the game}
+translate g ClocksContinued {Clocks continued from the game}
+translate g ClocksRestarted {Clocks restarted}
 translate g FixedDepth {Фиксирана дълбочина}
 translate g Nodes {Възли}
 translate g Depth {Дълбочина}

@@ -1879,6 +1879,10 @@ translate T SpecificOpening {Özel açılış}
 translate T StartNewGame {Yeni oyuna başla}
 translate T Opening {Açılış}
 translate T StartFromCurrentPosition {Geçerli konumdan başla}
+translate T ShowDigitalClock {Show digital clock}
+translate T ClockFromGame {Start from the time recorded in the game}
+translate T ClocksContinued {Clocks continued from the game}
+translate T ClocksRestarted {Clocks restarted}
 translate T FixedDepth {Sabit derinlik}
 translate T Nodes {Düğümler}
 translate T Depth {Derinlik}
