@@ -498,6 +498,11 @@ proc ::tree::dorefresh { baseNumber {filter "tree"}} {
   if {[info exists ::treeFilterUpdating_]} {
     progressBarContinue $w.progress [lindex [grid bbox $w.statusframe] 2] 100 \
         $::tree::searchShare
+    # ::cancelUpdateTreeFilter only cancels the bar when this window is the
+    # last pending entry. The search for this base has already finished, so
+    # let Stop cancel the stats directly even when another window (a game
+    # list with a position mask) is also waiting for the same base.
+    $w.buttons.stop configure -command "::progressBarCancel"
   }
   set err [ catch { sc_tree stats $baseNumber $filter $tree(training$baseNumber) \
                                   $tree(order$baseNumber) $tree(movedepth$baseNumber) } moves]
