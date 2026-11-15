@@ -25,7 +25,6 @@ set helpText(I,Contents) {<h1>Contenuto della guida di scidCommunity</h1>
   
   <h4>Altre finestre di scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Analisi</b> finestra</a></li>
   <li><a Engine><b>Motore</b> finestre</a></li>
   <li><a Book><b>Libro</b> finestra</a></li>
   <li><a Comment><b>Editor dei commenti</b> finestra</a></li>
@@ -74,7 +73,6 @@ set helpText(I,Index) {<h1>scidIndice degli argomenti della guida della communit
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Finestra Analisi</a></li>
   <li><a Annotating>Giochi di annotazione</a></li>
   <li><a NAGs>Simboli di annotazione</a></li>
   <li><a Author>Autore, contattando</a></li>
@@ -2445,34 +2443,6 @@ set helpText(I,PGNAutoComment) {<h1>Finestra PGN: pulsante commento automatico</
 }
 
 
-set helpTitle(I,AnalysisAutoComment) "Pulsante commento automatico"
-set helpText(I,AnalysisAutoComment) {<h1>Finestra di analisi: pulsante commento automatico</h1>
-  <p>
-  Il pulsante <b>Commento automatico</b> nella finestra <a Engine>Motore di analisi</a> consente di
-  generare automaticamente commenti AI per un intero gioco in modalità batch.
-  </p>
-  
-  <h3>Come funziona</h3>
-  <p>
-  Quando fai clic sul pulsante, scidCommunity esegue la scansione dell'intero gioco alla ricerca di mosse annotate
-  (si sposta con NAG o commenti esistenti). Per ciascuna di queste mosse:
-  <ul>
-  <li> Recupera le valutazioni cloud per il contesto </li>
-  <li> Utilizza qualsiasi variazione PGN esistente come linee motore "Ground Truth" </li>
-  <li> Interroga l'IA per spiegare perché la linea consigliata è la migliore o perché la mossa giocata è stata un errore </li>
-  <li>Aggiunge il commento generato ai commenti esistenti dello spostamento</li>
-  </ul>
-  </p>
-  
-  <h3>Utilizzo</h3>
-  <p>
-  Questa funzione è ideale per aggiungere rapidamente note educative a un gioco che hai già
-  analizzato con un motore. Rispetta le tue variazioni locali, garantendo l'intelligenza artificiale
-  le spiegazioni si allineano con l'analisi specifica del tuo motore.
-  </p>
-  
-  <p><footer>(Aggiornato: scidCommunity, marzo 2026)</footer></p>
-}
 
 
 set helpTitle(I,PTracker) "Tracciatore di pezzi"

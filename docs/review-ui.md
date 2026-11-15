@@ -126,9 +126,10 @@ verdict then rests on a shallower search than the setting promised. That is the
 trade the cap asks for, and it is why the cap is off by default.
 
 **One setting, one surface.** The time cap is set in Review Settings — the only
-surface that has it since #437 deleted the legacy annotate dialog. Every pass
-reads `::review::passLimits`, so a cap set here reaches Game Review, Move Comment
-and Batch annotate.
+surface that sets the review's *own* cap since #437 deleted the legacy annotate
+dialog; a preset that carries `Limits.movetime` still supplies the fallback when
+no cap is set. Every pass reads `::review::passLimits`, so a cap set here reaches
+Game Review, Move Comment and Batch annotate.
 
 **A bound never displaces a verdict.** A capped search can report a MultiPV slot
 as `lowerbound`/`upperbound` at the depth it had reached and only then finish the

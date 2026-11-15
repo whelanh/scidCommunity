@@ -25,7 +25,6 @@ set helpText(T,Contents) {<h1>scidTopluluk Yardımı İçerikleri</h1>
   
   <h4>Diğer scidTopluluk pencereleri</h4>
   <ul>
-  <li><a Engine><b>Analiz</b> pencere</a></li>
   <li><a Engine><b>Motor</b> pencereler</a></li>
   <li><a Book><b>Kitap</b> pencere</a></li>
   <li><a Comment><b>Yorum düzenleyici</b> pencere</a></li>
@@ -74,7 +73,6 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Analiz</a> penceresi</li>
   <li><a Annotating>Ek açıklama ekleme oyunları</a></li>
   <li><a NAGs>Açıklama sembolleri</a></li>
   <li><a Author>Yazar, iletişim kurma</a></li>
@@ -2443,35 +2441,6 @@ set helpText(T,PGNAutoComment) {<h1>PGN Penceresi: Otomatik Yorum Düğmesi</h1>
 }
 
 
-set helpTitle(T,AnalysisAutoComment) "Otomatik Yorum Düğmesi"
-set helpText(T,AnalysisAutoComment) {<h1>Analiz Penceresi: Otomatik Yorum Düğmesi</h1>
-  <p>
-   <b>Otomatik Yorum</b> düğmesi <a Engine>Analiz Motoru</a> pencere şunları yapmanızı sağlar
-  Toplu modda oyunun tamamı için otomatik olarak yapay zeka yorumları oluşturun.
-  </p>
-  
-  <h3>Nasıl çalışır?</h3>
-  <p>
-  Düğmeye tıkladığınızda, scidCommunity açıklamalı hareketler için oyunun tamamını tarar
-  (NAG'lerle veya mevcut yorumlarla birlikte hareket eder). Bu tür her hareket için:
-  <ul>
-  <li>Bağlam için bulut değerlendirmelerini alır</li>
-  <li>Mevcut PGN varyasyonlarını "Ground Truth" motor hatları olarak kullanır</li>
-  <li>Önerilen satırın neden en iyi olduğunu veya oynanan hamlenin neden hata olduğunu açıklamak için yapay zekayı sorgular</li>
-  <li>Oluşturulan yorumu hareketin mevcut yorumlarına ekler</li>
-  </ul>
-  </p>
-  
-  <h3>Kullanım</h3>
-  <p>
-  Bu özellik, halihazırda oynadığınız bir oyuna hızlı bir şekilde eğitim notları eklemek için idealdir.
-  bir motorla analiz edilmiştir. Yerel varyasyonlarınıza saygı göstererek yapay zekanın
-  açıklamalar özel motor analizinizle uyumludur.
-  </p>
-  
-  <p><footer>(Güncelleme: scidCommunity, Mart 2026)</footer></p>
-
-}
 
 
 set helpTitle(T,PTracker) "Parça takipçisi"

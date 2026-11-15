@@ -25,7 +25,6 @@ set helpText(W,Contents) {<h1>scidCommunity hjälpinnehåll</h1>
   
   <h4>Andra scidCommunity-fönster</h4>
   <ul>
-  <li><a Engine><b>Analys</b> fönster</a></li>
   <li><a Engine><b>Motor</b> fönster</a></li>
   <li><a Book><b>Boka</b> fönster</a></li>
   <li><a Comment><b>Kommentar editor</b> fönster</a></li>
@@ -74,7 +73,6 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine> Analys</a> fönster</li>
   <li><a Annotating>Kommenterande spel</a></li>
   <li><a NAGs>Anteckningssymboler</a></li>
   <li><a Author>Författare, kontaktar</a></li>
@@ -2437,34 +2435,6 @@ set helpText(W,PGNAutoComment) {<h1>PGN-fönster: Autokommentarknapp </h1>
 }
 
 
-set helpTitle(W,AnalysisAutoComment) "Knapp för automatisk kommentar"
-set helpText(W,AnalysisAutoComment) {<h1>Analysfönster: Autokommentarknapp </h1>
-  <p>
-  Knappen <b>Auto Comment</b> i fönstret <a Engine>Engine Window</a> låter dig
-  generera automatiskt AI-kommentarer för ett helt spel i batch-läge.
-  </p>
-  
-  <h3>Så fungerar det</h3>
-  <p>
-  När du klickar på knappen skannar scidCommunity hela spelet efter kommenterade drag
-  (flyttar med NAGs eller befintliga kommentarer). För varje sådant drag är det:
-  <ul>
-  <li>Hämtar molnutvärderingar för sammanhang</li>
-  <li>Använder alla befintliga PGN-varianter som "Ground Truth"-motorlinjer </li>
-  <li> Frågar AI:n för att förklara varför den rekommenderade linjen är bäst eller varför det spelade draget var ett fel </li>
-  <li>Lägger till den genererade kommentaren till flyttens befintliga kommentarer</li>
-  </ul>
-  </p>
-  
-  <h3>Användning</h3>
-  <p>
-  Den här funktionen är idealisk för att snabbt lägga till pedagogiska anteckningar till ett spel du redan har
-  analyseras med en motor. Den respekterar dina lokala variationer och säkerställer AI:s
-  förklaringar stämmer överens med din specifika motoranalys.
-  </p>
-  
-  <p><footer>(Uppdaterad: scidCommunity, mars 2026)</footer></p>
-}
 
 
 set helpTitle(W,PTracker) "Styckspårare"

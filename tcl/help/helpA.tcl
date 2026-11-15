@@ -25,7 +25,6 @@ set helpText(A,Contents) {<h1>scidコミュニティのヘルプコンテンツ<
   
   <h4>その他の scidCommunity ウィンドウ</h4>
   <ul>
-  <li><a Engine><b>分析</b> ウィンドウ</a></li>
   <li><a Engine><b>エンジン</b> 窓</a></li>
   <li><a Book><b>本</b> ウィンドウ</a></li>
   <li><a Comment><b>コメントエディター</b> ウィンドウ</a></li>
@@ -74,7 +73,6 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>解析</a>ウィンドウ</li>
   <li><a Annotating>ゲームに注釈を付ける</a></li>
   <li><a NAGs>注釈記号</a></li>
   <li><a Author>作成者、連絡中</a></li>
@@ -2442,35 +2440,6 @@ set helpText(A,PGNAutoComment) {<h1>PGN ウィンドウ: 自動コメント ボ�
 }
 
 
-set helpTitle(A,AnalysisAutoComment) "自動コメントボタン"
-set helpText(A,AnalysisAutoComment) {<h1>分析ウィンドウ：自動コメントボタン</h1>
-  <p>
-  の <b>自動コメント</b> のボタン <a Engine>分析エンジン</a> ウィンドウを使用すると、
-  ゲーム全体の AI コメントをバッチ モードで自動的に生成します。
-  </p>
-  
-  <h3>仕組み</h3>
-  <p>
-  ボタンをクリックすると、scidCommunity はゲーム全体をスキャンして注釈付きの動きを探します
-  (NAG または既存のコメントとともに移動します)。そのような動きごとに、次のようになります。
-  <ul>
-  <li>コンテキストのクラウド評価を取得します</li>
-  <li>既存の PGN バリエーションを「Ground Truth」エンジン ラインとして使用します</li>
-  <li>AI にクエリを実行して、推奨されたセリフが最適である理由、または指された手がエラーだった理由を説明します。</li>
-  <li>生成されたコメントを移動の既存のコメントに追加します</li>
-  </ul>
-  </p>
-  
-  <h3>使用法</h3>
-  <p>
-  この機能は、すでに作成したゲームに教育的なメモをすばやく追加するのに最適です。
-  エンジンで解析します。ローカルのバリエーションを尊重し、AI の
-  説明は特定のエンジン分析に合わせて行われます。
-  </p>
-  
-  <p><footer>(更新: scidCommunity、2026 年 3 月)</footer></p>
-
-}
 
 
 set helpTitle(A,PTracker) "ピーストラッカー"

@@ -25,7 +25,6 @@ set helpText(M,Contents) {<h1>scid社区帮助内容</h1>
   
   <h4>其他 scidCommunity windows</h4>
   <ul>
-  <li><a Engine><b>分析</b>窗口</a></li>
   <li><a Engine><b>发动机</b>车窗</a></li>
   <li><a Book><b>书籍</b>窗口</a></li>
   <li><a Comment><b>评论编辑器</b>窗口</a></li>
@@ -73,7 +72,6 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>分析</a>窗口</li>
   <li><a Annotating>注释游戏</a></li>
   <li><a NAGs>注释符号</a></li>
   <li><a Author>作者，联系方式</a></li>
@@ -2456,35 +2454,6 @@ set helpText(M,PGNAutoComment) {<h1>PGN 窗口：自动注释按钮</h1>
 }
 
 
-set helpTitle(M,AnalysisAutoComment) "自动评论按钮"
-set helpText(M,AnalysisAutoComment) {<h1>分析窗口：自动注释按钮</h1>
-  <p>
-  这 <b>自动评论</b> 按钮在 <a Engine>分析引擎</a> 窗口允许您
-  以批处理模式自动生成整个游戏的人工智能解说。
-  </p>
-  
-  <h3>它是如何运作的</h3>
-  <p>
-  当您单击按钮时，scidCommunity 会扫描整个游戏以查找带注释的动作
-  （随 NAG 或现有评论一起移动）。对于每一个这样的举动，它：
-  <ul>
-  <li>检索上下文的云评估</li>
-  <li>使用任何现有的 PGN 变体作为“Ground Truth”引擎系列</li>
-  <li>询问人工智能以解释为什么推荐的路线是最好的或者为什么所走的棋步是错误的</li>
-  <li>将生成的注释附加到该移动的现有注释中</li>
-  </ul>
-  </p>
-  
-  <h3>用法</h3>
-  <p>
-  此功能非常适合向您已经玩过的游戏快速添加教育笔记
-  用引擎进行分析。它尊重您的本地差异，确保人工智能
-  解释与您的具体发动机分析相符。
-  </p>
-  
-  <p><footer>（更新：scidCommunity，2026 年 3 月）</footer></p>
-
-}
 
 
 set helpTitle(M,PTracker) "计件追踪器"

@@ -25,7 +25,6 @@ set helpText(K,Contents) {<h1>Continguts d'ajuda de scidCommunity</h1>
   
   <h4>Altres finestres de scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Anàlisi</b> finestra</a></li>
   <li><a Engine><b>Motor</b> finestres</a></li>
   <li><a Book><b>Llibre</b> finestra</a></li>
   <li><a Comment><b>Editor de comentaris</b> finestra</a></li>
@@ -74,7 +73,6 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Finestra d'anàlisi </a> </li>
   <li><a Annotating>Jocs d'anotació</a></li>
   <li><a NAGs>Símbols d'anotació</a></li>
   <li><a Author>Autor, contacte </a></li>
@@ -2446,34 +2444,6 @@ set helpText(K,PGNAutoComment) {<h1>Finestra PGN: botó de comentari automàtic 
 }
 
 
-set helpTitle(K,AnalysisAutoComment) "Botó de comentari automàtic"
-set helpText(K,AnalysisAutoComment) {<h1>Finestra d'anàlisi: botó de comentari automàtic </h1>
-  <p>
-  El botó <b>Auto Comentari </b> a la finestra <a Engine>Engine Window </a> us permet
-  genera automàticament comentaris d'IA per a un joc sencer en mode per lots.
-  </p>
-  
-  <h3>Com funciona </h3>
-  <p>
-  Quan feu clic al botó, scidCommunity escaneja tot el joc per trobar moviments anotats
-  (es mou amb NAG o comentaris existents). Per a cada moviment d'aquest tipus:
-  <ul>
-  <li>Recupera les avaluacions del núvol per al context </li>
-  <li>Utilitza qualsevol variació de PGN existent com a línies de motor "Ground Truth" </li>
-  <li> Consulta l'IA per explicar per què la línia recomanada és la millor o per què la jugada jugada va ser un error </li>
-  <li>Afegeix el comentari generat als comentaris existents del moviment </li>
-  </ul>
-  </p>
-  
-  <h3>Ús </h3>
-  <p>
-  Aquesta funció és ideal per afegir ràpidament notes educatives a un joc que ja tens
-  analitzat amb un motor. Respecta les vostres variacions locals, assegurant la IA
-  les explicacions s'alineen amb l'anàlisi específica del vostre motor.
-  </p>
-  
-  <p><footer>(Actualitzat: scidCommunity, març de 2026)</footer></p>
-}
 
 
 set helpTitle(K,PTracker) "Seguidor de peces"

@@ -25,7 +25,6 @@ set helpText(B,Contents) {<h1>Conteúdo de ajuda da comunidade scid</h1>
   
   <h4>Outras janelas do scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Análise</b> janela</a></li>
   <li><a Engine><b>Motor</b> Windows</a></li>
   <li><a Book><b>Livro</b> janela</a></li>
   <li><a Comment><b>Editor de comentários</b> janela</a></li>
@@ -74,7 +73,6 @@ set helpText(B,Index) {<h1>scidÍndice de tópicos de ajuda da comunidade </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Janela de Análise</a></li>
   <li><a Annotating>Anotação de jogos</a></li>
   <li><a NAGs>Símbolos de anotação</a></li>
   <li><a Author>Autor, entrando em contato com</a></li>
@@ -2445,34 +2443,6 @@ set helpText(B,PGNAutoComment) {<h1>Janela PGN: Botão de comentário automátic
 }
 
 
-set helpTitle(B,AnalysisAutoComment) "Botão de comentário automático"
-set helpText(B,AnalysisAutoComment) {<h1>Janela de análise: botão de comentário automático </h1>
-  <p>
-  O botão <b>Comentário Automático</b> na janela <a Engine>Mecanismo de Análise</a> permite que você
-  gerar automaticamente comentários de IA para um jogo inteiro no modo em lote.
-  </p>
-  
-  <h3>Como funciona</h3>
-  <p>
-  Quando você clica no botão, o scidCommunity verifica todo o jogo em busca de movimentos anotados
-  (move com NAGs ou comentários existentes). Para cada movimento, ele:
-  <ul>
-  <li>Recupera avaliações de nuvem para contexto</li>
-  <li> Usa quaisquer variações PGN existentes como linhas de motor "Ground Truth" </li>
-  <li> Consulta a IA para explicar por que a linha recomendada é a melhor ou por que o lance executado foi um erro </li>
-  <li>Acrescenta o comentário gerado aos comentários existentes do movimento</li>
-  </ul>
-  </p>
-  
-  <h3>Uso</h3>
-  <p>
-  Este recurso é ideal para adicionar rapidamente notas educacionais a um jogo que você já conhece.
-  analisado com um motor. Respeita as variações locais, garantindo a IA
-  as explicações se alinham com a análise específica do seu motor.
-  </p>
-  
-  <p><footer>(Atualizado: scidCommunity, março de 2026)</footer></p>
-}
 
 
 set helpTitle(B,PTracker) "Rastreador de peças"

@@ -25,7 +25,6 @@ set helpText(Z,Contents) {<h1>scidCommunity Help Contents</h1>
   
   <h4>Dirisha zingine za scidJumuiya</h4>
   <ul>
-  <li><a Engine><b>Uchambuzi</b> dirisha</a></li>
   <li><a Engine><b>Injini</b> madirisha</a></li>
   <li><a Book><b>Kitabu</b> dirisha</a></li>
   <li><a Comment><b>Mhariri wa maoni</b> dirisha</a></li>
@@ -73,7 +72,6 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Uchambuzi</a> dirisha</li>
   <li><a Annotating>Michezo ya maelezo</a></li>
   <li><a NAGs>Alama za ufafanuzi</a></li>
   <li><a Author>Mwandishi, anayewasiliana</a></li>
@@ -2444,34 +2442,6 @@ set helpText(Z,PGNAutoComment) {<h1>Dirisha la PGN: Kitufe cha Maoni Kiotomatiki
 }
 
 
-set helpTitle(Z,AnalysisAutoComment) "Kitufe cha Maoni Otomatiki"
-set helpText(Z,AnalysisAutoComment) {<h1>Dirisha la Uchambuzi: Kitufe cha Maoni Kiotomatiki</h1>
-  <p>
-  Kitufe cha <b>Maoni Kiotomatiki</b> katika dirisha la <a Engine>Injini ya Uchambuzi</a> hukuruhusu kufanya hivyo.
-  toa maoni ya AI kiotomatiki kwa mchezo mzima katika hali ya kundi.
-  </p>
-  
-  <h3>Jinsi inavyofanya kazi</h3>
-  <p>
-  Unapobofya kitufe, scidCommunity huchanganua mchezo mzima kwa hatua za maelezo
-  (husogea na NAGs au maoni yaliyopo). Kwa kila hatua kama hiyo, ni:
-  <ul>
-  <li>Hurejesha tathmini za wingu kwa muktadha</li>
-  <li>Hutumia tofauti zozote zilizopo za PGN kama mistari ya injini ya "Ground Truth"</li>
-  <li>Inaulizia AI kueleza kwa nini laini iliyopendekezwa ni bora zaidi au kwa nini hatua iliyochezwa ilikuwa hitilafu</li>
-  <li>Huongeza maoni yaliyotolewa kwa maoni yaliyopo ya hoja </li>
-  </ul>
-  </p>
-  
-  <h3>Matumizi</h3>
-  <p>
-  Kipengele hiki ni bora kwa kuongeza haraka madokezo ya kielimu kwenye mchezo ambao tayari uko nao
-  kuchambuliwa na injini. Inaheshimu tofauti zako za ndani, kuhakikisha AI
-  maelezo yanalingana na uchanganuzi wako maalum wa injini.
-  </p>
-  
-  <p><footer>(Ilisasishwa: scidCommunity, Machi 2026)</footer></p>
-}
 
 
 set helpTitle(Z,PTracker) "Kifuatiliaji cha kipande"

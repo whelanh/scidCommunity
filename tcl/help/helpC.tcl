@@ -25,7 +25,6 @@ set helpText(C,Contents) {<h1>scidObsah nápovědy komunity </h1>
   
   <h4>Další okna scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Analýza</b> okno </a></li>
   <li><a Engine><b>Motor</b> windows</a></li>
   <li><a Book><b>Kniha</b> okno </a></li>
   <li><a Comment><b>Okno editoru komentářů</b></a></li>
@@ -73,7 +72,6 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Analýza</a> okno </li>
   <li><a Annotating>Anotování her </a></li>
   <li><a NAGs>Anotační symboly</a></li>
   <li><a Author>Autor, kontaktuji</a></li>
@@ -2441,34 +2439,6 @@ set helpText(C,PGNAutoComment) {<h1> Okno PGN: Tlačítko automatického koment�
 }
 
 
-set helpTitle(C,AnalysisAutoComment) "Tlačítko automatického komentáře"
-set helpText(C,AnalysisAutoComment) {<h1> Okno analýzy: Tlačítko automatického komentáře </h1>
-  <p>
-  Tlačítko <b>Auto Comment</b> v okně <a Engine>Engine Window</a> vám umožňuje
-  automaticky generovat AI komentář pro celou hru v dávkovém režimu.
-  </p>
-  
-  <h3> Jak to funguje </h3>
-  <p>
-  Když kliknete na tlačítko, scidCommunity prohledá celou hru a najde anotované pohyby
-  (pohybuje se s NAG nebo existujícími komentáři). Pro každý takový pohyb platí:
-  <ul>
-  <li>Načítá cloudová hodnocení pro kontext </li>
-  <li> Používá jakékoli existující varianty PGN jako řady motorů „Ground Truth“ </li>
-  <li> Dotazuje se AI, aby vysvětlila, proč je doporučený řádek nejlepší nebo proč byl zahraný tah chybou </li>
-  <li>Připojí vygenerovaný komentář ke stávajícím komentářům přesunu </li>
-  </ul>
-  </p>
-  
-  <h3>Využití </h3>
-  <p>
-  Tato funkce je ideální pro rychlé přidávání vzdělávacích poznámek do hry, kterou již hrajete
-  analyzováno motorem. Respektuje vaše místní variace a zajišťuje AI
-  vysvětlení odpovídají vaší konkrétní analýze motoru.
-  </p>
-  
-  <p><footer>(Aktualizováno: scidCommunity, březen 2026)</footer></p>
-}
 
 
 set helpTitle(C,PTracker) "Sledovač kusů"

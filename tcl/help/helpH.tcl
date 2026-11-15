@@ -25,7 +25,6 @@ set helpText(H,Contents) {<h1>scidCommunity súgótartalma </h1>
   
   <h4> Egyéb scidCommunity ablakok </h4>
   <ul>
-  <li> <a Engine> <b> Elemzés </b> ablak </a> </li>
   <li> <a Engine> <b> Motor </b> ablakok </a> </li>
   <li><a Book><b>Könyv</b> ablak</a></li>
   <li><a Comment><b> Megjegyzésszerkesztő </b> ablak </a></li>
@@ -73,7 +72,6 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine> Elemzés </a> ablak </li>
   <li><a Annotating>Játékok megjegyzései </a> </li>
   <li><a NAGs> Annotációs szimbólumok </a> </li>
   <li><a Author> Szerző, kapcsolatfelvétel </a> </li>
@@ -2436,34 +2434,6 @@ set helpText(H,PGNAutoComment) {<h1>PGN ablak: Automatikus megjegyzés gomb </h1
 }
 
 
-set helpTitle(H,AnalysisAutoComment) "Automatikus megjegyzés gomb"
-set helpText(H,AnalysisAutoComment) {<h1> Elemző ablak: Automatikus megjegyzés gomb </h1>
-  <p>
-  A <b>Auto Comment</b> gomb a <a Engine>Engine Window</a> ablakban lehetővé teszi, hogy
-  automatikusan generál AI kommentárt egy teljes játékhoz kötegelt módban.
-  </p>
-  
-  <h3> Hogyan működik </h3>
-  <p>
-  Ha rákattint a gombra, a scidCommunity az egész játékot átvizsgálja megjegyzésekkel ellátott lépésekért
-  (NAG-okkal vagy meglévő megjegyzésekkel mozog). Minden ilyen lépésnél:
-  <ul>
-  <li> Felhőértékeléseket kér le a környezethez </li>
-  <li> Minden létező PGN variációt használ "Ground Truth" motorvonalként </li>
-  <li> Lekérdezi az AI-t, hogy megmagyarázza, miért a javasolt sor a legjobb, vagy miért volt hiba a lejátszott lépés </li>
-  <li> Hozzáfűzi a generált megjegyzést az áthelyezés meglévő megjegyzéseihez </li>
-  </ul>
-  </p>
-  
-  <h3> Használat </h3>
-  <p>
-  Ez a funkció ideális ahhoz, hogy oktató jegyzeteket adjon gyorsan hozzá a már használt játékhoz
-  motorral elemezzük. Tiszteletben tartja a helyi eltéréseket, biztosítva az AI-t
-  a magyarázatok összhangban vannak az Ön konkrét motorelemzésével.
-  </p>
-  
-  <p><footer>(Frissítve: scidCommunity, 2026. március)</footer></p>
-}
 
 
 set helpTitle(H,PTracker) "Darabkövető"

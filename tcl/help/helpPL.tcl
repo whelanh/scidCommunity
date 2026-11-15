@@ -2699,7 +2699,7 @@ set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
   <p>
   Sonda otwiera własne połączenie z silnikiem, prosi o najlepsze posunięcie z
   <b>MultiPV 1</b> i zamyka połączenie, gdy tylko posunięcie przyjdzie. Nie
-  pożycza silnika okna analizy i nie przeszkadza w trwającej
+  pożycza silnika żadnego okna silnika i nie przeszkadza w trwającej
   <a ReviewGameButton>Analizie partii</a>: wyszukiwanie jest krótkie, na
   głębokości 14, w limicie czasu analizy. Ustawienie, które nie jest silnikiem
   UCI, jest odrzucane, bo silnik XBoard nigdy nie odpowie na uzgodnienie

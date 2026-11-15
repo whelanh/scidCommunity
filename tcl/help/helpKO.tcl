@@ -25,7 +25,6 @@ set helpText(k,Contents) {<h1>scid커뮤니티 도움말 목차</h1>
   
   <h4>기타 scid커뮤니티 창</h4>
   <ul>
-  <li><a Engine><b>분석</b> 창문</a></li>
   <li><a Engine><b>엔진</b> 창문들</a></li>
   <li><a Book><b>책</b> 창문</a></li>
   <li><a Comment><b>댓글 편집기</b> 창문</a></li>
@@ -74,7 +73,6 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>분석</a> 창</li>
   <li><a Annotating>게임에 주석 달기</a></li>
   <li><a NAGs>주석 기호</a></li>
   <li><a Author>저자, 연락중</a></li>
@@ -2445,35 +2443,6 @@ set helpText(k,PGNAutoComment) {<h1>PGN 창: 자동 댓글 버튼</h1>
 }
 
 
-set helpTitle(k,AnalysisAutoComment) "Auto Comment Button"
-set helpText(k,AnalysisAutoComment) {<h1>분석 창: 자동 댓글 버튼</h1>
-  <p>
-  그만큼 <b>자동 댓글</b> 버튼을 <a Engine>분석 엔진</a> 창을 사용하면 다음을 수행할 수 있습니다.
-  배치 모드에서 전체 게임에 대한 AI 해설을 자동으로 생성합니다.
-  </p>
-  
-  <h3>작동 원리</h3>
-  <p>
-  버튼을 클릭하면 scidCommunity는 전체 게임에서 주석이 달린 동작을 검색합니다.
-  (NAG 또는 기존 댓글과 함께 이동). 이러한 각 이동에 대해 다음을 수행합니다.
-  <ul>
-  <li>컨텍스트에 대한 클라우드 평가를 검색합니다.</li>
-  <li>기존 PGN 변형을 "Ground Truth" 엔진 라인으로 사용합니다.</li>
-  <li>권장 라인이 왜 가장 좋은지 또는 플레이한 동작이 오류인 이유를 설명하기 위해 AI에 쿼리합니다.</li>
-  <li>생성된 설명을 이동의 기존 설명에 추가합니다.</li>
-  </ul>
-  </p>
-  
-  <h3>용법</h3>
-  <p>
-  이 기능은 이미 게임에 교육용 메모를 빠르게 추가하는 데 이상적입니다.
-  엔진으로 분석했습니다. 지역적 변형을 존중하여 AI의
-  설명은 특정 엔진 분석과 일치합니다.
-  </p>
-  
-  <p><footer>(업데이트됨: scidCommunity, 2026년 3월)</footer></p>
-
-}
 
 
 set helpTitle(k,PTracker) "Piece tracker"
@@ -3225,10 +3194,10 @@ set helpText(k,Analysis) {<h1>The Analysis window has been retired</h1>
 set helpTitle(k,Engine) "Engine windows"
 set helpText(k,Engine) {<h1>The Engine windows</h1>
   <p>
-  The Engine windows provide real-time analysis from chess engines, with
-  evaluation charts, stored cloud evaluations, and engine configuration panels.
-  They are the only engine surface now; the old Analysis window has been
-  retired. Up to two engine windows can run simultaneously.
+  The Engine windows provide real-time analysis from chess engines. 그들은 
+  differ from the Analysis window by including evaluation charts, stored 
+  cloud evaluations, and engine configuration panels. Up to two engine 
+  windows can run simultaneously.
   </p>
   <p>
   Open with <b>F2</b> (first window) or <b>F3</b> (second window).
@@ -3313,8 +3282,9 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <li> <b>acs</b> Analysis count: search time in seconds.</li>
   <li> <b>bm</b> Best moves: move(s) judged best for some reason.</li>
   <li> <b>ce</b> Centipawn evaluation: evaluation in hundredths of a
-  pawn from the perspective of the <b>side to move</b>. A review's
-  <b>[%eval]</b> is in pawns from White's perspective instead. </li>
+  pawn from the perspective of the <b>side to move</b> -- note this
+  differs from the Analysis window which shows evaluations in pawns from
+  Whites perspective. </li>
   <li> <b>cX</b> Comment (where <b>X</b> is a digit, 0-9).</li>
   <li> <b>eco</b> <a ECO>ECO</a> system opening code.</li>
   <li> <b>id</b> Unique Identification for this position.</li>
@@ -3356,13 +3326,13 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <h3>Annotating</h3>
   <p>
   EPD-files can be automatically annotated by selecting Tools /
-  Analyze Positions.... The dialog lets you choose the time to spend
-  per position, a <term>UCI</term> engine (from your configured
-  <a Engine Configure>engine list</a>), and a mode: <b>Count best moves</b>,
-  <b>Annotate</b>, or <b>Both</b>. The analysis is shown in an Engine Window,
-  opened on the chosen engine or raised if that engine already has one; the
-  pass keeps its own engine, so closing the window does not stop it. The EPD
-  opcodes added are: acd, acn, ce, dm and pv.
+  Annotate position. The upcoming dialogue asks for the time that
+  should be used for the analysis, then the <a Engine Configure>engine
+  list</a> is opened for selection of an engine to be used. <b>Note</b> If an
+  analysis window is already opened, the analysis is done using this
+  engine without asking the user beforehand. Then the engine is
+  started and the result added to the EPD. The EPD tags used are :
+  acd, acn, ce and pv.
   </p>
   <p>
 

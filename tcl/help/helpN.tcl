@@ -25,7 +25,6 @@ set helpText(N,Contents) {<h1>scidCommunity Help-inhoud</h1>
   
   <h4>Andere scidCommunity-vensters</h4>
   <ul>
-  <li><a Engine><b>Analyse</b> venster</a></li>
   <li><a Engine><b>Motor</b> ruiten</a></li>
   <li><a Book><b>Boek</b> venster</a></li>
   <li><a Comment><b>Commentaareditor</b> venster</a></li>
@@ -73,7 +72,6 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Analyse</a> venster</li>
   <li><a Annotating>Annoteren van spellen</a></li>
   <li><a NAGs>Annotatiesymbolen</a></li>
   <li><a Author>Auteur, contact opnemen met</a></li>
@@ -2436,34 +2434,6 @@ set helpText(N,PGNAutoComment) {<h1>PGN-venster: Knop voor automatisch commentaa
 }
 
 
-set helpTitle(N,AnalysisAutoComment) "Knop voor automatisch commentaar"
-set helpText(N,AnalysisAutoComment) {<h1>Analysevenster: knop Automatisch commentaar</h1>
-  <p>
-  Met de knop <b>Automatisch commentaar</b> in het venster <a Engine>Engine Window</a> kunt u
-  Genereer automatisch AI-commentaar voor een hele game in batchmodus.
-  </p>
-  
-  <h3>Hoe het werkt</h3>
-  <p>
-  Wanneer u op de knop klikt, scant scidCommunity het hele spel op geannoteerde zetten
-  (verplaatst met NAG's of bestaande opmerkingen). Voor elke dergelijke zet geldt het volgende:
-  <ul>
-  <li>Haalt cloudevaluaties voor context op </li>
-  <li> Gebruikt alle bestaande PGN-variaties als "Ground Truth" -motorlijnen </li>
-  <li> Vraagt de AI om uit te leggen waarom de aanbevolen lijn de beste is of waarom de gespeelde zet een fout was </li>
-  <li>Voegt het gegenereerde commentaar toe aan het bestaande commentaar van de zet </li>
-  </ul>
-  </p>
-  
-  <h3>Gebruik</h3>
-  <p>
-  Deze functie is ideaal om snel educatieve aantekeningen toe te voegen aan een spel dat je al hebt
-  geanalyseerd met een motor. Het respecteert uw lokale variaties en waarborgt de AI's
-  uitleg komt overeen met uw specifieke motoranalyse.
-  </p>
-  
-  <p><footer>(Bijgewerkt: scidCommunity, maart 2026)</footer></p>
-}
 
 
 set helpTitle(N,PTracker) "Stuk tracker"

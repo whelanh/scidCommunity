@@ -25,7 +25,6 @@ set helpText(O,Contents) {<h1>scidCommunity hjelpeinnhold </h1>
   
   <h4>Andre scidCommunity-vinduer</h4>
   <ul>
-  <li><a Engine><b>Analyse</b>-vindu</a></li>
   <li><a Engine><b>Engine</b> vinduer</a></li>
   <li><a Book><b>Bok</b>-vindu</a></li>
   <li><a Comment><b>Kommentarredigerer</b>-vindu</a></li>
@@ -73,7 +72,6 @@ set helpText(O,Index) {<h1>scidCommunity Hjelp Emneindeks </h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Analyse</a>-vindu</li>
   <li><a Annotating>Annoteringsspill</a></li>
   <li><a NAGs>Annoteringssymboler</a></li>
   <li><a Author>Forfatter, kontakter</a></li>
@@ -2435,34 +2433,6 @@ set helpText(O,PGNAutoComment) {<h1>PGN-vindu: Autokommentarknapp </h1>
 }
 
 
-set helpTitle(O,AnalysisAutoComment) "Autokommentar-knapp"
-set helpText(O,AnalysisAutoComment) {<h1>Analysevindu: Autokommentarknapp </h1>
-  <p>
-  <b>Auto Comment</b>-knappen i <a Engine>Engine Window</a>-vinduet lar deg
-  generere automatisk AI-kommentarer for et helt spill i batch-modus.
-  </p>
-  
-  <h3>Slik fungerer det</h3>
-  <p>
-  Når du klikker på knappen, skanner scidCommunity hele spillet for kommenterte trekk
-  (flytter med NAG-er eller eksisterende kommentarer). For hvert slikt trekk er det:
-  <ul>
-  <li>Henter skyevalueringer for kontekst</li>
-  <li>Bruker alle eksisterende PGN-varianter som "Ground Truth"-motorlinjer </li>
-  <li> Spørrer AI for å forklare hvorfor den anbefalte linjen er best eller hvorfor det spilte trekket var en feil </li>
-  <li> Legger til den genererte kommentaren til trekkets eksisterende kommentarer </li>
-  </ul>
-  </p>
-  
-  <h3>Bruk</h3>
-  <p>
-  Denne funksjonen er ideell for raskt å legge til pedagogiske notater til et spill du allerede har
-  analysert med en motor. Den respekterer dine lokale variasjoner, og sikrer AI-ene
-  forklaringer stemmer overens med din spesifikke motoranalyse.
-  </p>
-  
-  <p><footer>(Oppdatert: scidCommunity, mars 2026)</footer></p>
-}
 
 
 set helpTitle(O,PTracker) "Stykkesporer"

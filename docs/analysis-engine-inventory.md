@@ -11,7 +11,7 @@ The point of the document is the **decision** column, not the number. A number w
 ## What #436 already removed
 
 - `tcl/main.tcl`, `tcl/file/epd.tcl`, `tcl/tools/enginelist.tcl`: no `::uci::`, `::analysis(` or `analysisWin` sites left. The doors are shut.
-- EPD's "Analyse positions" moved to `tcl/tools/epd_analysis.tcl`: a private connection, no Tk, stub-testable. It is the newest client of `::uci::formatPv`.
+- EPD's "Analyse positions" moved to `tcl/tools/epd_analysis.tcl`: a private connection, no Tk, stub-testable. It is the newest client of `::ucifmt::formatPv`.
 - Review Settings carries `FindOpeningErrors` and `MarkTacticalExercises` (`tcl/tools/review_ui.tcl:129,131`), so the two features the legacy Annotate dialog kept are now the review writer's job.
 
 ## The count
@@ -262,9 +262,22 @@ towards. Counted over `tcl/` at the #437 §6 head:
   files carried a `Tools → Analysis Window` menu bullet that upstream had dropped
   from the English file only (the bullet links to `Engine`, which still exists,
   so no link dangled), `helpKO.tcl` kept three live-tense comparisons, and
-  `help.tcl:2727` still said "the analysis window's engine". All are gone, and
-  `tests/tcl/help_keys.tcl` now scans every page of every help file for that
-  wording, so the bullet cannot come back unnoticed.
+  `help.tcl:2727` still said "the analysis window's engine". Fixing those left
+  the same three sentences standing in the other 26 translations, in their own
+  languages, plus an orphan `AnalysisAutoComment` page in each; and every
+  translated `Training: Find best move` page still sent the reader to "the
+  Annotation window, accessible from the analysis" through a link the source
+  wraps between `<a` and `Analysis>` — which is why three scan passes missed it.
+  The three stale blocks now carry the English wording (the `ce` note and the
+  *Annotating* paragraph also fix opcode names some translations had translated:
+  the opcodes are literal `acd, acn, ce, dm and pv`), the orphan pages and the
+  translated index entries are gone, and `tests/tcl/help_keys.tcl` guards the
+  result language-agnostically: every page a translation defines must have an
+  English counterpart, every `Engine`/`EPD` page must carry the English sentence
+  that replaced the comparison, and a `<a Analysis>` link fails even when it
+  wraps across lines. (Four older orphan page families — `PGNAutoComment`,
+  `SeriousGame`, `TacticalGame`, and PL's `PgnScid` — are linked from live
+  translated pages and are left to their own card.)
 - **Two retired features, named rather than lost silently:** Review game and
   Calvar (the trainer pair, §3a) and the classic annotator with its book comments
   and its autoplay button (§5, §3a). What survives of the annotator is the two

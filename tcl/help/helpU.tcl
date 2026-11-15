@@ -25,7 +25,6 @@ set helpText(U,Contents) {<h1>scidCommunity Ohjeen sisältö</h1>
   
   <h4>Muut scidCommunity-ikkunat</h4>
   <ul>
-  <li><a Engine><b>Analyysi</b> ikkuna</a></li>
   <li><a Engine><b>Moottori</b> ikkunat</a></li>
   <li><a Book><b>Kirja</b> ikkuna</a></li>
   <li><a Comment><b>Kommenttieditori</b> ikkuna</a></li>
@@ -74,7 +73,6 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine> Analyysi </a> -ikkuna </li>
   <li><a Annotating>Pelien merkitseminen </a></li>
   <li><a NAGs> Huomautussymbolit </a></li>
   <li><a Author>Tekijä, ottaa yhteyttä </a></li>
@@ -2438,34 +2436,6 @@ set helpText(U,PGNAutoComment) {<h1>PGN-ikkuna: Automaattinen kommenttipainike <
 }
 
 
-set helpTitle(U,AnalysisAutoComment) "Automaattinen kommenttipainike"
-set helpText(U,AnalysisAutoComment) {<h1> Analyysiikkuna: Automaattinen kommenttipainike </h1>
-  <p>
-  <b>Auto Comment</b> -painike <a Engine>Engine Window</a> -ikkunassa mahdollistaa
-  luo automaattisesti tekoälykommentteja koko pelille erätilassa.
-  </p>
-  
-  <h3> Kuinka se toimii </h3>
-  <p>
-  Kun napsautat painiketta, scidCommunity etsii koko pelistä selostettuja liikkeitä
-  (liikkuu NAG:iden tai olemassa olevien kommenttien kanssa). Jokaisen tällaisen liikkeen kohdalla se:
-  <ul>
-  <li> Hakee kontekstin pilviarviot </li>
-  <li> Käyttää olemassa olevia PGN-muunnelmia "Ground Truth" -moottorilinjoina </li>
-  <li>Tekee tekoälyä selittääkseen, miksi suositeltu rivi on paras tai miksi toistettu liike oli virhe </li>
-  <li>Liitä luodut kommentit siirrossa oleviin kommentteihin</li>
-  </ul>
-  </p>
-  
-  <h3>Käyttö </h3>
-  <p>
-  Tämä ominaisuus on ihanteellinen opetuksellisten huomautusten lisäämiseen jo peliin
-  analysoidaan moottorilla. Se kunnioittaa paikallisia vaihtelujasi ja varmistaa tekoälyn
-  selitykset vastaavat sinun moottorianalyysiäsi.
-  </p>
-  
-  <p><footer>(Päivitetty: scidCommunity, maaliskuu 2026)</footer></p>
-}
 
 
 set helpTitle(U,PTracker) "Kappaleen seurantalaite"
