@@ -939,8 +939,6 @@ translate O Informant+= {Hvit har en liten fordel}
 translate O Informant+/- {Hvit har en moderat fordel}
 translate O Informant+- {Hvit har en avgjørende fordel}
 translate O Informant+-- {Hvit har en knusende fordel}
-translate O AutoComment {Automatisk kommentar}
-translate O AutoCommentTooltip {Generer AI-kommentarer for gjeldende stilling}
 translate O AnalysisAutoCommentTooltip {Generer AI-kommentarer for hele spillet}
 translate O MoveLabelBest {Best}
 translate O MoveLabelExcellent {Utmerket}

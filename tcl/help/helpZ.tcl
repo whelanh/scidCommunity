@@ -39,7 +39,7 @@ set helpText(Z,Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a PTracker><b>Kifuatilia Kipande</b></a></li>
   <li><a PList><b>Kitafuta Mchezaji</b> dirisha</a></li>
   <li><a PInfo><b>Maelezo ya Mchezaji</b> dirisha</a></li>
-  <li><a TacticalGame><b>Mchezo wa mbinu</b> dirisha</a></li>
+  <li><a PlayVsEngine><b>Cheza dhidi ya Injini</b> dirisha</a></li>
   <li><a Tmt><b>Kitafuta Mashindano</b> dirisha</a></li>
   <li><a Tree><b>Dirisha la Mti</b></a></li>
   <li><a Graphs><b>Grafu</b> madirisha</a></li>
@@ -227,8 +227,7 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   <li><a PList>Kitafuta Mchezaji</a> dirisha</li>
   <li><a PInfo>Maelezo ya Mchezaji</a> dirisha</li>
   <li><a Reports Player>Ripoti ya mchezaji</a> dirisha</li>
-  <li><a TacticalGame>Cheza mchezo wa mbinu</a></li>
-  <li><a SeriousGame>Cheza mchezo mzito</a></li>
+  <li><a PlayVsEngine>Cheza dhidi ya Injini</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   <li><a Searches Filter>Kichujio cha Utafutaji</a></li>
   <li><a Menus Search>Menyu ya utafutaji</a></li>
   <li><a Searches>Utafutaji</a></li>
-  <li><a SeriousGame>Cheza mchezo mkali</a></li>
   <li><a Sorting>Kupanga hifadhidata</a></li>
   <li><a Maintenance Spellcheck>Majina ya kukagua tahajia</a></li>
   <li><a Switcher>Switcher</a> dirisha</li>
@@ -255,7 +253,6 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Msingi wa Jedwali (Kitufe cha Dirisha cha PGN)</a></li>
-  <li><a TacticalGame>Mchezo wa mbinu</a></li>
   <li><a Menus Tools>Menyu ya zana</a></li>
   <li><a Tmt>Kipata Mashindano</a></li>
   <li><a LichessTournament>Matangazo ya mashindano (Lichess)</a></li>
@@ -742,10 +739,8 @@ set helpText(Z,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Cheza dhidi ya Injini</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1203,8 +1198,7 @@ set helpText(Z,Annotating) {<h1>Michezo ya ufafanuzi</h1>
   <p>
   scidCommunity inakuwezesha kuongeza maelezo kwenye michezo. Kuna aina tatu za
   maelezo unaweza kuongeza baada ya hoja: ishara, maoni, na
-  tofauti. Sehemu hii inaeleza maelezo ya mwongozo, angalia <a
-  Analysis Annotating>Uchambuzi</a> kwa uchanganuzi unaotumika na injini.
+  tofauti. Sehemu hii inaeleza maelezo ya mwongozo.
   </p>
   
   <h3>Alama na maoni</h3>
@@ -2146,7 +2140,6 @@ set helpText(Z,PGN) {<h1>Dirisha la <a PGN>PGN</a></h1>
   <li><a PGNChessCom>chess.com</a>: Pakia mchezo wa sasa kwenye Chess.com kwa uchanganuzi</li>
   <li><a PGNLichess>lichess.org</a>: Pakia mchezo wa sasa kwenye Lichess.org kwa uchambuzi na kushiriki</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Fungua nafasi ya sasa katika hifadhidata ya wingu ya ChessDB.cn</li>
-  <li><a PGNAutoComment>Maoni ya Kiotomatiki</a>: Toa maoni ya AI kwa nafasi ya sasa</li>
   </ul>
   Vifungo hivi hutoa ufikiaji wa papo hapo kwa zana zenye nguvu mtandaoni bila kuondoka kwenye scidCommunity.
   Tazama mada za usaidizi wa kibinafsi kwa kila kitufe kwa maelezo zaidi.
@@ -2411,37 +2404,6 @@ set helpText(Z,PGNChessDB) {<h1>Dirisha la PGN: Kitufe cha Mti cha Injini cha ch
   
   <p><footer>(Ilisasishwa: Jumuiya ya scid, Aprili 2026)</footer></p>
 }
-
-
-set helpTitle(Z,PGNAutoComment) "Kitufe cha Maoni Otomatiki"
-set helpText(Z,PGNAutoComment) {<h1>Dirisha la PGN: Kitufe cha Maoni Kiotomatiki</h1>
-  <p>
-  Kitufe cha <b>Maoni Kiotomatiki</b> katika dirisha la <a PGN>PGN</a> kinatumia Akili Bandia.
-  (Gemini au DeepSeek) ili kutoa maoni kama ya kibinadamu kwa nafasi ya sasa.
-  </p>
-  
-  <h3>Jinsi ya kutumia</h3>
-  <p>
-  Bofya kitufe cha <b>Maoni Kiotomatiki</b> ili kutoa maoni kwa hoja ya sasa.
-  scidCommunity itafanya:
-  <ul>
-  <li>Pata tathmini ya nafasi ya sasa kutoka kwa Lichess au ChessDB</li>
-  <li>Tuma data ya nafasi na uchanganuzi wa injini kwa muundo uliochaguliwa wa AI</li>
-  <li>Onyesha onyesho la kukagua maoni yaliyotolewa</li>
-  <li>Inakuruhusu kuhariri au kuboresha maoni kabla ya kuyaongeza kwenye mchezo</li>
-  </ul>
-  </p>
-  
-  <h3>Usanidi</h3>
-  <p>
-  Bofya kulia kitufe cha <b>Auto Comment</b> ili kusanidi vitufe vyako vya API na uchague.
-  mtoa huduma wako wa LLM (Gemini au DeepSeek).
-  </p>
-  
-  <p><footer>(Ilisasishwa: scidCommunity, Agosti 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(Z,PTracker) "Kifuatiliaji cha kipande"
@@ -3218,9 +3180,6 @@ set helpText(Z,Engine) {<h1>Madirisha ya Injini</h1>
     tofauti.</li>
   <li><b>Config</b> <button tb_eng_config>: Inaonyesha au kuficha usanidi wa injini
     paneli.</li>
-  <li><b>Maoni ya Kiotomatiki</b>: Hutoa maoni kwa nafasi ya sasa kulingana na
-    uchambuzi wa injini. </li>
-  <li><b>Maoni ya Mchezo</b>: Hutoa maoni kwa nafasi zote kwenye mchezo.</li>
   </ul>
 
   <h3>Vidhibiti</h3>
@@ -4353,52 +4312,6 @@ set helpText(Z,Book) {<h1>Dirisha la kitabu</h1>
 }
 
 
-set helpTitle(Z,TacticalGame) "Tactical Mchezo Dirisha"
-set helpText(Z,TacticalGame) {<h1>Dirisha la mchezo wa mbinu</h1>
-  <p>
-  Cheza mchezo wa mbinu dhidi ya injini inayomwiga mpinzani kwa kutumia a
-  kutokana na ukadiriaji wa Elo.  Mpinzani anachezwa na Phalanx na kocha
-  na injini yoyote ya UCI ambayo mtumiaji ameisanidi. Injini zinazofaa huchaguliwa kiotomatiki na wao
-  majina, na inapaswa kusanidiwa kwa usahihi (hii ndio chaguo msingi wakati
-  scidCommunity imewekwa).
-  </p>
-  <p>
-  <b>Kumbuka</b> kwamba toleo maalum la injini ya Phalanx ni
-  inahitajika. Toleo hili maalum linakuja na kifurushi cha scidCommunity.
-  </p>
-  <p>
-  Vigezo vifuatavyo lazima viwekewe mipangilio:
-  <ul>
-  <li><term>Kiwango kisichobadilika</term>: huweka ukadiriaji usiobadilika wa Elo kwa mpinzani</li>
-  <li><term>Kiwango cha nasibu</term>: huchagua kiwango nasibu kati ya
-  kiwango cha chini na cha juu kilichoainishwa na kitelezi cha kushoto na kulia
-  kwa mtiririko huo.
-  </li>
-  <li><term>Ufunguzi:</term>
-  <ul>
-     <li><term>Anzisha mchezo mpya</term>: anza mchezo mpya kwa kuchagua
-     ufunguzi wa nasibu.</li>
-     <li><term>Anza kutoka nafasi ya sasa</term>: acha mchezo uanze
-     na nafasi ya sasa ya bodi.</li>
-     <li><term>Ufunguzi maalum</term>: mpinzani atacheza
-     ufunguzi maalum, ambao unaweza kuchaguliwa kutoka kwenye orodha hapa chini. Hii ni
-     muhimu kwa kufungua mafunzo.</li>
-  </ul>
-  <li><term>Punguza muda wa uchambuzi wa injini</term> inaruhusu kuweka kikomo cha muda unaotumiwa na
-  kocha kuangalia hatua za wachezaji kwa makosa. Ikiwa sio wakati huu
-  mdogo kocha anaruhusiwa kufikiria kwa nyuma.</li>
-  </ul>
-  <p>Kidokezo: Ukiwasha <a Graphs>grafu ya alama</a>, unaweza kuona matumizi ya muda na ukadiriaji wa nafasi wakati wa mchezo.</p>
-  <p>Ili kuanzisha mchezo wa mbinu bonyeza <term>Cheza</term></p> 
-
-  <p><b>Kumbuka</b> utendaji sawa unaweza kupatikana kwa kucheza a
-  <a SeriousGame>mchezo mbaya</a> dhidi ya injini yoyote ya UCI inayoruhusu
-  kwa kupunguza nguvu zake.
-  </p>
-  <p><footer>(Ilisasishwa: scidCommunity, Aprili 2026)</footer></p>
-}
-
-
 set helpTitle(Z,OpeningTrainer) "Mkufunzi wa Ufunguzi"
 set helpText(Z,OpeningTrainer) {<h1>Mkufunzi wa Ufunguzi</h1>
   <p>
@@ -4532,105 +4445,6 @@ set helpText(Z,OpeningTrainer) {<h1>Mkufunzi wa Ufunguzi</h1>
 }
 
 
-set helpTitle(Z,SeriousGame) "Dirisha kubwa la Mchezo"
-set helpText(Z,SeriousGame) {<h1>Dirisha la mchezo mzito</h1>
-  <p>
-  Michezo mikali inaweza kuchezwa dhidi ya seti yoyote ya injini <term>UCI</term>.
-  kwa ajili ya matumizi na scidCommunity. Orodha ya wapinzani wote wanaowezekana ni
-  iliyotolewa juu ya dirisha la <term>Usanidi wa Mchezo</term>. The
-  kitufe <term>Sanidi injini ya UCI</term> pia inatoa ufikiaji
-  kwa vigezo vya injini. Kwa chaguo-msingi, zimewekwa kama vile katika
-  <a Engine Configure>usanidi wa injini</a>.
-  </p>
-  <p>
-  Kisha, kitabu kinachopaswa kutumiwa kinaweza kuchaguliwa kutoka kwa wale wanaofungua
-  vitabu vinavyopatikana kwa scidCommunity. Kutengua kisanduku cha <term>Tumia kitabu</term>.
-  italemaza matumizi ya kitabu cha ufunguzi na injini itaanza
-  kuhesabu hatua kutoka mwanzo.
-  </p>
-  <p>
-  Sehemu ya <term>Modi ya Muda</term> inaruhusu kuweka muda unaotumika
-  injini. Mipangilio mbalimbali inawezekana hapa:
-  <ul>
-     <li><term>Muda + bonasi</term> hubainisha muda wa mambo yote.
-     mchezo na ongezeko linalowezekana kwa kila hoja (saa ya Fisher). The
-     chaguo-msingi imewekwa kuwa dakika 5 kwa kila mchezo na nyongeza ya sekunde 10 kwa kila
-     hoja ambayo ni mpangilio wa kawaida wa michezo ya Blitz. Kumbuka, kwamba
-     nyakati za Nyeusi na Nyeupe zinaweza kuwekwa kwa kujitegemea. Hii inaruhusu
-     kuweka muda mfupi kwa injini na kutoa muda mrefu zaidi
-     wakati wa kufikiri kwa mchezaji, na hivyo kuimarisha
-     wachezaji kuchambua uwezekano huku wakidhoofisha injini
-     uwezo katika kesi ya <term>Fikra ya kudumu</term> imezimwa (tazama
-     chini).
-     </li>
-
-     <li><term>Kina kisichobadilika</term> hakiweki wakati kwa kila mchezo lakini
-     kina injini itahesabu katika hatua za nusu. Kama hii
-     inalemaza uwezo wa kuhesabu zaidi ikiwa ni lazima, the
-     kompyuta haitaona wenzi fulani na mchanganyiko, injini
-     inaweza kucheza dhaifu na hivyo kutoa mshirika bora kwa mafunzo
-     makusudi.
-     <p>
-     <b>Kumbuka</b>: injini zingine, haswa za kibiashara, pia hutoa
-     kudhoofisha nguvu zao katika vitengo Elo. Uwezekano mkubwa zaidi hii itatoa a
-     algorithm inayofaa zaidi kuliko kupunguza kina cha utaftaji. Katika Jumuiya ya scid,
-     michezo kama hii pia hutolewa kama <a TacticalGame>Michezo ya mbinu</a>
-     dhidi ya injini ya bure ya Phalanx.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> ni sawa na kupunguza kina cha utafutaji,
-     lakini hapa injini inapaswa kusonga baada ya tathmini ya fulani
-     idadi ya nafasi. (Chaguo-msingi ni 10,000.)
-     </li>
-
-     <li><term>Sekunde kwa kila hoja</term> huruhusu injini kutumia
-     kiasi fulani cha muda kwa kiwango cha juu kwa nafasi fulani. Baadhi
-     injini zitasonga haraka katika hali fulani, lakini zitafanya
-     usizidi muda uliowekwa hapa. Kama <term>Kina kisichobadilika</term>
-     na <term>Nodes</term> hii pia hupunguza injini kucheza
-     nguvu, lakini pia inatoa mchezo mzuri wa kuitikia.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Michezo mikubwa inaweza kuanza kutoka nafasi ya sasa ya ubao ikiwa kisanduku
-  <term>Anza kutoka kwa nafasi ya sasa</term> imeangaliwa. Hii inaruhusu
-  k.m. kucheza nafasi zilizobainishwa za mchezo wa kati zinazotokana na
-  ufunguzi.
-  </p>
-  <p>
-  <term>Kufikiri kwa kudumu</term> (wakati mwingine pia huitwa kutafakari)
-  inaruhusu injini kuhesabu wakati wa wachezaji. Ikiwa haijadhibitiwa,
-  injini itaacha kuchambua nafasi ikiwa mchezaji ana hoja.
-  Ikiwa mchezo umewekwa kwa muda maalum kwa kila hatua, hii itadhoofisha
-  injini. Kwa upande mwingine, injini inaweza kusonga mara moja, ikiwa
-  mchezaji alifanya hatua ambayo ilikuwa inachambua juu ya wakati wa wachezaji.
-  </p>
-  <p>
-  <term>Kocha anatazama</term> atafungua toleo la mazungumzo kuchukua
-  rudisha hatua ikiwa mchezaji alifanya kosa (kwa sababu ya injini
-  tathmini ya hatua yake ya mwisho).
-  </p>
-  <p>
-  Kwa mafunzo ya fursa <term>Ufunguzi maalum </term> unaweza kuwa
-  imeangaliwa. Katika orodha hapa chini mtu anaweza kuchagua ufunguzi wa kucheza. The
-  mchezaji basi anapaswa kufuata mstari uliochaguliwa, vinginevyo scidCommunity itauliza
-  ikiwa hatua hiyo itarudishwa.
-  </p>
-
-  <p>
-  Baada ya kuweka vigezo vyote vya mchezo na kupiga Cheza
-  kifungo, scidCommunity itaanzisha injini ya mpinzani kuonyesha saa na
-  kuanza mchezo. Mchezaji lazima asisogee hadi saa
-  kuonekana. Kumbuka kwamba inaweza kuchukua muda kwa injini ya chess kufanya
-  anza na uanzishe ipasavyo.
-  </p>
-
-  <p><footer>(Ilisasishwa: Jumuiya ya scid, Aprili 2026)</footer></p>
-}
-
-
 set helpTitle(Z,TacticsTrainer) "Mafunzo: Mbinu"
 set helpText(Z,TacticsTrainer) {<h1>Mafunzo: Mbinu</h1>
   <p>
@@ -4708,8 +4522,7 @@ set helpText(Z,FindBestMove) {<h1>Mafunzo: Tafuta hatua bora</h1>
   <p>
   Wakati wa kufafanua michezo na injini ya chess, injini inaweza kutafuta
   fursa za mbinu ndani ya mchezo. Hii inaweza kupatikana kwa kuweka
-  <term>Weka Mazoezi ya Mbinu</term> katika dirisha la <a
-  Analysis>Ufafanuzi</a> linaloweza kufikiwa kutokana na uchanganuzi. Katika kesi a
+  <term>Weka Mazoezi ya Mbinu</term>. Katika kesi a
   fursa ya mbinu imepatikana, scidCommunity basi itaalamisha mchezo na
   <term>T</term> bendera (Mbinu) na uongeze maoni maalum ambayo ni
   tathmini katika zoezi hili.
@@ -5120,8 +4933,7 @@ set helpText(Z,HardwareConfig) {<h1>Kuunganisha Vifaa vya Nje</h1>
   <ul>
      <li><term>Amri ya injini</term>: Jina la programu ambayo ni
      kutumika kama injini ya dereva. Jina lililohitimu kikamilifu linaweza kuwa
-     inahitajika, kama katika usanidi wa a <name Analysis
-     List>injini ya chess</a>. (Mfano injini ya kiendeshi ya DGT kwenye Linux
+     inahitajika, kama katika usanidi wa a <a Engine>injini ya chess</a>. (Mfano injini ya kiendeshi ya DGT kwenye Linux
      mfumo kawaida huitwa <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Kigezo cha injini</term>: Maandishi yaliyotolewa katika uwanja huu

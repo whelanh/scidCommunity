@@ -929,8 +929,6 @@ translate b Informant+= {সাদা একটি সামান্য সু�
 translate b Informant+/- {সাদা একটি স্পষ্ট সুবিধা আছে}
 translate b Informant+- {সাদা একটি নিষ্পত্তিমূলক সুবিধা আছে}
 translate b Informant+-- {সাদা একটি নিষ্পেষণ সুবিধা আছে}
-translate b AutoComment {স্বয়ংক্রিয় মন্তব্য}
-translate b AutoCommentTooltip {বর্তমান অবস্থানের জন্য AI ভাষ্য তৈরি করুন}
 translate b AnalysisAutoCommentTooltip {পুরো গেমের জন্য AI ধারাভাষ্য তৈরি করুন}
 translate b MoveLabelBest {সেরা}
 translate b MoveLabelExcellent {চমৎকার}

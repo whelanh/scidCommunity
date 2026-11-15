@@ -961,8 +961,6 @@ translate G Informant+= {Τα Λευκά έχουν μικρό πλεονέκτ�
 translate G Informant+/- {Τα Λευκά έχουν μέτριο πλεονέκτημα}
 translate G Informant+- {Τα Λευκά έχουν αποφασιστικό πλεονέκτημα}
 translate G Informant+-- {Η παρτίδα θεωρείται κερδισμένη}
-translate G AutoComment {Αυτόματο σχόλιο}
-translate G AutoCommentTooltip {Δημιουργήστε σχόλια τεχνητής νοημοσύνης για την τρέχουσα θέση}
 translate G AnalysisAutoCommentTooltip {Δημιουργήστε σχόλια AI για ολόκληρο το παιχνίδι}
 translate G MoveLabelBest {Καλύτερη}
 translate G MoveLabelExcellent {Εξαιρετική}

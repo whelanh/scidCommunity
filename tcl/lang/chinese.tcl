@@ -906,8 +906,6 @@ translate M Informant+= {White has a slight advantage}
 translate M Informant+/- {White has a clear advantage}
 translate M Informant+- {White has a decisive advantage}
 translate M Informant+-- {White has a crushing advantage}
-translate M AutoComment {自动评论}
-translate M AutoCommentTooltip {为当前位置生成AI解说}
 translate M AnalysisAutoCommentTooltip {为整个游戏生成 AI 解说}
 translate M MoveLabelBest {最佳}
 translate M MoveLabelExcellent {优秀}

@@ -959,8 +959,6 @@ translate N Informant+= {Wit heeft een klein voordeel}
 translate N Informant+/- {Wit heeft een gematigd voordeel}
 translate N Informant+- {Wit heeft een beslissend voordeel}
 translate N Informant+-- {Deze partij kan als gewonnen beschouwd worden}
-translate N AutoComment {Automatische commentaar}
-translate N AutoCommentTooltip {Genereer AI-commentaar voor de huidige positie}
 translate N AnalysisAutoCommentTooltip {Genereer AI-commentaar voor het hele spel}
 translate N MoveLabelBest {Beste}
 translate N MoveLabelExcellent {Uitstekend}

@@ -969,8 +969,6 @@ translate D Informant+= {Weiß hat leichten Vorteil}
 translate D Informant+/- {Weiß hat klaren Vorteil}
 translate D Informant+- {Weiß hat großen Vorteil}
 translate D Informant+-- {Weiß hat erdrückenden Vorteil}
-translate D AutoComment {Zug Kritik}
-translate D AutoCommentTooltip {Generieren Sie einen KI-Kommentar für die aktuelle Position}
 translate D AnalysisAutoCommentTooltip {Generieren Sie KI-Kommentare für das gesamte Spiel}
 translate D MoveLabelBest {Beste}
 translate D MoveLabelExcellent {Ausgezeichnet}

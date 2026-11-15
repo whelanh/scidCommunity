@@ -969,8 +969,6 @@ translate P Informant+= {Białe mają niewielką przewagę}
 translate P Informant+/- {Białe mają wyraźną przewagę}
 translate P Informant+- {Białe mają decydującą przewagę}
 translate P Informant+-- {Białe mają przytłaczającą przewagę}
-translate P AutoComment {Komentarz automatyczny}
-translate P AutoCommentTooltip {Wygeneruj komentarz AI do bieżącej pozycji}
 translate P AnalysisAutoCommentTooltip {Wygeneruj komentarz AI do całej partii}
 translate P MoveLabelBest {Najlepsze}
 translate P MoveLabelExcellent {Znakomite}

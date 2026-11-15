@@ -39,7 +39,7 @@ set helpText(K,Contents) {<h1>Continguts d'ajuda de scidCommunity</h1>
   <li><a PTracker><b>Seguidor de peces</b></a></li>
   <li><a PList><b>Cercador de jugadors</b> finestra</a></li>
   <li><a PInfo><b>Informació del jugador</b> finestra</a></li>
-  <li><a TacticalGame><b>Joc tàctic</b> finestra</a></li>
+  <li><a PlayVsEngine><b>Juga contra el motor</b> finestra</a></li>
   <li><a Tmt><b>Cercador de torneigs</b> finestra</a></li>
   <li><a Tree><b>Arbre</b> finestra</a></li>
   <li><a Graphs><b>Gràfic</b> finestres</a></li>
@@ -228,8 +228,7 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   <li><a PList>Finestra del cercador de reproductors </a> </li>
   <li><a PInfo>Finestra d'informació del jugador </a> </li>
   <li><a Reports Player>Informe del jugador </a> finestra </li>
-  <li><a TacticalGame>Juga a un joc tàctic </a></li>
-  <li><a SeriousGame>Jugar al joc seriós </a></li>
+  <li><a PlayVsEngine>Juga contra el motor</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   <li><a Searches Filter>Filtre de cerca </a></li>
   <li><a Menus Search>Menú de cerca </a></li>
   <li><a Searches>Cerques</a></li>
-  <li><a SeriousGame>Jugar al joc seriós </a></li>
   <li><a Sorting>Ordenació d'una base de dades</a></li>
   <li><a Maintenance Spellcheck>Noms de correcció ortogràfica</a></li>
   <li><a Switcher>Commutador </a> finestra </li>
@@ -256,7 +254,6 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Base de taula (botó de la finestra PGN)</a></li>
-  <li><a TacticalGame>Joc tàctic</a></li>
   <li><a Menus Tools>Menú d'eines </a></li>
   <li><a Tmt>Cercador de tornejos</a></li>
   <li><a LichessTournament>Emissions del torneig (Lichess)</a></li>
@@ -743,10 +740,8 @@ set helpText(K,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Juga contra el motor</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1205,8 +1200,7 @@ set helpText(K,Annotating) {<h1>Jocs d'anotació</h1>
   <p>
   scidCommunity et permet afegir notes als jocs. Hi ha tres tipus de
   anotació que podeu afegir després d'un moviment: símbols, un comentari i
-  variacions. Aquesta secció descriu les anotacions manuals, vegeu el <a
-  Analysis Annotating>Anàlisi</a> per a l'anàlisi amb motor.
+  variacions. Aquesta secció descriu les anotacions manuals.
   </p>
   
   <h3>Símbols i comentaris</h3>
@@ -2148,7 +2142,6 @@ set helpText(K,PGN) {<h1>La finestra <a PGN>PGN</a> </h1>
   <li><a PGNChessCom>chess.com</a>: penja la partida actual a Chess.com per analitzar-la </li>
   <li><a PGNLichess>lichess.org</a>: penja el joc actual a Lichess.org per analitzar-lo i compartir-lo </li>
   <li><a PGNChessDB>chessdb Engine Tree </a>: obre la posició actual a la base de dades del núvol ChessDB.cn </li>
-  <li><a PGNAutoComment>Comentari automàtic </a>: genera comentaris d'IA per a la posició actual </li>
   </ul>
   Aquests botons proporcionen accés instantani a potents eines en línia sense sortir de scidCommunity.
   Consulteu els temes d'ajuda individuals per a cada botó per obtenir més detalls.
@@ -2413,37 +2406,6 @@ set helpText(K,PGNChessDB) {<h1>Finestra PGN: botó d'arbre del motor de chessdb
   
   <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
 }
-
-
-set helpTitle(K,PGNAutoComment) "Botó de comentari automàtic"
-set helpText(K,PGNAutoComment) {<h1>Finestra PGN: botó de comentari automàtic </h1>
-  <p>
-  El botó <b>Comentari automàtic </b> de la finestra <a PGN>PGN</a> utilitza intel·ligència artificial
-  (Gemini o DeepSeek) per generar comentaris semblants als humans per a la posició actual.
-  </p>
-  
-  <h3>Com s'utilitza </h3>
-  <p>
-  Feu clic al botó <b>Comentari automàtic </b> per generar un comentari per al moviment actual.
-  scidCommunity farà:
-  <ul>
-  <li>Obtén l'avaluació de la posició actual de Lichess o ChessDB</li>
-  <li>Envia les dades de posició i l'anàlisi del motor al model d'IA escollit </li>
-  <li>Mostra una vista prèvia del comentari generat </li>
-  <li>Permet editar o refinar el comentari abans d'afegir-lo al joc </li>
-  </ul>
-  </p>
-  
-  <h3>Configuració </h3>
-  <p>
-  Feu clic amb el botó dret al botó <b>Auto Comentari </b> per configurar les vostres claus API i seleccioneu
-  el vostre proveïdor de LLM preferit (Gemini o DeepSeek).
-  </p>
-  
-  <p><footer>(Actualitzat: scidCommunity, agost de 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(K,PTracker) "Seguidor de peces"
@@ -3222,9 +3184,6 @@ set helpText(K,Engine) {<h1>Les finestres del motor </h1>
     variacions.</li>
   <li><b>Config</b> <button tb_eng_config>: mostra o amaga la configuració del motor
     panell.</li>
-  <li><b>Comentari automàtic </b>: genera un comentari per a la posició actual basat en
-    l'anàlisi del motor. </li>
-  <li><b>Comentari del joc</b>: genera comentaris per a totes les posicions del joc.</li>
   </ul>
 
   <h3>Controls </h3>
@@ -4357,53 +4316,6 @@ set helpText(K,Book) {<h1>Finestra del llibre </h1>
 }
 
 
-set helpTitle(K,TacticalGame) "Finestra de joc tàctic"
-set helpText(K,TacticalGame) {<h1>Finestra de joc tàctic</h1>
-  <p>
-  Juga un joc tàctic contra un motor simulant un oponent amb a
-  donada la qualificació d'Elo.  El rival és jugat per Phalanx i l'entrenador
-  per qualsevol motor UCI que l'usuari hagi configurat. Els motors adequats són seleccionats automàticament pel seu
-  noms i s'haurien de configurar correctament (aquest és el valor predeterminat quan
-  scidCommunity està instal·lat).
-  </p>
-  <p>
-  <b>Nota</b> que és una versió especial del motor Phalanx
-  requerit. Aquesta versió especial ve amb el paquet scidCommunity.
-  </p>
-  <p>
-  S'han de configurar els paràmetres següents:
-  <ul>
-  <li><term>Nivell fix</term>: estableix una puntuació d'Elo fixa per a l'oponent</li>
-  <li><term>Nivell aleatori</term>: tria un nivell aleatori entre els
-  nivell mínim i màxim especificat pel control lliscant esquerre i dret
-  respectivament.
-  </li>
-  <li><term>Obertura:</term>
-  <ul>
-     <li><term>Comença un joc nou</term>: inicia un joc nou escollint a
-     obertura aleatòria.</li>
-     <li><term>Comenceu des de la posició actual</term>: que comenci el joc
-     amb la posició actual de la junta.</li>
-     <li><term>Obertura específica</term>: l'adversari jugarà a
-     obertura específica, que es pot triar de la llista següent. Això és
-     útil per a la formació d'obertura.</li>
-  </ul>
-  <li><term>Limiteu el temps d'anàlisi del motor</term> permet limitar el temps utilitzat per la
-  entrenador per comprovar els moviments dels jugadors per detectar errors. Si aquest temps no és
-  limitat l'entrenador pot pensar en segon pla.</li>
-  </ul>
-  <p>Consell: si activeu el <a Graphs>gràfic de puntuació</a>, podeu veure l'ús del temps i la valoració de la posició durant el joc.</p>
-  <p>Per iniciar un joc tàctic premeu <term>Jugar</term></p> 
-
-  <p><b>Nota</b> una funció similar es pot aconseguir jugant a
-  <a SeriousGame>joc seriós</a> contra qualsevol motor UCI que ho permeti
-  per limitar la seva força.
-  </p>
-  <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
-
-}
-
-
 set helpTitle(K,OpeningTrainer) "Formador d'obertura"
 set helpText(K,OpeningTrainer) {<h1>Formador d'obertura</h1>
   <p>
@@ -4538,105 +4450,6 @@ set helpText(K,OpeningTrainer) {<h1>Formador d'obertura</h1>
 }
 
 
-set helpTitle(K,SeriousGame) "Finestra de joc seriós"
-set helpText(K,SeriousGame) {<h1>Finestra de joc seriós </h1>
-  <p>
-  Les partides serioses es poden jugar contra qualsevol conjunt de motors <term>UCI</term>.
-  per a l'ús amb scidCommunity. Una llista de tots els possibles oponents és
-  es mostra a la part superior de la finestra <term>Configuració del joc </term>. El
-  El botó <term> Configura el motor UCI </term> també dóna accés
-  als paràmetres del motor. De manera predeterminada, s'estableixen com a
-  <a Engine Configure>configuració del motor </a>.
-  </p>
-  <p>
-  A continuació, es pot triar entre els que s'obren el llibre que s'ha d'utilitzar
-  llibres disponibles per a scidCommunity. Desmarqueu la casella <term>Utilitza el llibre </term>.
-  desactivarà l'ús d'un llibre d'obertura i el motor s'engegarà
-  calcular els moviments des del principi.
-  </p>
-  <p>
-  La secció <term>Mode de temps </term> permet configurar el temps utilitzat
-  el motor. Aquí hi ha diferents configuracions possibles:
-  <ul>
-     <li><term>Temps + bonificació</term> especifica el temps per a tot el
-     joc i un possible increment per moviment (rellotge Fisher). El
-     El valor predeterminat és de 5 minuts per joc i 10 segons d'increment per
-     moviment que és una configuració habitual per als jocs de Blitz. Tingueu en compte que el
-     els temps de blanc i negre es poden configurar de manera independent. Això permet
-     per establir un temps curt per al motor i donar-li un temps més llarg
-     temps de pensar al jugador, i així reforçar el
-     jugadors analitzant possibilitats mentre debiliten els motors
-     habilitats en cas de <term>El pensament permanent </term> està desactivat (vegeu
-     a continuació).
-     </li>
-
-     <li><term>La profunditat fixa </term> no estableix el temps per joc, però
-     la profunditat que calcularà el motor en mig moviments. Com això
-     desactiva la capacitat de calcular més a fons si cal, el
-     ordinador no veurà determinats companys i combinacions, el motor
-     pot jugar més feble i oferir així un millor company per a l'entrenament
-     finalitats.
-     <p>
-     <b>Nota </b>: alguns motors, especialment comercials, també ofereixen
-     debilitar la seva força a les unitats Elo. El més probable és que això ofereixi un
-     algorisme més adequat que limitar la profunditat de cerca. A scidCommunity,
-     Aquests jocs també s'ofereixen com <a TacticalGame>Jocs tàctics </a>
-     contra el motor Phalanx lliure.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> és semblant a limitar la profunditat de cerca,
-     però aquí el motor s'ha de moure després de l'avaluació d'un determinat
-     nombre de posicions. (El valor predeterminat és 10.000).
-     </li>
-
-     <li><term>Segons per moviment </term> permet que el motor passi un
-     determinat període de temps com a màxim per a una posició determinada. Alguns
-     els motors es mouran més ràpid en determinades circumstàncies, però ho faran
-     no superar el termini aquí establert. Com <term>Profunditat fixa </term>
-     i <term>Nodes </term>, això també limita la reproducció dels motors
-     força, però també ofereix un joc bastant sensible.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Les partides serioses poden començar des de la posició actual del tauler si la caixa
-  <term>Comença des de la posició actual </term> està marcat. Això permet
-  p. ex. per jugar posicions de joc intermedi definides que sorgeixen d'un
-  obertura.
-  </p>
-  <p>
-  <term>Pensament permanent </term> (de vegades també anomenat ponderar)
-  permet que el motor calculi el temps dels jugadors. Si no està marcat, el
-  El motor deixarà d'analitzar la posició si el jugador té el moviment.
-  Si el joc està configurat per a un temps fix per moviment, això debilitarà
-  motor. D'altra banda, el motor podria moure's immediatament, si
-  jugador va fer el moviment que estava analitzant el temps dels jugadors.
-  </p>
-  <p>
-  <term>L'entrenador està mirant </term> obrirà una oferta de diàleg per prendre
-  enrere un moviment si el jugador va cometre un error (a causa dels motors
-  avaluació del seu darrer moviment).
-  </p>
-  <p>
-  Per a l'entrenament d'obertures <term> Es pot fer una obertura específica </term>
-  comprovat. A la llista següent es pot triar l'obertura per jugar. El
-  llavors el jugador hauria de seguir la línia escollida, en cas contrari, scidCommunity ho preguntarà
-  si s'ha de recuperar el moviment.
-  </p>
-
-  <p>
-  Després d'establir tots els paràmetres del joc i prémer el botó Play
-  botó, scidCommunity configurarà el motor de l'oponent per mostrar els rellotges i
-  començar el joc. El jugador no ha de fer cap moviment fins als rellotges
-  apareixer. Tingueu en compte que el motor d'escacs pot trigar una mica
-  engegar i inicialitzar correctament.
-  </p>
-
-  <p><footer>(Actualitzat: scidCommunity, abril de 2026)</footer></p>
-}
-
-
 set helpTitle(K,TacticsTrainer) "Entrenament: Tàctiques"
 set helpText(K,TacticsTrainer) {<h1>Entrenament: Tàctiques</h1>
   <p>
@@ -4714,8 +4527,7 @@ set helpText(K,FindBestMove) {<h1>Formació: troba el millor moviment </h1>
   <p>
   Quan anoteu partides amb un motor d'escacs, el motor pot cercar
   oportunitats tàctiques dins d'un joc. Això es pot aconseguir configurant
-  <term>Marqueu l'exercici tàctic </term> a la finestra <a
-  Analysis>Anotació </a> accessible des de l'anàlisi. En el cas a
+  <term>Marqueu l'exercici tàctic </term>. En el cas a
   es troba una oportunitat tàctica, scidCommunity marcarà el joc amb el
   <term>T</term> marca (Tàctiques) i afegiu un comentari especial que sigui
   avaluat en aquest exercici.
@@ -5127,8 +4939,7 @@ set helpText(K,HardwareConfig) {<h1>Connexió de maquinari extern</h1>
   <ul>
      <li><term>Comandament del motor</term>: El nom del programa que és
      per ser utilitzat com a motor del conductor. Un nom totalment qualificat pot ser
-     necessari, com en la configuració d'a <name Analysis
-     List>motor d'escacs</a>. (Per exemple, el motor del controlador DGT en un Linux
+     necessari, com en la configuració d'a <a Engine>motor d'escacs</a>. (Per exemple, el motor del controlador DGT en un Linux
      generalment s'anomena sistema <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Paràmetre del motor</term>: el text donat en aquest camp

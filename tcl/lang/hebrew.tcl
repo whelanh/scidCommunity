@@ -930,8 +930,6 @@ translate V Informant+= {ללבן יש יתרון קל}
 translate V Informant+/- {ללבן יש יתרון ברור}
 translate V Informant+- {ללבן יש יתרון מכריע}
 translate V Informant+-- {ללבן יש יתרון מוחץ}
-translate V AutoComment {תגובה אוטומטית}
-translate V AutoCommentTooltip {צור פרשנות בינה מלאכותית עבור התפקיד הנוכחי}
 translate V AnalysisAutoCommentTooltip {צור פרשנות בינה מלאכותית עבור כל המשחק}
 translate V MoveLabelBest {הטוב ביותר}
 translate V MoveLabelExcellent {מצוין}

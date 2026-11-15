@@ -955,8 +955,6 @@ translate K Informant+= {Les Blanques tenen un lleuger avantatge}
 translate K Informant+/- {Les Blanques tenen avantatge}
 translate K Informant+- {Les Blanques tenen un avantatge decisiu}
 translate K Informant+-- {La partida es considerada com guanyada}
-translate K AutoComment {Comentari automàtic}
-translate K AutoCommentTooltip {Genereu comentaris d'IA per a la posició actual}
 translate K AnalysisAutoCommentTooltip {Genera comentaris d'IA per a tot el joc}
 translate K MoveLabelBest {Millor}
 translate K MoveLabelExcellent {Excel·lent}

@@ -242,19 +242,27 @@ foreach {nm frag} [list Engine $ENGINE_SENTINEL \
 check "English: no page links to Analysis once whitespace is flattened" \
     [expr {[string first "<a Analysis>" $enFlat] < 0}]
 
-# Pages a translation keeps for features whose English page was removed before
-# this card: the PGN window's automatic comment, the two trainer windows, and
-# the PL-only PgnScid importer. They are linked from live translated pages, so
-# they are not dead surface; retiring them is a separate card.
-set KNOWN_ORPHANS {PGNAutoComment SeriousGame TacticalGame PgnScid}
-
-# The exemption must still be needed: if English ever defines one of these
-# names it is not an orphan any more, and a stale exemption hides exactly the
-# kind of mismatch this file exists to catch.
-foreach nm $KNOWN_ORPHANS {
-    check "KNOWN_ORPHANS: $nm is still a translated-only page" \
-        [expr {[lsearch -exact $enKeys $nm] < 0}]
-}
+# #437 §7 retired the three page families only the translations carried, and
+# with them the allow-list that used to excuse them. Each decision came from
+# the tree, not from the page text:
+#
+#   PGNAutoComment  the PGN window's Auto Comment button moved to the engine
+#                   window (61066adb) and the engine window builds no comment
+#                   button at all since §5.
+#   SeriousGame     Scid's pre-merge Phalanx/Toga trainers. The feature is live
+#   TacticalGame    under its merged name: Tools > Play vs Engine
+#                   (::sergame::config, menu label ToolsPlayVsEngine) is the
+#                   one game window, and English documents it as PlayVsEngine.
+#
+# The parity check below is therefore unconditional over the three. Pgnscid is
+# NOT excused by a list: pgnscid.cpp was deleted in 2014, not by this stack, so
+# its page and its 112 links are out of scope here and left to their own card.
+# One page needs the exception by name, and only because of its key: PL spells
+# it "PgnScid", and the viewer resolves a key exactly, so English's "Pgnscid"
+# can never answer for it. That casing is a real defect - the check below names
+# it so it cannot be forgotten, rather than hiding it in a class of pages.
+set OUT_OF_SCOPE_PAGE PgnScid
+set RETIRED_PAGES {PGNAutoComment SeriousGame TacticalGame}
 
 # Every translated help file is still Tcl data with matched pages, and none of
 # them may keep the retired Analysis window as a live target. The English and
@@ -263,11 +271,6 @@ foreach nm $KNOWN_ORPHANS {
 puts "\nevery translated help file"
 foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     set label [file tail $path]
-    # English and Polish are maintained in this tree; the other translated help
-    # pages belong to the translation round, and #437 §6 deliberately does not
-    # re-word them (the wording reaches translators as English). The checks that
-    # would demand new translated prose therefore hold English and Polish only.
-    set strict [expr {$label eq "help.tcl" || $label eq "helpPL.tcl"}]
     lassign [loadHelp $path] h err
     check "$label: sources without error" [expr {$h ne ""}] $err
     if {$h eq ""} { continue }
@@ -288,20 +291,48 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     # #437 §6 round 3: a link is a link even when it wraps. The check above
     # searches the raw text, so `<a` at the end of a line and `Analysis>` at
     # the start of the next one - how every translated Training page phrased
-    # it - went unseen.
+    # it - went unseen. #437 §7 made it unconditional: §6 exempted all 26
+    # translations from it, which is exactly why the 52 links it was written
+    # for went on passing.
     set flatAll [regsub -all {\s+} $all " "]
     check "$label: no page links to Analysis once whitespace is flattened" \
-        [expr {!$strict || [string first "<a Analysis>" $flatAll] < 0}] \
+        [expr {[string first "<a Analysis>" $flatAll] < 0}] \
         "a link split across lines is still a link"
+
+    # #437 §7 additions. Three of the four read the flattened text as well as
+    # the raw text, because a link that wraps draws nothing either.
+    #
+    # 1. The retired pages are gone, in every language.
+    set retiredPages {}
+    foreach k [$h eval {array names helpText}] {
+        if {[lindex [split $k ,] end] in $RETIRED_PAGES} { lappend retiredPages $k }
+    }
+    checkEq "$label: no retired translated-only page" $retiredPages {}
+
+    # 2. And nothing links to one, in any form it can be written: raw, with the
+    #    line break flattened out, or as a section link. `<a TacticalGame>` is
+    #    the plain form; `<a TacticalGame Tactics>` is how a link to a section
+    #    of a page is written, and [string first "<a TacticalGame>"] sees
+    #    neither of those once it wraps.
+    set deadLinks {}
+    foreach k $RETIRED_PAGES {
+        if {[string first "<a $k>" $all] >= 0 ||
+                [string first "<a $k>" $flatAll] >= 0 ||
+                [regexp -- "<a\\s+${k}(\\s|>)" $flatAll]} {
+            lappend deadLinks $k
+        }
+    }
+    checkEq "$label: no link to a retired page in any form" $deadLinks {}
 
     # The Analysis window's own pages are the ones the reader must not find:
     # English defines none of them, so a translation that still has one is
-    # documenting a window the tree does not draw.
+    # documenting a window the tree does not draw. Since #437 §7 this is
+    # unconditional: the three translated-only families are gone with it, so
+    # a page a translation has and English does not is a page nobody reaches.
     set extra {}
     foreach k [$h eval {array names helpText}] {
         set leaf [lindex [split $k ,] end]
-        if {[lsearch -exact $enKeys $leaf] < 0 && \
-                [lsearch -exact $KNOWN_ORPHANS $leaf] < 0} {
+        if {[lsearch -exact $enKeys $leaf] < 0 && $leaf ne $OUT_OF_SCOPE_PAGE} {
             lappend extra $leaf
         }
     }
@@ -333,6 +364,42 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
         check "$label: the $nm wording is the file's own" \
             [expr {([string first $frag $text] < 0) != $isEn}]
     }
+
+    # #437 §7: no Analysis link in any form. The raw check below cannot see a
+    # link that wraps, and the flattened check above only knows the single
+    # token form; `<a Analysis List>` - a section of the retired page - is the
+    # third form, and the flattened text is what carries all three.
+    check "$label: no Analysis link in any form" \
+        [expr {![regexp -- {<a\s+Analysis(\s|>)} $flatAll]}]
+
+    # #437 §7: the Engine page's first <ul> is its button list - one control
+    # per bullet, each naming the widget it describes. A bullet that names
+    # nothing is a bullet for a button the window does not build: §5 removed
+    # the engine window's comment path and left 47 such bullets across the 26
+    # translations, written in their own languages, so a search for the
+    # English label saw six files of the twenty-six.
+    set ulAt [string first "<ul>" $fEngine]
+    set ulEnd [expr {$ulAt < 0 ? -1 : [string first "</ul>" $fEngine]}]
+    set nameless {}
+    if {$ulEnd > $ulAt} {
+        # [split] takes a SET of separators, so "<li>" would split on each of
+        # its characters; walk the list by hand instead.
+        set seg [string range $fEngine [expr {$ulAt + 4}] [expr {$ulEnd - 1}]]
+        set at 0
+        while {[set s [string first "<li>" $seg $at]] >= 0} {
+            set e [string first "</li>" $seg $s]
+            if {$e < 0} { break }
+            set item [string range $seg [expr {$s + 4}] [expr {$e - 1}]]
+            if {![regexp -- {<button\s+tb_[a-z_]+} $item] &&
+                    ![regexp -- {<a\s+[A-Za-z]} $item]} {
+                lappend nameless [string trim [string range $item 0 48]]
+            }
+            set at $e
+        }
+    }
+    check "$label: every Engine button bullet names a widget" \
+        [expr {$ulEnd > $ulAt && [llength $nameless] == 0}] \
+        "bullets naming no <button> or <a> target: $nameless"
 
     check "$label: no page links to Analysis" \
         [expr {[string first "<a Analysis" $all] < 0}]
@@ -382,8 +449,7 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     } {
         if {[string first $frag $flat] >= 0} { lappend live $frag }
     }
-    check "$label: no live Analysis window copy" \
-        [expr {!$strict || [llength $live] == 0}]
+    checkEq "$label: no live Analysis window copy" $live {}
     interp delete $h
 }
 if {$enh ne ""} { interp delete $enh }

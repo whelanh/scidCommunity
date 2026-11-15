@@ -929,8 +929,6 @@ translate Z Informant+= {Nyeupe ina faida kidogo}
 translate Z Informant+/- {Nyeupe ina faida wazi}
 translate Z Informant+- {Nyeupe ina faida ya kuamua}
 translate Z Informant+-- {Nyeupe ina faida ya kuponda}
-translate Z AutoComment {Maoni ya Kiotomatiki}
-translate Z AutoCommentTooltip {Tengeneza maoni ya AI kwa nafasi ya sasa}
 translate Z AnalysisAutoCommentTooltip {Tengeneza maoni ya AI kwa mchezo mzima}
 translate Z MoveLabelBest {Bora}
 translate Z MoveLabelExcellent {Bora sana}

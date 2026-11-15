@@ -39,7 +39,7 @@ set helpText(A,Contents) {<h1>scidコミュニティのヘルプコンテンツ<
   <li><a PTracker><b>ピーストラッカー</b></a></li>
   <li><a PList><b>プレイヤーファインダー</b> ウィンドウ</a></li>
   <li><a PInfo><b>選手情報</b> ウィンドウ</a></li>
-  <li><a TacticalGame><b>戦術ゲーム</b> ウィンドウ</a></li>
+  <li><a PlayVsEngine><b>プレイ対エンジン</b> ウィンドウ</a></li>
   <li><a Tmt><b>トーナメントファインダー</b> ウィンドウ</a></li>
   <li><a Tree><b>木</b> ウィンドウ</a></li>
   <li><a Graphs><b>グラフ</b> 窓</a></li>
@@ -228,8 +228,7 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   <li><a PList>プレイヤーファインダー</a>ウィンドウ</li>
   <li><a PInfo>プレイヤー情報</a>ウィンドウ</li>
   <li><a Reports Player>プレイヤーレポート</a>ウィンドウ</li>
-  <li><a TacticalGame>戦術ゲームをプレイする</a></li>
-  <li><a SeriousGame>真剣勝負をする</a></li>
+  <li><a PlayVsEngine>プレイ対エンジン</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   <li><a Searches Filter>検索フィルター</a></li>
   <li><a Menus Search>検索メニュー</a></li>
   <li><a Searches>検索</a></li>
-  <li><a SeriousGame>真剣勝負をする</a></li>
   <li><a Sorting>データベースのソート</a></li>
   <li><a Maintenance Spellcheck>名前のスペルチェック</a></li>
   <li><a Switcher>スイッチャー</a>ウィンドウ</li>
@@ -256,7 +254,6 @@ set helpText(A,Index) {<h1>scidコミュニティ ヘルプ トピック イン�
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>テーブルベース(PGNウィンドウボタン)</a></li>
-  <li><a TacticalGame>タクティカルゲーム</a></li>
   <li><a Menus Tools>ツールメニュー</a></li>
   <li><a Tmt>トーナメントファインダー</a></li>
   <li><a LichessTournament>大会中継(Lichess)</a></li>
@@ -740,10 +737,8 @@ set helpText(A,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>プレイ対エンジン</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1200,8 +1195,7 @@ set helpText(A,Annotating) {<h1>ゲームに注釈を付ける</h1>
   <p>
   scidCommunity を使用すると、ゲームにメモを追加できます。の3種類があります
   移動後に追加できる注釈: 記号、コメント、
-  バリエーション。このセクションでは手動の注釈について説明します。エンジンでサポートされている分析については、<a
-  Analysis Annotating>分析</a>を参照してください。
+  バリエーション。このセクションでは手動の注釈について説明します。エンジンでサポートされている分析については。
   </p>
   
   <h3>記号とコメント</h3>
@@ -2140,7 +2134,6 @@ set helpText(A,PGN) {<h1>の <a PGN>PGN</a> ウィンドウ</h1>
   <li><a PGNChessCom>チェス.com</a>: 分析のために現在のゲームを Chess.com にアップロードします</li>
   <li><a PGNLichess>lichess.org</a>: 分析と共有のために現在のゲームを Lichess.org にアップロードします</li>
   <li><a PGNChessDB>chessdb エンジン ツリー</a>: ChessDB.cn クラウド データベース内の現在位置を開きます</li>
-  <li><a PGNAutoComment>自動コメント</a>：現在位置のAI解説を生成</li>
   </ul>
   これらのボタンにより、scidCommunity を離れることなく、強力なオンライン ツールに即座にアクセスできます。
   詳細については、各ボタンの個別のヘルプ トピックを参照してください。
@@ -2408,38 +2401,6 @@ set helpText(A,PGNChessDB) {<h1>PGN ウィンドウ: chessdb エンジン ツリ
   <p><footer>(更新: scidCommunity、2026 年 4 月)</footer></p>
 
 }
-
-
-set helpTitle(A,PGNAutoComment) "自動コメントボタン"
-set helpText(A,PGNAutoComment) {<h1>PGN ウィンドウ: 自動コメント ボタン</h1>
-  <p>
-  の <b>自動コメント</b> のボタン <a PGN>PGN</a> 窓は人工知能を使用しています
-  (Gemini または DeepSeek) 現在の位置に対する人間のようなコメントを生成します。
-  </p>
-  
-  <h3>使用方法</h3>
-  <p>
-  をクリックします。 <b>自動コメント</b> ボタンをクリックして、現在の動きのコメントを生成します。
-  scidCommunity は次のことを行います。
-  <ul>
-  <li>LichessまたはChessDBから現在位置の評価を取得します</li>
-  <li>位置データとエンジン解析を選択した AI モデルに送信します</li>
-  <li>生成されたコメントのプレビューを表示する</li>
-  <li>ゲームにコメントを追加する前に、コメントを編集または調整できます。</li>
-  </ul>
-  </p>
-  
-  <h3>構成</h3>
-  <p>
-  右クリックして、 <b>自動コメント</b> ボタンをクリックして API キーを設定し、選択します
-  好みの LLM プロバイダー (Gemini または DeepSeek)。
-  </p>
-  
-  <p><footer>(更新: scidCommunity、2024 年 8 月)</footer></p>
-
-}
-
-
 
 
 set helpTitle(A,PTracker) "ピーストラッカー"
@@ -3214,9 +3175,6 @@ set helpText(A,Engine) {<h1>エンジンウィンドウ</h1>
     バリエーション</li>
   <li><b>Config</b> <button tb_eng_config>: エンジン構成を表示または非表示にします。
     パネル</li>
-  <li><b>自動コメント</b>: に基づいて現在位置のコメントを生成します。
-    エンジン解析</li>
-  <li><b>ゲーム コメント</b>: ゲーム内のすべてのポジションのコメントを生成します。</li>
   </ul>
 
   <h3>コントロール</h3>
@@ -4348,52 +4306,6 @@ set helpText(A,Book) {<h1>ブックウィンドウ</h1>
 }
 
 
-set helpTitle(A,TacticalGame) "戦術ゲームウィンドウ"
-set helpText(A,TacticalGame) {<h1>戦術ゲームウィンドウ</h1>
-  <p>
-  敵をシミュレートするエンジンに対して戦術的なゲームをプレイします。
-  Elo 評価を与えられました。  対戦相手はファランクスとコーチがプレーします
-  ユーザーが設定した任意の UCI エンジンによって実行されます。適切なエンジンが自動的に選択されます。
-  名前があり、正しく設定する必要があります (これは、次の場合のデフォルトです)。
-  scidCommunityがインストールされています)。
-  </p>
-  <p>
-  <b>注</b> ファランクス エンジンの特別バージョンは
-  必須です。この特別バージョンには scidCommunity パッケージが付属しています。
-  </p>
-  <p>
-  次のパラメータを設定する必要があります。
-  <ul>
-  <li><term>固定レベル</term>: 対戦相手の固定Eloレーティングを設定します</li>
-  <li><term>ランダム レベル</term>: の間でランダム レベルを選択します。
-  左右のスライダーで指定された最小レベルと最大レベル
-  それぞれ。
-  </li>
-  <li><term>オープニング:</term>
-  <ul>
-     <li><term>新しいゲームの開始</term>: を選択して新しいゲームを開始します。
-     ランダムオープニング</li>
-     <li><term>現在の位置から開始</term>: ゲームを始めましょう
-     現在のボード位置</li>
-     <li><term>特定のオープニング</term>: 相手は
-     特定の開口部、以下のリストから選択できます。これは
-     オープニングトレーニングに便利です。</li>
-  </ul>
-  <li><term>エンジン解析時間を制限</term>すると、エンジン解析時間の制限が可能になります。
-  コーチは選手の動きにミスがないかチェックする。今回がそうでなかったら
-  コーチがバックグラウンドで考えることを許可されるのは限られています。</li>
-  </ul>
-  <p>ヒント: <a Graphs>スコアグラフ</a>をオンにすると、試合中の時間の使用状況とポジションの評価を確認できます。</p>
-  <p>戦術ゲームを開始するには、<term>プレイ</term></p>を押してください。 
-
-  <p><b>注</b>同様の機能は、
-  <a SeriousGame> 真剣な試合 </a> を許可する UCI エンジンとの対戦
-  強度を制限するため。
-  </p>
-  <p><footer>(更新日: scidCommunity、2026 年 4 月)</footer></p>
-}
-
-
 set helpTitle(A,OpeningTrainer) "オープニングトレーナー"
 set helpText(A,OpeningTrainer) {<h1>オープニングトレーナー</h1>
   <p>
@@ -4527,106 +4439,6 @@ set helpText(A,OpeningTrainer) {<h1>オープニングトレーナー</h1>
 }
 
 
-set helpTitle(A,SeriousGame) "真剣なゲームウィンドウ"
-set helpText(A,SeriousGame) {<h1>本格的なゲームウィンドウ</h1>
-  <p>
-  真剣なゲームはどんな相手でもプレイ可能 <term>UCI</term> エンジンセット
-  scidCommunity での使用が可能です。考えられるすべての対戦相手のリストは次のとおりです。
-  の上に与えられる <term>ゲーム構成</term> ウィンドウ。の
-  ボタン <term>UCIエンジンの設定</term> さらにアクセスを許可します
-  エンジンパラメータに。デフォルトでは、次のように設定されています。
-  <a Engine Configure>エンジン構成</a>。
-  </p>
-  <p>
-  次に、開いた本の中から使用する本を選択します
-  scidCommunity で利用できる書籍。チェックを外すと、 <term>本を利用する</term> ボックス
-  オープニングブックの使用が無効になり、エンジンが始動します
-  最初から動きを計算します。
-  </p>
-  <p>
-  セクション <term>時間モード</term> に使用されるタイミングを設定できます
-  エンジン。ここではさまざまな設定が可能です。
-  <ul>
-     <li><term>時間+ボーナス</term> 全体の時間を指定します
-     ゲームと手ごとの可能な増分 (フィッシャー クロック)。の
-     デフォルトはゲームごとに 5 分に設定されており、ゲームごとに 10 秒ずつ増加します。
-     移動は、Blitz ゲームの通常の設定です。注意してください。
-     白黒の時間は個別に設定できます。これにより、
-     エンジンの作動時間を短く設定し、作動時間を長くする
-     プレイヤーのことを考える時間、そしてそれによって強化される
-     エンジンを弱めながら可能性を分析するプレイヤー
-     場合の能力 <term>永続的な思考</term> オフです (参照
-     以下）。
-     </li>
-
-     <li><term>固定深さ</term> 1試合あたりの時間を設定するわけではありませんが、
-     エンジンが半分の移動で計算する深さ。このように
-     必要に応じてより詳細な計算を行う機能を無効にします。
-     コンピュータは特定の合致や組み合わせを認識せず、エンジンは
-     弱いプレーをする可能性があるため、トレーニングのより良いパートナーとなる可能性があります
-     目的。
-     <p>
-     <b>注記</b>: 一部のエンジン、特に商用エンジンでは、
-     Eloユニットの力を弱めます。おそらく、これにより提供されるのは、
-     検索深さを制限するよりも適切なアルゴリズムを選択します。 scidコミュニティでは、
-     このようなゲームは次のようにも提供されています <a TacticalGame>戦術ゲーム</a>
-     フリーのファランクスエンジンに対して。
-     </p>
-     </li>
-
-     <li><term>ノード</term> 検索の深さを制限するのと似ていますが、
-     しかしここでは、特定の評価の後にエンジンを動かす必要があります。
-     ポジションの数。 (デフォルトは10,000です。)
-     </li>
-
-     <li><term>移動あたりの秒数</term> エンジンが時間を費やすことができます
-     特定のポジションに対して最大で一定の時間。一部
-     エンジンは特定の状況ではより速く動きますが、
-     ここで設定した制限時間を超えないようにしてください。として <term>固定深さ</term>
-     そして <term>ノード</term> これによりエンジンの動作も制限されます
-     強さだけでなく、非常に反応の良いゲームプレイも提供します。
-     </li>
-  </ul>
-  </p>
-  <p>
-  ボックスの場合、深刻なゲームは現在のボード位置から開始できます。
-  <term>現在位置から開始</term> にチェックが入っています。これにより、
-  例:定義された中盤のポジションをプレイするため、
-  オープニング。
-  </p>
-  <p>
-  <term>永続的な思考</term> (熟考とも呼ばれます)
-  エンジンがプレイヤーの時間を計算できるようになります。チェックを外した場合、
-  プレイヤーが移動した場合、エンジンは位置の分析を停止します。
-  ゲームが各手ごとに固定時間に設定されている場合、これは弱体化します。
-  エンジン。一方、次の場合はエンジンがすぐに始動する可能性があります。
-  プレーヤーは、プレーヤーの時間に分析していた動きを行いました。
-  </p>
-  <p>
-  <term>コーチが見守っています</term> 対話を開始し、次のことを提案します
-  プレイヤーが失敗した場合は手を戻します（エンジンのせいで）
-  彼の最後の動きの評価）。
-  </p>
-  <p>
-  オープニングのトレーニングに <term>特定の開口部</term> できる
-  チェックした。以下のリストから、再生するオープニングを選択できます。の
-  プレイヤーは選択した行に従う必要があります。そうでない場合は、scidCommunity が質問します。
-  動きを元に戻す必要がある場合。
-  </p>
-
-  <p>
-  ゲームのすべてのパラメータを設定し、「Play」をクリックした後、
-  ボタンを押すと、scidCommunity が相手のエンジンをセットアップし、時計を表示します。
-  ゲームを開始します。プレーヤーは時計が来るまで動いてはなりません
-  現れる。チェス エンジンが起動するまでに時間がかかる場合があることに注意してください。
-  起動して適切に初期化します。
-  </p>
-
-  <p><footer>(更新: scidCommunity、2026 年 4 月)</footer></p>
-
-}
-
-
 set helpTitle(A,TacticsTrainer) "トレーニング: 戦術"
 set helpText(A,TacticsTrainer) {<h1>トレーニング: 戦術</h1>
   <p>
@@ -4704,8 +4516,7 @@ set helpText(A,FindBestMove) {<h1>トレーニング: 最適な動きを見つ�
   <p>
   チェス エンジンを使用してゲームに注釈を付ける場合、エンジンは以下を検索できます。
   ゲーム内の戦術的な機会。これは設定することで実現できます
-  <term>マーク戦術演習</term> で <a
-  Analysis>注釈</a> 分析からアクセスできるウィンドウ。場合には、
+  <term>マーク戦術演習</term>。場合には、
   戦術的な機会が見つかった場合、scidCommunity はゲームにフラグを立てます。
   <term>T</term> (戦術) にフラグを立てて、次のような特別なコメントを追加します。
   この演習で評価します。
@@ -5118,8 +4929,7 @@ set helpText(A,HardwareConfig) {<h1>外部ハードウェアの接続</h1>
   <ul>
      <li><term>エンジンコマンド</term>: 実行されるプログラムの名前
      ドライバーエンジンとして使用されます。完全修飾名は次のようになります。
-     <name Analysis
-     List>チェス エンジン</a>の構成のように、必要です。 (例: Linux 上の DGT ドライバー エンジン
+     <a Engine>チェス エンジン</a>の構成のように、必要です。 (例: Linux 上の DGT ドライバー エンジン
      システムは通常 <term>dgtdrv2.i686</term> と呼ばれます。)
      </li>
      <li><term>エンジンパラメータ</term>: このフィールドに指定されるテキスト

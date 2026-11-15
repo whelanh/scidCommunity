@@ -933,8 +933,6 @@ translate T Informant+= {Beyazın hafif bir avantajı var}
 translate T Informant+/- {Beyazın bariz bir avantajı var}
 translate T Informant+- {Beyaz'ın belirleyici bir avantajı var}
 translate T Informant+-- {Beyazın ezici bir avantajı var}
-translate T AutoComment {Otomatik Yorum}
-translate T AutoCommentTooltip {Mevcut konum için yapay zeka yorumu oluşturun}
 translate T AnalysisAutoCommentTooltip {Oyunun tamamı için yapay zeka yorumları oluşturun}
 translate T MoveLabelBest {En iyi}
 translate T MoveLabelExcellent {Mükemmel}

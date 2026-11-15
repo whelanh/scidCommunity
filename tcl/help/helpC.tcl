@@ -39,7 +39,7 @@ set helpText(C,Contents) {<h1>scidObsah nápovědy komunity </h1>
   <li><a PTracker><b>Sledovač kusů </b></a></li>
   <li><a PList><b>Okno Player Finder</b></a></li>
   <li><a PInfo><b>Okno s informacemi o hráči</b></a></li>
-  <li><a TacticalGame><b>Taktická hra </b> okno </a></li>
+  <li><a PlayVsEngine><b>Play versus Engine</b> okno </a></li>
   <li><a Tmt><b>okno Vyhledávač turnajů</b></a></li>
   <li><a Tree><b>Stromové</b> okno </a></li>
   <li><a Graphs><b>Graf</b> windows</a></li>
@@ -227,8 +227,7 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   Okno <li> <a PList> Player Finder </a> </li>
   <li><a PInfo>Okno s informacemi o hráči </a> </li>
   <li><a Reports Player>Hlášení hráče</a> okno </li>
-  <li><a TacticalGame>Hrát taktickou hru </a></li>
-  <li><a SeriousGame>Hrát seriózní hru </a></li>
+  <li><a PlayVsEngine>Play versus Engine</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   <li><a Searches Filter>Filtr vyhledávání </a></li>
   <li><a Menus Search>Nabídka vyhledávání </a></li>
   <li><a Searches>Vyhledávání </a></li>
-  <li><a SeriousGame>Hrajte seriózní hru </a></li>
   <li><a Sorting>Řazení databáze </a></li>
   <li><a Maintenance Spellcheck>Jména kontroly pravopisu</a></li>
   <li><a Switcher>Switcher</a> okno </li>
@@ -255,7 +253,6 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Podstavec stolu (tlačítko okna PGN)</a></li>
-  <li><a TacticalGame>Taktická hra </a></li>
   <li><a Menus Tools>Nabídka nástrojů </a></li>
   <li><a Tmt>Vyhledávač turnajů</a></li>
   <li><a LichessTournament>Turnajové přenosy (Lichess)</a></li>
@@ -742,10 +739,8 @@ set helpText(C,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Play versus Engine</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1203,8 +1198,7 @@ set helpText(C,Annotating) {<h1>Anotování her </h1>
   <p>
   scidCommunity vám umožňuje přidávat poznámky ke hrám. Existují tři typy
   anotace, kterou můžete přidat po přesunu: symboly, komentář a
-  variace. Tato část popisuje ruční anotace, viz <a
-  Analysis Annotating>Analýza</a> pro analýzu podporovanou motorem.
+  variace. Tato část popisuje ruční anotace.
   </p>
   
   <h3>Symboly a komentáře </h3>
@@ -2143,7 +2137,6 @@ set helpText(C,PGN) {<h1> Okno <a PGN>PGN</a> </h1>
   <li><a PGNChessCom>chess.com</a>: Nahrajte aktuální hru na Chess.com k analýze </li>
   <li><a PGNLichess>lichess.org</a>: Nahrajte aktuální hru na Lichess.org pro analýzu a sdílení </li>
   <li> <a PGNChessDB> chessdb Engine Tree </a>: Otevřete aktuální pozici v cloudové databázi ChessDB.cn </li>
-  <li><a PGNAutoComment>Auto Comment</a>: Generování AI komentáře pro aktuální pozici </li>
   </ul>
   Tato tlačítka poskytují okamžitý přístup k výkonným online nástrojům, aniž byste museli opustit scidCommunity.
   Další podrobnosti naleznete v jednotlivých tématech nápovědy pro každé tlačítko.
@@ -2408,37 +2401,6 @@ set helpText(C,PGNChessDB) {Okno <h1>PGN: Tlačítko stromu chessdb Engine Tree 
   
   <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
 }
-
-
-set helpTitle(C,PGNAutoComment) "Tlačítko automatického komentáře"
-set helpText(C,PGNAutoComment) {<h1> Okno PGN: Tlačítko automatického komentáře </h1>
-  <p>
-  Tlačítko <b>Auto Comment</b> v okně <a PGN>PGN</a> používá umělou inteligenci
-  (Gemini nebo DeepSeek) pro generování lidského komentáře pro aktuální pozici.
-  </p>
-  
-  <h3>Jak používat </h3>
-  <p>
-  Kliknutím na tlačítko <b>Auto Comment</b> vygenerujete komentář pro aktuální pohyb.
-  scidCommunity bude:
-  <ul>
-  <li>Získejte hodnocení aktuální pozice z Lichess nebo ChessDB</li>
-  <li> Odešlete údaje o poloze a analýzu motoru do vybraného modelu AI </li>
-  <li>Zobrazit náhled vygenerovaného komentáře </li>
-  <li>Umožňují upravit nebo upravit komentář před jeho přidáním do hry </li>
-  </ul>
-  </p>
-  
-  <h3> Konfigurace </h3>
-  <p>
-  Kliknutím pravým tlačítkem na tlačítko <b>Auto Comment</b> nakonfigurujte klíče API a vyberte
-  vašeho preferovaného poskytovatele LLM (Gemini nebo DeepSeek).
-  </p>
-  
-  <p><footer>(Aktualizováno: scidCommunity, srpen 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(C,PTracker) "Sledovač kusů"
@@ -3216,8 +3178,6 @@ set helpText(C,Engine) {<h1> Okna motoru </h1>
     variace. </li>
   <li><b>Config</b> <button tb_eng_config>: Zobrazí nebo skryje konfiguraci motoru
     panel. </li>
-  <li><b>Auto Comment</b>: Generuje komentář pro aktuální pozici na základě
-    analýza motoru. </li>
   </ul>
 
   <h3>Ovládací prvky </h3>
@@ -4347,52 +4307,6 @@ set helpText(C,Book) {<h1>Okno knihy </h1>
 }
 
 
-set helpTitle(C,TacticalGame) "Okno taktické hry"
-set helpText(C,TacticalGame) {<h1> Okno taktické hry </h1>
-  <p>
-  Zahrajte si taktickou hru proti enginu simulujícímu protivníka s a
-  uděleno hodnocení Elo.  Soupeře hraje Phalanx a trenér
-  jakýmkoli UCI enginem, který uživatel nakonfiguroval. Správné motory jsou automaticky vybírány podle jejich
-  jmen a měly by být správně nakonfigurovány (toto je výchozí nastavení, když
-  scidCommunity je nainstalována).
-  </p>
-  <p>
-  <b>Všimněte si </b>, že speciální verze motoru Phalanx je
-  vyžadováno. Tato speciální verze je dodávána s balíčkem scidCommunity.
-  </p>
-  <p>
-  Je třeba nakonfigurovat následující parametry:
-  <ul>
-  <li><term>Pevná úroveň </term>: nastavuje pevné hodnocení Elo pro soupeře </li>
-  <li><term>Náhodná úroveň </term>: vybírá náhodnou úroveň mezi
-  minimální a maximální úroveň určenou levým a pravým posuvníkem
-  respektive.
-  </li>
-  <li><term>Otevření: </term>
-  <ul>
-     <li><term>Začít novou hru </term>: spustí novou hru výběrem
-     náhodné otevření. </li>
-     <li><term>Začít z aktuální pozice </term>: nechte hru začít
-     s aktuální pozicí desky. </li>
-     <li><term>Specifické otevření </term>: soupeř bude hrát
-     konkrétní otvor, který lze vybrat z níže uvedeného seznamu. Tohle je
-     užitečné pro úvodní školení. </li>
-  </ul>
-  <li><term>Omezit čas analýzy motoru </term> umožňuje omezit čas používaný
-  trenéra, aby zkontroloval pohyby hráčů na chyby. Pokud tato doba není
-  omezeno, trenér smí myslet v pozadí. </li>
-  </ul>
-  <p>Tip: Pokud zapnete <a Graphs>score graf </a>, můžete vidět využití času a hodnocení pozice během hry.</p>
-  <p>Chcete-li zahájit taktickou hru, stiskněte <term>Play</term></p> 
-
-  <p><b>Poznámka </b> podobné funkce lze dosáhnout hraním
-  <a SeriousGame>seriózní hra </a> proti jakémukoli enginu UCI, který to umožňuje
-  za omezení jeho síly.
-  </p>
-  <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
-}
-
-
 set helpTitle(C,OpeningTrainer) "Úvodní trenér"
 set helpText(C,OpeningTrainer) {<h1>Otevření trenéra </h1>
   <p>
@@ -4526,105 +4440,6 @@ set helpText(C,OpeningTrainer) {<h1>Otevření trenéra </h1>
 }
 
 
-set helpTitle(C,SeriousGame) "Okno seriózní hry"
-set helpText(C,SeriousGame) {<h1> Okno vážné hry </h1>
-  <p>
-  Vážné hry lze hrát proti jakékoli sadě motorů <term>UCI</term>.
-  pro použití s scidCommunity. Seznam všech možných protivníků je
-  uvedené v horní části okna <term>Game configuration </term>. The
-  tlačítko <term>Configure UCI engine </term> navíc umožňuje přístup
-  na parametry motoru. Ve výchozím nastavení jsou nastaveny jako v
-  <a Engine Configure> konfigurace motoru </a>.
-  </p>
-  <p>
-  Dále je možné z těch otevření vybrat knihu, která by měla být použita
-  knihy dostupné scidCommunity. Zrušte zaškrtnutí políčka <term>Use book </term>.
-  znemožní použití otevírací knihy a nastartuje motor
-  počítání tahů hned od začátku.
-  </p>
-  <p>
-  Sekce <term>Časový režim </term> umožňuje nastavit časování použité pro
-  motoru. Zde jsou možná různá nastavení:
-  <ul>
-     <li><term>Čas + bonus</term> určuje čas pro celou
-     hru a možný přírůstek za tah (Fisherovy hodiny). The
-     výchozí nastavení je 5 minut na hru a 10 sekundový přírůstek za hru
-     move, což je obvyklé nastavení pro hry Blitz. Všimněte si, že
-     časy pro černobílou lze nastavit nezávisle. To umožňuje
-     nastavit krátkou dobu pro motor a dát delší
-     čas na přemýšlení hráče, a tím posílení
-     hráči analyzují možnosti a zároveň oslabují motory
-     schopnosti v případě <term>Permanentní myšlení </term> je vypnuto (viz
-     níže).
-     </li>
-
-     <li><term>Pevná hloubka </term> nenastavuje čas na hru, ale
-     hloubku, kterou motor vypočítá v polovičních tahech. Jako toto
-     deaktivuje možnost v případě potřeby počítat hlouběji,
-     počítač neuvidí určité vazby a kombinace, motor
-     může hrát slabší a nabídnout tak lepšího partnera pro trénink
-     účely.
-     <p>
-     <b>Poznámka </b>: Některé, zejména komerční, motory také nabízejí
-     oslabit jejich sílu v jednotkách Elo. S největší pravděpodobností to nabídne a
-     vhodnější algoritmus než omezení hloubky vyhledávání. Ve scidCommunity,
-     takové hry jsou nabízeny také jako <a TacticalGame>Taktické hry </a>
-     proti bezplatnému enginu Phalanx.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> je podobné omezení hloubky vyhledávání,
-     ale tady se motor musí po vyhodnocení jisté
-     počet pozic. (Výchozí hodnota je 10 000.)
-     </li>
-
-     <li><term>Sekundy za tah </term> umožňuje motoru strávit
-     určitou dobu maximálně pro danou pozici. Některé
-     motory se za určitých okolností budou pohybovat rychleji, ale budou
-     nepřekročí zde stanovený časový limit. Jako <term> Pevná hloubka </term>
-     a <term>Nodes</term> to také omezuje hraní motorů
-     sílu, ale také poskytuje docela citlivou hru.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Vážné hry mohou začít z aktuální pozice na desce, pokud je pole
-  <term> Start z aktuální pozice </term> je zaškrtnutý. To umožňuje
-  např. hrát definované střední herní pozice, které vyplývají z an
-  otevření.
-  </p>
-  <p>
-  <term>Stálé myšlení </term> (někdy také nazývané přemítání)
-  umožňuje motoru vypočítat čas hráčů. Pokud není zaškrtnuto,
-  motor přestane analyzovat pozici, pokud má hráč tah.
-  Pokud je hra nastavena na pevný čas na tah, oslabí to hru
-  motoru. Na druhou stranu se motor může okamžitě pohnout, pokud
-  hráč provedl pohyb, který analyzoval, na čase hráčů.
-  </p>
-  <p>
-  <term>Kouč se dívá </term> otevře nabídku dialogu
-  zpět tah, pokud hráč udělal chybu (kvůli motorům
-  hodnocení jeho posledního tahu).
-  </p>
-  <p>
-  Pro trénování otvorů <term>Může být specifické otevření </term>.
-  zaškrtnuto. V níže uvedeném seznamu si můžete vybrat otevření, které chcete hrát. The
-  hráč by pak měl následovat zvolenou linii, jinak se scidCommunity zeptá
-  pokud by měl být tah vzat zpět.
-  </p>
-
-  <p>
-  Po nastavení všech parametrů hry a stisknutí Play
-  tlačítko, scidCommunity nastaví soupeřův engine a zobrazí hodiny a
-  spustit hru. Hráč nesmí provést tah až do hodin
-  se objeví. Všimněte si, že šachovému motoru může chvíli trvat
-  správně spustit a inicializovat.
-  </p>
-
-  <p><footer>(Aktualizováno: scidCommunity, duben 2026)</footer></p>
-}
-
-
 set helpTitle(C,TacticsTrainer) "Trénink: Taktika"
 set helpText(C,TacticsTrainer) {<h1>Trénink: Taktika </h1>
   <p>
@@ -4701,8 +4516,7 @@ set helpText(C,FindBestMove) {<h1>Trénink: Najděte nejlepší pohyb </h1>
   <p>
   Při anotování partií pomocí šachového motoru může engine hledat
   taktické příležitosti ve hře. Toho lze dosáhnout nastavením
-  <term>Označte taktické cvičení</term> v okně <a
-  Analysis>Anotace</a> přístupném z analýzy. V případě a
+  <term>Označte taktické cvičení</term>. V případě a
   je nalezena taktická příležitost, scidCommunity pak hru označí
   <term>T</term> příznak (Taktika) a přidejte speciální komentář, který je
   hodnoceno v tomto cvičení.
@@ -5113,8 +4927,7 @@ set helpText(C,HardwareConfig) {<h1>Připojení externího hardwaru </h1>
   <ul>
      <li><term>Engine command</term>: Název programu, který je
      být použit jako hnací motor. Plně kvalifikovaný název může být
-     vyžadováno, jako v konfiguraci <name Analysis
-     List> šachového motoru </a>. (Např. motor ovladače DGT v systému Linux
+     vyžadováno, jako v konfiguraci <a Engine> šachového motoru </a>. (Např. motor ovladače DGT v systému Linux
      systém se obvykle nazývá <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametr motoru </term>: Text uvedený v tomto poli

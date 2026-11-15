@@ -930,8 +930,6 @@ translate Q Informant+= {Білий має невелику перевагу}
 translate Q Informant+/- {Білий має явну перевагу}
 translate Q Informant+- {Білі мають вирішальну перевагу}
 translate Q Informant+-- {Білі мають нищівну перевагу}
-translate Q AutoComment {Автоматичний коментар}
-translate Q AutoCommentTooltip {Створити коментар AI для поточної позиції}
 translate Q AnalysisAutoCommentTooltip {Створюйте коментарі ШІ для всієї гри}
 translate Q MoveLabelBest {Найкращий}
 translate Q MoveLabelExcellent {Відмінний}

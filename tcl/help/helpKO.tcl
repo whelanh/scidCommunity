@@ -39,7 +39,7 @@ set helpText(k,Contents) {<h1>scid커뮤니티 도움말 목차</h1>
   <li><a PTracker><b>조각 추적기</b></a></li>
   <li><a PList><b>플레이어 찾기</b> 창문</a></li>
   <li><a PInfo><b>플레이어 정보</b> 창문</a></li>
-  <li><a TacticalGame><b>전술 게임</b> 창문</a></li>
+  <li><a PlayVsEngine><b>플레이 대 엔진</b> 창문</a></li>
   <li><a Tmt><b>토너먼트 찾기</b> 창문</a></li>
   <li><a Tree><b>나무</b> 창문</a></li>
   <li><a Graphs><b>그래프</b> 창문들</a></li>
@@ -228,8 +228,7 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   <li><a PList>플레이어 찾기</a> 창</li>
   <li><a PInfo>플레이어 정보</a> 창</li>
   <li><a Reports Player>플레이어 리포트</a> 창</li>
-  <li><a TacticalGame>전술 게임 플레이</a></li>
-  <li><a SeriousGame>진지한 게임을 플레이하세요</a></li>
+  <li><a PlayVsEngine>플레이 대 엔진</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   <li><a Searches Filter>검색 필터</a></li>
   <li><a Menus Search>검색 메뉴</a></li>
   <li><a Searches>검색</a></li>
-  <li><a SeriousGame>진지한 게임을 플레이하세요</a></li>
   <li><a Sorting>데이터베이스 정렬</a></li>
   <li><a Maintenance Spellcheck>이름 철자 검사</a></li>
   <li><a Switcher>스위처</a> 창</li>
@@ -256,7 +254,6 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   <h3>티</h3>
   <ul>
   <li><a PGNTablebase>테이블 베이스(PGN 창 버튼)</a></li>
-  <li><a TacticalGame>전술게임</a></li>
   <li><a Menus Tools>도구 메뉴</a></li>
   <li><a Tmt>토너먼트 파인더</a></li>
   <li><a LichessTournament>토너먼트 방송 (리체스)</a></li>
@@ -741,10 +738,8 @@ set helpText(k,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>플레이 대 엔진</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1201,8 +1196,7 @@ set helpText(k,Annotating) {<h1>게임에 주석 달기</h1>
   <p>
   scidCommunity를 사용하면 게임에 메모를 추가할 수 있습니다. 세 가지 유형이 있습니다.
   이동 후 추가할 수 있는 주석: 기호, 주석 및
-  변형. 이 섹션에서는 수동 주석에 대해 설명합니다. 엔진 지원 분석은 <a
-  Analysis Annotating>Analytics</a>를 참조하세요.
+  변형. 이 섹션에서는 수동 주석에 대해 설명합니다.
   </p>
   
   <h3>기호 및 설명</h3>
@@ -2143,7 +2137,6 @@ set helpText(k,PGN) {<h1>그만큼 <a PGN>PGN</a> 창문</h1>
   <li><a PGNChessCom>체스닷컴</a>: 분석을 위해 현재 게임을 Chess.com에 업로드합니다.</li>
   <li><a PGNLichess>lichess.org</a>: 분석 및 공유를 위해 현재 게임을 Lichess.org에 업로드합니다.</li>
   <li><a PGNChessDB>chessdb 엔진 트리</a>: ChessDB.cn 클라우드 데이터베이스에서 현재 위치를 엽니다.</li>
-  <li><a PGNAutoComment>자동 댓글</a>: 현재 위치에 대한 AI 해설 생성</li>
   </ul>
   이 버튼을 사용하면 scidCommunity를 떠나지 않고도 강력한 온라인 도구에 즉시 액세스할 수 있습니다.
   자세한 내용은 각 버튼에 대한 개별 도움말 항목을 참조하세요.
@@ -2411,38 +2404,6 @@ set helpText(k,PGNChessDB) {<h1>PGN 창: chessdb 엔진 트리 버튼</h1>
   <p><footer>(업데이트됨: scidCommunity, 2026년 4월)</footer></p>
 
 }
-
-
-set helpTitle(k,PGNAutoComment) "Auto Comment Button"
-set helpText(k,PGNAutoComment) {<h1>PGN 창: 자동 댓글 버튼</h1>
-  <p>
-  그만큼 <b>자동 댓글</b> 버튼을 <a PGN>PGN</a> 창문은 인공지능을 사용한다
-  (Gemini 또는 DeepSeek) 현재 위치에 대해 인간과 유사한 설명을 생성합니다.
-  </p>
-  
-  <h3>사용방법</h3>
-  <p>
-  다음을 클릭하세요. <b>자동 댓글</b> 버튼을 누르면 현재 이동에 대한 설명이 생성됩니다.
-  scid커뮤니티는 다음을 수행합니다.
-  <ul>
-  <li>Lichess 또는 ChessDB에서 현재 위치의 평가를 가져옵니다.</li>
-  <li>선택한 AI 모델에 위치 데이터 및 엔진 분석을 보냅니다.</li>
-  <li>생성된 해설의 미리보기를 표시합니다.</li>
-  <li>게임에 댓글을 추가하기 전에 댓글을 편집하거나 다듬을 수 있습니다.</li>
-  </ul>
-  </p>
-  
-  <h3>구성</h3>
-  <p>
-  Right-click the <b>자동 댓글</b> API 키를 구성하고 선택하는 버튼
-  선호하는 LLM 제공업체(Gemini 또는 DeepSeek)
-  </p>
-  
-  <p><footer>(업데이트됨: scidCommunity, 2024년 8월)</footer></p>
-
-}
-
-
 
 
 set helpTitle(k,PTracker) "Piece tracker"
@@ -3194,9 +3155,7 @@ set helpText(k,Analysis) {<h1>The Analysis window has been retired</h1>
 set helpTitle(k,Engine) "Engine windows"
 set helpText(k,Engine) {<h1>The Engine windows</h1>
   <p>
-  The Engine windows provide real-time analysis from chess engines. 그들은 
-  differ from the Analysis window by including evaluation charts, stored 
-  cloud evaluations, and engine configuration panels. Up to two engine 
+  The Engine windows provide real-time analysis from chess engines. Up to two engine 
   windows can run simultaneously.
   </p>
   <p>
@@ -3216,8 +3175,6 @@ set helpText(k,Engine) {<h1>The Engine windows</h1>
     variations.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
     panel.</li>
-  <li><b>Auto Comment</b>: Generates a comment for the current position based on
-    the engine analysis.</li>
   </ul>
 
   <h3>Controls</h3>
@@ -3282,9 +3239,7 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <li> <b>acs</b> Analysis count: search time in seconds.</li>
   <li> <b>bm</b> Best moves: move(s) judged best for some reason.</li>
   <li> <b>ce</b> Centipawn evaluation: evaluation in hundredths of a
-  pawn from the perspective of the <b>side to move</b> -- note this
-  differs from the Analysis window which shows evaluations in pawns from
-  Whites perspective. </li>
+  pawn from the perspective of the <b>side to move</b>. </li>
   <li> <b>cX</b> Comment (where <b>X</b> is a digit, 0-9).</li>
   <li> <b>eco</b> <a ECO>ECO</a> system opening code.</li>
   <li> <b>id</b> Unique Identification for this position.</li>
@@ -3328,9 +3283,7 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   EPD-files can be automatically annotated by selecting Tools /
   Annotate position. The upcoming dialogue asks for the time that
   should be used for the analysis, then the <a Engine Configure>engine
-  list</a> is opened for selection of an engine to be used. <b>Note</b> If an
-  analysis window is already opened, the analysis is done using this
-  engine without asking the user beforehand. Then the engine is
+  list</a> is opened for selection of an engine to be used. Then the engine is
   started and the result added to the EPD. The EPD tags used are :
   acd, acn, ce and pv.
   </p>
@@ -4348,52 +4301,6 @@ set helpText(k,Book) {<h1>책창</h1>
 }
 
 
-set helpTitle(k,TacticalGame) "전술 게임 창"
-set helpText(k,TacticalGame) {<h1>전술게임창</h1>
-  <p>
-  상대를 시뮬레이션하는 엔진을 상대로 전술 게임을 플레이하세요.
-  Elo 등급이 부여되었습니다.  상대는 팔랑크스와 코치가 맡는다.
-  사용자가 구성한 UCI 엔진에 의해. 올바른 엔진은 자동으로 선택됩니다.
-  이름을 지정해야 하며 올바르게 구성되어야 합니다.
-  scidCommunity가 설치되었습니다).
-  </p>
-  <p>
-  <b>Note</b> Phalanx 엔진의 특별 버전은 다음과 같습니다.
-  필수. 이 특별 버전은 scidCommunity 패키지와 함께 제공됩니다.
-  </p>
-  <p>
-  다음 매개변수를 구성해야 합니다.
-  <ul>
-  <li><term>고정 레벨</term>: 상대의 고정 Elo 등급을 설정합니다</li>
-  <li><term>Random level</term>: 다음 중 임의의 레벨을 선택합니다.
-  왼쪽 및 오른쪽 슬라이더로 지정된 최소 및 최대 레벨
-  각각.
-  </li>
-  <li><term>개방:</term>
-  <ul>
-     <li><term>새 게임 시작</term>: 다음을 선택하여 새 게임을 시작합니다.
-     무작위 개방.</li>
-     <li><term>현재 위치에서 시작</term>: 게임을 시작합니다.
-     현재 보드 위치와 함께.</li>
-     <li><term>특정 오프닝</term>: 상대는
-     특정 오프닝은 아래 목록에서 선택할 수 있습니다. 이것은
-     훈련 개시에 유용합니다.</li>
-  </ul>
-  <li><term> 엔진 분석 시간 제한</term>은 사용되는 시간을 제한합니다.
-  코치는 선수의 움직임에 오류가 있는지 확인합니다. 이 시간이 아니라면
-  코치가 뒤에서 생각하는 것은 제한적입니다.</li>
-  </ul>
-  <p>팁: <a Graphs>점수 그래프</a>를 켜면 게임 중 시간 사용 및 위치 등급을 확인할 수 있습니다.</p>
-  <p> 전술 게임을 시작하려면 <term>Play</term></p>를 누르세요. 
-
-  <p><b>참고</b> 유사한 기능은
-  <a SeriousGame>모든 UCI 엔진을 상대로 하는 진지한 게임</a>
-  강도를 제한하기 때문입니다.
-  </p>
-  <p><footer>(업데이트: scidCommunity, 2026년 4월)</footer></p>
-}
-
-
 set helpTitle(k,OpeningTrainer) "오프닝 트레이너"
 set helpText(k,OpeningTrainer) {<h1>오프닝 트레이너</h1>
   <p>
@@ -4527,105 +4434,6 @@ set helpText(k,OpeningTrainer) {<h1>오프닝 트레이너</h1>
 }
 
 
-set helpTitle(k,SeriousGame) "진지한 게임 창"
-set helpText(k,SeriousGame) {<h1>심각한 게임 창</h1>
-  <p>
-  모든 <term>UCI</term> 엔진 세트를 상대로 진지한 게임을 플레이할 수 있습니다.
-  scidCommunity를 사용하기 위해 준비했습니다. 가능한 모든 상대 목록은 다음과 같습니다.
-  <term>게임 구성</term> 창 상단에 제공됩니다. 는
-  버튼<term>UCI 엔진 구성</term>을 통해 추가로 액세스 권한 제공
-  엔진 매개변수에. 기본적으로 다음과 같이 설정됩니다.
-  <a Engine Configure>엔진 구성</a>.
-  </p>
-  <p>
-  다음으로, 사용해야 할 책은 그 개봉기 중에서 선택할 수 있습니다
-  scidCommunity에서 사용할 수 있는 책. <term>도서</term> 사용 상자 선택 취소
-  오프닝 북의 사용을 비활성화하고 엔진이 시동됩니다.
-  계산은 처음부터 바로 움직입니다.
-  </p>
-  <p>
-  <term>시간 모드</term> 섹션에서는 다음에 사용되는 타이밍을 설정할 수 있습니다.
-  엔진. 여기서는 다양한 설정이 가능합니다:
-  <ul>
-     <li><term>시간 + 보너스</term>는 전체 시간을 지정합니다.
-     게임 및 이동당 가능한 증분(피셔 시계). 는
-     기본값은 게임당 5분으로 설정되어 있으며 게임당 10초씩 증가합니다.
-     이는 Blitz 게임의 일반적인 설정입니다. 참고로
-     흑백의 시간은 독립적으로 설정할 수 있습니다. 이를 통해
-     엔진에 짧은 시간을 설정하고 더 긴 시간을 제공하려면
-     플레이어에게 생각할 시간을 주어 강화시킵니다.
-     엔진을 약화시키면서 가능성을 분석하는 플레이어
-     <term>영구적 사고</term>가 꺼진 경우의 능력(참조)
-     아래).
-     </li>
-
-     <li><term>고정깊이</term>는 게임당 시간을 설정하지 않지만
-     엔진이 반 이동으로 계산할 깊이입니다. 이로서
-     필요한 경우 더 깊은 계산 기능을 비활성화합니다.
-     컴퓨터는 특정 메이트와 조합을 볼 수 없으며 엔진은
-     약한 플레이를 할 수 있으므로 훈련에 더 나은 파트너를 제공할 수 있습니다.
-     목적.
-     <p>
-     <b>참고</b>: 일부, 특히 상업용 엔진은 다음을 제공합니다.
-     Elo 단위의 힘을 약화시킵니다. 아마도 이것은 다음을 제공할 것입니다.
-     검색 깊이를 제한하는 것보다 더 적합한 알고리즘입니다. scid커뮤니티에서는
-     이러한 게임은 <a TacticalGame>전술 게임</a>으로도 제공됩니다.
-     무료 Phalanx 엔진에 반대합니다.
-     </p>
-     </li>
-
-     <li><term>노드</term>는 검색 깊이를 제한하는 것과 유사하며,
-     하지만 여기서 엔진은 특정 평가 후에 움직여야 합니다.
-     직위 수. (기본값은 10,000입니다.)
-     </li>
-
-     <li><term> 이동당 초</term>를 사용하면 엔진이
-     주어진 위치에 대해 최대 특정 시간. 일부
-     특정 상황에서는 엔진이 더 빠르게 움직일 수 있지만
-     여기에 설정된 시간 제한을 초과하지 마십시오. As <term>고정깊이</term>
-     및 <term>노드</term> 이는 또한 엔진 재생을 제한합니다.
-     강력할 뿐만 아니라 반응성이 매우 뛰어난 게임 플레이도 제공합니다.
-     </li>
-  </ul>
-  </p>
-  <p>
-  상자가 있으면 현재 보드 위치에서 심각한 게임을 시작할 수 있습니다.
-  <term>현재 위치</term>에서 시작을 확인합니다. 이를 통해
-  예를 들어 다음에서 발생하는 정의된 중간 게임 포지션을 플레이하기 위해
-  오프닝.
-  </p>
-  <p>
-  <term>영구적 사고</term> (때때로 숙고라고도 함)
-  엔진이 플레이어의 시간을 계산할 수 있습니다. 선택을 취소하면
-  플레이어가 움직일 경우 엔진은 위치 분석을 중단합니다.
-  게임이 이동당 고정된 시간으로 설정되면 이는 약화될 것입니다.
-  엔진. 반면에 다음과 같은 경우 엔진이 즉시 움직일 수 있습니다.
-  플레이어는 플레이어의 시간을 분석하여 동작을 수행했습니다.
-  </p>
-  <p>
-  <term>코치가 지켜보고 있습니다</term>가 대화 제안을 열 것입니다.
-  플레이어가 실수를 한 경우(엔진 문제로 인해) 이동을 되돌립니다.
-  그의 마지막 움직임에 대한 평가).
-  </p>
-  <p>
-  개구부<term> 훈련을 위해 특정 개구부</term>를 사용할 수 있습니다.
-  확인했습니다. 아래 목록에서 재생할 오프닝을 선택할 수 있습니다. 는
-  그런 다음 플레이어는 선택한 라인을 따라야 합니다. 그렇지 않으면 scidCommunity가 묻습니다.
-  이동을 취소해야 하는 경우.
-  </p>
-
-  <p>
-  게임의 모든 매개변수를 설정하고 플레이 버튼을 누른 후
-  버튼을 누르면 scidCommunity는 상대 엔진에 시계를 표시하도록 설정하고
-  게임을 시작하세요. 플레이어는 시계가 나올 때까지 움직이면 안 됩니다.
-  나타납니다. 체스 엔진이 작동하는 데 시간이 걸릴 수 있습니다.
-  제대로 시작하고 초기화하세요.
-  </p>
-
-  <p><footer>(업데이트: scidCommunity, 2026년 4월)</footer></p>
-}
-
-
 set helpTitle(k,TacticsTrainer) "훈련: 전술"
 set helpText(k,TacticsTrainer) {<h1>훈련: 전술</h1>
   <p>
@@ -4703,8 +4511,7 @@ set helpText(k,FindBestMove) {<h1>훈련: 최선의 움직임 찾기</h1>
   <p>
   체스 엔진으로 게임에 주석을 달 때 엔진은 다음을 검색할 수 있습니다.
   게임 내 전술적 기회. 이는 설정을 통해 달성할 수 있습니다.
-  <term>마크 전술훈련</term> 에서 <a
-  Analysis>주석</a> 분석에서 액세스할 수 있는 창입니다. 경우에
+  <term>마크 전술훈련</term>. 경우에
   전술적 기회가 발견되면 scidCommunity는 다음과 같이 게임에 플래그를 지정합니다.
   <term>티</term> 플래그(Tactics)를 지정하고 다음과 같은 특별 설명을 추가합니다.
   이 연습에서는 평가됩니다.
@@ -5117,8 +4924,7 @@ set helpText(k,HardwareConfig) {<h1>외부 하드웨어 연결</h1>
   <ul>
      <li><term>엔진 명령</term>: 프로그램 이름
      드라이버 엔진으로 사용됩니다. 정규화된 이름은 다음과 같을 수 있습니다.
-     <name Analysis
-     List>체스 엔진</a> 구성과 같이 필요합니다. (예: Linux의 DGT 드라이버 엔진
+     <a Engine>체스 엔진</a> 구성과 같이 필요합니다. (예: Linux의 DGT 드라이버 엔진
      시스템은 일반적으로 <term>dgtdrv2.i686</term>이라고 합니다.)
      </li>
      <li><term>엔진 매개변수</term>: 이 필드에 제공되는 텍스트

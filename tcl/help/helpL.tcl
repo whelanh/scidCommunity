@@ -39,7 +39,7 @@ set helpText(L,Contents) {<h1>scidCommunity Ajutor Conținut</h1>
   <li><a PTracker><b>Urmăritor piese</b></a></li>
   <li><a PList><b>Fereastra de căutare player</b></a></li>
   <li><a PInfo><b>Fereastra informații despre jucător</b></a></li>
-  <li><a TacticalGame><b>Joc tactic</b> fereastra</a></li>
+  <li><a PlayVsEngine><b>Joacă împotriva motorului</b> fereastra</a></li>
   <li><a Tmt><b>Fereastra de căutare de turnee</b></a></li>
   <li><a Tree><b>Arborele</b> fereastră</a></li>
   <li><a Graphs><b>Grafic</b> ferestre</a></li>
@@ -227,8 +227,7 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   <li><a PList>Fereastra de căutare player</a></li>
   <li><a PInfo>Fereastra informații despre jucător</a></li>
   <li><a Reports Player>Raportul jucătorului</a> fereastră</li>
-  <li><a TacticalGame>Joacă joc tactic</a></li>
-  <li><a SeriousGame>Joacă serios</a></li>
+  <li><a PlayVsEngine>Joacă împotriva motorului</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   <li><a Searches Filter>Filtru de căutare</a></li>
   <li><a Menus Search>Meniu de căutare </a></li>
   <li><a Searches>Căutări</a></li>
-  <li><a SeriousGame>Joacă serios</a></li>
   <li><a Sorting>Sortarea unei baze de date</a></li>
   <li><a Maintenance Spellcheck>Verificare ortografică nume</a></li>
   <li><a Switcher>Switcher</a> fereastra</li>
@@ -255,7 +253,6 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Baza de masă (butonul ferestrei PGN)</a></li>
-  <li><a TacticalGame>Joc tactic</a></li>
   <li><a Menus Tools>Meniul Instrumente</a></li>
   <li><a Tmt>Găsire turnee</a></li>
   <li><a LichessTournament>Transmisiuni turnee (Lichess)</a></li>
@@ -742,10 +739,8 @@ set helpText(L,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Joacă împotriva motorului</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1204,8 +1199,7 @@ set helpText(L,Annotating) {<h1>Jocuri de adnotare</h1>
   <p>
   scidCommunity vă permite să adăugați note la jocuri. Există trei tipuri de
   adnotare pe care o puteți adăuga după o mutare: simboluri, un comentariu și
-  variatii. Această secțiune descrie adnotările manuale, consultați <a
-  Analysis Annotating>Analiză</a> pentru analiza suportată de motor.
+  variatii. Această secțiune descrie adnotările manuale.
   </p>
   
   <h3>Simboluri și comentarii</h3>
@@ -2146,7 +2140,6 @@ set helpText(L,PGN) {<h1>Fereastra <a PGN>PGN</a> </h1>
   <li><a PGNChessCom>chess.com</a>: Încărcați jocul curent pe Chess.com pentru analiză </li>
   <li><a PGNLichess>lichess.org</a>: Încărcați jocul curent pe Lichess.org pentru analiză și partajare </li>
   <li><a PGNChessDB>Chessdb Engine Tree</a>: Deschideți poziția curentă în baza de date cloud ChessDB.cn </li>
-  <li><a PGNAutoComment>Comentariu automat </a>: generează comentarii AI pentru poziția curentă </li>
   </ul>
   Aceste butoane oferă acces instantaneu la instrumente online puternice, fără a părăsi scidCommunity.
   Consultați subiectele de ajutor individuale pentru fiecare buton pentru mai multe detalii.
@@ -2411,37 +2404,6 @@ set helpText(L,PGNChessDB) {<h1>Fereastra PGN: chessdb Engine Tree Button </h1>
   
   <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
 }
-
-
-set helpTitle(L,PGNAutoComment) "Butonul de comentarii automate"
-set helpText(L,PGNAutoComment) {<h1>Fereastra PGN: Buton pentru comentarii automate </h1>
-  <p>
-  Butonul <b>Auto Comment</b> din fereastra <a PGN>PGN</a> folosește inteligența artificială
-  (Gemeni sau DeepSeek) pentru a genera comentarii de tip uman pentru poziția curentă.
-  </p>
-  
-  <h3>Cum se utilizează </h3>
-  <p>
-  Faceți clic pe butonul <b>Auto Comment</b> pentru a genera un comentariu pentru mutarea curentă.
-  scidCommunity va:
-  <ul>
-  <li>Preluați evaluarea poziției curente de la Lichess sau ChessDB</li>
-  <li>Trimiteți datele de poziție și analiza motorului către modelul AI ales </li>
-  <li>Afișează o previzualizare a comentariului generat </li>
-  <li> Vă permite să editați sau să rafinați comentariul înainte de a-l adăuga în joc </li>
-  </ul>
-  </p>
-  
-  <h3>Configurare </h3>
-  <p>
-  Faceți clic dreapta pe butonul <b>Auto Comment</b> pentru a configura cheile API și selectați
-  furnizorul dumneavoastră preferat de LLM (Gemini sau DeepSeek).
-  </p>
-  
-  <p><footer>(Actualizat: scidCommunity, august 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(L,PTracker) "Tracker de piese"
@@ -3220,8 +3182,6 @@ set helpText(L,Engine) {<h1>Ferestrele motorului </h1>
     variații.</li>
   <li><b>Config</b> <button tb_eng_config>: afișează sau ascunde configurația motorului
     panou.</li>
-  <li><b>Auto Comment</b>: generează un comentariu pentru poziția curentă pe baza
-    analiza motorului.</li>
   </ul>
 
   <h3>Comenzi </h3>
@@ -4352,53 +4312,6 @@ set helpText(L,Book) {<h1>Fereastra de carte </h1>
 }
 
 
-set helpTitle(L,TacticalGame) "Fereastra jocului tactic"
-set helpText(L,TacticalGame) {<h1>Fereastra jocului tactic</h1>
-  <p>
-  Jucați un joc tactic împotriva unui motor care simulează un adversar cu a
-  dat ratingul Elo.  Adversarul este jucat de Phalanx și antrenor
-  prin orice motor UCI configurat de utilizator. Motoarele potrivite sunt selectate automat de către acestea
-  nume și ar trebui să fie configurate corect (acesta este valoarea implicită când
-  scidCommunity este instalat).
-  </p>
-  <p>
-  <b>Nota</b> că o versiune specială a motorului Phalanx este
-  necesar. Această versiune specială vine cu pachetul scidCommunity.
-  </p>
-  <p>
-  Trebuie configurați următorii parametri:
-  <ul>
-  <li><term>Nivel fix</term>: stabilește un rating Elo fix pentru adversar</li>
-  <li><term>Nivel aleatoriu</term>: alege un nivel aleator între
-  nivelul minim și maxim specificat de glisorul din stânga și din dreapta
-  respectiv.
-  </li>
-  <li><term>Deschidere:</term>
-  <ul>
-     <li><term>Începeți un nou joc</term>: începe un joc nou alegând a
-     deschidere aleatorie.</li>
-     <li><term>Începeți de la poziția curentă</term>: să înceapă jocul
-     cu poziția actuală a consiliului.</li>
-     <li><term>Deschidere specifica</term>: adversarul va juca a
-     deschidere specifică, care poate fi aleasă din lista de mai jos. Aceasta este
-     util pentru antrenamentul de deschidere.</li>
-  </ul>
-  <li><term>Limitați timpul de analiză a motorului</term> permite limitarea timpului folosit de
-  antrenorul să verifice mișcările jucătorilor pentru erori. Dacă acest timp nu este
-  limitat antrenorul are voie să gândească în fundal.</li>
-  </ul>
-  <p>Sfat: Dacă porniți <a Graphs>graficul scorului</a>, puteți vedea utilizarea timpului și evaluarea poziției în timpul jocului.</p>
-  <p>Pentru a începe un joc tactic, apăsați <term>Juca</term></p> 
-
-  <p><b>Nota</b> o funcție similară poate fi atinsă jucând a
-  <a SeriousGame>joc serios</a> împotriva oricărui motor UCI care permite
-  pentru limitarea puterii sale.
-  </p>
-  <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
-
-}
-
-
 set helpTitle(L,OpeningTrainer) "Trainer de deschidere"
 set helpText(L,OpeningTrainer) {<h1>Trainer de deschidere</h1>
   <p>
@@ -4533,105 +4446,6 @@ set helpText(L,OpeningTrainer) {<h1>Trainer de deschidere</h1>
 }
 
 
-set helpTitle(L,SeriousGame) "Fereastra joc serios"
-set helpText(L,SeriousGame) {<h1>Fereastra jocului serios </h1>
-  <p>
-  Se pot juca jocuri serioase împotriva oricărui set de motor <term>UCI</term>.
-  pentru utilizare cu scidCommunity. O listă cu toți adversarii posibili este
-  dat deasupra ferestrei <term>Configurarea jocului </term>. The
-  butonul <term>Configurare motor UCI </term> oferă acces suplimentar
-  la parametrii motoarelor. În mod implicit, acestea sunt setate ca în
-  <a Engine Configure>configurație motor </a>.
-  </p>
-  <p>
-  În continuare, cartea care ar trebui folosită poate fi aleasă dintre cele de deschidere
-  cărți disponibile pentru scidCommunity. Debifați caseta <term>Utilizare carte </term>.
-  va dezactiva utilizarea unei cărți de deschidere și motorul va porni
-  calculând mișcările chiar de la început.
-  </p>
-  <p>
-  Secțiunea <term>Mod timp </term> permite setarea timpului utilizat pentru
-  motorul. Aici sunt posibile diferite setări:
-  <ul>
-     <li><term>Timp + bonus</term> specifică timpul pentru întregul
-     joc și o posibilă creștere pe mișcare (ceasul Fisher). The
-     implicit este setat la 5 minute pe joc și un increment de 10 secunde pe
-     mutare, care este o setare obișnuită pentru jocurile Blitz. Rețineți că
-     timpii pentru alb-negru pot fi setati independent. Acest lucru permite
-     pentru a seta o perioadă scurtă de timp pentru motor și a da un timp mai lung
-     timpul de gândire pentru jucător și, astfel, întărirea
-     jucătorii analizând posibilitățile în timp ce slăbesc motoarele
-     abilități în cazul <term>Gândirea permanentă </term> este dezactivată (vezi
-     mai jos).
-     </li>
-
-     <li><term>Adâncimea fixă </term> nu setează timpul per joc, dar
-     adâncimea pe care motorul o va calcula în jumătate de mișcare. Ca aceasta
-     dezactivează capacitatea de a calcula mai profund dacă este necesar,
-     computerul nu va vedea anumite colegi și combinații, motorul
-     poate juca mai slab și oferă astfel un partener mai bun pentru antrenament
-     scopuri.
-     <p>
-     <b>Notă </b>: unele, mai ales cele comerciale, oferă și ele
-     își slăbesc puterea în unitățile Elo. Cel mai probabil, aceasta va oferi o
-     algoritm mai potrivit decât limitarea adâncimii de căutare. În scidCommunity,
-     astfel de jocuri sunt oferite și ca <a TacticalGame>Jocuri tactice </a>
-     împotriva motorului Phalanx liber.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> este similar cu limitarea adâncimii de căutare,
-     dar aici motorul trebuie să se miște după evaluarea unui anumit
-     numărul de posturi. (Valoarea implicită este 10.000.)
-     </li>
-
-     <li><term>Secunde per mișcare</term> permite motorului să petreacă un
-     anumită perioadă de timp la maximum pentru o anumită poziție. Unii
-     motoarele se vor mișca mai repede în anumite circumstanțe, dar o vor face
-     să nu depășească termenul stabilit aici. As <term>Adâncime fixă </term>
-     și <term>Nodes</term> acest lucru limitează, de asemenea, rularea motoarelor
-     putere, dar oferă și un joc destul de receptiv.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Jocurile serioase pot începe de la poziția curentă a tablei dacă caseta
-  <term>Începe de la poziția curentă </term> este bifată. Acest lucru permite
-  de ex. a juca poziții de joc de mijloc definite care apar dintr-o
-  deschidere.
-  </p>
-  <p>
-  <term>Gândire permanentă </term> (uneori numită și meditare)
-  permite motorului să calculeze timpul jucătorilor. Dacă nu este bifată,
-  motorul nu va mai analiza poziția dacă jucătorul are mutarea.
-  Dacă jocul este setat pentru o perioadă fixă de mișcare, acest lucru va slăbi
-  motor. Pe de altă parte, motorul s-ar putea mișca imediat, dacă
-  jucătorul a făcut mișcarea pe care o analiza pe timpul jucătorilor.
-  </p>
-  <p>
-  <term> Antrenorul urmărește </term> va deschide o ofertă de dialog pentru a lua
-  înapoi o mișcare dacă jucătorul a făcut o gafă (din cauza motoarelor
-  evaluarea ultimei sale mișcări).
-  </p>
-  <p>
-  Pentru antrenamentul deschiderilor <term> Deschiderea specifică </term> poate fi
-  verificat. În lista de mai jos se poate alege deschiderea pentru a juca. The
-  jucătorul ar trebui să urmeze linia aleasă, altfel scidCommunity va întreba
-  dacă mutarea ar trebui reluată.
-  </p>
-
-  <p>
-  După ce setați toți parametrii jocului și apăsați pe Play
-  butonul, scidCommunity va seta motorul adversarului pentru a arăta ceasurile și
-  începe jocul. Jucătorul nu trebuie să facă o mișcare până la ceasuri
-  apar. Rețineți că motorul de șah poate dura ceva timp
-  porniți și inițializați corect.
-  </p>
-
-  <p><footer>(Actualizat: scidCommunity, aprilie 2026)</footer></p>
-}
-
-
 set helpTitle(L,TacticsTrainer) "Antrenament: tactică"
 set helpText(L,TacticsTrainer) {<h1>Antrenament: tactică</h1>
   <p>
@@ -4709,8 +4523,7 @@ set helpText(L,FindBestMove) {<h1> Antrenament: Găsiți cea mai bună mișcare 
   <p>
   Atunci când adnotează jocuri cu un motor de șah, motorul poate căuta
   oportunități tactice în cadrul unui joc. Acest lucru se poate realiza prin setare
-  <term>Marcați exercițiul tactic </term> în fereastra <a
-  Analysis>Adnotare </a> accesibilă din analiză. În cazul a
+  <term>Marcați exercițiul tactic </term>. În cazul a
   oportunitate tactică este găsită, scidCommunity va semnaliza apoi jocul cu
   <term>T</term> flag (Tactică) și adăugați un comentariu special care este
   evaluate în acest exercițiu.
@@ -5122,8 +4935,7 @@ set helpText(L,HardwareConfig) {<h1>Conectarea hardware-ului extern</h1>
   <ul>
      <li><term>Comanda motorului</term>: Numele programului care este
      pentru a fi folosit ca motor de șofer. Un nume complet calificat poate fi
-     necesar, ca în configurația unui <name Analysis
-     List>motor de șah</a>. (De exemplu, motorul de driver DGT pe un Linux
+     necesar, ca în configurația unui <a Engine>motor de șah</a>. (De exemplu, motorul de driver DGT pe un Linux
      sistem este de obicei numit <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametrul motorului</term>: Textul dat în acest câmp

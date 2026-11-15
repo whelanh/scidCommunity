@@ -39,7 +39,7 @@ set helpText(W,Contents) {<h1>scidCommunity hjälpinnehåll</h1>
   <li><a PTracker><b>Piece Tracker</b></a></li>
   <li><a PList><b>Player Finder</b> fönster</a></li>
   <li><a PInfo><b>Spelarinfo</b> fönster</a></li>
-  <li><a TacticalGame><b>Taktiskt spel</b> fönster</a></li>
+  <li><a PlayVsEngine><b>Spela mot motor</b> fönster</a></li>
   <li><a Tmt><b>Tournament Finder</b> fönster</a></li>
   <li><a Tree><b>Träd</b> fönster</a></li>
   <li><a Graphs><b>Graf</b> fönster</a></li>
@@ -228,8 +228,7 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   <li><a PList>Player Finder</a>-fönster</li>
   <li><a PInfo>Spelarinfo</a>-fönster</li>
   <li><a Reports Player>Spelarrapport</a> fönster</li>
-  <li><a TacticalGame>Spela taktiskt spel</a></li>
-  <li><a SeriousGame>Spela seriöst spel</a></li>
+  <li><a PlayVsEngine>Spela mot motor</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   <li><a Searches Filter>Sökfilter</a></li>
   <li><a Menus Search>Sökmeny</a></li>
   <li><a Searches>Sökningar</a></li>
-  <li><a SeriousGame>Spela seriöst spel</a></li>
   <li><a Sorting>Sortera en databas</a></li>
   <li><a Maintenance Spellcheck>Stavningskontrollnamn</a></li>
   <li><a Switcher>Switcher</a>-fönster</li>
@@ -256,7 +254,6 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Bordsunderlag (PGN-fönsterknapp)</a></li>
-  <li><a TacticalGame>Taktiskt spel</a></li>
   <li><a Menus Tools>Verktygsmeny</a></li>
   <li><a Tmt>Turneringssökare</a></li>
   <li><a LichessTournament>Turneringssändningar (Lichess)</a></li>
@@ -741,10 +738,8 @@ set helpText(W,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Spela mot motor</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1201,8 +1196,7 @@ set helpText(W,Annotating) {<h1>Anteckningsspel</h1>
   <p>
   scidCommunity låter dig lägga till anteckningar till spel. Det finns tre typer av
   anteckning som du kan lägga till efter ett drag: symboler, en kommentar och
-  variationer. Det här avsnittet beskriver manuella kommentarer, se <a
-  Analysis Annotating>Analysis</a> för motorstödd analys.
+  variationer. Det här avsnittet beskriver manuella kommentarer.
   </p>
   
   <h3>Symboler och kommentarer</h3>
@@ -2139,7 +2133,6 @@ set helpText(W,PGN) {<h1>Fönstret <a PGN>PGN</a></h1>
   <li><a PGNChessCom>chess.com</a>: Ladda upp det aktuella spelet till Chess.com för analys</li>
   <li><a PGNLichess>lichess.org</a>: Ladda upp det aktuella spelet till Lichess.org för analys och delning</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Öppna den aktuella positionen i ChessDB.cn molndatabasen</li>
-  <li><a PGNAutoComment>Automatisk kommentar</a>: Generera AI-kommentarer för den aktuella positionen</li>
   </ul>
   Dessa knappar ger omedelbar tillgång till kraftfulla onlineverktyg utan att lämna scidCommunity.
   Se de individuella hjälpämnena för varje knapp för mer information.
@@ -2404,37 +2397,6 @@ set helpText(W,PGNChessDB) {<h1>PGN-fönster: chessdb Engine Tree-knapp</h1>
   
   <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
 }
-
-
-set helpTitle(W,PGNAutoComment) "Knapp för automatisk kommentar"
-set helpText(W,PGNAutoComment) {<h1>PGN-fönster: Autokommentarknapp </h1>
-  <p>
-  Knappen <b>Auto Comment</b> i fönstret <a PGN>PGN</a> använder artificiell intelligens
-  (Gemini eller DeepSeek) för att generera mänskliga kommentarer för den aktuella positionen.
-  </p>
-  
-  <h3>Hur man använder </h3>
-  <p>
-  Klicka på knappen <b>Auto Comment</b> för att skapa en kommentar för det aktuella draget.
-  scidCommunity kommer:
-  <ul>
-  <li>Hämta den aktuella positionens utvärdering från Lichess eller ChessDB</li>
-  <li> Skicka positionsdata och motoranalys till den valda AI-modellen </li>
-  <li>Visa en förhandsvisning av den genererade kommentaren </li>
-  <li>Låt dig redigera eller förfina kommentaren innan du lägger till den i spelet </li>
-  </ul>
-  </p>
-  
-  <h3>Konfiguration</h3>
-  <p>
-  Högerklicka på knappen <b>Auto Comment</b> för att konfigurera dina API-nycklar och välj
-  din föredragna LLM-leverantör (Gemini eller DeepSeek).
-  </p>
-  
-  <p><footer>(Uppdaterad: scidCommunity, augusti 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(W,PTracker) "Styckspårare"
@@ -3207,9 +3169,6 @@ set helpText(W,Engine) {<h1>Motorfönstren</h1>
     varianter.</li>
   <li><b>Config</b> <button tb_eng_config>: Visar eller döljer motorkonfigurationen
     panel.</li>
-  <li><b>Automatisk kommentar</b>: Genererar en kommentar för den aktuella positionen baserat på
-    motoranalysen.</li>
-  <li><b>Spelkommentar</b>: Genererar kommentarer för alla positioner i spelet.</li>
   </ul>
 
   <h3>Kontroller</h3>
@@ -4338,52 +4297,6 @@ set helpText(W,Book) {<h1>Bokfönster</h1>
 }
 
 
-set helpTitle(W,TacticalGame) "Taktiskt spelfönster"
-set helpText(W,TacticalGame) {<h1>Taktiskt spelfönster</h1>
-  <p>
-  Spela ett taktiskt spel mot en motor som simulerar en motståndare med en
-  ges Elo-betyg.  Motståndaren spelas av Phalanx och tränaren
-  av någon UCI-motor som användaren har konfigurerat. Rätt motorer väljs automatiskt av deras
-  namn och bör vara korrekt konfigurerade (detta är standard när
-  scidCommunity är installerat).
-  </p>
-  <p>
-  <b>Observera</b> att en specialversion av Phalanx-motorn är
-  krävs. Denna specialversion kommer med scidCommunity-paketet.
-  </p>
-  <p>
-  Följande parametrar måste konfigureras:
-  <ul>
-  <li><term>Fast nivå</term>: sätter ett fast Elo-betyg för motståndaren</li>
-  <li><term>Slumpmässig nivå</term>: väljer en slumpmässig nivå mellan
-  lägsta och högsta nivå som anges av vänster och höger reglage
-  respektive.
-  </li>
-  <li><term>Öppning:</term>
-  <ul>
-     <li><term>Starta nytt spel</term>: startar ett nytt spel genom att välja ett
-     slumpmässig öppning.</li>
-     <li><term>Börja från nuvarande position</term>: låt spelet börja
-     med nuvarande styrelseposition.</li>
-     <li><term>Specifik öppning</term>: motståndaren kommer att spela en
-     specifik öppning, som kan väljas från listan nedan. Detta är
-     användbar för öppningsutbildning.</li>
-  </ul>
-  <li><term> Begränsa motoranalystid </term> gör det möjligt att begränsa den tid som används av
-  tränare för att kontrollera spelarnas rörelser för fel. Om den här tiden inte är det
-  begränsad får tränaren tänka i bakgrunden.</li>
-  </ul>
-  <p>Tips: Om du slår på <a Graphs>poänggrafen</a> kan du se tidsanvändningen och placeringens betyg under spelet.</p>
-  <p>För att starta ett taktiskt spel tryck <term>Play</term></p> 
-
-  <p><b>Obs</b> en liknande funktion kan uppnås genom att spela en
-  <a SeriousGame>serious game</a> mot vilken UCI-motor som helst som tillåter
-  för att begränsa dess styrka.
-  </p>
-  <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(W,OpeningTrainer) "Öppningstränare"
 set helpText(W,OpeningTrainer) {<h1>Öppningstränare</h1>
   <p>
@@ -4517,105 +4430,6 @@ set helpText(W,OpeningTrainer) {<h1>Öppningstränare</h1>
 }
 
 
-set helpTitle(W,SeriousGame) "Seriöst spelfönster"
-set helpText(W,SeriousGame) {<h1>Seriöst spelfönster</h1>
-  <p>
-  Seriösa spel kan spelas mot vilken <term>UCI</term> motoruppsättning som helst
-  upp för användning med scidCommunity. En lista över alla möjliga motståndare är
-  ges ovanpå fönstret <term>Spelkonfiguration</term>. Den
-  knapp <term>Konfigurera UCI-motor</term> ger dessutom åtkomst
-  till motorns parametrar. Som standard är de inställda som i
-  <a Engine Configure>motorkonfiguration</a>.
-  </p>
-  <p>
-  Därefter kan den bok som ska användas väljas från inledningen
-  böcker tillgängliga för scidCommunity. Avmarkera rutan <term>Använd bok</term>.
-  kommer att inaktivera användningen av en öppningsbok och motorn startar
-  beräkna drag redan från början.
-  </p>
-  <p>
-  Sektionen <term>Tidsläge</term> gör det möjligt att ställa in timingen som används för
-  motorn. Olika inställningar är möjliga här:
-  <ul>
-     <li><term>Tid + bonus</term> anger tiden för hela
-     spel och en möjlig ökning per drag (Fisher-klocka). Den
-     standard är inställt på 5 minuter per spel och 10 sekunders steg per
-     move vilket är en vanlig inställning för Blitz-spel. Observera att
-     tider för svartvitt kan ställas in oberoende. Detta tillåter
-     att ställa in en kort tid för motorn och ge en längre tid
-     tid att tänka till spelaren, och därmed stärka
-     spelare som analyserar möjligheter samtidigt som de försvagar motorerna
-     förmågor vid <term>Permanent thinking</term> är avstängd (se
-     nedan).
-     </li>
-
-     <li><term>Fast djup</term> ställer inte in tiden per spel men
-     det djup som motorn kommer att beräkna i halva rörelser. Som detta
-     inaktiverar möjligheten att beräkna djupare vid behov
-     datorn kommer inte att se vissa kompisar och kombinationer, motorn
-     kan spela svagare och därmed erbjuda en bättre partner för träning
-     syften.
-     <p>
-     <b>Obs</b>: vissa, särskilt kommersiella, motorer erbjuder också
-     försvaga deras styrka i Elo-enheter. Troligtvis kommer detta att erbjuda en
-     mer lämplig algoritm än att begränsa sökdjupet. I scidCommunity,
-     sådana spel erbjuds också som <a TacticalGame>Taktiska spel</a>
-     mot den fria Phalanx-motorn.
-     </p>
-     </li>
-
-     <li><term>Noder</term> liknar att begränsa sökdjupet,
-     men här måste motorn röra sig efter utvärderingen av en viss
-     antal befattningar. (Standardinställningen är 10 000.)
-     </li>
-
-     <li><term>Sekunder per drag</term> låter motorn spendera en
-     viss tid som högst för en given position. Vissa
-     motorer kommer att röra sig snabbare under vissa omständigheter, men de kommer att göra det
-     inte överskrida den tidsgräns som anges här. Som <term>Fast djup</term>
-     och <term>Nodes</term> detta begränsar också motorerna som spelar
-     styrka, men ger också ett ganska lyhört spel.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Seriösa spel kan börja från den nuvarande brädpositionen om boxen
-  <term>Start från nuvarande position</term> är markerad. Detta tillåter
-  t.ex. att spela ut definierade mittspelspositioner som uppstår från en
-  öppning.
-  </p>
-  <p>
-  <term>Permanent tänkande</term> (kallas ibland även begrunda)
-  låter motorn beräkna på spelarens tid. Om avmarkerat,
-  motorn slutar analysera positionen om spelaren har draget.
-  Om spelet är inställt på en fast tid per drag, kommer detta att försvaga
-  motor. Å andra sidan kan motorn röra sig omedelbart, om
-  spelaren gjorde det drag som den analyserade spelarens tid.
-  </p>
-  <p>
-  <term>Coach tittar</term> kommer att öppna en dialog som erbjuder sig att ta
-  backa ett drag om spelaren gjorde en blunder (på grund av motorerna
-  utvärdering av hans senaste drag).
-  </p>
-  <p>
-  För träning av öppningar <term>Specifik öppning</term> kan vara
-  kontrolleras. I listan nedan kan man välja öppning att spela. Den
-  spelare bör sedan följa den valda linjen, annars kommer scidCommunity att fråga
-  om flytten skulle tas tillbaka.
-  </p>
-
-  <p>
-  Efter att ha ställt in alla parametrar för spelet och tryckt på Play
-  knappen kommer scidCommunity att ställa in motståndarens motor visar klockorna och
-  starta spelet. Spelaren får inte göra ett drag förrän klockan är klar
-  visas. Observera att det kan ta lite tid för schackmotorn att göra det
-  starta och initiera ordentligt.
-  </p>
-
-  <p><footer>(Uppdaterad: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(W,TacticsTrainer) "Träning: Taktik"
 set helpText(W,TacticsTrainer) {<h1>Träning: Taktik</h1>
   <p>
@@ -4692,8 +4506,7 @@ set helpText(W,FindBestMove) {<h1>Träning: Hitta bästa drag</h1>
   <p>
   När du kommenterar spel med en schackmotor kan motorn söka efter
   taktiska möjligheter i ett spel. Detta kan uppnås genom att ställa in
-  <term>Markera Tactical Exercise</term> i fönstret <a
-  Analysis>Annotation</a> tillgängligt från analys. I fall a
+  <term>Markera Tactical Exercise</term>. I fall a
   taktisk möjlighet hittas, kommer scidCommunity sedan flagga spelet med
   <term>T</term> flagga (Taktik) och lägg till en speciell kommentar dvs
   utvärderas i denna övning.
@@ -5105,8 +4918,7 @@ set helpText(W,HardwareConfig) {<h1>Ansluta extern hårdvara </h1>
   <ul>
      <li><term>Engine-kommando</term>: Namnet på programmet som är
      att användas som förarmotor. Ett fullt kvalificerat namn kan vara
-     krävs, som i konfigurationen av en <name Analysis
-     List>schackmotor</a>. (T.ex. DGT-drivrutinmotorn på en Linux
+     krävs, som i konfigurationen av en <a Engine>schackmotor</a>. (T.ex. DGT-drivrutinmotorn på en Linux
      systemet kallas vanligtvis <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Motorparameter</term>: Texten i detta fält

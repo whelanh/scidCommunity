@@ -39,7 +39,7 @@ set helpText(H,Contents) {<h1>scidCommunity súgótartalma </h1>
   <li><a PTracker><b> Darabkövető </b> </a> </li>
   <li><a PList><b> Player Finder </b> ablak </a> </li>
   <li><a PInfo><b> Játékos információ </b> ablak </a> </li>
-  <li><a TacticalGame><b> Taktikai játék </b> ablak </a> </li>
+  <li><a PlayVsEngine><b>Play versus Engine</b> ablak </a> </li>
   <li><a Tmt><b>Tournament Finder</b> ablak</a></li>
   <li><a Tree><b>Fa </b> ablak </a></li>
   <li><a Graphs><b> Grafikon </b> ablakok </a> </li>
@@ -227,8 +227,7 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   <li><a PList> Player Finder </a> ablak </li>
   <li><a PInfo> Játékos információ </a> ablak </li>
   <li><a Reports Player> Játékos jelentés </a> ablak </li>
-  <li><a TacticalGame>Játssz taktikai játékot </a> </li>
-  <li> <a SeriousGame> Játssz komoly játékot </a> </li>
+  <li><a PlayVsEngine>Play versus Engine</a></li>
   </ul>
   
   <h3>Q </h3>
@@ -246,7 +245,6 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   <li><a Searches Filter> Keresési szűrő </a> </li>
   <li><a Menus Search> Keresés menü </a></li>
   <li><a Searches> Keresések </a> </li>
-  <li><a SeriousGame>Játssz komoly játékot </a> </li>
   <li><a Sorting> Adatbázis rendezése </a> </li>
   <li><a Maintenance Spellcheck> Helyesírás-ellenőrző nevek </a> </li>
   <li><a Switcher> Váltó </a> ablak </li>
@@ -255,7 +253,6 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase> Asztaltalp (PGN ablak gomb) </a> </li>
-  <li> <a TacticalGame> Taktikai játék </a> </li>
   <li><a Menus Tools> Eszközök menü </a> </li>
   <li><a Tmt> Torna kereső </a> </li>
   <li><a LichessTournament> Versenyközvetítések (Lichess) </a> </li>
@@ -740,10 +737,8 @@ set helpText(H,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Play versus Engine</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -1200,8 +1195,7 @@ set helpText(H,Annotating) {<h1>Játékok megjegyzései </h1>
   <p>
   A scidCommunity segítségével megjegyzéseket fűzhet a játékokhoz. Három típusa van
   megjegyzés, amelyet egy költözés után adhat hozzá: szimbólumok, megjegyzés és
-  variációk. Ez a rész a kézi megjegyzéseket írja le, a motor által támogatott elemzéshez lásd a <a
-  Analysis Annotating>Analysis </a> részt.
+  variációk. Ez a rész a kézi megjegyzéseket írja le.
   </p>
   
   <h3> Szimbólumok és megjegyzések </h3>
@@ -2138,7 +2132,6 @@ set helpText(H,PGN) {<h1>A <a PGN>PGN</a> ablak </h1>
   <li><a PGNChessCom>chess.com</a>: Töltse fel az aktuális játékot a Chess.com webhelyre elemzés céljából </li>
   <li><a PGNLichess>lichess.org</a>: Töltse fel az aktuális játékot a Lichess.org webhelyre elemzés és megosztás céljából </li>
   <li><a PGNChessDB>chessdb Engine Tree </a>: Nyissa meg az aktuális pozíciót a ChessDB.cn felhőadatbázisban </li>
-  <li><a PGNAutoComment>Automatikus megjegyzés </a>: AI kommentár generálása az aktuális pozícióhoz </li>
   </ul>
   Ezek a gombok azonnali hozzáférést biztosítanak a hatékony online eszközökhöz a scidCommunity elhagyása nélkül.
   További részletekért tekintse meg az egyes gombokhoz tartozó súgótémaköröket.
@@ -2403,37 +2396,6 @@ set helpText(H,PGNChessDB) {<h1>PGN ablak: chessdb motorfa gomb </h1>
   
   <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
 }
-
-
-set helpTitle(H,PGNAutoComment) "Automatikus megjegyzés gomb"
-set helpText(H,PGNAutoComment) {<h1>PGN ablak: Automatikus megjegyzés gomb </h1>
-  <p>
-  A <b>Auto Comment</b> gomb a <a PGN>PGN</a> ablakban mesterséges intelligenciát használ
-  (Gemini vagy DeepSeek), hogy emberszerű kommentárokat generáljon az aktuális pozícióhoz.
-  </p>
-  
-  <h3> Hogyan kell használni </h3>
-  <p>
-  Kattintson a <b>Auto Comment</b> gombra, hogy megjegyzést generáljon az aktuális lépéshez.
-  A scidCommunity:
-  <ul>
-  <li> Az aktuális pozíció értékelésének lekérése a Lichess vagy ChessDB</li> webhelyről
-  <li> Küldje el a pozícióadatokat és a motorelemzést a kiválasztott AI modellnek </li>
-  <li> A generált kommentár előnézetének megjelenítése </li>
-  <li> Lehetővé teszi a megjegyzés szerkesztését vagy finomítását, mielőtt hozzáadná a játékhoz </li>
-  </ul>
-  </p>
-  
-  <h3> Konfiguráció </h3>
-  <p>
-  Kattintson jobb gombbal a <b>Auto Comment</b> gombra az API-kulcsok konfigurálásához, és válassza a
-  az Ön által preferált LLM-szolgáltató (Gemini vagy DeepSeek).
-  </p>
-  
-  <p><footer>(Frissítve: scidCommunity, 2024. augusztus)</footer></p>
-}
-
-
 
 
 set helpTitle(H,PTracker) "Darabkövető"
@@ -3206,9 +3168,6 @@ set helpText(H,Engine) {<h1> A motorablakok </h1>
     variációk. </li>
   <li><b> Config</b> <button tb_eng_config>: Megjeleníti vagy elrejti a motorkonfigurációt
     panel. </li>
-  <li><b>Automatikus megjegyzés</b>: Megjegyzést generál az aktuális pozícióhoz
-    a motorelemzés. </li>
-  <li><b> Játék megjegyzés </b>: Megjegyzéseket generál a játék összes pozíciójához.</li>
   </ul>
 
   <h3> Vezérlőelemek </h3>
@@ -4337,52 +4296,6 @@ set helpText(H,Book) {<h1>Book window</h1>
 }
 
 
-set helpTitle(H,TacticalGame) "Taktikai játék ablak"
-set helpText(H,TacticalGame) {<h1>Tactical game window</h1>
-  <p>
-  Játssz egy taktikai játékot egy ellenfelet szimuláló motor ellen a
-  adott Elo minősítést.  The opponent is played by Phalanx and the coach
-  by any UCI engine the user has configured. A megfelelő motorokat automatikusan kiválasztják
-  neveket, és helyesen kell beállítani (ez az alapértelmezett, amikor
-  scidCommunity is installed).
-  </p>
-  <p>
-  <b>Megjegyzés</b>, hogy a Phalanx motor egy speciális változata
-  szükséges. Ez a speciális verzió a scidCommunity csomaggal érkezik.
-  </p>
-  <p>
-  The following parameters must be configured :
-  <ul>
-  <li><term> Rögzített szint </term>: fix Elo besorolást állít be az ellenfél számára </li>
-  <li><term> Véletlenszerű szint </term>: kiválaszt egy véletlenszerű szintet a
-  a bal és jobb csúszka által megadott minimális és maximális szint
-  ill.
-  </li>
-  <li><term>Opening:</term>
-  <ul>
-     <li><term> Új játék indítása </term>: új játékot indít egy
-     véletlenszerű nyitás. </li>
-     <li><term> Kezdje a jelenlegi pozícióból </term>: kezdődjön a játék
-     with the current board position.</li>
-     <li><term> Specifikus nyitás </term>: az ellenfél egy
-     konkrét nyílás, amely az alábbi listából választható ki. Ez van
-     useful for opening training.</li>
-  </ul>
-  <li><term> A motorelemzési idő korlátozása </term> lehetővé teszi a motor által használt idő korlátozását
-  coach to check the players moves for errors. Ha ez az idő nem
-  korlátozott, hogy az edző a háttérben gondolkodjon. </li>
-  </ul>
-  <p>Tipp: Ha bekapcsolja a <a Graphs>pontgrafikont </a>, láthatja az időhasználatot és a pozíció értékelését a játék során.</p>
-  <p> Taktikai játék indításához nyomja meg a <term>Play</term></p> gombot. 
-
-  <p><b>Megjegyzés</b> hasonló funkciót lehet elérni egy
-  <a SeriousGame>komoly játék </a> bármely UCI-motor ellen, amely lehetővé teszi
-  for limiting its strength.
-  </p>
-  <p> <footer> (Frissítve: scidCommunity, 2026. április) </footer> </p>
-}
-
-
 set helpTitle(H,OpeningTrainer) "Nyitó tréner"
 set helpText(H,OpeningTrainer) {<h1>Opening Trainer</h1>
   <p>
@@ -4516,105 +4429,6 @@ set helpText(H,OpeningTrainer) {<h1>Opening Trainer</h1>
 }
 
 
-set helpTitle(H,SeriousGame) "Komoly játékablak"
-set helpText(H,SeriousGame) {<h1> Komoly játékablak </h1>
-  <p>
-  Komoly játékok bármelyik <term>UCI</term> motorkészlet ellen játszhatók
-  fel a scidCommunity-vel való használatra. Az összes lehetséges ellenfél listája az
-  a <term>Game configuration</term> ablak tetején található. A
-  gomb <term> Az UCI motor konfigurálása </term> emellett hozzáférést biztosít
-  a motor paramétereihez. Alapértelmezés szerint úgy vannak beállítva, mint a
-  <a Engine Configure>motor konfiguráció </a>.
-  </p>
-  <p>
-  Ezután a nyitók közül választhatjuk ki a használni kívánt könyvet
-  a scidCommunity számára elérhető könyvek. Törölje a <term>Könyv használata </term> négyzet bejelölését
-  letiltja a nyitókönyv használatát, és a motor elindul
-  a lépések kiszámítása már az elejétől fogva.
-  </p>
-  <p>
-  A szekció <term>Time mode </term> lehetővé teszi az időzítés beállítását
-  a motort. Itt többféle beállítás lehetséges:
-  <ul>
-     <li><term>Idő + bónusz</term> a teljes időt határozza meg
-     játék és egy lehetséges lépésenkénti növekmény (Fisher óra). A
-     alapértelmezés szerint 5 perc játékonként és 10 másodperces lépésenként
-     mozog, ami a Blitz játékok szokásos beállítása. Vegye figyelembe, hogy a
-     A fekete-fehér idők egymástól függetlenül állíthatók be. Ez lehetővé teszi
-     hogy rövid időt állítson be a motornak, és hosszabb időt adjon
-     gondolkodási ideje a játékosnak, és ezzel erősítve a
-     a játékosok a lehetőségeket elemzik, miközben gyengítik a motorokat
-     képességek esetén <term> Az állandó gondolkodás </term> ki van kapcsolva (lásd
-     alább).
-     </li>
-
-     <li><term> A rögzített mélység </term> nem állítja be a játékonkénti időt, de
-     azt a mélységet, amelyet a motor féllépésekkel számít ki. Ahogy ez
-     letiltja a mélyebb számítás lehetőségét, ha szükséges, a
-     számítógép nem fog látni bizonyos társokat és kombinációkat, a motort
-     gyengébben játszhat, és így jobb partnert kínálhat az edzéshez
-     célokra.
-     <p>
-     <b>Megjegyzés </b>: egyes, különösen a kereskedelmi motorok ezt is kínálják
-     gyengítik erejüket az Elo egységekben. Valószínűleg ez a
-     megfelelőbb algoritmus, mint a keresési mélység korlátozása. A scidCommunityben
-     az ilyen játékokat a következő néven is kínálják: <a TacticalGame> Taktikai játékok </a>
-     a szabad Phalanx motor ellen.
-     </p>
-     </li>
-
-     A <li><term>Nodes</term> hasonló a keresési mélység korlátozásához,
-     de itt a motornak egy bizonyos értékelése után mozognia kell
-     pozíciók száma. (Az alapértelmezett érték 10 000.)
-     </li>
-
-     <li><term>Másodpercek lépésenként </term> lehetővé teszi, hogy a motor egy
-     egy adott pozícióhoz maximum bizonyos ideig. Néhány
-     a motorok bizonyos körülmények között gyorsabban fognak mozogni, de igen
-     ne lépje túl az itt megadott határidőt. Mint <term> Fix mélység </term>
-     és <term>Nodes</term> ez korlátozza a motorok lejátszását is
-     ereje, de elég érzékeny játékmenetet is ad.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Komoly játékok kezdődhetnek az aktuális tábla pozícióból, ha a doboz
-  <term> Indítás az aktuális pozícióból </term> be van jelölve. Ez lehetővé teszi
-  pl. meghatározott középső játékhelyzetek kijátszására, amelyek egy
-  nyitás.
-  </p>
-  <p>
-  <term> Állandó gondolkodás </term> (néha töprengésnek is nevezik)
-  lehetővé teszi, hogy a motor kiszámítsa a játékosok idejét. Ha nincs bejelölve, a
-  A motor leállítja a pozíció elemzését, ha a játékos rendelkezik a lépéssel.
-  Ha a játékot fix időre állítják be lépésenként, ez gyengíti a
-  motor. Másrészt a motor azonnal megmozdulhat, ha a
-  játékos megtette a lépést, ami a játékosok idejét elemezve.
-  </p>
-  <p>
-  <term> Edző néz</term> párbeszédet nyit, és felajánlja, hogy vegyen részt
-  visszalépés, ha a játékos hibát követett el (a motorok miatt
-  utolsó lépésének értékelése).
-  </p>
-  <p>
-  A nyílások betanítására <term>Speciális nyílás </term> lehet
-  ellenőrizve. Az alábbi listában kiválaszthatja a lejátszani kívánt nyitást. A
-  akkor a játékosnak követnie kell a választott vonalat, különben a scidCommunity megkérdezi
-  ha vissza kellene venni a költözést.
-  </p>
-
-  <p>
-  Miután beállította a játék összes paraméterét és megnyomta a Play gombot
-  gombot, a scidCommunity beállítja az ellenfél motorját mutatja az órákat és
-  indítsa el a játékot. A játékos nem mozdulhat az órákig
-  jelennek meg. Vegye figyelembe, hogy eltarthat egy ideig, amíg a sakkmotor működésbe lép
-  indítsa el és inicializálja megfelelően.
-  </p>
-
-  <p><footer>(Frissítve: scidCommunity, 2026. április)</footer></p>
-}
-
-
 set helpTitle(H,TacticsTrainer) "Képzés: Taktika"
 set helpText(H,TacticsTrainer) {<h1> Képzés: Taktika </h1>
   <p>
@@ -4691,8 +4505,7 @@ set helpText(H,FindBestMove) {<h1> Edzés: Találd meg a legjobb mozgást </h1>
   <p>
   Amikor sakkmotorral ad megjegyzéseket a játékokhoz, a motor kereshet
   taktikai lehetőségek egy játékon belül. Ezt beállítással lehet elérni
-  <term>Jelölje meg a taktikai gyakorlatot </term> az elemzésből elérhető <a
-  Analysis>Annotation</a> ablakban. Abban az esetben, ha a
+  <term>Jelölje meg a taktikai gyakorlatot </term>. Abban az esetben, ha a
   taktikai lehetőséget talál, a scidCommunity ezután megjelöli a játékot a
   <term>T</term> jelölje meg (Tactics), és adjon hozzá egy speciális megjegyzést, amely az
   értékelni ebben a gyakorlatban.
@@ -5103,8 +4916,7 @@ set helpText(H,HardwareConfig) {<h1>Külső hardver csatlakoztatása </h1>
   <ul>
      <li><term>Engine parancs</term>: A program neve
      vezetőmotorként használható. Teljesen minősített név lehet
-     szükséges, mint egy <name Analysis
-     List>sakkmotor </a> konfigurációjában. (Pl. a DGT illesztőprogramja Linuxon
+     szükséges, mint egy <a Engine>sakkmotor </a> konfigurációjában. (Pl. a DGT illesztőprogramja Linuxon
      A rendszert általában <term>dgtdrv2.i686</term> hívják.)
      </li>
      <li><term> Motorparaméter </term>: Az ebben a mezőben megadott szöveg
