@@ -1848,6 +1848,10 @@ proc ::enginewin::reviewSettingsApply {id w} {
 
 # Apply depth and movetime limits and restart engine if running
 proc ::enginewin::applyLimits {id} {
+    # The EPD pass has borrowed these fields for its run (see holdLimits): what
+    # they show is the pass's budget, and saving it would change the reader's
+    # preset for every later search.
+    if {[info exists ::enginewin::m_(limitsHeld,$id)]} { return }
     # A half-typed number must not reach the preset: put the stored values back.
     if {![::enginelimits::valid depth $::enginewin::depth($id)] ||
         ![::enginelimits::valid movetime $::enginewin::movetime($id)]} {
@@ -2999,6 +3003,29 @@ proc ::enginewin::autorunRestore {id} {
     if {[lindex $::enginewin_autorun($id) 0] ne ""} {
         catch { [::enginewin::reviewWindow $id].btn.autorun state user1 }
     }
+    return
+}
+
+# The EPD pass searches every position for the time its own dialog asks for,
+# not for the window's depth or time limit. It borrows the window's limits for
+# the run instead of hiding the search behind them: the toolbar shows the
+# budget, so the reader sees the job that is running. The held flag keeps a
+# stray focus-out in the toolbar from saving the borrowed values to the engine
+# preset, which is the reader's setting, not the pass's.
+proc ::enginewin::holdLimits {id limits} {
+    if {[info exists ::enginewin::m_(limitsHeld,$id)]} { return "" }
+    set saved [list $::enginewin::depth($id) $::enginewin::movetime($id)]
+    set ::enginewin::m_(limitsHeld,$id) 1
+    catch { set ::enginewin::depth($id) [dict get $limits depth] }
+    catch { set ::enginewin::movetime($id) [dict get $limits movetime] }
+    return $saved
+}
+
+proc ::enginewin::releaseLimits {id saved} {
+    unset -nocomplain ::enginewin::m_(limitsHeld,$id)
+    if {![llength $saved]} { return }
+    catch { set ::enginewin::depth($id) [lindex $saved 0] }
+    catch { set ::enginewin::movetime($id) [lindex $saved 1] }
     return
 }
 

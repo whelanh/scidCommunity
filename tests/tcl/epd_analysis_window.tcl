@@ -170,6 +170,20 @@ proc ::enginewin::autorunRestore {id} {
     lappend ::autorun [list restore $id]
     return
 }
+proc ::enginewin::holdLimits {id limits} {
+    lappend ::limits [list hold $id $limits]
+    set saved [list $::enginewin::depth($id) $::enginewin::movetime($id)]
+    set ::enginewin::depth($id) [dict get $limits depth]
+    set ::enginewin::movetime($id) [dict get $limits movetime]
+    return $saved
+}
+proc ::enginewin::releaseLimits {id saved} {
+    lappend ::limits [list release $id $saved]
+    if {![llength $saved]} { return }
+    set ::enginewin::depth($id) [lindex $saved 0]
+    set ::enginewin::movetime($id) [lindex $saved 1]
+    return
+}
 namespace eval ::engine {}
 proc ::engine::send {id msg {data ""}} {
     lappend ::sent [list $id $msg $data]
@@ -223,6 +237,7 @@ proc reset {} {
     set ::epd::analysisStopRequested 0
     set ::epd::drive {}
     set ::autorun {}
+    set ::limits {}
     set ::epd::driveDone 0
 }
 
@@ -266,8 +281,9 @@ puts "\nthe pass drives that window, position by position"
 reset
 set ::enginewin::engState(1) follow.run
 set ::enginewin_lastengine(1) TestEngine
-set ::enginewin::depth(1) ""
-set ::enginewin::movetime(1) ""
+# The reader's usual limits: the pass must not use them, and must give them back.
+set ::enginewin::depth(1) 20
+set ::enginewin::movetime(1) 2000
 ::epd::launchAnnotateEpd 1 0 TestEngine $::logPath
 
 checkEq "both positions were loaded, in order" $::loaded {0 1}
@@ -279,6 +295,12 @@ checkEq "the engine was never stopped mid-pass" \
     [lsearch -exact [lmap m $::sent {lindex $m 1}] StopGo] -1
 checkEq "Autoscan is off for the run and put back" \
     $::autorun {{off 1} {restore 1}}
+checkEq "the window's limits are borrowed for the budget" \
+    [lindex $::limits 0] {hold 1 {depth {} movetime 50}}
+checkEq "and given back exactly" \
+    [lindex $::limits end] {release 1 {20 2000}}
+checkEq "the usual depth is back" $::enginewin::depth(1) 20
+checkEq "the usual time limit is back" $::enginewin::movetime(1) 2000
 check "the status names the window and the tally" \
     [string match {*Best moves found 1 / 2*} $::status] $::status
 check "the summary says which window searched" \
@@ -292,8 +314,8 @@ close $fh
 file delete $::logPath
 check "the header names the window whose search is recorded" \
     [string match {*Window:   Engine Window 1 (the search this report records)*} $log] $log
-check "the header states the window's limits" \
-    [string match {*Limits:   none*} $log] $log
+check "the header states the search's limits" \
+    [string match {*Limits:   movetime 50 ms*} $log] $log
 check "the header states the budget per position" \
     [string match {*Time/pos: 0.05 s per position*} $log] $log
 check "the matching position is TRUE" [string match {*Qc7*TRUE*} $log] $log
@@ -319,7 +341,7 @@ puts "\nthe seconds are a cap: the pass stops the window's search"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t1 solveMs "" \
-    start 0 gotBest 0 budgetSpent 0 \
+    start 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::cutoffDrive 1 t1
@@ -329,7 +351,7 @@ checkEq "the search is not finished yet" $::epd::driveDone 0
 checkEq "the answer wakes the pass" $::epd::driveDone 1
 
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t2 solveMs "" \
-    start 0 gotBest 0 budgetSpent 0 \
+    start 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 set ::sent {}
@@ -338,7 +360,7 @@ checkEq "a stale deadline does nothing" $::sent {}
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t3 solveMs "" \
-    start 0 gotBest 0 budgetSpent 0 \
+    start 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 dict unset ::WIN .engineWin1
 ::epd::cutoffDrive 1 t3
@@ -349,7 +371,7 @@ puts "\nthe window closing ends the position at once"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t4 solveMs "" \
-    start 0 gotBest 0 budgetSpent 0 \
+    start 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::watchEngine 1 InfoWindowClosed {}
@@ -357,40 +379,35 @@ checkEq "the pass is woken" $::epd::driveDone 1
 checkEq "as closed, not as a failed search" \
     [dict get $::epd::drive data error] closed
 
-puts "\nthe budget timer stops the search when it expires"
+puts "\nthe engine's answer ends the position"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t5 solveMs "" \
-    start "" budget 50 gotBest 0 budgetSpent 0 \
+    start "" budget 5000 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::watchEngine 1 InfoGo [list p {}]
-check "the budget starts with the window's search" \
-    [expr {[dict get $::epd::drive deadline] ne ""}] 1
-after 250 [list set ::waited 1]
-vwait ::waited
-checkEq "the deadline stops the window's search" [lindex $::sent end 1] StopGo
-checkEq "and leaves the answer to arrive" $::epd::driveDone 0
 ::epd::watchEngine 1 InfoBestMove [list Qc7]
-checkEq "the answer then ends the position" $::epd::driveDone 1
+checkEq "the answer ends it at once" $::epd::driveDone 1
+checkEq "with the move" [dict get $::epd::drive data best_san] Qc7
+checkEq "and no search was stopped" $::sent {}
 
-puts "\nan answer inside the budget still waits for the whole budget"
+puts "\na search that ignores the budget is stopped after a grace"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t6 solveMs "" \
-    start "" budget 120 gotBest 0 budgetSpent 0 \
+    start "" budget 10 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::watchEngine 1 InfoGo [list p {}]
+check "the clock starts with the window's search" \
+    [expr {[dict get $::epd::drive deadline] ne ""}] 1
+after 700 [list set ::waited 1]
+vwait ::waited
+checkEq "the safety stop goes to the window" [lindex $::sent end 1] StopGo
+checkEq "and waits for its answer" $::epd::driveDone 0
 ::epd::watchEngine 1 InfoBestMove [list Qc7]
-check "the bestmove does not end the position early" \
-    [expr {$::epd::driveDone == 0}] $::epd::driveDone
-checkEq "and no search was stopped" $::sent {}
-after 220 [list set ::waited2 1]
-vwait ::waited2
-check "the budget ends it" $::epd::driveDone 1
-checkEq "with the answer kept" [dict get $::epd::drive data best_san] Qc7
-checkEq "and no search was stopped at the end either" $::sent {}
+checkEq "the answer ends the position" $::epd::driveDone 1
 
 puts "\n"
 puts "$checks checks, $fails failures"

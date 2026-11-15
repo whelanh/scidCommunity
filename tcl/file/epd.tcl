@@ -800,6 +800,24 @@ namespace eval epd {
 
     if {$epdAnnotateMode != 1} { clearOpcodes $id }
 
+    set movetime [expr {int($epdDelay * 1000)}]
+    # Every message the window takes comes back here, so the pass can record the
+    # moment the sought move first appeared and end the position on its answer.
+    ::enginewin::watch $win ::epd::watchEngine
+    # Autoscan would keep this window answering positions of the game it was
+    # scanning, which the pass would mistake for, or wait behind. It is turned
+    # off for the run and put back in the cleanup below.
+    catch { ::enginewin::autorunOff $win }
+    # The window is the agent, not the clock: its depth and time limits are
+    # borrowed for the run so every position is searched for the seconds the
+    # dialog asks for. The toolbar shows those seconds while the pass runs, and
+    # the report header below states them as the search's limits.
+    set savedLimits ""
+    catch {
+      set savedLimits [::enginewin::holdLimits $win \
+          [list depth "" movetime $movetime]]
+    }
+
     # Open the results log file, if requested.
     set logfp ""
     if {$logfile != ""} {
@@ -833,15 +851,6 @@ namespace eval epd {
     set annErr ""
     set cancelled 0
     set i 0
-    set movetime [expr {int($epdDelay * 1000)}]
-
-    # Every message the window takes comes back here, so the pass can record the
-    # moment the sought move first appeared and end the position on its answer.
-    ::enginewin::watch $win ::epd::watchEngine
-    # Autoscan would keep this window answering positions of the game it was
-    # scanning, which the pass would mistake for, or wait behind. It is turned
-    # off for the run and put back in the cleanup below.
-    catch { ::enginewin::autorunOff $win }
 
     for { set i 0 } { $i < $size } { incr i } {
       if {$analysisStopRequested} { set cancelled 1 ; break }
@@ -874,7 +883,7 @@ namespace eval epd {
       set token "epd[incr driveSeq]"
       set drive [dict create win $win pos $wantPos fen $fen \
           sought $soughtMoves token $token solveMs "" start "" \
-          budget $movetime gotBest 0 budgetSpent 0 \
+          budget $movetime \
           data [::epdanalysis::emptyData $fen] deadline "" watchdog ""]
       set driveDone 0
       # The budget starts when the window begins this position's search (see
@@ -935,6 +944,7 @@ namespace eval epd {
     }
     catch { ::enginewin::unwatch $win }
     catch { ::enginewin::autorunRestore $win }
+    catch { ::enginewin::releaseLimits $win $savedLimits }
 
     set analysisRunning 0
     set analysisOwner ""
@@ -975,7 +985,9 @@ namespace eval epd {
     }
   }
 
-  ###  The window's own search limits, as the report's header shows them.
+  ###  The limits the pass put the search on, as the report's header shows them.
+  ###  It is read after the window's limits have been borrowed for the run, so
+  ###  it states the budget the reader set rather than the window's own limit.
   proc windowLimits {win} {
     set out {}
     catch {
@@ -987,7 +999,7 @@ namespace eval epd {
       }
     }
     if {[llength $out]} { return [join $out ", "] }
-    return "none (no depth or time limit; the pass stops each search itself)"
+    return "none"
   }
 
   ###  Called by the Engine Window for every message it takes. The record keeps
@@ -1023,35 +1035,29 @@ namespace eval epd {
       "InfoBestMove" {
         dict set drive data [::epdanalysis::withBestMove \
             [dict get $drive data] [lindex $msgData 0] [dict get $drive fen]]
-        dict set drive gotBest 1
-        # The budget is the reader's seconds, so an answer that arrives early
-        # waits for the deadline before the position ends. An answer to a search
-        # already stopped at the deadline ends the position now.
-        if {[dict get $drive budgetSpent]} { ::epd::finishDrive "" }
+        ::epd::finishDrive ""
       }
     }
   }
 
-  ###  Start a position's budget: the dialog's seconds, counted from the moment
-  ###  the window begins searching that position.
+  ###  Start a position's clock: the budget is the `go movetime` the window was
+  ###  given, and this only dates the report's time-to-solve and arms the safety
+  ###  stop for an engine that ignores it.
   proc startBudget {win} {
     variable drive
     if {![dict size $drive] || [dict get $drive deadline] ne ""} { return }
     dict set drive start [clock milliseconds]
-    dict set drive deadline [after [dict get $drive budget] \
+    dict set drive deadline [after [expr {[dict get $drive budget] + 500}] \
         [list ::epd::cutoffDrive $win [dict get $drive token]]]
   }
 
-  ###  The budget has run out. The window's own depth or time limit may have
-  ###  ended the search before it did; either way the position is over now, and
-  ###  a search still running is stopped without changing the window's state
-  ###  (::enginewin::stop would pause it and clear the PV display the report
-  ###  reads from).
+  ###  The budget plus a grace has gone by and the window has not answered: stop
+  ###  it, without changing the window's state (::enginewin::stop would pause it
+  ###  and clear the PV display the report reads from). The answer that follows
+  ###  ends the position.
   proc cutoffDrive {win token} {
     variable drive
     if {![dict size $drive] || [dict get $drive token] ne $token} { return }
-    dict set drive budgetSpent 1
-    if {[dict get $drive gotBest]} { ::epd::finishDrive "" ; return }
     if {![winfo exists .engineWin$win]} { ::epd::finishDrive "closed" ; return }
     catch { ::engine::send $win StopGo }
   }

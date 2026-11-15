@@ -480,5 +480,24 @@ checkEq "the reader's setting comes back" \
     $::enginewin_autorun(1) {{movetime 50}}
 checkEq "and so does the button" [.engineWin1.btn.autorun instate user1] 1
 
+# The EPD pass gives the window a job with its own time. It borrows the depth
+# and time limits for the run, so the toolbar shows what the search is actually
+# doing, and a focus-out in the toolbar must not save that budget to the preset.
+puts "\nthe window's limits can be borrowed for a pass"
+
+set ::enginewin::depth(1) 20
+set ::enginewin::movetime(1) 2000
+set savedLimits [::enginewin::holdLimits 1 [list depth "" movetime 5000]]
+checkEq "the toolbar shows the job" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {{} 5000}
+checkEq "the reader's limits are kept" $savedLimits {20 2000}
+# No preset and no message box behind the reader's back: held limits return.
+::enginewin::applyLimits 1
+checkEq "a focus-out during the pass changes nothing" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {{} 5000}
+::enginewin::releaseLimits 1 $savedLimits
+checkEq "and the limits come back" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {20 2000}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
