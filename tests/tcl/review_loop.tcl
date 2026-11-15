@@ -325,6 +325,7 @@ set t0 [clock milliseconds]
 set cancelMs [expr {[clock milliseconds] - $t0}]
 check "Cancel returned at once, not after the model" [expr {$cancelMs < 400}] \
     "took ${cancelMs} ms against a 1500 ms request"
+puts "  ..  Cancel returned in ${cancelMs} ms with a 1500 ms request in flight"
 check "the run is over" $::done 1
 check "and it says it was cancelled" $::cancelled 1
 checkEq "nothing was kept, because nothing had arrived" [dict size $::results] 0
