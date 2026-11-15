@@ -59,10 +59,12 @@ proc extractProc {lines procName} {
 set saveText   [extractProc $lines ::search::header::preset_save]
 set loadText   [extractProc $lines ::search::header::preset_load]
 set deleteText [extractProc $lines ::search::header::preset_delete]
+set defaultsText [extractProc $lines ::search::header::defaults]
 check "preset_save was extracted"   [expr {$saveText ne ""}]
 check "preset_load was extracted"   [expr {$loadText ne ""}]
 check "preset_delete was extracted" [expr {$deleteText ne ""}]
-if {$saveText eq "" || $loadText eq "" || $deleteText eq ""} {
+check "defaults was extracted"      [expr {$defaultsText ne ""}]
+if {$saveText eq "" || $loadText eq "" || $deleteText eq "" || $defaultsText eq ""} {
     puts "\n$checks checks, $fails failures"
     exit 1
 }
@@ -72,6 +74,7 @@ namespace eval ::search::header {}
 eval $saveText
 eval $loadText
 eval $deleteText
+eval $defaultsText
 
 # -------------------------------------------------------------------- set-up --
 # The variables a preset carries. The names are the dialog's own, and the
@@ -81,6 +84,13 @@ array set ::searchHeader_Data {}
 array set ::sHeaderFlags {}
 array set ::sTitles {}
 array set ::sPgntext {}
+# The lists ::search::header::defaults reads to repopulate the arrays.
+set ::sHeaderFlagList {StdStart Promotions Comments Variations Annotations \
+    DeleteFlag WhiteOpFlag BlackOpFlag MiddlegameFlag EndgameFlag \
+    NoveltyFlag PawnFlag TacticsFlag KsideFlag QsideFlag \
+    BrilliancyFlag BlunderFlag UserFlag}
+set ::sHeaderCustomFlagList {CustomFlag1 CustomFlag2 CustomFlag3 CustomFlag4 CustomFlag5 CustomFlag6}
+set ::sTitleList {gm im fm none wgm wim wfm w}
 
 proc resetFields {} {
     foreach {var value} {

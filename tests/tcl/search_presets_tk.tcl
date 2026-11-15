@@ -60,12 +60,13 @@ set loadText   [extractProc $lines ::search::header::preset_load]
 set deleteText [extractProc $lines ::search::header::preset_delete]
 set oneText    [extractProc $lines ::search::header::rebuild_presets_menu_one]
 set menuText   [extractProc $lines ::search::header::rebuild_presets_menu]
+set defaultsText [extractProc $lines ::search::header::defaults]
 foreach {name text} [list preset_save $saveText preset_load $loadText \
                           preset_delete $deleteText rebuild_presets_menu_one $oneText \
-                          rebuild_presets_menu $menuText] {
+                          rebuild_presets_menu $menuText defaults $defaultsText] {
     check "$name was extracted" [expr {$text ne ""}]
 }
-if {$saveText eq "" || $loadText eq "" || $deleteText eq "" || $oneText eq "" || $menuText eq ""} {
+if {$saveText eq "" || $loadText eq "" || $deleteText eq "" || $oneText eq "" || $menuText eq "" || $defaultsText eq ""} {
     puts "\n$checks checks, $fails failures"
     exit 1
 }
@@ -76,6 +77,7 @@ eval $loadText
 eval $deleteText
 eval $oneText
 eval $menuText
+eval $defaultsText
 
 # The two widgets board.tcl creates for the Header search window.
 proc ::tr {key} { return $key }
@@ -94,6 +96,13 @@ array set ::searchHeader_Data {}
 array set ::sHeaderFlags {StdStart both}
 array set ::sTitles {w:gm 1}
 array set ::sPgntext {1 {}}
+# The lists ::search::header::defaults reads to repopulate the arrays.
+set ::sHeaderFlagList {StdStart Promotions Comments Variations Annotations \
+    DeleteFlag WhiteOpFlag BlackOpFlag MiddlegameFlag EndgameFlag \
+    NoveltyFlag PawnFlag TacticsFlag KsideFlag QsideFlag \
+    BrilliancyFlag BlunderFlag UserFlag}
+set ::sHeaderCustomFlagList {CustomFlag1 CustomFlag2 CustomFlag3 CustomFlag4 CustomFlag5 CustomFlag6}
+set ::sTitleList {gm im fm none wgm wim wfm w}
 set ::sWhite "Kasparov, G"
 set ::sBlack ""
 

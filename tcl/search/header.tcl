@@ -55,6 +55,7 @@ proc checkDates {} {
 proc ::search::header::defaults {} {
   set ::sWhite "";  set ::sBlack ""
   set ::sEvent ""; set ::sSite "";  set ::sRound ""; set ::sAnnotated 0
+  set ::sVariantStd 1; set ::sVariant960 1
   set ::sTagName "Annotator";
   set ::sTagValue "";
   set ::sWhiteEloMin ""; set ::sWhiteEloMax ""
@@ -70,7 +71,7 @@ proc ::search::header::defaults {} {
   set ::sSideToMoveW "w"
   set ::sSideToMoveB "b"
   foreach flag  [ concat $::sHeaderFlagList $::sHeaderCustomFlagList ] { set ::sHeaderFlags($flag) both }
-  foreach i [array names ::sPgntext] { set ::sPgntext($i) "" }
+  foreach i {1 2 3} { set ::sPgntext($i) "" }
   foreach i $::sTitleList {
     set ::sTitles(w:$i) 1
     set ::sTitles(b:$i) 1
@@ -148,6 +149,21 @@ proc ::search::header::preset_load {name} {
   # Retrieve data
   array set data $::searchHeader_Data($name)
 
+  # A field the preset does not carry falls back to its default, not "" and not
+  # the value the dialog still holds: a preset saved by an older version has no
+  # entry for a field added since, and loading it must not blend that older
+  # filter into the current one. "" is only a neutral default for the text and
+  # range fields; sAnnotated/sVariantStd/sVariant960 are read as booleans
+  # (`if {$::sAnnotated}`), and sEco as Yes/No, so an empty string would raise
+  # or silently flip the search.
+  #
+  # The arrays are unset before defaults, so a key the preset does not carry is
+  # gone (a flag removed since the preset was saved, for one); defaults then
+  # repopulates the known keys the search reads without `info exists`
+  # (sHeaderFlags, sPgntext, sTitles).
+  foreach arr {sPgntext sHeaderFlags sTitles} { array unset ::$arr }
+  ::search::header::defaults
+
   # Restore scalars
   foreach var {
     sWhite sBlack sEvent sSite sRound sAnnotated
@@ -159,12 +175,11 @@ proc ::search::header::preset_load {name} {
     sResWin sResLoss sResDraw sResOther
     sTagName sTagValue sVariantStd sVariant960 sIgnoreCol
   } {
-    set ::$var [expr {[info exists data($var)] ? $data($var) : {}}]
+    if {[info exists data($var)]} { set ::$var $data($var) }
   }
 
   # Restore arrays
   foreach arr {sPgntext sHeaderFlags sTitles} {
-    array unset ::$arr
     if {[info exists data($arr)]} {
       array set ::$arr $data($arr)
     }

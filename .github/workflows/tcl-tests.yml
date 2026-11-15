@@ -176,11 +176,6 @@ jobs:
       - name: Search presets
         run: tclsh tests/tcl/search_presets.tcl
 
-      # The Presets menu itself: rebuilding it twice, two names that used to
-      # share a submenu, and the Load and Delete entries a user clicks.
-      - name: Search presets menu
-        run: xvfb-run -a wish tests/tcl/search_presets_tk.tcl
-
       # The downloader's failure and cancel paths: a failed curl/wget must not
       # install a truncated file, and cancel must kill the child, not wait on it.
       - name: Update download
@@ -228,6 +223,11 @@ jobs:
       # Analysis window has no restore door (#436 item 3).
       - name: Window layout
         run: xvfb-run -a wish tests/tcl/layout_windows.tcl
+
+      # The Header search's Presets menu: rebuilding it twice, two names that
+      # used to share a submenu, and the Load and Delete entries a user clicks.
+      - name: Search presets menu
+        run: xvfb-run -a wish tests/tcl/search_presets_tk.tcl
 
       # The Engine Window's PV display keeps one block per depth in a MultiPV
       # run (discussion #461): a dashed rule between blocks, the best line in
