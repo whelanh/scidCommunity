@@ -346,9 +346,13 @@ puts "\nthe review asks the queue, never the blocking entry point"
 # see it - the queue is what the review calls, so the trap has to be caught by
 # reading the sources.
 set blocked {}
-foreach f {review_prose.tcl review_coach.tcl review_threat.tcl review_verify.tcl
-           review_driver.tcl game_review.tcl review_ui.tcl review_progress.tcl} {
-    set path [file join $root tcl tools $f]
+# Every review-path file, not a hand-picked list: a name missing from a list
+# (review_report.tcl was) lets a blocking call through the guard without a word.
+# review*.tcl names them all; game_review.tcl is the one review file that does
+# not match that pattern.
+set reviewFiles [lsort [glob -nocomplain [file join $root tcl tools review*.tcl]]]
+lappend reviewFiles [file join $root tcl tools game_review.tcl]
+foreach path $reviewFiles {
     if {![file exists $path]} { continue }
     set fh [open $path r]
     fconfigure $fh -encoding utf-8
@@ -356,7 +360,7 @@ foreach f {review_prose.tcl review_coach.tcl review_threat.tcl review_verify.tcl
     close $fh
     # `query` followed by whitespace is the blocking entry point; queryAsync and
     # queryChat are the two names that must not match.
-    if {[regexp {auto_comment::query\s} $text]} { lappend blocked $f }
+    if {[regexp {auto_comment::query\s} $text]} { lappend blocked [file tail $path] }
 }
 checkEq "no review-path file calls the blocking entry point" $blocked ""
 
