@@ -791,6 +791,8 @@ menuText k TreeOptFastmode "빠른 모드" 0 {업데이트를 빠른 편집할 �
 menuText k TreeOptFastAndSlowmode "빠른 속도감 있는 모드" 0 {빠른 모드, 업데이트를 수축하는 모드}
 menuText k TreeOptStartStop "자동 새로고침" 0 {Tree Window의 자동 새로 고침을 전환합니다.}
 menuText k TreeOptLock "잠그다" 0 {현재 데이터베이스에 대한 트리 잠금/잠금 해제}
+menuText k TreeOptAutoLoadMask "마지막 마스크 자동 로드" 0 \
+  {트리 창이 열리면 가장 최근에 사용한 마스크를 자동으로 엽니다.}
 menuText k TreeOptTraining "훈련" 0 {트리 훈련 모드기/끄기}
 menuText k TreeOptDepth "치수 이동" 0 {트리에 표시할 반 이동 전화(1-4)}
 menuText k TreeOptAutosave "자동 저장 파일" 0 \

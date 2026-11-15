@@ -791,6 +791,8 @@ menuText A TreeOptFastmode "高速モード" 0 {更新用の高速モード (移
 menuText A TreeOptFastAndSlowmode "高速モードと低速モード" 0 {更新には高速モード、次に低速モード}
 menuText A TreeOptStartStop "自動更新" 0 {ツリーウィンドウの自動更新を切り替えます。}
 menuText A TreeOptLock "ロック" 0 {現在のデータベースに対してツリーをロック/ロック解除します。}
+menuText A TreeOptAutoLoadMask "最後のマスクを自動ロードする" 0 \
+  {ツリー ウィンドウが開いたときに、最後に使用したマスクを自動的に開きます}
 menuText A TreeOptTraining "トレーニング" 0 {ツリートレーニングモードのオン/オフを切り替える}
 menuText A TreeOptDepth "移動深度" 0 {ツリーに表示するハーフムーブの数 (1 ～ 4)}
 menuText A TreeOptAutosave "キャッシュファイルの自動保存" 0 \

@@ -750,6 +750,8 @@ menuText Z TreeOptFastmode "Njia ya haraka" 0 {Hali ya haraka ya sasisho (hakuna
 menuText Z TreeOptFastAndSlowmode "Njia ya haraka na polepole" 0 {Hali ya haraka kisha hali ya polepole kwa masasisho}
 menuText Z TreeOptStartStop "Inaonyesha upya kiotomatiki" 0 {Hugeuza uonyeshaji upya kiotomatiki wa dirisha la mti}
 menuText Z TreeOptLock "Funga" 0 {Funga/fungua mti kwa hifadhidata ya sasa}
+menuText Z TreeOptAutoLoadMask "Pakia kiotomatiki barakoa ya mwisho" 0 \
+  {Fungua kinyago kilichotumiwa hivi karibuni kiotomatiki dirisha la mti linapofunguliwa}
 menuText Z TreeOptTraining "Mafunzo" 0 {Washa/zima hali ya mafunzo ya mti}
 menuText Z TreeOptDepth "Sogeza kina" 0 {Idadi ya hatua nusu zitaonyeshwa kwenye mti (1-4)}
 menuText Z TreeOptAutosave "Hifadhi Faili ya Cache kiotomatiki" 0 \

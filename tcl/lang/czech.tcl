@@ -755,6 +755,8 @@ menuText C TreeOptFastmode "Rychl reim" 0 {Rychl reim aktualizace (beze zmny poa
 menuText C TreeOptFastAndSlowmode "Rychl a pomal reim" 0 {Rychl reim a potom pomal reim aktualizace}
 menuText C TreeOptStartStop "Automatick aktualizace" 0 {Pepnout automatick aktualizace stromovho okna}
 menuText C TreeOptLock "Zamknout" 0 {Zamknout/Odemknout strom k aktuln databzi}
+menuText C TreeOptAutoLoadMask "Automaticky načíst poslední masku" 0 \
+  {Automaticky otevřít naposledy použitou masku, když se otevře stromové okno}
 menuText C TreeOptTraining "Trnink" 0 {Zapnout/Vypnout stromov trninkov md}
 menuText C TreeOptDepth "Hloubka pohybu" 0 {Poet polovinch tah k zobrazen ve stromu (1-4)}
 menuText C TreeOptAutosave "Automatick ukldn cache souboru" 0 \

@@ -780,6 +780,8 @@ menuText N TreeOptFastmode "Snelle modus" 0 {Snelle modus voor updates (geen omw
 menuText N TreeOptFastAndSlowmode "Snelle en trage modus" 0 {Eerst snelle modus en daarna trage modus voor updates}
 menuText N TreeOptStartStop "Auto verversing" 0 {Zet automatische verversing van het boomvenster op/af}
 menuText N TreeOptLock "Vergrendelen" 0 {Vergrendelen/Ontgrendelen van de boom bij de huidige database}
+menuText N TreeOptAutoLoadMask "Laatste masker automatisch laden" 0 \
+  {Open automatisch het meest recent gebruikte masker wanneer een boomvenster wordt geopend}
 menuText N TreeOptTraining "Training" 0 {Aan/Uit zetten training modus}
 menuText N TreeOptDepth "Diepte verplaatsen" 0 {Aantal halve zetten dat in de boomstructuur moet worden weergegeven (1-4)}
 menuText N TreeOptAutosave "Autom.cache-data Bewaren" 4 \

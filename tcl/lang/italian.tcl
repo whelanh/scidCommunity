@@ -761,6 +761,8 @@ menuText I TreeOptFastmode "Modalità veloce" 0 {Modalità veloce per l'aggiorna
 menuText I TreeOptFastAndSlowmode "Modalità lenta e veloce" 0 {Modalità lenta e veloce per l'aggiornamento}
 menuText I TreeOptStartStop "Aggiornamento automatico" 0 {Attiva/disattiva l'aggiornamento automatico della finestra di albero}
 menuText I TreeOptLock "Blocca" 0 {Blocca/sblocca l'albero al database corrente}
+menuText I TreeOptAutoLoadMask "Carica automaticamente l'ultima maschera" 0 \
+  {Apre automaticamente la maschera utilizzata più di recente quando si apre una finestra ad albero}
 menuText I TreeOptTraining "Allenamento" 0 {Attiva/disattiva la modalità di esercizio dell'albero}
 menuText I TreeOptDepth "Muovi la profondità" 0 {Numero di mezze mosse da visualizzare nell'albero (1-4)}
 menuText I TreeOptAutosave "File di cache per il salvataggio automatico" 0 \

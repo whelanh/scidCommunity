@@ -751,6 +751,8 @@ menuText V TreeOptFastmode "מצב מהיר" 0 {מצב מהיר לעדכונים
 menuText V TreeOptFastAndSlowmode "מצב מהיר ואיטי" 0 {מצב מהיר ואז מצב איטי לעדכונים}
 menuText V TreeOptStartStop "רענון אוטומטי" 0 {מחליף רענון אוטומטי של חלון העץ}
 menuText V TreeOptLock "לִנְעוֹל" 0 {נעל/בטל את נעילת העץ למסד הנתונים הנוכחי}
+menuText V TreeOptAutoLoadMask "טען אוטומטית את המסכה האחרונה" 0 \
+  {פתח את המסכה האחרונה שבה נעשה שימוש באופן אוטומטי כאשר חלון עץ נפתח}
 menuText V TreeOptTraining "הַדְרָכָה" 0 {הפעלה/כיבוי של מצב אימון עצים}
 menuText V TreeOptDepth "הזז עומק" 0 {מספר חצאי מהלכים להצגה בעץ (1-4)}
 menuText V TreeOptAutosave "שמירה אוטומטית של קובץ מטמון" 0 \

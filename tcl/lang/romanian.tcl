@@ -791,6 +791,8 @@ menuText L TreeOptFastmode "Mod rapid" 0 {Mod rapid pentru actualizări (fără 
 menuText L TreeOptFastAndSlowmode "Mod rapid și lent" 0 {Modul rapid apoi modul lent pentru actualizări}
 menuText L TreeOptStartStop "Reîmprospătare automată" 0 {Comută reîmprospătarea automată a ferestrei arborelui}
 menuText L TreeOptLock "Blocare" 0 {Blocați/deblocați arborele în baza de date curentă}
+menuText L TreeOptAutoLoadMask "Încărcați automat ultima mască" 0 \
+  {Deschideți automat cea mai recentă mască folosită când se deschide o fereastră arborescentă}
 menuText L TreeOptTraining "Antrenamentul" 0 {Activați/dezactivați modul de antrenament arbore}
 menuText L TreeOptDepth "Mutați adâncimea" 0 {Numărul de jumătăți de mișcări de afișat în arbore (1-4)}
 menuText L TreeOptAutosave "Salvare automată a fișierului cache" 0 \

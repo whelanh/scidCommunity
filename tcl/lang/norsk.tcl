@@ -760,6 +760,8 @@ menuText O TreeOptFastmode "Rask modus" 0 {Rask modus for oppdateringer (ingen f
 menuText O TreeOptFastAndSlowmode "Rask og sakte modus" 0 {Rask modus og deretter sakte modus for oppdateringer}
 menuText O TreeOptStartStop "Automatisk forfriskende" 0 {Slår på automatisk oppdatering av trevinduet}
 menuText O TreeOptLock "Lås" 0 {Låser treet til nåværende database}
+menuText O TreeOptAutoLoadMask "Last inn siste maske automatisk" 0 \
+  {Åpne den sist brukte masken automatisk når et trevindu åpnes}
 menuText O TreeOptTraining "Trening" 0 {Slår av/på treningsmodus}
 menuText O TreeOptDepth "Flytte dybde" 0 {Antall halve trekk som skal vises i treet (1-4)}
 menuText O TreeOptAutosave "Autolagre hurtigbuffer" 0 \

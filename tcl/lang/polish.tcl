@@ -790,6 +790,8 @@ menuText P TreeOptFastmode "Tryb szybki" 0 {Szybki tryb aktualizacji (bez uwzgl�
 menuText P TreeOptFastAndSlowmode "Tryb szybki i dokładny" 0 {Najpierw szybki, potem dokładny tryb aktualizacji}
 menuText P TreeOptStartStop "Automatyczne odświeżanie" 0 {Włącz lub wyłącz automatyczne odświeżanie okna drzewa wariantów}
 menuText P TreeOptLock "Zablokuj" 0 {Przypnij lub odłącz drzewo wariantów od bieżącej bazy danych}
+menuText P TreeOptAutoLoadMask "Automatyczne ładowanie ostatniej maski" 0 \
+  {Otwórz automatycznie ostatnio używaną maskę po otwarciu okna drzewa}
 menuText P TreeOptTraining "Trening" 0 {Włącz lub wyłącz tryb treningowy drzewa wariantów}
 menuText P TreeOptDepth "Półposunięcia" 0 {Liczba półposunięć wyświetlanych w drzewie wariantów (1–4)}
 menuText P TreeOptAutosave "Automatycznie zapisuj pamięć podręczną" 0 \

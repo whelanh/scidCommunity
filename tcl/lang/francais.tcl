@@ -764,6 +764,8 @@ menuText F TreeOptFastmode "Mode rapide" 0 {Mode rapide pour rafraichissement (p
 menuText F TreeOptFastAndSlowmode "Mode rapide puis lent" 0 {Mode rapide puis lent pour rafraichissement}
 menuText F TreeOptStartStop "Rafraîchissement auto" 0 {Rafraîchissement automatique de la fenêtre}
 menuText F TreeOptLock "Verrouille" 0 {Dé/verrouiller l'arbre à la base en cours}
+menuText F TreeOptAutoLoadMask "Chargement automatique du dernier masque" 0 \
+  {Ouvrir automatiquement le masque le plus récemment utilisé lorsqu'une fenêtre arborescente s'ouvre}
 menuText F TreeOptTraining "Entraînement" 0 {Démarrer/Arrêter l'arbre du mode d'entraînement}
 menuText F TreeOptDepth "Déplacer la profondeur" 0 {Nombre de demi-coups à afficher dans l'arbre (1-4)}
 menuText F TreeOptAutosave "Enregistrer le cache automatiquement" 0

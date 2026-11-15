@@ -782,6 +782,8 @@ menuText G TreeOptFastmode "Γρήγορη λειτουργία" 0 {Γρήγορ
 menuText G TreeOptFastAndSlowmode "Αργή και γρήγορη λειτουργία" 0 {Γρήγορη λειτουργία και έπειτα αργή λειτουργία για ενημερώσεις}
 menuText G TreeOptStartStop "Αυτόματη ανανέωση" 0 {Εναλλάσει την αυτόματη ανανέωση του παραθύρου του δένδρου}
 menuText G TreeOptLock "Lock" 0 {Lock/unlock the tree to the current database}
+menuText G TreeOptAutoLoadMask "Αυτόματη φόρτωση της τελευταίας μάσκας" 0 \
+  {Ανοίξτε αυτόματα τη μάσκα που χρησιμοποιήθηκε πιο πρόσφατα όταν ανοίξει ένα παράθυρο δέντρου}
 menuText G TreeOptTraining "Προπόνηση" 0 {Ενεργοποίηση/απενεργοποίηση της λειτουργίας εκπαίδευσης}
 menuText G TreeOptDepth "Βάθος μετακίνησης" 0 {Αριθμός μισών κινήσεων προς εμφάνιση στο δέντρο (1-4)}
 menuText G TreeOptAutosave "Αυτόματη αποθήκευση του αρχείου προσωρινής μνήμης" 0 \

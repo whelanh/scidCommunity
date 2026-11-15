@@ -806,6 +806,8 @@ menuText S TreeOptStartStop "Auto actualizado" 0 \
   {Actualizado automático de la ventana del árbol}
 menuText S TreeOptLock "Bloquear" 1 \
   {Bloquea/desbloquea el árbol de la base de datos actual}
+menuText S TreeOptAutoLoadMask "Cargar automáticamente la última máscara" 0 \
+  {Abra automáticamente la máscara utilizada más recientemente cuando se abra una ventana de árbol}
 menuText S TreeOptTraining "Entrenamiento" 2 \
   {Activa/desactiva el modo de entrenamiento de árbol}
 menuText S TreeOptDepth "Mover profundidad" 0 {Número de medios movimientos para mostrar en el árbol (1-4)}

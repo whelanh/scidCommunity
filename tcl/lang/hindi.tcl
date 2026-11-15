@@ -750,6 +750,8 @@ menuText h TreeOptFastmode "तेज़ मोड" 0 {अपडेट के �
 menuText h TreeOptFastAndSlowmode "तेज़ और धीमी मोड" 0 {अपडेट के लिए फास्ट मोड और फिर स्लो मोड}
 menuText h TreeOptStartStop "स्वतः ताज़ा होना" 0 {ट्री विंडो की स्वचालित रीफ़्रेशिंग को टॉगल करता है}
 menuText h TreeOptLock "ताला" 0 {ट्री को वर्तमान डेटाबेस में लॉक/अनलॉक करें}
+menuText h TreeOptAutoLoadMask "अंतिम मास्क को स्वतः लोड करें" 0 \
+  {ट्री विंडो खुलने पर सबसे हाल ही में उपयोग किया गया मास्क स्वचालित रूप से खोलें}
 menuText h TreeOptTraining "प्रशिक्षण" 0 {ट्री प्रशिक्षण मोड चालू/बंद करें}
 menuText h TreeOptDepth "गहराई ले जाएँ" 0 {पेड़ में प्रदर्शित करने के लिए आधी चालों की संख्या (1-4)}
 menuText h TreeOptAutosave "कैश फ़ाइल को स्वतः सहेजें" 0 \

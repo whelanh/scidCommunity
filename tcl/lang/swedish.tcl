@@ -761,6 +761,8 @@ menuText W TreeOptFastmode "Snabb mod" 0 {Snabb mod för uppdateringar (ingen dr
 menuText W TreeOptFastAndSlowmode "Snabb och långsam mod" 0 {Snabb mod sedan långsam mod för uppdateringar}
 menuText W TreeOptStartStop "Automatisk uppdatering" 0 {Växlar automatisk uppdatering av trädfönstret}
 menuText W TreeOptLock "Lås" 0 {Lås/ lås upp trädet för den aktuella databasen}
+menuText W TreeOptAutoLoadMask "Ladda den sista masken automatiskt" 0 \
+  {Öppna den senast använda masken automatiskt när ett trädfönster öppnas}
 menuText W TreeOptTraining "Träna" 0 {Starta/ stäng av träningsläge}
 menuText W TreeOptDepth "Flytta djup" 0 {Antal halva drag som ska visas i trädet (1-4)}
 menuText W TreeOptAutosave "Spara cache filen automatiskt" 0 \

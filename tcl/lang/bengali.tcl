@@ -750,6 +750,8 @@ menuText b TreeOptFastmode "দ্রুত মোড" 0 {আপডেটের 
 menuText b TreeOptFastAndSlowmode "দ্রুত এবং ধীর মোড" 0 {আপডেটের জন্য দ্রুত মোড তারপর ধীর মোড}
 menuText b TreeOptStartStop "স্বয়ংক্রিয় রিফ্রেশিং" 0 {ট্রি উইন্ডোর স্বয়ংক্রিয় রিফ্রেশিং টগল করে}
 menuText b TreeOptLock "তালা" 0 {বর্তমান ডাটাবেসে গাছটিকে লক/আনলক করুন}
+menuText b TreeOptAutoLoadMask "অটো-লোড শেষ মাস্ক" 0 \
+  {একটি গাছের জানালা খুললে অতি সম্প্রতি ব্যবহৃত মাস্কটি স্বয়ংক্রিয়ভাবে খুলুন}
 menuText b TreeOptTraining "প্রশিক্ষণ" 0 {ট্রি ট্রেনিং মোড চালু/বন্ধ করুন}
 menuText b TreeOptDepth "গভীরতা সরান" 0 {গাছে প্রদর্শিত অর্ধেক চালের সংখ্যা (1-4)}
 menuText b TreeOptAutosave "অটো-সেভ ক্যাশে ফাইল" 0 \

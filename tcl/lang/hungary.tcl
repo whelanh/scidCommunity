@@ -758,6 +758,8 @@ menuText H TreeOptFastmode "Gyors üzemmód" 0 {Gyors frissítés (nincsenek lé
 menuText H TreeOptFastAndSlowmode "Gyors és lassú üzemmód" 1 {Gyors majd lassú frissítés}
 menuText H TreeOptStartStop "Automatikus frissítés" 0 {Átváltja a faszerkezet-ablak automatikus frissítését.}
 menuText H TreeOptLock "Rögzítés" 0 {A fát az aktuális adatbázishoz köti ill. a kötést feloldja.}
+menuText H TreeOptAutoLoadMask "Az utolsó maszk automatikus betöltése" 0 \
+  {A legutóbb használt maszk automatikus megnyitása, amikor egy fa ablak nyílik meg}
 menuText H TreeOptTraining "Edzés" 0 {Edzésüzemmód be- vagy kikapcsolása}
 menuText H TreeOptDepth "Mozgassa a mélységet" 0 {A fában megjelenítendõ féllépések száma (1-4)}
 menuText H TreeOptAutosave "Cache-fájl automatikus mentése" 11 \

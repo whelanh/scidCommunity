@@ -727,6 +727,8 @@ menuText M TreeOptFastmode "Fast mode" 0 {Fast mode for updates (no move transpo
 menuText M TreeOptFastAndSlowmode "Fast and slow mode" 0 {Fast mode then slow mode for updates}
 menuText M TreeOptStartStop "Auto refreshing" 0 {Toggles automatic refreshing of the tree window}
 menuText M TreeOptLock "锁定" 0 {Lock/unlock the tree to the current database}
+menuText M TreeOptAutoLoadMask "自动加载最后一个蒙版" 0 \
+  {当树窗口打开时，自动打开最近使用的蒙版}
 menuText M TreeOptTraining "训练" 0 {Turn on/off tree training mode}
 menuText M TreeOptDepth "移动深度" 0 {在树中显示的半步移动数 (1-4)}
 menuText M TreeOptAutosave "Auto-Save Cache File" 0 \

@@ -776,6 +776,8 @@ menuText K TreeOptFastmode "Mode Ràpid" 0 {Jugada ràpida per actualitzacions (
 menuText K TreeOptFastAndSlowmode "Mode Ràpid i Lent" 0 {Jugada ràpida i mode lent per actualitzacions}
 menuText K TreeOptStartStop "Auto actualitzat" 0 {Actualizat automàtic de la finestra de l'arbre}
 menuText K TreeOptLock "Bloquejar" 1 {Bloqueja/desbloqueja l'arbre de la base de dades actual}
+menuText K TreeOptAutoLoadMask "Carrega automàticament l'última màscara" 0 \
+  {Obriu automàticament la màscara utilitzada més recentment quan s'obre una finestra d'arbre}
 menuText K TreeOptTraining "Entrenament" 2 {Activa/desactiva el mode d'entrenament de l'arbre}
 menuText K TreeOptDepth "Moure la profunditat" 0 {Nombre de mig moviments per mostrar a l'arbre (1-4)}
 menuText K TreeOptAutosave "Autoguardar arxiu memòria cau" 0 \

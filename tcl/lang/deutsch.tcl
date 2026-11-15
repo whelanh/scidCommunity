@@ -790,6 +790,8 @@ menuText D TreeOptFastAndSlowmode "Gründlicher und Schneller Modus" 0 {Zunächs
 menuText D TreeOptStartStop "Automatisch aktualisieren" 0 {Schaltet das automatische aktualisieren ein/aus}
 menuText D TreeOptLock "Anbinden" 0 \
   {Zugbaum an aktive Datenbank anbinden(/lösen)}
+menuText D TreeOptAutoLoadMask "Letzte Maske automatisch laden" 0 \
+  {Öffnen Sie automatisch die zuletzt verwendete Maske, wenn ein Baumfenster geöffnet wird}
 menuText D TreeOptTraining "Training" 0 {Trainingsmodus ein-/ausschalten}
 menuText D TreeOptDepth "Baumtiefe (Halbzüge)" 0 {Anzahl der im Baum anzuzeigenden Halbzüge (1-4)}
 menuText D TreeOptAutosave "Autom. Cache-Datei sichern" 4 \

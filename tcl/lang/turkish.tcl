@@ -754,6 +754,8 @@ menuText T TreeOptFastmode "Hızlı mod" 0 {Güncellemeler için hızlı mod (ha
 menuText T TreeOptFastAndSlowmode "Hızlı ve yavaş mod" 0 {Güncellemeler için hızlı mod ve ardından yavaş mod}
 menuText T TreeOptStartStop "Otomatik yenileme" 0 {Ağaç penceresinin otomatik olarak yenilenmesini açar/kapatır}
 menuText T TreeOptLock "Kilit" 0 {Ağacı geçerli veritabanına kilitleme/kilidini açma}
+menuText T TreeOptAutoLoadMask "Son maskeyi otomatik yükle" 0 \
+  {Bir ağaç penceresi açıldığında en son kullanılan maskeyi otomatik olarak aç}
 menuText T TreeOptTraining "Eğitim" 0 {Ağaç eğitimi modunu aç/kapat}
 menuText T TreeOptDepth "Derinliği taşı" 0 {Ağaçta görüntülenecek yarım hamle sayısı (1-4)}
 menuText T TreeOptAutosave "Önbellek Dosyasını Otomatik Kaydet" 0 \

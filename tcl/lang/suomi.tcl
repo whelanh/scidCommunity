@@ -789,6 +789,8 @@ menuText U TreeOptFastmode "Nopea moodi" 0 {Päivitä nopeati (Ei löydä siirto
 menuText U TreeOptFastAndSlowmode "Hidas ja nopea" 0 {Päivitä ensin nopeasti, sitten tarkasti}
 menuText U TreeOptStartStop "Automaattinen päivitys" 0 {Ikkunan automaattinen päivitys päälle/päältä}
 menuText U TreeOptLock "Lukitse" 0 {Lukitse/vapauta puu nykyiseen tietokantaan}
+menuText U TreeOptAutoLoadMask "Lataa viimeinen maski automaattisesti" 0 \
+  {Avaa viimeksi käytetty maski automaattisesti, kun puuikkuna avautuu}
 menuText U TreeOptTraining "Valmennus" 0 {Puun valmennusmoodii päälle/päältä}
 menuText U TreeOptDepth "Siirrä syvyyttä" 0 {Puolikkaan liikkeiden määrä puussa näytettäväksi (1-4)}
 menuText U TreeOptAutosave "Tallenna välimuisti automaattisesti" 0 \

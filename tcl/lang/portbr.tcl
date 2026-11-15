@@ -762,6 +762,8 @@ menuText B TreeOptFastmode "Modo Rápido" 0 {Modo rápido para atualizações (s
 menuText B TreeOptFastAndSlowmode "Modo rápido e lento" 0 {Modo rápido e lento para atualizações}
 menuText B TreeOptStartStop "Atualização automática" 0 {Liga/Desliga a atualização automática da janela de árvore}
 menuText B TreeOptLock "Lock" 0 {Trava/Destrava a árvore para o banco corrente}
+menuText B TreeOptAutoLoadMask "Carregar automaticamente a última máscara" 0 \
+  {Abra automaticamente a máscara usada mais recentemente quando uma janela em árvore for aberta}
 menuText B TreeOptTraining "Treinamento" 0 \
   {Liga/Desliga o modo treinamento na árvore}
 menuText B TreeOptDepth "Mover profundidade" 0 {Número de meias jogadas a serem exibidas na árvore (1-4)}
