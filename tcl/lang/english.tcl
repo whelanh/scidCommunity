@@ -1006,6 +1006,7 @@ translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E ReviewEstimatedRating {performance rating (from this game)}
 translate E ReviewOpeningMoves {Opening moves}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
@@ -1023,7 +1024,7 @@ translate E ReviewCoachLevelLabel {Level}
 translate E ReviewCoachOpeningLabel {Opening}
 translate E ReviewCoachPhase {moves %d-%d - accuracy W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate E ReviewReportMarker {Game review}
-translate E ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}
+translate E ReviewReportSide {%s: %s%% accuracy, ACPL %d}
 translate E ReviewReportLabels {%s labels: %s}
 translate E ReviewReportKeyMoments {Key moments: %s}
 translate E ReviewReportPhases {Phases: %s}

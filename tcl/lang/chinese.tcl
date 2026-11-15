@@ -940,6 +940,7 @@ translate M ReviewVarLines {要写入的变化}
 translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
+translate M ReviewEstimatedRating {表现评分（本局）}
 translate M ReviewOpeningMoves {开局动作}
 translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
@@ -957,7 +958,7 @@ translate M ReviewCoachLevelLabel {等级}
 translate M ReviewCoachOpeningLabel {开幕}
 translate M ReviewCoachPhase {移动 %d-%d - 精度 W %.1f%% B %.1f%%，ACPL W %d B %d。}
 translate M ReviewReportMarker {游戏回顾}
-translate M ReviewReportSide {%s：%s%% 准确度，ACPL %d，估计 Elo %d}
+translate M ReviewReportSide {%s：%s%% 准确度，ACPL %d}
 translate M ReviewReportLabels {%s 标签：%s}
 translate M ReviewReportKeyMoments {关键时刻：%s}
 translate M ReviewReportPhases {阶段：%s}

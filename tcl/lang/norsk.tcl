@@ -973,6 +973,7 @@ translate O ReviewVarLines {Varianter som skal skrives}
 translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}
 translate O ReviewMovetime {Tidsgrense (ms)}
+translate O ReviewEstimatedRating {prestasjonsvurdering (fra dette partiet)}
 translate O ReviewOpeningMoves {Åpningsbevegelser}
 translate O ReviewFromPreset {%s (fra motorprofilen)}
 translate O ReviewProgress {Vurderer stilling %s av %s}
@@ -990,7 +991,7 @@ translate O ReviewCoachLevelLabel {Nivå}
 translate O ReviewCoachOpeningLabel {Åpning}
 translate O ReviewCoachPhase {beveger seg %d-%d - nøyaktighet W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate O ReviewReportMarker {Spillanmeldelse}
-translate O ReviewReportSide {%s: %s%% nøyaktighet, ACPL %d, estimert Elo %d}
+translate O ReviewReportSide {%s: %s%% nøyaktighet, ACPL %d}
 translate O ReviewReportLabels {%s etiketter: %s}
 translate O ReviewReportKeyMoments {Viktige øyeblikk: %s}
 translate O ReviewReportPhases {Faser: %s}

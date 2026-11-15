@@ -964,6 +964,7 @@ translate V ReviewVarLines {וריאציות לכתיבה}
 translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
 translate V ReviewMovetime {מגבלת זמן (ms)}
+translate V ReviewEstimatedRating {הערכת ביצוע (ממשחק זה)}
 translate V ReviewOpeningMoves {מהלכי פתיחה}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}
 translate V ReviewProgress {סוקר עמדה %s מתוך %s}
@@ -981,7 +982,7 @@ translate V ReviewCoachLevelLabel {רָמָה}
 translate V ReviewCoachOpeningLabel {פְּתִיחָה}
 translate V ReviewCoachPhase {מהלכים %d-%d - דיוק W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate V ReviewReportMarker {סקירת משחק}
-translate V ReviewReportSide {%s: דיוק %s%%, ACPL %d, מוערך Elo %d}
+translate V ReviewReportSide {%s: דיוק %s%%, ACPL %d}
 translate V ReviewReportLabels {%s תוויות: %s}
 translate V ReviewReportKeyMoments {רגעי מפתח: %s}
 translate V ReviewReportPhases {שלבים: %s}

@@ -43,6 +43,18 @@ if {[llength [info commands ::accuracy::winPercent]] == 0} {
         if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
     }
 }
+# The performance rating's table and lookup: the report prints the number, the
+# module owns the calibration.
+if {[llength [info commands ::perfrating::estimate]] == 0} {
+    set dirs {}
+    if {[info exists ::scidTclDir]} {
+        lappend dirs [file join $::scidTclDir tools perf_rating.tcl]
+    }
+    lappend dirs [file join [file dirname [info script]] perf_rating.tcl]
+    foreach f $dirs {
+        if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
+    }
+}
 if {[llength [info commands ::chessboard::fromFen]] == 0} {
     foreach f [list [file join $::scidTclDir utils chessboard.tcl] \
                    [file join [file dirname [info script]] .. utils chessboard.tcl]] {
@@ -564,8 +576,13 @@ proc ::reviewreport::sideSummary {moves side} {
         set sum 0 ; foreach x $cps { set sum [expr {$sum + $x}] }
         set acpl [expr {round($sum / [llength $cps])}]
     }
+    # `elo` is the report's former accuracy+ACPL estimate: no longer printed,
+    # still the level the coach's facts name (review_coach.tcl), and the
+    # baseline the calibration study measures itself against. `rating` is the
+    # calibrated estimate from the moves alone, and it is what the report shows.
     return [dict create accuracy $acc acpl $acpl \
-        elo [estimateElo $acc $acpl] tally $tally]
+        elo [estimateElo $acc $acpl] tally $tally \
+        rating [::perfrating::estimateFor $moves $side]]
 }
 
 proc ::reviewreport::moveNumber {ply} {
@@ -607,12 +624,22 @@ proc ::reviewreport::headerText {moves} {
     set b [sideSummary $moves black]
     set white [phrase White White]
     set black [phrase Black Black]
-    set sideFmt [phrase ReviewReportSide {%s: %s%% accuracy, ACPL %d, estimated Elo %d}]
+    set sideFmt [phrase ReviewReportSide {%s: %s%% accuracy, ACPL %d}]
     set out "\[[phrase ReviewReportMarker {Game review}]\]"
     append out "\n  " [format $sideFmt $white \
-        [dict get $w accuracy] [dict get $w acpl] [dict get $w elo]]
+        [dict get $w accuracy] [dict get $w acpl]]
     append out "\n  " [format $sideFmt $black \
-        [dict get $b accuracy] [dict get $b acpl] [dict get $b elo]]
+        [dict get $b accuracy] [dict get $b acpl]]
+    # The performance rating: one line per side, from the moves alone. A side
+    # the pass measured no moves for has no line at all, which is the truth
+    # about it -- and the block is otherwise the same whatever rating the PGN
+    # header carries, because nothing here reads one.
+    set ratingLabel [phrase ReviewEstimatedRating {performance rating (from this game)}]
+    foreach {name key} [list $white $w $black $b] {
+        set rating [dict get $key rating]
+        if {$rating eq ""} { continue }
+        append out "\n  $name $ratingLabel: ≈$rating"
+    }
     set labelsFmt [phrase ReviewReportLabels {%s labels: %s}]
     foreach {side tally} [list $white $w $black $b] {
         set parts {}

@@ -1020,6 +1020,7 @@ translate S ReviewVarLines {Variantes que escribir}
 translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}
 translate S ReviewMovetime {Límite de tiempo (ms)}
+translate S ReviewEstimatedRating {valoración de rendimiento (de esta partida)}
 translate S ReviewOpeningMoves {Movimientos de apertura}
 translate S ReviewFromPreset {%s (del perfil del motor)}
 translate S ReviewProgress {Revisando la posición %s de %s}
@@ -1037,7 +1038,7 @@ translate S ReviewCoachLevelLabel {Nivel}
 translate S ReviewCoachOpeningLabel {Apertura}
 translate S ReviewCoachPhase {jugadas %d-%d - precisión B %.1f%% N %.1f%%, ACPL B %d N %d.}
 translate S ReviewReportMarker {Revisión de la partida}
-translate S ReviewReportSide {%s: %s%% de precisión, ACPL %d, Elo estimado %d}
+translate S ReviewReportSide {%s: %s%% de precisión, ACPL %d}
 translate S ReviewReportLabels {%s: %s}
 translate S ReviewReportKeyMoments {Momentos clave: %s}
 translate S ReviewReportPhases {Fases: %s}

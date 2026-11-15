@@ -968,6 +968,7 @@ translate C ReviewVarLines {Varianty k zápisu}
 translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}
 translate C ReviewMovetime {Časový limit (ms)}
+translate C ReviewEstimatedRating {výkonnostní hodnocení (z této partie)}
 translate C ReviewOpeningMoves {Otevírací pohyby}
 translate C ReviewFromPreset {%s (z předvolby motoru)}
 translate C ReviewProgress {Prohlíží se pozice %s z %s}
@@ -985,7 +986,7 @@ translate C ReviewCoachLevelLabel {Úroveň}
 translate C ReviewCoachOpeningLabel {Otevírací}
 translate C ReviewCoachPhase {pohyby %d-%d - přesnost W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate C ReviewReportMarker {Recenze hry}
-translate C ReviewReportSide {%s: %s%% přesnost, ACPL %d, odhad Elo %d}
+translate C ReviewReportSide {%s: %s%% přesnost, ACPL %d}
 translate C ReviewReportLabels {%s štítky: %s}
 translate C ReviewReportKeyMoments {Klíčové momenty: %s}
 translate C ReviewReportPhases {Fáze: %s}

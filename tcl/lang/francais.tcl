@@ -976,6 +976,7 @@ translate F ReviewVarLines {Variantes à écrire}
 translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
 translate F ReviewMovetime {Plafond de temps (ms)}
+translate F ReviewEstimatedRating {classement de performance (de cette partie)}
 translate F ReviewOpeningMoves {Mouvements d'ouverture}
 translate F ReviewFromPreset {%s (profil du moteur)}
 translate F ReviewProgress {Analyse de la position %s sur %s}
@@ -993,7 +994,7 @@ translate F ReviewCoachLevelLabel {Niveau}
 translate F ReviewCoachOpeningLabel {Ouverture}
 translate F ReviewCoachPhase {mouvements %d-%d - précision W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate F ReviewReportMarker {Revue du jeu}
-translate F ReviewReportSide {%s : précision %s%%, ACPL %d, Elo estimé %d}
+translate F ReviewReportSide {%s : précision %s%%, ACPL %d}
 translate F ReviewReportLabels {%s étiquettes : %s}
 translate F ReviewReportKeyMoments {Moments clés : %s}
 translate F ReviewReportPhases {Phases : %s}

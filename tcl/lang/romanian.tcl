@@ -1004,6 +1004,7 @@ translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
 translate L ReviewMovetime {Limită de timp (ms)}
+translate L ReviewEstimatedRating {evaluare de performanță (din acest meci)}
 translate L ReviewOpeningMoves {Mișcări de deschidere}
 translate L ReviewFromPreset {%s (din profilul motorului)}
 translate L ReviewProgress {Se analizează poziția %s din %s}
@@ -1021,7 +1022,7 @@ translate L ReviewCoachLevelLabel {Nivel}
 translate L ReviewCoachOpeningLabel {Deschidere}
 translate L ReviewCoachPhase {se mișcă %d-%d - precizie W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate L ReviewReportMarker {Revizuirea jocului}
-translate L ReviewReportSide {%s: precizie %s%%, ACPL %d, Elo estimat %d}
+translate L ReviewReportSide {%s: precizie %s%%, ACPL %d}
 translate L ReviewReportLabels {%s etichete: %s}
 translate L ReviewReportKeyMoments {Momente cheie: %s}
 translate L ReviewReportPhases {Faze: %s}

@@ -964,6 +964,7 @@ translate Q ReviewVarLines {Варіанти для запису}
 translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
 translate Q ReviewMovetime {Обмеження часу (ms)}
+translate Q ReviewEstimatedRating {оцінка рівня гри (за цією партією)}
 translate Q ReviewOpeningMoves {Розкриття ходів}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
@@ -981,7 +982,7 @@ translate Q ReviewCoachLevelLabel {Рівень}
 translate Q ReviewCoachOpeningLabel {відкриття}
 translate Q ReviewCoachPhase {рухи %d-%d - точність W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate Q ReviewReportMarker {Огляд гри}
-translate Q ReviewReportSide {%s: точність %s%%, ACPL %d, приблизне Elo %d}
+translate Q ReviewReportSide {%s: точність %s%%, ACPL %d}
 translate Q ReviewReportLabels {%s міток: %s}
 translate Q ReviewReportKeyMoments {Ключові моменти: %s}
 translate Q ReviewReportPhases {Фази: %s}
