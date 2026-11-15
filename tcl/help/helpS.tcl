@@ -1213,8 +1213,7 @@ set helpText(S,Annotating) {<h1>Anotar juegos</h1>
   <p>
   scidCommunity te permite agregar notas a los juegos. Hay tres tipos de
   anotación que puedes agregar después de un movimiento: símbolos, un comentario y
-  variaciones. Esta sección describe las anotaciones manuales; consulte la <a
-  Analysis Annotating>Análisis</a> para análisis apoyado por el motor.
+  variaciones. Esta sección describe las anotaciones manuales.
   </p>
   
   <h3>Símbolos y comentarios</h3>
@@ -4559,8 +4558,7 @@ set helpText(S,FindBestMove) {<h1>Entrenamiento: Encuentra el mejor movimiento</
   <p>
   Al anotar partidas con un motor de ajedrez, el motor puede buscar
   Oportunidades tácticas dentro de un juego. Esto se puede lograr estableciendo
-  <term>Ejercicio táctico Mark</term> en el <a
-  Analysis>Anotación</a> ventana accesible desde el análisis. En caso de que un
+  <term>Ejercicio táctico Mark</term>. En caso de que un
   Si se encuentra una oportunidad táctica, scidCommunity marcará el juego con el
   <term>t</term> marcar (Tácticas) y agregar un comentario especial que sea
   evaluados en este ejercicio.
@@ -4973,8 +4971,7 @@ set helpText(S,HardwareConfig) {<h1>Conexión de hardware externo</h1>
   <ul>
      <li><term>Comando del motor</term>: El nombre del programa que se está
      para ser utilizado como motor conductor. Un nombre completo puede ser
-     requerido, como en la configuración de un <name Analysis
-     List>motor de ajedrez</a>. (Por ejemplo, el motor del controlador DGT en un sistema Linux
+     requerido, como en la configuración de un <a Engine>motor de ajedrez</a>. (Por ejemplo, el motor del controlador DGT en un sistema Linux
      El sistema generalmente se llama <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parámetro del motor</term>: El texto indicado en este campo.

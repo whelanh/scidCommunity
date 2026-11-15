@@ -1195,8 +1195,7 @@ set helpText(H,Annotating) {<h1>Játékok megjegyzései </h1>
   <p>
   A scidCommunity segítségével megjegyzéseket fűzhet a játékokhoz. Három típusa van
   megjegyzés, amelyet egy költözés után adhat hozzá: szimbólumok, megjegyzés és
-  variációk. Ez a rész a kézi megjegyzéseket írja le, a motor által támogatott elemzéshez lásd a <a
-  Analysis Annotating>Analysis </a> részt.
+  variációk. Ez a rész a kézi megjegyzéseket írja le.
   </p>
   
   <h3> Szimbólumok és megjegyzések </h3>
@@ -4509,8 +4508,7 @@ set helpText(H,FindBestMove) {<h1> Edzés: Találd meg a legjobb mozgást </h1>
   <p>
   Amikor sakkmotorral ad megjegyzéseket a játékokhoz, a motor kereshet
   taktikai lehetőségek egy játékon belül. Ezt beállítással lehet elérni
-  <term>Jelölje meg a taktikai gyakorlatot </term> az elemzésből elérhető <a
-  Analysis>Annotation</a> ablakban. Abban az esetben, ha a
+  <term>Jelölje meg a taktikai gyakorlatot </term>. Abban az esetben, ha a
   taktikai lehetőséget talál, a scidCommunity ezután megjelöli a játékot a
   <term>T</term> jelölje meg (Tactics), és adjon hozzá egy speciális megjegyzést, amely az
   értékelni ebben a gyakorlatban.
@@ -4921,8 +4919,7 @@ set helpText(H,HardwareConfig) {<h1>Külső hardver csatlakoztatása </h1>
   <ul>
      <li><term>Engine parancs</term>: A program neve
      vezetőmotorként használható. Teljesen minősített név lehet
-     szükséges, mint egy <name Analysis
-     List>sakkmotor </a> konfigurációjában. (Pl. a DGT illesztőprogramja Linuxon
+     szükséges, mint egy <a Engine>sakkmotor </a> konfigurációjában. (Pl. a DGT illesztőprogramja Linuxon
      A rendszert általában <term>dgtdrv2.i686</term> hívják.)
      </li>
      <li><term> Motorparaméter </term>: Az ebben a mezőben megadott szöveg

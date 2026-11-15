@@ -1200,8 +1200,7 @@ set helpText(K,Annotating) {<h1>Jocs d'anotació</h1>
   <p>
   scidCommunity et permet afegir notes als jocs. Hi ha tres tipus de
   anotació que podeu afegir després d'un moviment: símbols, un comentari i
-  variacions. Aquesta secció descriu les anotacions manuals, vegeu el <a
-  Analysis Annotating>Anàlisi</a> per a l'anàlisi amb motor.
+  variacions. Aquesta secció descriu les anotacions manuals.
   </p>
   
   <h3>Símbols i comentaris</h3>
@@ -4531,8 +4530,7 @@ set helpText(K,FindBestMove) {<h1>Formació: troba el millor moviment </h1>
   <p>
   Quan anoteu partides amb un motor d'escacs, el motor pot cercar
   oportunitats tàctiques dins d'un joc. Això es pot aconseguir configurant
-  <term>Marqueu l'exercici tàctic </term> a la finestra <a
-  Analysis>Anotació </a> accessible des de l'anàlisi. En el cas a
+  <term>Marqueu l'exercici tàctic </term>. En el cas a
   es troba una oportunitat tàctica, scidCommunity marcarà el joc amb el
   <term>T</term> marca (Tàctiques) i afegiu un comentari especial que sigui
   avaluat en aquest exercici.
@@ -4944,8 +4942,7 @@ set helpText(K,HardwareConfig) {<h1>Connexió de maquinari extern</h1>
   <ul>
      <li><term>Comandament del motor</term>: El nom del programa que és
      per ser utilitzat com a motor del conductor. Un nom totalment qualificat pot ser
-     necessari, com en la configuració d'a <name Analysis
-     List>motor d'escacs</a>. (Per exemple, el motor del controlador DGT en un Linux
+     necessari, com en la configuració d'a <a Engine>motor d'escacs</a>. (Per exemple, el motor del controlador DGT en un Linux
      generalment s'anomena sistema <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Paràmetre del motor</term>: el text donat en aquest camp

@@ -1197,8 +1197,7 @@ set helpText(U,Annotating) {<h1>Pelien merkitseminen </h1>
   <p>
   scidCommunityn avulla voit lisätä muistiinpanoja peleihin. Niitä on kolmenlaisia
   huomautus, jonka voit lisätä siirron jälkeen: symbolit, kommentti ja
-  muunnelmia. Tässä osiossa kuvataan manuaaliset merkinnät, katso <a
-  Analysis Annotating>Analysis</a> moottorin tukemaa analyysiä varten.
+  muunnelmia. Tässä osiossa kuvataan manuaaliset merkinnät.
   </p>
   
   <h3>Symbolit ja kommentit </h3>
@@ -4512,8 +4511,7 @@ set helpText(U,FindBestMove) {<h1> Harjoittelu: Löydä paras liike </h1>
   <p>
   Kun kirjoitat pelejä shakkimoottorilla, se voi etsiä
   taktiset mahdollisuudet pelissä. Tämä voidaan saavuttaa asettamalla
-  <term>Merkitse taktinen harjoitus </term> <a
-  Analysis>Annotation</a> -ikkunassa, joka on käytettävissä analyysistä. Tapauksessa a
+  <term>Merkitse taktinen harjoitus </term>. Tapauksessa a
   Jos taktinen tilaisuus löytyy, scidCommunity merkitsee pelin
   <term>T</term> -lippu (Tactics) ja lisää erityinen kommentti, joka on
   arvioitu tässä harjoituksessa.
@@ -4924,8 +4922,7 @@ set helpText(U,HardwareConfig) {<h1>Ulkoisen laitteiston liittäminen </h1>
   <ul>
      <li><term> Moottorin komento</term>: Ohjelman nimi, joka on
      käytettäväksi kuljettajan moottorina. Täysin pätevä nimi voi olla
-     vaaditaan, kuten <name Analysis
-     List> shakkimoottorin </a> kokoonpanossa. (Esi. DGT-ohjainmoottori Linuxissa
+     vaaditaan, kuten <a Engine> shakkimoottorin </a> kokoonpanossa. (Esi. DGT-ohjainmoottori Linuxissa
      Järjestelmää kutsutaan yleensä nimellä <term>dgtdrv2.i686</term>.)
      </li>
      <li><term> Moottoriparametri </term>: Tässä kentässä annettu teksti

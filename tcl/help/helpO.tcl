@@ -1194,8 +1194,7 @@ set helpText(O,Annotating) {<h1>Annoteringsspill</h1>
   <p>
   scidCommunity lar deg legge til notater til spill. Det finnes tre typer
   merknad du kan legge til etter et trekk: symboler, en kommentar og
-  variasjoner. Denne delen beskriver manuelle merknader, se <a
-  Analysis Annotating>Analysis</a> for motorstøttet analyse.
+  variasjoner. Denne delen beskriver manuelle merknader.
   </p>
   
   <h3>Symboler og kommentarer</h3>
@@ -4508,8 +4507,7 @@ set helpText(O,FindBestMove) {<h1>Trening: Finn beste trekk</h1>
   <p>
   Når du merker spill med en sjakkmotor, kan motoren søke etter
   taktiske muligheter i et spill. Dette kan oppnås ved å stille inn
-  <term>Merk Tactical Exercise</term> i vinduet <a
-  Analysis>Annotation</a> tilgjengelig fra analyse. I tilfelle a
+  <term>Merk Tactical Exercise</term>. I tilfelle a
   taktisk mulighet er funnet, vil scidCommunity deretter flagge spillet med
   <term>T</term> flagg (Taktikk) og legg til en spesiell kommentar som er
   evaluert i denne øvelsen.
@@ -4921,8 +4919,7 @@ set helpText(O,HardwareConfig) {<h1>Koble til ekstern maskinvare </h1>
   <ul>
      <li><term>Engine-kommando</term>: Navnet på programmet som er
      skal brukes som førermotor. Et fullt kvalifisert navn kan være
-     nødvendig, som i konfigurasjonen av en <name Analysis
-     List>sjakkmotor</a>. (F.eks. DGT-drivermotoren på en Linux
+     nødvendig, som i konfigurasjonen av en <a Engine>sjakkmotor</a>. (F.eks. DGT-drivermotoren på en Linux
      systemet kalles vanligvis <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Motorparameter</term>: Teksten gitt i dette feltet

@@ -1196,8 +1196,7 @@ set helpText(T,Annotating) {<h1>Oyunlara açıklama ekleme</h1>
   <p>
   scidCommunity oyunlara not eklemenizi sağlar. Üç tür vardır
   taşıma sonrasında ekleyebileceğiniz ek açıklamalar: semboller, yorum ve
-  varyasyonlar. Bu bölümde manuel açıklamalar açıklanmaktadır; motor destekli analiz için <a
-  Analysis Annotating>Analiz</a>'e bakın.
+  varyasyonlar. Bu bölümde manuel açıklamalar açıklanmaktadır.
   </p>
   
   <h3>Semboller ve yorumlar</h3>
@@ -4522,8 +4521,7 @@ set helpText(T,FindBestMove) {<h1>Eğitim: En iyi hamleyi bulun</h1>
   <p>
   Bir satranç motoruyla oyunlara açıklama eklerken, motor şunu arayabilir:
   Bir oyundaki taktiksel fırsatlar. Bu, ayarlanarak elde edilebilir
-  <term>Taktik Egzersizi İşaretle</term> içinde <a
-  Analysis>Dipnot</a> Analizden erişilebilen pencere. bir durumda
+  <term>Taktik Egzersizi İşaretle</term>. bir durumda
   Taktiksel bir fırsat bulunursa, scidCommunity oyunu şu şekilde işaretleyecektir:
   <term>T</term> (Taktikler) seçeneğini işaretleyin ve özel bir yorum ekleyin
   Bu alıştırmada değerlendirildi.
@@ -4936,8 +4934,7 @@ set helpText(T,HardwareConfig) {<h1>Harici Donanımı Bağlama</h1>
   <ul>
      <li><term>Motor komutu</term>: Çalıştırılan programın adı
      sürücü motoru olarak kullanılacaktır. Tam nitelikli bir ad olabilir
-     <name Analysis
-     List>satranç motorunun</a> konfigürasyonunda olduğu gibi gereklidir. (Örneğin, Linux'taki DGT sürücü motoru
+     <a Engine>satranç motorunun</a> konfigürasyonunda olduğu gibi gereklidir. (Örneğin, Linux'taki DGT sürücü motoru
      sistem genellikle <term>dgtdrv2.i686</term> olarak adlandırılır.)
      </li>
      <li><term>Motor parametresi</term>: Bu alanda verilen metin

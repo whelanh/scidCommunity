@@ -1196,8 +1196,7 @@ set helpText(W,Annotating) {<h1>Anteckningsspel</h1>
   <p>
   scidCommunity låter dig lägga till anteckningar till spel. Det finns tre typer av
   anteckning som du kan lägga till efter ett drag: symboler, en kommentar och
-  variationer. Det här avsnittet beskriver manuella kommentarer, se <a
-  Analysis Annotating>Analysis</a> för motorstödd analys.
+  variationer. Det här avsnittet beskriver manuella kommentarer.
   </p>
   
   <h3>Symboler och kommentarer</h3>
@@ -4510,8 +4509,7 @@ set helpText(W,FindBestMove) {<h1>Träning: Hitta bästa drag</h1>
   <p>
   När du kommenterar spel med en schackmotor kan motorn söka efter
   taktiska möjligheter i ett spel. Detta kan uppnås genom att ställa in
-  <term>Markera Tactical Exercise</term> i fönstret <a
-  Analysis>Annotation</a> tillgängligt från analys. I fall a
+  <term>Markera Tactical Exercise</term>. I fall a
   taktisk möjlighet hittas, kommer scidCommunity sedan flagga spelet med
   <term>T</term> flagga (Taktik) och lägg till en speciell kommentar dvs
   utvärderas i denna övning.
@@ -4923,8 +4921,7 @@ set helpText(W,HardwareConfig) {<h1>Ansluta extern hårdvara </h1>
   <ul>
      <li><term>Engine-kommando</term>: Namnet på programmet som är
      att användas som förarmotor. Ett fullt kvalificerat namn kan vara
-     krävs, som i konfigurationen av en <name Analysis
-     List>schackmotor</a>. (T.ex. DGT-drivrutinmotorn på en Linux
+     krävs, som i konfigurationen av en <a Engine>schackmotor</a>. (T.ex. DGT-drivrutinmotorn på en Linux
      systemet kallas vanligtvis <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Motorparameter</term>: Texten i detta fält

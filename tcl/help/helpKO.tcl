@@ -1196,8 +1196,7 @@ set helpText(k,Annotating) {<h1>게임에 주석 달기</h1>
   <p>
   scidCommunity를 사용하면 게임에 메모를 추가할 수 있습니다. 세 가지 유형이 있습니다.
   이동 후 추가할 수 있는 주석: 기호, 주석 및
-  변형. 이 섹션에서는 수동 주석에 대해 설명합니다. 엔진 지원 분석은 <a
-  Analysis Annotating>Analytics</a>를 참조하세요.
+  변형. 이 섹션에서는 수동 주석에 대해 설명합니다.
   </p>
   
   <h3>기호 및 설명</h3>
@@ -3156,9 +3155,7 @@ set helpText(k,Analysis) {<h1>The Analysis window has been retired</h1>
 set helpTitle(k,Engine) "Engine windows"
 set helpText(k,Engine) {<h1>The Engine windows</h1>
   <p>
-  The Engine windows provide real-time analysis from chess engines. 그들은 
-  differ from the Analysis window by including evaluation charts, stored 
-  cloud evaluations, and engine configuration panels. Up to two engine 
+  The Engine windows provide real-time analysis from chess engines. Up to two engine 
   windows can run simultaneously.
   </p>
   <p>
@@ -3244,9 +3241,7 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <li> <b>acs</b> Analysis count: search time in seconds.</li>
   <li> <b>bm</b> Best moves: move(s) judged best for some reason.</li>
   <li> <b>ce</b> Centipawn evaluation: evaluation in hundredths of a
-  pawn from the perspective of the <b>side to move</b> -- note this
-  differs from the Analysis window which shows evaluations in pawns from
-  Whites perspective. </li>
+  pawn from the perspective of the <b>side to move</b>. </li>
   <li> <b>cX</b> Comment (where <b>X</b> is a digit, 0-9).</li>
   <li> <b>eco</b> <a ECO>ECO</a> system opening code.</li>
   <li> <b>id</b> Unique Identification for this position.</li>
@@ -3290,9 +3285,7 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   EPD-files can be automatically annotated by selecting Tools /
   Annotate position. The upcoming dialogue asks for the time that
   should be used for the analysis, then the <a Engine Configure>engine
-  list</a> is opened for selection of an engine to be used. <b>Note</b> If an
-  analysis window is already opened, the analysis is done using this
-  engine without asking the user beforehand. Then the engine is
+  list</a> is opened for selection of an engine to be used. Then the engine is
   started and the result added to the EPD. The EPD tags used are :
   acd, acn, ce and pv.
   </p>
@@ -4520,8 +4513,7 @@ set helpText(k,FindBestMove) {<h1>훈련: 최선의 움직임 찾기</h1>
   <p>
   체스 엔진으로 게임에 주석을 달 때 엔진은 다음을 검색할 수 있습니다.
   게임 내 전술적 기회. 이는 설정을 통해 달성할 수 있습니다.
-  <term>마크 전술훈련</term> 에서 <a
-  Analysis>주석</a> 분석에서 액세스할 수 있는 창입니다. 경우에
+  <term>마크 전술훈련</term>. 경우에
   전술적 기회가 발견되면 scidCommunity는 다음과 같이 게임에 플래그를 지정합니다.
   <term>티</term> 플래그(Tactics)를 지정하고 다음과 같은 특별 설명을 추가합니다.
   이 연습에서는 평가됩니다.
@@ -4934,8 +4926,7 @@ set helpText(k,HardwareConfig) {<h1>외부 하드웨어 연결</h1>
   <ul>
      <li><term>엔진 명령</term>: 프로그램 이름
      드라이버 엔진으로 사용됩니다. 정규화된 이름은 다음과 같을 수 있습니다.
-     <name Analysis
-     List>체스 엔진</a> 구성과 같이 필요합니다. (예: Linux의 DGT 드라이버 엔진
+     <a Engine>체스 엔진</a> 구성과 같이 필요합니다. (예: Linux의 DGT 드라이버 엔진
      시스템은 일반적으로 <term>dgtdrv2.i686</term>이라고 합니다.)
      </li>
      <li><term>엔진 매개변수</term>: 이 필드에 제공되는 텍스트

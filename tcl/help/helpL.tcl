@@ -1199,8 +1199,7 @@ set helpText(L,Annotating) {<h1>Jocuri de adnotare</h1>
   <p>
   scidCommunity vă permite să adăugați note la jocuri. Există trei tipuri de
   adnotare pe care o puteți adăuga după o mutare: simboluri, un comentariu și
-  variatii. Această secțiune descrie adnotările manuale, consultați <a
-  Analysis Annotating>Analiză</a> pentru analiza suportată de motor.
+  variatii. Această secțiune descrie adnotările manuale.
   </p>
   
   <h3>Simboluri și comentarii</h3>
@@ -4526,8 +4525,7 @@ set helpText(L,FindBestMove) {<h1> Antrenament: Găsiți cea mai bună mișcare 
   <p>
   Atunci când adnotează jocuri cu un motor de șah, motorul poate căuta
   oportunități tactice în cadrul unui joc. Acest lucru se poate realiza prin setare
-  <term>Marcați exercițiul tactic </term> în fereastra <a
-  Analysis>Adnotare </a> accesibilă din analiză. În cazul a
+  <term>Marcați exercițiul tactic </term>. În cazul a
   oportunitate tactică este găsită, scidCommunity va semnaliza apoi jocul cu
   <term>T</term> flag (Tactică) și adăugați un comentariu special care este
   evaluate în acest exercițiu.
@@ -4939,8 +4937,7 @@ set helpText(L,HardwareConfig) {<h1>Conectarea hardware-ului extern</h1>
   <ul>
      <li><term>Comanda motorului</term>: Numele programului care este
      pentru a fi folosit ca motor de șofer. Un nume complet calificat poate fi
-     necesar, ca în configurația unui <name Analysis
-     List>motor de șah</a>. (De exemplu, motorul de driver DGT pe un Linux
+     necesar, ca în configurația unui <a Engine>motor de șah</a>. (De exemplu, motorul de driver DGT pe un Linux
      sistem este de obicei numit <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametrul motorului</term>: Textul dat în acest câmp

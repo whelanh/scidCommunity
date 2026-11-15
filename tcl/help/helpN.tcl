@@ -1195,8 +1195,7 @@ set helpText(N,Annotating) {<h1>Annoteren van spellen</h1>
   <p>
   Met scidCommunity kun je notities aan games toevoegen. Er zijn drie soorten
   annotatie die u na een zet kunt toevoegen: symbolen, een commentaar, en
-  variaties. In dit gedeelte worden handmatige annotaties beschreven. Zie de <a
-  Analysis Annotating>Analyse</a> voor door de engine ondersteunde analyses.
+  variaties. In dit gedeelte worden handmatige annotaties beschreven.
   </p>
   
   <h3>Symbolen en opmerkingen</h3>
@@ -4510,8 +4509,7 @@ set helpText(N,FindBestMove) {<h1>Training: Vind de beste zet </h1>
   <p>
   Bij het annoteren van partijen met een schaakengine kan de engine zoeken naar
   tactische mogelijkheden binnen een spel. Dit kan worden bereikt door instelling
-  <term> Markeer tactische oefening </term> in het venster <a
-  Analysis> Annotatie </a> dat toegankelijk is via analyse. In het geval een
+  <term> Markeer tactische oefening </term>. In het geval een
   tactische mogelijkheid wordt gevonden, zal scidCommunity het spel vervolgens markeren met de
   <term>T</term> vlag (Tactiek) en voeg een speciale opmerking toe
   geëvalueerd in deze oefening.
@@ -4922,8 +4920,7 @@ set helpText(N,HardwareConfig) {<h1>Externe hardware aansluiten </h1>
   <ul>
      <li><term>Motoropdracht</term>: De naam van het programma dat
      te gebruiken als aandrijfmotor. Een volledig gekwalificeerde naam kan dat zijn
-     vereist, zoals in de configuratie van een <name Analysis
-     List>schaakengine </a>. (Bijvoorbeeld de DGT-stuurprogramma-engine op een Linux
+     vereist, zoals in de configuratie van een <a Engine>schaakengine </a>. (Bijvoorbeeld de DGT-stuurprogramma-engine op een Linux
      systeem heet gewoonlijk <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Motorparameter</term>: De tekst die in dit veld wordt gegeven

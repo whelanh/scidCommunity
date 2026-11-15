@@ -1199,8 +1199,7 @@ set helpText(M,Annotating) {<h1>注释游戏</h1>
   <p>
   scidCommunity 允许您向游戏添加注释。有以下三种类型
   您可以在移动后添加注释：符号、注释和
-  变化。本节介绍手动注释，请参阅 <a
-  Analysis Annotating>分析</a> 用于引擎支持的分析。
+  变化。本节介绍手动注释。
   </p>
   
   <h3>符号和注释</h3>
@@ -4548,8 +4547,7 @@ set helpText(M,FindBestMove) {<h1>训练：寻找最佳动作</h1>
   <p>
   当用国际象棋引擎注释游戏时，引擎可以搜索
   游戏中的战术机会。这可以通过设置来实现
-  <term>马克战术演习</term> 在 <a
-  Analysis>注解</a> 可从分析中访问窗口。如果有
+  <term>马克战术演习</term>。如果有
   找到战术机会后，scidCommunity 将使用以下标记标记游戏
   <term>时间</term> 标记（战术）并添加特殊注释，即
   在此练习中进行评估。
@@ -4966,8 +4964,7 @@ set helpText(M,HardwareConfig) {<h1>连接外部硬件</h1>
   <ul>
      <li><term>发动机指令</term>: 程序的名称
      用作驱动引擎。完全限定名称可能是
-     必需的，就像在配置中一样 <name Analysis
-     List>国际象棋引擎</a>。 （例如 Linux 上的 DGT 驱动程序引擎
+     必需的，就像在配置中一样 <a Engine>国际象棋引擎</a>。 （例如 Linux 上的 DGT 驱动程序引擎
      系统通常被称为 <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>发动机参数</term>：该字段中给出的文本

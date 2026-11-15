@@ -1195,8 +1195,7 @@ set helpText(D,Annotating) {<h1>Spiele kommentieren</h1>
   <p>
   Mit scidCommunity können Sie Notizen zu Spielen hinzufügen. Es gibt drei Arten von
   Anmerkung, die Sie nach einer Verschiebung hinzufügen können: Symbole, ein Kommentar und
-  Variationen. In diesem Abschnitt werden manuelle Anmerkungen beschrieben, siehe <a
-  Analysis Annotating>Analyse</a> zur motorgestützten Analyse.
+  Variationen. In diesem Abschnitt werden manuelle Anmerkungen beschrieben.
   </p>
   
   <h3>Symbole und Kommentare</h3>
@@ -4512,8 +4511,7 @@ set helpText(D,FindBestMove) {<h1>Training: Den besten Zug finden</h1>
   <p>
   Beim Kommentieren von Partien mit einer Schach-Engine kann die Engine nach suchen
   taktische Möglichkeiten innerhalb eines Spiels. Dies kann durch Einstellen erreicht werden
-  <term> Markieren Sie die taktische Übung </term> im Fenster <a
-  Analysis> Anmerkung </a>, auf das Sie über die Analyse zugreifen können. Im Fall a
+  <term> Markieren Sie die taktische Übung </term>. Im Fall a
   Wird eine taktische Gelegenheit gefunden, markiert scidCommunity das Spiel dann mit dem
   <term>T</term> Flag (Taktik) und fügen Sie einen speziellen Kommentar hinzu
   in dieser Übung ausgewertet.
@@ -4925,8 +4923,7 @@ set helpText(D,HardwareConfig) {<h1>Anschließen externer Hardware</h1>
   <ul>
      <li><term>Engine-Befehl</term>: Der Name des Programms, das ausgeführt wird
      als Antriebsmotor verwendet werden. Ein vollständig qualifizierter Name kann sein
-     erforderlich, wie bei der Konfiguration einer <name Analysis
-     List>Schach-Engine</a>. (Zum Beispiel die DGT-Treiber-Engine unter Linux
+     erforderlich, wie bei der Konfiguration einer <a Engine>Schach-Engine</a>. (Zum Beispiel die DGT-Treiber-Engine unter Linux
      Das System heißt normalerweise <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Motorparameter</term>: Der in diesem Feld angegebene Text

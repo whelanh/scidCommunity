@@ -1200,8 +1200,7 @@ set helpText(F,Annotating) {<h1>Annotation de jeux</h1>
   <p>
   scidCommunity vous permet d'ajouter des notes aux jeux. Il existe trois types de
   annotation que vous pouvez ajouter après un déplacement : des symboles, un commentaire et
-  variantes. Cette section décrit les annotations manuelles, voir <a
-  Analysis Annotating>Analysis</a> pour l'analyse prise en charge par le moteur.
+  variantes. Cette section décrit les annotations manuelles.
   </p>
   
   <h3>Symboles et commentaires </h3>
@@ -4530,8 +4529,7 @@ set helpText(F,FindBestMove) {<h1>Entraînement : Trouver le meilleur coup </h
   <p>
   Lors de l'annotation de parties avec un moteur d'échecs, le moteur peut rechercher
   opportunités tactiques au cours d’un match. Ceci peut être réalisé en définissant
-  <term>Marquer l'exercice tactique </term> dans la fenêtre <a
-  Analysis>Annotation</a> accessible depuis l'analyse. Dans le cas où un
+  <term>Marquer l'exercice tactique </term>. Dans le cas où un
   une opportunité tactique est trouvée, scidCommunity signalera alors le jeu avec le
   <term>T</term> (Tactics) et ajoutez un commentaire spécial qui est
   évalués dans cet exercice.
@@ -4944,8 +4942,7 @@ set helpText(F,HardwareConfig) {<h1>Connexion de matériel externe</h1>
   <ul>
      <li><term>Commande moteur</term>: Le nom du programme qui est
      à utiliser comme moteur d'entraînement. Un nom pleinement qualifié peut être
-     requis, comme dans la configuration d'un <name Analysis
-     List>moteur d'échecs</a>. (Par exemple, le moteur du pilote DGT sur un Linux
+     requis, comme dans la configuration d'un <a Engine>moteur d'échecs</a>. (Par exemple, le moteur du pilote DGT sur un Linux
      le système est généralement appelé <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Paramètre moteur</term>: Le texte donné dans ce champ

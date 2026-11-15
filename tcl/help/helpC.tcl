@@ -1198,8 +1198,7 @@ set helpText(C,Annotating) {<h1>Anotování her </h1>
   <p>
   scidCommunity vám umožňuje přidávat poznámky ke hrám. Existují tři typy
   anotace, kterou můžete přidat po přesunu: symboly, komentář a
-  variace. Tato část popisuje ruční anotace, viz <a
-  Analysis Annotating>Analýza</a> pro analýzu podporovanou motorem.
+  variace. Tato část popisuje ruční anotace.
   </p>
   
   <h3>Symboly a komentáře </h3>
@@ -4519,8 +4518,7 @@ set helpText(C,FindBestMove) {<h1>Trénink: Najděte nejlepší pohyb </h1>
   <p>
   Při anotování partií pomocí šachového motoru může engine hledat
   taktické příležitosti ve hře. Toho lze dosáhnout nastavením
-  <term>Označte taktické cvičení</term> v okně <a
-  Analysis>Anotace</a> přístupném z analýzy. V případě a
+  <term>Označte taktické cvičení</term>. V případě a
   je nalezena taktická příležitost, scidCommunity pak hru označí
   <term>T</term> příznak (Taktika) a přidejte speciální komentář, který je
   hodnoceno v tomto cvičení.
@@ -4931,8 +4929,7 @@ set helpText(C,HardwareConfig) {<h1>Připojení externího hardwaru </h1>
   <ul>
      <li><term>Engine command</term>: Název programu, který je
      být použit jako hnací motor. Plně kvalifikovaný název může být
-     vyžadováno, jako v konfiguraci <name Analysis
-     List> šachového motoru </a>. (Např. motor ovladače DGT v systému Linux
+     vyžadováno, jako v konfiguraci <a Engine> šachového motoru </a>. (Např. motor ovladače DGT v systému Linux
      systém se obvykle nazývá <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametr motoru </term>: Text uvedený v tomto poli

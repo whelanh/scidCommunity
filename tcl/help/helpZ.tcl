@@ -1198,8 +1198,7 @@ set helpText(Z,Annotating) {<h1>Michezo ya ufafanuzi</h1>
   <p>
   scidCommunity inakuwezesha kuongeza maelezo kwenye michezo. Kuna aina tatu za
   maelezo unaweza kuongeza baada ya hoja: ishara, maoni, na
-  tofauti. Sehemu hii inaeleza maelezo ya mwongozo, angalia <a
-  Analysis Annotating>Uchambuzi</a> kwa uchanganuzi unaotumika na injini.
+  tofauti. Sehemu hii inaeleza maelezo ya mwongozo.
   </p>
   
   <h3>Alama na maoni</h3>
@@ -4526,8 +4525,7 @@ set helpText(Z,FindBestMove) {<h1>Mafunzo: Tafuta hatua bora</h1>
   <p>
   Wakati wa kufafanua michezo na injini ya chess, injini inaweza kutafuta
   fursa za mbinu ndani ya mchezo. Hii inaweza kupatikana kwa kuweka
-  <term>Weka Mazoezi ya Mbinu</term> katika dirisha la <a
-  Analysis>Ufafanuzi</a> linaloweza kufikiwa kutokana na uchanganuzi. Katika kesi a
+  <term>Weka Mazoezi ya Mbinu</term>. Katika kesi a
   fursa ya mbinu imepatikana, scidCommunity basi itaalamisha mchezo na
   <term>T</term> bendera (Mbinu) na uongeze maoni maalum ambayo ni
   tathmini katika zoezi hili.
@@ -4938,8 +4936,7 @@ set helpText(Z,HardwareConfig) {<h1>Kuunganisha Vifaa vya Nje</h1>
   <ul>
      <li><term>Amri ya injini</term>: Jina la programu ambayo ni
      kutumika kama injini ya dereva. Jina lililohitimu kikamilifu linaweza kuwa
-     inahitajika, kama katika usanidi wa a <name Analysis
-     List>injini ya chess</a>. (Mfano injini ya kiendeshi ya DGT kwenye Linux
+     inahitajika, kama katika usanidi wa a <a Engine>injini ya chess</a>. (Mfano injini ya kiendeshi ya DGT kwenye Linux
      mfumo kawaida huitwa <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Kigezo cha injini</term>: Maandishi yaliyotolewa katika uwanja huu

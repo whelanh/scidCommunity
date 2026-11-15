@@ -1200,8 +1200,7 @@ set helpText(I,Annotating) {<h1>Giochi di annotazione</h1>
   <p>
   scidCommunity ti consente di aggiungere note ai giochi. Ne esistono tre tipi
   annotazione che puoi aggiungere dopo uno spostamento: simboli, un commento e
-  variazioni. Questa sezione descrive le annotazioni manuali, vedere <a
-  Analysis Annotating>Analisi</a> per l'analisi supportata dal motore.
+  variazioni. Questa sezione descrive le annotazioni manuali.
   </p>
   
   <h3>Simboli e commenti</h3>
@@ -4531,8 +4530,7 @@ set helpText(I,FindBestMove) {<h1>Allenamento: trova la mossa migliore</h1>
   <p>
   Quando si annotano partite con un motore scacchistico, il motore può cercare
   opportunità tattiche all’interno di una partita. Ciò può essere ottenuto impostando
-  <term>Segna Esercizio tattico</term> nella finestra <a
-  Analysis>Annotazione</a> accessibile dall'analisi. Nel caso a
+  <term>Segna Esercizio tattico</term>. Nel caso a
   viene trovata un'opportunità tattica, scidCommunity contrassegnerà quindi il gioco con il file
   <term>T</term> flag (Tattica) e aggiungi un commento speciale
   valutato in questo esercizio.
@@ -4945,8 +4943,7 @@ set helpText(I,HardwareConfig) {<h1>Collegamento di hardware esterno</h1>
   <ul>
      <li><term>Comando del motore</term>: Il nome del programma
      da utilizzare come motore di guida. Potrebbe essere un nome completo
-     richiesto, come nella configurazione di a <name Analysis
-     List>motore degli scacchi</a>. (Ad esempio il motore del driver DGT su un sistema Linux
+     richiesto, come nella configurazione di a <a Engine>motore degli scacchi</a>. (Ad esempio il motore del driver DGT su un sistema Linux
      viene solitamente chiamato sistema <term>dgtdrv2.i686</term>.)
      </li>
      <li><term>Parametro del motore</term>: il testo fornito in questo campo
