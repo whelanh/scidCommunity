@@ -347,7 +347,7 @@ proc ::reviewprogress::commitMoves {game moves {note ""}} {
         set cursor [::review::cursorSave]
         sc_move end
         foreach uci $moves {
-            if {[::uci::sc_move_add $uci]} {
+            if {[::ucifmt::sc_move_add $uci]} {
                 set out "the move $uci was rejected"
                 break
             }

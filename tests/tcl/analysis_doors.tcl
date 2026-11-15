@@ -102,6 +102,48 @@ checkEq "no UI file calls makeAnalysisWin" $callers {}
 checkEq "tcl/tools/analysis.tcl is gone" \
     [file exists [file join $root tcl tools analysis.tcl]] 0
 
+# #437 §6 deleted the old pipe engine mode and the three formatting wrappers it
+# kept while the tree moved off them. The ::uci NAMESPACE stays: enginecomm.tcl's
+# four procs are the UCI protocol handler the engine windows speak, dispatched
+# beside the xboard ones. So this pins the split rather than banning the name —
+# every ::uci:: reference left has to be one of those four, or the one-time
+# options migration that reads a pre-#437 file's saved clock.
+checkEq "tcl/tools/uci.tcl is gone" \
+    [file exists [file join $root tcl tools uci.tcl]] 0
+
+set handler {parseline sendOptions sendNewGame sendGo}
+set uciLeft {}
+foreach file [tclFiles [file join $root tcl]] {
+    if {[string match */lang/* $file]} { continue }
+    set text [readText $file]
+    set short [string range $file [string length $root] end]
+    foreach {- name} [regexp -all -inline {::uci::([A-Za-z0-9_]+)} $text] {
+        if {$name ni $handler && $name ne "uciInfo"} {
+            lappend uciLeft "$short ::uci::$name"
+        }
+    }
+}
+checkEq "no ::uci:: name but the protocol handler and the saved-clock reader" \
+    [lsort -unique $uciLeft] {}
+
+# The formatters moved, and they moved somewhere that is loaded: a caller with
+# the module missing from start.tcl is the same runtime error, one file away.
+set fmtText [readText [file join $root tcl tools uci_format.tcl]]
+foreach proc {sc_move_add formatPv formatPvAfterMoves} {
+    check "::ucifmt::$proc is defined in tcl/tools/uci_format.tcl" \
+        [expr {[string first "proc ::ucifmt::$proc " $fmtText] >= 0}]
+}
+set startText [readText [file join $root tcl start.tcl]]
+check "and start.tcl sources that module" \
+    [expr {[string first "tools/uci_format.tcl" $startText] >= 0}]
+# EPD's caller is behind an `info commands` guard; the guard must name the
+# module that exists, or the SAN fallback silently stops being taken.
+set epdText [readText [file join $root tcl tools epd_analysis.tcl]]
+check "EPD's formatter guard names ::ucifmt::formatPv" \
+    [expr {[string first "info commands ::ucifmt::formatPv" $epdText] >= 0}]
+check "and EPD calls it" \
+    [expr {[string first {[::ucifmt::formatPv $pv $fen]} $epdText] >= 0}]
+
 # The procs the deletion took: everything analysis.tcl defined, plus the ones
 # that shared its ::analysis(...) array (the old pipe mode in uci.tcl, the
 # WinBoard detector). A call to one of them is a runtime error where the user

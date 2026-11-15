@@ -103,11 +103,19 @@ checkEq "with the best move in SAN" [dict get $::result best_san] e5
 checkEq "the PV in SAN" [dict get $::result pv_san] {e5 d5}
 # The UCI display formatter numbers a Black move ("1...e5"); EPD and the report
 # want plain SAN. coordToSAN is preferred, so the formatter cannot leak a move
-# number into best_san or the pv opcode.
-namespace eval uci {}
-proc ::uci::formatPv {pv fen} { return "1...e5 2.d5" }
+# number into best_san or the pv opcode. The stub is the module that owns the
+# formatter since #437 §6 (tcl/tools/uci_format.tcl).
+namespace eval ::ucifmt {}
+proc ::ucifmt::formatPv {pv fen} { return "1...e5 2.d5" }
 checkEq "the PV stays plain SAN, not the numbered display line" \
     [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
+# ... and the fallback is real: with coordToSAN unavailable (the position has no
+# board, exactly the case the guard is for) pvSAN goes through the formatter, so
+# the guard has to name the module the formatter actually lives in.
+rename sc_pos ::real_sc_pos
+checkEq "with no coordToSAN the ::ucifmt fallback is taken" \
+    [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
+rename ::real_sc_pos sc_pos
 checkEq "a single move loses its scoresheet number" \
     [::epdanalysis::sanMove $fen d7d5] d5
 checkEq "the depth" [dict get $::result depth] 20

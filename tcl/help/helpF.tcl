@@ -25,7 +25,6 @@ set helpText(F,Contents) {<h1>Contenu de l'aide de la communauté scid</h1>
   
   <h4>Autres fenêtres scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Analyse</b> fenêtre</a></li>
   <li><a Engine><b>Moteur</b> fenêtres</a></li>
   <li><a Book><b>Livre</b> fenêtre</a></li>
   <li><a Comment><b>Éditeur de commentaires</b> fenêtre</a></li>
@@ -74,7 +73,6 @@ set helpText(F,Index) {<h1>index des rubriques d'aide de la communauté scid</h1
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Fenêtre d'analyse</a></li>
   <li><a Annotating>Annotation de jeux</a></li>
   <li><a NAGs>Symboles d'annotation</a></li>
   <li><a Author>Auteur, contactant</a></li>
@@ -764,7 +762,6 @@ set helpText(F,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2445,34 +2442,6 @@ set helpText(F,PGNAutoComment) {<h1>Fenêtre PGN : bouton de commentaire automa
 }
 
 
-set helpTitle(F,AnalysisAutoComment) "Bouton de commentaire automatique"
-set helpText(F,AnalysisAutoComment) {<h1>Fenêtre d'analyse : bouton de commentaire automatique </h1>
-  <p>
-  Le bouton <b> Commentaire automatique </b> dans la fenêtre <a Engine> Moteur d'analyse </a> vous permet de
-  générer automatiquement des commentaires IA pour un jeu entier en mode batch.
-  </p>
-  
-  <h3>Comment ça marche</h3>
-  <p>
-  Lorsque vous cliquez sur le bouton, scidCommunity analyse l'intégralité du jeu à la recherche de mouvements annotés.
-  (se déplace avec les NAG ou les commentaires existants). Pour chacun de ces mouvements, il :
-  <ul>
-  <li> Récupère les évaluations cloud pour le contexte </li>
-  <li> Utilise toutes les variantes PGN existantes comme lignes de moteur « Ground Truth » </li>
-  <li> Interroge l'IA pour expliquer pourquoi la ligne recommandée est la meilleure ou pourquoi le coup joué était une erreur </li>
-  <li>Ajoute le commentaire généré aux commentaires existants du mouvement </li>
-  </ul>
-  </p>
-  
-  <h3>Utilisation </h3>
-  <p>
-  Cette fonctionnalité est idéale pour ajouter rapidement des notes pédagogiques à un jeu que vous avez déjà joué.
-  analysé avec un moteur. Il respecte vos variations locales, garantissant ainsi à l'IA
-  les explications correspondent à votre analyse spécifique du moteur.
-  </p>
-  
-  <p><footer>(Mise à jour : scidCommunity, mars 2026)</footer></p>
-}
 
 
 set helpTitle(F,PTracker) "Suivi des pièces"

@@ -25,7 +25,6 @@ set helpText(S,Contents) {<h1>Contenido de la ayuda de la comunidad scid</h1>
   
   <h4>Otras ventanas de scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Análisis</b> ventana</a></li>
   <li><a Engine><b>Motor</b> ventanas</a></li>
   <li><a Book><b>Libro</b> ventana</a></li>
   <li><a Comment><b>editor de comentarios</b> ventana</a></li>
@@ -74,7 +73,6 @@ set helpText(S,Index) {<h1>scidÍndice de temas de ayuda de la comunidad</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Ventana de análisis</a></li>
   <li><a Annotating>Anotar juegos</a></li>
   <li><a NAGs>Símbolos de anotación</a></li>
   <li><a Author>Autor, contactando</a></li>
@@ -764,7 +762,6 @@ set helpText(S,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2473,34 +2470,6 @@ set helpText(S,PGNAutoComment) {<h1>Ventana PGN: Botón de comentario automátic
 }
 
 
-set helpTitle(S,AnalysisAutoComment) "Botón de comentario automático"
-set helpText(S,AnalysisAutoComment) {<h1>Ventana de análisis: Botón de comentario automático </h1>
-  <p>
-  El botón <b> Comentario automático </b> en la ventana <a Engine> Motor de análisis </a> le permite
-  Genera automáticamente comentarios de IA para un juego completo en modo por lotes.
-  </p>
-  
-  <h3>Cómo funciona</h3>
-  <p>
-  Cuando haces clic en el botón, scidCommunity escanea todo el juego en busca de movimientos anotados.
-  (se mueve con NAG o comentarios existentes). Para cada uno de esos movimientos,:
-  <ul>
-  <li> Recupera evaluaciones de la nube para contexto </li>
-  <li>Utiliza cualquier variación de PGN existente como líneas de motor "Ground Truth" </li>
-  <li> Consulta a la IA para explicar por qué la línea recomendada es la mejor o por qué el movimiento realizado fue un error </li>
-  <li> Agrega el comentario generado a los comentarios existentes del movimiento </li>
-  </ul>
-  </p>
-  
-  <h3>Uso</h3>
-  <p>
-  Esta característica es ideal para agregar rápidamente notas educativas a un juego que ya has
-  analizado con un motor. Respeta tus variaciones locales, asegurando que la IA
-  Las explicaciones se alinean con el análisis de su motor específico.
-  </p>
-  
-  <p><footer>(Actualizado: scidCommunity, marzo de 2026)</footer></p>
-}
 
 
 set helpTitle(S,PTracker) "Rastreador de piezas"

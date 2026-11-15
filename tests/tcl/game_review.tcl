@@ -503,7 +503,7 @@ proc fakeCurrentPos {{id ""}} {
     foreach m $path { append s " " $m }
     return $s
 }
-# A move added by ::uci::sc_move_add: the fresh variation node becomes it and
+# A move added by ::ucifmt::sc_move_add: the fresh variation node becomes it and
 # the cursor moves onto it, so every later move is the next in that variation.
 proc fakeAddMove {m} {
     set id $::fakeCur
@@ -713,7 +713,7 @@ proc sc_game {args} {
     }
     return ""
 }
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves
@@ -933,14 +933,14 @@ check "with a null move nothing is dropped" \
 
 puts "a rejected variation move is a refusal"
 
-# ::uci::sc_move_add answers 1 when the game refuses a move. Half a line is not a
+# ::ucifmt::sc_move_add answers 1 when the game refuses a move. Half a line is not a
 # line: the variation is deleted and the refusal is reported, so a caller that
 # counts successful writes does not count a partial one.
 ::review::reset
 ::review::setValue var_lines 1
 fakeBoard {m1 m2 m3 pvBest m5}
 fakeGoto 5
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves
@@ -955,7 +955,7 @@ check "the half-written variation is deleted, not left behind" \
     [expr {[lsearch -exact $::calls {var delete}] >= 0}] $::calls
 check "the comment still landed with its \[%eval\]" \
     [string match {*%eval*} [fakeGet [fakeAtPly 4] comment]]
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves
@@ -1411,7 +1411,7 @@ fakeBoard {e2e4 e7e5 g1f3 b8c6 f1b5 a7a6}
 set var [fakeVariation [fakeAtPly 3] {c7c5 g1f3 d7d6}]
 fakeCursorAt [lindex $var 2]
 set map [::review::currentLineMap]
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves
@@ -1428,7 +1428,7 @@ check "the half-written variation is deleted, not left behind" \
 checkEq "nothing is left at index-1" [fakeGet [lindex $var 1] vars] {}
 check "the verdict comment still landed" \
     [string match {*\[blunder\]*} [fakeGet [lindex $var 2] comment]]
-namespace eval ::uci {
+namespace eval ::ucifmt {
     proc sc_move_add {moves} {
         lappend ::calls [list add $moves]
         fakeAddMove $moves

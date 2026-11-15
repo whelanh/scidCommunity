@@ -25,7 +25,6 @@ set helpText(G,Contents) {<h1>Περιεχόμενα βοήθειας scidCommun
   
   <h4>Άλλα παράθυρα scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Ανάλυση</b> παράθυρο</a></li>
   <li><a Engine><b>Μηχανή</b> παράθυρα</a></li>
   <li><a Book><b>Βιβλίο</b> παράθυρο</a></li>
   <li><a Comment><b>Επεξεργαστής σχολίων</b> παράθυρο</a></li>
@@ -74,7 +73,6 @@ set helpText(G,Index) {Ευρετήριο θέματος βοήθειας <h1>sc
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Παράθυρο ανάλυσης</a></li>
   <li><a Annotating>Παιχνίδια σχολιασμού</a></li>
   <li><a NAGs>Σύμβολα σχολιασμού</a></li>
   <li><a Author>Συγγραφέας, επικοινωνία</a></li>
@@ -764,7 +762,6 @@ set helpText(G,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2444,34 +2441,6 @@ set helpText(G,PGNAutoComment) {Παράθυρο <h1>PGN: Κουμπί αυτό�
 }
 
 
-set helpTitle(G,AnalysisAutoComment) "Κουμπί αυτόματου σχολίου"
-set helpText(G,AnalysisAutoComment) {<h1>Παράθυρο ανάλυσης: Κουμπί αυτόματου σχολίου</h1>
-  <p>
-  Το κουμπί <b>Auto Comment</b> στο παράθυρο <a Engine>Engine Window</a> σάς επιτρέπει να
-  δημιουργεί αυτόματα σχόλια τεχνητής νοημοσύνης για ένα ολόκληρο παιχνίδι σε batch mode.
-  </p>
-  
-  <h3> Πώς λειτουργεί </h3>
-  <p>
-  Όταν κάνετε κλικ στο κουμπί, το scidCommunity σαρώνει ολόκληρο το παιχνίδι για σχολιασμένες κινήσεις
-  (μετακινείται με NAG ή υπάρχοντα σχόλια). Για κάθε τέτοια κίνηση, αυτό:
-  <ul>
-  <li>Ανακτά αξιολογήσεις cloud για το περιβάλλον</li>
-  <li>Χρησιμοποιεί τυχόν υπάρχουσες παραλλαγές PGN ως γραμμές κινητήρα "Ground Truth" </li>
-  <li> Ζητάει από το AI για να εξηγήσει γιατί η προτεινόμενη γραμμή είναι η καλύτερη ή γιατί η κίνηση που παίχτηκε ήταν σφάλμα </li>
-  <li> Προσθέτει το σχόλιο που δημιουργήθηκε στα υπάρχοντα σχόλια της κίνησης </li>
-  </ul>
-  </p>
-  
-  <h3>Χρήση</h3>
-  <p>
-  Αυτή η λειτουργία είναι ιδανική για γρήγορη προσθήκη εκπαιδευτικών σημειώσεων σε ένα παιχνίδι που έχετε ήδη
-  αναλύεται με κινητήρα. Σέβεται τις τοπικές σας παραλλαγές, διασφαλίζοντας τις AI
-  οι επεξηγήσεις ευθυγραμμίζονται με τη συγκεκριμένη ανάλυση του κινητήρα σας.
-  </p>
-  
-  <p><footer>(Ενημερώθηκε: scidCommunity, Μάρτιος 2026)</footer></p>
-}
 
 
 set helpTitle(G,PTracker) "Παρακολούθηση τεμαχίων"

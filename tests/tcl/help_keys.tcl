@@ -209,6 +209,53 @@ foreach spec $HELP_FILES {
     interp delete $h
 }
 
+# --- #437 §6 round 3: the guard has to work in every language -------------
+# The six fragments above are English, so a translation that says the same
+# thing in its own language passes them - 26 of the 27 translated files did.
+# These checks are language-agnostic instead: they read help.tcl's own pages
+# and the translated pages and compare them, so a stale sentence fails in any
+# language, and so does a page whose English counterpart does not exist.
+#
+# The three sentences are English's own wording for the engine pages that
+# replaced the window. They are asserted against help.tcl first, so the
+# sentinels cannot rot silently: if English is reworded, the English checks
+# fail here and the sentinels move with it.
+set ENGINE_SENTINEL "They are the only engine surface now; the old Analysis window has been retired."
+set CE_SENTINEL "is in pawns from White's perspective instead"
+set ANNO_SENTINEL "opened on the chosen engine or raised if that engine already has one"
+
+lassign [loadHelp [file join $root tcl help help.tcl]] enh enErr
+check "English help loads for the translated-page checks" [expr {$enh ne ""}] $enErr
+set enKeys {}
+set enFlat ""
+if {$enh ne ""} {
+    foreach k [$enh eval {array names helpText}] {
+        lappend enKeys [lindex [split $k ,] end]
+    }
+    set enFlat [regsub -all {\s+} [everyPage $enh] " "]
+}
+foreach {nm frag} [list Engine $ENGINE_SENTINEL \
+        EPD-ce $CE_SENTINEL EPD-annotating $ANNO_SENTINEL] {
+    check "English: the $nm sentinel is still the wording help.tcl uses" \
+        [expr {[string first $frag $enFlat] >= 0}]
+}
+check "English: no page links to Analysis once whitespace is flattened" \
+    [expr {[string first "<a Analysis>" $enFlat] < 0}]
+
+# Pages a translation keeps for features whose English page was removed before
+# this card: the PGN window's automatic comment, the two trainer windows, and
+# the PL-only PgnScid importer. They are linked from live translated pages, so
+# they are not dead surface; retiring them is a separate card.
+set KNOWN_ORPHANS {PGNAutoComment SeriousGame TacticalGame PgnScid}
+
+# The exemption must still be needed: if English ever defines one of these
+# names it is not an orphan any more, and a stale exemption hides exactly the
+# kind of mismatch this file exists to catch.
+foreach nm $KNOWN_ORPHANS {
+    check "KNOWN_ORPHANS: $nm is still a translated-only page" \
+        [expr {[lsearch -exact $enKeys $nm] < 0}]
+}
+
 # Every translated help file is still Tcl data with matched pages, and none of
 # them may keep the retired Analysis window as a live target. The English and
 # Polish files above get the detailed button checks; this is the structural
@@ -216,6 +263,11 @@ foreach spec $HELP_FILES {
 puts "\nevery translated help file"
 foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     set label [file tail $path]
+    # English and Polish are maintained in this tree; the other translated help
+    # pages belong to the translation round, and #437 §6 deliberately does not
+    # re-word them (the wording reaches translators as English). The checks that
+    # would demand new translated prose therefore hold English and Polish only.
+    set strict [expr {$label eq "help.tcl" || $label eq "helpPL.tcl"}]
     lassign [loadHelp $path] h err
     check "$label: sources without error" [expr {$h ne ""}] $err
     if {$h eq ""} { continue }
@@ -232,6 +284,56 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     }
     checkEq "$label: every page and title pair up" $orphans {}
     set all [everyPage $h]
+
+    # #437 §6 round 3: a link is a link even when it wraps. The check above
+    # searches the raw text, so `<a` at the end of a line and `Analysis>` at
+    # the start of the next one - how every translated Training page phrased
+    # it - went unseen.
+    set flatAll [regsub -all {\s+} $all " "]
+    check "$label: no page links to Analysis once whitespace is flattened" \
+        [expr {!$strict || [string first "<a Analysis>" $flatAll] < 0}] \
+        "a link split across lines is still a link"
+
+    # The Analysis window's own pages are the ones the reader must not find:
+    # English defines none of them, so a translation that still has one is
+    # documenting a window the tree does not draw.
+    set extra {}
+    foreach k [$h eval {array names helpText}] {
+        set leaf [lindex [split $k ,] end]
+        if {[lsearch -exact $enKeys $leaf] < 0 && \
+                [lsearch -exact $KNOWN_ORPHANS $leaf] < 0} {
+            lappend extra $leaf
+        }
+    }
+    checkEq "$label: every page has an English counterpart" $extra {}
+
+    # And the window is retired in this language too. The check cannot quote
+    # the translated sentence - the wording belongs to the translator - so it
+    # asserts the opposite: English's sentence must NOT be standing there. #437
+    # §6 pasted the three English blocks into all 27 translations, and
+    # tcl/lang/translateHelp.py is the process that puts a language back; this
+    # is what notices when a page skipped that process.
+    set kEngine ""
+    set kEPD ""
+    foreach k [$h eval {array names helpText}] {
+        set leaf [lindex [split $k ,] end]
+        if {$leaf eq "Engine"} { set kEngine $k }
+        if {$leaf eq "EPD"} { set kEPD $k }
+    }
+    set fEngine [regsub -all {\s+} \
+        [expr {$kEngine ne "" ? [pageText $h $kEngine] : ""}] " "]
+    set fEPD [regsub -all {\s+} \
+        [expr {$kEPD ne "" ? [pageText $h $kEPD] : ""}] " "]
+    # English is where these sentences are written, so there "the file's own"
+    # means present; in every other file it means absent.
+    set isEn [expr {$label eq "help.tcl"}]
+    foreach {nm frag text} [list engine-surface $ENGINE_SENTINEL $fEngine \
+            ce-note $CE_SENTINEL $fEPD \
+            annotating-paragraph $ANNO_SENTINEL $fEPD] {
+        check "$label: the $nm wording is the file's own" \
+            [expr {([string first $frag $text] < 0) != $isEn}]
+    }
+
     check "$label: no page links to Analysis" \
         [expr {[string first "<a Analysis" $all] < 0}]
     set analysisPage ""
@@ -259,8 +361,32 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     set trBullets [trainingBullets $all]
     check "$label: Training submenu keeps only Openings and Tactics" \
         [expr {$trBullets == 2}] "found $trBullets bullets"
+    # #437 §6: the Analysis window is retired, so no page may present it as a
+    # live window, a live comparison, or a menu entry. Upstream dropped the
+    # Tools > Analysis Window bullet from the English file and left it in the
+    # other 26; helpKO kept three live-tense sentences and English kept "the
+    # analysis window's engine". None of that shows up as a broken link, which
+    # is why the checks above miss it: the bullet links to Engine, which still
+    # exists, and the sentences carry no link at all. Whitespace is flattened
+    # first, because these sentences wrap across lines and a phrase that is
+    # whole only after the join would otherwise pass unseen.
+    set flat [regsub -all {\s+} $all " "]
+    set live {}
+    foreach frag {
+        "<menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>"
+        "<a Engine>analysis window</a>"
+        "analysis window's engine"
+        "differ from the Analysis window"
+        "differs from the Analysis window"
+        "analysis window is already opened"
+    } {
+        if {[string first $frag $flat] >= 0} { lappend live $frag }
+    }
+    check "$label: no live Analysis window copy" \
+        [expr {!$strict || [llength $live] == 0}]
     interp delete $h
 }
+if {$enh ne ""} { interp delete $enh }
 
 # The help may only name buttons the window has. This reads the widget names
 # engine.tcl creates, so a page added for a button that is not built fails here.

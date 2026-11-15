@@ -228,7 +228,7 @@ proc ::stored_eval::formatForDisplay {storedData fen} {
             if {[info exists ::enginePvDisplayLength] && $::enginePvDisplayLength > 0} {
                 set moveList [lrange $moveList 0 [expr {$::enginePvDisplayLength * 2 - 1}]]
             }
-            set sanMoves [::uci::formatPv $moveList $fen]
+            set sanMoves [::ucifmt::formatPv $moveList $fen]
         }]} {
             set sanMoves $pv_uci
         }

@@ -25,7 +25,6 @@ set helpText(L,Contents) {<h1>scidCommunity Ajutor Conținut</h1>
   
   <h4>Alte ferestre scidCommunity</h4>
   <ul>
-  <li><a Engine><b>Fereastra de analiză</b></a></li>
   <li><a Engine><b>Motor</b> ferestre</a></li>
   <li><a Book><b>Carte</b> fereastră</a></li>
   <li><a Comment><b>Editor de comentarii</b> fereastră</a></li>
@@ -73,7 +72,6 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Fereastra de analiză</a></li>
   <li><a Annotating>Jocuri de adnotare</a></li>
   <li><a NAGs>Simboluri de adnotare</a></li>
   <li><a Author>Autor, contactează</a></li>
@@ -763,7 +761,6 @@ set helpText(L,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2445,34 +2442,6 @@ set helpText(L,PGNAutoComment) {<h1>Fereastra PGN: Buton pentru comentarii autom
 }
 
 
-set helpTitle(L,AnalysisAutoComment) "Butonul de comentarii automate"
-set helpText(L,AnalysisAutoComment) {<h1>Fereastra de analiză: Buton de comentariu automat </h1>
-  <p>
-  Butonul <b>Auto Comment</b> din fereastra <a Engine>Engine Window</a> vă permite să
-  generează automat comentarii AI pentru un întreg joc în modul lot.
-  </p>
-  
-  <h3>Cum funcționează </h3>
-  <p>
-  Când faceți clic pe buton, scidCommunity scanează întregul joc pentru mișcări adnotate
-  (se mișcă cu NAG-uri sau comentarii existente). Pentru fiecare astfel de mișcare, aceasta:
-  <ul>
-  <li>Preluează evaluările cloud pentru context </li>
-  <li>Folosește orice variație PGN existentă ca linii de motor „Ground Truth” </li>
-  <li>Solicită AI pentru a explica de ce linia recomandată este cea mai bună sau de ce mutarea jucată a fost o eroare </li>
-  <li>Adaugă comentariul generat la comentariile existente ale mișcării </li>
-  </ul>
-  </p>
-  
-  <h3>Utilizare </h3>
-  <p>
-  Această caracteristică este ideală pentru adăugarea rapidă de note educaționale la un joc pe care l-ați făcut deja
-  analizat cu un motor. Îți respectă variațiile locale, asigurând AI-urile
-  explicațiile se aliniază cu analiza specifică a motorului dvs.
-  </p>
-  
-  <p><footer>(Actualizat: scidCommunity, martie 2026)</footer></p>
-}
 
 
 set helpTitle(L,PTracker) "Tracker de piese"

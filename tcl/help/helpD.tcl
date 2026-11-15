@@ -25,7 +25,6 @@ set helpText(D,Contents) {<h1>scidCommunity-Hilfeinhalte</h1>
   
   <h4>Andere scidCommunity-Fenster</h4>
   <ul>
-  <li><a Engine><b>Analysefenster </b></a></li>
   <li><a Engine><b>Motor</b> Fenster</a></li>
   <li><a Book><b>Buch</b> Fenster</a></li>
   <li><a Comment><b>Kommentareditor</b> Fenster</a></li>
@@ -73,7 +72,6 @@ set helpText(D,Index) {<h1>scidCommunity-Hilfethemenindex</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>Analyse</a>-Fenster</li>
   <li><a Annotating>Spiele kommentieren</a></li>
   <li><a NAGs>Anmerkungssymbole</a></li>
   <li><a Author>Autor, Kontaktaufnahme</a></li>
@@ -761,7 +759,6 @@ set helpText(D,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2438,34 +2435,6 @@ set helpText(D,PGNAutoComment) {<h1>PGN-Fenster: Schaltfläche „Automatischer 
 }
 
 
-set helpTitle(D,AnalysisAutoComment) "Schaltfläche „Automatischer Kommentar“."
-set helpText(D,AnalysisAutoComment) {<h1>Analysefenster: Schaltfläche „Automatischer Kommentar“</h1>
-  <p>
-  Mit der Schaltfläche <b>Automatischer Kommentar </b> im Fenster <a Engine>Analyse-Engine </a> können Sie dies tun
-  Generieren Sie automatisch KI-Kommentare für ein gesamtes Spiel im Batch-Modus.
-  </p>
-  
-  <h3>Wie es funktioniert</h3>
-  <p>
-  Wenn Sie auf die Schaltfläche klicken, durchsucht scidCommunity das gesamte Spiel nach kommentierten Zügen
-  (verschiebt sich mit NAGs oder vorhandenen Kommentaren). Für jeden dieser Schritte gilt Folgendes:
-  <ul>
-  <li> Ruft Cloud-Auswertungen für den Kontext ab </li>
-  <li> Verwendet alle vorhandenen PGN-Varianten als „Ground Truth“-Engine-Linien </li>
-  <li> Fragt die KI ab, um zu erklären, warum die empfohlene Linie die beste ist oder warum der gespielte Zug ein Fehler war </li>
-  <li>Hängt den generierten Kommentar an die vorhandenen Kommentare des Umzugs an</li>
-  </ul>
-  </p>
-  
-  <h3>Verwendung</h3>
-  <p>
-  Diese Funktion ist ideal, um einem bereits gespielten Spiel schnell pädagogische Notizen hinzuzufügen
-  mit einem Motor analysiert. Es respektiert Ihre lokalen Variationen und stellt die KI sicher
-  Die Erläuterungen stimmen mit Ihrer spezifischen Motoranalyse überein.
-  </p>
-  
-  <p><footer>(Aktualisiert: scidCommunity, März 2026)</footer></p>
-}
 
 
 set helpTitle(D,PTracker) "Stück-Tracker"

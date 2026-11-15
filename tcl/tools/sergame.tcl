@@ -1209,7 +1209,8 @@ namespace eval sergame {
   }
 
   # A UCI score in pawns from White's point of view, which is the form this
-  # module has always compared (it is what the old reader in uci.tcl wrote): a
+  # module has always compared (it is what the retired pipe-mode reader wrote
+  # into the score row): a
   # cp score is the engine's own, a mate is the ±327.xx sentinel its distance
   # produces, and the side to move turns it.
   proc whiteScore { score scoreType fen } {

@@ -264,7 +264,7 @@ puts "== a borrowed game is written without a frame being painted =="
 namespace eval ::sc_game {}
 namespace eval ::sc_move {}
 namespace eval ::sc_pos {}
-namespace eval ::uci {}
+namespace eval ::ucifmt {}
 namespace eval ::review {}
 namespace eval ::board {}
 namespace eval ::notify {}
@@ -283,7 +283,7 @@ proc ::undoFeature {what args} {
     if {$what eq "save"} { ::record undosave ; return }
     incr ::undo ; ::record "undo $what"
 }
-proc ::uci::sc_move_add {uci} { ::record "add $uci" ; return 0 }
+proc ::ucifmt::sc_move_add {uci} { ::record "add $uci" ; return 0 }
 proc ::notify::PosChanged args { ::paintCall notify }
 proc ::board::update args { ::paintCall board }
 proc ::review::mergeComment {existing new} { return [string trim "$existing $new"] }
@@ -334,7 +334,7 @@ check "nothing painted for the open game either" [expr {$::painted == 0}]
 set ::calls {}
 set ::painted 0
 set ::undo 0
-proc ::uci::sc_move_add {uci} {
+proc ::ucifmt::sc_move_add {uci} {
     ::record "add $uci"
     if {$uci eq "g1f3"} { return 1 }
     return 0

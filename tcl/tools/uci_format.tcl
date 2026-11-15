@@ -3,11 +3,11 @@
 #
 # uci_format.tcl -- UCI moves turned into the notation the interface shows.
 #
-# #437 §4 needs these helpers without the old ::uci pipe engine mode: Play
+# #437 §4 needed these helpers without the old ::uci pipe engine mode: Play
 # versus Engine plays the engine's bestmove on the board and shows the coach's
-# line in SAN, and both are this file's job. #437 §6 deletes the mode and points
-# the rest of the tree here; until then ::uci:: keeps a one-line wrapper for each
-# of them, so there is one implementation and every old caller keeps working.
+# line in SAN, and both are this file's job. #437 §6 deleted the mode and the
+# three one-line ::uci:: wrappers that stood here while the tree moved over, so
+# this is now the one implementation and the only namespace the callers use.
 
 namespace eval ::ucifmt {}
 

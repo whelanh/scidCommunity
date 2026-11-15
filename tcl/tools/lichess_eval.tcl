@@ -51,11 +51,11 @@ proc ::lichess_eval::formatScore {args} {
 # ::lichess_eval::uciToSan
 #   Converts a space-separated string of UCI moves to SAN notation
 #   starting from the given FEN position.
-#   Uses ::uci::formatPv which handles push/pop of the game state.
+#   Uses ::ucifmt::formatPv which handles push/pop of the game state.
 #
 proc ::lichess_eval::uciToSan {uciMoves fen} {
     set moveList [split $uciMoves " "]
-    return [::uci::formatPv $moveList $fen]
+    return [::ucifmt::formatPv $moveList $fen]
 }
 
 # ::lichess_eval::formatLine

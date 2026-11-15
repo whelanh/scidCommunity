@@ -25,7 +25,6 @@ set helpText(J,Contents) {<h1>сцидЦоммунити Хелп Цонтент
   
   <h4>Други прозори сцидЦоммунити</h4>
   <ul>
-  <li><a Engine><b>Анализа</b> прозор</a></li>
   <li><a Engine><b>Мотор</b> прозори</a></li>
   <li><a Book><b>Боок</b> прозор</a></li>
   <li><a Comment><b>Уредник коментара</b> прозор</a></li>
@@ -74,7 +73,6 @@ set helpText(J,Index) {<h1>Индекс тема помоћи сцидЦомму
   
   <h3>А</h3>
   <ul>
-  <li><a Engine>Анализа</a> прозор</li>
   <li><a Annotating>Игре са коментарима</a></li>
   <li><a NAGs>Симболи за напомене</a></li>
   <li><a Author>Аутор, контактирам</a></li>
@@ -765,7 +763,6 @@ set helpText(J,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2459,35 +2456,6 @@ set helpText(J,PGNAutoComment) {<h1>ПГН прозор: Дугме за аут�
 }
 
 
-set helpTitle(J,AnalysisAutoComment) "Дугме за аутоматски коментар"
-set helpText(J,AnalysisAutoComment) {<h1>Прозор за анализу: Дугме за аутоматски коментар</h1>
-  <p>
-  Тхе <b>Ауто Цоммент</b> дугме у <a Engine>Аналисис Енгине</a> прозор вам омогућава да
-  аутоматски генерише АИ коментар за целу игру у групном режиму.
-  </p>
-  
-  <h3>Како то ради</h3>
-  <p>
-  Када кликнете на дугме, сцидЦоммунити скенира целу игру у потрази за коментарисаним потезима
-  (помера се са НАГ-овима или постојећим коментарима). За сваки такав потез, то:
-  <ul>
-  <li>Преузима процене облака за контекст</li>
-  <li>Користи све постојеће ПГН варијације као линије мотора "Гроунд Трутх".</li>
-  <li>Пита АИ да објасни зашто је препоручена линија најбоља или зашто је одиграни потез био грешка</li>
-  <li>Додаје генерисани коментар постојећим коментарима потеза</li>
-  </ul>
-  </p>
-  
-  <h3>Употреба</h3>
-  <p>
-  Ова функција је идеална за брзо додавање образовних белешки у игру коју сте већ имали
-  анализиран мотором. Поштује ваше локалне варијације, осигуравајући АИ
-  објашњења су у складу са вашом специфичном анализом мотора.
-  </p>
-  
-  <p><footer>(Ажурирано: сцидЦоммунити, март 2026.)</footer></p>
-
-}
 
 
 set helpTitle(J,PTracker) "Пиеце трацкер"

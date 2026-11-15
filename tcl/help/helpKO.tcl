@@ -25,7 +25,6 @@ set helpText(k,Contents) {<h1>scid커뮤니티 도움말 목차</h1>
   
   <h4>기타 scid커뮤니티 창</h4>
   <ul>
-  <li><a Engine><b>분석</b> 창문</a></li>
   <li><a Engine><b>엔진</b> 창문들</a></li>
   <li><a Book><b>책</b> 창문</a></li>
   <li><a Comment><b>댓글 편집기</b> 창문</a></li>
@@ -74,7 +73,6 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   
   <h3>A</h3>
   <ul>
-  <li><a Engine>분석</a> 창</li>
   <li><a Annotating>게임에 주석 달기</a></li>
   <li><a NAGs>주석 기호</a></li>
   <li><a Author>저자, 연락중</a></li>
@@ -762,7 +760,6 @@ set helpText(k,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -2446,35 +2443,6 @@ set helpText(k,PGNAutoComment) {<h1>PGN 창: 자동 댓글 버튼</h1>
 }
 
 
-set helpTitle(k,AnalysisAutoComment) "Auto Comment Button"
-set helpText(k,AnalysisAutoComment) {<h1>분석 창: 자동 댓글 버튼</h1>
-  <p>
-  그만큼 <b>자동 댓글</b> 버튼을 <a Engine>분석 엔진</a> 창을 사용하면 다음을 수행할 수 있습니다.
-  배치 모드에서 전체 게임에 대한 AI 해설을 자동으로 생성합니다.
-  </p>
-  
-  <h3>작동 원리</h3>
-  <p>
-  버튼을 클릭하면 scidCommunity는 전체 게임에서 주석이 달린 동작을 검색합니다.
-  (NAG 또는 기존 댓글과 함께 이동). 이러한 각 이동에 대해 다음을 수행합니다.
-  <ul>
-  <li>컨텍스트에 대한 클라우드 평가를 검색합니다.</li>
-  <li>기존 PGN 변형을 "Ground Truth" 엔진 라인으로 사용합니다.</li>
-  <li>권장 라인이 왜 가장 좋은지 또는 플레이한 동작이 오류인 이유를 설명하기 위해 AI에 쿼리합니다.</li>
-  <li>생성된 설명을 이동의 기존 설명에 추가합니다.</li>
-  </ul>
-  </p>
-  
-  <h3>용법</h3>
-  <p>
-  이 기능은 이미 게임에 교육용 메모를 빠르게 추가하는 데 이상적입니다.
-  엔진으로 분석했습니다. 지역적 변형을 존중하여 AI의
-  설명은 특정 엔진 분석과 일치합니다.
-  </p>
-  
-  <p><footer>(업데이트됨: scidCommunity, 2026년 3월)</footer></p>
-
-}
 
 
 set helpTitle(k,PTracker) "Piece tracker"
