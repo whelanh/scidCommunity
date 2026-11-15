@@ -341,7 +341,7 @@ puts "\nthe seconds are a cap: the pass stops the window's search"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t1 solveMs "" \
-    start 0 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::cutoffDrive 1 t1
@@ -351,7 +351,7 @@ checkEq "the search is not finished yet" $::epd::driveDone 0
 checkEq "the answer wakes the pass" $::epd::driveDone 1
 
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t2 solveMs "" \
-    start 0 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 set ::sent {}
@@ -360,7 +360,7 @@ checkEq "a stale deadline does nothing" $::sent {}
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t3 solveMs "" \
-    start 0 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 dict unset ::WIN .engineWin1
 ::epd::cutoffDrive 1 t3
@@ -371,7 +371,7 @@ puts "\nthe window closing ends the position at once"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t4 solveMs "" \
-    start 0 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::watchEngine 1 InfoWindowClosed {}
@@ -383,7 +383,7 @@ puts "\nthe engine's answer ends the position"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t5 solveMs "" \
-    start "" budget 5000 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
 ::epd::watchEngine 1 InfoGo [list p {}]
@@ -396,18 +396,29 @@ puts "\na search that ignores the budget is stopped after a grace"
 
 reset
 set ::epd::drive [dict create win 1 pos p fen f sought "" token t6 solveMs "" \
-    start "" budget 10 \
+    start 0 stopRequested 0 \
     data [::epdanalysis::emptyData f] deadline "" watchdog ""]
 set ::epd::driveDone 0
-::epd::watchEngine 1 InfoGo [list p {}]
-check "the clock starts with the window's search" \
-    [expr {[dict get $::epd::drive deadline] ne ""}] 1
+# The loop arms this from the request time; arm the same stop here.
+dict set ::epd::drive deadline [after 10 [list ::epd::cutoffDrive 1 t6]]
 after 700 [list set ::waited 1]
 vwait ::waited
 checkEq "the safety stop goes to the window" [lindex $::sent end 1] StopGo
-checkEq "and waits for its answer" $::epd::driveDone 0
-::epd::watchEngine 1 InfoBestMove [list Qc7]
-checkEq "the answer ends the position" $::epd::driveDone 1
+checkEq "and waits for its acknowledgement" $::epd::driveDone 0
+# ::enginecomm suppresses the stopped search's bestmove and reports the stop as
+# InfoReady; that is the answer the pass must accept, not only InfoBestMove.
+::epd::watchEngine 1 InfoReady {}
+checkEq "the stop's acknowledgement ends the position" $::epd::driveDone 1
+
+puts "\nInfoReady without a requested stop is not an answer"
+
+reset
+set ::epd::drive [dict create win 1 pos p fen f sought "" token t7 solveMs "" \
+    start 0 stopRequested 0 \
+    data [::epdanalysis::emptyData f] deadline "" watchdog ""]
+set ::epd::driveDone 0
+::epd::watchEngine 1 InfoReady {}
+checkEq "the handshake's InfoReady is ignored" $::epd::driveDone 0
 
 puts "\n"
 puts "$checks checks, $fails failures"

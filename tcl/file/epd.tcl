@@ -868,6 +868,11 @@ namespace eval epd {
         $w.lb selection set $i
         $w.lb see $i
         update idletasks
+        # The window's Go is dispatched inside loadEpd, and ::engine::send
+        # replies InfoGo synchronously, before the drive record below exists.
+        # So the position's clock is the request, not a message: no start event
+        # is lost, and the safety stop is armed however the engine behaves.
+        set askedMs [clock milliseconds]
         loadEpd $id
       } iterErr]} { set annErr $iterErr ; break }
 
@@ -882,14 +887,16 @@ namespace eval epd {
 
       set token "epd[incr driveSeq]"
       set drive [dict create win $win pos $wantPos fen $fen \
-          sought $soughtMoves token $token solveMs "" start "" \
-          budget $movetime \
+          sought $soughtMoves token $token solveMs "" start $askedMs \
+          stopRequested 0 \
           data [::epdanalysis::emptyData $fen] deadline "" watchdog ""]
       set driveDone 0
-      # The budget starts when the window begins this position's search (see
-      # watchEngine), so time spent finishing the previous one is not charged
-      # to it. The watchdog is the backstop for a search that never starts.
-      dict set drive watchdog [after [expr {$movetime + 15000}] \
+      # The budget is the window's own go movetime, counted from the request
+      # that sent it. The stop is the safety net for an engine that ignores it;
+      # the watchdog is the last resort for one that says nothing at all.
+      dict set drive deadline [after [expr {$askedMs + $movetime + 500}] \
+          [list ::epd::cutoffDrive $win $token]]
+      dict set drive watchdog [after [expr {$askedMs + $movetime + 15000}] \
           [list ::epd::watchdogDrive $win $token]]
       vwait ::epd::driveDone
       set position [dict get $drive data]
@@ -1011,16 +1018,14 @@ namespace eval epd {
     # The window is being destroyed: no answer can arrive now.
     if {$type eq "InfoWindowClosed"} { ::epd::finishDrive "closed" ; return }
     # The window names the position each message belongs to. The pass loads one
-    # position at a time, but the window may still have been answering the
-    # previous one when it was asked for this one.
+    # position at a time and advances only when the previous drive has ended, so
+    # the only search that can still be in flight is one that was stopped before
+    # this position was asked for -- and ::enginecomm suppresses a stopped
+    # search's InfoBestMove, so its messages cannot be taken for this one's.
     if {[info exists ::enginewin::pv_(pos,$win)] \
             && $::enginewin::pv_(pos,$win) ne [dict get $drive pos]} {
       return
     }
-    # The budget is the reader's seconds, counted from the window's own start of
-    # this search: InfoGo is that moment, and a message that somehow arrives
-    # first starts it too.
-    ::epd::startBudget $win
     switch -- $type {
       "InfoPV" {
         set line [::epdanalysis::dataFromInfo [dict get $drive fen] $msgData]
@@ -1037,18 +1042,15 @@ namespace eval epd {
             [dict get $drive data] [lindex $msgData 0] [dict get $drive fen]]
         ::epd::finishDrive ""
       }
+      "InfoReady" {
+        # A stop was requested and the window acknowledged it. ::enginecomm
+        # suppresses the stopped search's InfoBestMove and reports the stop
+        # this way, so this is the answer the pass waits for; the record already
+        # holds the last line the window showed. Unrelated InfoReady messages
+        # (the handshake) arrive before any stop is asked for.
+        if {[dict get $drive stopRequested]} { ::epd::finishDrive "" }
+      }
     }
-  }
-
-  ###  Start a position's clock: the budget is the `go movetime` the window was
-  ###  given, and this only dates the report's time-to-solve and arms the safety
-  ###  stop for an engine that ignores it.
-  proc startBudget {win} {
-    variable drive
-    if {![dict size $drive] || [dict get $drive deadline] ne ""} { return }
-    dict set drive start [clock milliseconds]
-    dict set drive deadline [after [expr {[dict get $drive budget] + 500}] \
-        [list ::epd::cutoffDrive $win [dict get $drive token]]]
   }
 
   ###  The budget plus a grace has gone by and the window has not answered: stop
@@ -1059,6 +1061,8 @@ namespace eval epd {
     variable drive
     if {![dict size $drive] || [dict get $drive token] ne $token} { return }
     if {![winfo exists .engineWin$win]} { ::epd::finishDrive "closed" ; return }
+    # The stop is answered with InfoReady, not the suppressed InfoBestMove.
+    dict set drive stopRequested 1
     catch { ::engine::send $win StopGo }
   }
 

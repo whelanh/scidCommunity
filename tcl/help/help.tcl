@@ -3795,10 +3795,11 @@ set helpText(EPD) {<h1>EPD files</h1>
   the run ends, and nothing is written to the engine preset. Autoscan is turned
   off for the run and put back afterwards, because a scan would keep answering
   positions the pass did not ask for. The report states the engine, the window
-  and the search's limits in its header, and records the full principal
-  variation even when the window truncates it for display. The <b>Stop</b>
-  button in the EPD window, closing the EPD window, or closing the Engine Window
-  ends the pass.
+  and the search's limits in its header. The full principal variation is written
+  to the EPD <b>pv</b> opcode, even when the window truncates it for display; the
+  saved text report lists the move, the match, the time, depth, score and FEN
+  only. The <b>Stop</b> button in the EPD window, closing the EPD window, or
+  closing the Engine Window ends the pass.
   </p>
   <p>
   Check <b>Save results to file</b> to write the per-position results to a
