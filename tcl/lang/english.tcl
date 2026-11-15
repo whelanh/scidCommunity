@@ -623,6 +623,9 @@ translate E Preview {Preview}
 translate E Revert {Revert}
 translate E Rename {Rename}
 translate E Save {Save}
+translate E Presets {Presets}
+translate E SavePreset {Save search preset}
+translate E PresetName {Preset name:}
 translate E Search {Search}
 translate E Stop {Stop}
 translate E Store {Store}

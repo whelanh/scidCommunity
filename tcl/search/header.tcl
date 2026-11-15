@@ -85,8 +85,16 @@ trace add variable sEloDiffMax write [list ::utils::validate::Integer "-[sc_info
 
 ::search::header::defaults
 
-# Save the current header search values as a named layout
-proc ::search::header::layout_save {name} {
+# The saved header-search filters are called presets in the interface.
+#
+#   The variables that hold them keep their historical "Layout" names
+#   (::searchHeader_Layouts, ::searchHeader_Data, and the $w.buttons.layouts
+#   widget path): ::options.store persists a variable by name, so renaming one
+#   would discard every preset already saved in a user's preferences file.
+
+# ::search::header::preset_save
+#   Store the current header search values under a name.
+proc ::search::header::preset_save {name} {
   # List of scalar variables to save
   set scalar_vars {
     sWhite sBlack sEvent sSite sRound sAnnotated
@@ -98,7 +106,7 @@ proc ::search::header::layout_save {name} {
     sResWin sResLoss sResDraw sResOther
     sTagName sTagValue sVariantStd sVariant960 sIgnoreCol
   }
-  
+
   # List of array variables to save
   set array_vars {sPgntext sHeaderFlags sTitles}
 
@@ -121,14 +129,20 @@ proc ::search::header::layout_save {name} {
   # Store in the global data array
   set ::searchHeader_Data($name) $data
 
-  # Add to the list of layouts if not already present
+  # Add to the list of presets if not already present
   if {![info exists ::searchHeader_Layouts] || [lsearch -exact $::searchHeader_Layouts $name] == -1} {
     lappend ::searchHeader_Layouts $name
   }
 }
 
-# Load a named layout and update the UI
-proc ::search::header::layout_load {name} {
+# ::search::header::preset_load
+#   Restore a preset into the search fields.
+#
+#   A field the preset does not carry is cleared instead of keeping whatever
+#   the dialog held: a preset saved by an older version has no entry for a
+#   field added since, and loading it must not blend that older filter into
+#   the current one.
+proc ::search::header::preset_load {name} {
   if {![info exists ::searchHeader_Data($name)]} { return }
 
   # Retrieve data
@@ -145,22 +159,21 @@ proc ::search::header::layout_load {name} {
     sResWin sResLoss sResDraw sResOther
     sTagName sTagValue sVariantStd sVariant960 sIgnoreCol
   } {
-    if {[info exists data($var)]} {
-      set ::$var $data($var)
-    }
+    set ::$var [expr {[info exists data($var)] ? $data($var) : {}}]
   }
 
   # Restore arrays
   foreach arr {sPgntext sHeaderFlags sTitles} {
+    array unset ::$arr
     if {[info exists data($arr)]} {
-      array unset ::$arr
       array set ::$arr $data($arr)
     }
   }
 }
 
-# Delete a layout
-proc ::search::header::layout_delete {name} {
+# ::search::header::preset_delete
+#   Forget a preset and take it out of the menu's name list.
+proc ::search::header::preset_delete {name} {
   if {[info exists ::searchHeader_Data($name)]} {
     unset ::searchHeader_Data($name)
   }
@@ -172,76 +185,83 @@ proc ::search::header::layout_delete {name} {
   }
 }
 
-# Prompt user for layout name and save
-proc ::search::header::promptSaveLayout {} {
-  set name ""
-  set d .searchLayoutDialog
+# ::search::header::prompt_save_preset
+#   Ask for a name, then save the current search values under it.
+proc ::search::header::prompt_save_preset {} {
+  set d .searchPresetDialog
   if {[winfo exists $d]} { destroy $d }
-  
-  toplevel $d
-  wm title $d "Save Search Layout"
+
+  ::win::createDialog $d
   wm resizable $d 0 0
-  
-  ttk::frame $d.f
-  pack $d.f -fill both -expand 1 -padx 10 -pady 10
-  
-  ttk::label $d.f.label -text "Layout name:"
-  ttk::entry $d.f.entry -width 30
-  pack $d.f.label -side top -anchor w -pady {0 5}
-  pack $d.f.entry -side top -fill x
-  
-  ttk::frame $d.f.buttons
-  pack $d.f.buttons -side top -pady {10 0}
-  
-  ttk::button $d.f.buttons.ok -text OK -command {
-    set name [.searchLayoutDialog.f.entry get]
+  ::setTitle $d [::tr SavePreset]
+
+  ttk::label $d.label -text [::tr PresetName] -anchor w
+  ttk::entry $d.entry -width 30
+  pack $d.label -fill x -padx 10 -pady {10 2}
+  pack $d.entry -fill x -padx 10
+
+  dialogbutton $d.cancel -text [::tr Cancel] -command [list destroy $d]
+  dialogbutton $d.ok -text OK -command [list apply {{d} {
+    set name [$d.entry get]
+    destroy $d
     if {$name ne ""} {
-      ::search::header::layout_save $name
-      # Find the search window and rebuild its menu
-      foreach w [winfo children .] {
-        if {[string match ".wnd_HeaderSearch*" $w] && [winfo exists $w.buttons.layouts]} {
-          ::search::header::rebuildLayoutsMenu $w
-        }
-      }
+      ::search::header::preset_save $name
+      ::search::header::rebuild_presets_menu
     }
-    destroy .searchLayoutDialog
-  }
-  ttk::button $d.f.buttons.cancel -text [::tr Cancel] -command {destroy .searchLayoutDialog}
-  pack $d.f.buttons.ok $d.f.buttons.cancel -side left -padx 5
-  
-  bind $d.f.entry <Return> "$d.f.buttons.ok invoke"
-  bind $d <Escape> "$d.f.buttons.cancel invoke"
-  
-  focus $d.f.entry
+  }} $d]
+  ::packdlgbuttons $d.ok $d.cancel
+
+  bind $d.entry <Return> [list $d.ok invoke]
+  bind $d <Escape> [list $d.cancel invoke]
+
+  focus $d.entry
   grab $d
   ::tk::PlaceWindow $d widget .
 }
 
-# Rebuild the Layouts menu with current saved layouts
-proc ::search::header::rebuildLayoutsMenu {w} {
-  if {![winfo exists $w.buttons.layouts.m]} { return }
-  
-  set m $w.buttons.layouts.m
-  
-  # First, destroy all existing submenu widgets to avoid "already exists" errors
-  foreach child [winfo children $m] {
-    if {[string match "$m.ly*" $child]} {
-      destroy $child
+# ::search::header::rebuild_presets_menu
+#   Rebuild the Presets menu of the Header search window $w, or of every open
+#   Header search window when no window is given.
+proc ::search::header::rebuild_presets_menu {{w ""}} {
+  if {$w ne ""} {
+    ::search::header::rebuild_presets_menu_one $w
+    return
+  }
+  foreach child [winfo children .] {
+    if {[string match ".wnd_HeaderSearch*" $child]} {
+      ::search::header::rebuild_presets_menu_one $child
     }
   }
-  
-  # Then delete menu entries and rebuild
+}
+
+proc ::search::header::rebuild_presets_menu_one {w} {
+  set m $w.buttons.presets.m
+  if {![winfo exists $m]} { return }
+
+  # Destroy the submenus first, so a rebuilt name cannot collide with the
+  # widget the previous build left behind.
+  foreach child [winfo children $m] {
+    destroy $child
+  }
+
+  # Entries 0 and 1 are Save and its separator; everything after is rebuilt.
   $m delete 2 end
-  
+
+  set idx 0
   if {[info exists ::searchHeader_Layouts]} {
     foreach name $::searchHeader_Layouts {
-      set submenu [menu $m.ly[string map {" " _} $name]]
-      $submenu add command -label [::tr Load] -command "::search::header::layout_load {$name}"
-      $submenu add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
+      set submenu [menu $m.p[incr idx] -tearoff 0]
+      $submenu add command -label [::tr Load] \
+        -command [list ::search::header::preset_load $name]
+      $submenu add command -label [::tr Delete] -command [list apply {{name} {
+        ::search::header::preset_delete $name
+        ::search::header::rebuild_presets_menu
+      }} $name]
       $m add cascade -label $name -menu $submenu
     }
   }
 }
+
 
 trace add variable sDateMin write ::utils::validate::Date
 trace add variable sDateMax write ::utils::validate::Date

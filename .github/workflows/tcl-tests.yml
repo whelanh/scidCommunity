@@ -170,6 +170,17 @@ jobs:
       - name: Tree mask auto-load
         run: tclsh tests/tcl/mask_autoload.tcl
 
+      # The Header search's presets: a save stores every field and both array
+      # fields, a load clears a field the preset does not carry, a delete takes
+      # the name out of the menu, and the dead Save button is gone.
+      - name: Search presets
+        run: tclsh tests/tcl/search_presets.tcl
+
+      # The Presets menu itself: rebuilding it twice, two names that used to
+      # share a submenu, and the Load and Delete entries a user clicks.
+      - name: Search presets menu
+        run: xvfb-run -a wish tests/tcl/search_presets_tk.tcl
+
       # The downloader's failure and cancel paths: a failed curl/wget must not
       # install a truncated file, and cancel must kill the child, not wait on it.
       - name: Update download
