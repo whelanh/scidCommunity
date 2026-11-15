@@ -967,6 +967,7 @@ translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
+translate T ReviewCloudEval {Cloud pre-pass}
 translate T ReviewEstimatedRating {performans değerlendirmesi (bu partiden)}
 translate T ReviewOpeningMoves {Açılış hamleleri}
 translate T ReviewFromPreset {%s (motor profilinden)}

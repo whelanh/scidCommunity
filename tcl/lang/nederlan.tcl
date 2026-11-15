@@ -993,6 +993,7 @@ translate N ReviewVarLines {Varianten om te schrijven}
 translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}
 translate N ReviewMovetime {Tijdslimiet (ms)}
+translate N ReviewCloudEval {Cloud pre-pass}
 translate N ReviewEstimatedRating {prestatiebeoordeling (uit deze partij)}
 translate N ReviewOpeningMoves {Openingszetten}
 translate N ReviewFromPreset {%s (uit het engineprofiel)}

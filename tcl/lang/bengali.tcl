@@ -963,6 +963,7 @@ translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
 translate b ReviewMovetime {সময়সীমা (ms)}
+translate b ReviewCloudEval {Cloud pre-pass}
 translate b ReviewEstimatedRating {প্রদর্শন রেটিং (এই খেলা থেকে)}
 translate b ReviewOpeningMoves {ওপেনিং চলন}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}

@@ -995,6 +995,7 @@ translate G ReviewVarLines {Παραλλαγές προς εγγραφή}
 translate G ReviewVarCp {Περιθώριο παραλλαγών (cp)}
 translate G ReviewMoveWait {Αναμονή για το βάθος ελέγχου}
 translate G ReviewMovetime {Όριο χρόνου (ms)}
+translate G ReviewCloudEval {Cloud pre-pass}
 translate G ReviewEstimatedRating {αξιολόγηση απόδοσης (από αυτή την παρτίδα)}
 translate G ReviewOpeningMoves {Κινήσεις ανοίγματος}
 translate G ReviewFromPreset {%s (από το προφίλ μηχανής)}

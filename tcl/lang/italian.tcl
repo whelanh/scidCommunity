@@ -974,6 +974,7 @@ translate I ReviewVarLines {Varianti da scrivere}
 translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
 translate I ReviewMovetime {Limite di tempo (ms)}
+translate I ReviewCloudEval {Cloud pre-pass}
 translate I ReviewEstimatedRating {valutazione di rendimento (da questa partita)}
 translate I ReviewOpeningMoves {Movimenti di apertura}
 translate I ReviewFromPreset {%s (dal profilo del motore)}

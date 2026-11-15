@@ -15,6 +15,13 @@ namespace eval ::lichess_eval {
     variable refreshPending ""
     variable pendingFd ""
     variable queryBuf ""
+    # The general async transport (cloudEvalAsync): one buffer and one callback
+    # per channel, so a request from the review pass and one from the eval
+    # window cannot overwrite each other.
+    variable asyncBuf
+    variable asyncReq
+    array set asyncBuf {}
+    array set asyncReq {}
 }
 
 # ::lichess_eval::formatScore
@@ -123,6 +130,67 @@ proc ::lichess_eval::queryCloudEval {fen variant} {
     }
 
     return [list $ok $result $err $fen]
+}
+
+# ::lichess_eval::cloudEvalAsync
+#   Queries the cloud eval API without waiting for the answer, for callers that
+#   have something else to do while it runs (the review pass searches beside it).
+#   Calls `callback` as {*}$callback <ok> <data> <err> from the event loop:
+#   ok 1 with the reply body, or ok 0 with the reason. Never blocks the Tk event
+#   loop and never calls back before it returns.
+#
+#   Unlike queryCloudEvalAsync this is not tied to the eval window and keeps its
+#   own buffer, so the window and a pass can be in flight at the same time.
+#
+#   Returns the channel it opened, or "" when the transport could not start (the
+#   callback still fires, from `after idle`).
+proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
+    variable asyncBuf
+    variable asyncReq
+    set urlFen [string map {" " "%20" "/" "%2F" "+" "%2B" "?" "%3F" "&" "%26" "=" "%3D" "#" "%23" "%" "%25"} $fen]
+    set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$mpv&variant=$variant"
+
+    if {[catch {
+        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
+    } err]} {
+        # Not a synchronous retry: the caller asked for an answer it does not
+        # wait for, and blocking here is the one thing this proc must not do.
+        after idle [list {*}$callback 0 "" $err]
+        return ""
+    }
+    fconfigure $fd -blocking 0 -buffering full
+    set asyncBuf($fd) ""
+    set asyncReq($fd) [list $callback]
+    fileevent $fd readable [list ::lichess_eval::onCloudEvalData $fd]
+    return $fd
+}
+
+# ::lichess_eval::onCloudEvalData
+#   Internal: accumulates one async cloud-eval reply and hands it to the caller's
+#   callback at EOF.
+proc ::lichess_eval::onCloudEvalData {fd} {
+    variable asyncBuf
+    variable asyncReq
+    if {![info exists asyncReq($fd)]} {
+        catch { close $fd }
+        return
+    }
+    if {[catch { append asyncBuf($fd) [read $fd] }]} {
+        set callback [lindex $asyncReq($fd) 0]
+        unset asyncReq($fd)
+        unset asyncBuf($fd)
+        catch { close $fd }
+        catch { {*}$callback 0 "" "the cloud eval reply could not be read" }
+        return
+    }
+    if {![eof $fd]} { return }
+    set data $asyncBuf($fd)
+    set callback [lindex $asyncReq($fd) 0]
+    unset asyncReq($fd)
+    unset asyncBuf($fd)
+    catch { close $fd }
+    catch { {*}$callback 1 $data "" }
+    return
 }
 
 # ::lichess_eval::lookupPosition

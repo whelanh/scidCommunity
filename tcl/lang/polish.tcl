@@ -1003,6 +1003,7 @@ translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P ReviewCloudEval {Cloud pre-pass}
 translate P ReviewEstimatedRating {ocena wyniku (z tej partii)}
 translate P ReviewOpeningMoves {Posunięcia w debiucie}
 translate P ReviewFromPreset {%s (z ustawień silnika)}

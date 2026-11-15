@@ -1325,6 +1325,7 @@ translate Y ReviewVarLines {Varijante za upis}
 translate Y ReviewVarCp {Granica varijanti (cp)}
 translate Y ReviewMoveWait {Čekaj dubinu pregleda}
 translate Y ReviewMovetime {Vremensko ograničenje (ms)}
+translate Y ReviewCloudEval {Cloud pre-pass}
 translate Y ReviewEstimatedRating {procena učinka (iz ove partije)}
 translate Y StopNow {Stop now}
 translate Y StopAfterThisGame {Stop after this game}

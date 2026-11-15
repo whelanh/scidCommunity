@@ -1007,6 +1007,7 @@ translate E ReviewVarLines {Variations to write}
 translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
+translate E ReviewCloudEval {Cloud pre-pass}
 translate E ReviewEstimatedRating {performance rating (from this game)}
 translate E ReviewOpeningMoves {Opening moves}
 translate E ReviewFromPreset {%s (from engine preset)}
