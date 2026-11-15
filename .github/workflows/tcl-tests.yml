@@ -80,6 +80,14 @@ jobs:
       - name: Review transport
         run: tclsh tests/tcl/review_transport.tcl
 
+      # The transport and the queue together, with a slow child on PATH: an
+      # `after` fires while a request is in flight, twenty questions leave the
+      # loop never stalled for longer than a heartbeat (the blocking entry point
+      # is measured alongside as the control), and Cancel mid-flight closes the
+      # run at once.
+      - name: Review loop
+        run: tclsh tests/tcl/review_loop.tcl
+
       # The Engine Window's messages as an EPD result record, without Tk: the
       # deepest-line rule, the answer-at-bestmove rule, SAN and ce encoding.
       - name: EPD result record
