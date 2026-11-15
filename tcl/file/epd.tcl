@@ -34,6 +34,11 @@ namespace eval epd {
   variable analysisRunning 0
   variable analysisOwner ""
   variable analysisStopRequested 0
+  # The position in flight: {win pos fen sought token solveMs start data
+  # deadline watchdog}. Empty between positions.
+  variable drive {}
+  variable driveDone 0
+  variable driveSeq 0
   variable bestMoves {}
   variable epdName
   variable saveLog 0
@@ -325,7 +330,6 @@ namespace eval epd {
     # Closing another EPD window leaves the active pass alone.
     if {[info exists ::epd::analysisOwner] && $::epd::analysisOwner eq $id} {
       catch { ::epd::stopAnalysis $id }
-      catch { ::epdanalysis::close }
     }
     sc_epd close $id
     focus .main
@@ -625,6 +629,13 @@ namespace eval epd {
 
     ttk::combobox  $w.engine.combo -width 20 -state readonly -values $values
     $w.engine.combo current 0
+    # Start on the engine of the Engine Window the reader is looking at: the
+    # pass drives a window, and a different preset would open a second one.
+    set open [::epd::findEngineWin]
+    if {$open != -1 && [info exists ::enginewin_lastengine($open)]} {
+      set cur [lsearch -exact $values $::enginewin_lastengine($open)]
+      if {$cur >= 0} { $w.engine.combo current $cur }
+    }
     ttk::label $w.engine.label -text [tr Engine]
 
     ttk::radiobutton $w.mode.tally -variable epdAnnotateMode -value 1 -text [tr EpdCountBestMoves]
@@ -683,10 +694,11 @@ namespace eval epd {
     ::epd::launchAnnotateEpd $id $idx $name $logfile
   }
 
-  ###  Bring the EPD pass's analysis into view. A window already showing this
+  ###  Bring the pass's analysis into view. A window already showing this
   ###  preset is raised (and started if it was paused); a locked window stays
-  ###  pinned to its position, so a new one is opened instead. The pass runs on
-  ###  its own connection, so this window is a view, not the pass's engine.
+  ###  pinned to its position, so a new one is opened instead. The pass drives
+  ###  the window this returns: the search it shows is the search the report
+  ###  records, on that window's engine, options and limits.
   proc showAnalysisWindow {name} {
     if {[llength [info commands ::enginewin::start]] == 0} { return "" }
     foreach id [array names ::enginewin::engState] {
@@ -710,16 +722,26 @@ namespace eval epd {
     return $id
   }
 
-  ###  Launch a headless UCI engine and annotate each EPD, starting from the top.
-  ###  engineIdx is kept for the caller's shape; the preset name is what opens.
-  ###  The Stop button, or closing the EPD window, ends the pass.
-  ###  If logfile is non-empty, the per-position results are written to it.
+  ###  Launch the pass over every EPD position, starting from the top, in an
+  ###  Engine Window. engineIdx is kept for the caller's shape; the preset name
+  ###  is what opens.
+  ###  The window is the search. The pass loads each position on the board, and
+  ###  ::enginewin::onPosChanged sends it to the window, which answers with its
+  ###  own engine, options and limits; the pass reads that answer back. The
+  ###  dialog's seconds are the budget for every position: the pass keeps the
+  ###  position for that long even when the window's own limit finishes the
+  ###  search sooner, and the record is what the window reached.
+  ###  The Stop button, closing the EPD window, or closing the Engine Window
+  ###  ends the pass. If logfile is non-empty, the results are written to it.
   proc launchAnnotateEpd {id engineIdx name {logfile ""}} {
     variable epdEngineName
     global epdAnnotateMode epdAnnotation epdDelay
     variable analysisRunning
     variable analysisOwner
     variable analysisStopRequested
+    variable drive
+    variable driveDone
+    variable driveSeq
 
     set w .epd$id
     if {$analysisRunning} {
@@ -727,33 +749,48 @@ namespace eval epd {
       # epdAnnotation belongs to the run already in flight; do not clear it.
       return
     }
-    set epdEngineName [string map {{ } _} $name]
 
-    set err [::epdanalysis::open $name]
-    if {$err ne ""} {
-      $w.bottom.status configure -text [format [tr EpdAnalysisStartFailed] $err]
+    # The window comes first: if it cannot be opened there is nothing to drive,
+    # and the run flags below must not be left set.
+    set win ""
+    catch { set win [::epd::showAnalysisWindow $name] }
+    if {$win eq "" || ![winfo exists .engineWin$win]} {
+      catch { $w.bottom.status configure -text \
+          [format [tr EpdAnalysisStartFailed] $name] }
+      set epdAnnotation 0
+      return
+    }
+    # A window whose engine died cannot be started again from here; the reader
+    # reconnects it in its own pane. Say so instead of tallying empty answers.
+    set state ""
+    catch { set state $::enginewin::engState($win) }
+    if {[string match *deceased* $state]} {
+      catch { $w.bottom.status configure -text \
+          [format [tr EpdAnalysisStartFailed] $name] }
       set epdAnnotation 0
       return
     }
 
-    # The pass used to open its Analysis window itself, so the search was
-    # visible as soon as Analyze Positions started. The Engine Window is that
-    # live surface now; the pass keeps its own connection, so closing the
-    # window does not stop it.
-    catch { ::epd::showAnalysisWindow $name }
+    # The window is what the report describes, so its engine is the name the
+    # annotations and the log carry -- the reader may have changed it there.
+    set epdEngineName ""
+    catch { set epdEngineName $::enginewin_lastengine($win) }
+    if {$epdEngineName eq ""} { set epdEngineName $name }
+    set epdEngineName [string map {{ } _} $epdEngineName]
 
     set epdAnnotation 1
     set analysisRunning 1
     set analysisOwner $id
     set analysisStopRequested 0
+    set drive {}
     catch { $w.bottom.stop configure -state normal }
-    $w.bottom.status configure -text "Analyzing with $epdEngineName ($epdDelay secs/move)"
+    $w.bottom.status configure -text \
+        "Analyzing with $epdEngineName in Engine Window $win ($epdDelay secs/position)"
     update
 
     # update pumps window events: the reader may have closed this EPD window
     # already, in which case the handle is gone and the flag must not stay set.
     if {![winfo exists $w]} {
-      catch { ::epdanalysis::close }
       set analysisRunning 0
       set analysisOwner ""
       set analysisStopRequested 0
@@ -762,6 +799,24 @@ namespace eval epd {
     }
 
     if {$epdAnnotateMode != 1} { clearOpcodes $id }
+
+    set movetime [expr {int($epdDelay * 1000)}]
+    # Every message the window takes comes back here, so the pass can record the
+    # moment the sought move first appeared and end the position on its answer.
+    ::enginewin::watch $win ::epd::watchEngine
+    # Autoscan would keep this window answering positions of the game it was
+    # scanning, which the pass would mistake for, or wait behind. It is turned
+    # off for the run and put back in the cleanup below.
+    catch { ::enginewin::autorunOff $win }
+    # The window is the agent, not the clock: its depth and time limits are
+    # borrowed for the run so every position is searched for the seconds the
+    # dialog asks for. The toolbar shows those seconds while the pass runs, and
+    # the report header below states them as the search's limits.
+    set savedLimits ""
+    catch {
+      set savedLimits [::enginewin::holdLimits $win \
+          [list depth "" movetime $movetime]]
+    }
 
     # Open the results log file, if requested.
     set logfp ""
@@ -772,11 +827,16 @@ namespace eval epd {
         set logfp ""
       } else {
         set modeText [lindex {Annotate {Count best moves} Both} $epdAnnotateMode]
+        set winEngine ""
+        catch { set winEngine $::enginewin_lastengine($win) }
+        if {$winEngine eq ""} { set winEngine $name }
         puts $logfp "EPD analysis results"
-        puts $logfp "Engine:   $name"
+        puts $logfp "Engine:   $winEngine"
+        puts $logfp "Window:   Engine Window $win (the search this report records)"
+        puts $logfp "Limits:   [::epd::windowLimits $win]"
         puts $logfp "EPD file: [sc_epd name $id]"
         puts $logfp "Mode:     $modeText"
-        puts $logfp "Time/pos: $epdDelay s"
+        puts $logfp "Time/pos: $epdDelay s per position"
         puts $logfp "Date:     [clock format [clock seconds]]"
         puts $logfp [string repeat - 100]
         puts $logfp [format "%-4s %-16s %-10s %-7s %7s %5s %8s  %s" \
@@ -791,57 +851,75 @@ namespace eval epd {
     set annErr ""
     set cancelled 0
     set i 0
-    set movetime [expr {int($epdDelay * 1000)}]
 
     for { set i 0 } { $i < $size } { incr i } {
       if {$analysisStopRequested} { set cancelled 1 ; break }
+      # No position will be answered if the window is gone, or the reader
+      # stopped or locked it. End the pass instead of waiting on a window that
+      # is no longer following the board.
+      if {![winfo exists .engineWin$win] \
+              || ![info exists ::enginewin::engState($win)] \
+              || ![::enginewin::stateFollow $win]} {
+        set cancelled 1
+        break
+      }
       if {[catch {
         $w.lb selection clear 0 end
         $w.lb selection set $i
         $w.lb see $i
         update idletasks
+        # The window's Go is dispatched inside loadEpd, and ::engine::send
+        # replies InfoGo synchronously, before the drive record below exists.
+        # So the position's clock is the request, not a message: no start event
+        # is lost, and the safety stop is armed however the engine behaves.
+        set askedMs [clock milliseconds]
         loadEpd $id
       } iterErr]} { set annErr $iterErr ; break }
 
       # Read the sought move(s) (bm/am) for THIS position before the search.
       set soughtMoves [::epd::soughtMovesFor $id]
       set fen [sc_pos fen]
+      # The position string ::enginewin::onPosChanged has just sent. An answer
+      # to the search that was running before it carries the old string, so the
+      # first position cannot take the previous one's move.
+      set wantPos [sc_game UCI_currentPos]
       if {$analysisStopRequested} { set cancelled 1 ; break }
-      set posStartMs [clock milliseconds]
-      set ::epd::analysisSolveMs ""
-      set ::epd::analysisResult ""
 
-      # The first info line that matches bm/am gives the time-to-solve, even
-      # when the engine later changes its mind about the best move.
-      set onInfo [list apply {{sought start data} {
-        if {$::epd::analysisSolveMs ne "" || $sought eq ""} { return }
-        set bm [dict get $data best_san]
-        if {$bm ne "" && [::epd::evalBestMove $sought $bm] eq "TRUE"} {
-          set ::epd::analysisSolveMs [clock milliseconds]
-        }
-      }} $soughtMoves $posStartMs]
-      set token [::epdanalysis::ask $fen $movetime \
-          [list apply {{data} { set ::epd::analysisResult $data }}] $onInfo]
-      if {$token eq "" && $::epd::analysisResult eq ""} {
-        set annErr [tr EpdEngineNotStarted]
-        break
-      }
-      if {$token ne ""} { vwait ::epd::analysisResult }
-      if {![winfo exists $w]} { set cancelled 1 ; break }
-      set data $::epd::analysisResult
-      if {![dict size $data]} { set annErr [tr EpdEngineNoResult] ; break }
-      set reason [dict get $data error]
-      if {$reason eq "cancelled"} { set cancelled 1 ; break }
+      set token "epd[incr driveSeq]"
+      set drive [dict create win $win pos $wantPos fen $fen \
+          sought $soughtMoves token $token solveMs "" start $askedMs \
+          stopRequested 0 \
+          data [::epdanalysis::emptyData $fen] deadline "" watchdog ""]
+      set driveDone 0
+      # The budget is the window's own go movetime, counted from the request
+      # that sent it. The stop is the safety net for an engine that ignores it;
+      # the watchdog is the last resort for one that says nothing at all. Both
+      # are delays -- ::after counts from now, not from a clock reading -- while
+      # `start` is the absolute time the report measures its time-to-solve from.
+      dict set drive deadline [after [expr {$movetime + 2000}] \
+          [list ::epd::cutoffDrive $win $token]]
+      dict set drive watchdog [after [expr {$movetime + 15000}] \
+          [list ::epd::watchdogDrive $win $token]]
+      vwait ::epd::driveDone
+      set position [dict get $drive data]
+      set solveMs [dict get $drive solveMs]
+      set startMs [dict get $drive start]
+      set drive {}
+
+      if {![winfo exists $w] || $analysisStopRequested} { set cancelled 1 ; break }
+      if {![dict size $position]} { set annErr [tr EpdEngineNoResult] ; break }
+      set reason [dict get $position error]
+      if {$reason eq "closed"} { set cancelled 1 ; break }
       if {$reason ne ""} { set annErr $reason ; break }
 
       set solveTime "-"
-      if {$::epd::analysisSolveMs ne ""} {
+      if {$solveMs ne "" && $startMs ne ""} {
         set solveTime [format "%.1f" \
-            [expr {($::epd::analysisSolveMs - $posStartMs) / 1000.0}]]
+            [expr {($solveMs - $startMs) / 1000.0}]]
       }
 
       if {[catch {
-        set foundMove [dict get $data best_san]
+        set foundMove [dict get $position best_san]
         set result [::epd::evalBestMove $soughtMoves $foundMove]
         set status {}
         if {$epdAnnotateMode > 0} {
@@ -857,18 +935,26 @@ namespace eval epd {
           }
         }
         if {$logfp != ""} {
-          ::epd::logAnnotateRow $logfp $data [expr {$i + 1}] \
+          ::epd::logAnnotateRow $logfp $position [expr {$i + 1}] \
               $soughtMoves $foundMove $result $solveTime
         }
         if {$epdAnnotateMode != 1} {
-          pasteAnalysisData $id $data $status
+          pasteAnalysisData $id $position $status
           storeEpdText $id
           updateEpdWin $id
         }
       } iterErr]} { set annErr $iterErr ; break }
     }
 
-    ::epdanalysis::close
+    # A search still in flight belongs to a position the pass is abandoning.
+    if {[dict size $drive] && [winfo exists .engineWin$win]} {
+      catch { ::engine::send $win StopGo }
+      set drive {}
+    }
+    catch { ::enginewin::unwatch $win }
+    catch { ::enginewin::autorunRestore $win }
+    catch { ::enginewin::releaseLimits $win $savedLimits }
+
     set analysisRunning 0
     set analysisOwner ""
     set analysisStopRequested 0
@@ -881,7 +967,8 @@ namespace eval epd {
         $w.bottom.status configure -text [tr EpdAnalysisStopped]
       } elseif {$epdAnnotateMode > 0} {
         set summary "Best moves found $bestMovesFound / $bestMovesNoted"
-        $w.bottom.status configure -text "Result $epdEngineName ($epdDelay secs/move): $summary"
+        $w.bottom.status configure -text \
+            "Result $epdEngineName in Engine Window $win ($epdDelay secs/position): $summary"
         if {$epdAnnotateMode == 2} { $w.text insert end "\n$summary" }
       } elseif {$i >= $size} {
         $w.bottom.status configure -text "Analysis finished ($size positions)."
@@ -902,17 +989,118 @@ namespace eval epd {
       if {$epdAnnotateMode > 0 && $bestMovesNoted > 0} {
         append msg "\nBest moves found: $bestMovesFound / $bestMovesNoted"
       }
+      append msg "\nThe search was Engine Window $win."
       tk_messageBox -type ok -icon info -title [tr EpdAnalysisTitle] -message $msg -parent $w
     }
   }
 
-  # The EPD window's Stop button and its close path. The waiting vwait gets the
-  # cancelled result from ::epdanalysis, so the loop unwinds and closes the
-  # engine; this proc does not destroy the window.
+  ###  The limits the pass put the search on, as the report's header shows them.
+  ###  It is read after the window's limits have been borrowed for the run, so
+  ###  it states the budget the reader set rather than the window's own limit.
+  proc windowLimits {win} {
+    set out {}
+    catch {
+      if {$::enginewin::depth($win) ne ""} {
+        lappend out "depth $::enginewin::depth($win)"
+      }
+      if {$::enginewin::movetime($win) ne ""} {
+        lappend out "movetime $::enginewin::movetime($win) ms"
+      }
+    }
+    if {[llength $out]} { return [join $out ", "] }
+    return "none"
+  }
+
+  ###  Called by the Engine Window for every message it takes. The record keeps
+  ###  the deepest line the window showed; the first line whose move matches
+  ###  bm/am gives the time to solve, even when the window later changes its mind.
+  proc watchEngine {win type msgData} {
+    variable drive
+    if {![dict size $drive] || [dict get $drive win] ne $win} { return }
+    # The window is being destroyed: no answer can arrive now.
+    if {$type eq "InfoWindowClosed"} { ::epd::finishDrive "closed" ; return }
+    # The window names the position each message belongs to. The pass loads one
+    # position at a time and advances only when the previous drive has ended, so
+    # the only search that can still be in flight is one that was stopped before
+    # this position was asked for -- and ::enginecomm suppresses a stopped
+    # search's InfoBestMove, so its messages cannot be taken for this one's.
+    if {[info exists ::enginewin::pv_(pos,$win)] \
+            && $::enginewin::pv_(pos,$win) ne [dict get $drive pos]} {
+      return
+    }
+    switch -- $type {
+      "InfoPV" {
+        set line [::epdanalysis::dataFromInfo [dict get $drive fen] $msgData]
+        if {$line eq ""} { return }
+        set sought [dict get $drive sought]
+        if {[dict get $drive solveMs] eq "" && $sought ne "" \
+                && [::epd::evalBestMove $sought [dict get $line best_san]] eq "TRUE"} {
+          dict set drive solveMs [clock milliseconds]
+        }
+        dict set drive data [::epdanalysis::absorb [dict get $drive data] $line]
+      }
+      "InfoBestMove" {
+        dict set drive data [::epdanalysis::withBestMove \
+            [dict get $drive data] [lindex $msgData 0] [dict get $drive fen]]
+        ::epd::finishDrive ""
+      }
+      "InfoReady" {
+        # The pass's safety stop is acknowledged this way: ::enginecomm
+        # suppresses the stopped search's InfoBestMove (see onMessages_ and
+        # done_) and answers the stop with InfoReady. Without this the position
+        # would wait for the watchdog after every overshoot of movetime.
+        # Anything else that arrives as InfoReady (the handshake) is not a
+        # safety stop and must not end a position.
+        if {[dict get $drive stopRequested]} { ::epd::finishDrive "" }
+      }
+    }
+  }
+
+  ###  The budget plus a grace has gone by and the window has not answered: stop
+  ###  it, without changing the window's state (::enginewin::stop would pause it
+  ###  and clear the PV display the report reads from). The answer that follows
+  ###  ends the position.
+  proc cutoffDrive {win token} {
+    variable drive
+    if {![dict size $drive] || [dict get $drive token] ne $token} { return }
+    if {![winfo exists .engineWin$win]} { ::epd::finishDrive "closed" ; return }
+    # The stop is answered with InfoReady, not the suppressed InfoBestMove.
+    dict set drive stopRequested 1
+    catch { ::engine::send $win StopGo }
+  }
+
+  ###  Give up on an answer that never came: the engine died mid-search, or the
+  ###  window was destroyed with a search in flight.
+  proc watchdogDrive {win token} {
+    variable drive
+    if {![dict size $drive] || [dict get $drive token] ne $token} { return }
+    if {![winfo exists .engineWin$win]} { ::epd::finishDrive "closed" ; return }
+    ::epd::finishDrive [tr EpdEngineNoAnswer]
+  }
+
+  ###  End the position in flight and wake the pass's vwait.
+  proc finishDrive {err} {
+    variable drive
+    variable driveDone
+    if {![dict size $drive]} { return }
+    if {[dict get $drive deadline] ne ""} {
+      catch { after cancel [dict get $drive deadline] }
+    }
+    if {[dict get $drive watchdog] ne ""} {
+      catch { after cancel [dict get $drive watchdog] }
+    }
+    dict set drive data [dict replace [dict get $drive data] error $err]
+    set driveDone 1
+  }
+
+  # The EPD window's Stop button and its close path. The window is the search,
+  # so stopping it makes it answer and the pass's vwait returns; this proc does
+  # not destroy either window.
   proc stopAnalysis {id} {
     variable analysisRunning
     variable analysisOwner
     variable analysisStopRequested
+    variable drive
     if {![info exists analysisRunning] || !$analysisRunning} { return }
     if {$id ne $analysisOwner} { return }
     set analysisStopRequested 1
@@ -921,7 +1109,14 @@ namespace eval epd {
       $w.bottom.status configure -text [tr EpdAnalysisStopping]
       catch { $w.bottom.stop configure -state disabled }
     }
-    catch { ::epdanalysis::cancel }
+    # The window is the search: stopping it makes it answer, and the pass's
+    # vwait unwinds. The position in flight is abandoned now rather than at its
+    # budget, and the loop does not record it. A window already gone has nothing
+    # left to stop.
+    if {[dict size $drive] && [winfo exists .engineWin[dict get $drive win]]} {
+      catch { ::engine::send [dict get $drive win] StopGo }
+      ::epd::finishDrive ""
+    }
   }
 
   ###  Return the slot number of the first open engineWin window, or -1.
@@ -1087,7 +1282,7 @@ namespace eval epd {
   }
 
   ################################################################################
-  ###  Annotate a single (current) EPD line from a headless result dict.
+  ###  Annotate a single (current) EPD line from the window's result record.
   ################################################################################
   proc pasteAnalysisData {id data {status {}}} {
     variable epdEngineName

@@ -222,7 +222,7 @@ foreach spec $HELP_FILES {
 # fail here and the sentinels move with it.
 set ENGINE_SENTINEL "They are the only engine surface now; the old Analysis window has been retired."
 set CE_SENTINEL "is in pawns from White's perspective instead"
-set ANNO_SENTINEL "opened on the chosen engine or raised if that engine already has one"
+set ANNO_SENTINEL "opens an Engine Window on the chosen engine (or raises the one already showing it) and drives it"
 
 lassign [loadHelp [file join $root tcl help help.tcl]] enh enErr
 check "English help loads for the translated-page checks" [expr {$enh ne ""}] $enErr

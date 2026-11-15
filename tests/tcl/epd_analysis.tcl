@@ -2,9 +2,13 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# epd_analysis.tcl -- the EPD headless session without a board or Tk.
+# epd_analysis.tcl -- the Engine Window's messages as an EPD record, no Tk.
 #
 #   tclsh tests/tcl/epd_analysis.tcl
+#
+# The pass drives the Engine Window now, so this module holds no connection to
+# test: it turns the window's raw InfoPV fields into the record the EPD writer
+# and the report consume. The driving loop itself is in epd_analysis_window.tcl.
 
 set fails 0
 set checks 0
@@ -46,151 +50,90 @@ proc sc_pos {sub args} {
     return ""
 }
 
-namespace eval ::enginecfg {}
-proc ::enginecfg::get {name} {
-    return [list $name /bin/true {} {} 0 0 {} 1 {} {}]
-}
-
-namespace eval ::engineNoWin {}
-namespace eval ::engine {}
-set ::opened {}
-set ::closed 0
-set ::sent {}
-set ::engineCb ""
-proc ::engineNoWin::initEngine {id name cb {options ""}} {
-    lappend ::opened [list $id $name $options]
-    set ::engineCb $cb
-    return 1
-}
-proc ::engineNoWin::closeEngine {id} { incr ::closed ; return }
-proc ::engine::send {id msg {data ""}} {
-    lappend ::sent [list $id $msg $data]
-    return
-}
-
-puts "\nthe headless session"
-
-checkEq "a UCI preset opens" [::epdanalysis::open TestEngine] ""
-checkEq "on its own connection, not an engine window slot" \
-    [lindex $::opened 0 0] epdAnalysis
-check "the first options ask for one line" \
-    [expr {[string first "MultiPV 1" $::sent] >= 0}]
-
-puts "\none position, one best move"
-
-set ::done 0
-set ::infos 0
-set ::result ""
 set fen {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}
-set token [::epdanalysis::ask $fen 4000 \
-    [list apply {{d} { set ::result $d ; set ::done 1 }}] \
-    [list apply {{sought start data} {
-        incr ::infos
-        set ::infoBest [dict get $data best_san]
-    }} $fen 0]]
-check "the search has a token" [expr {$token ne ""}]
-check "the Go asks for the position and the time" \
-    [expr {[lindex $::sent end 1] eq "Go" \
-        && [string first "position fen $fen" [lindex $::sent end 2]] >= 0 \
-        && [string first "movetime 4000" [lindex $::sent end 2]] >= 0}]
 
-{*}$::engineCb {InfoPV {1 20 22 1000 500 0 0 120 30 cp 0 e7e5 d7d5}}
-checkEq "onInfo sees the line" $::infos 1
-checkEq "with the result dict last, as message supplies it" $::infoBest e5
-{*}$::engineCb {InfoBestMove {e7e5}}
-checkEq "the answer is delivered once" $::done 1
-checkEq "with the best move in SAN" [dict get $::result best_san] e5
-checkEq "the PV in SAN" [dict get $::result pv_san] {e5 d5}
+puts "\none info line becomes the record"
+
+set rec [::epdanalysis::dataFromInfo $fen {1 20 22 1000 500 0 0 120 30 cp 0 e7e5 d7d5}]
+checkEq "the best move in SAN" [dict get $rec best_san] e5
+checkEq "the PV in SAN" [dict get $rec pv_san] {e5 d5}
+checkEq "the depth" [dict get $rec depth] 20
+checkEq "the nodes" [dict get $rec nodes] 1000
+checkEq "the score from the side to move" [dict get $rec score_stm] 0.3
+checkEq "the score from White" [dict get $rec score_white] 0.3
+checkEq "and no error" [dict get $rec error] ""
+
+checkEq "a line from another MultiPV slot is not the record" \
+    [::epdanalysis::dataFromInfo $fen {3 20 22 1000 500 0 0 120 30 cp 0 e7e5 d7d5}] ""
+checkEq "a fail-high search is not an evaluation" \
+    [::epdanalysis::dataFromInfo $fen {1 20 22 1000 500 0 0 120 30 lowerbound 0 e7e5}] ""
+
+puts "\nSAN without a scoresheet number"
+
 # The UCI display formatter numbers a Black move ("1...e5"); EPD and the report
 # want plain SAN. coordToSAN is preferred, so the formatter cannot leak a move
-# number into best_san or the pv opcode. The stub is the module that owns the
-# formatter since #437 §6 (tcl/tools/uci_format.tcl).
-namespace eval ::ucifmt {}
-proc ::ucifmt::formatPv {pv fen} { return "1...e5 2.d5" }
-checkEq "the PV stays plain SAN, not the numbered display line" \
+# number into best_san or the pv opcode.
+checkEq "the PV is plain SAN, not the numbered display line" \
     [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
 # ... and the fallback is real: with coordToSAN unavailable (the position has no
 # board, exactly the case the guard is for) pvSAN goes through the formatter, so
 # the guard has to name the module the formatter actually lives in.
+namespace eval ::ucifmt {}
+proc ::ucifmt::formatPv {pv fen} { return "1...e5 2.d5" }
 rename sc_pos ::real_sc_pos
 checkEq "with no coordToSAN the ::ucifmt fallback is taken" \
     [::epdanalysis::pvSAN $fen {e7e5 d7d5}] {e5 d5}
 rename ::real_sc_pos sc_pos
 checkEq "a single move loses its scoresheet number" \
     [::epdanalysis::sanMove $fen d7d5] d5
-checkEq "the depth" [dict get $::result depth] 20
-checkEq "the nodes" [dict get $::result nodes] 1000
-checkEq "the score from the side to move" [dict get $::result score_stm] 0.3
-checkEq "the score from White" [dict get $::result score_white] 0.3
-checkEq "and no error" [dict get $::result error] ""
 
-puts "\na late shallower line keeps the deeper result"
+puts "\nthe deepest line the window showed is the record"
 
-set ::late 0
-set ::lateBest ""
-set token [::epdanalysis::ask $fen 4000 \
-    [list apply {{d} { set ::result $d }}] \
-    [list apply {{sought start data} {
-        incr ::late
-        set ::lateBest [dict get $data best_san]
-    }} $fen 0]]
-{*}$::engineCb {InfoPV {1 20 22 2000 500 0 0 140 20 cp 0 e7e5 d7d5}}
-{*}$::engineCb {InfoPV {1 18 20 1500 500 0 0 120 15 cp 0 g1f3 g8f6}}
+set deep [::epdanalysis::dataFromInfo $fen {1 20 22 2000 500 0 0 140 20 cp 0 e7e5 d7d5}]
+set shallow [::epdanalysis::dataFromInfo $fen {1 18 20 1500 500 0 0 120 15 cp 0 g1f3 g8f6}]
+checkEq "a shallower line does not replace it" \
+    [dict get [::epdanalysis::absorb $deep $shallow] depth] 20
 # The bestmove belongs to the shallower re-search; the deeper line is the
 # record, so the shallower search must not rewrite its move.
-{*}$::engineCb {InfoBestMove {g1f3}}
-checkEq "the deeper depth is kept" [dict get $::result depth] 20
-checkEq "with its PV" [dict get $::result pv_san] {e5 d5}
-checkEq "and its score" [dict get $::result score_stm] 0.2
-checkEq "the deeper line's move is the answer" [dict get $::result best_san] e5
-checkEq "the shallower line still reached the solve timer" $::late 2
-checkEq "with its own move" $::lateBest Nf3
+checkEq "with its PV" \
+    [dict get [::epdanalysis::absorb $deep $shallow] pv_san] {e5 d5}
+checkEq "and its score" \
+    [dict get [::epdanalysis::absorb $deep $shallow] score_stm] 0.2
+checkEq "a deeper line replaces it" \
+    [dict get [::epdanalysis::absorb $shallow $deep] depth] 20
+checkEq "an equal depth replaces it" \
+    [dict get [::epdanalysis::absorb $shallow \
+        [::epdanalysis::dataFromInfo $fen {1 18 20 900 500 0 0 90 5 cp 0 a1a8}]] \
+        score_stm] 0.05
+checkEq "an unparsable depth replaces it" \
+    [dict get [::epdanalysis::absorb $deep \
+        [::epdanalysis::dataFromInfo $fen {1 {} 20 900 500 0 0 90 5 cp 0 a1a8}]] \
+        depth] ""
 
 puts "\na bestmove with no line is still the answer"
 
-set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
-{*}$::engineCb {InfoBestMove {e7e5}}
-checkEq "the move" [dict get $::result best_san] e5
-checkEq "with no depth" [dict get $::result depth] ""
+set empty [::epdanalysis::emptyData $fen]
+checkEq "the move" [dict get [::epdanalysis::withBestMove $empty e7e5 $fen] best_san] e5
+checkEq "with no depth" [dict get [::epdanalysis::withBestMove $empty e7e5 $fen] depth] ""
+checkEq "a line already holds the move, so the bestmove leaves it alone" \
+    [dict get [::epdanalysis::withBestMove $deep g1f3 $fen] best_san] e5
+checkEq "a null move is no move" \
+    [dict get [::epdanalysis::withBestMove $empty 0000 $fen] best_san] ""
 
 puts "\na Black-to-move score is turned for White"
 
 set fen2 {4k3/8/8/8/8/8/8/4K2R b - - 0 1}
-set token [::epdanalysis::ask $fen2 1000 [list apply {{d} { set ::result $d }}]]
-{*}$::engineCb {InfoPV {1 18 20 500 250 0 0 80 30 cp 0 e8d7}}
-{*}$::engineCb {InfoBestMove {e8d7}}
-checkEq "side-to-move score" [dict get $::result score_stm] 0.3
-checkEq "White's score is the mirror" [dict get $::result score_white] -0.3
+set rec2 [::epdanalysis::dataFromInfo $fen2 {1 18 20 500 250 0 0 80 30 cp 0 e8d7}]
+checkEq "side-to-move score" [dict get $rec2 score_stm] 0.3
+checkEq "White's score is the mirror" [dict get $rec2 score_white] -0.3
 
 puts "\na mate keeps its distance and sign"
 
-set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
-{*}$::engineCb {InfoPV {1 20 22 900 500 0 0 100 3 mate 0 a1a8}}
-{*}$::engineCb {InfoBestMove {a1a8}}
-checkEq "the mate distance for the side to move" [dict get $::result mate_stm] 3
-checkEq "the mate distance for White" [dict get $::result mate_white] 3
+set mate [::epdanalysis::dataFromInfo $fen {1 20 22 900 500 0 0 100 3 mate 0 a1a8}]
+checkEq "the mate distance for the side to move" [dict get $mate mate_stm] 3
+checkEq "the mate distance for White" [dict get $mate mate_white] 3
 checkEq "a mate for the side to move encodes positive" [::epdanalysis::mateCe + 3] 32761
 checkEq "a mate against it encodes negative" [::epdanalysis::mateCe - 3] -32761
-
-puts "\nstop, disconnect and a second position"
-
-set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
-::epdanalysis::cancel
-checkEq "Cancel answers the pending search" [dict get $::result error] cancelled
-
-set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
-{*}$::engineCb {InfoDisconnected {}}
-checkEq "a disconnect answers it too" [dict get $::result error] EpdEngineDisconnected
-
-set token [::epdanalysis::ask $fen 1000 [list apply {{d} { set ::result $d }}]]
-{*}$::engineCb {InfoPV {1 12 14 100 50 0 0 40 -20 cp 0 a1a8}}
-{*}$::engineCb {InfoBestMove {a1a8}}
-checkEq "a second position can be searched on the same connection" \
-    [dict get $::result best_san] Ra8#
-checkEq "with its own score" [dict get $::result score_stm] -0.2
-
-::epdanalysis::close
-checkEq "closing closes the one connection" $::closed 2
 
 puts "\nthe report compares the move, not its display number"
 
@@ -207,7 +150,6 @@ proc procText {path name} {
     }
     return $text
 }
-namespace eval epd {}
 namespace eval epd {
     foreach name {normMove evalBestMove} {
         eval [procText [file join $root tcl file epd.tcl] $name]
@@ -232,6 +174,23 @@ checkEq "numbered castling matches letter castling" \
 checkEq "an avoid move still compares" \
     [::epd::evalBestMove {avoid Nf3} "1.Nf3"] FALSE
 
+puts "\nthe pass holds no engine of its own"
+
+set fh [open [file join $root tcl file epd.tcl] r]
+set src [read $fh]
+close $fh
+foreach needle {::epdanalysis::open ::epdanalysis::ask ::epdanalysis::close \
+        ::epdanalysis::cancel ::epdanalysis::message} {
+    check "epd.tcl does not call $needle" [expr {[string first $needle $src] < 0}]
+}
+set fh [open [file join $root tcl tools epd_analysis.tcl] r]
+set module [read $fh]
+close $fh
+foreach needle {::engineNoWin::initEngine ::engine::send} {
+    check "the module does not open or drive an engine" \
+        [expr {[string first $needle $module] < 0}]
+}
+
 puts "\nthe new EPD strings have English translations"
 set ef [open [file join $root tcl lang english.tcl] r]
 set english [read $ef]
@@ -239,9 +198,7 @@ close $ef
 foreach key {
     EpdAnalysisTitle EpdAnalysisRunning EpdAnalysisMinTime
     EpdAnalysisStartFailed EpdAnalysisError EpdAnalysisStopped
-    EpdAnalysisStopping EpdEngineNotStarted EpdEngineNoResult
-    EpdSearchAlreadyRunning EpdNoEngineConfigured EpdOnlyUci
-    EpdEngineDisconnected EpdEngineNoAnswer
+    EpdAnalysisStopping EpdEngineNoResult EpdOnlyUci EpdEngineNoAnswer
 } {
     check "translate E $key exists" \
         [expr {[string first "translate E $key " $english] >= 0}]
@@ -249,9 +206,6 @@ foreach key {
 
 puts "\nno Analysis Engine window remains in the EPD path"
 
-set fh [open [file join $root tcl file epd.tcl] r]
-set src [read $fh]
-close $fh
 foreach needle {.analysisWin makeAnalysisWin ::analysis( toggleEngineAnalysis} {
     check "epd.tcl has no $needle" [expr {[string first $needle $src] < 0}]
 }

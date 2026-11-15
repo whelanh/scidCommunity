@@ -3781,11 +3781,27 @@ set helpText(EPD) {<h1>EPD files</h1>
   (only tally how often the engine agrees with the <b>bm</b>/<b>am</b>
   opcodes, without changing the file), <b>Annotate</b> (add analysis opcodes
   to each position), or <b>Both</b>. scidCommunity then steps through every
-  position, and the EPD opcodes added are: acd, acn, ce, dm and pv. The
-  analysis is shown in an Engine Window, opened on the chosen engine or
-  raised if that engine already has one; the pass keeps its own engine, so
-  closing the window does not stop it. The <b>Stop</b> button in the EPD
-  window, or closing the EPD window, ends the pass.
+  position, and the EPD opcodes added are: acd, acn, ce, dm and pv.
+  </p>
+  <p>
+  The analysis <em>is</em> the Engine Window: the pass opens an Engine Window on
+  the chosen engine (or raises the one already showing it) and drives it, one
+  position at a time. The window's own engine, options and MultiPV do the
+  search, so the depth, score and principal variation in the report are the
+  ones you watched the window display. <b>Seconds per position</b> is the job the
+  pass gives the window: for the run, the window's depth and time limits are set
+  aside (its toolbar shows the budget) and every position is given a search of
+  that many seconds. The window's own limits therefore no longer cut a position
+  short; a position that finishes sooner than that on its own -- a forced mate,
+  say -- moves on. Your usual limits come back when the run ends, and nothing is
+  written to the engine preset. Autoscan is turned
+  off for the run and put back afterwards, because a scan would keep answering
+  positions the pass did not ask for. The report states the engine, the window
+  and the search's limits in its header. The full principal variation is written
+  to the EPD <b>pv</b> opcode, even when the window truncates it for display; the
+  saved text report lists the move, the match, the time, depth, score and FEN
+  only. The <b>Stop</b> button in the EPD window, closing the EPD window, or
+  closing the Engine Window ends the pass.
   </p>
   <p>
   Check <b>Save results to file</b> to write the per-position results to a

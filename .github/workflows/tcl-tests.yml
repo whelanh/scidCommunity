@@ -80,14 +80,14 @@ jobs:
       - name: Review transport
         run: tclsh tests/tcl/review_transport.tcl
 
-      # The EPD window's headless analysis session: one connection, one
-      # position at a time, the result record the EPD writer consumes.
-      - name: EPD headless analysis
+      # The Engine Window's messages as an EPD result record, without Tk: the
+      # deepest-line rule, the answer-at-bestmove rule, SAN and ce encoding.
+      - name: EPD result record
         run: tclsh tests/tcl/epd_analysis.tcl
 
-      # Analyze Positions used to open its Analysis window by itself. The pass
-      # now raises (or opens) an Engine Window on the same preset, while still
-      # running on its own connection.
+      # Analyze Positions drives the Engine Window: the pass loads each position
+      # on the board and reads the window's answer back, on the window's engine,
+      # options and limits.
       - name: EPD analysis window
         run: tclsh tests/tcl/epd_analysis_window.tcl
 

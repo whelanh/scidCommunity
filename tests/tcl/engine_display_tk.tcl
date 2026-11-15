@@ -436,5 +436,68 @@ check "the line still ends with the node count" \
 checkEq "the time comes after the W/D/L and the nodes" \
     [lineText 1] "22/24\t+0.25\te2e4 e7e5  (W: 95.8%  D: 4.2%  L: 0.0%  23193.21K nodes) (4.25s)"
 
+# A tool watching the window (the EPD pass drives it) is told every message the
+# window takes, after the window has taken it. A type the window ignores still
+# proves the dispatch: the switch does nothing and the watcher is still called.
+puts "\na watcher sees the messages the window has taken"
+
+set ::seen {}
+::enginewin::watch 1 [list apply {{id type data} {
+    lappend ::seen [list $id $type $data]
+}}]
+::enginewin::callback 1 {InfoProbe {a b}}
+checkEq "the watcher is told once" [llength $::seen] 1
+checkEq "with the window, the type and the data" \
+    [lindex $::seen 0] {1 InfoProbe {a b}}
+::enginewin::unwatch 1
+::enginewin::callback 1 {InfoProbe {a b}}
+checkEq "and not after unwatch" [llength $::seen] 1
+
+::enginewin::watch 1 [list apply {{id type data} {
+    lappend ::seen [list $id $type $data]
+}}]
+::enginewin::watcherGone 1
+checkEq "a window being destroyed tells the watcher" \
+    [lindex $::seen end] {1 InfoWindowClosed {}}
+
+# Autoscan is the window's own scan of a game's main line. The EPD pass drives
+# the same window one position at a time, so it turns Autoscan off for its run
+# and puts the reader's setting back afterwards.
+puts "\nAutoscan is paused for a tool that drives the window"
+
+frame .engineWin1.btn -takefocus 0
+ttk::menubutton .engineWin1.btn.autorun -text "scan"
+set ::enginewin_autorun(1) {{movetime 50}}
+::enginewin::autorunOff 1
+checkEq "the scan is off" $::enginewin_autorun(1) {{}}
+checkEq "and its button is not lit" \
+    [.engineWin1.btn.autorun instate user1] 0
+::enginewin::autorunOff 1
+checkEq "a second Off keeps the setting to restore" \
+    $::enginewin::m_(autorunSaved,1) {{movetime 50}}
+::enginewin::autorunRestore 1
+checkEq "the reader's setting comes back" \
+    $::enginewin_autorun(1) {{movetime 50}}
+checkEq "and so does the button" [.engineWin1.btn.autorun instate user1] 1
+
+# The EPD pass gives the window a job with its own time. It borrows the depth
+# and time limits for the run, so the toolbar shows what the search is actually
+# doing, and a focus-out in the toolbar must not save that budget to the preset.
+puts "\nthe window's limits can be borrowed for a pass"
+
+set ::enginewin::depth(1) 20
+set ::enginewin::movetime(1) 2000
+set savedLimits [::enginewin::holdLimits 1 [list depth "" movetime 5000]]
+checkEq "the toolbar shows the job" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {{} 5000}
+checkEq "the reader's limits are kept" $savedLimits {20 2000}
+# No preset and no message box behind the reader's back: held limits return.
+::enginewin::applyLimits 1
+checkEq "a focus-out during the pass changes nothing" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {{} 5000}
+::enginewin::releaseLimits 1 $savedLimits
+checkEq "and the limits come back" \
+    [list $::enginewin::depth(1) $::enginewin::movetime(1)] {20 2000}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

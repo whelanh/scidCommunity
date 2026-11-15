@@ -842,10 +842,13 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     bind $w.config <Destroy> [list apply {{id w} {
         catch { ::enginewin::playStop $id }
         if {![info exists ::enginewin::engState($id)]} { return }
-        # The pass runs on its own connection, so closing the window would
-        # otherwise leave it searching a game nothing shows any more - and
-        # ::reviewdriver::busy would keep every other window from starting one.
+        # A review pass on its own connection would otherwise be left searching
+        # a game nothing shows any more - and ::reviewdriver::busy would keep
+        # every other window from starting one. A watcher (the EPD pass) is told
+        # first and released: closing the window it drives ends the pass.
         catch { ::enginewin::reviewCancel $id }
+        catch { ::enginewin::watcherGone $id }
+        catch { ::enginewin::unwatch $id }
         ::stored_eval::cancelQuery $id
         ::stored_eval::clear $id
         unset ::enginewin::engState($id)
@@ -1845,6 +1848,10 @@ proc ::enginewin::reviewSettingsApply {id w} {
 
 # Apply depth and movetime limits and restart engine if running
 proc ::enginewin::applyLimits {id} {
+    # The EPD pass has borrowed these fields for its run (see holdLimits): what
+    # they show is the pass's budget, and saving it would change the reader's
+    # preset for every later search.
+    if {[info exists ::enginewin::m_(limitsHeld,$id)]} { return }
     # A half-typed number must not reach the preset: put the stored values back.
     if {![::enginelimits::valid depth $::enginewin::depth($id)] ||
         ![::enginelimits::valid movetime $::enginewin::movetime($id)]} {
@@ -2958,6 +2965,78 @@ proc ::enginewin::connectEngine {id enginename} {
     set ::enginewin::m_(newgame,$id) true
 }
 
+# A tool can watch one window's engine messages. The EPD pass drives a window
+# and has to know the exact moment a position's search ends, so it is told here
+# instead of polling the arrays below. The script runs as
+# {*}$script $id $type $msgData, after the window has taken the message, so a
+# watcher reading pvBestMove or the pv_ array sees what is on screen. The same
+# shape as ::rapid_annotate::record, which the display calls.
+proc ::enginewin::watch {id script} {
+    set ::enginewin::watch_($id) $script
+    return
+}
+
+proc ::enginewin::unwatch {id} {
+    unset -nocomplain ::enginewin::watch_($id)
+    return
+}
+
+# Autorun is a pass over the game's main line; an EPD pass drives the same
+# window one position at a time, and a queued scan would keep answering
+# positions the pass did not ask for. The EPD pass turns Autoscan off for its
+# run and puts it back afterwards. The saved value lives on the window, so a
+# second Off before a restore does not lose the reader's setting.
+proc ::enginewin::autorunOff {id} {
+    if {![info exists ::enginewin_autorun($id)]} { return }
+    if {[info exists ::enginewin::m_(autorunSaved,$id)]} { return }
+    set ::enginewin::m_(autorunSaved,$id) $::enginewin_autorun($id)
+    set ::enginewin_autorun($id) {{}}
+    # The lit button is the reader's cue that a scan is running.
+    catch { [::enginewin::reviewWindow $id].btn.autorun state !user1 }
+    return
+}
+
+proc ::enginewin::autorunRestore {id} {
+    if {![info exists ::enginewin::m_(autorunSaved,$id)]} { return }
+    set ::enginewin_autorun($id) $::enginewin::m_(autorunSaved,$id)
+    unset ::enginewin::m_(autorunSaved,$id)
+    if {[lindex $::enginewin_autorun($id) 0] ne ""} {
+        catch { [::enginewin::reviewWindow $id].btn.autorun state user1 }
+    }
+    return
+}
+
+# The EPD pass searches every position for the time its own dialog asks for,
+# not for the window's depth or time limit. It borrows the window's limits for
+# the run instead of hiding the search behind them: the toolbar shows the
+# budget, so the reader sees the job that is running. The held flag keeps a
+# stray focus-out in the toolbar from saving the borrowed values to the engine
+# preset, which is the reader's setting, not the pass's.
+proc ::enginewin::holdLimits {id limits} {
+    if {[info exists ::enginewin::m_(limitsHeld,$id)]} { return "" }
+    set saved [list $::enginewin::depth($id) $::enginewin::movetime($id)]
+    set ::enginewin::m_(limitsHeld,$id) 1
+    catch { set ::enginewin::depth($id) [dict get $limits depth] }
+    catch { set ::enginewin::movetime($id) [dict get $limits movetime] }
+    return $saved
+}
+
+proc ::enginewin::releaseLimits {id saved} {
+    unset -nocomplain ::enginewin::m_(limitsHeld,$id)
+    if {![llength $saved]} { return }
+    catch { set ::enginewin::depth($id) [lindex $saved 0] }
+    catch { set ::enginewin::movetime($id) [lindex $saved 1] }
+    return
+}
+
+# The window is being destroyed. A watcher that is waiting on an answer must not
+# wait for one that can never come: it is told, before it is released.
+proc ::enginewin::watcherGone {id} {
+    if {![info exists ::enginewin::watch_($id)]} { return }
+    catch { {*}$::enginewin::watch_($id) $id "InfoWindowClosed" {} }
+    return
+}
+
 # Receive the engine's messages
 proc ::enginewin::callback {id msg} {
     variable pv_
@@ -3043,6 +3122,12 @@ proc ::enginewin::callback {id msg} {
             }
             tk_messageBox -icon warning -type ok -parent . -message $errorMsg
         }
+    }
+    # A watcher (the EPD pass) is told after the window has taken the message,
+    # so the arrays it reads are the ones on screen. A message from a search it
+    # did not ask for is its own to ignore, by position.
+    if {[info exists ::enginewin::watch_($id)]} {
+        catch { {*}$::enginewin::watch_($id) $id $msgType $msgData }
     }
 }
 
