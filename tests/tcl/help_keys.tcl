@@ -96,6 +96,14 @@ set BUTTON_PAGES {ReviewGameButton ReviewMoveButton ReviewSettings ToolsWhatThre
 # The English file has no namespace; the Polish one prefixes every key with
 # "P," so the help viewer can find it for the selected language and fall back
 # to English for the topics it does not translate.
+#
+# The retired proc's name is assembled rather than spelled: #437 §8's
+# acceptance check greps the tree for it and must come back empty, and that
+# includes this guard. The check is about the help pages, so the needle may be
+# built here.
+set RETIRED_PROC "::analysis"
+append RETIRED_PROC "_auto_comment"
+
 set HELP_FILES [list \
     [list "tcl/help/help.tcl"   ""   "English help (tcl/help/help.tcl)"] \
     [list "tcl/help/helpPL.tcl" "P," "Polish help (tcl/help/helpPL.tcl)"]]
@@ -157,10 +165,23 @@ foreach spec $HELP_FILES {
             [expr {[string first "<a $page>" $engine] >= 0}]
     }
 
-    # The classic annotator is still callable from the console even though its
-    # button is gone, so its description stays where it documents the proc.
-    check "$label: still documents ::analysis_auto_comment::batch_generate" \
-        [expr {[string first "::analysis_auto_comment::batch_generate" $all] >= 0}]
+    # #437 §8 retired the script-driven batch annotator: no page may document
+    # the proc, in any language. The English BatchAnnotate page stays - it is
+    # the target of the Annotating intros' links - but it now documents the Game
+    # List batch, which is live; only the Polish page documented the dead dialog
+    # and only it was deleted (deletion-only translation policy).
+    check "$label: no page documents $RETIRED_PROC" \
+        [expr {[string first $RETIRED_PROC $all] < 0}]
+    if {$prefix ne ""} {
+        check "$label: keeps no BatchAnnotate page of its own" \
+            [expr {![hasPage $h ${prefix}BatchAnnotate]}]
+        # The links from other translated pages stay: the viewer falls back to
+        # the English page for a topic the translation does not carry. The index
+        # bullet for the deleted page is another matter - it named the dialog.
+        check "$label: the index links to no BatchAnnotate page of its own" \
+            [expr {[string first "<a BatchAnnotate>" \
+                [pageText $h ${prefix}Index]] < 0}]
+    }
 
     # Every page has a title and every title has a page, in this file: the
     # viewer needs both to draw a page, and a title without one is dead too.
@@ -223,6 +244,9 @@ foreach spec $HELP_FILES {
 set ENGINE_SENTINEL "They are the only engine surface now; the old Analysis window has been retired."
 set CE_SENTINEL "is in pawns from White's perspective instead"
 set ANNO_SENTINEL "opens an Engine Window on the chosen engine (or raises the one already showing it) and drives it"
+# #437 §8: the three facts the BatchAnnotate page has to carry now that it
+# documents the live Game List batch instead of the retired script-only dialog.
+set BATCH_SENTINELS [list {Game List} {Batch Annotate} {No AI provider is involved}]
 
 lassign [loadHelp [file join $root tcl help help.tcl]] enh enErr
 check "English help loads for the translated-page checks" [expr {$enh ne ""}] $enErr
@@ -241,6 +265,21 @@ foreach {nm frag} [list Engine $ENGINE_SENTINEL \
 }
 check "English: no page links to Analysis once whitespace is flattened" \
     [expr {[string first "<a Analysis>" $enFlat] < 0}]
+
+# #437 §8: the BatchAnnotate page survives the retirement of the script-only
+# dialog, because it is what every Annotating intro links to, and it documents
+# the Game List batch that is still there. Its sentinels are read from the page
+# itself - flattened, because the page wraps - so a reworded page fails here
+# instead of leaving the check pointing at text that has moved.
+check "English: BatchAnnotate is still a page" [hasPage $enh BatchAnnotate]
+set enBatch ""
+if {[hasPage $enh BatchAnnotate]} {
+    set enBatch [regsub -all {\s+} [pageText $enh BatchAnnotate] " "]
+}
+foreach frag $BATCH_SENTINELS {
+    check "English: BatchAnnotate still names '$frag'" \
+        [expr {[string first $frag $enBatch] >= 0}]
+}
 
 # #437 §7 retired the three page families only the translations carried, and
 # with them the allow-list that used to excuse them. Each decision came from

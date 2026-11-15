@@ -56,7 +56,6 @@ set ::translatePieces 0
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl tools auto_comment.tcl]
-source [file join $root tcl tools analysis_auto_comment.tcl]
 
 proc visibleSections {w} {
     set out {}
@@ -292,73 +291,6 @@ update
 check "the dialog stayed open after an error" [winfo exists $w]
 check "the user was told once" [expr {[llength $::messages] == 1}] $::messages
 destroy $w
-
-# ------------------------------------------------------------ batch dialog ----
-puts "\n== Game Comment dialog =="
-if {[catch {::analysis_auto_comment::batch_generate ""} err]} {
-    check "batch dialog builds" 0 $err
-} else {
-    update
-    set bw .analysisAutoCommentDlg
-    check "batch dialog is built" [expr {[winfo exists $bw]}]
-    check "it offers the same provider list" \
-        [expr {[llength [$bw.content.provider cget -values]] == 7}] \
-        [$bw.content.provider cget -values]
-    checkEq "and the same labels" \
-        [$bw.content.provider cget -values] [::auto_comment::providerLabels]
-
-    # The channel chosen here is the one the batch run uses, and the label is
-    # the only thing that says which Ollama it is.
-    $bw.content.provider set {Ollama - local server}
-    event generate $bw.content.provider <<ComboboxSelected>>
-    checkEq "a label picked here stores the id" $::auto_comment::provider local
-    checkEq "and the model field follows that channel" \
-        [$bw.content.model cget -textvariable] ::auto_comment::localModel
-    $bw.content.provider set {Ollama Cloud (hosted)}
-    event generate $bw.content.provider <<ComboboxSelected>>
-    checkEq "the cloud label stores the hosted id" $::auto_comment::provider ollama
-    checkEq "and the model field follows it" \
-        [$bw.content.model cget -textvariable] ::auto_comment::ollamaModel
-
-    set ::auto_comment::provider opencode
-    ::auto_comment::syncModelCombo $bw.content.model
-    checkEq "the model field follows the provider" \
-        [$bw.content.model cget -textvariable] ::auto_comment::opencodeModel
-    check "the opencode suggestions are listed" \
-        [expr {[llength [$bw.content.model cget -values]] > 0}] \
-        [$bw.content.model cget -values]
-
-    set ::auto_comment::provider none
-    ::auto_comment::syncModelCombo $bw.content.model
-    checkEq "no model means an empty suggestion list" \
-        [$bw.content.model cget -values] {}
-    checkEq "and no model name is shown" [$bw.content.model get] {}
-
-    set ::auto_comment::provider gemini
-    ::auto_comment::syncModelCombo $bw.content.model
-    checkEq "gemini still shows its own model" \
-        [$bw.content.model get] $::auto_comment::model
-
-    # Settings can change the provider. Closing it must bring this dialog's
-    # label and model field back in step, or Start runs a channel the dialog
-    # does not name.
-    set ::auto_comment::provider local
-    ::auto_comment::syncProviderCombo $bw.content.provider
-    ::auto_comment::syncModelCombo $bw.content.model
-    ::auto_comment::openSettings $bw.content.model $bw.content.provider
-    if {[winfo exists .autoCommentConfig]} {
-        set ::auto_comment::provider ollama
-        destroy .autoCommentConfig
-        update
-        checkEq "closing Settings refreshes the provider label" \
-            [$bw.content.provider get] {Ollama Cloud (hosted)}
-        checkEq "and the model field follows the new channel" \
-            [$bw.content.model cget -textvariable] ::auto_comment::ollamaModel
-    } else {
-        check "the settings dialog opened from the batch dialog" 0
-    }
-    destroy $bw
-}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

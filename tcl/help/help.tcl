@@ -71,7 +71,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <h3>A</h3>
   <ul>
   <li><a Annotating>Annotating games</a> (manual notes)</li>
-  <li><a BatchAnnotate>Annotating in batch</a> (AI commentary)</li>
+  <li><a BatchAnnotate>Annotating in batch</a> (a Game List selection)</li>
   <li><a NAGs>Annotation symbols</a></li>
   <li><a Author>Author, contacting</a></li>
   <li><a MainWindow Autoplay>Autoplay mode</a></li>
@@ -2772,51 +2772,60 @@ set helpText(ToolsWhatThreat) {<h1>Engine Window: What's the Threat?</h1>
 
 
 ####################
-### Batch AI annotation help:
+### Batch annotation help:
 ###
-### The engine window's Game Comment button is gone, and the batch pass is still
-### here to be called by name (::analysis_auto_comment::batch_generate). The page
-### stays where it documented that pass.
+### The live path: the Game List's selection menu calls
+### ::batch_annotate::config, and each finished game is written by
+### ::reviewdriver::writeResults - the engine window's review writer - so this
+### page describes Review Settings and has no checkboxes of its own. The
+### script-only annotator this page used to document was retired in #437 §8.
 
-set helpTitle(BatchAnnotate) "Annotating a game in batch"
-set helpText(BatchAnnotate) {<h1>Annotating a game in batch</h1>
+set helpTitle(BatchAnnotate) "Annotating games in batch"
+set helpText(BatchAnnotate) {<h1>Annotating games in batch</h1>
   <p>
-  scidCommunity can generate AI commentary for a whole game at once, in batch
-  mode. The engine window used to carry a <b>Game Comment</b> button for it.
-  That button is gone; call <b>::analysis_auto_comment::batch_generate</b> from a
-  script. It opens the same dialog it always did, and what the dialog does is
-  unchanged.
+  <term>Batch annotate</term> runs one engine pass over several games and writes
+  the engine window's review annotations into each of them. It is a Game List
+  command: select the games there, then open the menu on the selection -
+  right-click, or the Menu key - and choose <b>Batch Annotate</b>.
   </p>
   <p>
-  The dialog scans the game for moves carrying an annotation symbol (a NAG
-  other than the Diagram marker), and always adds the game's final position for
-  a summary. For each of those moves it retrieves cloud evaluations for context,
-  uses existing PGN variations as "ground truth" engine lines, asks the AI why
-  the recommended line is best or why the played move was an error, and appends
-  the generated commentary to the move's existing comment. Its one argument is
-  the engine id the button used to pass in; it may be left out.
+  The dialog asks for two things. The <b>engine</b> searches every move of every
+  game. The <b>number of instances</b> is how many copies of it run at once: each
+  instance takes one game at a time, so two instances annotate two games in
+  parallel on a machine with the cores for it. <b>Start</b> begins the pass.
   </p>
 
-  <h3>Choosing a provider and a model</h3>
+  <h3>What the pass writes</h3>
   <p>
-  Batch annotation needs an AI provider and a model before it can write
-  anything. Press <b>Settings...</b> in the dialog once, choose a provider -
-  Google Gemini, DeepSeek, OpenCode Console, an OpenAI-compatible endpoint such
-  as a gateway or vLLM, or a local server such as Ollama or LM Studio - then
-  choose a model for it. With nothing configured the dialog offers to open these
-  settings; no commentary request is sent until a provider and a model are
-  chosen. <b>Load Models</b> asks the provider which models it offers. The choice
-  is saved when you press OK.
+  Each finished game is loaded and written with the same review writer the
+  engine window's <a ReviewGameButton>review</a> uses, so what it writes follows
+  <a ReviewSettings>Review Settings</a>: the move label, the <b>[%eval]</b>, the
+  label's annotation symbol, the position assessment on the marked moves, the
+  <b>D</b> diagram mark, and a variation for the moves the label says could have
+  been better. The opening-error mark and the tactical exercise marks follow
+  those switches too. There are no batch checkboxes of their own.
   </p>
-
-  <h3>Usage</h3>
   <p>
-  This is the quickest way to add educational notes to a game you have already
-  analysed with an engine. It respects your local variations, so the AI's
-  explanations line up with your own analysis.
+  No AI provider is involved: the pass searches with the engine and writes what
+  the search found, and that is all it can reach. AI commentary belongs to Game
+  Review, whose coach writes it for one game at a time.
   </p>
 
-  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
+  <h3>While it runs</h3>
+  <p>
+  The progress board names the game in flight and its place in the run, and
+  <b>Cancel</b> stops the batch: the engines are closed, the games already
+  written stay written, and the games not yet written are left exactly as they
+  were.
+  </p>
+  <p>
+  A move whose search ends without a single scored line - a time cap is the
+  usual reason - is written with no verdict, and the closing message counts
+  those moves beside the games that finished, so a run that judged only part of
+  a game does not read as a clean one.
+  </p>
+
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 

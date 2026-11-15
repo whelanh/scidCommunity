@@ -152,7 +152,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Comment>Edytor komentarzy</a></li>
   <li><a Annotating><b>Komentowanie partii</b></a></li> 
   <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a> (przycisk w oknie silnika)</li>
-  <li><a BatchAnnotate>Komentarz do partii -AI</a> (komentarze AI)</li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
   </ul>
   
@@ -2743,55 +2742,6 @@ set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
   </p>
 
   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
-}
-
-
-####################
-### Batch AI annotation help:
-###
-### Przycisk Game Comment w oknie silnika został usunięty. Analiza zbiorcza nadal jest dostępna i można ją uruchomić
-### bezpośrednio, wywołując polecenie ::analysis_auto_comment::batch_generate. Opis tej funkcji pozostaje na
-### dotychczasowej stronie.
-  
-set helpTitle(P,BatchAnnotate) "Komentarz do partii - AI"
-set helpText(P,BatchAnnotate) {<h1>Komentarz do partii - AI</h1>
-  <p>
-  scidCommunity może automatycznie wygenerować komentarze AI do całej partii
-  w jednym przebiegu. Wcześniej służył do tego przycisk <b>Komentarz do partii</b>
-  w oknie silnika. Został on usunięty. Teraz można wywołać polecenie
-  <b>::analysis_auto_comment::batch_generate</b> ze skryptu. Otwiera ono
-  to samo okno dialogowe co wcześniej, a jego działanie nie uległo zmianie.
-  </p>
-  <p>
-  Okno dialogowe przeszukuje partię w poszukiwaniu posunięć oznaczonych symbolami NAG (z wyjątkiem znacznika
-  diagramu), a na końcu zawsze dodaje ostatnią pozycję partii, aby wygenerować podsumowanie.
-  Dla każdego z tych  posunięć pobiera oceny z serwera, wykorzystuje istniejące warianty PGN jako
-  wzorcowe linie silnika i pyta AI, dlaczego zalecany wariant jest najlepszy lub dlaczego wykonane posunięcie
-  było błędem. Wygenerowany komentarz jest dopisywany do istniejącego komentarza przy danym posunięciu. Jedynym
-  argumentem polecenia jest identyfikator silnika, który wcześniej przekazywał
-  przycisk. Można go pominąć.
-  </p>
-  
-  <h3>Wybór dostawcy i modelu</h3>
-  <p>
-  Funkcja komentowania partii wymaga dostawcy AI i modelu. W oknie komentowania
-  partii kliknij <b>Settings...</b>, wybierz dostawcę — Google Gemini, DeepSeek,
-  OpenCode Console, usługę zgodną z API OpenAI, np. bramkę lub vLLM, albo lokalny
-  serwer, np. Ollama lub LM Studio — a następnie wybierz model. Jeśli nie
-  skonfigurowano tych ustawień, program zaproponuje ich otwarcie. Wysłanie
-  zapytania o komentarz nastąpi dopiero po wybraniu dostawcy i modelu.
-  Przycisk <b>Load Models</b> pobiera listę modeli oferowanych przez dostawcę.
-  Wybór zostanie zapisany po kliknięciu OK.
-  </p>
-  
-  <h3>Użycie</h3>
-  <p>
-  To najszybszy sposób na dodanie objaśnień do partii przeanalizowanej już
-  za pomocą silnika. Funkcja uwzględnia zapisane warianty, dzięki czemu
-  wyjaśnienia AI są zgodne z Twoją analizą.
-  </p>
-  
-  <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
 
 
