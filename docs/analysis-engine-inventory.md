@@ -257,6 +257,14 @@ towards. Counted over `tcl/` at the #437 §6 head:
   `::analysis(...)` array, no `configAnnotation`, no `wbdetect.tcl`. `docs/review-ui.md`
   describes the review surface that replaced it; `docs/engine-consolidation.md`
   is the history of the plan that did not get built.
+  The **help pages were the last place the window was still announced**, and the
+  link-based harness checks could not see it: 26 of the 28 `tcl/help/help*.tcl`
+  files carried a `Tools → Analysis Window` menu bullet that upstream had dropped
+  from the English file only (the bullet links to `Engine`, which still exists,
+  so no link dangled), `helpKO.tcl` kept three live-tense comparisons, and
+  `help.tcl:2727` still said "the analysis window's engine". All are gone, and
+  `tests/tcl/help_keys.tcl` now scans every page of every help file for that
+  wording, so the bullet cannot come back unnoticed.
 - **Two retired features, named rather than lost silently:** Review game and
   Calvar (the trainer pair, §3a) and the classic annotator with its book comments
   and its autoplay button (§5, §3a). What survives of the annotator is the two

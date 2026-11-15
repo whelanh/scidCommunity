@@ -259,6 +259,28 @@ foreach path [lsort [glob [file join $root tcl help help*.tcl]]] {
     set trBullets [trainingBullets $all]
     check "$label: Training submenu keeps only Openings and Tactics" \
         [expr {$trBullets == 2}] "found $trBullets bullets"
+    # #437 §6: the Analysis window is retired, so no page may present it as a
+    # live window, a live comparison, or a menu entry. Upstream dropped the
+    # Tools > Analysis Window bullet from the English file and left it in the
+    # other 26; helpKO kept three live-tense sentences and English kept "the
+    # analysis window's engine". None of that shows up as a broken link, which
+    # is why the checks above miss it: the bullet links to Engine, which still
+    # exists, and the sentences carry no link at all. Whitespace is flattened
+    # first, because these sentences wrap across lines and a phrase that is
+    # whole only after the join would otherwise pass unseen.
+    set flat [regsub -all {\s+} $all " "]
+    set live {}
+    foreach frag {
+        "<menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>"
+        "<a Engine>analysis window</a>"
+        "analysis window's engine"
+        "differ from the Analysis window"
+        "differs from the Analysis window"
+        "analysis window is already opened"
+    } {
+        if {[string first $frag $flat] >= 0} { lappend live $frag }
+    }
+    checkEq "$label: no live Analysis window copy" $live {}
     interp delete $h
 }
 

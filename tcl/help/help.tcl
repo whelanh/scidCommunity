@@ -2724,7 +2724,7 @@ set helpText(ToolsWhatThreat) {<h1>Engine Window: What's the Threat?</h1>
   <p>
   The probe opens an engine connection of its own, asks for the strongest move
   with <b>MultiPV 1</b>, and closes the connection as soon as the move arrives.
-  It does not borrow the analysis window's engine and does not disturb a running
+  It does not borrow an engine window's engine and does not disturb a running
   <a ReviewGameButton>Game Review</a>: the search is short, at depth 14, under
   the review's time cap. A preset that is not a UCI engine is refused, because
   an XBoard engine would never answer the handshake.

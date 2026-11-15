@@ -762,7 +762,6 @@ set helpText(k,Menus) {<h1>scidCommunity menus</h1>
   to set up chess engines.</li>
   <li><menu>Start Engine 1</menu>: Starts the first chess analysis engine.</li>
   <li><menu>Start Engine 2</menu>: Starts the second chess analysis engine.</li>
-  <li><menu>Analysis Window</menu>: Opens the <a Engine>analysis window</a>.</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>
@@ -3226,10 +3225,10 @@ set helpText(k,Analysis) {<h1>The Analysis window has been retired</h1>
 set helpTitle(k,Engine) "Engine windows"
 set helpText(k,Engine) {<h1>The Engine windows</h1>
   <p>
-  The Engine windows provide real-time analysis from chess engines. 그들은 
-  differ from the Analysis window by including evaluation charts, stored 
-  cloud evaluations, and engine configuration panels. Up to two engine 
-  windows can run simultaneously.
+  The Engine windows provide real-time analysis from chess engines, with
+  evaluation charts, stored cloud evaluations, and engine configuration panels.
+  They are the only engine surface now; the old Analysis window has been
+  retired. Up to two engine windows can run simultaneously.
   </p>
   <p>
   Open with <b>F2</b> (first window) or <b>F3</b> (second window).
@@ -3314,9 +3313,8 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <li> <b>acs</b> Analysis count: search time in seconds.</li>
   <li> <b>bm</b> Best moves: move(s) judged best for some reason.</li>
   <li> <b>ce</b> Centipawn evaluation: evaluation in hundredths of a
-  pawn from the perspective of the <b>side to move</b> -- note this
-  differs from the Analysis window which shows evaluations in pawns from
-  Whites perspective. </li>
+  pawn from the perspective of the <b>side to move</b>. A review's
+  <b>[%eval]</b> is in pawns from White's perspective instead. </li>
   <li> <b>cX</b> Comment (where <b>X</b> is a digit, 0-9).</li>
   <li> <b>eco</b> <a ECO>ECO</a> system opening code.</li>
   <li> <b>id</b> Unique Identification for this position.</li>
@@ -3358,13 +3356,13 @@ set helpText(k,EPD) {<h1>EPD files</h1>
   <h3>Annotating</h3>
   <p>
   EPD-files can be automatically annotated by selecting Tools /
-  Annotate position. The upcoming dialogue asks for the time that
-  should be used for the analysis, then the <a Engine Configure>engine
-  list</a> is opened for selection of an engine to be used. <b>Note</b> If an
-  analysis window is already opened, the analysis is done using this
-  engine without asking the user beforehand. Then the engine is
-  started and the result added to the EPD. The EPD tags used are :
-  acd, acn, ce and pv.
+  Analyze Positions.... The dialog lets you choose the time to spend
+  per position, a <term>UCI</term> engine (from your configured
+  <a Engine Configure>engine list</a>), and a mode: <b>Count best moves</b>,
+  <b>Annotate</b>, or <b>Both</b>. The analysis is shown in an Engine Window,
+  opened on the chosen engine or raised if that engine already has one; the
+  pass keeps its own engine, so closing the window does not stop it. The EPD
+  opcodes added are: acd, acn, ce, dm and pv.
   </p>
   <p>
 
