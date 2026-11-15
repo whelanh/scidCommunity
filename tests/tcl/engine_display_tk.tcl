@@ -460,5 +460,25 @@ checkEq "and not after unwatch" [llength $::seen] 1
 checkEq "a window being destroyed tells the watcher" \
     [lindex $::seen end] {1 InfoWindowClosed {}}
 
+# Autoscan is the window's own scan of a game's main line. The EPD pass drives
+# the same window one position at a time, so it turns Autoscan off for its run
+# and puts the reader's setting back afterwards.
+puts "\nAutoscan is paused for a tool that drives the window"
+
+frame .engineWin1.btn -takefocus 0
+ttk::menubutton .engineWin1.btn.autorun -text "scan"
+set ::enginewin_autorun(1) {{movetime 50}}
+::enginewin::autorunOff 1
+checkEq "the scan is off" $::enginewin_autorun(1) {{}}
+checkEq "and its button is not lit" \
+    [.engineWin1.btn.autorun instate user1] 0
+::enginewin::autorunOff 1
+checkEq "a second Off keeps the setting to restore" \
+    $::enginewin::m_(autorunSaved,1) {{movetime 50}}
+::enginewin::autorunRestore 1
+checkEq "the reader's setting comes back" \
+    $::enginewin_autorun(1) {{movetime 50}}
+checkEq "and so does the button" [.engineWin1.btn.autorun instate user1] 1
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

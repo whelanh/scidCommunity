@@ -2977,6 +2977,31 @@ proc ::enginewin::unwatch {id} {
     return
 }
 
+# Autorun is a pass over the game's main line; an EPD pass drives the same
+# window one position at a time, and a queued scan would keep answering
+# positions the pass did not ask for. The EPD pass turns Autoscan off for its
+# run and puts it back afterwards. The saved value lives on the window, so a
+# second Off before a restore does not lose the reader's setting.
+proc ::enginewin::autorunOff {id} {
+    if {![info exists ::enginewin_autorun($id)]} { return }
+    if {[info exists ::enginewin::m_(autorunSaved,$id)]} { return }
+    set ::enginewin::m_(autorunSaved,$id) $::enginewin_autorun($id)
+    set ::enginewin_autorun($id) {{}}
+    # The lit button is the reader's cue that a scan is running.
+    catch { [::enginewin::reviewWindow $id].btn.autorun state !user1 }
+    return
+}
+
+proc ::enginewin::autorunRestore {id} {
+    if {![info exists ::enginewin::m_(autorunSaved,$id)]} { return }
+    set ::enginewin_autorun($id) $::enginewin::m_(autorunSaved,$id)
+    unset ::enginewin::m_(autorunSaved,$id)
+    if {[lindex $::enginewin_autorun($id) 0] ne ""} {
+        catch { [::enginewin::reviewWindow $id].btn.autorun state user1 }
+    }
+    return
+}
+
 # The window is being destroyed. A watcher that is waiting on an answer must not
 # wait for one that can never come: it is told, before it is released.
 proc ::enginewin::watcherGone {id} {

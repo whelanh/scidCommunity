@@ -3788,14 +3788,15 @@ set helpText(EPD) {<h1>EPD files</h1>
   the chosen engine (or raises the one already showing it) and drives it, one
   position at a time. The window's own engine, options and MultiPV do the
   search, so the depth, score and principal variation in the report are the
-  ones you watched the window display. The <b>Seconds per position</b> value is
-  a maximum: a search still running when it expires is stopped, and the position
-  is recorded from what the window had reached. If the window's own depth or
-  time limit finishes a search sooner, the pass moves on at once. The report
-  states the engine, the window and the window's limits in its header, and
-  records the full principal variation even when the window truncates it for
-  display. The <b>Stop</b> button in the EPD window, closing the EPD window, or
-  closing the Engine Window ends the pass.
+  ones you watched the window display. <b>Seconds per position</b> is the budget
+  for every position: the pass keeps each position for that long, even when the
+  window's own depth or time limit finishes its search sooner, and records what
+  the window had reached. Autoscan is turned off for the run (and put back
+  afterwards), because a scan would keep answering positions the pass did not
+  ask for. The report states the engine, the window and the window's limits in
+  its header, and records the full principal variation even when the window
+  truncates it for display. The <b>Stop</b> button in the EPD window, closing
+  the EPD window, or closing the Engine Window ends the pass.
   </p>
   <p>
   Check <b>Save results to file</b> to write the per-position results to a
