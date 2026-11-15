@@ -63,26 +63,18 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 
 	grid [ttk::frame $w.buttons] -sticky news
 	
-	# Create Layouts menubutton for Header Search, or disabled Save button for others
+	# The Header search's fields can be saved and recalled by name. The other
+	# search windows have no such fields, so they get no save control at all
+	# rather than a button that is permanently disabled.
 	if {$title eq "HeaderSearch"} {
-		ttk::menubutton $w.buttons.layouts -text "Layouts" -menu $w.buttons.layouts.m
-		menu $w.buttons.layouts.m
-		$w.buttons.layouts.m add command -label [::tr Save] -command [list ::search::header::promptSaveLayout]
-		$w.buttons.layouts.m add separator
-		# Populate saved layouts
-		if {[info exists ::searchHeader_Layouts]} {
-			foreach name $::searchHeader_Layouts {
-				set m [menu $w.buttons.layouts.m.ly[string map {" " _} $name]]
-				$m add command -label [::tr Load] -command "::search::header::layout_load {$name}"
-				$m add command -label [::tr Delete] -command "::search::header::layout_delete {$name}; ::search::header::rebuildLayoutsMenu $w"
-				$w.buttons.layouts.m add cascade -label $name -menu $m
-			}
-		}
-		set save_widget $w.buttons.layouts
+		ttk::menubutton $w.buttons.presets -text [::tr Presets] -menu $w.buttons.presets.m
+		menu $w.buttons.presets.m -tearoff 0
+		$w.buttons.presets.m add command -label [::tr Save] -command [list ::search::header::prompt_save_preset]
+		$w.buttons.presets.m add separator
+		::search::header::rebuild_presets_menu $w
+		set save_widget $w.buttons.presets
 	} else {
-		ttk::button $w.buttons.save -text [::tr Save] -state disabled \
-			-command "::search::save_ $options_cmd"
-		set save_widget $w.buttons.save
+		set save_widget ""
 	}
 	
 	ttk::button $w.buttons.reset_values -text [::tr Defaults] \
@@ -93,7 +85,11 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 		-command "::search::start_ 1 $w $options_cmd"
 	ttk::button $w.buttons.search -text [::tr Search] -underline 0 \
 		-command "::search::start_ 0 $w $options_cmd"
-	grid $save_widget $w.buttons.reset_values $w.buttons.invert $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
+	if {$save_widget eq ""} {
+		grid $w.buttons.reset_values $w.buttons.invert $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
+	} else {
+		grid $save_widget $w.buttons.reset_values $w.buttons.invert $w.buttons.search_new $w.buttons.search -sticky w -padx "0 5"
+	}
 	grid columnconfigure $w.buttons 2 -weight 1
 
 	ttk::button $w.buttons.stop -text [::tr Stop] -command progressBarCancel
@@ -188,10 +184,8 @@ proc ::search::use_dbfilter_ { unused1 w {unused2 ""} } {
 
 proc ::search::progressbar_ {w show_hide} {
 	if {$show_hide eq "show"} {
-		if {[winfo exists $w.buttons.save]} {
-			grid remove $w.buttons.save
-		} elseif {[winfo exists $w.buttons.layouts]} {
-			grid remove $w.buttons.layouts
+		if {[winfo exists $w.buttons.presets]} {
+			grid remove $w.buttons.presets
 		}
 		grid remove $w.buttons.reset_values
 		grid remove $w.buttons.search_new
@@ -204,19 +198,13 @@ proc ::search::progressbar_ {w show_hide} {
 		grab release $w.buttons.stop
 		grid remove $w.buttons.stop
 		grid remove $w.progressbar
-		if {[winfo exists $w.buttons.save]} {
-			grid $w.buttons.save
-		} elseif {[winfo exists $w.buttons.layouts]} {
-			grid $w.buttons.layouts
+		if {[winfo exists $w.buttons.presets]} {
+			grid $w.buttons.presets
 		}
 		grid $w.buttons.reset_values
 		grid $w.buttons.search_new
 		grid $w.buttons.search
 	}
-}
-
-proc ::search::save_ {options_cmd} {
-	# TODO:
 }
 
 proc ::search::start_ {new_filter w options_cmd {invert_search 0}} {

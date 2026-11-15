@@ -1207,12 +1207,14 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   
   <h3><name Settings>Saving search settings</name></h3>
   <p>
-  The Header search window provides a <term>Layout</term> button that
+  The Header search window provides a <term>Presets</term> button that
   lets you save and recall named search configurations. Click
-  <b>Layout</b> and choose <b>Save Layout</b> to store the current
-  search settings under a name of your choice. Previously saved layouts
-  can be loaded or deleted from the same <b>Layout</b> menu. Layouts
-  are stored in scidCommunity's preferences and persist between sessions.
+  <b>Presets</b> and choose <b>Save</b> to store the current search
+  settings under a name of your choice. A saved preset can be loaded or
+  deleted from the same <b>Presets</b> menu. Presets are stored in
+  scidCommunity's preferences and persist between sessions. Loading a
+  preset replaces every search field, so a field the preset does not
+  carry is cleared rather than left at its previous value.
   </p>
   
   <h3>Search times and skipped games</h3>
@@ -4225,8 +4227,8 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
 
   <p>
   To reuse a header search configuration, open the Header Search
-  window and use the <b>Layout</b> button to load a previously saved
-  layout before running the search.
+  window and use the <b>Presets</b> button to load a previously saved
+  preset before running the search.
   </p>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
@@ -4359,8 +4361,8 @@ set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   </p>
   <p>
   Header search settings can be saved and recalled using the
-  <b>Layout</b> button in the <a Searches Header>Header Search</a>
-  window. Named layouts are stored in scidCommunity's preferences file
+  <b>Presets</b> button in the <a Searches Header>Header Search</a>
+  window. Named presets are stored in scidCommunity's preferences file
   rather than as separate files.
   </p>
   
