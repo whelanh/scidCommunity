@@ -1,25 +1,18 @@
 # Copyright (C) 2026 Hugh Whelan
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# epd_analysis.tcl -- the EPD window's headless analysis session.
+# epd_analysis.tcl -- the Engine Window's messages as an EPD result record.
 #
-# The EPD "Analyse positions" pass used to open an Analysis Engine window and
-# read the shared analysis array that window kept. This module owns a private UCI
-# connection instead: one engine for the whole pass, one position at a time, the
-# same `go movetime` the pass always used, and a result dict for the EPD writer.
+# Analyze Positions used to run a headless engine of its own. That made the
+# report a second search, with a cold hash, its own MultiPV and its own time
+# budget, and a reader had no way to tell why the window in front of them and
+# the report disagreed. The pass drives the Engine Window now, so this module
+# holds no connection: it only translates the window's raw "InfoPV" fields into
+# the record the EPD writer, the log and the best-move tally use.
 #
-# No Tk is used here. The caller supplies a completion callback and an optional
-# per-info callback, so a stub engine can drive the whole module in tclsh.
+# No Tk is used here, so a stub message can drive the whole module in tclsh.
 
-namespace eval ::epdanalysis {
-    # The id is a string, not one of the engine windows' numeric slots: an EPD
-    # pass must never take a window's engine.
-    variable id epdAnalysis
-    variable seq 0
-    variable engine ""
-    # {token fen onDone onInfo timeout data}; empty when no search is running.
-    variable job {}
-}
+namespace eval ::epdanalysis {}
 
 # sc_pos coordToSAN writes the scoresheet's numbering with each move
 # ("1...e5", "2.d5"). EPD's pv opcode and the report's move columns want the
@@ -134,61 +127,6 @@ proc ::epdanalysis::dataFromInfo {fen msgData} {
     return $d
 }
 
-# Open a UCI preset for an EPD pass. Returns "" or the reason it could not.
-proc ::epdanalysis::open {engine} {
-    if {[dict size $::epdanalysis::job]} {
-        return [::tr EpdSearchAlreadyRunning]
-    }
-    ::epdanalysis::close
-    set cfg ""
-    catch { set cfg [::enginecfg::get $engine] }
-    if {![llength $cfg]} { return [::tr EpdNoEngineConfigured] }
-    if {[lindex $cfg 7] eq "" || [lindex $cfg 7] eq 0} {
-        return [::tr EpdOnlyUci]
-    }
-    if {[catch {
-        ::engineNoWin::initEngine $::epdanalysis::id $engine \
-            [list ::epdanalysis::message]
-    } err]} {
-        return $err
-    }
-    set ::epdanalysis::engine $engine
-    # EPD wants one line: the best move. A preset left on MultiPV 3 must not
-    # make every position wait for lines the writer will not use.
-    catch { ::engine::send $::epdanalysis::id SetOptions [list [list MultiPV 1]] }
-    return ""
-}
-
-# Start one search. `movetime` is milliseconds; `onDone` is called once with the
-# result dict, `onInfo` (when given) on every exact MultiPV 1 info line so the
-# EPD caller can record the first moment the engine finds the sought move.
-# Returns the search token, or "" when the command could not be sent.
-proc ::epdanalysis::ask {fen movetime onDone {onInfo ""}} {
-    variable seq
-    variable job
-    if {[dict size $job]} { return "" }
-    set token "epd[incr seq]"
-    set job [dict create token $token fen $fen onDone $onDone onInfo $onInfo \
-        timeout "" data [::epdanalysis::emptyData $fen]]
-    set lim [::enginelimits::goLimits [dict create movetime $movetime]]
-    if {[catch {
-        ::engine::send $::epdanalysis::id Go [list "position fen $fen" $lim]
-    } err]} {
-        set j $job
-        set job {}
-        catch { {*}[dict get $j onDone] \
-            [dict set [dict get $j data] error $err] }
-        return ""
-    }
-    # The engine should answer at movetime; the margin is for a process that
-    # dies or stops sending without disconnecting. The caller's own cancel is
-    # the normal early exit.
-    set timeout [after [expr {$movetime + 15000}] \
-        [list ::epdanalysis::timeout $token]]
-    dict set job timeout $timeout
-    return $token
-}
-
 # True when a new InfoPV line is below the depth of the result already held.
 # Engines can re-search a line at a shallower depth before the bestmove (a line
 # that was not finished when the deeper one was reported); that line must not
@@ -202,96 +140,25 @@ proc ::epdanalysis::shallower {depth old} {
     return [expr {$depth < $old}]
 }
 
-proc ::epdanalysis::message {msg} {
-    variable job
-    if {![dict size $job]} { return }
-    lassign $msg type data
-    switch -- $type {
-        "InfoPV" {
-            set d [::epdanalysis::dataFromInfo [dict get $job fen] $data]
-            if {$d eq ""} { return }
-            set cb [dict get $job onInfo]
-            if {[::epdanalysis::shallower [dict get $d depth] \
-                    [dict get $job data depth]]} {
-                # The result already held is deeper. The line can still be the
-                # first one that matches the sought move, so the solve timer
-                # sees it, but the result record keeps the deeper line.
-                if {$cb ne ""} { catch { {*}$cb $d } }
-                return
-            }
-            dict set job data $d
-            if {$cb ne ""} { catch { {*}$cb $d } }
-        }
-        "InfoBestMove" {
-            set best [lindex $data 0]
-            set d [dict get $job data]
-            # The record is the deepest completed line. A bestmove that comes
-            # after a shallower re-search belongs to that search, and rewriting
-            # the move alone would pair it with the deeper depth, score and PV;
-            # the report and the pv opcode would then disagree. Use the
-            # bestmove only when no line was seen at all.
-            if {$best ne "" && $best ne "0000" && $best ne "(none)" \
-                    && [dict get $d best_uci] eq ""} {
-                dict set d best_uci $best
-                dict set d best_san [::epdanalysis::sanMove [dict get $job fen] $best]
-            }
-            dict set job data $d
-            ::epdanalysis::finish ""
-        }
-        "InfoDisconnected" {
-            ::epdanalysis::finish [::tr EpdEngineDisconnected]
-        }
+# Take one InfoPV line into the record. The window can show a shallower
+# re-search just before it answers; the deepest line it reached is what the
+# reader watched fill in, so that is what the report keeps.
+proc ::epdanalysis::absorb {data line} {
+    if {$line eq ""} { return $data }
+    if {[::epdanalysis::shallower [dict get $line depth] [dict get $data depth]]} {
+        return $data
     }
-    return
+    return $line
 }
 
-proc ::epdanalysis::timeout {token} {
-    variable job
-    if {![dict size $job] || [dict get $job token] ne $token} { return }
-    ::epdanalysis::finish [::tr EpdEngineNoAnswer]
-}
-
-proc ::epdanalysis::finish {err} {
-    variable job
-    if {![dict size $job]} { return }
-    set j $job
-    set job {}
-    if {[dict get $j timeout] ne ""} {
-        catch { after cancel [dict get $j timeout] }
-    }
-    set d [dict get $j data]
-    dict set d error $err
-    set cb [dict get $j onDone]
-    if {$cb ne ""} { catch { {*}$cb $d } }
-    return $d
-}
-
-# The result of the search in flight, updated as info lines arrive. The EPD
-# loop uses it only through onInfo; this accessor is for a caller that wants the
-# current line without waiting for bestmove.
-proc ::epdanalysis::current {} {
-    variable job
-    if {![dict size $job]} { return "" }
-    return [dict get $job data]
-}
-
-# Stop the search and report it as cancelled. The engine is closed when the EPD
-# pass ends (or when close is called), not here: one stop may be followed by the
-# loop's own cleanup.
-proc ::epdanalysis::cancel {} {
-    variable id
-    variable job
-    if {![dict size $job]} { return 0 }
-    catch { ::engine::send $id StopGo }
-    ::epdanalysis::finish "cancelled"
-    return 1
-}
-
-proc ::epdanalysis::close {} {
-    variable id
-    variable engine
-    if {[dict size $::epdanalysis::job]} { ::epdanalysis::finish "cancelled" }
-    catch { ::engineNoWin::closeEngine $id }
-    set engine ""
-    return
+# The window's answer at the end of a search. A bestmove that arrives after a
+# shallower re-search belongs to that search, and rewriting the move alone would
+# pair it with the deeper depth, score and PV; use it only when the window never
+# showed a line at all.
+proc ::epdanalysis::withBestMove {data best fen} {
+    if {$best eq "" || $best eq "0000" || $best eq "(none)"} { return $data }
+    if {[dict get $data best_uci] ne ""} { return $data }
+    dict set data best_uci $best
+    dict set data best_san [::epdanalysis::sanMove $fen $best]
+    return $data
 }
