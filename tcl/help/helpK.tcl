@@ -3184,9 +3184,6 @@ set helpText(K,Engine) {<h1>Les finestres del motor </h1>
     variacions.</li>
   <li><b>Config</b> <button tb_eng_config>: mostra o amaga la configuració del motor
     panell.</li>
-  <li><b>Comentari automàtic </b>: genera un comentari per a la posició actual basat en
-    l'anàlisi del motor. </li>
-  <li><b>Comentari del joc</b>: genera comentaris per a totes les posicions del joc.</li>
   </ul>
 
   <h3>Controls </h3>

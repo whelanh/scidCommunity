@@ -3170,8 +3170,6 @@ set helpText(D,Engine) {<h1>Die Engine-Fenster</h1>
     Variationen.</li>
   <li><b>Config</b> <button tb_eng_config>: Zeigt oder verbirgt die Engine-Konfiguration
     Panel.</li>
-  <li><b>Auto Comment</b>: Erzeugt einen Kommentar für die aktuelle Position basierend auf
-    die Motoranalyse.</li>
   </ul>
 
   <h3>Steuerelemente</h3>

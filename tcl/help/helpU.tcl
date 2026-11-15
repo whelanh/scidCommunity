@@ -3170,9 +3170,6 @@ set helpText(U,Engine) {<h1> Moottorin ikkunat </h1>
     muunnelmia. </li>
   <li><b>Config</b> <button tb_eng_config>: Näyttää tai piilottaa moottorin kokoonpanon
     paneeli. </li>
-  <li><b>Automaattinen kommentti</b>: Luo kommentin nykyiselle sijainnille
-    moottorin analyysi. </li>
-  <li><b>Pelikommentti</b>: Luo kommentteja kaikille pelin sijoille.</li>
   </ul>
 
   <h3> Ohjaimet </h3>

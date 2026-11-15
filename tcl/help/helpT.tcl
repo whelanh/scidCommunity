@@ -3177,9 +3177,6 @@ set helpText(T,Engine) {<h1>Motor pencereleri</h1>
     varyasyonlar.</li>
   <li><b>Config</b> <button tb_eng_config>: Motor konfigürasyonunu gösterir veya gizler
     paneli.</li>
-  <li><b>Otomatik Yorum</b>: Geçerli konum için bir yorum oluşturur.
-    motor analizi.</li>
-  <li><b>Oyun Yorumu</b>: Oyundaki tüm pozisyonlar için yorumlar üretir.</li>
   </ul>
 
   <h3>Kontroller</h3>

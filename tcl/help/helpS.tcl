@@ -3211,9 +3211,6 @@ set helpText(S,Engine) {<h1> Las ventanas del motor </h1>
     variaciones.</li>
   <li><b>Config</b> <button tb_eng_config>: Muestra u oculta la configuración del motor
     panel.</li>
-  <li><b>Comentario automático</b>: Genera un comentario para la posición actual según
-    el análisis del motor.</li>
-  <li><b>Comentario del juego</b>: Genera comentarios para todas las posiciones del juego.</li>
   </ul>
 
   <h3>Controles</h3>

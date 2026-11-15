@@ -3183,9 +3183,6 @@ set helpText(B,Engine) {<h1>As janelas do mecanismo</h1>
     variações.</li>
   <li><b>Config</b> <button tb_eng_config>: Mostra ou oculta a configuração do motor
     painel.</li>
-  <li><b>Comentário Automático</b>: Gera um comentário para a posição atual com base em
-    a análise do motor.</li>
-  <li><b>Comentário do Jogo</b>: Gera comentários para todas as posições do jogo.</li>
   </ul>
 
   <h3>Controles</h3>

@@ -3175,8 +3175,6 @@ set helpText(k,Engine) {<h1>The Engine windows</h1>
     variations.</li>
   <li><b>Config</b> <button tb_eng_config>: Shows or hides the engine configuration
     panel.</li>
-  <li><b>Auto Comment</b>: Generates a comment for the current position based on
-    the engine analysis.</li>
   </ul>
 
   <h3>Controls</h3>

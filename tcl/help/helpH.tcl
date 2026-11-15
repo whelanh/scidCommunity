@@ -3168,9 +3168,6 @@ set helpText(H,Engine) {<h1> A motorablakok </h1>
     variációk. </li>
   <li><b> Config</b> <button tb_eng_config>: Megjeleníti vagy elrejti a motorkonfigurációt
     panel. </li>
-  <li><b>Automatikus megjegyzés</b>: Megjegyzést generál az aktuális pozícióhoz
-    a motorelemzés. </li>
-  <li><b> Játék megjegyzés </b>: Megjegyzéseket generál a játék összes pozíciójához.</li>
   </ul>
 
   <h3> Vezérlőelemek </h3>

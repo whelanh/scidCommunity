@@ -3178,8 +3178,6 @@ set helpText(C,Engine) {<h1> Okna motoru </h1>
     variace. </li>
   <li><b>Config</b> <button tb_eng_config>: Zobrazí nebo skryje konfiguraci motoru
     panel. </li>
-  <li><b>Auto Comment</b>: Generuje komentář pro aktuální pozici na základě
-    analýza motoru. </li>
   </ul>
 
   <h3>Ovládací prvky </h3>

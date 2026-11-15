@@ -3180,9 +3180,6 @@ set helpText(Z,Engine) {<h1>Madirisha ya Injini</h1>
     tofauti.</li>
   <li><b>Config</b> <button tb_eng_config>: Inaonyesha au kuficha usanidi wa injini
     paneli.</li>
-  <li><b>Maoni ya Kiotomatiki</b>: Hutoa maoni kwa nafasi ya sasa kulingana na
-    uchambuzi wa injini. </li>
-  <li><b>Maoni ya Mchezo</b>: Hutoa maoni kwa nafasi zote kwenye mchezo.</li>
   </ul>
 
   <h3>Vidhibiti</h3>

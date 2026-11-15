@@ -3169,9 +3169,6 @@ set helpText(W,Engine) {<h1>Motorfönstren</h1>
     varianter.</li>
   <li><b>Config</b> <button tb_eng_config>: Visar eller döljer motorkonfigurationen
     panel.</li>
-  <li><b>Automatisk kommentar</b>: Genererar en kommentar för den aktuella positionen baserat på
-    motoranalysen.</li>
-  <li><b>Spelkommentar</b>: Genererar kommentarer för alla positioner i spelet.</li>
   </ul>
 
   <h3>Kontroller</h3>

@@ -3169,9 +3169,6 @@ set helpText(N,Engine) {<h1>De motorvensters </h1>
     variaties.</li>
   <li><b>Config</b> <button tb_eng_config>: Toont of verbergt de motorconfiguratie
     paneel.</li>
-  <li><b>Auto Commentaar</b>: Genereert commentaar voor de huidige positie op basis van
-    de motoranalyse.</li>
-  <li><b>Spelcommentaar</b>: Genereert commentaar voor alle posities in het spel.</li>
   </ul>
 
   <h3>Besturingen</h3>

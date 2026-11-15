@@ -3167,9 +3167,6 @@ set helpText(O,Engine) {<h1>Motorvinduene</h1>
     varianter.</li>
   <li><b>Config</b> <button tb_eng_config>: Viser eller skjuler motorkonfigurasjonen
     panel.</li>
-  <li><b>Automatisk kommentar</b>: Genererer en kommentar for gjeldende stilling basert på
-    motoranalysen.</li>
-  <li><b>Spillkommentar</b>: Genererer kommentarer for alle posisjoner i spillet.</li>
   </ul>
 
   <h3>Kontroller </h3>

@@ -3182,8 +3182,6 @@ set helpText(L,Engine) {<h1>Ferestrele motorului </h1>
     variații.</li>
   <li><b>Config</b> <button tb_eng_config>: afișează sau ascunde configurația motorului
     panou.</li>
-  <li><b>Auto Comment</b>: generează un comentariu pentru poziția curentă pe baza
-    analiza motorului.</li>
   </ul>
 
   <h3>Comenzi </h3>

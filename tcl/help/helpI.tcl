@@ -3183,9 +3183,6 @@ set helpText(I,Engine) {<h1>Le finestre del motore</h1>
     variazioni.</li>
   <li><b>Config</b> <button tb_eng_config>: mostra o nasconde la configurazione del motore
     pannello.</li>
-  <li><b>Commento automatico</b>: Genera un commento per la posizione corrente in base a
-    l'analisi del motore.</li>
-  <li><b>Commento di gioco</b>: genera commenti per tutte le posizioni nel gioco.</li>
   </ul>
 
   <h3>Comandi</h3>
