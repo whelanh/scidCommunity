@@ -3790,9 +3790,11 @@ set helpText(EPD) {<h1>EPD files</h1>
   search, so the depth, score and principal variation in the report are the
   ones you watched the window display. <b>Seconds per position</b> is the job the
   pass gives the window: for the run, the window's depth and time limits are set
-  aside (its toolbar shows the budget) and every position is searched for
-  exactly that long, so nothing finishes early. Your usual limits come back when
-  the run ends, and nothing is written to the engine preset. Autoscan is turned
+  aside (its toolbar shows the budget) and every position is given a search of
+  that many seconds. The window's own limits therefore no longer cut a position
+  short; a position that finishes sooner than that on its own -- a forced mate,
+  say -- moves on. Your usual limits come back when the run ends, and nothing is
+  written to the engine preset. Autoscan is turned
   off for the run and put back afterwards, because a scan would keep answering
   positions the pass did not ask for. The report states the engine, the window
   and the search's limits in its header. The full principal variation is written

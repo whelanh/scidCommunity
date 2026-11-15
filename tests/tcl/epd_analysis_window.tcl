@@ -80,7 +80,7 @@ set ::unwatched {}
 set ::answers right                                          ;# right|none|wrong
 proc sc_epd {sub args} {
     switch -- $sub {
-        size { return [llength $::posList] }
+        size { return [expr {$::limitOne ? 1 : [llength $::posList]}] }
         name { return epd-test.epd }
         load {
             set ::loadedIdx [lindex $args 1]
@@ -185,8 +185,13 @@ proc ::enginewin::releaseLimits {id saved} {
     return
 }
 namespace eval ::engine {}
+set ::autoReady 0
 proc ::engine::send {id msg {data ""}} {
     lappend ::sent [list $id $msg $data]
+    if {$::autoReady && $msg eq "StopGo"} {
+        # ::enginecomm answers a stopped search with InfoReady, not a bestmove.
+        after 0 [list ::epd::watchEngine $id InfoReady {}]
+    }
     return
 }
 namespace eval ::win {}
@@ -227,6 +232,8 @@ proc reset {} {
     set ::status ""
     set ::stopState ""
     set ::answers right
+    set ::limitOne 0
+    set ::autoReady 0
     set ::follow 1
     set ::WIN [dict create .epd1 1 .engineWin1 1]
     set ::epdAnnotateMode 1
@@ -409,6 +416,27 @@ checkEq "and waits for its acknowledgement" $::epd::driveDone 0
 # InfoReady; that is the answer the pass must accept, not only InfoBestMove.
 ::epd::watchEngine 1 InfoReady {}
 checkEq "the stop's acknowledgement ends the position" $::epd::driveDone 1
+
+puts "\nfor an engine that ignores the budget, the safety stop ends the position"
+
+reset
+set ::enginewin::engState(1) follow.run
+set ::enginewin_lastengine(1) TestEngine
+set ::answers none
+set ::autoReady 1
+set ::limitOne 1
+set startedAt [clock milliseconds]
+::epd::launchAnnotateEpd 1 0 TestEngine $::logPath
+set elapsed [expr {[clock milliseconds] - $startedAt}]
+checkEq "the position was recorded on the stop's acknowledgement" $::loaded {0}
+check "the safety stop was sent" \
+    [expr {[lsearch -exact [lmap m $::sent {lindex $m 1}] StopGo] >= 0}] 1
+# The bug this guards: a deadline armed with a clock reading instead of a delay
+# never fires, and this would then wait for the 15s watchdog.
+check "and the pass did not wait for the watchdog" \
+    [expr {$elapsed < 10000}] $elapsed
+check "the run ended without an error" \
+    [expr {![string match *EpdAnalysisError* $::status]}] $::status
 
 puts "\nInfoReady without a requested stop is not an answer"
 

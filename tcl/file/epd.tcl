@@ -893,10 +893,12 @@ namespace eval epd {
       set driveDone 0
       # The budget is the window's own go movetime, counted from the request
       # that sent it. The stop is the safety net for an engine that ignores it;
-      # the watchdog is the last resort for one that says nothing at all.
-      dict set drive deadline [after [expr {$askedMs + $movetime + 500}] \
+      # the watchdog is the last resort for one that says nothing at all. Both
+      # are delays -- ::after counts from now, not from a clock reading -- while
+      # `start` is the absolute time the report measures its time-to-solve from.
+      dict set drive deadline [after [expr {$movetime + 2000}] \
           [list ::epd::cutoffDrive $win $token]]
-      dict set drive watchdog [after [expr {$askedMs + $movetime + 15000}] \
+      dict set drive watchdog [after [expr {$movetime + 15000}] \
           [list ::epd::watchdogDrive $win $token]]
       vwait ::epd::driveDone
       set position [dict get $drive data]
@@ -1043,11 +1045,12 @@ namespace eval epd {
         ::epd::finishDrive ""
       }
       "InfoReady" {
-        # A stop was requested and the window acknowledged it. ::enginecomm
-        # suppresses the stopped search's InfoBestMove and reports the stop
-        # this way, so this is the answer the pass waits for; the record already
-        # holds the last line the window showed. Unrelated InfoReady messages
-        # (the handshake) arrive before any stop is asked for.
+        # The pass's safety stop is acknowledged this way: ::enginecomm
+        # suppresses the stopped search's InfoBestMove (see onMessages_ and
+        # done_) and answers the stop with InfoReady. Without this the position
+        # would wait for the watchdog after every overshoot of movetime.
+        # Anything else that arrives as InfoReady (the handshake) is not a
+        # safety stop and must not end a position.
         if {[dict get $drive stopRequested]} { ::epd::finishDrive "" }
       }
     }
