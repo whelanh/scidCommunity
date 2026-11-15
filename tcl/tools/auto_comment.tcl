@@ -573,10 +573,22 @@ proc ::auto_comment::emptyReplyError {status body} {
 }
 
 # ::auto_comment::query
-#   One entry point for every caller. Returns the assistant text, or a string
-#   starting with "ERROR:" that the caller shows to the user. "none" is a
-#   refusal, not a failure: nothing is sent, and the caller is expected to have
-#   offered the user a way to turn the coach on.
+#   The BLOCKING transport: it runs curl with exec, so the caller waits for the
+#   model. Every provider's request shape is built here or beside it, and the
+#   reply comes back as the assistant text, or as a string starting with
+#   "ERROR:" that the caller shows to the user. "none" is a refusal, not a
+#   failure: nothing is sent, and the caller is expected to have offered the
+#   user a way to turn the coach on.
+#
+#   Nothing that runs on the Tk event loop may call this. A review asks up to
+#   fourteen questions per game, and each one here would freeze the board, the
+#   status line and Cancel for the length of the request - up to the curl
+#   --max-time. Under Tk the call is ::auto_comment::queryAsync (same spec, reply
+#   read by fileevent, cancellable), and the review's own seam is the queue,
+#   ::reviewprose, which is the only thing the review path calls:
+#   tests/tcl/review_loop.tcl holds both halves of that rule. The callers left
+#   here are the ones with no loop to block: a tclsh harness, and
+#   ::analysis_auto_comment's script-driven batch.
 proc ::auto_comment::query {prompt {maxTokens 300}} {
     switch -- $::auto_comment::provider {
         none     { return "ERROR: no model selected (open Game Comment and press Settings...)" }
