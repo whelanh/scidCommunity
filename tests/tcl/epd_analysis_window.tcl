@@ -81,7 +81,7 @@ set ::answers right                                          ;# right|none|wrong
 proc sc_epd {sub args} {
     switch -- $sub {
         size { return [llength $::posList] }
-        name { return /tmp/epd-test.epd }
+        name { return epd-test.epd }
         load {
             set ::loadedIdx [lindex $args 1]
             lappend ::loaded $::loadedIdx
@@ -173,7 +173,9 @@ proc ::win::makeVisible {w} { lappend ::visible $w }
 source [file join $root tcl tools epd_analysis.tcl]
 source [file join $root tcl file epd.tcl]
 
-set ::logPath [file join /tmp/opencode "epd-driving-[pid].log"]
+set ::logPath [file join \
+    [expr {[info exists ::env(TMPDIR)] ? $::env(TMPDIR) : "/tmp"}] \
+    "epd-driving-[pid].log"]
 
 proc reset {} {
     array unset ::enginewin::engState
