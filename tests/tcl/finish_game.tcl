@@ -421,15 +421,5 @@ checkEq "nothing was written" $::played {}
 check "and the reason is shown" [expr {[llength $::boxes] == 1}]
 set ::atEnd 1
 
-puts "\nthe pane's Finish Game leaves its toggle off"
-
-resetGame
-set ::moves {f2f3 e7e5 g2g4 d8h4}
-set ::analysis(name1) "W"
-set ::finishGameMode 1
-::finishgame::startPane 1
-checkEq "the pane pass leaves the toggle off" $::finishGameMode 0
-checkEq "and the pass is over" $::finishgame::active 0
-
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

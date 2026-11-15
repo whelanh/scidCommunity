@@ -124,31 +124,10 @@ proc InitDefaultFonts {} {
   }
 }
 
-proc InitDefaultAnnotate {} {
-  set ::isBatchOpening 0
-  set ::isBatchOpeningMoves 12
-  set ::isBatch 0
-  set ::markTacticalExercises 0
-  set ::isAnnotateVar 0
-  set ::isShortAnnotation 0
-  set ::addScoreToShortAnnotations 0
-  set ::addAnnotatorTag 0
-  set ::annotateMoves all
-  set ::annotateBlunders blundersonly
-  set ::scoreAllMoves 0
-  set ::useAnalysisBook 1
-  set ::annotateWhiteMoves 1
-  set ::annotateBlackMoves 1
-  set ::annotationVariationLength 9
-  # Blunder Threshold
-  set ::blunderThreshold 1.0
-}
-
 InitDefaultFonts
 InitWinsDefaultGeometry
 InitDefaultToolbar
 InitDefaultStats
-InitDefaultAnnotate
 
 #Default textures for lite and dark squares
 set boardfile_dark "LightWood3-d"
@@ -415,7 +394,6 @@ set pgnStyle(Vars) 1
 # Autoplay and animation delays in milliseconds:
 set autoplayDelay 5000
 set animateDelay 200
-set autoplayMode 0
 
 # Geometry of windows:
 array set geometry {}
@@ -758,7 +736,7 @@ proc options.write {} {
           ::tree::mask::autoLoadMask \
           ecoFile suggestMoves showVarPopup showVarArrows showEngineVariationArrows \
           enginePvDisplayLength enginewin_history \
-          blunderThreshold autoplayDelay animateDelay boardCoords \
+          autoplayDelay animateDelay boardCoords \
           moveEntry(AutoExpand) moveEntry(Coord) \
           translatePieces lichessFormat arrowLastMove highlightLastMove highlightLastMoveWidth \
           highlightLastMoveColor highlightLastMoveNag highlightLastMoveEval \
@@ -791,12 +769,7 @@ proc options.write {} {
           ::uci::uciInfo(fixeddepth1) ::uci::uciInfo(fixednodes1) ::uci::uciInfo(movetime1) \
           boardfile_lite boardfile_dark \
           FilterMaxMoves FilterMinMoves FilterStepMoves FilterMaxElo FilterMinElo FilterStepElo \
-          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard \
-          isBatchOpening isBatchOpeningMoves isBatch \
-          markTacticalExercises scoreAllMoves \
-          useAnalysisBook annotateWhiteMoves annotateBlackMoves annotationVariationLength \
-          isAnnotateVar isShortAnnotation addScoreToShortAnnotations annotateBlunders\
-          addAnnotatorTag annotateMoves } {
+          FilterMaxYear FilterMinYear FilterStepYear FilterGuessELO lookTheme ThemePackageFile omarchyAutoTheme autoResizeBoard } {
       puts $optionF "set $i [list [set $i]]"
     }
 

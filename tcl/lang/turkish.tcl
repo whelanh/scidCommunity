@@ -910,31 +910,20 @@ translate T PgnOptStripMarks "Renkli Kare/Ok Kodlarını Çıkarın"
 translate T PgnOptBoldMainLine "Ana Satır Hareketleri için Kalın Metin Kullanın"
 
 # Analysis window:
-translate T AddVariation {Varyasyon Ekle}
 translate T AddAllVariations {Tüm Varyasyonları Ekle}
 translate T AddMove {Taşıma Ekle}
 translate T Annotate {Açıklama ekle}
-translate T ShowAnalysisBoard {Analiz panosunu göster}
-translate T ShowInfo {Motor bilgilerini göster}
 translate T FinishGame {Oyunu bitir}
-translate T FinishGameSlot2Warning {Motor yuvası 2 zaten açık bir Analiz penceresi tarafından kullanılıyor.\n\nOyunu Bitir, motor yuvaları 1 ve 2'yi kullanır ve bu motorun kontrolünü ele geçirebilir. Devam etmek?}
-translate T StopEngine {Motoru durdur}
 translate T StartEngine {Motoru çalıştır}
 translate T LockEngine {Motoru mevcut konuma kilitle}
 translate T AnalysisCommand {Analiz Komutu}
 translate T PreviousChoices {Önceki Seçimler}
 translate T AnnotateTime {Saniye cinsinden hareket başına süre.}
-translate T AnnotateWhich {Varyasyon ekle}
 translate T AnnotateAll {Her iki tarafın hamleleri için}
-translate T AnnotateAllMoves {Tüm hareketlere açıklama ekleyin}
 translate T AnnotateWhite {Yalnızca Beyaz hamleleri için}
 translate T AnnotateBlack {Yalnızca Siyah hamleler için}
-translate T AnnotateBlundersOnly {Oyun hamlesi bir hata olduğunda}
 translate T AnnotateBlundersOnlyScoreChange {Analiz raporları hata veriyor ve puan şu şekilde değişiyor:}
-translate T BlundersThreshold {Eşik}
-translate T ScoreAllMoves {Tüm hamleleri puanla}
 translate T LowPriority {Düşük CPU Önceliği}
-translate T ClickHereToSeeMoves {Hareketleri görmek için buraya tıklayın}
 translate T ConfigureInformant {Muhbir değerleri}
 translate T Informant!? {İlginç hareket}
 translate T Informant? {Kötü hareket}
@@ -981,8 +970,6 @@ translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
 translate T ReviewOpeningMoves {Açılış hamleleri}
-translate T StopNow {Stop now}
-translate T StopAfterThisGame {Stop after this game}
 translate T ReviewFromPreset {%s (motor profilinden)}
 translate T ReviewProgress {%s / %s konumu inceleniyor}
 translate T ReviewWaitForDepth {%s derinliği bekleniyor}
@@ -1160,7 +1147,6 @@ translate T GameLength {Oyun uzunluğu}
 translate T FindGamesWith {Bayraklı oyunları bulun}
 translate T StdStart {Standart olmayan başlangıç}
 translate T Promotions {Promosyonlar}
-translate T Comments {Yorumlar}
 translate T Variations {Varyasyonlar}
 translate T Annotations {Ek açıklamalar}
 translate T DeleteFlag {Bayrağı sil}
@@ -1899,9 +1885,6 @@ translate T TimeBonus {Zaman + bonus}
 translate T TimeMin {dk.}
 translate T TimeSec {saniye}
 translate T AllExercisesDone {Tüm egzersizler yapıldı}
-translate T MoveOutOfBook {Kitaptan çık}
-translate T LastBookMove {Son kitap hareketi}
-translate T AnnotateSeveralGames {Gerçek oyundan oyuna:}
 translate T FindOpeningErrors {Açılış hatalarını bulun}
 translate T MarkTacticalExercises {Taktik egzersizleri işaretleyin}
 translate T UseBook {Kitabı kullan}
@@ -1909,10 +1892,6 @@ translate T MultiPV {Çoklu varyasyonlar}
 translate T Hash {Karma bellek}
 translate T OwnBook {Motor kitabını kullan}
 translate T BookFile {Açılış kitabı}
-translate T AnnotateVariations {Varyasyonlara açıklama ekleyin}
-translate T AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate T ShortAnnotations {Kısa açıklamalar}
-translate T addAnnotatorTag {Ek açıklama etiketi ekle}
 translate T AddScoreToShortAnnotations {Ek açıklamalara puan ekleyin}
 translate T AddScoreToAllMoves {Tüm hamlelere puan ekle}
 translate T Export {İhracat}
@@ -2021,7 +2000,6 @@ translate T FICSTerminalColor {Terminal rengi}
 translate T FICSTextColor {Metin rengi}
 
 # Game review
-translate T GameReview {Oyun incelemesi}
 
 # Correspondence Chess Dialogs:
 translate T CCDlgCGeneraloptions {Genel Seçenekler}
@@ -2255,7 +2233,6 @@ translate T ReviewProgressTitle {İlerlemeyi gözden geçirin}
 translate T ReviewProgressIdle {Hiçbir inceleme yürütülmüyor}
 translate T ReviewProgressGameOf {oyun %s / %s}
 translate T ReviewProgressEngineWindow {Motor camları %s}
-translate T ReviewProgressAnalysisPane {Analiz panelleri %s}
 translate T ReviewProgressRapid {Hızlı açıklama ekleme}
 translate T FinishGameGameChanged {Oyunu Bitir çalışırken oyun değişti; hiçbir şey yazılmadı}
 translate T FinishGameAtEnd {Bitiş Oyunu ana çizginin sonundan başlar; ilk önce oyunun sonuna git}

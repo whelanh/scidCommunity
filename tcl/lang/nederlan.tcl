@@ -936,31 +936,20 @@ translate N PgnOptStripMarks "Verwijder de gekleurde vierkant-/pijlcodes"
 translate N PgnOptBoldMainLine "Gebruik vetgedrukte tekst voor hoofdlijnverplaatsingen"
 
 # Analysis window:
-translate N AddVariation {Toevoegen variant}
 translate N AddAllVariations {Voeg alle varianten toe}
 translate N AddMove {Toevoegen zet}
 translate N Annotate {Annotatie}
-translate N ShowAnalysisBoard {Toon het analysebord}
-translate N ShowInfo {Toon engine informatie}
 translate N FinishGame {Beeindig de partij}
-translate N FinishGameSlot2Warning {Engine-slot 2 wordt al gebruikt door een geopend analysevenster.\n\nFinish Game gebruikt engine-slots 1 en 2 en kan de controle over die engine overnemen. Doorgaan?}
-translate N StopEngine {Stop de engine}
 translate N StartEngine {Start de engine}
 translate N LockEngine {Fixeer de engine op de huidige stelling}
 translate N AnalysisCommand {Analyse commando}
 translate N PreviousChoices {Voorgaande keuzes}
 translate N AnnotateTime {Geef de analysetijd in seconden per zet}
-translate N AnnotateWhich {Voeg varianten toe}
 translate N AnnotateAll {Voor zetten van beide zijden}
-translate N AnnotateAllMoves {Annotateer alle zetten}
 translate N AnnotateWhite {Alleen voor zetten door Wit}
 translate N AnnotateBlack { Alleen voor zetten door Zwart}
-translate N AnnotateBlundersOnly {Als de partijzet een klaarblijkelijke blunder is}
 translate N AnnotateBlundersOnlyScoreChange {Blunder Analyse rapport, met scorewijziging van/naar: }
-translate N BlundersThreshold {Ondergrens}
-translate N ScoreAllMoves {Waardeer alle zetten}
 translate N LowPriority {Lage CPU prioriteit} ;
-translate N ClickHereToSeeMoves {Klik hier om de zetten te zien}
 translate N ConfigureInformant {Informant}
 translate N Informant!? {Interessante zet}
 translate N Informant? {Slechte zet}
@@ -1007,8 +996,6 @@ translate N ReviewVarCp {Variantmarge (cp)}
 translate N ReviewMoveWait {Wacht op de beoordelingsdiepte}
 translate N ReviewMovetime {Tijdslimiet (ms)}
 translate N ReviewOpeningMoves {Openingszetten}
-translate N StopNow {Stop now}
-translate N StopAfterThisGame {Stop after this game}
 translate N ReviewFromPreset {%s (uit het engineprofiel)}
 translate N ReviewProgress {Positie %s van %s wordt beoordeeld}
 translate N ReviewWaitForDepth {Wachten op diepte %s}
@@ -1186,7 +1173,6 @@ translate N GameLength {Lengte partij}
 translate N FindGamesWith {Vind partijen met vlag}
 translate N StdStart {Ab-normaal begin}
 translate N Promotions {Promoties}
-translate N Comments {Commentaar}
 translate N Variations {Varianten}
 translate N Annotations {Annotaties}
 translate N DeleteFlag {Gewist-markeringen}
@@ -1942,9 +1928,6 @@ translate N TimeBonus {Tiid + bonus}
 translate N TimeMin {min}
 translate N TimeSec {sec}
 translate N AllExercisesDone {Alle oefeningen gedaan}
-translate N MoveOutOfBook {Zet buiten boek}
-translate N LastBookMove {Laatste zet boek}
-translate N AnnotateSeveralGames {Becommentarieer verschillende partijen \n van huidig tot :}
 translate N FindOpeningErrors {Vind openingsfouten}
 translate N MarkTacticalExercises {Markeer de tactische oefeningen}
 translate N UseBook {Gebruik boek}
@@ -1952,10 +1935,6 @@ translate N MultiPV {Meerder varianten}
 translate N Hash {Hash Geheugentabel}
 translate N OwnBook {Gebruik engine boek}
 translate N BookFile {Opening boek}
-translate N AnnotateVariations {Becommentarieer varianten}
-translate N AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate N ShortAnnotations {Korte commentaren}
-translate N addAnnotatorTag {Voeg een commentaar label toe}
 translate N AddScoreToShortAnnotations {Voeg de score toe aan de korte commentaren}
 translate N AddScoreToAllMoves {Voeg score toe aan alle zetten}
 translate N Export {Export}
@@ -2064,7 +2043,6 @@ translate N FICSTerminalColor {Eindkleur}
 translate N FICSTextColor {Tekstkleur}
 
 # Game review
-translate N GameReview {Partij herbekijken}
 
 # Correspondence Chess Dialogs:
 translate N CCDlgCGeneraloptions {Algemene Opties}
@@ -2298,7 +2276,6 @@ translate N ReviewProgressTitle {Beoordeel de voortgang}
 translate N ReviewProgressIdle {Er is geen beoordeling actief}
 translate N ReviewProgressGameOf {spel %s van %s}
 translate N ReviewProgressEngineWindow {Motorruiten %s}
-translate N ReviewProgressAnalysisPane {Analysepanelen %s}
 translate N ReviewProgressRapid {Snel annoteren}
 translate N FinishGameGameChanged {het spel veranderde terwijl Finish Game actief was; er werd niets geschreven}
 translate N FinishGameAtEnd {Finish Game begint vanaf het einde van de hoofdlijn; ga eerst naar het einde van het spel}

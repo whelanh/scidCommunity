@@ -914,31 +914,20 @@ translate H PgnOptStripMarks "Távolítsa el a színes négyzet/nyíl kódokat"
 translate H PgnOptBoldMainLine "Használjon félkövér szöveget a fővonali mozgásokhoz"
 
 # Analysis window:
-translate H AddVariation {Változat beszúrása}
 translate H AddAllVariations {Add hozzá az összes változatot}
 translate H AddMove {Lépés beszúrása}
 translate H Annotate {Lásd el értékelõ jelekkel}
-translate H ShowAnalysisBoard {Mutasd az elemzõtáblát}
-translate H ShowInfo {Mutasd a motor kiírásait}
 translate H FinishGame {Fejezd be a játszmát}
-translate H FinishGameSlot2Warning {A 2. motorhelyet már használja egy megnyitott elemzési ablak.\n\nA játék befejezése az 1. és 2. motorhelyet használja, és átveheti az irányítást a motor felett. Folytatja?}
-translate H StopEngine {Állítsd le a motort}
 translate H StartEngine {Indítsd el a motort}
 translate H LockEngine {Tartsd a motort ennél az állásnál}
 translate H AnalysisCommand {Elemzésparancs}
 translate H PreviousChoices {Korábbi választások}
 translate H AnnotateTime {Két lépés közötti idõ másodpercben}
-translate H AnnotateWhich {Változatok hozzáadása}
 translate H AnnotateAll {Mindkét fél lépéseihez}
-translate H AnnotateAllMoves {Értékeld az összes lépést}
 translate H AnnotateWhite {Csak világos lépéseihez}
 translate H AnnotateBlack {Csak sötét lépéseihez}
-translate H AnnotateBlundersOnly {Ha a tett lépés nyilvánvalóan durva hiba}
 translate H AnnotateBlundersOnlyScoreChange {Az elemzés durva hibának tekinti a lépést, ha az értékelés megváltozása: }
-translate H BlundersThreshold {Küszöb}
-translate H ScoreAllMoves {Score all moves}
 translate H LowPriority {Alacsony CPU-prioritás}
-translate H ClickHereToSeeMoves {Kattints ide, hogy lásd a lépéseket}
 translate H ConfigureInformant {Értékelõ jelek definiálása}
 translate H Informant!? {Érdekes lépés}
 translate H Informant? {Gyatra lépés}
@@ -985,8 +974,6 @@ translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}
 translate H ReviewMovetime {Időkorlát (ms)}
 translate H ReviewOpeningMoves {Nyitási mozdulatok}
-translate H StopNow {Stop now}
-translate H StopAfterThisGame {Stop after this game}
 translate H ReviewFromPreset {%s (a motorprofilból)}
 translate H ReviewProgress {Áttekintés: %s. pozíció / %s}
 translate H ReviewWaitForDepth {Várakozás %s mélységre}
@@ -1164,7 +1151,6 @@ translate H GameLength {Játszmahossz}
 translate H FindGamesWith {Megjelölt játszmák}
 translate H StdStart {Különleges kezdés}
 translate H Promotions {Gyalogátváltozások}
-translate H Comments {Megjegyzések}
 translate H Variations {Változatok}
 translate H Annotations {Értékelõ jelek}
 translate H DeleteFlag {Megjelölés törlése}
@@ -1918,9 +1904,6 @@ translate H TimeBonus {Idõalap + növekmény}
 translate H TimeMin {perc}
 translate H TimeSec {másodperc}
 translate H AllExercisesDone {Minden gyakorlat kész.}
-translate H MoveOutOfBook {A lépés nem szerepel a megnyitástárban.}
-translate H LastBookMove {Utolsó lépés a megnyitástárban}
-translate H AnnotateSeveralGames {Több játszma kommentálása\na jelenlegitõl eddig:}
 translate H FindOpeningErrors {Megnyitási hibák keresése}
 translate H MarkTacticalExercises {Taktikai gyakorlatok megjelölése}
 translate H UseBook {Megnyitástár-használat}
@@ -1928,10 +1911,6 @@ translate H MultiPV {Több változat}
 translate H Hash {Hesmemória}
 translate H OwnBook {A motor megnyitástárának használata}
 translate H BookFile {Megnyitástár}
-translate H AnnotateVariations {Változatok kommentálása}
-translate H AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate H ShortAnnotations {Rövid kommentár}
-translate H addAnnotatorTag {Értékelõ jel hozzáadása}
 translate H AddScoreToShortAnnotations {Rövid kommentár kiegészítése értékeléssel}
 translate H AddScoreToAllMoves {Add pontszámot az összes lépéshez}
 translate H Export {Export}
@@ -2040,7 +2019,6 @@ translate H FICSTerminalColor {A terminál színe}
 translate H FICSTextColor {Szöveg színe}
 
 # Game review
-translate H GameReview {Játék ismertetõ}
 
 # Correspondence Chess Dialogs:
 translate H CCDlgCGeneraloptions {Általános lehetõségek}
@@ -2274,7 +2252,6 @@ translate H ReviewProgressTitle {Tekintse át a haladást}
 translate H ReviewProgressIdle {Egyetlen felülvizsgálat sem fut}
 translate H ReviewProgressGameOf {%s játék: %s}
 translate H ReviewProgressEngineWindow {Motor ablakok %s}
-translate H ReviewProgressAnalysisPane {Elemző panelek %s}
 translate H ReviewProgressRapid {Gyors annotáció}
 translate H FinishGameGameChanged {a játék megváltozott, miközben a Finish Game futott; nem volt írva semmi}
 translate H FinishGameAtEnd {Befejezés A játék a fővonal végétől kezdődik; először menj a játék végére}

@@ -907,31 +907,20 @@ translate Q PgnOptStripMarks "Видаліть коди кольорових к�
 translate Q PgnOptBoldMainLine "Використовуйте жирний текст для переміщення основної лінії"
 
 # Analysis window:
-translate Q AddVariation {Додати варіацію}
 translate Q AddAllVariations {Додати всі варіації}
 translate Q AddMove {Додати переміщення}
 translate Q Annotate {Анотуйте}
-translate Q ShowAnalysisBoard {Show analysis board}
-translate Q ShowInfo {Показати інформацію про двигун}
 translate Q FinishGame {Закінчити гру}
-translate Q FinishGameSlot2Warning {Слот двигуна 2 уже використовується відкритим вікном аналізу.\n\nFinish Game використовує слоти двигуна 1 і 2 і може взяти на себе контроль над цим механізмом. Продовжити?}
-translate Q StopEngine {Зупиніть двигун}
 translate Q StartEngine {Запустити двигун}
 translate Q LockEngine {Зафіксуйте двигун у поточному положенні}
 translate Q AnalysisCommand {Команда аналізу}
 translate Q PreviousChoices {Попередні варіанти}
 translate Q AnnotateTime {Час на хід у сек.}
-translate Q AnnotateWhich {Додайте варіації}
 translate Q AnnotateAll {Для ходів обома сторонами}
-translate Q AnnotateAllMoves {Коментуйте всі рухи}
 translate Q AnnotateWhite {Лише для ходів білих}
 translate Q AnnotateBlack {Лише для ходів чорних}
-translate Q AnnotateBlundersOnly {Коли хід гри є помилкою}
 translate Q AnnotateBlundersOnlyScoreChange {Аналіз повідомляє про помилку зі зміною оцінки з/на:}
-translate Q BlundersThreshold {Поріг}
-translate Q ScoreAllMoves {Забийте всі ходи}
 translate Q LowPriority {Низький пріоритет ЦП}
-translate Q ClickHereToSeeMoves {Натисніть тут, щоб побачити ходи}
 translate Q ConfigureInformant {Значення інформатора}
 translate Q Informant!? {Цікавий хід}
 translate Q Informant? {Поганий хід}
@@ -978,8 +967,6 @@ translate Q ReviewVarCp {Поріг варіантів (cp)}
 translate Q ReviewMoveWait {Чекати глибину огляду}
 translate Q ReviewMovetime {Обмеження часу (ms)}
 translate Q ReviewOpeningMoves {Розкриття ходів}
-translate Q StopNow {Stop now}
-translate Q StopAfterThisGame {Stop after this game}
 translate Q ReviewFromPreset {%s (з профілю двигуна)}
 translate Q ReviewProgress {Огляд позиції %s з %s}
 translate Q ReviewWaitForDepth {Очікування глибини %s}
@@ -1157,7 +1144,6 @@ translate Q GameLength {Тривалість гри}
 translate Q FindGamesWith {Знайдіть ігри з прапорцями}
 translate Q StdStart {Нестандартний старт}
 translate Q Promotions {Акції}
-translate Q Comments {Коментарі}
 translate Q Variations {Варіації}
 translate Q Annotations {Анотації}
 translate Q DeleteFlag {Видалити прапор}
@@ -1896,9 +1882,6 @@ translate Q TimeBonus {Час + бонус}
 translate Q TimeMin {хв}
 translate Q TimeSec {сек}
 translate Q AllExercisesDone {Всі вправи зроблені}
-translate Q MoveOutOfBook {Вийти з книги}
-translate Q LastBookMove {Останній книжковий хід}
-translate Q AnnotateSeveralGames {Від реальної гри до гри:}
 translate Q FindOpeningErrors {Знайдіть помилки відкриття}
 translate Q MarkTacticalExercises {Відзначити тактичні заняття}
 translate Q UseBook {Використовуйте книгу}
@@ -1906,10 +1889,6 @@ translate Q MultiPV {Кілька варіацій}
 translate Q Hash {Хеш-пам'ять}
 translate Q OwnBook {Використовуйте книгу двигуна}
 translate Q BookFile {Відкриття книги}
-translate Q AnnotateVariations {Примітки до варіацій}
-translate Q AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate Q ShortAnnotations {Короткі анотації}
-translate Q addAnnotatorTag {Додайте тег анотатора}
 translate Q AddScoreToShortAnnotations {Додайте оцінку до анотацій}
 translate Q AddScoreToAllMoves {Додати оцінку до всіх ходів}
 translate Q Export {Експорт}
@@ -2018,7 +1997,6 @@ translate Q FICSTerminalColor {Колір терміналу}
 translate Q FICSTextColor {Колір тексту}
 
 # Game review
-translate Q GameReview {Огляд гри}
 
 # Correspondence Chess Dialogs:
 translate Q CCDlgCGeneraloptions {Загальні параметри}
@@ -2252,7 +2230,6 @@ translate Q ReviewProgressTitle {Перегляньте прогрес}
 translate Q ReviewProgressIdle {Перегляд не виконується}
 translate Q ReviewProgressGameOf {гра %s з %s}
 translate Q ReviewProgressEngineWindow {Склопідйомники двигуна %s}
-translate Q ReviewProgressAnalysisPane {Панелі аналізу %s}
 translate Q ReviewProgressRapid {Швидке анотування}
 translate Q FinishGameGameChanged {гра змінилася під час роботи Finish Game; нічого не писали}
 translate Q FinishGameAtEnd {Фініш Гра починається з кінця основної лінії; йти до кінця гри першим}

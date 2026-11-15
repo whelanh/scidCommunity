@@ -916,31 +916,20 @@ translate O PgnOptStripMarks "Fjern fargede ruter/pilkoder"
 translate O PgnOptBoldMainLine "Bruk fet tekst for hovedlinjebevegelser"
 
 # Analysis window:
-translate O AddVariation {Legg til variasjon}
 translate O AddAllVariations {Legg til alle varianter}
 translate O AddMove {Legg til trekk}
 translate O Annotate {Annoter}
-translate O ShowAnalysisBoard {Vis analysetavle}
-translate O ShowInfo {Vis motorinfo}
 translate O FinishGame {Fullfør spillet}
-translate O FinishGameSlot2Warning {Motorspor 2 er allerede i bruk av et åpent analysevindu.\n\nFinish Game bruker motorspor 1 og 2 og kan ta kontroll over denne motoren. Fortsette?}
-translate O StopEngine {Stopp motoren}
 translate O StartEngine {Start motoren}
 translate O LockEngine {Lås motoren til gjeldende posisjon}
 translate O AnalysisCommand {Analysekommando}
 translate O PreviousChoices {Tidligere valg}
 translate O AnnotateTime {Tid mellom trekk i sekunder}
-translate O AnnotateWhich {Legg til variasjoner}
 translate O AnnotateAll {For trekk av begge sider}
-translate O AnnotateAllMoves {Merk alle trekk}
 translate O AnnotateWhite {Kun for hvite trekk}
 translate O AnnotateBlack {Kun for sorte trekk}
-translate O AnnotateBlundersOnly {Når game move er en åpenbar tabbe}
 translate O AnnotateBlundersOnlyScoreChange {Analyse rapporterer feil, med poengsendringer fra/til:}
-translate O BlundersThreshold {Terskel}
-translate O ScoreAllMoves {Score all moves}
 translate O LowPriority {Low CPU priority} ;# ***
-translate O ClickHereToSeeMoves {Klikk her for å se trekk}
 translate O ConfigureInformant {Informant}
 translate O Informant!? {Interessant trekk}
 translate O Informant? {Dårlig trekk}
@@ -987,8 +976,6 @@ translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}
 translate O ReviewMovetime {Tidsgrense (ms)}
 translate O ReviewOpeningMoves {Åpningsbevegelser}
-translate O StopNow {Stop now}
-translate O StopAfterThisGame {Stop after this game}
 translate O ReviewFromPreset {%s (fra motorprofilen)}
 translate O ReviewProgress {Vurderer stilling %s av %s}
 translate O ReviewWaitForDepth {Venter på dybde %s}
@@ -1166,7 +1153,6 @@ translate O GameLength {Partilengde}
 translate O FindGamesWith {Finn partier merket med...}
 translate O StdStart {Vanlig utgangsstilling}
 translate O Promotions {Forfremmelser}
-translate O Comments {Kommentarer}
 translate O Variations {Variasjoner}
 translate O Annotations {Annotasjoner}
 translate O DeleteFlag {Slettet}
@@ -1917,9 +1903,6 @@ translate O TimeBonus {Tid + bonus}
 translate O TimeMin {min}
 translate O TimeSec {sek}
 translate O AllExercisesDone {Alle øvelser utført}
-translate O MoveOutOfBook {Flytt ut av boken}
-translate O LastBookMove {Siste boktrekk}
-translate O AnnotateSeveralGames {Kommenter flere spill\fra gjeldende til:}
 translate O FindOpeningErrors {Finn åpningsfeil}
 translate O MarkTacticalExercises {Merk taktiske øvelser}
 translate O UseBook {Bruk bok}
@@ -1927,10 +1910,6 @@ translate O MultiPV {Flere varianter}
 translate O Hash {Hash-minne}
 translate O OwnBook {Bruk motorbok}
 translate O BookFile {Åpningsbok}
-translate O AnnotateVariations {Kommenter varianter}
-translate O AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate O ShortAnnotations {Korte merknader}
-translate O addAnnotatorTag {Legg til annotator-tag}
 translate O AddScoreToShortAnnotations {Legg poengsum til korte merknader}
 translate O AddScoreToAllMoves {Legg til poengsum til alle trekk}
 translate O Export {Eksport}
@@ -2039,7 +2018,6 @@ translate O FICSTerminalColor {Terminalfarge}
 translate O FICSTextColor {Tekstfarge}
 
 # Game review
-translate O GameReview {Spillanmeldelse}
 
 # Correspondence Chess Dialogs:
 translate O CCDlgCGeneraloptions {Generelle alternativer}
@@ -2273,7 +2251,6 @@ translate O ReviewProgressTitle {Gjennomgå fremdriften}
 translate O ReviewProgressIdle {Ingen gjennomgang kjører}
 translate O ReviewProgressGameOf {spill %s av %s}
 translate O ReviewProgressEngineWindow {Motorvinduer %s}
-translate O ReviewProgressAnalysisPane {Analysepaneler %s}
 translate O ReviewProgressRapid {Rask merknad}
 translate O FinishGameGameChanged {spillet endret seg mens Finish Game kjørte; ingenting ble skrevet}
 translate O FinishGameAtEnd {Fullfør Spillet starter fra slutten av hovedlinjen; gå til slutten av spillet først}

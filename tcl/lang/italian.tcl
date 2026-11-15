@@ -917,31 +917,20 @@ translate I PgnOptStripMarks "Eliminare i codici quadrati/frecce colorati"
 translate I PgnOptBoldMainLine "Usa il testo in grassetto per gli spostamenti della linea principale"
 
 # Analysis window:
-translate I AddVariation {Aggiungi variante}
 translate I AddAllVariations {Aggiungi tutte le varianti}
 translate I AddMove {Aggiungi una mossa}
 translate I Annotate {Annota}
-translate I ShowAnalysisBoard {Mostra la finestra dell'analisi}
-translate I ShowInfo {Mostra le informazioni del motore}
 translate I FinishGame {Termina la partita}
-translate I FinishGameSlot2Warning {Lo slot motore 2 è già utilizzato da una finestra di analisi aperta.\n\nFinisci gioco utilizza gli slot motore 1 e 2 e può prendere il controllo di quel motore. Continuare?}
-translate I StopEngine {Ferma il motore}
 translate I StartEngine {Avvia il motore}
 translate I LockEngine {Blocca il motore alla posizione corrente}
 translate I AnalysisCommand {Comando di analisi}
 translate I PreviousChoices {Scelta precedente}
 translate I AnnotateTime {Imposta il tempo tra le mosse in secondi}
-translate I AnnotateWhich {Aggiungi varianti}
 translate I AnnotateAll {Per mosse di entrambi i colori}
-translate I AnnotateAllMoves {Tutte le mosse}
 translate I AnnotateWhite {Solo per le mosse del Bianco}
 translate I AnnotateBlack {Solo per le mosse del Nero}
-translate I AnnotateBlundersOnly {Quando la mossa è chiaramente un errore}
 translate I AnnotateBlundersOnlyScoreChange {L'analisi riporta un errore, con variazione del punteggio da/a:}
-translate I BlundersThreshold {Limite}
-translate I ScoreAllMoves {Punteggio ad ogni mossa}
 translate I LowPriority {Imposta la priorità della CPU a bassa}
-translate I ClickHereToSeeMoves {Clicca qui per vedere le mosse}
 translate I ConfigureInformant {Valore dei simboli per i commenti}
 translate I Informant!? {Mossa interessante}
 translate I Informant? {Mossa debole}
@@ -988,8 +977,6 @@ translate I ReviewVarCp {Soglia delle varianti (cp)}
 translate I ReviewMoveWait {Attendi la profondità della revisione}
 translate I ReviewMovetime {Limite di tempo (ms)}
 translate I ReviewOpeningMoves {Movimenti di apertura}
-translate I StopNow {Stop now}
-translate I StopAfterThisGame {Stop after this game}
 translate I ReviewFromPreset {%s (dal profilo del motore)}
 translate I ReviewProgress {Revisione della posizione %s di %s}
 translate I ReviewWaitForDepth {In attesa della profondità %s}
@@ -1167,7 +1154,6 @@ translate I GameLength {Lunghezza della partita}
 translate I FindGamesWith {Cerca partite con}
 translate I StdStart {Inizio standard}
 translate I Promotions {Promozioni}
-translate I Comments {Commenti}
 translate I Variations {Varianti}
 translate I Annotations {Annotazioni}
 translate I DeleteFlag {Cancellato}
@@ -1919,9 +1905,6 @@ translate I TimeBonus {Tempo + bonus}
 translate I TimeMin {min}
 translate I TimeSec {sec}
 translate I AllExercisesDone {Tutti gli esercizi eseguiti}
-translate I MoveOutOfBook {Mossa fuori dal libro}
-translate I LastBookMove {Ultima mossa del libro}
-translate I AnnotateSeveralGames {Annota più partite,\ndall'attuale a:}
 translate I FindOpeningErrors {Trova errori in apertura}
 translate I MarkTacticalExercises {Segna gli esercizi tattici}
 translate I UseBook {Usa il libro}
@@ -1929,10 +1912,6 @@ translate I MultiPV {Varianti multiple}
 translate I Hash {Memoria hash}
 translate I OwnBook {Use il libro del motore}
 translate I BookFile {Libro di aperture}
-translate I AnnotateVariations {Annota le varianti}
-translate I AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate I ShortAnnotations {Annotazione breve}
-translate I addAnnotatorTag {Aggiungi il tag dell'annotazione}
 translate I AddScoreToShortAnnotations {Aggiungi il punteggio alle annotazioni brevi}
 translate I AddScoreToAllMoves {Aggiungi punteggio a tutte le mosse}
 translate I Export {Esporta}
@@ -2041,7 +2020,6 @@ translate I FICSTerminalColor {Colore terminale}
 translate I FICSTextColor {Colore del testo}
 
 # Game review
-translate I GameReview {Rivedi partita}
 
 # Correspondence Chess Dialogs:
 translate I CCDlgCGeneraloptions {Opzioni generali}
@@ -2275,7 +2253,6 @@ translate I ReviewProgressTitle {Esaminare i progressi}
 translate I ReviewProgressIdle {Non è in corso alcuna revisione}
 translate I ReviewProgressGameOf {gioco %s di %s}
 translate I ReviewProgressEngineWindow {Finestrini del motore %s}
-translate I ReviewProgressAnalysisPane {Pannelli di analisi %s}
 translate I ReviewProgressRapid {Annotazione rapida}
 translate I FinishGameGameChanged {il gioco è cambiato mentre era in esecuzione Finish Game; non è stato scritto nulla}
 translate I FinishGameAtEnd {Fine Il gioco inizia dalla fine della linea principale; vai prima alla fine del gioco}

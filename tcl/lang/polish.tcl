@@ -946,31 +946,20 @@ translate P PgnOptStripMarks "Usuń kody kolorowych pól i strzałek"
 translate P PgnOptBoldMainLine "Pogrubiaj posunięcia wariantu głównego"
 
 # Analysis window:
-translate P AddVariation {Dodaj wariant}
 translate P AddAllVariations {Dodaj wszystkie warianty}
 translate P AddMove {Dodaj posunięcie}
 translate P Annotate {Adnotuj}
-translate P ShowAnalysisBoard {Pokaż szachownicę analizy}
-translate P ShowInfo {Pokaż informacje o silniku}
 translate P FinishGame {Dokończ partię}
-translate P FinishGameSlot2Warning {Silnik w drugim oknie jest już używany przez otwarte okno analizy.\n\nFunkcja Dokończ partię korzysta z silników z okien 1 i 2 i może przejąć kontrolę nad tym silnikiem. Czy kontynuować?}
-translate P StopEngine {Zatrzymaj silnik}
 translate P StartEngine {Start/Stop}
 translate P LockEngine {Zablokuj silnik}
 translate P AnalysisCommand {Polecenie analizy}
 translate P PreviousChoices {Poprzednie wybory}
 translate P AnnotateTime {Czas na posunięcie w sekundach}
-translate P AnnotateWhich {Dodaj warianty}
 translate P AnnotateAll {Dla posunięć obu stron}
-translate P AnnotateAllMoves {Adnotuj wszystkie posunięcia}
 translate P AnnotateWhite {Tylko posunięcia białych}
 translate P AnnotateBlack {Tylko posunięcia czarnych}
-translate P AnnotateBlundersOnly {Gdy posunięcie w partii jest poważnym błędem}
 translate P AnnotateBlundersOnlyScoreChange {Gdy analiza wykryje poważny błąd, ze zmianą oceny z/do: }
-translate P BlundersThreshold {Próg}
-translate P ScoreAllMoves {Oceń wszystkie posunięcia}
 translate P LowPriority {Niski priorytet procesora}
-translate P ClickHereToSeeMoves {Kliknij tutaj, aby zobaczyć posunięcia}
 translate P ConfigureInformant {Oceny informatora}
 translate P Informant!? {Ciekawe posunięcie}
 translate P Informant? {Słabe posunięcie}
@@ -1017,8 +1006,6 @@ translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
 translate P ReviewOpeningMoves {Posunięcia w debiucie}
-translate P StopNow {Zatrzymaj teraz}
-translate P StopAfterThisGame {Zatrzymaj po tej partii}
 translate P ReviewFromPreset {%s (z ustawień silnika)}
 translate P ReviewProgress {Analiza pozycji %s z %s}
 translate P ReviewWaitForDepth {Oczekiwanie na głębokość %s}
@@ -1196,7 +1183,6 @@ translate P GameLength {Długość partii}
 translate P FindGamesWith {Znajdź partie z flagami}
 translate P StdStart {Niestandardowa pozycja początkowa}
 translate P Promotions {Promocje pionków}
-translate P Comments {Komentarze}
 translate P Variations {Warianty}
 translate P Annotations {Adnotacje}
 translate P DeleteFlag {Flaga usunięcia}
@@ -1949,9 +1935,6 @@ translate P TimeBonus {Czas + dodatek}
 translate P TimeMin {min}
 translate P TimeSec {sek}
 translate P AllExercisesDone {Wszystkie zadania wykonane}
-translate P MoveOutOfBook {Posunięcie poza książką}
-translate P LastBookMove {Ostatnie posunięcie z książki}
-translate P AnnotateSeveralGames {Od partii do partii:}
 translate P FindOpeningErrors {Znajdź błędy debiutowe}
 translate P MarkTacticalExercises {Oznacz zadania taktyczne}
 translate P UseBook {Użyj książki debiutowej}
@@ -1959,10 +1942,6 @@ translate P MultiPV {Wiele wariantów}
 translate P Hash {Pamięć Hash}
 translate P OwnBook {Użyj książki silnika}
 translate P BookFile {Plik książki debiutowej}
-translate P AnnotateVariations {Adnotuj warianty}
-translate P AnnotateVariationsMainLineOnly {Warianty: tylko wariant główny (tryb analizy)}
-translate P ShortAnnotations {Krótkie adnotacje}
-translate P addAnnotatorTag {Dodaj znacznik komentatora}
 translate P AddScoreToShortAnnotations {Dodaj ocenę do adnotacji}
 translate P AddScoreToAllMoves {Dodaj ocenę do wszystkich posunięć}
 translate P Export {Eksportuj}
@@ -2071,7 +2050,6 @@ translate P FICSTerminalColor {Kolor terminala}
 translate P FICSTextColor {Kolor tekstu}
 
 # Game review
-translate P GameReview {Analiza partii}
 
 # Correspondence Chess Dialogs:
 translate P CCDlgCGeneraloptions {Opcje ogólne}
@@ -2305,7 +2283,6 @@ translate P ReviewProgressTitle {Postęp analizy}
 translate P ReviewProgressIdle {Analiza nie jest uruchomiona}
 translate P ReviewProgressGameOf {partia %s z %s}
 translate P ReviewProgressEngineWindow {Okno silnika %s}
-translate P ReviewProgressAnalysisPane {Panel analizy %s}
 translate P ReviewProgressRapid {Szybka adnotacja}
 translate P FinishGameGameChanged {partia zmieniła się podczas działania funkcji „Zakończ partię”; nic nie zostało zapisane}
 translate P FinishGameAtEnd {Funkcja „Zakończ partię” rozpoczyna działanie od końca głównej linii. Najpierw przejdź na koniec partii}

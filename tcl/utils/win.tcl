@@ -856,13 +856,55 @@ proc ::docking::layout_save_pw {pw} {
 }
 
 ################################################################################
-# Windows a saved layout may still restore. The Analysis window has no door any
-# more (#436 item 3): a layout that names one keeps it out of the notebook, and
-# ::docking::layoutPrune drops a notebook left with no windows.
+# The windows a saved layout may restore. One table, so the restore dispatch and
+# the filter that decides what a saved layout may still draw cannot disagree:
+# ::docking::create_window opens a name the table lists and does nothing for one
+# it does not.
+#
+# A layout saved by an older build names windows this one no longer has - the
+# Analysis window was the last of them (#436, #437 §5). Those names are not in
+# the table, so ::docking::layoutRestorableWindows drops them,
+# ::docking::layoutPrune drops a notebook left with no windows, and the parent's
+# sash list is trimmed to the panes that remain.
+
+proc ::docking::windowKinds {} {
+  return {
+    {\.(fdock)?main}                main
+    {\.(fdock)?pgnWin}              pgn
+    {\.(fdock)?baseWin}             base
+    {\.(fdock)?bookWin}             book
+    {\.(fdock)?ecograph}            eco
+    {\.(fdock)?commentWin}          comment
+    {\.(fdock)?reviewProgress}      progress
+    {\.(fdock)?oprepWin}            oprep
+    {\.(fdock)?plist}               plist
+    {\.(fdock)?tourney}             tourney
+    {\.(fdock)?tgraph}              tgraph
+    {\.(fdock)?glistWin([0-9]+)}    glist
+    {\.(fdock)?treeWin([0-9]+)}     tree
+    {\.(fdock)?engineWin([0-9]+)}   engine
+    {\.(fdock)?crosstableWin}       crosstable
+  }
+}
+
+# The arm of ::docking::create_window that owns this widget path, and the number
+# the path carries for the arms that have one: {kind n}, or "" for a window this
+# build does not have.
+proc ::docking::windowKind {wnd} {
+  foreach {pattern kind} [::docking::windowKinds] {
+    if {![regexp $pattern $wnd]} { continue }
+    set n ""
+    regexp {([0-9]+)$} $wnd -> n
+    return [list $kind $n]
+  }
+  return ""
+}
+
+# Windows a saved layout may still restore.
 proc ::docking::layoutRestorableWindows {wnds} {
   set out {}
   foreach wnd $wnds {
-    if {[regexp {\.(fdock)?analysisWin[0-9]+$} $wnd]} { continue }
+    if {[::docking::windowKind $wnd] eq ""} { continue }
     lappend out $wnd
   }
   return $out
@@ -938,28 +980,30 @@ proc ::docking::layout_restore_pw { data } {
 }
 
 proc ::docking::create_window {wnd} {
-      switch -regexp -matchvar regmatch -- $wnd {
-      "\.(fdock)?main" {
+      lassign [::docking::windowKind $wnd] kind n
+      if {$kind eq ""} { return }
+      switch -- $kind {
+      main {
         if {$::docking::layout_dest_notebook ne "undocked"} {
           ::docking::insert_tab .main $::docking::layout_dest_notebook end [list -text $::tr(Board) -compound none]
         } else {
           ::win::undockWindow .main "" $::tr(Board)
         }
       }
-      "\.(fdock)?pgnWin"              { ::pgn::OpenClose }
-      "\.(fdock)?baseWin"             { ::windows::switcher::Open }
-      "\.(fdock)?bookWin"             { ::book::open }
-      "\.(fdock)?ecograph"            { ::windows::eco::OpenClose }
-      "\.(fdock)?commentWin"          { ::makeCommentWin }
-      "\.(fdock)?reviewProgress"      { ::reviewprogress::ui::open }
-      "\.(fdock)?oprepWin"            { ::optable::makeReportWin }
-      "\.(fdock)?plist"               { ::plist::Open }
-      "\.(fdock)?tourney"             { ::tourney::Open }
-      "\.(fdock)?tgraph"              { ::tools::graphs::time::Open }
-      "\.(fdock)?glistWin([0-9]+)"    { ::windows::gamelist::Open }
-      "\.(fdock)?treeWin([0-9]+)"     { ::tree::make [lindex $regmatch end]}
-      "\.(fdock)?engineWin([0-9]+)"   { ::enginewin::Open [lindex $regmatch end]}
-      "\.(fdock)?crosstableWin"       { ::crosstab::Open }
+      pgn                             { ::pgn::OpenClose }
+      base                            { ::windows::switcher::Open }
+      book                            { ::book::open }
+      eco                             { ::windows::eco::OpenClose }
+      comment                         { ::makeCommentWin }
+      progress                        { ::reviewprogress::ui::open }
+      oprep                           { ::optable::makeReportWin }
+      plist                           { ::plist::Open }
+      tourney                         { ::tourney::Open }
+      tgraph                          { ::tools::graphs::time::Open }
+      glist                           { ::windows::gamelist::Open }
+      tree                            { ::tree::make $n }
+      engine                          { ::enginewin::Open $n }
+      crosstable                      { ::crosstab::Open }
       }
 }
 

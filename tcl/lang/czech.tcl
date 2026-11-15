@@ -911,31 +911,20 @@ translate C PgnOptStripMarks "Odstraňte barevné kódy čtverců/šipek"
 translate C PgnOptBoldMainLine "Pro pohyby hlavní čáry použijte tučný text"
 
 # Analysis window:
-translate C AddVariation {Pidat variantu}
 translate C AddAllVariations {Pidat vechny varianty}
 translate C AddMove {Pidat tah}
 translate C Annotate {Anotace}
-translate C ShowAnalysisBoard {Ukzat achovnici analzy}
-translate C ShowInfo {Ukzat informaci o hernm programu}
 translate C FinishGame {Ukonit partii}
-translate C FinishGameSlot2Warning {Slot motoru 2 je již používán otevřeným oknem analýzy.\n\nDokončit hru používá sloty motoru 1 a 2 a může převzít kontrolu nad tímto enginem. Pokračovat?}
-translate C StopEngine {Zastavit hern program}
 translate C StartEngine {Spustit hern program}
 translate C LockEngine {Uzamt hern program v aktuln pozici}
 translate C AnalysisCommand {Program pro analzu}
 translate C PreviousChoices {Pedchoz vybran programy}
 translate C AnnotateTime {Nastavit as mezi tahy v sekundch}
-translate C AnnotateWhich {Pidat varianty}
 translate C AnnotateAll {Pro tahy obou stran}
-translate C AnnotateAllMoves {Anotovat vechny tahy}
 translate C AnnotateWhite {Pouze pro tahy blho}
 translate C AnnotateBlack {Pouze pro tahy ernho}
-translate C AnnotateBlundersOnly {Jestlie tah v partii je evidentn hrub chyba}
 translate C AnnotateBlundersOnlyScoreChange {Analza ukazuje hrubou chybu, jestlie se skre zmn z/na: }
-translate C BlundersThreshold {Hranice}
-translate C ScoreAllMoves {Score all moves}
 translate C LowPriority {Nzk priorita procesoru}
-translate C ClickHereToSeeMoves {Kliknte sem pro zobrazen tah}
 translate C ConfigureInformant {Informtor}
 translate C Informant!? {Zajmav tah}
 translate C Informant? {Slab tah}
@@ -982,8 +971,6 @@ translate C ReviewVarCp {Mez variant (cp)}
 translate C ReviewMoveWait {Čekat na hloubku prohlídky}
 translate C ReviewMovetime {Časový limit (ms)}
 translate C ReviewOpeningMoves {Otevírací pohyby}
-translate C StopNow {Stop now}
-translate C StopAfterThisGame {Stop after this game}
 translate C ReviewFromPreset {%s (z předvolby motoru)}
 translate C ReviewProgress {Prohlíží se pozice %s z %s}
 translate C ReviewWaitForDepth {Čeká se na hloubku %s}
@@ -1161,7 +1148,6 @@ translate C GameLength {Dlka Partie}
 translate C FindGamesWith {Najt partie s pznaky}
 translate C StdStart {Nestandardn start}
 translate C Promotions {Promny}
-translate C Comments {Komente}
 translate C Variations {Varianty}
 translate C Annotations {Anotace}
 translate C DeleteFlag {Mazac pznak}
@@ -1917,9 +1903,6 @@ translate C TimeBonus {as + bonus}
 translate C TimeMin {min}
 translate C TimeSec {s}
 translate C AllExercisesDone {Vechna cvien hotova}
-translate C MoveOutOfBook {Tah mimo knihovnu zahjen}
-translate C LastBookMove {Posledn tah z knihovny zahjen}
-translate C AnnotateSeveralGames {Anotovat nkolik parti\od aktuln do:}
 translate C FindOpeningErrors {Najt chyby v zahjen}
 translate C MarkTacticalExercises {Oznait taktick cvien}
 translate C UseBook {Pouvat knihovnu zahjen}
@@ -1927,10 +1910,6 @@ translate C MultiPV {Nkolik variant}
 translate C Hash {Hashovac pam}
 translate C OwnBook {Pout knihovnu zahjen hernho programu}
 translate C BookFile {Knihovna zahjen}
-translate C AnnotateVariations {Anotovat varianty}
-translate C AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate C ShortAnnotations {Krtk anotace}
-translate C addAnnotatorTag {Pidat znaku anottora}
 translate C AddScoreToShortAnnotations {Pidat skre ke krtkm anotacm}
 translate C AddScoreToAllMoves {Přidejte skóre ke všem tahům}
 translate C Export {Export}
@@ -2039,7 +2018,6 @@ translate C FICSTerminalColor {Barva terminálu}
 translate C FICSTextColor {Barva textu}
 
 # Game review
-translate C GameReview {Prohlen partie}
 
 # Correspondence Chess Dialogs:
 translate C CCDlgCGeneraloptions {Obecn nastaven}
@@ -2273,7 +2251,6 @@ translate C ReviewProgressTitle {Zkontrolujte pokrok}
 translate C ReviewProgressIdle {Neprobíhá žádná recenze}
 translate C ReviewProgressGameOf {hra %s z %s}
 translate C ReviewProgressEngineWindow {Okna motoru %s}
-translate C ReviewProgressAnalysisPane {Analytické panely %s}
 translate C ReviewProgressRapid {Rychlá poznámka}
 translate C FinishGameGameChanged {během běhu Finish Game se hra změnila; nic nebylo napsáno}
 translate C FinishGameAtEnd {Finish Game začíná od konce hlavní řady; jděte nejprve na konec hry}

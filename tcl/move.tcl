@@ -20,7 +20,7 @@
 namespace eval ::move {}
 
 proc ::move::drawVarArrows {} {
-	if {! $::showVarArrows || $::autoplayMode ||
+	if {! $::showVarArrows ||
 		([info exists ::playMode] && [eval "$::playMode drawVarArrows"] == 0)} {
 		return 0
 	}
@@ -199,7 +199,7 @@ proc ::move::Forward {{count 1}} {
 	}
 
 	set bArrows [::move::drawVarArrows]
-	set bVarPopup [expr {$::showVarPopup && ! $::autoplayMode && [sc_var count] != 0}]
+	set bVarPopup [expr {$::showVarPopup && [sc_var count] != 0}]
 
 	if {$bArrows || $bVarPopup} {
 		if {$bArrows} { ::move::showVarArrows }

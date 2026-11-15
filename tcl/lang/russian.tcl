@@ -913,31 +913,20 @@ translate R PgnOptStripMarks "Удалите коды цветных квадр�
 translate R PgnOptBoldMainLine "Используйте жирный текст для перемещения по основной строке"
 
 # Analysis window:
-translate R AddVariation {Добавить вариант}
 translate R AddAllVariations {Добавить все варианты}
 translate R AddMove {Добавить ход}
 translate R Annotate {Аннотация}
-translate R ShowAnalysisBoard {Показать доску анализа}
-translate R ShowInfo {Показать информацию движка}
 translate R FinishGame {Завершить партию}
-translate R FinishGameSlot2Warning {Слот движка 2 уже используется открытым окном анализа.\n\nЗавершить игру использует слоты движка 1 и 2 и может взять под свой контроль этот движок. Продолжать?}
-translate R StopEngine {Остановить движок}
 translate R StartEngine {Запустить движок}
 translate R LockEngine {Закрепить движок в этой позиции}
 translate R AnalysisCommand {Команда анализа}
 translate R PreviousChoices {Предыдущие выборы}
 translate R AnnotateTime {Установить время между ходами в секундах}
-translate R AnnotateWhich {Добавить варианты}
 translate R AnnotateAll {Для ходов обоих сторон}
-translate R AnnotateAllMoves {Комментировать все ходы}
 translate R AnnotateWhite {Только для ходов белых}
 translate R AnnotateBlack {Только для ходов чёрных}
-translate R AnnotateBlundersOnly {Когда ход в партии является очевидной ошибкой}
 translate R AnnotateBlundersOnlyScoreChange {Анализ отчёта ошибок, которые изменяли счёт от/до:}
-translate R BlundersThreshold {Порог}
-translate R ScoreAllMoves {Пересчитать все ходы}
 translate R LowPriority {Низкий приоритет CPU}
-translate R ClickHereToSeeMoves {Кликнуть сюда, чтобы увидеть ходы}
 translate R ConfigureInformant {Подсказчика}
 translate R Informant!? {Ход подсказчика}
 translate R Informant? {Плохой ход}
@@ -984,8 +973,6 @@ translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
 translate R ReviewMovetime {Ограничение времени (ms)}
 translate R ReviewOpeningMoves {Первые ходы}
-translate R StopNow {Stop now}
-translate R StopAfterThisGame {Stop after this game}
 translate R ReviewFromPreset {%s (из профиля движка)}
 translate R ReviewProgress {Разбор позиции %s из %s}
 translate R ReviewWaitForDepth {Ожидание глубины %s}
@@ -1163,7 +1150,6 @@ translate R GameLength {Длина партии}
 translate R FindGamesWith {Найти партии с флагами}
 translate R StdStart {Нестандартный дебют}
 translate R Promotions {Продвижения}
-translate R Comments {Комментарии}
 translate R Variations {Вариации}
 translate R Annotations {Аннотации}
 translate R DeleteFlag {Удалить флаг}
@@ -1919,9 +1905,6 @@ translate R TimeBonus {Время + премия}
 translate R TimeMin {Мин}
 translate R TimeSec {с}
 translate R AllExercisesDone {Все задания выполнены}
-translate R MoveOutOfBook {Ходы не по дебютной книге}
-translate R LastBookMove {Ход из последней книги}
-translate R AnnotateSeveralGames {Аннотировать несколько партий\nот текущей до:}
 translate R FindOpeningErrors {Поиск ошибок дебюта}
 translate R MarkTacticalExercises {Пометить тактические задания}
 translate R UseBook {Использовать книгу}
@@ -1929,10 +1912,6 @@ translate R MultiPV {Множество вариантов}
 translate R Hash {Хешировать память}
 translate R OwnBook {Использовать книгу движка}
 translate R BookFile {Открытые книги}
-translate R AnnotateVariations {Комментировать варианты}
-translate R AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate R ShortAnnotations {Показать комментарии}
-translate R addAnnotatorTag {Добавить тег аннотирующего}
 translate R AddScoreToShortAnnotations {Добавить счёт в короткие аннотации}
 translate R AddScoreToAllMoves {Добавляйте очки ко всем ходам}
 translate R Export {Экспорт}
@@ -2041,7 +2020,6 @@ translate R FICSTerminalColor {Цвет терминала}
 translate R FICSTextColor {Цвет текста}
 
 # Game review
-translate R GameReview {Обзор партии}
 
 # Correspondence Chess Dialogs:
 translate R CCDlgCGeneraloptions {Основные настройки}
@@ -2275,7 +2253,6 @@ translate R ReviewProgressTitle {Обзор прогресса}
 translate R ReviewProgressIdle {Ни одна проверка не активна}
 translate R ReviewProgressGameOf {игра %s из %s}
 translate R ReviewProgressEngineWindow {Окна двигателя %s}
-translate R ReviewProgressAnalysisPane {Панели анализа %s}
 translate R ReviewProgressRapid {Быстрое аннотирование}
 translate R FinishGameGameChanged {игра менялась во время работы «Завершить игру»; ничего не было написано}
 translate R FinishGameAtEnd {Финиш Игра начинается с конца основной линии; сначала зайди в конец игры}

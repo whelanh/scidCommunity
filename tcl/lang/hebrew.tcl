@@ -907,31 +907,20 @@ translate V PgnOptStripMarks "הסר קודי ריבוע/חץ צבעוני"
 translate V PgnOptBoldMainLine "השתמש בטקסט מודגש עבור מהלכי קו ראשי"
 
 # Analysis window:
-translate V AddVariation {הוסף וריאציה}
 translate V AddAllVariations {הוסף את כל הווריאציות}
 translate V AddMove {הוסף Move}
 translate V Annotate {הערה}
-translate V ShowAnalysisBoard {הצג לוח ניתוח}
-translate V ShowInfo {הצג מידע על מנוע}
 translate V FinishGame {סיים משחק}
-translate V FinishGameSlot2Warning {חריץ מנוע 2 כבר נמצא בשימוש על ידי חלון ניתוח פתוח.\n\nFinish Game משתמש בחריצי מנוע 1 ו-2 ועשוי להשתלט על המנוע הזה. לְהַמשִׁיך?}
-translate V StopEngine {עצור מנוע}
 translate V StartEngine {הפעל מנוע}
 translate V LockEngine {נעל את המנוע למצב הנוכחי}
 translate V AnalysisCommand {פיקוד ניתוח}
 translate V PreviousChoices {בחירות קודמות}
 translate V AnnotateTime {זמן לכל מהלך בשניות.}
-translate V AnnotateWhich {הוסף וריאציות}
 translate V AnnotateAll {למהלכים של שני הצדדים}
-translate V AnnotateAllMoves {סמן את כל המהלכים}
 translate V AnnotateWhite {עבור מהלכים לבנים בלבד}
 translate V AnnotateBlack {עבור מהלכים שחורים בלבד}
-translate V AnnotateBlundersOnly {כאשר מהלך המשחק הוא טעות}
 translate V AnnotateBlundersOnlyScoreChange {ניתוח מדווח על טעות, עם שינוי ציון מ/אל:}
-translate V BlundersThreshold {סַף}
-translate V ScoreAllMoves {קלע את כל המהלכים}
 translate V LowPriority {עדיפות מעבד נמוכה}
-translate V ClickHereToSeeMoves {לחץ כאן כדי לראות מהלכים}
 translate V ConfigureInformant {ערכי מידען}
 translate V Informant!? {מהלך מעניין}
 translate V Informant? {מהלך גרוע}
@@ -978,8 +967,6 @@ translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
 translate V ReviewMovetime {מגבלת זמן (ms)}
 translate V ReviewOpeningMoves {מהלכי פתיחה}
-translate V StopNow {Stop now}
-translate V StopAfterThisGame {Stop after this game}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}
 translate V ReviewProgress {סוקר עמדה %s מתוך %s}
 translate V ReviewWaitForDepth {ממתין לעומק %s}
@@ -1157,7 +1144,6 @@ translate V GameLength {אורך המשחק}
 translate V FindGamesWith {מצא משחקים עם דגלים}
 translate V StdStart {התחלה לא סטנדרטית}
 translate V Promotions {מבצעים}
-translate V Comments {הערות}
 translate V Variations {וריאציות}
 translate V Annotations {הערות}
 translate V DeleteFlag {מחק דגל}
@@ -1896,9 +1882,6 @@ translate V TimeBonus {זמן + בונוס}
 translate V TimeMin {דקה}
 translate V TimeSec {שניות}
 translate V AllExercisesDone {כל התרגילים בוצעו}
-translate V MoveOutOfBook {צא מהספר}
-translate V LastBookMove {מהלך ספר אחרון}
-translate V AnnotateSeveralGames {ממשחק בפועל למשחק:}
 translate V FindOpeningErrors {מצא שגיאות פתיחה}
 translate V MarkTacticalExercises {סמן תרגילים טקטיים}
 translate V UseBook {השתמש בספר}
@@ -1906,10 +1889,6 @@ translate V MultiPV {וריאציות מרובות}
 translate V Hash {זיכרון חשיש}
 translate V OwnBook {השתמש בספר מנוע}
 translate V BookFile {ספר פתיחה}
-translate V AnnotateVariations {הערה וריאציות}
-translate V AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate V ShortAnnotations {הערות קצרות}
-translate V addAnnotatorTag {הוסף תג יוצר}
 translate V AddScoreToShortAnnotations {הוסף ניקוד להערות}
 translate V AddScoreToAllMoves {הוסף ניקוד לכל המהלכים}
 translate V Export {יְצוּא}
@@ -2018,7 +1997,6 @@ translate V FICSTerminalColor {צבע טרמינל}
 translate V FICSTextColor {צבע טקסט}
 
 # Game review
-translate V GameReview {סקירת משחק}
 
 # Correspondence Chess Dialogs:
 translate V CCDlgCGeneraloptions {אפשרויות כלליות}
@@ -2252,7 +2230,6 @@ translate V ReviewProgressTitle {סקור את ההתקדמות}
 translate V ReviewProgressIdle {שום ביקורת לא פועלת}
 translate V ReviewProgressGameOf {משחק %s מתוך %s}
 translate V ReviewProgressEngineWindow {חלונות מנוע %s}
-translate V ReviewProgressAnalysisPane {לוחות ניתוח %s}
 translate V ReviewProgressRapid {הערה מהירה}
 translate V FinishGameGameChanged {המשחק השתנה בזמן שמשחק סיום רץ; שום דבר לא נכתב}
 translate V FinishGameAtEnd {משחק סיום מתחיל מסוף הקו הראשי; ללכת קודם לסוף המשחק}

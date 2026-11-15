@@ -919,31 +919,20 @@ translate F PgnOptStripMarks "Supprimez les codes de carrés/flèches colorés"
 translate F PgnOptBoldMainLine "Utiliser du texte en gras pour les déplacements de la ligne principale"
 
 # Analysis window:
-translate F AddVariation {Ajouter une variante}
 translate F AddAllVariations {Ajouter toutes les variantes}
 translate F AddMove {Ajouter le coup}
 translate F Annotate {Annotation}
-translate F ShowAnalysisBoard {Montrer échiquier d'analyse}
-translate F ShowInfo {Montrer infos moteur}
 translate F FinishGame {Continuer la partie}
-translate F FinishGameSlot2Warning {L'emplacement de moteur 2 est déjà utilisé par une fenêtre d'analyse ouverte.\n\nContinuer la partie utilise les emplacements de moteur 1 et 2 et peut prendre le contrôle de ce moteur. Continuer ?}
-translate F StopEngine {Arrêter le moteur}
 translate F StartEngine {Démarrer le moteur}
 translate F LockEngine {Verrouiller moteur à la position actuelle}
 translate F AnalysisCommand {Commande d'analyse}
 translate F PreviousChoices {Choix précédents}
 translate F AnnotateTime {Temps en secondes par coup}
-translate F AnnotateWhich {Ajouter des variantes}
 translate F AnnotateAll {Pour les coups des deux côtés}
-translate F AnnotateAllMoves {Annoter tous les coups}
 translate F AnnotateWhite {Pour les coups des blancs seulement}
 translate F AnnotateBlack {Pour les coups des noirs seulement}
-translate F AnnotateBlundersOnly {Quand le coup est une erreur}
 translate F AnnotateBlundersOnlyScoreChange {Coup faible, le score varie de/à: }
-translate F BlundersThreshold {Seuil de l'erreur}
-translate F ScoreAllMoves {Valider tous les coups}
 translate F LowPriority {Priorité processeur basse}
-translate F ClickHereToSeeMoves {Cliquer ici pour afficher les coups}
 translate F ConfigureInformant {Valeurs des notations}
 translate F Informant!? {Coup intéressant}
 translate F Informant? {Coup faible}
@@ -990,8 +979,6 @@ translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
 translate F ReviewMovetime {Plafond de temps (ms)}
 translate F ReviewOpeningMoves {Mouvements d'ouverture}
-translate F StopNow {Stop now}
-translate F StopAfterThisGame {Stop after this game}
 translate F ReviewFromPreset {%s (profil du moteur)}
 translate F ReviewProgress {Analyse de la position %s sur %s}
 translate F ReviewWaitForDepth {En attente de la profondeur %s}
@@ -1169,7 +1156,6 @@ translate F GameLength {Longueur de la partie}
 translate F FindGamesWith {Chercher les parties avec}
 translate F StdStart {Pos. départ non standard}
 translate F Promotions {Promotions}
-translate F Comments {Commentaires}
 translate F Variations {Variantes}
 translate F Annotations {Annotations}
 translate F DeleteFlag {Marquées supprimées}
@@ -1923,9 +1909,6 @@ translate F TimeBonus {Temps + bonus}
 translate F TimeMin {min}
 translate F TimeSec {sec}
 translate F AllExercisesDone {Tous les exercices sont faits}
-translate F MoveOutOfBook {Coup hors bibliothèque d'ouverture}
-translate F LastBookMove {Dernier coup de la bibliothèque d'ouverture}
-translate F AnnotateSeveralGames {Annoter plusieurs parties\ndepuis l'actuelle jusqu'à :}
 translate F FindOpeningErrors {Chercher les erreurs d'ouverture}
 translate F MarkTacticalExercises {Marquer exercice tactique}
 translate F UseBook {Utiliser une bibliothèque d'ouverture}
@@ -1933,10 +1916,6 @@ translate F MultiPV {Nombre de variantes}
 translate F Hash {Mémoire}
 translate F OwnBook {Utiliser bibliothèque propre}
 translate F BookFile {Bibliothèque d'ouverture}
-translate F AnnotateVariations {Annoter les variantes}
-translate F AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate F ShortAnnotations {Annotations courtes}
-translate F addAnnotatorTag {Ajouter Annotateur}
 translate F AddScoreToShortAnnotations {Ajouter score aux annotations courtes}
 translate F AddScoreToAllMoves {Ajouter un score à tous les mouvements}
 translate F Export {Exporter}
@@ -2045,7 +2024,6 @@ translate F FICSTerminalColor {Couleur du terminal}
 translate F FICSTextColor {Couleur du texte}
 
 # Game review
-translate F GameReview {Revue de partie}
 
 # Correspondence Chess Dialogs:
 translate F CCDlgCGeneraloptions {Options générales}
@@ -2279,7 +2257,6 @@ translate F ReviewProgressTitle {Examiner les progrès}
 translate F ReviewProgressIdle {Aucun examen n'est en cours}
 translate F ReviewProgressGameOf {jeu %s de %s}
 translate F ReviewProgressEngineWindow {Fenêtres moteur %s}
-translate F ReviewProgressAnalysisPane {Panneaux d'analyse %s}
 translate F ReviewProgressRapid {Annotation rapide}
 translate F FinishGameGameChanged {le jeu a changé pendant l'exécution de Finish Game ; rien n'a été écrit}
 translate F FinishGameAtEnd {Terminer Le jeu commence à la fin de la ligne principale ; va d'abord à la fin du jeu}

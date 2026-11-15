@@ -906,31 +906,20 @@ translate h PgnOptStripMarks "रंगीन चौकोर/तीर को�
 translate h PgnOptBoldMainLine "मेन लाइन मूव्स के लिए बोल्ड टेक्स्ट का उपयोग करें"
 
 # Analysis window:
-translate h AddVariation {विविधता जोड़ें}
 translate h AddAllVariations {सभी विविधताएँ जोड़ें}
 translate h AddMove {स्थानांतरण जोड़ें}
 translate h Annotate {एन्नोटेट}
-translate h ShowAnalysisBoard {विश्लेषण बोर्ड दिखाएँ}
-translate h ShowInfo {इंजन की जानकारी दिखाएँ}
 translate h FinishGame {खेल ख़त्म करो}
-translate h FinishGameSlot2Warning {इंजन स्लॉट 2 पहले से ही एक खुली विश्लेषण विंडो द्वारा उपयोग में है।\n\nफिनिश गेम इंजन स्लॉट 1 और 2 का उपयोग करता है और उस इंजन का नियंत्रण ले सकता है। जारी रखना?}
-translate h StopEngine {इंजन बंद करो}
 translate h StartEngine {इंजन प्रारंभ करें}
 translate h LockEngine {इंजन को वर्तमान स्थिति में लॉक करें}
 translate h AnalysisCommand {विश्लेषण आदेश}
 translate h PreviousChoices {पिछला विकल्प}
 translate h AnnotateTime {प्रति चाल समय सेकंड में.}
-translate h AnnotateWhich {विविधताएँ जोड़ें}
 translate h AnnotateAll {दोनों पक्षों की चाल के लिए}
-translate h AnnotateAllMoves {सभी चालों को एनोटेट करें}
 translate h AnnotateWhite {केवल सफेद चालों के लिए}
 translate h AnnotateBlack {केवल काली चालों के लिए}
-translate h AnnotateBlundersOnly {जब खेल चाल एक भूल है}
 translate h AnnotateBlundersOnlyScoreChange {विश्लेषण रिपोर्ट में त्रुटि, स्कोर में/से परिवर्तन के साथ:}
-translate h BlundersThreshold {सीमा}
-translate h ScoreAllMoves {सभी चालें स्कोर करें}
 translate h LowPriority {कम सीपीयू प्राथमिकता}
-translate h ClickHereToSeeMoves {चालें देखने के लिए यहां क्लिक करें}
 translate h ConfigureInformant {मुखबिर मूल्य}
 translate h Informant!? {दिलचस्प कदम}
 translate h Informant? {ख़राब चाल}
@@ -977,8 +966,6 @@ translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
 translate h ReviewOpeningMoves {खुलने की चाल}
-translate h StopNow {Stop now}
-translate h StopAfterThisGame {Stop after this game}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
 translate h ReviewProgress {स्थिति %s / %s की समीक्षा हो रही है}
 translate h ReviewWaitForDepth {गहराई %s की प्रतीक्षा}
@@ -1156,7 +1143,6 @@ translate h GameLength {खेल की लंबाई}
 translate h FindGamesWith {झंडों वाले गेम ढूंढें}
 translate h StdStart {गैर-मानक शुरुआत}
 translate h Promotions {प्रचार}
-translate h Comments {टिप्पणियाँ}
 translate h Variations {बदलाव}
 translate h Annotations {एनोटेशन}
 translate h DeleteFlag {ध्वज हटाएँ}
@@ -1895,9 +1881,6 @@ translate h TimeBonus {समय + बोनस}
 translate h TimeMin {मिन}
 translate h TimeSec {सेकंड}
 translate h AllExercisesDone {सारे व्यायाम हो गए}
-translate h MoveOutOfBook {किताब से बाहर हटो}
-translate h LastBookMove {आखिरी किताब चाल}
-translate h AnnotateSeveralGames {वास्तविक गेम से गेम तक:}
 translate h FindOpeningErrors {प्रारंभिक त्रुटियाँ ढूँढ़ें}
 translate h MarkTacticalExercises {सामरिक अभ्यासों को चिह्नित करें}
 translate h UseBook {पुस्तक का प्रयोग करें}
@@ -1905,10 +1888,6 @@ translate h MultiPV {एकाधिक विविधताएँ}
 translate h Hash {हैश मेमोरी}
 translate h OwnBook {इंजन बुक का प्रयोग करें}
 translate h BookFile {किताब खोलना}
-translate h AnnotateVariations {विविधताओं पर टिप्पणी करें}
-translate h AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate h ShortAnnotations {लघु टिप्पणियाँ}
-translate h addAnnotatorTag {एनोटेटर टैग जोड़ें}
 translate h AddScoreToShortAnnotations {एनोटेशन में स्कोर जोड़ें}
 translate h AddScoreToAllMoves {सभी चालों में स्कोर जोड़ें}
 translate h Export {निर्यात}
@@ -2017,7 +1996,6 @@ translate h FICSTerminalColor {टर्मिनल रंग}
 translate h FICSTextColor {पाठ का रंग}
 
 # Game review
-translate h GameReview {खेल समीक्षा}
 
 # Correspondence Chess Dialogs:
 translate h CCDlgCGeneraloptions {आम विकल्प}
@@ -2251,7 +2229,6 @@ translate h ReviewProgressTitle {प्रगति की समीक्षा
 translate h ReviewProgressIdle {कोई समीक्षा नहीं चल रही है}
 translate h ReviewProgressGameOf {खेल %s का %s}
 translate h ReviewProgressEngineWindow {इंजन खिड़कियाँ %s}
-translate h ReviewProgressAnalysisPane {विश्लेषण पैनल %s}
 translate h ReviewProgressRapid {त्वरित व्याख्या}
 translate h FinishGameGameChanged {फ़िनिश गेम चलने के दौरान गेम बदल गया; कुछ भी नहीं लिखा गया}
 translate h FinishGameAtEnd {फ़िनिश गेम मुख्य पंक्ति के अंत से शुरू होता है; सबसे पहले खेल के अंत तक जाएँ}

@@ -946,31 +946,20 @@ translate E PgnOptStripMarks "Strip out Colored Square/Arrow Codes"
 translate E PgnOptBoldMainLine "Use Bold Text for Main Line Moves"
 
 # Analysis window:
-translate E AddVariation {Add Variation}
 translate E AddAllVariations {Add All Variations}
 translate E AddMove {Add Move}
 translate E Annotate {Annotate}
-translate E ShowAnalysisBoard {Show analysis board}
-translate E ShowInfo {Show engine info}
 translate E FinishGame {Finish game}
-translate E FinishGameSlot2Warning {Engine slot 2 is already in use by an open Analysis window.\n\nFinish Game uses engine slots 1 and 2 and may take control of that engine. Continue?}
-translate E StopEngine {Stop engine}
 translate E StartEngine {Start engine}
 translate E LockEngine {Lock engine to current position}
 translate E AnalysisCommand {Analysis Command}
 translate E PreviousChoices {Previous Choices}
 translate E AnnotateTime {Time per move in sec.}
-translate E AnnotateWhich {Add variations}
 translate E AnnotateAll {For moves by both sides}
-translate E AnnotateAllMoves {Annotate all moves}
 translate E AnnotateWhite {For White moves only}
 translate E AnnotateBlack {For Black moves only}
-translate E AnnotateBlundersOnly {When game move is a blunder}
 translate E AnnotateBlundersOnlyScoreChange {Analysis reports blunder, with score change from/to: }
-translate E BlundersThreshold {Threshold}
-translate E ScoreAllMoves {Score all moves}
 translate E LowPriority {Low CPU Priority}
-translate E ClickHereToSeeMoves {Click here to see moves}
 translate E ConfigureInformant {Informant values}
 translate E Informant!? {Interesting move}
 translate E Informant? {Poor move}
@@ -1017,8 +1006,6 @@ translate E ReviewVarCp {Variation margin (cp)}
 translate E ReviewMoveWait {Wait for the review depth}
 translate E ReviewMovetime {Time cap (ms)}
 translate E ReviewOpeningMoves {Opening moves}
-translate E StopNow {Stop now}
-translate E StopAfterThisGame {Stop after this game}
 translate E ReviewFromPreset {%s (from engine preset)}
 translate E ReviewProgress {Reviewing position %s of %s}
 translate E ReviewWaitForDepth {Waiting for depth %s}
@@ -1196,7 +1183,6 @@ translate E GameLength {Game length}
 translate E FindGamesWith {Find games with flags}
 translate E StdStart {Non-standard start}
 translate E Promotions {Promotions}
-translate E Comments {Comments}
 translate E Variations {Variations}
 translate E Annotations {Annotations}
 translate E DeleteFlag {Delete flag}
@@ -1949,9 +1935,6 @@ translate E TimeBonus {Time + bonus}
 translate E TimeMin {min}
 translate E TimeSec {sec}
 translate E AllExercisesDone {All exercises done}
-translate E MoveOutOfBook {Move out of book}
-translate E LastBookMove {Last book move}
-translate E AnnotateSeveralGames {From actual game to game:}
 translate E FindOpeningErrors {Find opening errors}
 translate E MarkTacticalExercises {Mark tactical exercises}
 translate E UseBook {Use book}
@@ -1959,10 +1942,6 @@ translate E MultiPV {Multiple variations}
 translate E Hash {Hash memory}
 translate E OwnBook {Use engine book}
 translate E BookFile {Opening book}
-translate E AnnotateVariations {Annotate variations}
-translate E AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate E ShortAnnotations {Short annotations}
-translate E addAnnotatorTag {Add annotator tag}
 translate E AddScoreToShortAnnotations {Add score to annotations}
 translate E AddScoreToAllMoves {Add score to all moves}
 translate E Export {Export}
@@ -2071,7 +2050,6 @@ translate E FICSTerminalColor {Terminal color}
 translate E FICSTextColor {Text color}
 
 # Game review
-translate E GameReview {Game review}
 
 # Correspondence Chess Dialogs:
 translate E CCDlgCGeneraloptions {General Options}
@@ -2305,7 +2283,6 @@ translate E ReviewProgressTitle {Review progress}
 translate E ReviewProgressIdle {No review is running}
 translate E ReviewProgressGameOf {game %s of %s}
 translate E ReviewProgressEngineWindow {Engine window %s}
-translate E ReviewProgressAnalysisPane {Analysis pane %s}
 translate E ReviewProgressRapid {Rapid annotate}
 translate E FinishGameGameChanged {the game changed while Finish Game was running; nothing was written}
 translate E FinishGameAtEnd {Finish Game starts from the end of the main line; go to the end of the game first}

@@ -535,7 +535,6 @@ proc sc_game {sub args} {
     return 1
 }
 proc sc_var {args} { return "" }
-proc toAbsPath {path} { return $path }
 # The game a mid-game Play starts on: the positions sc_base getGame returns,
 # each as {RAVdepth RAVnum fen nags comment san uci}. Empty by default, so a
 # scenario that does not seed one starts from a game the harness records no
@@ -2137,6 +2136,22 @@ checkEq "a face change asks the arrangement again" $::sergame::faceAsked 1
 rename ::sergame::clockLayoutApply {}
 rename ::sergame::clockLayoutApplyReal ::sergame::clockLayoutApply
 endGame
+
+# =============================================================================
+puts "\na preset name that is no longer in the list is reported, not raised"
+# =============================================================================
+# The list can be reordered or edited (Configure Engines sorts it) after the
+# config dialog recorded a choice, so openEngine resolves the name against the
+# current list. The branch that reports a missing name used to call toAbsPath,
+# which #437 §5 deleted with analysis.tcl; this case fails if that call returns,
+# and it is the branch the "engine that will not start" case above does not
+# reach.
+fake::reset
+set ::fake::box ""
+set rc [catch { ::sergame::openEngine "no such preset" 1 } err]
+checkEq "a preset that is not in the list does not raise" $rc 0 $err
+checkIn "and says what will not start" $::fake::box "Unable to start the program"
+checkIn "naming the preset it was asked for" $::fake::box "no such preset"
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

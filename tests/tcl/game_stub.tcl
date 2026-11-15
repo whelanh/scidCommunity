@@ -283,8 +283,8 @@ proc sc_var {sub args} {
 
 # The classic inserts moves into the variation it just created.
 proc sc_move_add {args} { return 0 }
-# ... through the uci layer, which is where analysis.tcl's own sc_move_add sends
-# them: the variation is dropped by this model, so nothing is added.
+# ... through the uci layer, which is where the variation writers send them: the
+# variation is dropped by this model, so nothing is added.
 namespace eval ::uci {}
 proc ::uci::sc_move_add {moves} { return 0 }
 
@@ -397,18 +397,12 @@ proc sc_info {args} { return "" }
 proc sc_filter {args} { return "" }
 proc sc_import {args} { return "" }
 
-### The rest of the application the classic annotator calls into.
+### The rest of the application the review writer calls into.
 
-# The two translation entry points both pipelines use. They are identity here so
-# that a parity comparison compares the same text on both sides; the few keys the
-# annotator writes into comments are the English ones, because that is what a
-# language file that was never updated falls back to.
+# The two translation entry points the writers use. They are identity here, so a
+# harness compares the same text on both sides of a write.
 proc tr {key args} { return $key }
 proc ::trans {text} { return $text }
-array set ::tr {
-    MoveOutOfBook "Out of book"
-    LastBookMove  "Last book move"
-}
 
 proc updateBoard {args} { return }
 proc resetAnalysis {args} { return }

@@ -230,9 +230,9 @@ puts "\nthe batch publishes the game in flight"
 # game's place in the run, which is the only field that moves between games.
 proc ::tr {tag args} {
     switch -- $tag {
-        ReviewProgressAnalysisPane { return {Analysis pane %s} }
         ReviewProgressGameOf { return {game %s of %s} }
         ReviewProgressIdle { return {No review is running} }
+        ReviewProgressEngineWindow { return {Engine window %s} }
         ReviewProgress { return {%s of %s} }
         default { return $tag }
     }
@@ -246,7 +246,7 @@ set ::batch_annotate::movetime 0
 set ::batch_annotate::total_games 4
 set ::batch_annotate::games_completed 3
 set token [::reviewprogress::begin [dict create source annotate engine Stockfish \
-    origin [list analysispane 1] total 4]]
+    origin [list enginewin 1] total 4]]
 set ::batch_annotate::token $token
 set pipe [::testopen [file join $root tests tcl .batch-pipe-stub] w]
 set ::batch_annotate::pipe_game($pipe) 47
@@ -259,7 +259,7 @@ checkEq "the board is the position this pipe searches" [dict get $job board] \
     [::reviewprogress::positionToBoard \
         {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}]
 checkEq "the header carries the game in flight and the run's size" \
-    [dict get $job header] {Annotate — Stockfish (Analysis pane 1) · game 4 of 4}
+    [dict get $job header] {Annotate — Stockfish (Engine window 1) · game 4 of 4}
 checkEq "and the progress is the batch's own count" [dict get $job done] 3
 checkEq "out of the games this run was asked for" [dict get $job total] 4
 close $pipe

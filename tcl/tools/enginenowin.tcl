@@ -2,7 +2,7 @@
 ### enginenowin.tcl: part of Scid.
 ### This file is part of Scid (Shane's Chess Information Database).
 ### Copyright (C) 2025 Uwe Klimmek
-### uses code from Fulvio Benini https://github.com/benini/chess_accuracy and analysis.tcl
+### uses code from Fulvio Benini https://github.com/benini/chess_accuracy and from Scid's retired analysis code
 ##########################################################################################
 ### procs for using engines without a engine window
 

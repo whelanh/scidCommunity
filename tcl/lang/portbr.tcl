@@ -919,31 +919,20 @@ translate B PgnOptStripMarks "Retire os códigos de quadrados/setas coloridos"
 translate B PgnOptBoldMainLine "Use texto em negrito para movimentos de linha principal"
 
 # Analysis window:
-translate B AddVariation {Adicionar variante}
 translate B AddAllVariations {Adicionar todas as Variantes}
 translate B AddMove {Adicionar movimento}
 translate B Annotate {Anotar}
-translate B ShowAnalysisBoard {Mostrar tabuleiro de análise}
-translate B ShowInfo {Mostrar informações do engine}
 translate B FinishGame {Encerrar jogo}
-translate B FinishGameSlot2Warning {O slot 2 do mecanismo já está em uso por uma janela de análise aberta.\n\nConcluir O jogo usa os slots 1 e 2 do mecanismo e pode assumir o controle desse mecanismo. Continuar?}
-translate B StopEngine {Parar engine}
 translate B StartEngine {Iniciar engine}
 translate B LockEngine {Travar engine na posição corrente}
 translate B AnalysisCommand {Comando de Análise}
 translate B PreviousChoices {Escolhas Anteriores}
 translate B AnnotateTime {Define o tempo entre movimentos em segundos}
-translate B AnnotateWhich {Adiciona variante}
 translate B AnnotateAll {Parar movimentos de ambos os lados}
-translate B AnnotateAllMoves {Anotar todos os movimentos}
 translate B AnnotateWhite {Apenas para movimentos das Brancas}
 translate B AnnotateBlack {Apenas para movimentos das Pretas}
-translate B AnnotateBlundersOnly {Quando o movimento for um erro crasso}
 translate B AnnotateBlundersOnlyScoreChange {As análises indicam um erro crasso, com mudança de score de/para: }
-translate B BlundersThreshold {Limite}
-translate B ScoreAllMoves {Analise todos os movimentos}
 translate B LowPriority {Baixa prioridade da CPU} 
-translate B ClickHereToSeeMoves {Clique aqui para ver os movimentos}
 translate B ConfigureInformant {Informante}
 translate B Informant!? {Movimento interessante}
 translate B Informant? {Movimento pobre}
@@ -990,8 +979,6 @@ translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
 translate B ReviewMovetime {Limite de tempo (ms)}
 translate B ReviewOpeningMoves {Movimentos de abertura}
-translate B StopNow {Stop now}
-translate B StopAfterThisGame {Stop after this game}
 translate B ReviewFromPreset {%s (do perfil do motor)}
 translate B ReviewProgress {Analisando posição %s de %s}
 translate B ReviewWaitForDepth {Aguardando profundidade %s}
@@ -1169,7 +1156,6 @@ translate B GameLength {Tamanho do jogo}
 translate B FindGamesWith {Encontrar jogos com}
 translate B StdStart {Início padrão}
 translate B Promotions {Promoções}
-translate B Comments {Comentários}
 translate B Variations {Variantes}
 translate B Annotations {Anotações}
 translate B DeleteFlag {Apagar Flag}
@@ -1925,9 +1911,6 @@ translate B TimeBonus {Bonus de tempo}
 translate B TimeMin {min}
 translate B TimeSec {seg}
 translate B AllExercisesDone {Todos os exercícios completos}
-translate B MoveOutOfBook {Movimento fora do livro}
-translate B LastBookMove {Último movimento do livro}
-translate B AnnotateSeveralGames {Anotar diversos jogos\ndo atual at :}
 translate B FindOpeningErrors {Encontrar erros na abertura}
 translate B MarkTacticalExercises {Marcar exercícios táticos}
 translate B UseBook {Usar livro}
@@ -1935,10 +1918,6 @@ translate B MultiPV {Variantes múltiplas}
 translate B Hash {Varrer memória}
 translate B OwnBook {Usar livro do engine}
 translate B BookFile {Livro de aberturas}
-translate B AnnotateVariations {Anotar variantes}
-translate B AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate B ShortAnnotations {Anotações curtas}
-translate B addAnnotatorTag {Adicionar tag do anotador}
 translate B AddScoreToShortAnnotations {Adicionar o score às anotações curtas}
 translate B AddScoreToAllMoves {Adicione pontuação a todos os movimentos}
 translate B Export {Exportar}
@@ -2047,7 +2026,6 @@ translate B FICSTerminalColor {Cor dos terminais}
 translate B FICSTextColor {Cor do texto}
 
 # Game review
-translate B GameReview {Rever jogo}
 
 # Correspondence Chess Dialogs:
 translate B CCDlgCGeneraloptions {Opções Gerais}
@@ -2281,7 +2259,6 @@ translate B ReviewProgressTitle {Revise o progresso}
 translate B ReviewProgressIdle {Nenhuma revisão está sendo executada}
 translate B ReviewProgressGameOf {jogo %s de %s}
 translate B ReviewProgressEngineWindow {Janelas do motor %s}
-translate B ReviewProgressAnalysisPane {Painéis de análise %s}
 translate B ReviewProgressRapid {Anotação rápida}
 translate B FinishGameGameChanged {o jogo mudou enquanto o Finish Game estava rodando; nada foi escrito}
 translate B FinishGameAtEnd {Terminar O jogo começa no final da linha principal; vá primeiro para o final do jogo}

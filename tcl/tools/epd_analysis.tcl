@@ -4,9 +4,9 @@
 # epd_analysis.tcl -- the EPD window's headless analysis session.
 #
 # The EPD "Analyse positions" pass used to open an Analysis Engine window and
-# read its ::analysis(...) state. This module owns a private UCI connection
-# instead: one engine for the whole pass, one position at a time, the same
-# `go movetime` the pass always used, and a result dict for the EPD writer.
+# read the shared analysis array that window kept. This module owns a private UCI
+# connection instead: one engine for the whole pass, one position at a time, the
+# same `go movetime` the pass always used, and a result dict for the EPD writer.
 #
 # No Tk is used here. The caller supplies a completion callback and an optional
 # per-info callback, so a stub engine can drive the whole module in tclsh.

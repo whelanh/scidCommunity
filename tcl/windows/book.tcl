@@ -28,7 +28,6 @@ namespace eval book {
   set obrSortDesc 1
 
   ### Book slots must be unique to avoid conflicts. Other book slots in use are:
-  #   analysisBookSlot 1 (analysis.tcl)
   #   bookTuningSlot   2 (this file, sergame.tcl, batch_annotate.tcl)
   #   bookSlot1..3     0, 3, 4 (this file)
 

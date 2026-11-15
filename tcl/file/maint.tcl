@@ -833,13 +833,11 @@ proc compactDB {{base -1}} {
   #  On windows child process inherits the file handles (if the child process was created
   #    after opening the database std::remove in scidBaseT::compact will fail)
   #  A child process may cause a racing condition (indirectly calling sc_base functions)
-  #    i.e. in "annotate mode" an engine can save a game during the compaction
+  #    i.e. a review pass can save a game during the compaction
   #    and it is difficult and too risky to try to predict all cases
   # TODO: avoid file handle inheritance
   #       close the database before the compaction
   #
-  destroy .analysisWin1
-  destroy .analysisWin2
   destroy .coachWin
   destroy .tacticsWin
   destroy .inputengineconsole

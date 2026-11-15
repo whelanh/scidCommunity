@@ -947,31 +947,20 @@ translate k PgnOptStripMarks "컬러 사각형/화살표 코드 제거"
 translate k PgnOptBoldMainLine "메인 라인 이동에 굵은 텍스트 사용"
 
 # Analysis window:
-translate k AddVariation {변형 추가}
 translate k AddAllVariations {모든 변형}
 translate k AddMove {이동 추가}
 translate k Annotate {달기}
-translate k ShowAnalysisBoard {분석판표시}
-translate k ShowInfo {엔진 정보 표시}
 translate k FinishGame {게임 종료}
-translate k FinishGameSlot2Warning {엔진 슬롯 2는 열려 있는 분석 창에서 이미 사용 중입니다.\n\nFinish Game은 엔진 슬롯 1과 2를 사용하며 해당 엔진을 제어할 수 있습니다. 계속하다?}
-translate k StopEngine {엔진 정지}
 translate k StartEngine {엔진의 변화}
 translate k LockEngine {엔진을 현재 위치로 고정}
 translate k AnalysisCommand {분석}
 translate k PreviousChoices {이전 선택}
 translate k AnnotateTime {이동당시간(초)}
-translate k AnnotateWhich {변형 추가}
 translate k AnnotateAll {측면으로 이동하는 경우}
-translate k AnnotateAllMoves {모든 움직임에 대한 설명}
 translate k AnnotateWhite {흰색 이동에만 해당}
 translate k AnnotateBlack {검정색 이동에만 해당}
-translate k AnnotateBlundersOnly {게임 이동이 연결된 경우}
 translate k AnnotateBlundersOnlyScoreChange {설문조사에 오류가 발생하여 다음과 같이 변경되었습니다.}
-translate k BlundersThreshold {경계점}
-translate k ScoreAllMoves {모든 운동에 점수를 매기세요}
 translate k LowPriority {CPU 우선순위}
-translate k ClickHereToSeeMoves {동작을 실시간으로 여기를 클릭하세요}
 translate k ConfigureInformant {제보자 가치}
 translate k Informant!? {특히 운동}
 translate k Informant? {운동하는}
@@ -1018,8 +1007,6 @@ translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
 translate k ReviewMovetime {시간 한도 (ms)}
 translate k ReviewOpeningMoves {오프닝 동작}
-translate k StopNow {Stop now}
-translate k StopAfterThisGame {Stop after this game}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}
 translate k ReviewProgress {국면 %s / %s 검토 중}
 translate k ReviewWaitForDepth {깊이 %s 대기 중}
@@ -1197,7 +1184,6 @@ translate k GameLength {게임 길이}
 translate k FindGamesWith {플래그가 있는 게임 찾기}
 translate k StdStart {비표준 시작}
 translate k Promotions {프로모션}
-translate k Comments {댓글}
 translate k Variations {변형}
 translate k Annotations {해석하다}
 translate k DeleteFlag {명령어 삭제}
@@ -1936,9 +1922,6 @@ translate k TimeBonus {시간 + 비싸}
 translate k TimeMin {분}
 translate k TimeSec {비서}
 translate k AllExercisesDone {모든 운동을 다해}
-translate k MoveOutOfBook {책외이동}
-translate k LastBookMove {마지막 책 이동}
-translate k AnnotateSeveralGames {실제 게임에서 게임으로:}
 translate k FindOpeningErrors {찾을 수 없는 사람}
 translate k MarkTacticalExercises {훈련 전술}
 translate k UseBook {도서 이용}
@@ -1946,10 +1929,6 @@ translate k MultiPV {다양한 변형}
 translate k Hash {임시 메모리}
 translate k OwnBook {엔진북 사용}
 translate k BookFile {복구북}
-translate k AnnotateVariations {변형에 달기}
-translate k AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate k ShortAnnotations {지하철}
-translate k addAnnotatorTag {자 태그 표시}
 translate k AddScoreToShortAnnotations {추가 점수를 찾았습니다}
 translate k AddScoreToAllMoves {모든 동작에 점수 추가}
 translate k Export {다}
@@ -2058,7 +2037,6 @@ translate k FICSTerminalColor {단자 색상}
 translate k FICSTextColor {텍스트 색상}
 
 # Game review
-translate k GameReview {게임평론}
 
 # Correspondence Chess Dialogs:
 translate k CCDlgCGeneraloptions {일반 옵션}
@@ -2292,7 +2270,6 @@ translate k ReviewProgressTitle {진행상황 검토}
 translate k ReviewProgressIdle {실행 중인 검토가 없습니다.}
 translate k ReviewProgressGameOf {게임 %s/%s}
 translate k ReviewProgressEngineWindow {엔진 창 %s}
-translate k ReviewProgressAnalysisPane {분석 패널 %s}
 translate k ReviewProgressRapid {신속한 주석 달기}
 translate k FinishGameGameChanged {Finish Game이 실행되는 동안 게임이 변경되었습니다. 아무것도 쓰여있지 않았어}
 translate k FinishGameAtEnd {마무리 게임은 메인 라인 끝에서 시작됩니다. 먼저 게임 끝으로 가세요}

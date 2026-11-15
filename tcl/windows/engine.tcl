@@ -900,9 +900,8 @@ proc ::enginewin::createDisplayFrame {id display} {
     $pv_lines tag configure markmove -underline 1
     # A MultiPV run keeps one block per depth: the best line of each block is
     # blue, the other lines the widget's normal colour, and a dashed rule
-    # separates the blocks. The colours are the Analysis window's (see
-    # tcl/tools/analysis.tcl), so the display reads the same now that the
-    # Engine Window replaces it.
+    # separates the blocks. The colours are the retired Analysis window's, so a
+    # display carried over from it reads the same.
     $pv_lines tag configure blue -foreground DodgerBlue3
     $pv_lines tag configure gray -foreground gray
     $pv_lines tag bind moves <ButtonRelease-1> {
@@ -2323,7 +2322,6 @@ proc ::enginewin::firstPvLine {w} {
 # The time the engine has spent on the search, appended to every PV line the
 # way the retired Analysis window did it - seconds with two decimals in
 # parentheses, last on the line - with the unit made explicit: "(12.34s)".
-# See the "%s (%.2f)" history line in tcl/tools/analysis.tcl.
 proc ::enginewin::pvTimeLabel {timeMs} {
     return [format "(%.2fs)" [expr {$timeMs / 1000.0}]]
 }

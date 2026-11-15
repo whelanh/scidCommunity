@@ -883,31 +883,20 @@ translate M PgnOptStripMarks "去掉彩色方块/箭头代码"
 translate M PgnOptBoldMainLine "使用粗体文本进行主线移动"
 
 # Analysis window:
-translate M AddVariation {Add Variation}
 translate M AddAllVariations {Add All Variations}
 translate M AddMove {Add Move}
 translate M Annotate {注释}
-translate M ShowAnalysisBoard {Show analysis board}
-translate M ShowInfo {Show engine info}
 translate M FinishGame {Finish game}
-translate M FinishGameSlot2Warning {引擎槽 2 已被打开的分析窗口使用。\n\n完成游戏使用引擎槽 1 和 2，并可能控制该引擎。继续？}
-translate M StopEngine {Stop engine}
 translate M StartEngine {Start engine}
 translate M LockEngine {Lock engine to current position}
 translate M AnalysisCommand {Analysis Command}
 translate M PreviousChoices {Previous Choices}
 translate M AnnotateTime {Time per move in sec.}
-translate M AnnotateWhich {Add variations}
 translate M AnnotateAll {For moves by both sides}
-translate M AnnotateAllMoves {Annotate all moves}
 translate M AnnotateWhite {For White moves only}
 translate M AnnotateBlack {For Black moves only}
-translate M AnnotateBlundersOnly {When game move is a blunder}
 translate M AnnotateBlundersOnlyScoreChange {Analysis reports blunder, with score change from/to: }
-translate M BlundersThreshold {Threshold}
-translate M ScoreAllMoves {Score all moves}
 translate M LowPriority {Low CPU Priority}
-translate M ClickHereToSeeMoves {Click here to see moves}
 translate M ConfigureInformant {Informant values}
 translate M Informant!? {Interesting move}
 translate M Informant? {Poor move}
@@ -954,8 +943,6 @@ translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
 translate M ReviewOpeningMoves {开局动作}
-translate M StopNow {Stop now}
-translate M StopAfterThisGame {Stop after this game}
 translate M ReviewFromPreset {%s（来自引擎预设）}
 translate M ReviewProgress {正在复盘第 %s / %s 个局面}
 translate M ReviewWaitForDepth {正在等待深度 %s}
@@ -1133,7 +1120,6 @@ translate M GameLength {Game length}
 translate M FindGamesWith {Find games with flags}
 translate M StdStart {Non-standard start}
 translate M Promotions {Promotions}
-translate M Comments {注释}
 translate M Variations {变化}
 translate M Annotations {注释}
 translate M DeleteFlag {Delete flag}
@@ -1872,9 +1858,6 @@ translate M TimeBonus {时间+奖金}
 translate M TimeMin {分钟}
 translate M TimeSec {秒}
 translate M AllExercisesDone {所有练习完成}
-translate M MoveOutOfBook {移出书本}
-translate M LastBookMove {最后一本书搬家}
-translate M AnnotateSeveralGames {从实际游戏到游戏：}
 translate M FindOpeningErrors {查找打开错误}
 translate M MarkTacticalExercises {标记战术练习}
 translate M UseBook {使用书本}
@@ -1882,10 +1865,6 @@ translate M MultiPV {多种变化}
 translate M Hash {哈希内存}
 translate M OwnBook {使用引擎书}
 translate M BookFile {开本}
-translate M AnnotateVariations {注释变化}
-translate M AnnotateVariationsMainLineOnly {Variations: main line only (review mode)}
-translate M ShortAnnotations {简短的注释}
-translate M addAnnotatorTag {添加注释器标签}
 translate M AddScoreToShortAnnotations {为注释添加分数}
 translate M AddScoreToAllMoves {为所有动作添加分数}
 translate M Export {出口}
@@ -1994,7 +1973,6 @@ translate M FICSTerminalColor {端子颜色}
 translate M FICSTextColor {文字颜色}
 
 # Game review
-translate M GameReview {游戏回顾}
 
 # Correspondence Chess Dialogs:
 translate M CCDlgCGeneraloptions {一般选项}
@@ -2228,7 +2206,6 @@ translate M ReviewProgressTitle {审查进度}
 translate M ReviewProgressIdle {没有审核正在运行}
 translate M ReviewProgressGameOf {%s 的游戏 %s}
 translate M ReviewProgressEngineWindow {发动机窗 %s}
-translate M ReviewProgressAnalysisPane {分析面板 %s}
 translate M ReviewProgressRapid {快速注释}
 translate M FinishGameGameChanged {Finish Game 运行时游戏发生了变化；什么也没写}
 translate M FinishGameAtEnd {Finish Game从主线末端开始；先到游戏结束}
