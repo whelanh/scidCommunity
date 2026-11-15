@@ -4211,8 +4211,8 @@ set helpText(Cmdline) {<h1>Command-line options</h1>
 
   <p>
   To reuse a header search configuration, open the Header Search
-  window and use the <b>Layout</b> button to load a previously saved
-  layout before running the search.
+  window and use the <b>Presets</b> button to load a previously saved
+  preset before running the search.
   </p>
   
   <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
@@ -4345,8 +4345,8 @@ set helpText(Formats) {<h1>scidCommunity File Formats</h1>
   </p>
   <p>
   Header search settings can be saved and recalled using the
-  <b>Layout</b> button in the <a Searches Header>Header Search</a>
-  window. Named layouts are stored in scidCommunity's preferences file
+  <b>Presets</b> button in the <a Searches Header>Header Search</a>
+  window. Named presets are stored in scidCommunity's preferences file
   rather than as separate files.
   </p>
   
