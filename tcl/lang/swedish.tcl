@@ -940,8 +940,6 @@ translate W Informant+= {Vit har en mindre fördel}
 translate W Informant+/- {Vit har en liten fördel}
 translate W Informant+- {Vit har en avgörande fördel}
 translate W Informant+-- {Partiet anses vara vunnet}
-translate W AutoComment {Autokommentar}
-translate W AutoCommentTooltip {Generera AI-kommentarer för den aktuella positionen}
 translate W AnalysisAutoCommentTooltip {Generera AI-kommentarer för hela spelet}
 translate W MoveLabelBest {Bäst}
 translate W MoveLabelExcellent {Utmärkt}

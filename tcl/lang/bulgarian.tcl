@@ -970,8 +970,6 @@ translate g Informant+= {Белите имат леко предимство}
 translate g Informant+/- {Бялото има ясно предимство}
 translate g Informant+- {Белите имат решаващо предимство}
 translate g Informant+-- {Бялото има смазващо предимство}
-translate g AutoComment {Автоматичен коментар}
-translate g AutoCommentTooltip {Генерирайте AI коментар за текущата позиция}
 translate g AnalysisAutoCommentTooltip {Генерирайте AI коментар за цялата игра}
 translate g MoveLabelBest {Най-добър}
 translate g MoveLabelExcellent {Отличен}

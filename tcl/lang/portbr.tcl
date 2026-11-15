@@ -942,8 +942,6 @@ translate B Informant+= {Branca tem alguma vantagem}
 translate B Informant+/- {Branca tem vantagem moderada}
 translate B Informant+- {Branca tem vantagem decisiva}
 translate B Informant+-- {O jogo  considerado como ganho}
-translate B AutoComment {Comentário automático}
-translate B AutoCommentTooltip {Gere comentários de IA para a posição atual}
 translate B AnalysisAutoCommentTooltip {Gere comentários de IA para todo o jogo}
 translate B MoveLabelBest {Melhor}
 translate B MoveLabelExcellent {Excelente}

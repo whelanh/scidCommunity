@@ -986,8 +986,6 @@ translate S Informant+= {Blancas tienen una ligera ventaja}
 translate S Informant+/- {Blancas tienen ventaja}
 translate S Informant+- {Blancas tienen una ventaja decisiva}
 translate S Informant+-- {La partida es considerada ganada}
-translate S AutoComment {Comentario automático}
-translate S AutoCommentTooltip {Genere comentarios de IA para la posición actual}
 translate S AnalysisAutoCommentTooltip {Genera comentarios de IA para todo el juego.}
 translate S MoveLabelBest {Mejor}
 translate S MoveLabelExcellent {Excelente}

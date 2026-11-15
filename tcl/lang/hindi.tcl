@@ -929,8 +929,6 @@ translate h Informant+= {सफेद रंग का थोड़ा फाय
 translate h Informant+/- {सफेद रंग का स्पष्ट लाभ है}
 translate h Informant+- {सफेद को निर्णायक लाभ है}
 translate h Informant+-- {सफेद रंग का जबरदस्त फायदा है}
-translate h AutoComment {ऑटो टिप्पणी}
-translate h AutoCommentTooltip {वर्तमान स्थिति के लिए एआई कमेंट्री तैयार करें}
 translate h AnalysisAutoCommentTooltip {पूरे गेम के लिए AI कमेंट्री जेनरेट करें}
 translate h MoveLabelBest {सर्वश्रेष्ठ}
 translate h MoveLabelExcellent {उत्कृष्ट}

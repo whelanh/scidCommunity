@@ -934,8 +934,6 @@ translate C Informant+= {Bl m malou vhodu}
 translate C Informant+/- {Bl m stedn vhodu}
 translate C Informant+- {Bl m rozhodujc vhodu}
 translate C Informant+-- {Partie je povaovna za vyhranou}
-translate C AutoComment {Automatick koment}
-translate C AutoCommentTooltip {Generujte AI koment pro aktuln pozici}
 translate C AnalysisAutoCommentTooltip {Generujte AI koment pro celou hru}
 translate C MoveLabelBest {Nejlepší}
 translate C MoveLabelExcellent {Výborný}

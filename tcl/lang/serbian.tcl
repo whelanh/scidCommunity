@@ -231,10 +231,6 @@ menuText Y ToolsTraining "Training"  0 {Training tools (tactics, openings,...) }
 # ====== TODO To be translated ======
 menuText Y ToolsPlayVsEngine "Play versus Engine"  0 {Play a game against a chess engine}
 # ====== TODO To be translated ======
-menuText Y ToolsTacticalGame "Tactical game"  0 {Play a game with tactics}
-# ====== TODO To be translated ======
-menuText Y ToolsSeriousGame "Serious game"  0 {Play a serious game}
-# ====== TODO To be translated ======
 menuText Y ToolsTrainOpenings "Openings"  0 {Train with a repertoire}
 # ====== TODO To be translated ======
 menuText Y ToolsTrainTactics "Tactics"  0 {Solve tactics}
@@ -1292,10 +1288,6 @@ translate Y Informant+/- {White has a clear advantage}
 translate Y Informant+- {White has a decisive advantage}
 # ====== TODO To be translated ======
 translate Y Informant+-- {White has a crushing advantage}
-# ====== TODO To be translated ======
-translate Y AutoComment {Auto Comment}
-# ====== TODO To be translated ======
-translate Y AutoCommentTooltip {Generate AI commentary for the current position}
 # ====== TODO To be translated ======
 translate Y AnalysisAutoCommentTooltip {Generate AI commentary for the entire game}
 translate Y MoveLabelBest {Najbolji}

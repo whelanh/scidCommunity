@@ -970,8 +970,6 @@ translate k Informant+= {흰색이 유리함}
 translate k Informant+/- {사실은 확실한 장점이 있습니다}
 translate k Informant+- {이 결정적인 이점을 가지고 있습니다.}
 translate k Informant+-- {유니폼에는 장점이 있습니다.}
-translate k AutoComment {자동댓글}
-translate k AutoCommentTooltip {현재 위치에 대한 AI 설명 생성}
 translate k AnalysisAutoCommentTooltip {전체 게임에 대한 AI 설명 생성}
 translate k MoveLabelBest {최선}
 translate k MoveLabelExcellent {훌륭함}
