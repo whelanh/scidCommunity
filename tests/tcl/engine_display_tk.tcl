@@ -436,5 +436,29 @@ check "the line still ends with the node count" \
 checkEq "the time comes after the W/D/L and the nodes" \
     [lineText 1] "22/24\t+0.25\te2e4 e7e5  (W: 95.8%  D: 4.2%  L: 0.0%  23193.21K nodes) (4.25s)"
 
+# A tool watching the window (the EPD pass drives it) is told every message the
+# window takes, after the window has taken it. A type the window ignores still
+# proves the dispatch: the switch does nothing and the watcher is still called.
+puts "\na watcher sees the messages the window has taken"
+
+set ::seen {}
+::enginewin::watch 1 [list apply {{id type data} {
+    lappend ::seen [list $id $type $data]
+}}]
+::enginewin::callback 1 {InfoProbe {a b}}
+checkEq "the watcher is told once" [llength $::seen] 1
+checkEq "with the window, the type and the data" \
+    [lindex $::seen 0] {1 InfoProbe {a b}}
+::enginewin::unwatch 1
+::enginewin::callback 1 {InfoProbe {a b}}
+checkEq "and not after unwatch" [llength $::seen] 1
+
+::enginewin::watch 1 [list apply {{id type data} {
+    lappend ::seen [list $id $type $data]
+}}]
+::enginewin::watcherGone 1
+checkEq "a window being destroyed tells the watcher" \
+    [lindex $::seen end] {1 InfoWindowClosed {}}
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -842,10 +842,13 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     bind $w.config <Destroy> [list apply {{id w} {
         catch { ::enginewin::playStop $id }
         if {![info exists ::enginewin::engState($id)]} { return }
-        # The pass runs on its own connection, so closing the window would
-        # otherwise leave it searching a game nothing shows any more - and
-        # ::reviewdriver::busy would keep every other window from starting one.
+        # A review pass on its own connection would otherwise be left searching
+        # a game nothing shows any more - and ::reviewdriver::busy would keep
+        # every other window from starting one. A watcher (the EPD pass) is told
+        # first and released: closing the window it drives ends the pass.
         catch { ::enginewin::reviewCancel $id }
+        catch { ::enginewin::watcherGone $id }
+        catch { ::enginewin::unwatch $id }
         ::stored_eval::cancelQuery $id
         ::stored_eval::clear $id
         unset ::enginewin::engState($id)
@@ -2958,6 +2961,30 @@ proc ::enginewin::connectEngine {id enginename} {
     set ::enginewin::m_(newgame,$id) true
 }
 
+# A tool can watch one window's engine messages. The EPD pass drives a window
+# and has to know the exact moment a position's search ends, so it is told here
+# instead of polling the arrays below. The script runs as
+# {*}$script $id $type $msgData, after the window has taken the message, so a
+# watcher reading pvBestMove or the pv_ array sees what is on screen. The same
+# shape as ::rapid_annotate::record, which the display calls.
+proc ::enginewin::watch {id script} {
+    set ::enginewin::watch_($id) $script
+    return
+}
+
+proc ::enginewin::unwatch {id} {
+    unset -nocomplain ::enginewin::watch_($id)
+    return
+}
+
+# The window is being destroyed. A watcher that is waiting on an answer must not
+# wait for one that can never come: it is told, before it is released.
+proc ::enginewin::watcherGone {id} {
+    if {![info exists ::enginewin::watch_($id)]} { return }
+    catch { {*}$::enginewin::watch_($id) $id "InfoWindowClosed" {} }
+    return
+}
+
 # Receive the engine's messages
 proc ::enginewin::callback {id msg} {
     variable pv_
@@ -3043,6 +3070,12 @@ proc ::enginewin::callback {id msg} {
             }
             tk_messageBox -icon warning -type ok -parent . -message $errorMsg
         }
+    }
+    # A watcher (the EPD pass) is told after the window has taken the message,
+    # so the arrays it reads are the ones on screen. A message from a search it
+    # did not ask for is its own to ignore, by position.
+    if {[info exists ::enginewin::watch_($id)]} {
+        catch { {*}$::enginewin::watch_($id) $id $msgType $msgData }
     }
 }
 
