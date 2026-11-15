@@ -39,7 +39,7 @@ set helpText(O,Contents) {<h1>scidCommunity hjelpeinnhold </h1>
   <li><a PTracker><b>Piece Tracker</b></a></li>
   <li><a PList><b>Spillersøker</b>-vindu</a></li>
   <li><a PInfo><b>Spillerinfo</b>-vindu</a></li>
-  <li><a TacticalGame><b>Taktisk spill</b>-vindu</a></li>
+  <li><a PlayVsEngine><b>Spill mot motor</b>-vindu</a></li>
   <li><a Tmt><b>Turneringssøker</b>-vindu</a></li>
   <li><a Tree><b>Tre</b>-vindu</a></li>
   <li><a Graphs><b>Graph</b> windows</a></li>
@@ -227,8 +227,7 @@ set helpText(O,Index) {<h1>scidCommunity Hjelp Emneindeks </h1>
   <li><a PList>Spillersøker</a>-vindu</li>
   <li><a PInfo>Spillerinfo</a>-vindu</li>
   <li><a Reports Player>Spillerrapport</a>-vindu</li>
-  <li><a TacticalGame>Spill taktisk spill</a></li>
-  <li><a SeriousGame>Spill seriøst spill</a></li>
+  <li><a PlayVsEngine>Spill mot motor</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(O,Index) {<h1>scidCommunity Hjelp Emneindeks </h1>
   <li><a Searches Filter>Søkefilter</a></li>
   <li><a Menus Search>Søkemeny</a></li>
   <li><a Searches>Søk</a></li>
-  <li><a SeriousGame>Spill seriøst spill</a></li>
   <li><a Sorting>Sortering av en database</a></li>
   <li><a Maintenance Spellcheck>Stavekontrollnavn</a></li>
   <li><a Switcher>Switcher</a>-vindu</li>
@@ -255,7 +253,6 @@ set helpText(O,Index) {<h1>scidCommunity Hjelp Emneindeks </h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Bordunderstell (PGN Window-knapp)</a></li>
-  <li><a TacticalGame>Taktisk spill</a></li>
   <li><a Menus Tools>Verktøymeny</a></li>
   <li><a Tmt>Turneringsfinner</a></li>
   <li><a LichessTournament>Turneringssendinger (Lichess)</a></li>
@@ -739,10 +736,8 @@ set helpText(O,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Spill mot motor</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2137,7 +2132,6 @@ set helpText(O,PGN) {<h1><a PGN>PGN</a>-vinduet</h1>
   <li><a PGNChessCom>chess.com</a>: Last opp det gjeldende spillet til Chess.com for analyse</li>
   <li><a PGNLichess>lichess.org</a>: Last opp det gjeldende spillet til Lichess.org for analyse og deling</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Åpne gjeldende posisjon i ChessDB.cn skydatabasen</li>
-  <li><a PGNAutoComment>Automatisk kommentar</a>: Generer AI-kommentarer for gjeldende stilling</li>
   </ul>
   Disse knappene gir umiddelbar tilgang til kraftige nettverktøy uten å forlate scidCommunity.
   Se de individuelle hjelpeemnene for hver knapp for mer informasjon.
@@ -2402,37 +2396,6 @@ set helpText(O,PGNChessDB) {<h1>PGN-vindu: chessdb Engine Tree-knapp </h1>
   
   <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
 }
-
-
-set helpTitle(O,PGNAutoComment) "Autokommentar-knapp"
-set helpText(O,PGNAutoComment) {<h1>PGN-vindu: Autokommentarknapp </h1>
-  <p>
-  <b>Auto Comment</b>-knappen i <a PGN>PGN</a>-vinduet bruker kunstig intelligens
-  (Gemini eller DeepSeek) for å generere menneskelignende kommentarer for gjeldende posisjon.
-  </p>
-  
-  <h3>Hvordan bruke </h3>
-  <p>
-  Klikk <b>Auto Comment</b>-knappen for å generere en kommentar for gjeldende trekk.
-  scidCommunity vil:
-  <ul>
-  <li>Hent den gjeldende stillingens evaluering fra Lichess eller ChessDB</li>
-  <li>Send posisjonsdata og motoranalyse til den valgte AI-modellen </li>
-  <li>Vis en forhåndsvisning av den genererte kommentaren </li>
-  <li>Lar deg redigere eller avgrense kommentaren før du legger den til i spillet </li>
-  </ul>
-  </p>
-  
-  <h3>Konfigurasjon</h3>
-  <p>
-  Høyreklikk på <b>Auto Comment</b>-knappen for å konfigurere API-nøklene og velg
-  din foretrukne LLM-leverandør (Gemini eller DeepSeek).
-  </p>
-  
-  <p><footer>(Oppdatert: scidCommunity, august 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(O,PTracker) "Stykkesporer"
@@ -4336,52 +4299,6 @@ set helpText(O,Book) {<h1>Bokvindu</h1>
 }
 
 
-set helpTitle(O,TacticalGame) "Taktisk spillvindu"
-set helpText(O,TacticalGame) {<h1>Taktisk spillvindu </h1>
-  <p>
-  Spill et taktisk spill mot en motor som simulerer en motstander med en
-  gitt Elo-vurdering.  Motstanderen spilles av Phalanx og treneren
-  av en hvilken som helst UCI-motor brukeren har konfigurert. De riktige motorene velges automatisk av deres
-  navn, og bør være riktig konfigurert (dette er standard når
-  scidCommunity er installert).
-  </p>
-  <p>
-  <b>Merk</b> at en spesiell versjon av Phalanx-motoren er
-  nødvendig. Denne spesialversjonen kommer med scidCommunity-pakken.
-  </p>
-  <p>
-  Følgende parametere må konfigureres:
-  <ul>
-  <li><term>Fast nivå</term>: setter en fast Elo-vurdering for motstanderen</li>
-  <li><term>Tilfeldig nivå</term>: velger et tilfeldig nivå mellom
-  minimum og maksimum nivå spesifisert av venstre og høyre skyveknapp
-  hhv.
-  </li>
-  <li><term>Åpning:</term>
-  <ul>
-     <li><term>Start nytt spill</term>: starter et nytt spill ved å velge en
-     tilfeldig åpning.</li>
-     <li><term>Start fra nåværende posisjon</term>: la spillet begynne
-     med gjeldende styreverv.</li>
-     <li><term>Spesifikk åpning</term>: motstanderen vil spille en
-     spesifikk åpning, som kan velges fra listen nedenfor. Dette er
-     nyttig for åpningstrening.</li>
-  </ul>
-  <li><term>Begrens motoranalysetid</term> gjør det mulig å begrense tiden som brukes av
-  trener for å sjekke spillernes trekk for feil. Hvis denne tiden ikke er det
-  begrenset treneren har lov til å tenke i bakgrunnen.</li>
-  </ul>
-  <p>Tips: Hvis du slår på <a Graphs>poenggrafen</a>, kan du se bruken av tid og rangeringen av posisjonen under spillet.</p>
-  <p>For å starte et taktisk spill, trykk <term>Play</term></p> 
-
-  <p><b>Merk</b> en lignende funksjon kan oppnås ved å spille en
-  <a SeriousGame>seriøst spill</a> mot enhver UCI-motor som tillater det
-  for å begrense dens styrke.
-  </p>
-  <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(O,OpeningTrainer) "Åpningstrener"
 set helpText(O,OpeningTrainer) {<h1>Åpningstrener</h1>
   <p>
@@ -4511,105 +4428,6 @@ set helpText(O,OpeningTrainer) {<h1>Åpningstrener</h1>
   spiller som ikke var på repertoar </li>
   </ul>
   </p> 
-  <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
-}
-
-
-set helpTitle(O,SeriousGame) "Seriøst spillvindu"
-set helpText(O,SeriousGame) {<h1>Seriøst spillvindu </h1>
-  <p>
-  Seriøse spill kan spilles mot alle <term>UCI</term> motorsett
-  opp for bruk med scidCommunity. En liste over alle mulige motstandere er
-  gitt på toppen av <term>Spillkonfigurasjonsvinduet</term>. Den
-  knapp <term> Konfigurer UCI-motor </term> gir i tillegg tilgang
-  til motorens parametere. Som standard er de satt som i
-  <a Engine Configure>motorkonfigurasjon </a>.
-  </p>
-  <p>
-  Deretter kan boken som skal brukes velges fra åpningene
-  bøker tilgjengelig for scidCommunity. Fjern merket for <term>Bruk bok</term>.
-  vil deaktivere bruken av en åpningsbok og motoren vil starte
-  beregne trekk helt fra begynnelsen.
-  </p>
-  <p>
-  Seksjonen <term>Tidsmodus</term> gjør det mulig å stille inn timingen som brukes for
-  motoren. Ulike innstillinger er mulig her:
-  <ul>
-     <li><term>Tid + bonus</term> spesifiserer tiden for hele
-     spill og en mulig økning per trekk (Fisher-klokke). Den
-     standard er satt til 5 minutter per spill og 10 sekunders økning pr
-     move som er en vanlig setting for Blitz-spill. Merk at
-     tider for svart-hvitt kan settes uavhengig. Dette tillater
-     å stille inn en kort tid for motoren og gi en lengre
-     tid for å tenke til spilleren, og dermed styrke
-     spillere analyserer mulighetene mens de svekker motorene
-     evner i tilfelle <term>Permanent tenkning</term> er av (se
-     nedenfor).
-     </li>
-
-     <li><term>Fast dybde</term> angir ikke tiden per spill, men
-     dybden motoren vil beregne i halve trekk. Som dette
-     deaktiverer muligheten til å beregne dypere om nødvendig
-     datamaskinen vil ikke se visse kamerater og kombinasjoner, motoren
-     kan spille svakere og dermed tilby en bedre partner for trening
-     formål.
-     <p>
-     <b>Merk</b>: noen, spesielt kommersielle, motorer tilbyr også
-     svekke deres styrke i Elo-enheter. Mest sannsynlig vil dette tilby en
-     mer passende algoritme enn å begrense søkedybden. I scidCommunity,
-     slike spill tilbys også som <a TacticalGame>Taktiske spill</a>
-     mot den gratis Phalanx-motoren.
-     </p>
-     </li>
-
-     <li><term>Noder</term> ligner på å begrense søkedybden,
-     men her må motoren bevege seg etter evaluering av en viss
-     antall stillinger. (Standard er 10 000.)
-     </li>
-
-     <li><term>Sekunder per trekk</term> lar motoren bruke en
-     en viss tid maksimalt for en gitt stilling. Noen
-     motorer vil bevege seg raskere under visse omstendigheter, men de vil
-     ikke overskride fristen som er satt her. Som <term>Fast dybde</term>
-     og <term>Nodes</term> dette begrenser også motorene som spiller
-     styrke, men gir også et ganske responsivt spill.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Seriøse spill kan starte fra gjeldende brettposisjon hvis boksen
-  <term>Start fra gjeldende posisjon</term> er sjekket. Dette tillater
-  f.eks. å spille ut definerte midtspillposisjoner som oppstår fra en
-  åpning.
-  </p>
-  <p>
-  <term>Permanent tenkning</term> (noen ganger også kalt gruble)
-  lar motoren beregne tiden på spillerne. Hvis det ikke er merket av, vil
-  motoren vil slutte å analysere posisjonen hvis spilleren har bevegelsen.
-  Hvis spillet er satt til en fast tid per trekk, vil dette svekke
-  motor. På den annen side kan motoren bevege seg umiddelbart, hvis
-  spilleren gjorde trekket den analyserte på spillernes tid.
-  </p>
-  <p>
-  <term>Coach ser på</term> vil åpne en dialog som tilbyr å ta
-  tilbake et trekk hvis spilleren gjorde en tabbe (på grunn av motorene
-  evaluering av hans siste trekk).
-  </p>
-  <p>
-  For trening av åpninger <term>Spesifikk åpning</term> kan være
-  sjekket. I listen nedenfor kan man velge åpningen for å spille. Den
-  spilleren bør følge linjen som er valgt, ellers vil scidCommunity spørre
-  dersom flyttingen skulle tas tilbake.
-  </p>
-
-  <p>
-  Etter å ha angitt alle parametere i spillet og trykket på Play
-  knappen, vil scidCommunity sette opp motstanderens motor viser klokkene og
-  starte spillet. Spilleren må ikke gjøre et trekk før klokkene
-  vises. Merk at det kan ta litt tid før sjakkmotoren gjør det
-  starte opp og initialisere riktig.
-  </p>
-
   <p><footer>(Oppdatert: scidCommunity, april 2026)</footer></p>
 }
 

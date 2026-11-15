@@ -39,7 +39,7 @@ set helpText(M,Contents) {<h1>scid社区帮助内容</h1>
   <li><a PTracker><b>计件追踪器</b></a></li>
   <li><a PList><b>玩家查找器</b>窗口</a></li>
   <li><a PInfo><b>玩家信息</b>窗口</a></li>
-  <li><a TacticalGame><b>战术游戏</b>窗口</a></li>
+  <li><a PlayVsEngine><b>游戏与引擎</b>窗口</a></li>
   <li><a Tmt><b>锦标赛查找器</b>窗口</a></li>
   <li><a Tree><b>树</b>窗</a></li>
   <li><a Graphs><b>图表</b>窗口</a></li>
@@ -227,8 +227,7 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   <li><a PList>玩家查找器</a>窗口</li>
   <li><a PInfo>玩家信息</a>窗口</li>
   <li><a Reports Player>玩家报告</a>窗口</li>
-  <li><a TacticalGame>玩战术游戏</a></li>
-  <li><a SeriousGame>认真玩游戏</a></li>
+  <li><a PlayVsEngine>游戏与引擎</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   <li><a Searches Filter>搜索过滤器</a></li>
   <li><a Menus Search>搜索菜单</a></li>
   <li><a Searches>搜索</a></li>
-  <li><a SeriousGame>认真玩游戏</a></li>
   <li><a Sorting>对数据库进行排序</a></li>
   <li><a Maintenance Spellcheck>拼写检查名称</a></li>
   <li><a Switcher>切换器</a>窗口</li>
@@ -255,7 +253,6 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>工作台底座(PGN窗口按钮)</a></li>
-  <li><a TacticalGame>战术游戏</a></li>
   <li><a Menus Tools>工具菜单</a></li>
   <li><a Tmt>锦标赛查找器</a></li>
   <li><a LichessTournament>比赛转播(Lichess)</a></li>
@@ -742,10 +739,8 @@ set helpText(M,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>游戏与引擎</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2154,7 +2149,6 @@ set helpText(M,PGN) {<h1>这 <a PGN>PGN</a> 窗户</h1>
   <li><a PGNChessCom>国际象棋网站</a>：将当前棋局上传至Chess.com进行分析</li>
   <li><a PGNLichess>lichess.org</a>：将当前游戏上传至Lichess.org进行分析分享</li>
   <li><a PGNChessDB>chessdb 引擎树</a>：打开ChessDB.cn云数据库中的当前位置</li>
-  <li><a PGNAutoComment>自动评论</a>：为当前位置生成AI解说</li>
   </ul>
   这些按钮提供了对强大在线工具的即时访问，而无需离开 scidCommunity。
   有关更多详细信息，请参阅每个按钮的单独帮助主题。
@@ -2422,38 +2416,6 @@ set helpText(M,PGNChessDB) {<h1>PGN 窗口：chessdb 引擎树按钮</h1>
   <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
 
 }
-
-
-set helpTitle(M,PGNAutoComment) "自动评论按钮"
-set helpText(M,PGNAutoComment) {<h1>PGN 窗口：自动注释按钮</h1>
-  <p>
-  这 <b>自动评论</b> 按钮在 <a PGN>PGN</a> 窗口使用人工智能
-  （Gemini 或 DeepSeek）为当前位置生成类似人类的评论。
-  </p>
-  
-  <h3>如何使用</h3>
-  <p>
-  单击 <b>自动评论</b> 按钮为当前移动生成评论。
-  scidCommunity 将：
-  <ul>
-  <li>从 Lichess 或 ChessDB 获取当前位置的评估</li>
-  <li>将位置数据和引擎分析发送到所选的 AI 模型</li>
-  <li>显示生成的评论的预览</li>
-  <li>允许您在将评论添加到游戏之前对其进行编辑或优化</li>
-  </ul>
-  </p>
-  
-  <h3>配置</h3>
-  <p>
-  右键单击 <b>自动评论</b> 按钮来配置您的 API 密钥并选择
-  您首选的 LLM 提供商（Gemini 或 DeepSeek）。
-  </p>
-  
-  <p><footer>（更新：scidCommunity，2024 年 8 月）</footer></p>
-
-}
-
-
 
 
 set helpTitle(M,PTracker) "计件追踪器"
@@ -4375,52 +4337,6 @@ set helpText(M,Book) {<h1>书窗</h1>
 }
 
 
-set helpTitle(M,TacticalGame) "战术游戏窗口"
-set helpText(M,TacticalGame) {<h1>战术游戏窗口</h1>
-  <p>
-  与模拟对手的引擎进行战术游戏
-  给予 Elo 评级。  对手由方阵和教练扮演
-  由用户配置的任何 UCI 引擎。正确的引擎由他们自动选择
-  名称，并且应该正确配置（这是默认值
-  scidCommunity 已安装）。
-  </p>
-  <p>
-  <b>注意</b>Phalanx引擎的特殊版本是
-  需要。这个特殊版本附带 scidCommunity 包。
-  </p>
-  <p>
-  必须配置以下参数：
-  <ul>
-  <li><term>固定等级</term>：为对手设置固定的Elo等级</li>
-  <li><term>随机级别</term>：在
-  由左右滑块指定的最小和最大级别
-  分别。
-  </li>
-  <li><term>开盘:</term>
-  <ul>
-     <li><term>开始新游戏</term>：开始新游戏选择
-     随机开孔。</li>
-     <li><term>从当前位置开始</term>：让游戏开始
-     与当前棋盘位置。</li>
-     <li><term>特定开局</term>：对手将打
-     具体的开口，可以从下面的列表中选择。这是
-     对于开场训练很有用。</li>
-  </ul>
-  <li><term>限制引擎分析时间</term>允许限制引擎使用的时间
-  教练检查队员动作是否有错误。如果这个时间不是
-  限制教练在后台思考。</li>
-  </ul>
-  <p>提示：如果打开<a Graphs>得分图</a>，可以看到比赛过程中的使用时间和位置评分。</p>
-  <p>要开始战术游戏，请按 <term>玩</term></p> 
-
-  <p><b>注</b>类似的功能可以通过播放来实现
-  <a SeriousGame>严肃游戏</a>对抗任何允许的UCI引擎
-  以限制其强度。
-  </p>
-  <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
-}
-
-
 set helpTitle(M,OpeningTrainer) "开场训练师"
 set helpText(M,OpeningTrainer) {<h1>开场训练师</h1>
   <p>
@@ -4550,106 +4466,6 @@ set helpText(M,OpeningTrainer) {<h1>开场训练师</h1>
   不在曲目中的演奏家</li>
   </ul>
   </p> 
-  <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
-
-}
-
-
-set helpTitle(M,SeriousGame) "严肃游戏窗口"
-set helpText(M,SeriousGame) {<h1>严肃的游戏窗口</h1>
-  <p>
-  严肃的游戏可以与任何人进行 <term>加州大学尔湾分校</term> 发动机组
-  适合与 scidCommunity 一起使用。所有可能的对手的列表是
-  上面给出的 <term>游戏配置</term> 窗户。的
-  按钮 <term>配置UCI引擎</term> 另外还提供访问权限
-  到发动机参数。默认情况下，它们的设置如下
-  <a Engine Configure>发动机配置</a>。
-  </p>
-  <p>
-  接下来，可以从那些打开的书中选择应该使用的书
-  scidCommunity 提供的书籍。取消选中 <term>使用书本</term> 盒子
-  将禁用打开的书本并且引擎将启动
-  计算从头开始。
-  </p>
-  <p>
-  该部分 <term>时间模式</term> 允许设置用于的计时
-  发动机。此处可以进行各种设置：
-  <ul>
-     <li><term>时间+奖金</term> 指定整个时间
-     游戏和每一步可能的增量（费舍尔时钟）。的
-     默认设置为每场比赛 5 分钟，每场比赛增量 10 秒
-     移动是闪电战游戏的常见设置。请注意，
-     黑白时间可以独立设置。这允许
-     为发动机设置较短的时间并给予较长的时间
-     给玩家思考的时间，从而加强
-     玩家在削弱引擎的同时分析可能性
-     的情况下的能力 <term>恒久的思考</term> 已关闭（请参阅
-     如下）。
-     </li>
-
-     <li><term>固定深度</term> 不规定每场比赛的时间，但
-     引擎将在半次移动中计算出的深度。正如这个
-     如有必要，禁用更深入计算的能力，
-     计算机不会看到某些配合和组合，发动机
-     可能发挥较弱，从而提供更好的训练伙伴
-     目的。
-     <p>
-     <b>笔记</b>：一些发动机，尤其是商用发动机，还提供
-     削弱他们在 Elo 单位中的实力。这很可能会提供
-     比限制搜索深度更合适的算法。在 scid 社区中，
-     此类游戏还提供 <a TacticalGame>战术游戏</a>
-     对抗免费的方阵引擎。
-     </p>
-     </li>
-
-     <li><term>节点</term> 与限制搜索深度类似，
-     但这里引擎必须在评估某个值后移动
-     职位数量。 （默认值为 10,000。）
-     </li>
-
-     <li><term>每次移动秒数</term> 允许引擎花费
-     对于给定的位置，最多可以有一定的时间。一些
-     在某些情况下发动机会移动得更快，但它们会
-     不得超过此处设定的时间限制。作为 <term>固定深度</term>
-     和 <term>节点</term> 这也限制了引擎的发挥
-     强度，而且还提供了相当灵敏的游戏玩法。
-     </li>
-  </ul>
-  </p>
-  <p>
-  严肃的游戏可以从当前棋盘位置开始，如果盒子
-  <term>从当前位置开始</term> 已检查。这允许
-  例如玩出确定的中间游戏位置，这些位置是由
-  开放。
-  </p>
-  <p>
-  <term>恒久的思考</term> （有时也称为思考）
-  允许引擎计算玩家的时间。如果未选中，则
-  如果玩家有移动，引擎将停止分析位置。
-  如果游戏设置每次移动的固定时间，这会削弱
-  发动机。另一方面，如果
-  玩家做出了它正在分析的玩家时间的举动。
-  </p>
-  <p>
-  <term>教练在看</term> 将开启对话并提出采取
-  如果玩家犯了一个错误（由于引擎的原因），则返回一步
-  对他最后一步的评价）。
-  </p>
-  <p>
-  用于空缺培训 <term>具体开盘</term> 可以是
-  检查过。在下面的列表中，您可以选择开始播放。的
-  然后玩家应该遵循选择的路线，否则 scidCommunity 会询问
-  如果该移动应该被收回。
-  </p>
-
-  <p>
-  设置游戏的所有参数并点击“开始”后
-  按钮，scidCommunity 将设置对手引擎显示时钟并
-  开始游戏。直到计时结束，玩家不得采取行动
-  出现。请注意，国际象棋引擎可能需要一些时间
-  正确启动并初始化。
-  </p>
-
   <p><footer>（更新：scidCommunity，2026 年 4 月）</footer></p>
 
 }

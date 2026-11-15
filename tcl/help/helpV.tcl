@@ -39,7 +39,7 @@ set helpText(V,Contents) {<h1>תוכן עזרה של scidCommunity</h1>
   <li><a PTracker><b>Piece Tracker</b></a></li>
   <li><a PList><b>Finder Player</b> חַלוֹן</a></li>
   <li><a PInfo><b>מידע על שחקן</b> חַלוֹן</a></li>
-  <li><a TacticalGame><b>משחק טקטי</b> חַלוֹן</a></li>
+  <li><a PlayVsEngine><b>משחק מול מנוע</b> חַלוֹן</a></li>
   <li><a Tmt><b>מאתר טורנירים</b> חַלוֹן</a></li>
   <li><a Tree><b>עֵץ</b> חַלוֹן</a></li>
   <li><a Graphs><b>גרָף</b> חלונות</a></li>
@@ -228,8 +228,7 @@ set helpText(V,Index) {<h1> אינדקס נושא העזרה של scidCommunity<
   <li><a PList>חלון Player Finder</a></li>
   <li><a PInfo>חלון מידע על שחקן</a></li>
   <li><a Reports Player>חלון נגן</a></li>
-  <li><a TacticalGame>שחק משחק טקטי</a></li>
-  <li><a SeriousGame>שחק משחק רציני</a></li>
+  <li><a PlayVsEngine>משחק מול מנוע</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(V,Index) {<h1> אינדקס נושא העזרה של scidCommunity<
   <li><a Searches Filter>מסנן חיפוש</a></li>
   <li><a Menus Search>תפריט חיפוש</a></li>
   <li><a Searches>חיפושים</a></li>
-  <li><a SeriousGame>שחק משחק רציני</a></li>
   <li><a Sorting>מיון מסד נתונים</a></li>
   <li><a Maintenance Spellcheck>שמות בדיקת איות</a></li>
   <li><a Switcher>חלון מתג</a></li>
@@ -256,7 +254,6 @@ set helpText(V,Index) {<h1> אינדקס נושא העזרה של scidCommunity<
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>בסיס שולחן (לחצן חלון PGN)</a></li>
-  <li><a TacticalGame>משחק טקטי</a></li>
   <li><a Menus Tools>תפריט כלים</a></li>
   <li><a Tmt>מאתר טורנירים</a></li>
   <li><a LichessTournament>שידורי טורנירים (Lichess)</a></li>
@@ -743,10 +740,8 @@ set helpText(V,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>משחק מול מנוע</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2147,7 +2142,6 @@ set helpText(V,PGN) {<h1>חלון <a PGN>PGN</a></h1>
   <li><a PGNChessCom>chess.com</a>: העלה את המשחק הנוכחי אל Chess.com לניתוח </li>
   <li><a PGNLichess>lichess.org</a>: העלה את המשחק הנוכחי ל-Lichess.org לניתוח ושיתוף </li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: פתח את המיקום הנוכחי במסד הנתונים בענן ChessDB.cn </li>
-  <li><a PGNAutoComment> הערה אוטומטית </a>: צור פרשנות בינה מלאכותית עבור המיקום הנוכחי </li>
   </ul>
   לחצנים אלה מספקים גישה מיידית לכלים מקוונים רבי עוצמה מבלי לצאת מ-scidCommunity.
   עיין בנושאי העזרה הבודדים עבור כל כפתור לפרטים נוספים.
@@ -2412,37 +2406,6 @@ set helpText(V,PGNChessDB) {<h1> חלון PGN: chessdb Engine Tree Button </h1>
   
   <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
 }
-
-
-set helpTitle(V,PGNAutoComment) "לחצן הערה אוטומטית"
-set helpText(V,PGNAutoComment) {<h1> חלון PGN: לחצן הערה אוטומטית </h1>
-  <p>
-  הלחצן <b>Auto Comment</b> בחלון <a PGN>PGN</a> משתמש בבינה מלאכותית
-  (Gemini או DeepSeek) כדי ליצור פרשנות דמוית אדם עבור העמדה הנוכחית.
-  </p>
-  
-  <h3>כיצד להשתמש </h3>
-  <p>
-  לחץ על הלחצן <b>Auto Comment</b> כדי ליצור הערה למהלך הנוכחי.
-  scidCommunity תעשה:
-  <ul>
-  <li>אחזר את הערכת העמדה הנוכחית מ-Lichess או ChessDB</li>
-  <li> שלח את נתוני המיקום וניתוח המנוע למודל הבינה המלאכותית הנבחר </li>
-  <li>הצג תצוגה מקדימה של הפרשנות שנוצרה </li>
-  <li>אפשר לך לערוך או לחדד את ההערה לפני הוספתה למשחק </li>
-  </ul>
-  </p>
-  
-  <h3>תצורה </h3>
-  <p>
-  לחץ לחיצה ימנית על הלחצן <b>Auto Comment</b> כדי להגדיר את מפתחות ה-API שלך ובחר
-  ספק ה-LLM המועדף עליך (Gemini או DeepSeek).
-  </p>
-  
-  <p><footer>(עודכן: scidCommunity, אוגוסט 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(V,PTracker) "גשש חתיכות"
@@ -4355,53 +4318,6 @@ set helpText(V,Book) {<h1>חלון ספר</h1>
 }
 
 
-set helpTitle(V,TacticalGame) "חלון משחק טקטי"
-set helpText(V,TacticalGame) {<h1>חלון משחק טקטי</h1>
-  <p>
-  שחקו משחק טקטי נגד מנוע המדמה יריב עם א
-  ניתן דירוג Elo.  את היריבה משחקים פלנקס והמאמן
-  על ידי כל מנוע UCI שהמשתמש הגדיר. המנועים הנכונים נבחרים אוטומטית על ידיהם
-  שמות, ואמור להיות מוגדר כהלכה (זוהי ברירת המחדל כאשר
-  scidCommunity מותקנת).
-  </p>
-  <p>
-  <b>פֶּתֶק</b> שגרסה מיוחדת של מנוע הפאלנקס היא
-  נדרש. גרסה מיוחדת זו מגיעה עם חבילת scidCommunity.
-  </p>
-  <p>
-  יש להגדיר את הפרמטרים הבאים:
-  <ul>
-  <li><term>רמה קבועה</term>: קובע דירוג Elo קבוע ליריב</li>
-  <li><term>רמה אקראית</term>: בוחר רמה אקראית בין ה
-  הרמה המינימלית והמקסימלית המצוינת על ידי המחוון השמאלי והימני
-  בהתאמה.
-  </li>
-  <li><term>פְּתִיחָה:</term>
-  <ul>
-     <li><term>התחל משחק חדש</term>: מתחיל משחק חדש בבחירת א
-     פתיחה אקראית.</li>
-     <li><term>התחל מהמיקום הנוכחי</term>: תן למשחק להתחיל
-     עם תפקיד הדירקטוריון הנוכחי.</li>
-     <li><term>פתיחה ספציפית</term>: היריב ישחק א
-     פתיחה ספציפית, שניתן לבחור מהרשימה למטה. זהו
-     שימושי לפתיחת הדרכה.</li>
-  </ul>
-  <li><term>הגבל את זמן ניתוח המנוע</term> מאפשר להגביל את הזמן בו משתמשים
-  מאמן שיבדוק את מהלכי השחקנים לאיתור שגיאות. אם הזמן הזה לא
-  מוגבל מותר למאמן לחשוב ברקע.</li>
-  </ul>
-  <p>טיפ: אם תפעיל את <a Graphs>גרף ציונים</a>, אתה יכול לראות את השימוש בזמן ואת דירוג המיקום במהלך המשחק.</p>
-  <p>כדי להתחיל משחק טקטי לחץ <term>לְשַׂחֵק</term></p> 
-
-  <p><b>פֶּתֶק</b> ניתן להשיג פונקציה דומה על ידי הפעלת a
-  <a SeriousGame>משחק רציני</a> נגד כל מנוע UCI שמאפשר
-  על הגבלת כוחו.
-  </p>
-  <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
-
-}
-
-
 set helpTitle(V,OpeningTrainer) "מאמן פתיחה"
 set helpText(V,OpeningTrainer) {<h1> מאמן פתיחה</h1>
   <p>
@@ -4531,105 +4447,6 @@ set helpText(V,OpeningTrainer) {<h1> מאמן פתיחה</h1>
   נגן שלא היה ברפרטואר </li>
   </ul>
   </p> 
-  <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
-}
-
-
-set helpTitle(V,SeriousGame) "חלון משחק רציני"
-set helpText(V,SeriousGame) {<h1>חלון משחק רציני</h1>
-  <p>
-  ניתן לשחק משחקים רציניים נגד כל סט מנוע <term>UCI</term>.
-  עבור השימוש עם scidCommunity. רשימה של כל היריבים האפשריים היא
-  ניתן על גבי חלון <term>תצורת המשחק</term>. ה
-  לחצן <term> הגדר את מנוע UCI </term> נותן בנוסף גישה
-  לפרמטרים של המנועים. כברירת מחדל, הם מוגדרים כמו ב-
-  <a Engine Configure> תצורת מנוע </a>.
-  </p>
-  <p>
-  לאחר מכן, ניתן לבחור את הספר שבו יש להשתמש מתוך הפותחות
-  ספרים זמינים ל-scidCommunity. ביטול הסימון בתיבה <term>השתמש בספר</term>.
-  ישבית את השימוש בספר פתיחה והמנוע יתניע
-  חישוב מהלכים כבר מההתחלה.
-  </p>
-  <p>
-  הסעיף <term> מצב זמן </term> מאפשר להגדיר את התזמון המשמש עבור
-  המנוע. הגדרות שונות אפשריות כאן:
-  <ul>
-     <li><term>זמן + בונוס</term> מציין את הזמן עבור השלם
-     משחק ותוספת אפשרית לכל מהלך (שעון פישר). ה
-     ברירת המחדל מוגדרת ל-5 דקות למשחק ותוספת של 10 שניות לכל
-     move שהיא הגדרה רגילה למשחקי בליץ. שימו לב, שה
-     ניתן להגדיר זמני שחור ולבן באופן עצמאי. זה מאפשר
-     להגדיר פרק זמן קצר למנוע ולתת זמן ארוך יותר
-     זמן חשיבה לשחקן, ובכך לחזק את
-     שחקנים מנתחים אפשרויות תוך החלשת המנועים
-     היכולות במקרה של <term>חשיבה קבועה </term> מושבתת (ראה
-     למטה).
-     </li>
-
-     <li><term>עומק קבוע </term> אינו מגדיר את הזמן לכל משחק אבל
-     את העומק שהמנוע יחשב בחצי מהלכים. בתור זה
-     משבית את היכולת לחשב עמוק יותר במידת הצורך, את
-     המחשב לא יראה חברים ושילובים מסוימים, המנוע
-     עשוי לשחק חלש יותר ובכך להציע שותף טוב יותר לאימון
-     מטרות.
-     <p>
-     <b>הערה</b>: חלק מהמנועים, במיוחד מסחריים, מציעים זאת
-     להחליש את כוחם ביחידות אלו. סביר להניח שזה יציע א
-     אלגוריתם מתאים יותר מאשר הגבלת עומק החיפוש. ב-scidCommunity,
-     משחקים כאלה מוצעים גם בתור <a TacticalGame>משחקים טקטיים </a>
-     נגד מנוע Phalanx החינמי.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> דומה להגבלת עומק החיפוש,
-     אבל כאן המנוע צריך לזוז לאחר הערכה של מסויים
-     מספר עמדות. (ברירת המחדל היא 10,000.)
-     </li>
-
-     <li><term>שניות לכל מהלך</term> מאפשר למנוע להוציא
-     פרק זמן מסוים לכל היותר עבור עמדה נתונה. כמה
-     מנועים ינועו מהר יותר בנסיבות מסוימות, אבל הם יעשו זאת
-     לא יחרוג ממגבלת הזמן שנקבעה כאן. As <term> עומק קבוע </term>
-     ו-<term>Nodes</term> זה גם מגביל את הפעלת המנועים
-     כוח, אבל גם נותן משחק די מגיב.
-     </li>
-  </ul>
-  </p>
-  <p>
-  משחקים רציניים יכולים להתחיל ממיקום הלוח הנוכחי אם התיבה
-  <term> התחל מהמיקום הנוכחי </term> מסומן. זה מאפשר
-  למשל לשחק עמדות משחק אמצעי מוגדרות הנובעות מ- an
-  פתיחה.
-  </p>
-  <p>
-  <term>חשיבה קבועה</term> (נקראת לפעמים גם לחשוב)
-  מאפשר למנוע לחשב את הזמן של השחקנים. אם לא מסומן, ה
-  המנוע יפסיק לנתח את המיקום אם לשחקן יש את המהלך.
-  אם המשחק מוגדר לזמן קבוע לכל מהלך, זה יחליש את
-  מנוע. מצד שני, המנוע עשוי לזוז מיד, אם
-  שחקן עשה את המהלך שהוא מנתח על זמן השחקנים.
-  </p>
-  <p>
-  <term>המאמן צופה </term> יפתח דיאלוג המציע לקחת
-  להחזיר מהלך אם השחקן עשה טעות (בשל המנועים
-  הערכה של המהלך האחרון שלו).
-  </p>
-  <p>
-  להדרכה של פתחים <term> פתיחה ספציפית </term> יכולה להיות
-  בדק. ברשימה למטה אפשר לבחור את הפתיחה לשחק. ה
-  השחקן אז צריך לעקוב אחר הקו שנבחר, אחרת scidCommunity ישאל
-  אם יש לקחת בחזרה את המהלך.
-  </p>
-
-  <p>
-  לאחר הגדרת כל הפרמטרים של המשחק ולחיצה על ה-Play
-  כפתור, scidCommunity יגדיר את מנוע היריב להראות את השעונים ו
-  להתחיל את המשחק. אסור לשחקן לבצע תנועה עד השעון
-  להופיע. שימו לב שעשוי לקחת זמן עד שמנוע השחמט יעשה זאת
-  להפעיל ולאתחל כראוי.
-  </p>
-
   <p><footer>(עודכן: scidCommunity, אפריל 2026)</footer></p>
 }
 

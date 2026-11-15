@@ -39,7 +39,7 @@ set helpText(T,Contents) {<h1>scidTopluluk Yardımı İçerikleri</h1>
   <li><a PTracker><b>Parça Takipçisi</b></a></li>
   <li><a PList><b>Oyuncu Bulucu</b> pencere</a></li>
   <li><a PInfo><b>Oyuncu Bilgisi</b> pencere</a></li>
-  <li><a TacticalGame><b>Taktik oyunu</b> pencere</a></li>
+  <li><a PlayVsEngine><b>Motora Karşı Oyna</b> pencere</a></li>
   <li><a Tmt><b>Turnuva Bulucu</b> pencere</a></li>
   <li><a Tree><b>Ağaç</b> pencere</a></li>
   <li><a Graphs><b>Grafik</b> pencereler</a></li>
@@ -228,8 +228,7 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   <li><a PList>Oyuncu Bulucu</a> penceresi</li>
   <li><a PInfo>Oyuncu Bilgileri</a> penceresi</li>
   <li><a Reports Player>Oyuncu raporu</a> penceresi</li>
-  <li><a TacticalGame>Taktik oyun oyna</a></li>
-  <li><a SeriousGame>Ciddi oyun oyna</a></li>
+  <li><a PlayVsEngine>Motora Karşı Oyna</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   <li><a Searches Filter>Arama filtresi</a></li>
   <li><a Menus Search>Arama menüsü</a></li>
   <li><a Searches>Aramalar</a></li>
-  <li><a SeriousGame>Ciddi oyun oyna</a></li>
   <li><a Sorting>Veritabanını sıralama</a></li>
   <li><a Maintenance Spellcheck>Yazım denetimi adları</a></li>
   <li><a Switcher>Değiştirici</a> penceresi</li>
@@ -256,7 +254,6 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Masa Tabanı (PGN Pencere düğmesi)</a></li>
-  <li><a TacticalGame>Taktik oyun</a></li>
   <li><a Menus Tools>Araçlar menüsü</a></li>
   <li><a Tmt>Turnuva bulucu</a></li>
   <li><a LichessTournament>Turnuva yayınları (Lichess)</a></li>
@@ -741,10 +738,8 @@ set helpText(T,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Motora Karşı Oyna</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2141,7 +2136,6 @@ set helpText(T,PGN) {<h1> <a PGN>PGN</a> pencere</h1>
   <li><a PGNChessCom>satranç.com</a>: Analiz için mevcut oyunu Chess.com'a yükleyin</li>
   <li><a PGNLichess>lichess.org</a>: Analiz ve paylaşım için mevcut oyunu Lichess.org'a yükleyin</li>
   <li><a PGNChessDB>chessdb Motor Ağacı</a>: ChessDB.cn bulut veritabanındaki mevcut konumu açın</li>
-  <li><a PGNAutoComment>Otomatik Yorum</a>: Generate AI commentary for the current position</li>
   </ul>
   Bu düğmeler scidCommunity'den ayrılmadan güçlü çevrimiçi araçlara anında erişim sağlar.
   Daha fazla ayrıntı için her düğmenin ayrı yardım konularına bakın.
@@ -2409,38 +2403,6 @@ set helpText(T,PGNChessDB) {<h1>PGN Penceresi: chessdb Motor Ağacı Düğmesi</
   <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
 
 }
-
-
-set helpTitle(T,PGNAutoComment) "Otomatik Yorum Düğmesi"
-set helpText(T,PGNAutoComment) {<h1>PGN Penceresi: Otomatik Yorum Düğmesi</h1>
-  <p>
-   <b>Otomatik Yorum</b> düğmesi <a PGN>PGN</a> Pencere Yapay Zekayı kullanır
-  (Gemini veya DeepSeek) mevcut konum için insan benzeri yorumlar oluşturmak için.
-  </p>
-  
-  <h3>Nasıl kullanılır</h3>
-  <p>
-  tıklayın <b>Otomatik Yorum</b> Geçerli hamle için bir yorum oluşturmak için düğmesine basın.
-  scidCommunity şunları yapacaktır:
-  <ul>
-  <li>Mevcut konumun değerlendirmesini Lichess veya ChessDB'den alın</li>
-  <li>Konum verilerini ve motor analizini seçilen yapay zeka modeline gönderin</li>
-  <li>Oluşturulan yorumun önizlemesini görüntüleyin</li>
-  <li>Yorumu oyuna eklemeden önce düzenlemenize veya hassaslaştırmanıza izin verir</li>
-  </ul>
-  </p>
-  
-  <h3>Yapılandırma</h3>
-  <p>
-  Sağ tıklayın <b>Otomatik Yorum</b> API anahtarlarınızı yapılandırmak için düğmesine basın ve
-  tercih ettiğiniz LLM sağlayıcınız (Gemini veya DeepSeek).
-  </p>
-  
-  <p><footer>(Güncelleme: scidCommunity, Ağustos 2024)</footer></p>
-
-}
-
-
 
 
 set helpTitle(T,PTracker) "Parça takipçisi"
@@ -4350,52 +4312,6 @@ set helpText(T,Book) {<h1>Kitap penceresi</h1>
 }
 
 
-set helpTitle(T,TacticalGame) "Taktik Oyun Penceresi"
-set helpText(T,TacticalGame) {<h1>Taktik oyun penceresi</h1>
-  <p>
-  Rakibi simüle eden bir motora karşı taktiksel bir oyun oynayın.
-  Elo derecesi verildi.  Rakip Phalanx ve antrenör tarafından oynanır
-  kullanıcının yapılandırdığı herhangi bir UCI motoru tarafından. Doğru motorlar otomatik olarak seçilir.
-  adları belirtilmeli ve doğru şekilde yapılandırılmalıdır (bu,
-  scidCommunity kuruludur).
-  </p>
-  <p>
-  <b>Not</b>, Phalanx motorunun özel bir versiyonunun
-  gerekli. Bu özel sürüm scidCommunity paketiyle birlikte gelir.
-  </p>
-  <p>
-  Aşağıdaki parametreler yapılandırılmalıdır:
-  <ul>
-  <li><term>Sabit seviye</term>: rakip için sabit bir Elo derecesi ayarlar</li>
-  <li><term>Rastgele seviye</term>: aşağıdakiler arasında rastgele bir seviye seçer:
-  sol ve sağ kaydırıcı tarafından belirlenen minimum ve maksimum seviye
-  sırasıyla.
-  </li>
-  <li><term>Açılış:</term>
-  <ul>
-     <li><term>Yeni oyunu başlat</term>: bir oyun seçerek yeni bir oyun başlatır.
-     rastgele açılış.</li>
-     <li><term>Mevcut konumdan başla</term>: oyun başlasın
-     mevcut kart konumuyla.</li>
-     <li><term>Özel açılış</term>: rakip bir
-     Aşağıdaki listeden seçilebilecek özel bir açılış. bu
-     Eğitimi açmak için kullanışlıdır.</li>
-  </ul>
-  <li><term>Motor analiz süresini sınırla</term>, motor tarafından kullanılan süreyi sınırlamaya olanak tanır.
-  Antrenörün oyuncuların hareketlerini hatalara karşı kontrol etmesi. eğer bu sefer değilse
-  koçun arka planda düşünmesine izin verilir.</li>
-  </ul>
-  <p>İpucu: <a Graphs>skor grafiğini</a> açarsanız, oyun sırasında süre kullanımını ve konumun derecelendirmesini görebilirsiniz.</p>
-  <p>Taktik oyunu başlatmak için <term>Oynat</term></p> tuşuna basın 
-
-  <p><b>Not</b> Benzer bir işlev, bir
-  <a SeriousGame> herhangi bir UCI motoruna karşı ciddi bir oyun </a>
-  gücünü sınırlamak için.
-  </p>
-  <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
-}
-
-
 set helpTitle(T,OpeningTrainer) "Açılış Eğitmeni"
 set helpText(T,OpeningTrainer) {<h1>Açılış Eğitmeni</h1>
   <p>
@@ -4525,105 +4441,6 @@ set helpText(T,OpeningTrainer) {<h1>Açılış Eğitmeni</h1>
   repertuvarda olmayan oyuncu</li>
   </ul>
   </p> 
-  <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
-}
-
-
-set helpTitle(T,SeriousGame) "Ciddi Oyun Penceresi"
-set helpText(T,SeriousGame) {<h1>Ciddi oyun penceresi</h1>
-  <p>
-  Herhangi bir <term>UCI</term> motor setine karşı ciddi oyunlar oynanabilir
-  scidCommunity ile kullanıma hazır. Olası tüm rakiplerin listesi
-  <term>Oyun konfigürasyonu</term> penceresinin üstünde verilmiştir.
-  düğmesi <term>UCI motorunu yapılandır</term> ayrıca erişim sağlar
-  motor parametrelerine. Varsayılan olarak aşağıdaki gibi ayarlanırlar:
-  <a Engine Configure>motor konfigürasyonu</a>.
-  </p>
-  <p>
-  Daha sonra kullanılması gereken kitap açılanlar arasından seçilebilir.
-  scidCommunity'nin kullanabileceği kitaplar. <term>Kitabı kullan</term> kutusunun işaretini kaldırma
-  açılış kitabının kullanımını devre dışı bırakacak ve motor çalışacak
-  hamleleri en başından hesaplamak.
-  </p>
-  <p>
-  <term>Zaman modu</term> bölümü, aşağıdakiler için kullanılan zamanlamanın ayarlanmasına izin verir:
-  motor. Burada çeşitli ayarlar mümkündür:
-  <ul>
-     <li><term>Zaman + bonus</term> bütünün süresini belirtir
-     oyun ve hamle başına olası bir artış (Fisher saati).
-     varsayılan olarak oyun başına 5 dakika ve oyun başına 10 saniyelik artış şeklinde ayarlanmıştır.
-     Blitz oyunları için olağan bir ayar olan hareket. Not:
-     Siyah ve Beyaz süreleri bağımsız olarak ayarlanabilir. Bu izin verir
-     motor için kısa bir süre ayarlamak ve daha uzun süre vermek için
-     oyuncuya düşünme zamanı ve böylece güçlendirme
-     motorları zayıflatırken olasılıkları analiz eden oyuncular
-     <term>Kalıcı düşünme</term> kapalı olması durumunda yetenekler (bkz.
-     aşağıda).
-     </li>
-
-     <li><term>Sabit derinlik</term> oyun başına süreyi ayarlamaz ancak
-     motorun yarım hamlede hesaplayacağı derinlik. bu şekilde
-     gerekirse daha derin hesaplama yeteneğini devre dışı bırakır,
-     bilgisayar belirli montaj ilişkilerini ve kombinasyonları görmez, motor
-     daha zayıf oynayabilir ve dolayısıyla antrenman için daha iyi bir ortak sunabilir
-     amaçlar.
-     <p>
-     <b>Not</b>: bazı, özellikle ticari motorlar ayrıca şunları da sunar:
-     Elo birimlerindeki güçlerini zayıflatır. Büyük ihtimalle bu bir teklif sunacak
-     arama derinliğini sınırlamaktan daha uygun bir algoritmadır. ScidCommunity'de,
-     bu tür oyunlar aynı zamanda <a TacticalGame>Taktik oyunlar</a> olarak da sunulmaktadır.
-     özgür Phalanx motoruna karşı.
-     </p>
-     </li>
-
-     <li><term>Düğümler</term>, arama derinliğini sınırlamaya benzer,
-     ancak burada motorun belirli bir değerin değerlendirilmesinden sonra hareket etmesi gerekiyor
-     pozisyon sayısı. (Varsayılan 10.000'dir.)
-     </li>
-
-     <li><term>Hareket başına saniye</term>, motorun
-     Belirli bir pozisyon için maksimum belirli bir süre. Bazıları
-     motorlar belirli durumlarda daha hızlı hareket edecektir, ancak
-     burada belirlenen süre sınırını aşmayın. <term>Sabit derinlik</term> olarak
-     ve <term>Düğümler</term> bu aynı zamanda motorların çalışmasını da sınırlar
-     güç, ama aynı zamanda oldukça duyarlı bir oyun sunuyor.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Kutu eğer ciddi oyunlar mevcut tahta konumundan başlayabilir
-  <term>Geçerli konumdan başla</term> işaretlenir. Bu izin verir
-  örneğin ortaya çıkan tanımlanmış orta oyun pozisyonlarını oynamak için
-  açılış.
-  </p>
-  <p>
-  <term>Kalıcı düşünme</term> (bazen düşünmek olarak da adlandırılır)
-  Motorun oyuncunun süresini hesaplamasına olanak tanır. İşaretlenmezse,
-  Oyuncunun hamlesi varsa motor konumu analiz etmeyi bırakacaktır.
-  Eğer oyun hamle başına sabit bir süreye ayarlanmışsa, bu durum oyunu zayıflatacaktır.
-  motor. Öte yandan, eğer motor hemen harekete geçebilirse
-  Oyuncu, analiz ettiği hamleyi oyuncunun süresine göre yaptı.
-  </p>
-  <p>
-  <term>Koç izliyor</term> almayı teklif eden bir diyalog açacak
-  Oyuncu bir hata yaparsa (motorlar nedeniyle) hamleyi geri alır.
-  son hamlesinin değerlendirilmesi).
-  </p>
-  <p>
-  Açıklıkların eğitimi için <term>Özel açıklık</term>
-  kontrol edildi. Aşağıdaki listeden oynanacak açılışı seçebilirsiniz.
-  oyuncu daha sonra seçilen çizgiyi takip etmelidir, aksi takdirde scidCommunity şunu soracaktır:
-  hamlenin geri alınması gerekiyorsa.
-  </p>
-
-  <p>
-  Oyunun tüm parametrelerini ayarlayıp Play tuşuna bastıktan sonra
-  düğmesine bastığınızda, scidCommunity rakibin motorunu ayarlayacak ve saatleri gösterecek
-  oyuna başla. Oyuncu saatlere kadar hareket etmemelidir
-  görünür. Satranç motorunun çalışmasının biraz zaman alabileceğini unutmayın.
-  düzgün şekilde başlatın ve başlatın.
-  </p>
-
   <p><footer>(Güncelleme: scidCommunity, Nisan 2026)</footer></p>
 }
 

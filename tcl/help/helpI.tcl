@@ -39,7 +39,7 @@ set helpText(I,Contents) {<h1>Contenuto della guida di scidCommunity</h1>
   <li><a PTracker><b>Tracciatore di pezzi</b></a></li>
   <li><a PList><b>Trova giocatori</b> finestra</a></li>
   <li><a PInfo><b>Informazioni sul giocatore</b> finestra</a></li>
-  <li><a TacticalGame><b>Gioco tattico</b> finestra</a></li>
+  <li><a PlayVsEngine><b>Gioca contro Engine</b> finestra</a></li>
   <li><a Tmt><b>Trova tornei</b> finestra</a></li>
   <li><a Tree><b>Albero</b> finestra</a></li>
   <li><a Graphs><b>Grafico</b> finestre</a></li>
@@ -228,8 +228,7 @@ set helpText(I,Index) {<h1>scidIndice degli argomenti della guida della communit
   <li><a PList>Finestra Trova giocatore</a></li>
   <li><a PInfo>Finestra Informazioni giocatore</a></li>
   <li><a Reports Player>Finestra Rapporto giocatore</a></li>
-  <li><a TacticalGame>Gioca al gioco tattico</a></li>
-  <li><a SeriousGame>Gioca sul serio</a></li>
+  <li><a PlayVsEngine>Gioca contro Engine</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(I,Index) {<h1>scidIndice degli argomenti della guida della communit
   <li><a Searches Filter>Filtro di ricerca</a></li>
   <li><a Menus Search>Menu di ricerca</a></li>
   <li><a Searches>Ricerche</a></li>
-  <li><a SeriousGame>Gioca sul serio</a></li>
   <li><a Sorting>Ordinamento di un database</a></li>
   <li><a Maintenance Spellcheck>Nomi per il controllo ortografico</a></li>
   <li><a Switcher>Finestra commutatore</a></li>
@@ -256,7 +254,6 @@ set helpText(I,Index) {<h1>scidIndice degli argomenti della guida della communit
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Base da tavolo (pulsante finestra PGN)</a></li>
-  <li><a TacticalGame>Gioco tattico</a></li>
   <li><a Menus Tools>Menu Strumenti</a></li>
   <li><a Tmt>Ricerca tornei</a></li>
   <li><a LichessTournament>Trasmissioni di tornei (Lichess)</a></li>
@@ -743,10 +740,8 @@ set helpText(I,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Gioca contro Engine</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2147,7 +2142,6 @@ set helpText(I,PGN) {<h1>La finestra <a PGN>PGN</a></h1>
   <li><a PGNChessCom>chess.com</a>: carica la partita corrente su Chess.com per l'analisi</li>
   <li><a PGNLichess>lichess.org</a>: carica il gioco corrente su Lichess.org per l'analisi e la condivisione</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: apre la posizione corrente nel database cloud ChessDB.cn</li>
-  <li><a PGNAutoComment>Commento automatico</a>: genera commenti AI per la posizione corrente</li>
   </ul>
   Questi pulsanti forniscono accesso immediato a potenti strumenti online senza uscire da scidCommunity.
   Per ulteriori dettagli, vedere i singoli argomenti della guida per ciascun pulsante.
@@ -2412,37 +2406,6 @@ set helpText(I,PGNChessDB) {<h1> Finestra PGN: pulsante albero motore chessdb </
   
   <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
 }
-
-
-set helpTitle(I,PGNAutoComment) "Pulsante commento automatico"
-set helpText(I,PGNAutoComment) {<h1>Finestra PGN: pulsante commento automatico</h1>
-  <p>
-  Il pulsante <b>Commento automatico</b> nella finestra <a PGN>PGN</a> utilizza l'intelligenza artificiale
-  (Gemini o DeepSeek) per generare commenti simili a quelli umani per la posizione attuale.
-  </p>
-  
-  <h3>Come usare</h3>
-  <p>
-  Fare clic sul pulsante <b>Commento automatico</b> per generare un commento per la mossa corrente.
-  scidCommunity:
-  <ul>
-  <li> Recupera la valutazione della posizione corrente da Lichess o ChessDB </li>
-  <li> Invia i dati di posizione e l'analisi del motore al modello AI scelto </li>
-  <li>Visualizza un'anteprima del commento generato</li>
-  <li>Consente di modificare o perfezionare il commento prima di aggiungerlo al gioco</li>
-  </ul>
-  </p>
-  
-  <h3>Configurazione</h3>
-  <p>
-  Fare clic con il pulsante destro del mouse sul pulsante <b>Commento automatico</b> per configurare le chiavi API e selezionare
-  il tuo fornitore LLM preferito (Gemini o DeepSeek).
-  </p>
-  
-  <p><footer>(Aggiornato: scidCommunity, agosto 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(I,PTracker) "Tracciatore di pezzi"
@@ -4358,52 +4321,6 @@ set helpText(I,Book) {<h1>Finestra del libro</h1>
 }
 
 
-set helpTitle(I,TacticalGame) "Finestra di gioco tattico"
-set helpText(I,TacticalGame) {<h1>Finestra gioco tattico</h1>
-  <p>
-  Gioca un gioco tattico contro un motore simulando un avversario con a
-  dato il punteggio Elo.  L'avversario è interpretato dalla Phalanx e dall'allenatore
-  da qualsiasi motore UCI configurato dall'utente. I motori giusti vengono selezionati automaticamente dal loro
-  nomi e dovrebbero essere configurati correttamente (questa è l'impostazione predefinita quando
-  scidCommunity è installato).
-  </p>
-  <p>
-  <b>Nota</b> che è una versione speciale del motore Phalanx
-  richiesto. Questa versione speciale viene fornita con il pacchetto scidCommunity.
-  </p>
-  <p>
-  È necessario configurare i seguenti parametri:
-  <ul>
-  <li><term>Livello fisso</term>: imposta un punteggio Elo fisso per l'avversario</li>
-  <li><term>Livello casuale</term>: sceglie un livello casuale tra i
-  livello minimo e massimo specificati dal cursore sinistro e destro
-  rispettivamente.
-  </li>
-  <li><term>Apertura:</term>
-  <ul>
-     <li><term>Inizia nuova partita</term>: avvia una nuova partita scegliendo una
-     apertura casuale.</li>
-     <li><term>Inizia dalla posizione attuale</term>: lascia che il gioco abbia inizio
-     con l'attuale posizione nel consiglio.</li>
-     <li><term>Apertura specifica</term>: l'avversario giocherà un
-     apertura specifica, selezionabile dalla lista sottostante. Questo è
-     utile per aprire la formazione.</li>
-  </ul>
-  <li><term>Limita tempo analisi motore</term> permette di limitare il tempo utilizzato dal
-  l'allenatore per verificare la presenza di errori nei movimenti dei giocatori. Se questa volta non lo è
-  limitato, l'allenatore può pensare in background.</li>
-  </ul>
-  <p>Suggerimento: se attivi il <a Graphs>grafico del punteggio</a>, puoi vedere l'utilizzo del tempo e la valutazione della posizione durante il gioco.</p>
-  <p>Per iniziare un gioco tattico, premi <term>Gioca</term></p> 
-
-  <p><b>Nota</b> una funzione simile può essere ottenuta riproducendo un
-  <a SeriousGame>gioco serio</a> contro qualsiasi motore UCI che lo consenta
-  per limitarne la forza.
-  </p>
-  <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
-}
-
-
 set helpTitle(I,OpeningTrainer) "Allenatore di apertura"
 set helpText(I,OpeningTrainer) {<h1>Allenatore di apertura</h1>
   <p>
@@ -4533,105 +4450,6 @@ set helpText(I,OpeningTrainer) {<h1>Allenatore di apertura</h1>
   musicista non presente nel repertorio </li>
   </ul>
   </p> 
-  <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
-}
-
-
-set helpTitle(I,SeriousGame) "Finestra del gioco serio"
-set helpText(I,SeriousGame) {<h1>Finestra del gioco serio</h1>
-  <p>
-  È possibile giocare partite serie contro qualsiasi set di motori <term>UCI</term>.
-  pronto per l'utilizzo con scidCommunity. Un elenco di tutti i possibili avversari è
-  indicato nella parte superiore della finestra <term> Configurazione del gioco </term>. Il
-  Il pulsante <term> Configura motore UCI </term> fornisce inoltre l'accesso
-  ai parametri del motore. Per impostazione predefinita, sono impostati come in
-  <a Engine Configure> configurazione del motore </a>.
-  </p>
-  <p>
-  Successivamente si potrà scegliere il libro da utilizzare tra quelli che si aprono
-  libri disponibili per scidCommunity. Deselezionando la casella <term>Usa libro</term>.
-  disabiliterà l'uso di un libro di apertura e il motore si avvierà
-  calcolare le mosse fin dall'inizio.
-  </p>
-  <p>
-  La sezione <term>Modalità ora</term> consente di impostare la temporizzazione utilizzata per
-  il motore. Qui sono possibili diverse impostazioni:
-  <ul>
-     <li><term>Tempo + bonus</term> specifica il tempo per l'intero
-     gioco e un possibile incremento per mossa (orologio Fisher). Il
-     l'impostazione predefinita è impostata su 5 minuti per gioco e 10 secondi di incremento per
-     mossa che è un'impostazione abituale per i giochi Blitz. Si noti che il
-     i tempi per il bianco e nero possono essere impostati in modo indipendente. Ciò lo consente
-     per impostare un breve periodo di tempo per il motore e darne uno più lungo
-     tempo di pensare al giocatore, e quindi rafforzare il
-     i giocatori analizzano le possibilità indebolendo i motori
-     abilità in caso di <term>Pensiero permanente</term> disattivato (vedi
-     sotto).
-     </li>
-
-     <li><term>Profondità fissa</term> non imposta il tempo per partita ma
-     la profondità che il motore calcolerà in mezze mosse. Come questo
-     disabilita la possibilità di calcolare più in profondità, se necessario, il
-     il computer non vedrà determinati accoppiamenti e combinazioni, il motore
-     possono giocare più deboli e quindi offrire un partner migliore per l’allenamento
-     scopi.
-     <p>
-     <b>Nota</b>: alcuni motori, soprattutto commerciali, offrono anche a
-     indebolire la loro forza nelle unità Elo. Molto probabilmente questo offrirà a
-     algoritmo più adatto rispetto alla limitazione della profondità di ricerca. Nella scidCommunity,
-     tali giochi sono offerti anche come <a TacticalGame>Giochi tattici </a>
-     contro il motore Phalanx gratuito.
-     </p>
-     </li>
-
-     <li><term>Nodi</term> è simile alla limitazione della profondità di ricerca,
-     ma qui il motore deve muoversi dopo la valutazione di un certo
-     numero di posizioni. (Il valore predefinito è 10.000.)
-     </li>
-
-     <li><term>Secondi per mossa</term> consente al motore di spendere un
-     un determinato periodo di tempo al massimo per una determinata posizione. Alcuni
-     i motori si muoveranno più velocemente in determinate circostanze, ma lo faranno
-     non superare il limite di tempo qui stabilito. Come <term>Profondità fissa</term>
-     e <term> Nodi </term> questo limita anche il funzionamento dei motori
-     forza, ma offre anche un gioco piuttosto reattivo.
-     </li>
-  </ul>
-  </p>
-  <p>
-  I giochi seri possono iniziare dalla posizione attuale del tabellone se la casella
-  <term> È selezionato Inizia dalla posizione corrente </term>. Ciò lo consente
-  ad es. per giocare posizioni di gioco intermedie definite che derivano da un
-  apertura.
-  </p>
-  <p>
-  <term>Pensiero permanente</term> (a volte chiamato anche ponderare)
-  consente al motore di calcolare il tempo dei giocatori. Se deselezionato, il
-  il motore smetterà di analizzare la posizione se il giocatore ha la mossa.
-  Se il gioco è impostato per un tempo fisso per mossa, ciò indebolirà il
-  motore. D'altra parte, il motore potrebbe muoversi immediatamente, se il
-  il giocatore ha effettuato la mossa che stava analizzando in base al tempo del giocatore.
-  </p>
-  <p>
-  <term>L'allenatore sta guardando</term> aprirà un dialogo con l'offerta da accettare
-  eseguire una mossa se il giocatore ha commesso un errore (a causa dei motori
-  valutazione della sua ultima mossa).
-  </p>
-  <p>
-  Per la formazione delle aperture <term>L'apertura specifica</term> può essere
-  controllato. Nell'elenco sottostante è possibile scegliere l'apertura da giocare. Il
-  il giocatore poi dovrà seguire la linea scelta, altrimenti scidCommunity lo chiederà
-  se il trasloco dovesse essere ritirato.
-  </p>
-
-  <p>
-  Dopo aver impostato tutti i parametri del gioco e aver premuto Play
-  pulsante, scidCommunity imposterà il motore avversario per mostrare gli orologi e
-  iniziare il gioco. Il giocatore non deve fare alcuna mossa fino allo scadere degli orologi
-  apparire. Tieni presente che potrebbe volerci del tempo prima che il motore scacchistico lo faccia
-  avviare e inizializzare correttamente.
-  </p>
-
   <p><footer>(Aggiornato: scidCommunity, aprile 2026)</footer></p>
 }
 

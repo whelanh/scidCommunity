@@ -39,7 +39,7 @@ set helpText(N,Contents) {<h1>scidCommunity Help-inhoud</h1>
   <li><a PTracker><b>Stuktracker</b></a></li>
   <li><a PList><b>Spelerzoeker</b> venster</a></li>
   <li><a PInfo><b>Venster Spelerinfo</b></a></li>
-  <li><a TacticalGame><b>Tactisch spel</b> venster</a></li>
+  <li><a PlayVsEngine><b>Speel versus motor</b> venster</a></li>
   <li><a Tmt><b>Toernooizoeker</b> venster</a></li>
   <li><a Tree><b>Boom</b> raam</a></li>
   <li><a Graphs><b>Grafiek</b> vensters</a></li>
@@ -227,8 +227,7 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   <li><a PList>Spelerzoeker</a>-venster</li>
   <li><a PInfo>Venster Spelerinfo</a></li>
   <li><a Reports Player>Spelerrapport</a> venster</li>
-  <li><a TacticalGame>Tactisch spel spelen</a></li>
-  <li><a SeriousGame>Speel serious game</a></li>
+  <li><a PlayVsEngine>Speel versus motor</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -246,7 +245,6 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   <li><a Searches Filter>Zoekfilter</a></li>
   <li><a Menus Search>Zoekmenu</a></li>
   <li><a Searches>Zoekopdrachten</a></li>
-  <li><a SeriousGame>Speel serious game</a></li>
   <li><a Sorting>Een database sorteren</a></li>
   <li><a Maintenance Spellcheck>Spellingcontrole namen</a></li>
   <li><a Switcher>Schakelaar</a> raam</li>
@@ -255,7 +253,6 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase>Tafelbasis (PGN-vensterknop)</a></li>
-  <li><a TacticalGame>Tactisch spel</a></li>
   <li><a Menus Tools>Menu Extra</a></li>
   <li><a Tmt>Toernooizoeker</a></li>
   <li><a LichessTournament>Toernooi-uitzendingen (Lichess)</a></li>
@@ -740,10 +737,8 @@ set helpText(N,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Speel versus motor</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2138,7 +2133,6 @@ set helpText(N,PGN) {<h1>Het <a PGN>PGN</a> venster</h1>
   <li><a PGNChessCom>chess.com</a>: Upload het huidige spel naar Chess.com voor analyse </li>
   <li><a PGNLichess>lichess.org</a>: Upload het huidige spel naar Lichess.org voor analyse en delen </li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Open de huidige positie in de ChessDB.cn clouddatabase </li>
-  <li><a PGNAutoComment>Automatisch commentaar</a>: Genereer AI-commentaar voor de huidige positie </li>
   </ul>
   Deze knoppen bieden directe toegang tot krachtige online tools zonder scidCommunity te verlaten.
   Zie de afzonderlijke Help-onderwerpen voor elke knop voor meer details.
@@ -2403,37 +2397,6 @@ set helpText(N,PGNChessDB) {<h1>PGN-venster: chessdb Engine Tree-knop </h1>
   
   <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
 }
-
-
-set helpTitle(N,PGNAutoComment) "Knop voor automatisch commentaar"
-set helpText(N,PGNAutoComment) {<h1>PGN-venster: Knop voor automatisch commentaar </h1>
-  <p>
-  De knop <b>Automatisch commentaar</b> in het venster <a PGN>PGN</a> maakt gebruik van kunstmatige intelligentie
-  (Gemini of DeepSeek) om mensachtig commentaar voor de huidige positie te genereren.
-  </p>
-  
-  <h3>Gebruik</h3>
-  <p>
-  Klik op de knop <b>Automatisch commentaar</b> om commentaar te genereren voor de huidige zet.
-  scidGemeenschap zal:
-  <ul>
-  <li> Haal de evaluatie van de huidige positie op van Lichess of ChessDB </li>
-  <li>Verzend de positiegegevens en motoranalyse naar het gekozen AI-model </li>
-  <li>Een voorbeeld weergeven van het gegenereerde commentaar </li>
-  <li>Hiermee kunt u de opmerking bewerken of verfijnen voordat u deze aan het spel toevoegt </li>
-  </ul>
-  </p>
-  
-  <h3>Configuratie</h3>
-  <p>
-  Klik met de rechtermuisknop op de knop <b>Automatisch commentaar</b> om uw API-sleutels te configureren en selecteer
-  uw favoriete LLM-provider (Gemini of DeepSeek).
-  </p>
-  
-  <p><footer>(Bijgewerkt: scidCommunity, augustus 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(N,PTracker) "Stuk tracker"
@@ -4338,52 +4301,6 @@ set helpText(N,Book) {<h1>Boekvenster</h1>
 }
 
 
-set helpTitle(N,TacticalGame) "Tactisch spelvenster"
-set helpText(N,TacticalGame) {<h1>Tactisch spelvenster </h1>
-  <p>
-  Speel een tactisch spel tegen een engine die een tegenstander simuleert met een
-  gegeven Elo-beoordeling.  De tegenstander wordt gespeeld door Phalanx en de coach
-  door elke UCI-engine die de gebruiker heeft geconfigureerd. De juiste motoren worden automatisch geselecteerd door hun
-  namen, en moet correct worden geconfigureerd (dit is de standaardwaarde voor wanneer
-  scidCommunity is geïnstalleerd).
-  </p>
-  <p>
-  <b>Let op</b> dat het een speciale versie van de Phalanx-motor betreft
-  vereist. Deze speciale versie wordt geleverd met het scidCommunity-pakket.
-  </p>
-  <p>
-  De volgende parameters moeten worden geconfigureerd:
-  <ul>
-  <li><term>Vast niveau </term>: stelt een vaste Elo-rating in voor de tegenstander </li>
-  <li><term>Willekeurig niveau </term>: kiest een willekeurig niveau tussen de
-  minimum- en maximumniveau gespecificeerd door de linker- en rechterschuifregelaar
-  respectievelijk.
-  </li>
-  <li><term>Openen:</term>
-  <ul>
-     <li><term>Start nieuw spel </term>: start een nieuw spel door een
-     willekeurige opening.</li>
-     <li><term>Start vanaf huidige positie</term>: laat het spel beginnen
-     met de huidige bestuurspositie.</li>
-     <li><term>Specifieke opening</term>: de tegenstander speelt een
-     specifieke opening, die kan worden gekozen uit de onderstaande lijst. Dit is
-     handig voor openingstraining.</li>
-  </ul>
-  <li><term>Beperk de motoranalysetijd </term> Hiermee kunt u de tijd beperken die wordt gebruikt door de
-  coach om de zetten van de speler op fouten te controleren. Als dit deze keer niet het geval is
-  beperkt mag de coach op de achtergrond nadenken.</li>
-  </ul>
-  <p>Tip: Als u de <a Graphs>scoregrafiek </a> inschakelt, kunt u het tijdsgebruik en de beoordeling van de positie tijdens het spel zien. </p>
-  <p>Om een tactisch spel te starten, druk op <term>Speel</term></p> 
-
-  <p><b>Opmerking</b> een soortgelijke functie kan worden bereikt door een
-  <a SeriousGame>serieus spel</a> tegen elke UCI-engine die dit toelaat
-  omdat hij zijn kracht beperkt.
-  </p>
-  <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
-}
-
-
 set helpTitle(N,OpeningTrainer) "Openingstrainer"
 set helpText(N,OpeningTrainer) {<h1>Openingstrainer</h1>
   <p>
@@ -4513,105 +4430,6 @@ set helpText(N,OpeningTrainer) {<h1>Openingstrainer</h1>
   speler die niet in het repertoire stond </li>
   </ul>
   </p> 
-  <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
-}
-
-
-set helpTitle(N,SeriousGame) "Serious Game-venster"
-set helpText(N,SeriousGame) {<h1> Serious game-venster </h1>
-  <p>
-  Serious games kunnen tegen elke <term>UCI</term> engineset worden gespeeld
-  klaar voor gebruik met scidCommunity. Een lijst met alle mogelijke tegenstanders is
-  gegeven bovenaan het venster <term>Spelconfiguratie </term>. De
-  knop <term>Configureer UCI-engine </term> geeft bovendien toegang
-  aan de motorparameters. Standaard zijn ze ingesteld zoals in de
-  <a Engine Configure>motorconfiguratie </a>.
-  </p>
-  <p>
-  Vervolgens kan uit de openingen het boek worden gekozen dat moet worden gebruikt
-  boeken beschikbaar voor scidCommunity. Het vinkje uit het vakje <term> Gebruik boek </term> verwijderen
-  zal het gebruik van een openingsboek uitschakelen en de motor zal starten
-  vanaf het begin zetten berekenen.
-  </p>
-  <p>
-  In de sectie <term>Tijdmodus </term> kunt u de gebruikte timing instellen
-  de motor. Hier zijn verschillende instellingen mogelijk:
-  <ul>
-     <li><term>Tijd + bonus</term> specificeert de tijd voor het geheel
-     spel en een mogelijke verhoging per zet (Fisherklok). De
-     standaard is ingesteld op 5 minuten per spel en een toename van 10 seconden per spel
-     zet, wat een gebruikelijke instelling is voor Blitz-spellen. Let op, dat de
-     tijden voor zwart-wit kunnen onafhankelijk worden ingesteld. Dit maakt het mogelijk
-     om een korte tijd voor de motor in te stellen en een langere tijd te geven
-     tijd van nadenken aan de speler, en daarmee het versterken van de
-     spelers analyseren mogelijkheden terwijl ze de motoren verzwakken
-     vaardigheden in het geval van <term>Permanent denken </term> is uitgeschakeld (zie
-     hieronder).
-     </li>
-
-     <li><term>Vaste diepte </term> stelt niet de tijd per spel in, maar
-     de diepte die de motor in halve zetten berekent. Als dit
-     schakelt de mogelijkheid uit om indien nodig dieper te berekenen, de
-     computer zal bepaalde mates en combinaties, de motor, niet zien
-     kan zwakker spelen en dus een betere trainingspartner bieden
-     doeleinden.
-     <p>
-     <b>Opmerking</b>: sommige, vooral commerciële, motoren bieden dit ook aan
-     hun kracht in Elo-eenheden verzwakken. Hoogstwaarschijnlijk zal dit een
-     geschikter algoritme dan het beperken van de zoekdiepte. In scidCommunity,
-     dergelijke spellen worden ook aangeboden als <a TacticalGame>Tactische spellen </a>
-     tegen de gratis Phalanx-engine.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> is vergelijkbaar met het beperken van de zoekdiepte,
-     maar hier moet de motor bewegen na de evaluatie van een bepaald punt
-     aantal posities. (De standaardwaarde is 10.000.)
-     </li>
-
-     <li><term> Met seconden per zet </term> kan de engine een
-     een bepaalde hoeveelheid tijd maximaal voor een bepaalde positie. Sommige
-     motoren zullen onder bepaalde omstandigheden sneller bewegen, maar dat zal wel zo zijn
-     de hier ingestelde tijdslimiet niet overschrijden. Als <term>Vaste diepte</term>
-     en <term>Nodes</term> dit beperkt ook het spelen van de motoren
-     kracht, maar geeft ook een behoorlijk responsief spel.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Serious games kunnen starten vanaf de huidige bordpositie in de box
-  <term>Start vanaf huidige positie </term> is aangevinkt. Dit maakt het mogelijk
-  bijv. om gedefinieerde middenspelposities uit te spelen die voortkomen uit een
-  openen.
-  </p>
-  <p>
-  <term>Permanent denken </term> (ook wel nadenken genoemd)
-  Hiermee kan de engine de tijd van de speler berekenen. Indien niet aangevinkt, wordt de
-  engine stopt met het analyseren van de stelling als de speler aan zet is.
-  Als het spel is ingesteld op een vaste tijd per zet, zal dit de spelkracht verzwakken
-  motor. Aan de andere kant kan de motor onmiddellijk in beweging komen als de
-  De speler maakte de zet die hij analyseerde op basis van de tijd van de speler.
-  </p>
-  <p>
-  <term>Coach kijkt toe </term> opent een dialoogaanbod om te volgen
-  een zet terugzetten als de speler een blunder heeft gemaakt (vanwege de motoren
-  evaluatie van zijn laatste zet).
-  </p>
-  <p>
-  Voor het trainen van openingen <term> Specifieke opening </term> kan zijn
-  gecontroleerd. In de onderstaande lijst kan men de opening kiezen om te spelen. De
-  de speler moet dan de gekozen lijn volgen, anders zal scidCommunity ernaar vragen
-  of de zet moet worden teruggenomen.
-  </p>
-
-  <p>
-  Nadat je alle parameters van het spel hebt ingesteld en op Play hebt gedrukt
-  knop, scidCommunity zal de engine van de tegenstander instellen, de klokken tonen en
-  begin het spel. De speler mag geen zet doen vóór de klokken
-  verschijnen. Houd er rekening mee dat het enige tijd kan duren voordat de schaakengine dit doet
-  correct opstarten en initialiseren.
-  </p>
-
   <p><footer>(Bijgewerkt: scidCommunity, april 2026)</footer></p>
 }
 

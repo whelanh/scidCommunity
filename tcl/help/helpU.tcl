@@ -39,7 +39,7 @@ set helpText(U,Contents) {<h1>scidCommunity Ohjeen sisältö</h1>
   <li><a PTracker><b>Piece Tracker</b></a></li>
   <li><a PList><b>Player Finder</b> ikkuna</a></li>
   <li><a PInfo><b>Pelaajan tiedot</b> ikkuna</a></li>
-  <li><a TacticalGame><b>Taktinen peli</b> ikkuna</a></li>
+  <li><a PlayVsEngine><b>Pelaa versus Engine</b> ikkuna</a></li>
   <li><a Tmt><b>Turnauksen Finder</b> ikkuna</a></li>
   <li><a Tree><b>Puu</b> ikkuna</a></li>
   <li><a Graphs><b>Kaavio</b> ikkunat</a></li>
@@ -228,8 +228,7 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   <li><a PList> Player Finder </a> -ikkuna </li>
   <li><a PInfo>Soittimen tiedot </a> -ikkuna </li>
   <li><a Reports Player>Soittimen raportti</a> -ikkuna </li>
-  <li><a TacticalGame>Pelaa taktista peliä </a></li>
-  <li><a SeriousGame>Pelaa vakavaa peliä </a></li>
+  <li><a PlayVsEngine>Pelaa versus Engine</a></li>
   </ul>
   
   <h3>Q</h3>
@@ -247,7 +246,6 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   <li><a Searches Filter>Hakusuodatin</a></li>
   <li><a Menus Search>Hakuvalikko</a></li>
   <li><a Searches>Haut</a></li>
-  <li><a SeriousGame>Pelaa vakavaa peliä </a></li>
   <li><a Sorting> Tietokannan lajittelu </a> </li>
   <li><a Maintenance Spellcheck>Oikeinkirjoituksen tarkistuksen nimet </a></li>
   <li><a Switcher>Switcher </a> ikkuna </li>
@@ -256,7 +254,6 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   <h3>T</h3>
   <ul>
   <li><a PGNTablebase> Pöytäjalusta (PGN-ikkunapainike)</a></li>
-  <li><a TacticalGame>Taktinen peli </a> </li>
   <li><a Menus Tools>Työkaluvalikko </a></li>
   <li><a Tmt> Turnauksen etsintä </a> </li>
   <li><a LichessTournament>Turnauslähetykset (Lichess)</a></li>
@@ -741,10 +738,8 @@ set helpText(U,Menus) {<h1>scidCommunity menus</h1>
 
   <h3><name Play>Play</name></h3>
   <ul>
-  <li><menu>Serious Game</menu>: Configures and starts a <a SeriousGame>serious game</a>
-  against a <term>UCI</term> chess engine in tournament conditions.</li>
-  <li><menu>Tactical Game</menu>: Configures and starts a <a TacticalGame>tactical game</a>
-  against a chess engine at an adjustable level.</li>
+  <li><menu>Pelaa versus Engine</menu>: Configures and starts a <a PlayVsEngine>game against a chess engine</a>
+  with coaching, time controls, opening books, and ponder support.</li>
   <li><menu>FICS Training</menu>: Configures connection to the <a FICS>Free Internet
   Chess Server</a> (FICS) to play against human opponents or take part in training sessions.</li>
   <li><menu>Training</menu>: Training submenu.</li>
@@ -2140,7 +2135,6 @@ set helpText(U,PGN) {<h1> <a PGN>PGN</a> -ikkuna </h1>
   <li><a PGNChessCom>chess.com</a>: Lataa nykyinen peli Chess.com-sivustolle analysoitavaksi </li>
   <li><a PGNLichess>lichess.org</a>: Lataa nykyinen peli Lichess.org-sivustolle analysointia ja jakamista varten </li>
   <li><a PGNChessDB>chessdb Engine Tree </a>: Avaa nykyinen sijainti ChessDB.cn-pilvitietokannassa </li>
-  <li><a PGNAutoComment> Automaattinen kommentti </a>: Luo tekoälykommentti nykyiselle sijainnille </li>
   </ul>
   Nämä painikkeet tarjoavat välittömän pääsyn tehokkaisiin verkkotyökaluihin poistumatta scidCommunitysta.
   Katso lisätietoja kunkin painikkeen yksittäisistä ohjeaiheista.
@@ -2405,37 +2399,6 @@ set helpText(U,PGNChessDB) {<h1>PGN-ikkuna: chessdb Engine Tree Button </h1>
   
   <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
 }
-
-
-set helpTitle(U,PGNAutoComment) "Automaattinen kommenttipainike"
-set helpText(U,PGNAutoComment) {<h1>PGN-ikkuna: Automaattinen kommenttipainike </h1>
-  <p>
-  <b>Automaattinen kommentti</b> -painike <a PGN>PGN</a> -ikkunassa käyttää tekoälyä
-  (Gemini tai DeepSeek) luodaksesi ihmisen kaltaisia kommentteja nykyiselle asemalle.
-  </p>
-  
-  <h3> Kuinka käyttää </h3>
-  <p>
-  Napsauta <b>Automaattinen kommentti</b> -painiketta luodaksesi kommentin nykyiselle siirrolle.
-  scidCommunity tulee:
-  <ul>
-  <li>Hae nykyisen sijainnin arvio Lichess- tai ChessDB:stä</li>
-  <li>Lähetä sijaintitiedot ja moottorianalyysi valittuun tekoälymalliin </li>
-  <li>Näytä esikatselu luodusta kommentista</li>
-  <li>Voit muokata tai tarkentaa kommenttia ennen kuin lisäät sen peliin</li>
-  </ul>
-  </p>
-  
-  <h3> Kokoonpano </h3>
-  <p>
-  Napsauta hiiren kakkospainikkeella <b>Auto Comment</b> -painiketta määrittääksesi API-avaimet ja valitse
-  haluamasi LLM-palveluntarjoaja (Gemini tai DeepSeek).
-  </p>
-  
-  <p><footer>(Päivitetty: scidCommunity, elokuu 2024)</footer></p>
-}
-
-
 
 
 set helpTitle(U,PTracker) "Kappaleen seurantalaite"
@@ -4340,52 +4303,6 @@ set helpText(U,Book) {<h1>Kirjaikkuna </h1>
 }
 
 
-set helpTitle(U,TacticalGame) "Taktinen peli-ikkuna"
-set helpText(U,TacticalGame) {<h1>Taktinen peliikkuna </h1>
-  <p>
-  Pelaa taktista peliä moottoria vastaan, joka simuloi vastustajaa a
-  antanut Elo-luokituksen.  Vastustajaa pelaavat Phalanx ja valmentaja
-  millä tahansa käyttäjän määrittämillä UCI-moottorilla. Oikeat moottorit valitaan automaattisesti niiden mukaan
-  nimet, ja ne tulee määrittää oikein (tämä on oletusarvo, kun
-  scidCommunity on asennettu).
-  </p>
-  <p>
-  <b>Huomaa</b>, että Phalanx-moottorin erikoisversio on
-  vaaditaan. Tämä erikoisversio tulee scidCommunity-paketin mukana.
-  </p>
-  <p>
-  Seuraavat parametrit on määritettävä:
-  <ul>
-  <li><term> Kiinteä taso </term>: asettaa vastustajalle kiinteän Elo-luokituksen </li>
-  <li><term>Satunnainen taso </term>: valitsee satunnaisen tason
-  vasemmalla ja oikealla liukusäätimellä määritetty vähimmäis- ja enimmäistaso
-  vastaavasti.
-  </li>
-  <li><term>Avaaminen:</term>
-  <ul>
-     <li><term> Aloita uusi peli </term>: aloittaa uuden pelin valitsemalla
-     satunnainen avautuminen. </li>
-     <li><term> Aloita nykyisestä paikasta </term>: anna pelin alkaa
-     nykyisen hallituksen sijainnin kanssa. </li>
-     <li><term> Erityinen avaus </term>: vastustaja pelaa
-     tietty aukko, joka voidaan valita alla olevasta luettelosta. Tämä on
-     hyödyllinen aloitusharjoittelussa.</li>
-  </ul>
-  <li><term> Rajoita moottorin analyysiaikaa </term> sallii rajoittaa laitteen käyttämää aikaa.
-  valmentaja tarkistaa pelaajien liikkeet virheiden varalta. Jos tällä kertaa ei ole
-  rajoitettu valmentaja saa ajatella taustalla.</li>
-  </ul>
-  <p>Vinkki: Jos kytket <a Graphs>pistekaavion </a> päälle, näet ajankäytön ja paikan luokituksen pelin aikana.</p>
-  <p> Aloita taktinen peli painamalla <term>Play</term></p> 
-
-  <p><b>Huom</b> samanlainen toiminto voidaan saavuttaa pelaamalla
-  <a SeriousGame> vakava peli </a> mitä tahansa UCI-moottoria vastaan, joka sen sallii
-  sen voiman rajoittamiseksi.
-  </p>
-  <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
-}
-
-
 set helpTitle(U,OpeningTrainer) "Kouluttajan avaus"
 set helpText(U,OpeningTrainer) {<h1> Avausharjoitus </h1>
   <p>
@@ -4515,105 +4432,6 @@ set helpText(U,OpeningTrainer) {<h1> Avausharjoitus </h1>
   soitin, joka ei ollut ohjelmistossa </li>
   </ul>
   </p> 
-  <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
-}
-
-
-set helpTitle(U,SeriousGame) "Vakava peli-ikkuna"
-set helpText(U,SeriousGame) {<h1>Vakava peliikkuna </h1>
-  <p>
-  Vakavia pelejä voi pelata mitä tahansa <term>UCI</term> -moottorisarjaa vastaan
-  valmis käytettäväksi scidCommunityn kanssa. Luettelo kaikista mahdollisista vastustajista on
-  annettu <term>Game configuration </term> -ikkunan yläosassa. The
-  painike <term> Konfiguroi UCI-moottori </term> antaa lisäksi pääsyn
-  moottorin parametreihin. Oletusarvoisesti ne on asetettu kuten
-  <a Engine Configure>moottorikokoonpano </a>.
-  </p>
-  <p>
-  Seuraavaksi avauksista voidaan valita käytettävä kirja
-  kirjat scidCommunityn saatavilla. Poista valinta <term>Käytä kirjaa</term> -ruudusta
-  poistaa avauskirjan käytön ja moottori käynnistyy
-  laskemalla liikkeitä heti alusta alkaen.
-  </p>
-  <p>
-  Osiossa <term>Time mode </term> voit asettaa ajastuksen, jota käytetään
-  moottori. Eri asetukset ovat mahdollisia täällä:
-  <ul>
-     <li><term> Aika + bonus</term> määrittää ajan koko
-     peli ja mahdollinen lisäys liikettä kohti (Fisher-kello). The
-     oletusarvo on 5 minuuttia per peli ja 10 sekunnin lisäys per peli
-     liikkua, joka on tavallinen asetus Blitz-peleissä. Huomaa, että
-     Mustavalko-ajat voidaan asettaa itsenäisesti. Tämä mahdollistaa
-     asettaaksesi moottorille lyhyen ajan ja antamaan pidemmän ajan
-     ajatteluaikaa pelaajalle ja näin vahvistaen
-     pelaajat analysoivat mahdollisuuksia heikentäen samalla moottoreita
-     kyvyt, jos <term> Pysyvä ajattelu </term> on pois päältä (katso
-     alla).
-     </li>
-
-     <li><term> Kiinteä syvyys </term> ei aseta peliaikaa, mutta
-     syvyys, jonka moottori laskee puoliliikkeessä. Kuten tämä
-     poistaa käytöstä mahdollisuuden laskea syvemmälle tarvittaessa
-     tietokone ei näe tiettyjä kavereita ja yhdistelmiä, moottoria
-     voi pelata heikommin ja tarjota siten paremman kumppanin harjoitteluun
-     tarkoituksiin.
-     <p>
-     <b>Huom</b>: Jotkut, erityisesti kaupalliset, moottorit tarjoavat myös
-     heikentää vahvuuttaan Elon yksiköissä. Todennäköisesti tämä tarjoaa a
-     sopivampi algoritmi kuin hakusyvyyden rajoittaminen. scidCommunityssa
-     tällaisia pelejä tarjotaan myös nimellä <a TacticalGame>Taktiset pelit </a>
-     vapaata Phalanx-moottoria vastaan.
-     </p>
-     </li>
-
-     <li><term>Nodes</term> on samanlainen kuin hakusyvyyden rajoittaminen,
-     mutta tässä moottorin täytyy liikkua tietyn arvioinnin jälkeen
-     paikkojen määrä. (Oletusarvo on 10 000.)
-     </li>
-
-     <li><term> Sekuntia liikettä kohden </term> antaa moottorin käyttää
-     korkeintaan tietyn ajan tietyssä paikassa. Jotkut
-     moottorit liikkuvat nopeammin tietyissä olosuhteissa, mutta ne toimivat
-     älä ylitä tässä asetettua aikarajaa. Kuten <term> Kiinteä syvyys </term>
-     ja <term>Nodes</term> tämä rajoittaa myös moottorien pelaamista
-     vahvuus, mutta antaa myös melko herkän pelin.
-     </li>
-  </ul>
-  </p>
-  <p>
-  Vakavat pelit voivat alkaa nykyisestä laudan asennosta, jos laatikko
-  <term> Aloita nykyisestä sijainnista </term> on valittu. Tämä mahdollistaa
-  esim. pelataksesi määriteltyjä keskimmäisiä pelipaikkoja, jotka syntyvät an
-  avaaminen.
-  </p>
-  <p>
-  <term> Pysyvä ajattelu </term> (joskus kutsutaan myös pohtimiseksi)
-  antaa moottorin laskea pelaajien aikaa. Jos ei ole valittuna,
-  moottori lopettaa sijainnin analysoinnin, jos pelaaja saa liikkeen.
-  Jos peli on asetettu kiinteäksi ajaksi siirtoa kohti, tämä heikentää peliä
-  moottori. Toisaalta moottori saattaa liikkua välittömästi, jos
-  pelaaja teki liikkeen, joka analysoi pelaajien aikaa.
-  </p>
-  <p>
-  <term>Valmentaja katselee</term> avaa vuoropuhelun ja tarjoutuu ottamaan vastaan
-  takaisinsiirto, jos pelaaja teki virheen (moottoreiden takia
-  arvio hänen viimeisestä liikkeestään).
-  </p>
-  <p>
-  Aukkojen koulutukseen <term>Erityinen aukko </term> voi olla
-  tarkistettu. Alla olevasta listasta voit valita avauksen, jonka haluat pelata. The
-  Pelaajan tulee sitten seurata valittua linjaa, muuten scidCommunity kysyy
-  jos siirto pitäisi ottaa takaisin.
-  </p>
-
-  <p>
-  Kun olet asettanut kaikki pelin parametrit ja painanut Play
-  -painiketta, scidCommunity asettaa vastustajan moottorin näyttämään kellot ja
-  aloita peli. Pelaaja ei saa tehdä liikettä ennen kelloa
-  näkyviin. Huomaa, että shakkimoottorin käynnistyminen saattaa kestää jonkin aikaa
-  käynnistä ja alusta kunnolla.
-  </p>
-
   <p><footer>(Päivitetty: scidCommunity, huhtikuu 2026)</footer></p>
 }
 
