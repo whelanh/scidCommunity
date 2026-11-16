@@ -13,6 +13,7 @@ set helpText(Contents) {<h1>scidCommunity Help Contents</h1>
   <li><a Menus>scidCommunity <b>menus</b></a></li>
   <li><a Moves>Entering <b>chess moves</b></a></li>
   <li><a Searches><b>Searches</b> in scidCommunity</a></li>
+  <li><a CQL><b>Chess Query Language (CQL)</b></a></li>
   <li><a Clipbase>Using the <b>Clipbase</b> database</a></li>
   <li><a Annotating><b>Annotating games</b></a> (manual notes)</li>
   </ul>
@@ -93,6 +94,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <li><a PGNChessCom>Chess.com analysis (PGN Window button)</a></li>
   <li><a ImportChessCom>Chess.com, importing games from</a></li>
   <li><a PGNChessDB>ChessDB Engine Tree (PGN Window button)</a></li>
+  <li><a CQL>Chess Query Language (CQL)</a></li>
   <li><a Maintenance Cleaner>Cleaner</a></li>
   <li><a Clipbase>Clipbase</a></li>
   <li><a Cmdline>Command-line options</a></li>
@@ -1032,13 +1034,16 @@ set helpTitle(Searches) "Searches"
 set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <p>
   scidCommunity can perform many different types of search on a database.
-  The four main types of search are:
+  The main types of search are:
   <ul>
   <li><b>1)</b> for the current board, </li>
   <li><b>2)</b> for specified material and piece patterns, and </li>
   <li><b>3)</b> by header information such as players, result, date, and </li>
   <li><b>4)</b> for text in position comments. </li>
   </ul>
+  <p>
+  For advanced users, scidCommunity also supports the <a CQL><b>Chess Query Language (CQL)</b></a>, which allows for searching complex move sequences and board patterns.
+  </p>
   <p>
   In addition to these, there is also an automatic search mode called the
   <a Tree>Tree window</a> which is explained separately.
@@ -5902,3 +5907,106 @@ set helpText(Presentation) {<h1>The Presentation Board window</h1>
 
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
+
+####################
+### CQL help screen:
+
+set helpTitle(CQL) "Chess Query Language (CQL)"
+set helpText(CQL) {<h1>Chess Query Language (CQL)</h1>
+  <p>
+  The Chess Query Language (CQL) is a powerful tool for searching for specific move sequences and board patterns in a chess database. Unlike standard searches, CQL allows you to define complex structural and tactical patterns.
+  </p>
+
+  <h3>Query Structure</h3>
+  <p>
+  A CQL query begins with a specification in the form <term>cql(...)</term>, which defines general search criteria (such as game numbers), followed by one or more <b>filters</b>.
+  </p>
+  <p>
+  Example: <b>cql(:gamenumber 1 100) qh4</b><br>
+  This search finds the move <b>qh4</b> in games numbered 1 through 100.
+  </p>
+
+  <h3>Basic Filters</h3>
+  <p>
+  Filters can be simple keywords or complex expressions:
+  </p>
+  <ul>
+  <li><b>:check</b>, <b>:stalemate</b>, <b>:mate</b> - the side to move is in check, stalemate, or checkmate.</li>
+  <li><b>:wtm</b>, <b>:btm</b> - White to move or Black to move.</li>
+  <li><b>:initial</b> - the starting position.</li>
+  </ul>
+
+  <h3>Board and Piece Patterns</h3>
+  <p>
+  You can search for specific pieces on specific squares or more general patterns:
+  </p>
+  <ul>
+  <li><b>Piece Location</b> (e.g., <b>Ng5</b>) - a white knight on g5. Pieces are denoted by: <b>RNBQKPrnbqkpAaU?_</b>.</li>
+  <li><b>.</b> - any piece on any square.</li>
+  <li><b>_</b> - an empty square.</li>
+  <li><b>:attack (p1 p2)</b> - piece p1 attacks square/piece p2.</li>
+  <li><b>between (p1 p2)</b> - some piece is located between p1 and p2.</li>
+  <li><b>ray [directions] (p1 p2 ...)</b> - searches for a ray of pieces in the specified directions.</li>
+  <li><b>countsquares [range] set</b> - filters for positions where the number of squares matching the set is within the given range.</li>
+  </ul>
+
+  <h3>Move Sequences</h3>
+  <p>
+  Move sequences can be searched for in the main line of the games.
+  </p>
+  <ul>
+  <li><b>Move Syntax</b>: Use the <term>move</term> keyword. Example: <b>move from Ng1 to f3</b>.</li>
+  <li><b>Past Moves</b>: Use <b>move previous</b> to search for moves that occurred in the past.</li>
+  <li><b>Modifiers</b>: You can use <b>null</b> (for a pass), <b>primary</b>, or <b>secondary</b> moves.</li>
+  <li><b>Special Moves</b>: <b>:promote R</b> (promotion to rook) and <b>enpassant</b> are supported.</li>
+  </ul>
+
+  <h3>Relation and Echoes</h3>
+  <p>
+  The <term>relation</term> (or <term>echo</term>) keyword allows you to find positions that are similar to each other.
+  </p>
+  <ul>
+  <li><b>Ancestors and Descendants</b>: Use <b>(ancestor)</b> or <b>(descendant)</b> to find positions in the same game.</li>
+  <li><b>Symmetry and Transforms</b>: Use transform keywords like <b>echoshift</b>, <b>echoflip</b>, <b>echorotate90</b>, or <b>echodihedral</b> followed by a specification.</li>
+  <li><b>Square Relations</b>: Use <b>(sourcesquares set targetsquares set match range mismatch range)</b> to find positions with similar piece placements.</li>
+  <li><b>Side to Move</b>: Use <b>(tomove match)</b> or <b>(tomove mismatch)</b>.</li>
+  </ul>
+
+  <h3>Advanced Logic</h3>
+  <ul>
+  <li><b>AND</b>: Group filters in braces: <b>{ filter1 filter2 ... }</b>.</li>
+  <li><b>NOT</b>: Use <b>:not [filter]</b> to negate a filter.</li>
+  <li><b>Quantifiers</b>:
+    <ul>
+      <li><b>forall</b>: <b>square all [var] in [set] [filters]</b></li>
+      <li><b>exists</b>: <b>square [range] [var] in [set] [filters]</b></li>
+    </ul>
+  </li>
+  </ul>
+
+  <h3>General Search Filters</h3>
+  <p>
+  You can combine CQL with standard search criteria:
+  </p>
+  <ul>
+  <li><b>elo [color] [range]</b> - filter by Elo rating.</li>
+  <li><b>year [range]</b> - filter by year.</li>
+  <li><b>event "string"</b>, <b>site "string</b>, <b>player [color] "string"</b> - filter by PGN header tags.</li>
+  <li><b>result "1-0"|"0-1"|"1/2-1/2"</b> - filter by result.</li>
+  <li><b>hascomment "string"</b> - games containing a specific comment.</li>
+  <li><b>comment "string"</b> or <b>comment (set)</b> - filter for specific comments.</li>
+  <li><b>:movenumber [range]</b> - filter by move number.</li>
+  </ul>
+
+  <h3>Common Error Messages</h3>
+  <p>
+  If your query is invalid, scidCommunity will report a syntax error. Common ones include:
+  </p>
+  <ul>
+  <li><i>"Expected 'cql' word to start :cql specification..."</i> - the query must begin with the keyword <b>cql</b>.</li>
+  <li><i>"Expected left paren following the 'cql' keyword"</i> - the specification must be enclosed in parentheses: <b>cql(...)</b>.</li>
+  <li><i>"Syntax error while parsing the CQL specification. Expected right paren."</i> - a closing parenthesis is missing.</li>
+  <li><i>"The 'any' keyword has been replaced by the '.' character..."</i> - use <b>.</b> instead of the word <b>any</b>.</li>
+  </ul>
+
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>\n}
