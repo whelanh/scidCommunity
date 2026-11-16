@@ -176,7 +176,7 @@ std::string engineError() {
 
 } // namespace
 
-bool CqlQueryParse(const char *query, bool allowComments, std::string *error) {
+bool CqlQueryParse(const char *query, bool silent, std::string *error) {
 	if (!query) {
 		if (error)
 			*error = "No CQL query given";
@@ -200,8 +200,9 @@ bool CqlQueryParse(const char *query, bool allowComments, std::string *error) {
 
 	// The engine reads CqlSilent while it builds the parse tree (CqlNode's
 	// constructor decides whether matched moves get a "MATCH" comment), so it
-	// has to be set before parsing, not per game.
-	CqlSilent = !allowComments;
+	// has to be set before parsing, not per game. The polarity is upstream's:
+	// silent means no annotations.
+	CqlSilent = silent;
 
 	CqlParseBuffer(const_cast<char *>(query));
 

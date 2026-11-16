@@ -113,10 +113,18 @@ char * readstring(FILE * file){
 }
 
 
+// Reads one byte of the in-memory query. The cursor must stay *on* the
+// terminating NUL: readstring() returns a token as soon as it runs into the
+// terminator, so advancing past it here makes the next readstring() lex the
+// bytes that happen to follow the query in memory (upstream Scid vs. PC reads
+// one token too many for any query whose last token is not a delimiter - e.g.
+// "cql() qh4" - and reports a garbage lexer error). Leaving the cursor on the
+// NUL makes every later call report EOF, which is what lexStream() expects.
 int bgetc(char *buffer) {
-  int c = buffer[rsIndex++];
-  if (c) return c;
-  else return EOF;
+  int c = buffer[rsIndex];
+  if (!c) return EOF;
+  rsIndex++;
+  return c;
 }
 
 int bungetc(int c, char *buffer) {

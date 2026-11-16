@@ -9211,21 +9211,21 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 //
 //    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
 //    unchanged; the second is the short form):
-//      sc_search cql <filterOp> <stripSwitch> <allowComments> <cql>
+//      sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>
 //      sc_search cql <cql>
 int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
                   int argc, const char **argv) {
   ASSERT(dbase != nullptr && filter != nullptr);
 
   const char *usageStr =
-      "Usage: sc_search cql <filterOp> <stripSwitch> <allowComments> <cql>\n"
+      "Usage: sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>\n"
       "       sc_search cql <cql>";
   if (argc != 3 && argc != 6)
     return errorResult(ti, usageStr);
 
   // argv[0] is "sc_search" and argv[1] is "cql".
   filterOpT filterOp = FILTEROP_AND;
-  bool allowComments = false;
+  bool silentSwitch = true;
   const char *query = argv[2];
   if (argc == 6) {
     filterOp = strGetFilterOp(argv[2]);
@@ -9233,8 +9233,11 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     // left in the games. Nothing is written back to the database here - the
     // annotated Game is thrown away with the search - so there is nothing to
     // strip and the switch is accepted but has no effect.
-    allowComments = (argv[4][0] == '1');
     query = argv[5];
+    // argv[4] is Scid vs. PC's "Allow Comments" option, passed as a
+    // switch: "1" allows comments, so the engine runs non-silent. This
+    // is upstream's silentSwitch, with upstream's polarity.
+    silentSwitch = (argv[4][0] != '1');
   }
   if (query[0] == '\0')
     return errorResult(ti, "The CQL query is empty.");
@@ -9247,7 +9250,7 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // Parse the query. A syntax error is a normal, reportable failure: the
   // engine longjmp()s out of its own parser and the adapter catches it.
   std::string cqlError;
-  if (!CqlQueryParse(queryText.c_str(), allowComments, &cqlError)) {
+  if (!CqlQueryParse(queryText.c_str(), silentSwitch, &cqlError)) {
     CqlQueryReset();
     Tcl_ResetResult(ti);
     Tcl_AppendResult(ti, cqlError.c_str(), nullptr);

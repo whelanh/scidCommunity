@@ -96,15 +96,19 @@ squareT CqlSquareMove(squareT square, directionT direction);
 /**
  * Parses a CQL query, discarding any previously parsed one.
  * @param query:         the CQL source, as typed by the user.
- * @param allowComments: let the engine annotate matched moves with "MATCH".
- *                       Annotations only exist in the Game passed to
+ * @param silent:        run the engine in silent mode (upstream's CqlSilent):
+ *                       matched moves are not annotated with "MATCH" and the
+ *                       engine may cache a little less. Scid vs. PC derives
+ *                       this from its "Allow Comments" option; the driver
+ *                       passes Scid vs. PC's silentSwitch. Annotations, when
+ *                       enabled, only exist in the Game passed to
  *                       CqlQueryMatchGame() and are never written back.
  * @param error:         set to the engine's message when parsing fails.
  * @returns true when the query parsed, false on a syntax error (which is a
  *          normal, reportable failure - the engine longjmp()s out of its own
  *          parser and the jump is caught here).
  */
-bool CqlQueryParse(const char *query, bool allowComments, std::string *error);
+bool CqlQueryParse(const char *query, bool silent, std::string *error);
 
 /// Outcome of matching one game; Error means the engine raised an error and
 /// the search cannot continue.
