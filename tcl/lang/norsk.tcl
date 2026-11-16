@@ -974,6 +974,7 @@ translate O ReviewVarCp {Variantmargin (cp)}
 translate O ReviewMoveWait {Vent på vurderingsdybden}
 translate O ReviewMovetime {Tidsgrense (ms)}
 translate O ReviewCloudEval {Cloud pre-pass}
+translate O ReviewCloudDBEval {ChessDB pre-pass}
 translate O ReviewEstimatedRating {prestasjonsvurdering (fra dette partiet)}
 translate O ReviewOpeningMoves {Åpningsbevegelser}
 translate O ReviewFromPreset {%s (fra motorprofilen)}

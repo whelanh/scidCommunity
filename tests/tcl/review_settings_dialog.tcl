@@ -118,12 +118,12 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram         opening_errors opening_window tactical_exercises coach cloud_eval} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram         opening_errors opening_window tactical_exercises coach cloud_eval chessdb_eval} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
 # An on/off setting is a checkbox, not a number box that holds 0 or 1: the value
 # a user edits here is a switch, and a spinbox beside "Coach prose" offers "2".
-foreach key {move_comment_wait diagram opening_errors tactical_exercises coach cloud_eval} {
+foreach key {move_comment_wait diagram opening_errors tactical_exercises coach cloud_eval chessdb_eval} {
     checkEq "the $key row is a checkbox" [winfo class $w.f.v$key] TCheckbutton
 }
 checkEq "a number row is still a number box" [winfo class $w.f.vdepth] TSpinbox
@@ -132,6 +132,9 @@ checkEq "the coach row opens on the stored switch" \
 # The cloud pre-pass is on unless the user turned it off, and the row says so.
 checkEq "the cloud pre-pass row opens on" \
     $::enginewin::reviewsetting(1,cloud_eval) 1
+# The second provider is on beside it, and has its own switch.
+checkEq "the chessdb pre-pass row opens on" \
+    $::enginewin::reviewsetting(1,chessdb_eval) 1
 
 # The coach's provider, key and model are the Game Comment settings dialog; the
 # way there belongs beside the switch rather than behind a menu the user has to

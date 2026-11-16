@@ -1005,6 +1005,7 @@ translate g ReviewVarCp {Граница на вариантите (cp)}
 translate g ReviewMoveWait {Изчакай дълбочината на прегледа}
 translate g ReviewMovetime {Ограничение на времето (ms)}
 translate g ReviewCloudEval {Cloud pre-pass}
+translate g ReviewCloudDBEval {ChessDB pre-pass}
 translate g ReviewEstimatedRating {оценка на представянето (от тази партия)}
 translate g ReviewOpeningMoves {Начални ходове}
 translate g ReviewFromPreset {%s (от профила на машината)}

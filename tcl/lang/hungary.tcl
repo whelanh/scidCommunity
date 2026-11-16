@@ -972,6 +972,7 @@ translate H ReviewVarCp {Változat-küszöb (cp)}
 translate H ReviewMoveWait {Várás az áttekintés mélységére}
 translate H ReviewMovetime {Időkorlát (ms)}
 translate H ReviewCloudEval {Cloud pre-pass}
+translate H ReviewCloudDBEval {ChessDB pre-pass}
 translate H ReviewEstimatedRating {teljesítményértékelés (ebből a játszmából)}
 translate H ReviewOpeningMoves {Nyitási mozdulatok}
 translate H ReviewFromPreset {%s (a motorprofilból)}

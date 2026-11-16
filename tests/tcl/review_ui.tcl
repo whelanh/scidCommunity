@@ -53,6 +53,7 @@ array set ::EN {
     ReviewMoveWait          {Wait for the review depth}
     ReviewMovetime          {Time cap (ms)}
     ReviewCloudEval         {Cloud pre-pass}
+    ReviewCloudDBEval       {ChessDB pre-pass}
     ReviewFromPreset        {%s (from engine preset)}
     ReviewProgress          {Reviewing position %s of %s}
     ReviewWaitForDepth      {Waiting for depth %s}
@@ -89,7 +90,7 @@ set ::NEWKEYS {
     ReviewMoveButtonTooltip ReviewSettings ReviewSettingsTooltip
     ReviewVarLines ReviewVarCp
     ReviewMoveWait ReviewMovetime ReviewFromPreset ReviewProgress
-    ReviewWaitForDepth ReviewFailed ReviewCloudEval
+    ReviewWaitForDepth ReviewFailed ReviewCloudEval ReviewCloudDBEval
     ReviewCoach ReviewCoachProgress ReviewWriting ReviewCoachSettings
     ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
     ToolsWhatThreat ToolsWhatThreatTooltip
@@ -287,8 +288,8 @@ puts "what the settings dialog holds"
 # place to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "thirteen rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach cloud_eval verifier}
+checkEq "fourteen rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach cloud_eval chessdb_eval verifier}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
@@ -300,7 +301,7 @@ checkEq "and no verifier engine" [dict get $s verifier] ""
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
     move_comment_wait 0 diagram 1 opening_errors 1 opening_window 15 \
-    tactical_exercises 1 coach 1 cloud_eval 1 verifier ""]
+    tactical_exercises 1 coach 1 cloud_eval 1 chessdb_eval 1 verifier ""]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500

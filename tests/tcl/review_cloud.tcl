@@ -2,7 +2,7 @@
 # Copyright (C) 2026 David Crandall
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# review_cloud.tcl -- the Lichess cloud pre-pass, decided and driven without a
+# review_cloud.tcl -- the cloud pre-pass, decided and driven without a
 # network and without a real engine.
 #
 #   tclsh tests/tcl/review_cloud.tcl
@@ -277,7 +277,7 @@ checkEq "and the pass finishes" $::doneCalls 1
 checkEq "the cloud's lines are the position's result" \
     [lindex [dict get [dict get $::results 0] 1] 1] 20
 checkEq "the evaluation says where it came from" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 25}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud-lichess depth 25}
 
 ::reviewcloud::reset
 checkEq "a shallower cloud starts a pass too" \
@@ -304,7 +304,7 @@ feed InfoBestMove {}
 checkEq "a deeper cloud wins" \
     [lindex [dict get [dict get $::results 0] 1] 0] 25
 checkEq "and the run says the cloud answered it" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 25}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud-lichess depth 25}
 
 ::reviewcloud::reset
 checkEq "a second capped pass starts" \
@@ -352,7 +352,7 @@ feed InfoBestMove {}
 checkEq "and the cloud's lines are what the position keeps" \
     [lindex [dict get [dict get $::results 0] 1] 0] 21
 checkEq "with the cloud named as the source" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 21}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud-lichess depth 21}
 
 # C == D under a time cap. The search can still reach the bound, so a tie with the
 # cloud is possible and the tie is the local engine's: the reply must not cancel
@@ -375,7 +375,7 @@ checkEq "a depth-only pass seeds the cache" \
     [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
 cloudAnswer [cloudJson 20 $::WIDE]
 checkEq "the depth-only rule adopts a reply at the bound" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 20}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud-lichess depth 20}
 checkEq "the capped pass starts" \
     [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
 checkEq "a cached evaluation at the bound does not skip the search" [sentCount Go] 1
@@ -429,7 +429,7 @@ checkEq "the pass reports the position the engine died on" \
     [lindex [dict get [dict get $::results 0] 1] 0] 25
 set ::published ""
 catch { set ::published [dict get [dict get [::reviewdriver::status] sources] 0] }
-checkEq "and its source is published with it" $::published {source cloud depth 25}
+checkEq "and its source is published with it" $::published {source cloud-lichess depth 25}
 
 puts "\na reply the verdict cannot use falls back to the search"
 
@@ -485,7 +485,7 @@ checkEq "and asks the cloud again" [llength $::cloudRequests] 1
 # flight there is nothing to answer, and the check above is the failure.
 catch { cloudAnswer [cloudJson 25 $::WIDE] }
 checkEq "adopting what it is told" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 25}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud-lichess depth 25}
 # However that went, no pass is left running: a check that failed above must not
 # take the next section down with "already running a pass".
 drainPass
@@ -554,7 +554,7 @@ checkEq "and the pass finishes on it" $::doneCalls 1
 checkEq "both positions carry a cloud evaluation" \
     [list [dict get [dict get [::reviewdriver::status] sources] 0 source] \
           [dict get [dict get [::reviewdriver::status] sources] 1 source]] \
-    {cloud cloud}
+    {cloud-lichess cloud-lichess}
 checkEq "Black's score is the mover's" \
     [lindex [dict get [dict get $::results 0] 1] 1] -20
 

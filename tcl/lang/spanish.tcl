@@ -1021,6 +1021,7 @@ translate S ReviewVarCp {Margen de variantes (cp)}
 translate S ReviewMoveWait {Esperar la profundidad de la revisión}
 translate S ReviewMovetime {Límite de tiempo (ms)}
 translate S ReviewCloudEval {Cloud pre-pass}
+translate S ReviewCloudDBEval {ChessDB pre-pass}
 translate S ReviewEstimatedRating {valoración de rendimiento (de esta partida)}
 translate S ReviewOpeningMoves {Movimientos de apertura}
 translate S ReviewFromPreset {%s (del perfil del motor)}

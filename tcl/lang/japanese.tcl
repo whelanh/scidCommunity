@@ -1005,6 +1005,7 @@ translate A ReviewVarCp {変化のしきい値 (cp)}
 translate A ReviewMoveWait {検討の深さを待つ}
 translate A ReviewMovetime {時間制限 (ms)}
 translate A ReviewCloudEval {Cloud pre-pass}
+translate A ReviewCloudDBEval {ChessDB pre-pass}
 translate A ReviewEstimatedRating {パフォーマンス評価（この対局から）}
 translate A ReviewOpeningMoves {オープニングムーブ}
 translate A ReviewFromPreset {%s（エンジンのプリセット）}

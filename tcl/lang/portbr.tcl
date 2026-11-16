@@ -977,6 +977,7 @@ translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
 translate B ReviewMovetime {Limite de tempo (ms)}
 translate B ReviewCloudEval {Cloud pre-pass}
+translate B ReviewCloudDBEval {ChessDB pre-pass}
 translate B ReviewEstimatedRating {avaliação de desempenho (desta partida)}
 translate B ReviewOpeningMoves {Movimentos de abertura}
 translate B ReviewFromPreset {%s (do perfil do motor)}

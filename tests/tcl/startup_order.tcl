@@ -80,6 +80,7 @@ check "end.tcl is the last file sourced" \
 foreach f {
     tools/game_review.tcl
     tools/review_driver.tcl
+    tools/cdb_eval.tcl
     tools/review_cloud.tcl
     tools/review_annotate.tcl
     tools/review_ui.tcl

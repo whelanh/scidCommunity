@@ -39,6 +39,7 @@ namespace eval ::review {
         hash_mb 128
         skip_book 1
         cloud_eval 1
+        chessdb_eval 1
         verifier ""
     }
     variable S [dict create]
@@ -133,7 +134,7 @@ proc ::review::saved {} {
     }
     # The flags are on or off, and setValue takes only 0 or 1: a file that says 2
     # must not open the dialog on a value pressing OK would refuse.
-    foreach flag {move_comment_wait skip_book diagram opening_errors tactical_exercises coach cloud_eval} {
+    foreach flag {move_comment_wait skip_book diagram opening_errors tactical_exercises coach cloud_eval chessdb_eval} {
         if {[dict get $S $flag] != 0} { dict set S $flag 1 }
     }
     return $S
@@ -256,6 +257,9 @@ proc ::review::setValue {key value} {
         }
         cloud_eval {
             if {$value < 0 || $value > 1} { return "cloud_eval is 0 or 1" }
+        }
+        chessdb_eval {
+            if {$value < 0 || $value > 1} { return "chessdb_eval is 0 or 1" }
         }
         threads {
             if {$value < 0} { return "threads cannot be negative" }

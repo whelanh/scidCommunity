@@ -1005,6 +1005,7 @@ translate k ReviewVarCp {변화 폭 (cp)}
 translate k ReviewMoveWait {검토 깊이를 기다림}
 translate k ReviewMovetime {시간 한도 (ms)}
 translate k ReviewCloudEval {Cloud pre-pass}
+translate k ReviewCloudDBEval {ChessDB pre-pass}
 translate k ReviewEstimatedRating {퍼포먼스 레이팅 (이 대국 기준)}
 translate k ReviewOpeningMoves {오프닝 동작}
 translate k ReviewFromPreset {%s (엔진 프리셋에서)}

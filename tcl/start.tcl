@@ -1157,6 +1157,7 @@ main.tcl
 tools/uci_format.tcl
 tools/stored_eval.tcl
 tools/lichess_eval.tcl
+tools/cdb_eval.tcl
 tools/lichess_puzzles.tcl
 tools/lichess_openex.tcl
 tools/lichess_study.tcl

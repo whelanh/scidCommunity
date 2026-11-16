@@ -965,6 +965,7 @@ translate V ReviewVarCp {מרווח וריאציות (cp)}
 translate V ReviewMoveWait {המתן לעומק הסקירה}
 translate V ReviewMovetime {מגבלת זמן (ms)}
 translate V ReviewCloudEval {Cloud pre-pass}
+translate V ReviewCloudDBEval {ChessDB pre-pass}
 translate V ReviewEstimatedRating {הערכת ביצוע (ממשחק זה)}
 translate V ReviewOpeningMoves {מהלכי פתיחה}
 translate V ReviewFromPreset {%s (מהגדרות המנוע)}

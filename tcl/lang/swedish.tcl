@@ -975,6 +975,7 @@ translate W ReviewVarCp {Variantmarginal (cp)}
 translate W ReviewMoveWait {Vänta på granskningsdjupet}
 translate W ReviewMovetime {Tidsgräns (ms)}
 translate W ReviewCloudEval {Cloud pre-pass}
+translate W ReviewCloudDBEval {ChessDB pre-pass}
 translate W ReviewEstimatedRating {prestationsvärdering (från detta parti)}
 translate W ReviewOpeningMoves {Öppningsrörelser}
 translate W ReviewFromPreset {%s (från motorprofilen)}

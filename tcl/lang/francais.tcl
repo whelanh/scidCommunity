@@ -977,6 +977,7 @@ translate F ReviewVarCp {Écart des variantes (cp)}
 translate F ReviewMoveWait {Attendre la profondeur d'analyse}
 translate F ReviewMovetime {Plafond de temps (ms)}
 translate F ReviewCloudEval {Cloud pre-pass}
+translate F ReviewCloudDBEval {ChessDB pre-pass}
 translate F ReviewEstimatedRating {classement de performance (de cette partie)}
 translate F ReviewOpeningMoves {Mouvements d'ouverture}
 translate F ReviewFromPreset {%s (profil du moteur)}

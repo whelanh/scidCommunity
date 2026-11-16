@@ -964,6 +964,7 @@ translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
 translate h ReviewCloudEval {Cloud pre-pass}
+translate h ReviewCloudDBEval {ChessDB pre-pass}
 translate h ReviewEstimatedRating {प्रदर्शन रेटिंग (इस खेल से)}
 translate h ReviewOpeningMoves {खुलने की चाल}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}

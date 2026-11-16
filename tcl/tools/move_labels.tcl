@@ -377,3 +377,41 @@ proc ::movelabels::refine {label ctx} {
     }
     return $label
 }
+
+# Whether the verdict for a position could be a label that needs the alternatives:
+#
+#   great      the gap between the best and the second line (GREAT_GAP, the same
+#              figure ::movelabels::refine uses)
+#   brilliant  a sound sacrifice - the best move gives up material and the game
+#              is still on, which is the ladder's own brilliant branch
+#
+# `scores` are the mover's top evaluations, best first (a MultiPV list);
+# `bestMove` is the best line's first move, in UCI, for the sacrifice test; `fen`
+# is the position the move is played from.
+#
+# A stored evaluation that carries one line can supply neither, so a caller
+# holding one asks this before using it for a ply's verdict - and a caller with
+# no board (a headless harness without ::chessboard) cannot run the sacrifice
+# test, so only the gap is answered.
+proc ::movelabels::needsAlternatives {scores fen {bestMove ""}} {
+    variable GREAT_GAP
+    set top [lindex $scores 0]
+    set second [lindex $scores 1]
+    if {![string is integer -strict $top]} { return 0 }
+    if {[string is integer -strict $second] && $top - $second >= $GREAT_GAP
+        && $top >= -200} {
+        return 1
+    }
+    # brilliant: the ladder asks its sacrifice test only while the position is
+    # winnable and not already lost.
+    if {$bestMove eq "" || $fen eq "" || $top > 500 || $top < -50} { return 0 }
+    if {[llength [info commands ::chessboard::hangingMaterial]] == 0} { return 0 }
+    set gained 0
+    catch {
+        set pos [::chessboard::fromFen $fen]
+        set after [::chessboard::toFen [::chessboard::makeMove $pos $bestMove]]
+        set stm [lindex [split [string trim $fen]] 1]
+        set gained [::chessboard::hangingMaterial $fen $after $stm]
+    }
+    return [expr {$gained >= 2}]
+}

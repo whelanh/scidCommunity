@@ -964,6 +964,7 @@ translate Z ReviewVarCp {Tofauti ya mibadala (cp)}
 translate Z ReviewMoveWait {Subiri kina cha mapitio}
 translate Z ReviewMovetime {Kikomo cha muda (ms)}
 translate Z ReviewCloudEval {Cloud pre-pass}
+translate Z ReviewCloudDBEval {ChessDB pre-pass}
 translate Z ReviewEstimatedRating {alama ya utendaji (kutoka mchezo huu)}
 translate Z ReviewOpeningMoves {Hatua za kufungua}
 translate Z ReviewFromPreset {%s (kutoka wasifu wa injini)}

@@ -350,7 +350,8 @@ proc ::reviewdriver::next {token} {
         if {$action eq "cloud"} {
             # No Go at all for this position.
             dict set job($token) decided $index [dict create \
-                lines [dict get $decision lines] depth [dict get $decision depth]]
+                lines [dict get $decision lines] depth [dict get $decision depth] \
+                source [dict get $decision source]]
             continue
         }
         if {$action eq "wait"} {
@@ -403,15 +404,23 @@ proc ::reviewdriver::settle {token index ply} {
     if {$decided ne ""} {
         set chosen [dict get $decided lines]
         set source cloud
+        catch { set source [dict get $decided source] }
         set depth [dict get $decided depth]
     } else {
+        # The providers' replies, if any: the best depth-bearing one among those
+        # that answered - the deeper, and the first provider on a tie - held back
+        # where the verdict needs alternatives the reply does not carry.
         set entry ""
+        set bearer ""
         if {[::reviewdriver::cloudModule]} {
-            set entry [::reviewcloud::take [list $token $index]]
+            set spec ""
+            catch { set spec [lindex [lindex [dict get $j positions] $index] 1] }
+            lassign [::reviewcloud::best [list $token $index] [dict get $j mpv] \
+                [::reviewcloud::fenForSpec $spec] [dict get $j lines]] entry bearer
         }
         set cloudLines ""
         if {$entry ne ""} {
-            set cloudLines [::reviewcloud::usable $entry [dict get $j mpv]]
+            set cloudLines [::reviewcloud::adoptable $entry [dict get $j mpv]]
         }
         set C -1
         if {[::reviewdriver::cloudModule]} {
@@ -423,15 +432,15 @@ proc ::reviewdriver::settle {token index ply} {
         if {$cloudLines ne ""} {
             if {$cloudwins} {
                 set chosen $cloudLines
-                set source cloud
+                set source [::reviewcloud::sourceOf $entry]
                 set depth $C
             } elseif {![llength $local]} {
                 set chosen $cloudLines
-                set source cloud
+                set source [::reviewcloud::sourceOf $entry]
                 set depth $C
             } elseif {[::reviewcloud::decide 0 1 $C $L] eq "cloud"} {
                 set chosen $cloudLines
-                set source cloud
+                set source [::reviewcloud::sourceOf $entry]
                 set depth $C
             }
         }
@@ -471,12 +480,17 @@ proc ::reviewdriver::cloudArrived {token handle entry} {
     catch { set D [dict get [dict get $j limits] depth] }
     if {![::reviewcloud::deeper $D [dict get $entry depth]]} { return }
     set index [dict get $j index]
+    # Both providers can pass this test, and the second one to answer must not
+    # stop a search the first already stopped.
+    set stopped 0
+    catch { set stopped [dict get $j cloudwins $index] }
+    if {$stopped} { return }
     dict set job($token) cloudwins $index 1
     catch { ::engine::send [dict get $j id] StopGo }
     return
 }
 
-# The reply a depth-only pass was waiting for: adopt the cloud and move on, or
+# The replies a depth-only pass was waiting for: adopt one and move on, or
 # search the position locally after all.
 proc ::reviewdriver::cloudWaitDone {token handle entry} {
     variable job
@@ -485,9 +499,13 @@ proc ::reviewdriver::cloudWaitDone {token handle entry} {
     dict set job($token) waiting ""
     set index [dict get $j index]
     lassign [lindex [dict get $j positions] $index] ply spec
+    # Which of the replies landed is ::reviewcloud's answer, not the caller's:
+    # one authority decides adoption, here and in ::reviewdriver::settle.
+    lassign [::reviewcloud::best $handle [dict get $j mpv] \
+        [::reviewcloud::fenForSpec $spec]] entry bearer
     set lines ""
     if {$entry ne ""} {
-        set lines [::reviewcloud::usable $entry [dict get $j mpv]]
+        set lines [::reviewcloud::adoptable $entry [dict get $j mpv]]
     }
     set D 0
     catch { set D [dict get [dict get $j limits] depth] }
@@ -495,10 +513,10 @@ proc ::reviewdriver::cloudWaitDone {token handle entry} {
     if {$lines ne ""} {
         set adopt [expr {[::reviewcloud::decide $D 0 [dict get $entry depth] 0] eq "cloud"}]
     }
-    ::reviewcloud::drop $handle
     if {$adopt} {
         dict set job($token) decided $index [dict create \
-            lines $lines depth [dict get $entry depth]]
+            lines $lines depth [dict get $entry depth] \
+            source [::reviewcloud::sourceOf $entry]]
         ::reviewdriver::next $token
         return
     }
@@ -552,15 +570,17 @@ proc ::reviewdriver::lost {token} {
     set index [dict get $j index]
     if {$index >= 0 && [::reviewdriver::cloudModule]} {
         lassign [lindex [dict get $j positions] $index] ply spec
-        set entry [::reviewcloud::take [list $token $index]]
+        lassign [::reviewcloud::best [list $token $index] [dict get $j mpv] \
+            [::reviewcloud::fenForSpec $spec]] entry bearer
         set lines ""
         if {$entry ne ""} {
-            set lines [::reviewcloud::usable $entry [dict get $j mpv]]
+            set lines [::reviewcloud::adoptable $entry [dict get $j mpv]]
         }
         if {[llength $lines]} {
             dict set results $ply $lines
             dict set sources $ply [dict create \
-                source cloud depth [::reviewcloud::depth $entry]]
+                source [::reviewcloud::sourceOf $entry] \
+                depth [::reviewcloud::depth $entry]]
         }
     }
     if {![dict size $state]} { set state [::reviewdriver::blankState] }

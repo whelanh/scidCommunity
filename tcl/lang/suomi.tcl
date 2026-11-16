@@ -1003,6 +1003,7 @@ translate U ReviewVarCp {Muunnelman raja (cp)}
 translate U ReviewMoveWait {Odota tarkastuksen syvyyttä}
 translate U ReviewMovetime {Aikaraja (ms)}
 translate U ReviewCloudEval {Cloud pre-pass}
+translate U ReviewCloudDBEval {ChessDB pre-pass}
 translate U ReviewEstimatedRating {suoritustaso (tästä pelistä)}
 translate U ReviewOpeningMoves {Avausliikkeet}
 translate U ReviewFromPreset {%s (moottorin asetuksista)}

@@ -124,6 +124,12 @@ jobs:
       - name: Review cloud pre-pass
         run: tclsh tests/tcl/review_cloud.tcl
 
+      # The second provider: one stored read per position, the deeper reply
+      # wins, the tie is Lichess's, and each provider's failure is isolated
+      # (stubbed transports, no network in CI).
+      - name: Review ChessDB pre-pass
+        run: tclsh tests/tcl/review_cdb.tcl
+
       # The Brilliant/Great second opinion, without an engine: the pure decision
       # and the three writers that call the shared transform before they write.
       - name: Review verifier

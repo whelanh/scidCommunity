@@ -259,6 +259,7 @@ did not mean.
 | Mark tactical exercises | `tactical_exercises` | 0–1 |
 | Coach prose | `coach` | 0–1 |
 | Cloud pre-pass | `cloud_eval` | 0–1 (default on) |
+| ChessDB pre-pass | `chessdb_eval` | 0–1 (default on) |
 | Verifier engine | `verifier` | `Off (no verification)`, or the name of an engine preset |
 
 The time cap sits beside Depth because it bounds the same thing. A value of 0
@@ -365,28 +366,81 @@ short, fixed-depth searches cannot use a table that size anyway.
 
 ## Where a review's evaluations come from
 
-A position's evaluation is either the pass's own search or a **Lichess cloud
-evaluation**, and which one is decided per position by `::reviewcloud`
-(`tcl/tools/review_cloud.tcl`). The cloud is a *stored-evaluation lookup* — one
-`GET /api/cloud-eval?fen=…&multiPv=…&variant=…`, answered from Lichess's cache
-with a depth and a list of lines, or a 404 when it holds nothing for the FEN —
-not an engine request. `::lichess_eval` is the transport, so the review and the
-eval window use one client and one endpoint.
+A position's evaluation is either the pass's own search or a **stored evaluation
+from a cloud provider**, and which one is decided per position by `::reviewcloud`
+(`tcl/tools/review_cloud.tcl`). Two providers are asked, and either can answer:
+
+| Provider | What it is | Transport | Measured |
+| --- | --- | --- | --- |
+| Lichess | one `GET /api/cloud-eval?fen=…&multiPv=…&variant=…` — a depth and a list of lines, or a 404 answering that it holds nothing for the FEN | `::lichess_eval` (`cloudEvalAsync`) | tens of milliseconds |
+| ChessDB | one `GET cdb.php?action=querypv&board=…&json=1&learn=0` — the position's own stored line: score (White-relative centipawns), a depth, and the principal line. No key, no pagination, no rate-limit headers | `::cdbeval` (`evaluateAsync`) | 1.3–2.2 s per call, measured through the client |
+
+Neither is an engine request, and neither blocks the Tk event loop: both are a
+curl child read by `fileevent` — or, with no curl on `PATH`, the Tcl http
+package's asynchronous client — and neither can call back before the call that
+started it returns.
+
+**ChessDB is a stored read, and only one of its endpoints is used.** `querypv`
+is "Query Analysis Lines" — the database's own line for the position — and every
+request carries `learn=0` so the read does not also feed the server's learning.
+The actions that *request* analysis (`queue`, `store`) are never used, and neither
+are `queryscore` or `queryall`: neither states a depth, and the `(29-15)` inside
+`queryall`'s `note` is undocumented and does not match `querypv`'s depth for the
+same FEN. `querypv` ignores `multipv`/`depth` parameters (measured: one FEN
+answered depth 34, 37 and 38), so **ChessDB supplies one depth-bearing line per
+position and never a candidate list.**
+
+ChessDB holds the deeper stored evaluation of a great many positions, so the pass
+adopts **whichever reply is deeper** and a tie goes to **Lichess** — the first
+provider in `::reviewcloud::providers`, which is what the pass used before the
+second existed. That list order *is* the tie-break; a provider added later cannot
+silently outrank it.
+
+**A stored evaluation is used only when it states a positive depth.** An
+unvisited position answers `{"status":"ok","score":0,"depth":0,"pv":[…]}` — status
+ok, a score and a line, and nothing that says how good it is. A reply is eligible
+only with `depth > 0`, independently of `D`: with no depth bound a review would
+otherwise satisfy `C >= D` with `C = 0` and adopt a value whose quality is
+unknown. ChessDB also reports a resolved position with a negative depth, which is
+a marker rather than a search depth and is refused on the same rule — the local
+search finds the mate it is looking at. Neither is a transport failure.
+
+`mpv` is what a verdict needs, not what a lookup asks for. Lichess answers one
+request with its alternatives and one shared depth, so one reply serves both jobs;
+ChessDB answers the evaluation and no alternatives at all. The consequence is the
+next rule.
+
+**A one-line reply is adopted for the evaluation, not for a candidate-dependent
+verdict.** The ordinary labels, the `[%eval]` and the ESL the report uses take
+ChessDB's deeper score. `great` and `brilliant` are decided *against*
+`::review::mpv` alternatives, so where the drop would qualify for one of them the
+position is decided by the source that carries the alternatives — Lichess when its
+reply is usable, otherwise the local search — and `sources` names whichever of
+them decided it. The test is `::movelabels::needsAlternatives`: the gap to the
+second line (the ladder's own `GREAT_GAP`), or a best move that gives up material
+while the game is still on, measured on the position's board.
 
 Let `D` be the effective depth bound and `T` the effective time bound, both from
-`::review::passLimits`; `C` the cloud evaluation's depth and `L` the depth the
-local search actually reached.
+`::review::passLimits`; `C` the adopted reply's depth and `L` the depth the local
+search actually reached.
 
-| Bounds | The cloud is adopted when | Otherwise |
+| Bounds | A provider's reply is adopted when | Otherwise |
 | --- | --- | --- |
 | `T = 0` | `C >= D` — the local search is not run at all | search locally to `D` |
-| `T > 0` | `C > L` — the deeper evaluation wins, and the local search runs beside the query | local; a tie goes to the local engine |
+| `T > 0` | `C > L` — the deeper evaluation wins, and the local search runs beside the queries | local; a tie goes to the local engine |
 
-The depth-only rule is a comparison against the depth the user asked for, so the
-cloud can only ever *raise* the quality of a review. Under a time cap the local
-depth is unknowable until the search ends, so the query runs concurrently and
-the answer is held for the comparison; this is what makes `D > C > L` resolve to
-the cloud — the time cap cut the local search below both.
+The depth-only rule is a comparison against the depth the user asked for, so a
+provider can only ever *raise* the quality of a review. Under a time cap the
+local depth is unknowable until the search ends, so the queries run concurrently
+and the answers are held for the comparison; this is what makes `D > C > L`
+resolve to a provider — the time cap cut the local search below both.
+
+**In a depth-only pass a reply at `C >= D` settles the position** without waiting
+for the other provider: nothing the other one can say is deeper than the depth
+the user asked for, and ChessDB is an order of magnitude slower, so waiting would
+be a three-second stall per position for no better answer. The case the second
+provider exists for is the other one — Lichess too shallow (or holding nothing)
+and ChessDB deep enough, which is what turns a local search into a lookup.
 
 **With `T > 0` and `D > 0`, a reply *deeper than* `D` stops the local search** — `D`
 caps that search, so nothing it can reach is past the reply. A reply equal to `D`
@@ -394,50 +448,66 @@ does not: the search can still reach `D`, and the tie is the local engine's, so 
 reply is held and compared when the search ends, exactly as one under the bound
 is. Either way the outcome is the one the comparison at completion would reach,
 which is the same evaluation, only sooner — and never depends on whether the reply
-landed before or after the search ended.
+landed before or after the search ended. Only a reply carrying the alternatives
+may stop a search at all: a one-line reply can be held back where the verdict
+needs them, and a search cut short cannot supply them.
 
-**The run is never extended for the cloud.** A reply that has not landed when the
+**The run is never extended for a provider.** A reply that has not landed when the
 local search completes is not waited for, with no grace period: the local result
-is adopted and the pass moves on.
+is adopted and the pass moves on. This is what makes ChessDB usable at all — its
+calls are an order slower than Lichess's.
 
-What the cloud's answer is turned into before any comparison:
+What a reply is turned into before any comparison:
 
-- **score**: the cloud is always White-relative, the pass's lines are the mover's
+- **score**: both providers are White-relative, the pass's lines are the mover's
   (the side to move at the searched position), so a Black-to-move position's
   score is negated;
-- **mate**: the cloud's mate distance is White's; it becomes the mover's and then
+- **mate**: Lichess's mate distance is White's; it becomes the mover's and then
   the app's own mate encoding (`::movelabels::mateToCp`), exactly as a local
-  engine line's is;
-- **depth**: the reply's depth is the depth of the evaluation — the primary line's,
-  never the deepest of the lines;
-- **lines**: the reply must carry at least `::review::mpv` lines. `great` and
-  `brilliant` are decided against the alternatives, so a MultiPV-1 reply is a
-  different answer rather than a shortcut, and a short reply means "search
-  locally".
+  engine line's is. ChessDB sends no mate distance — a decisive position is a
+  large centipawn number (~`24988` for K+Q vs K), which `::accuracy::winPercent`
+  saturates well before — so a ChessDB line is always a cp line and nothing
+  converts it;
+- **depth**: each provider's own primary-line depth, from the same response as
+  its score and pv — two calls for one position can report different depths, so a
+  reply is atomic — and positive: `depth > 0` or the reply is not an evaluation;
+- **lines**: Lichess's reply must carry at least `::review::mpv` lines, because
+  `great` and `brilliant` are decided against the alternatives and a MultiPV-1
+  reply is a different answer rather than a shortcut. ChessDB's reply is one line
+  by construction: it is scored for the evaluation, and the candidate-dependent
+  verdicts go to the source that has the alternatives.
 
-The cache is keyed by the **evaluation-relevant FEN** — placement, side to move,
-castling rights, en-passant square. The halfmove and fullmove counters cannot
-change an evaluation, so they are dropped and two positions that differ only in
-them share one entry. A FEN Lichess holds nothing for is cached too, so a repeated
-position is not asked twice.
+The cache is per provider and keyed by the **evaluation-relevant FEN** — placement,
+side to move, castling rights, en-passant square. The halfmove and fullmove
+counters cannot change an evaluation, so they are dropped and two positions that
+differ only in them share one entry. "This provider holds nothing for that
+position" is cached too — Lichess's 404 body, ChessDB's `invalid board`, `unknown`,
+`checkmate` and `stalemate` — so a repeated position is not asked twice.
 
-Cloud failure, no network, a malformed reply or too few lines all fall back to the
-local search. A **transport failure** — no reply at all: a refused connection, an
-unresolvable host, a timeout (curl's status `000`) — stops the pass asking rather
-than paying the same wait at every position; it is not cached as "nothing stored",
-because a position Lichess holds nothing for (a 404 answering with an error body)
-*is* remembered and only that one is. It ends the cloud for the pass that saw it,
-not for the session: the next cloud-enabled pass starts asking again
-(`::reviewcloud::newPass`, called by `::reviewdriver::start`), so one rate limit or
-one offline start does not disable the pre-pass for the rest of the session while
-the setting still shows it on. The cache is kept across passes. A local failure —
-the engine going away — falls back to a cloud evaluation if one is held, and the
-position's source is published with the result it produced.
+**A provider's failure is that provider's alone.** A **transport failure** — no
+reply at all: a refused connection, an unresolvable host, a timeout (curl's status
+`000`), a body that never arrived, or a status this client cannot read — stops
+*that* provider asking rather than paying the same wait at every position. It is
+not cached as "nothing stored", because a position a provider holds nothing for
+*is* remembered and only that one is. The other provider keeps answering; with
+both down the pass searches every position locally, exactly as before. A failure
+ends the provider's part in the pass that saw it, not the session: the next
+cloud-enabled pass starts asking again (`::reviewcloud::newPass`, called by
+`::reviewdriver::start`, clears every provider's latch), so one rate limit or one
+offline start does not disable the pre-pass for the rest of the session while the
+setting still shows it on. The caches are kept across passes. ChessDB's child is
+capped at `--max-time 3` for the same reason — a depth-only pass has nothing else
+to do while it waits. A provider whose transport cannot even start is a failure
+of that kind, never a position to wait on: the pass searches it.
+
+A local failure — the engine going away — falls back to a held evaluation, and
+the position's source is published with the result it produced.
 
 The chosen **source and depth** are recorded per position in the run's status
-(`::reviewdriver::status` → `sources`, ply → `{source cloud|local depth N}`), so a
-report or a future UI can say where a verdict came from. Nothing else changes: the
-results dict the writer reads is the same shape either way.
+(`::reviewdriver::status` → `sources`, ply → `{source cloud-lichess|cloud-chessdb|
+local depth N}`), so a report or a future UI can say where a verdict came from.
+Nothing else changes: the results dict the writer reads is the same shape either
+way.
 
 **The rule is the same for the main line and for a variation.** Adoption is a
 property of the evaluation, not of the search path, and the decision sits where
@@ -451,13 +521,11 @@ therefore starts with the pre-pass off (`::reviewverify::begin` passes `cloud 0`
 to `::reviewdriver::start`), searches its own positions on its own engine, and
 only ever moves a label down.
 
-The **Cloud pre-pass** row in Review Settings turns all of this off (`cloud_eval`,
-on by default): with it off the pass asks Lichess nothing at all and searches every
-position locally, exactly as before.
-
-ChessDB is **not** a second provider: there is no client for it in this tree, and a
-second provider would double the normalisation and failure surface for no gain
-over one stored evaluation. It is a possible follow-up, not a setting.
+**The Cloud pre-pass** row in Review Settings is the master switch (`cloud_eval`,
+on by default): with it off the pass asks neither provider anything and searches
+every position locally, exactly as before. **The ChessDB pre-pass** row
+(`chessdb_eval`, on by default) turns off the second provider alone — Lichess is
+still asked, and the pass behaves as it did before ChessDB existed.
 
 ## How a review is written, and what Cancel does
 
@@ -824,7 +892,8 @@ plain-text form.
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
 | `tcl/tools/comment_colors.tcl` | the provenance spans: the review's green, the coach's blue, line wrapping, and the span-aware strip |
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → verify → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `verified`/`verifyWrite` (the shared seam and the verifier's pass), `settle`/`cloudArrived` (where a position's evaluation is chosen), `status` (including each position's evaluation `sources`), `cancel` |
-| `tcl/tools/review_cloud.tcl` | `::reviewcloud` — the Lichess cloud pre-pass: the comparison (`decide`, `reaches` for the depth-only rule, `deeper` for stopping a search under a time cap), the per-pass latch (`newPass`), the FEN replay a spec needs (`fenForSpec`, `key`), the reply's parsing and mover-relative normalisation (`parse`, `lines`), the FEN-keyed cache, and the asynchronous query through `::lichess_eval::cloudEvalAsync` |
+| `tcl/tools/review_cloud.tcl` | `::reviewcloud` — the cloud pre-pass and which provider's reply it keeps: the provider list and its tie-break order (`providers`, `askable`), the comparison (`decide`, `reaches` for the depth-only rule, `deeper` for stopping a search under a time cap), the per-provider latches and the per-pass clear (`newPass`), the FEN replay a spec needs (`fenForSpec`, `key`), each reply's parsing and mover-relative normalisation (`parse`, `lines`), the best-reply comparison (`bestOf`, `best`), the per-provider FEN-keyed cache, and the asynchronous queries through `::lichess_eval::cloudEvalAsync` and `::cdbeval::evaluateAsync` |
+| `tcl/tools/cdb_eval.tcl` | `::cdbeval` — the ChessDB client: the one stored read that answers a position (`querypv`, `learn=0`), the reply's parsing into the pass's entry shape with its positive-depth rule (`parse`), the statuses that mean "nothing here" (`knownStatus`), the per-position cache by evaluation-relevant FEN, the `--max-time 3` child (`command`), the asynchronous transport (`transport`, `onData`) and the no-curl fallback to the Tcl http package (`onHttp`), and the per-pass latch (`newPass`) |
 | `tcl/tools/review_verify.tcl` | `::reviewverify` — the second opinion on Brilliant and Great: which positions are re-searched (`jobs`), what a disagreement means (`corrections`, only ever down to `best`), and the search on the driver's queue (`start`, `answer`, `stop`) |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` - the two marks the review writer asks for: `writeTactical` (the T flag and its difficulty comment) and `openingMark` (the Annotator tag's opening entry) |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
@@ -834,12 +903,13 @@ plain-text form.
 | `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped. Two callers: the review's coach prompts and the threat probe's one sentence |
 | `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
-| `tests/tcl/review_settings_dialog.tcl` | 71 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes (the cloud pre-pass among them, on when it opens), the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
-| `tests/tcl/review_ui.tcl` | 258 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
+| `tests/tcl/review_settings_dialog.tcl` | 74 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes (the cloud and ChessDB pre-passes among them, both on when it opens), the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
+| `tests/tcl/review_ui.tcl` | 259 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_marks.tcl` | 54 checks: the two marks the review writer asks for - the T flag, the difficulty ladder and the "****D" comment on a puzzle's move, the Annotator tag's opening entry at the ply the book ended, the window Review Settings asks for, a quote escaping the tag, a re-run replacing rather than stacking, and a pass that never left the book writing nothing |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 496 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/review_cloud.tcl` | 148 checks: the comparison table (depth-only, the tie, `D > C > L`, and the strictly-deeper rule that decides when a reply may stop a search), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, a reply at the bound that does not cancel the search (fresh and cached) and one past it that does, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces) and a transport that will not start at all, the latch ending with the pass rather than the session, the engine going away with a held evaluation still naming its source, a 404 for a position Lichess holds nothing for being remembered, the no-curl fallback to the Tcl http package, the FEN-keyed cache across move counters, the toggle and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
+| `tests/tcl/review_cdb.tcl` | 151 checks: one depth-bearing call per position (`querypv` only, `learn=0`, `--max-time 3` on the child, `queryall`/`queryscore`/`queue` never asked), a reply with no positive depth is no evaluation (the unvisited `depth: 0` shape and a resolved position's negative one), an understood status (`invalid board`, `unknown`, `checkmate`, `stalemate`) is "nothing here" and latches nothing while an unreadable one stops the provider, a dead connection being a transport failure that latches, the White-relative score and its negation for Black, a decisive `24988` staying a cp line that `winPercent` saturates, the deeper reply winning and the tie going to Lichess, one provider down leaving the other to answer and both down going local, a transport that cannot start leaving the pass to search, a one-line Lichess reply leaving the provider that states a depth to decide, the candidate guard holding a one-line reply back where the alternatives would earn `great` or a sacrifice `brilliant` (and letting an ordinary ply through), a reply that never lands, a depth-only pass not held by the slower provider, the provider cache across move counters, both toggles, the latch ending with the pass, and the no-curl fallback to the Tcl http package |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/review_report.tcl` | 123 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — the performance rating line (one per side, the table's own bins, no `estimated Elo` beside it, no band, no expected-score figure, a block that cannot see a rating in the PGN: neither rating, one, both) — and the block removal, two writes deep |
@@ -871,7 +941,7 @@ widget would otherwise have to decide:
 - **the one-move depth**, from `moveCommentPlan`, for a deep analysis, a shallow
   one, nothing analysed, the wait turned off, and a preset that raises the depth
   the review would use;
-- **the key set**: the thirty-two review strings are present in all 29
+- **the key set**: the thirty-three review strings are present in all 29
   `tcl/lang/*.tcl` files, the file list is read from the tree so a new language
   file fails loudly, and the English text is the text the labels are asserted
   against.
@@ -905,6 +975,42 @@ that a request returns before its reply lands:
   a 404 body reads as "nothing stored", and a 500 is the failure it is;
 - **the verifier** — its pass through `::reviewverify::begin` sends the search and
   asks the cloud nothing, so a stored evaluation can never be the second opinion.
+
+`tclsh tests/tcl/review_cdb.tcl` pins the second provider, with both transports
+stubbed so no test touches the network — Lichess's callback is held, and so is
+ChessDB's one read:
+
+- **one position is one read** — `querypv` and nothing else (`queryall`,
+  `queryscore`, `queue` and `store` are never asked), `learn=0` on the request,
+  the score, depth and pv from one response, and the reply is one line;
+- **a depth or nothing** — a reply with no depth, the unvisited `depth: 0` shape
+  and a resolved position's negative depth are all "no evaluation", none of them
+  latches the provider, and none is cached as an evaluation;
+- **the child** — `--max-time 3`, the app's User-Agent, and curl's HTTP status
+  asked for, so a dead reply cannot read as an empty one;
+- **status is the provider's** — `invalid board`, `unknown`, `checkmate` and
+  `stalemate` are "nothing here" and latch nothing, while a status the client
+  cannot read stops that provider for the pass, as a dead connection does;
+- **normalisation** — the White-relative score negated for a Black-to-move
+  position, and a decisive `24988` kept as a saturated cp line rather than
+  turned into a mate distance;
+- **the comparison** — the deeper reply adopted, the tie going to Lichess, one
+  provider's transport failure leaving the other to answer and both down going
+  local, a provider whose transport cannot start leaving the pass to search
+  rather than wait, and a one-line Lichess reply leaving the provider that states
+  a depth to decide;
+- **the candidate guard** — a one-line reply held back where the alternatives
+  would earn `great` (the gap to the second line) or `brilliant` (a queen offered
+  for a pawn, measured on the board), the source with the alternatives deciding
+  instead, and an ordinary ply still taking the deeper score;
+- **the run** — a depth-only pass settled by a reply at the depth bound without
+  waiting for the slower provider, a capped pass that adopts a late-landing
+  deeper reply and is not extended by one that never lands, the provider cache
+  across move counters, both toggles (`chessdb_eval` off asks Lichess only;
+  `cloud_eval` off asks neither), and the latch ending with the pass that saw it;
+- **the transport** — with no curl on `PATH`, the real `::cdbeval` answers through
+  the Tcl http package against a loopback server: a 200 body is the stored read,
+  and a 500 is a failed reply that latches, never an empty evaluation.
 
 `tclsh tests/tcl/review_threat.tcl` pins the probe, which is the one part of the
 review layer that answers a question about a single position:

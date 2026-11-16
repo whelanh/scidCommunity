@@ -941,6 +941,7 @@ translate M ReviewVarCp {变化差距 (cp)}
 translate M ReviewMoveWait {等待复盘深度}
 translate M ReviewMovetime {时间上限 (ms)}
 translate M ReviewCloudEval {Cloud pre-pass}
+translate M ReviewCloudDBEval {ChessDB pre-pass}
 translate M ReviewEstimatedRating {表现评分（本局）}
 translate M ReviewOpeningMoves {开局动作}
 translate M ReviewFromPreset {%s（来自引擎预设）}
