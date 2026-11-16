@@ -177,18 +177,23 @@ checkEq "the real third occurrence is a draw here too" [call {repAt $q 13}] 1
 puts "\ntime per move"
 set ::comp::_Data(timecontrol) permove
 set ::comp::_Data(time) 1000
-checkEq "1.75 s of a 1 s clock is still in time" [call {::comp::moveOverrun 1750 1000}] 0
+checkEq "1.75 s of a 1 s clock is still in time" [call {::comp::moveOverrun 1750}] 0
 checkEq "the grace keeps a 1.8 s first move alive on a 1 s clock" \
-    [call {::comp::moveOverrun 1800 1000}] 0
-checkEq "the grace ends at 2.75 s for a 1 s clock" [call {::comp::moveOverrun 2750 1000}] 0
-checkEq "2.75 s and a tick is too late" [call {::comp::moveOverrun 2751 1000}] 1
+    [call {::comp::moveOverrun 1800}] 0
+checkEq "the grace ends at 2.75 s for a 1 s clock" [call {::comp::moveOverrun 2750}] 0
+checkEq "2.75 s and a tick is too late" [call {::comp::moveOverrun 2751}] 1
 set ::comp::_Data(time) 500
-checkEq "a 0.5 s clock allows 1.875 s" [call {::comp::moveOverrun 1875 500}] 0
-checkEq "and not 1.9 s" [call {::comp::moveOverrun 1900 500}] 1
+checkEq "a 0.5 s clock allows 1.875 s" [call {::comp::moveOverrun 1875}] 0
+checkEq "and not 1.9 s" [call {::comp::moveOverrun 1900}] 1
 set ::comp::_Data(timecontrol) pergame
 set ::comp::_Data(time) 1000
 checkEq "time per game never adjudicates on the reply time" \
-    [call {::comp::moveOverrun 600000 1000}] 0
+    [call {::comp::moveOverrun 600000}] 0
+# The allowance itself is zero when _Data(time) was never set: startComp assigns
+# it for a time-per-move control only, and the default control is per-game.
+unset -nocomplain ::comp::_Data(time)
+checkEq "no _Data(time) means no allowance, not an error" [call {::comp::permoveAllowed}] 0
+set ::comp::_Data(time) 1000
 
 # The loss comment is written in seconds: "950 secs" for an 0.95 s clock was a
 # millisecond value, and a reader of the saved game cannot tell.
@@ -239,6 +244,76 @@ checkEq "and the double push records e3 as the ep square" \
     [call {set ::comp::_Data(epsq,4)}] e3
 checkEq "castling rights survive an ordinary pawn move" \
     [call {set ::comp::_Data(crights,4)}] KQkq
+
+puts "\nthe engine reply handler"
+# The overrun test used to be handed $_Data(time) at the call site
+# (::comp::eng_messages, "InfoBestMove"). startComp sets that element for a
+# time-per-move control only, so on the default per-game tournament the handler
+# raised -- after cancelling compTimeout and before compNextMove -- and the
+# engine's move was dropped for the rest of the game. Drive the handler itself.
+namespace eval ::engine {}
+set ::sent {}
+proc ::engine::send {id cmd args} { lappend ::sent [list $id $cmd $args] }
+
+proc replyFixture {game} {
+    set ::comp::_Data(timecontrol) pergame
+    unset -nocomplain ::comp::_Data(time)
+    set ::comp::_Data(incr50) 50
+    set ::comp::_Data(delta) 4000
+    set ::comp::_Data(paused) 0
+    set ::comp::_Data(showscores) 0
+    set ::comp::_Data(showtimes) 0
+    set ::comp::_Data(showBoards) 0
+    set ::comp::_Data(white,$game) 60000
+    set ::comp::_Data(black,$game) 60000
+    set ::comp::_Data(board,$game) $::START
+    set ::comp::_Data(moves,$game) {}
+    set ::comp::_Data(comments,$game) {}
+    # Procedures a copy of the file may not have: the handler checks below must
+    # still run (and FAIL) against an older file, not abort the run.
+    if {[llength [info commands ::comp::startPositionKey]]} {
+        set ::comp::_Data(repetition,$game) [list [::comp::startPositionKey startpos]]
+    } else {
+        set ::comp::_Data(repetition,$game) {}
+    }
+    set r ""
+    set e ""
+    if {[llength [info commands ::comp::stateFromPosition]]} {
+        lassign [::comp::stateFromPosition startpos $::START] r e
+    }
+    set ::comp::_Data(crights,$game) $r
+    set ::comp::_Data(epsq,$game) $e
+    set ::comp::_Data(score,$game) 0.0
+    set ::comp::_Data(scoreIsNew,$game) 0
+    set ::comp::_Data(mate,$game) 0
+    set ::comp::_Data(moves50,$game) 0
+    set ::comp::_Data(material,$game) {}
+    set ::comp::_Data(pawns,$game) {}
+    set ::comp::_Data(playing,$game) 1
+    set ::comp::_Data(result,$game) "*"
+    set ::comp::_Data(fen,$game) startpos
+    set ::comp::_Data(lasttime,$game) [clock clicks -milli]
+}
+
+replyFixture 5
+set ::sent {}
+set err [catch {::comp::eng_messages compEnginewhite5 .nowin {InfoBestMove e2e4}} res]
+checkEq "a per-game bestmove is processed" $err 0
+checkEq "the engine's move is played" [call {set ::comp::_Data(moves,5)}] e2e4
+checkEq "the game keeps going" [call {set ::comp::_Data(playing,5)}] 1
+check "the next move is asked for" [expr {[llength $::sent] > 0}]
+checkMatch "with a per-game clock" [lindex $::sent 0] {*wtime*btime*}
+check "not a movetime" [expr {[string first movetime $::sent] < 0}]
+check "and a new timeout is armed" [expr {[llength [after info]] > 0}]
+
+# The same handler must still adjudicate a time-per-move overrun.
+replyFixture 6
+set ::comp::_Data(timecontrol) permove
+set ::comp::_Data(time) 100
+set ::comp::_Data(lasttime,6) [expr {[clock clicks -milli] - 5000}]
+catch {::comp::eng_messages compEnginewhite6 .nowin {InfoBestMove e2e4}} res
+checkEq "a per-move overrun is still a loss" [call {set ::comp::_Data(result,6)}] 0
+checkEq "and that move is not played" [call {set ::comp::_Data(moves,6)}] {}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

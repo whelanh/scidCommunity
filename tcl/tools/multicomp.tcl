@@ -951,8 +951,11 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
     if { $bestmove eq "Time out"} {
         set _Data(result,$game) [expr {$tomove eq "white" ? 0 : 1}]
         if { $expired > 0 } {
-            # a move that arrived, but too late: say how late in seconds, not ms
-            lappend _Data(comments,$game) "Time out: $tomove lost, move took [format %.2f [expr {$expired / 1000.0}]] secs (allowed [format %.2f [expr {($_Data(permoveleeway) * $_Data(time) + $_Data(permovegrace)) / 1000.0}]] secs)"
+            # a move that arrived, but too late: say how late in seconds, not ms.
+            # The allowance comes from permoveAllowed, which copes with _Data(time)
+            # being unset (startComp assigns it for a time-per-move control only).
+            set allowed [expr {[::comp::permoveAllowed] / 1000.0}]
+            lappend _Data(comments,$game) "Time out: $tomove lost, move took [format %.2f [expr {$expired / 1000.0}]] secs (allowed [format %.2f $allowed] secs)"
         } else {
             lappend _Data(comments,$game) "Time out: $tomove move $bestmove ismate $_Data(mate,$game) score $_Data(score,$game)"
         }
@@ -1380,8 +1383,11 @@ proc ::comp::eng_messages {id w msg} {
             after cancel "compTimeout $game $tomove"
             lassign $msgData bestmove
             # with time per move, a reply later than the leeway is a loss, but
-            # the grace is what lets a 1 s clock survive its first move
-            if { [::comp::moveOverrun $expired $_Data(time)] } {
+            # the grace is what lets a 1 s clock survive its first move.
+            # moveOverrun reads _Data(time) itself: it is unset for a per-game
+            # control, and dereferencing it here raised before the handler could
+            # play the engine's move (a per-game tournament froze on reply 1).
+            if { [::comp::moveOverrun $expired] } {
                 set bestmove "Time out"
             }
             ::comp::compNextMove $game $tomove $expired $bestmove
@@ -1519,12 +1525,23 @@ proc ::comp::timeControlTag {} {
     return "TimeControl \"[expr {int($_Data(base))}]+$_Data(incr)\""
 }
 
+# ::comp::permoveAllowed -- milliseconds an engine may spend on one move.
+# Zero when the control is not time-per-move. _Data(time) is assigned by
+# startComp for a per-move control only, so it is read here and nowhere else:
+# reading it at a call site raises for the default (per-game) tournament.
+proc ::comp::permoveAllowed {} {
+    global ::comp::_Data
+    if { $_Data(timecontrol) ne "permove" || ! [info exists _Data(time)] } { return 0 }
+    if { $_Data(time) <= 0 } { return 0 }
+    return [expr { $_Data(permoveleeway) * $_Data(time) + $_Data(permovegrace) }]
+}
+
 # ::comp::moveOverrun -- did a time-per-move reply arrive too late to count?
 # An engine gets leeway * time plus the grace before the move is a loss.
-proc ::comp::moveOverrun { expired time } {
-    global ::comp::_Data
-    if { $_Data(timecontrol) ne "permove" || $time <= 0 } { return 0 }
-    return [expr { $expired > $_Data(permoveleeway) * $time + $_Data(permovegrace) }]
+proc ::comp::moveOverrun { expired } {
+    set allowed [::comp::permoveAllowed]
+    if { $allowed <= 0 } { return 0 }
+    return [expr { $expired > $allowed }]
 }
 
 proc ::comp::checkfiftyMoveRule { moves prevmaterial prevpawns board} {
