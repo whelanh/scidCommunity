@@ -300,8 +300,8 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	// nothing else in the tree expects a book with no entries. Decide it here,
 	// before a replacement is staged or anything is renamed: a refusal must
 	// leave the book exactly as it was.
-	if (BookName[BookNumber].empty()) {
-		return -1; // fail: the slot was never opened on a file
+	if (BookFile[BookNumber] == nullptr || BookName[BookNumber].empty()) {
+		return -1; // fail: the slot has no open stream on a file
 	}
 	surviving = BookSize[BookNumber];
 	if (fseek(BookFile[BookNumber], 0, SEEK_SET) != 0) {
@@ -405,14 +405,14 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 		}
 		return -1; // fail
 	}
+	int failed = 0;
 	for (i = 0; i < MaxBook; i++) {
 		if (!wasOpen[i]) continue;
 		if (open_book_slot(target.c_str(), i, wasReadOnly[i]) < 0) {
-			return -1; // fail: the slot stays closed rather than holding a stale
-			           // count
+			failed = 1; // the slot stays closed rather than holding a stale count
 		}
 	}
-	return 0; // success
+	return failed ? -1 : 0;
 }
 
 // =================================================================

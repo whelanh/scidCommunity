@@ -1318,7 +1318,13 @@ proc compTimeout {game tomove} {
 
     catch { puts "Timed out Game $game" }
     set expired [expr [clock clicks -milli] - $_Data(lasttime,$game)]
-    ::comp::compNextMove $game $tomove 0 "Time out"
+    # Only the per-move deadline names the allowance: a per-game clock has no
+    # per-move leeway, so the generic time-out comment is the right one there.
+    if {$_Data(timecontrol) == "permove"} {
+        ::comp::compNextMove $game $tomove $expired "Time out"
+    } else {
+        ::comp::compNextMove $game $tomove 0 "Time out"
+    }
 }
 
 proc compAbort {} {
@@ -1460,8 +1466,8 @@ proc ::comp::checkRepetition { journal board } {
 }
 
 ################################################################################
-# the index of the third occurrence of a position in a journal, or "" when the
-# journal holds no position three times
+# the earliest index at which any position reaches its third occurrence, or ""
+# when the journal holds no position three times
 ################################################################################
 # A book line can be a whole game by itself, and the journal bookLineJournal
 # seeds already holds every position the line passes through. A line such as
@@ -1476,10 +1482,12 @@ proc ::comp::checkRepetition { journal board } {
 # some position repeated.
 proc ::comp::threefoldPosition { journal } {
     for {set i 0} {$i < [llength $journal]} {incr i} {
-        set hits [lsearch -all -exact $journal [lindex $journal $i]]
-        if { [llength $hits] >= 3 } {
-            return [lindex $hits 2]
+        set key [lindex $journal $i]
+        set count 0
+        for {set j 0} {$j <= $i} {incr j} {
+            if {[lindex $journal $j] eq $key} { incr count }
         }
+        if {$count >= 3} { return $i }
     }
     return ""
 }

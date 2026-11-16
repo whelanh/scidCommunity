@@ -296,6 +296,13 @@ checkEq "a line that never repeats names none" \
 set threefoldTail [concat $threefoldLine {e2e4 e7e5}]
 checkEq "a draw inside a longer line still falls on move 8" \
     [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $threefoldTail] 0]}] 8
+# When two positions both reach threefold, the draw is the one whose third
+# occurrence comes first, not the position that first appears earliest. The
+# start position repeats at plies 0/12/16 here, but the Nf3 position repeats at
+# 1/5/9, so the game draws on move 9.
+set shuffleLine {g1f3 g8f6 f3h4 f6g8 h4f3 g8f6 f3h4 f6g8 h4f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8}
+checkEq "the earliest third occurrence draws, not the first position's" \
+    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $shuffleLine] 0]}] 9
 
 # compNM's setup path: `update` is a Tk command here, the engines and the save
 # are the tournament's I/O, so both are stubbed. Nothing else in the run calls
