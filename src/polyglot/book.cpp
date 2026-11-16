@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <string>
 
 #ifdef _WIN32
 #include <io.h>
@@ -25,34 +26,76 @@
 #include "san.h"
 #include "util.h"
 
-// The filenames received from Tcl are UTF-8 encoded, but on Windows fopen()
-// interprets narrow strings using the ANSI code page: convert explicitly.
+// The filenames received from Tcl are UTF-8 encoded, but on Windows fopen() and
+// std::filesystem interpret narrow strings using the ANSI code page: convert
+// explicitly.
 // Note: cannot use misc.h/fopenUtf8 here because the polyglot headers clash
 // with the scid ones (e.g. the global A1..H8 constants).
-static FILE* fopen_utf8(const char* filename, const char* mode) {
+static std::filesystem::path path_utf8(const char* filename) {
 #ifdef _WIN32
 	auto fname = reinterpret_cast<const char8_t*>(filename);
-	std::filesystem::path path{fname, fname + strlen(filename)};
+	return std::filesystem::path{fname, fname + strlen(filename)};
+#else
+	return std::filesystem::path{filename};
+#endif
+}
+
+static FILE* fopen_utf8(const char* filename, const char* mode) {
+#ifdef _WIN32
 	wchar_t wmode[8] = {};
 	for (size_t i = 0; i < 7 && mode[i]; ++i)
 		wmode[i] = static_cast<wchar_t>(mode[i]);
-	return _wfopen(path.c_str(), wmode);
+	return _wfopen(path_utf8(filename).c_str(), wmode);
 #else
 	return fopen(filename, mode);
 #endif
 }
 
-// A rewrite can shrink the book: a move the user removed is left out of the
-// arrays, so the copy-back writes fewer entries than the file holds, and a
-// stream left longer than that keeps the old tail on disk -- re-opening the
-// book then reads the removed entry again. Cut the file to the entry count.
-static bool truncate_entries(FILE* f, int entries) {
-  const long size = static_cast<long>(entries) * 16; // one entry is 16 bytes
-#ifdef _WIN32
-  return _chsize_s(_fileno(f), size) == 0;
-#else
-  return ftruncate(fileno(f), size) == 0;
-#endif
+// Do two slots name the same book? The Book window and the Book tuning window
+// are handed the same path by the file dialog, but a differently spelled path
+// (relative, other separator) must not hide the second slot from a rewrite: a
+// slot left open keeps the BookSize it read and reads past EOF after a shrink.
+static bool same_book(const std::string& a, const std::string& b) {
+	if (a.empty() || b.empty()) return false;
+	if (a == b) return true;
+	std::error_code ec;
+	const auto ca = std::filesystem::weakly_canonical(path_utf8(a.c_str()), ec);
+	if (ec) return false;
+	const auto cb = std::filesystem::weakly_canonical(path_utf8(b.c_str()), ec);
+	if (ec) return false;
+	return ca == cb;
+}
+
+// Put the staged replacement in place with one rename: the operation is then
+// all-or-nothing. Copying the surviving entries back into the live file is not
+// -- a failure after the copy leaves the new entries followed by the old tail,
+// while the caller still holds the old entry count, and a reopen reads the
+// removed entry again. The caller closes the slots first: Windows cannot
+// replace an open file.
+static bool replace_book_file(const char* tempfile, const std::string& target) {
+	const auto book = path_utf8(target.c_str());
+	std::error_code ec;
+	std::filesystem::rename(path_utf8(tempfile), book, ec);
+	if (!ec) return true;
+	// The staging file need not be on the book's filesystem -- the window puts
+	// it under the user directory, the book lives under the books directory, and
+	// on Windows those are often different drives. A rename cannot cross
+	// devices, so stage a copy beside the book and rename that instead: the step
+	// that changes the book is still a single rename, on its own filesystem.
+	std::filesystem::path sibling = book;
+	sibling += ".tmp";
+	ec.clear();
+	std::filesystem::copy_file(path_utf8(tempfile), sibling,
+	                           std::filesystem::copy_options::overwrite_existing,
+	                           ec);
+	if (ec) return false;
+	std::filesystem::rename(sibling, book, ec);
+	if (ec) {
+		std::error_code ignored;
+		std::filesystem::remove(sibling, ignored);
+		return false;
+	}
+	return true;
 }
 
 // types
@@ -71,9 +114,21 @@ static FILE* BookFile[MaxBook];
 
 static int BookSize[MaxBook];
 
+// The path a slot was opened from, and whether it could only be opened
+// read-only. A rewrite replaces the file under every slot that reads it, so it
+// has to know which slots those are -- and reopen them with the access they had
+// rather than handing a read-only book write access.
+static std::string BookName[MaxBook];
+
+static bool BookReadOnly[MaxBook];
+
 // prototypes
 
 static int find_pos(uint64 key, const int BookNumber);
+
+static int open_book_slot(const char file_name[], const int BookNumber,
+                          const bool read_only);
+static void close_slot(const int BookNumber);
 
 static void read_entry(entry_t* entry, int n, const int BookNumber);
 static void write_entry(const entry_t* entry, int n, const int BookNumber);
@@ -158,6 +213,7 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	double coef = 1.0;
 	int probs_written;
 	int write_count;
+	int surviving;
 	int i;
 	FILE* f;
 	char *probs_copy, *moves_copy;
@@ -215,6 +271,28 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 		// file return 0; // nothing to do
 	}
 
+	// The update must not empty the book. scid_book_open treats a zero-length
+	// file as "not a book" (BookSize = ftell / 16 == 0 -> -1), so cutting the
+	// last entry away would leave a file the app can never open again, and
+	// nothing else in the tree expects a book with no entries. Decide it here,
+	// before a replacement is staged or anything is renamed: a refusal must
+	// leave the book exactly as it was.
+	if (BookName[BookNumber].empty()) {
+		return -1; // fail: the slot was never opened on a file
+	}
+	surviving = BookSize[BookNumber];
+	if (fseek(BookFile[BookNumber], 0, SEEK_SET) != 0) {
+		return -1; // fail
+	}
+	for (pos = 0; pos < BookSize[BookNumber]; pos++) {
+		read_entry_file(BookFile[BookNumber], entry);
+		if (entry->key == scid_board[BookNumber]->key)
+			surviving--;
+	}
+	if (surviving + move_count <= 0) {
+		return -1; // fail
+	}
+
 	if (!(f = fopen_utf8(tempfile, "wb+"))) {
 		return -1; // fail
 	}
@@ -270,66 +348,105 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	}
 	ASSERT(probs_written);
 	if (write_count == 0) {
-		// Refuse the degenerate save. scid_book_open treats a zero-length file
-		// as "not a book" (BookSize = ftell / 16 == 0 -> -1), so cutting the
-		// last entry away would leave a file the app can never open again.
-		// Nothing else in the tree expects a book with no entries: the save
-		// fails and the caller reports it.
 		fclose(f);
 		return -1; // fail
 	}
-	fseek(BookFile[BookNumber], 0, SEEK_SET);
-	fseek(f, 0, SEEK_SET);
-	for (pos = 0; pos < write_count; pos++) {
-		read_entry_file(f, entry);
-		write_entry_file(BookFile[BookNumber], entry);
+	// The replacement is complete in the tempfile. Close it, and only then touch
+	// the book: the surviving entries are already in place, so the rename below
+	// is the whole write.
+	if (fflush(f) != 0 || fclose(f) != 0) {
+		return -1; // fail: the original is untouched
 	}
-	fclose(f);
-	// The stream is longer than the surviving entries whenever this update
-	// dropped one, so flush what was written and cut the tail off; otherwise
-	// the next open reads the removed entry from the old bytes.
-	if (fflush(BookFile[BookNumber]) != 0 ||
-	    !truncate_entries(BookFile[BookNumber], write_count)) {
+
+	// Every slot reading this file has to let go of it before the rename: on
+	// Windows an open file cannot be replaced, and on any platform a slot left
+	// open keeps the BookSize it read before the rewrite -- after a shrink its
+	// bounded loops then read past EOF and hand back garbage moves. Remember
+	// which slots were open, and the access they had, to reopen them onto the
+	// new file.
+	const std::string target = BookName[BookNumber];
+	bool wasOpen[MaxBook] = {};
+	bool wasReadOnly[MaxBook] = {};
+	for (i = 0; i < MaxBook; i++) {
+		wasOpen[i] = BookFile[i] != nullptr && same_book(BookName[i], target);
+		wasReadOnly[i] = BookReadOnly[i];
+		if (wasOpen[i]) close_slot(i);
+	}
+	if (!replace_book_file(tempfile, target)) {
+		// Nothing of the book was touched: put the slots back on the original.
+		for (i = 0; i < MaxBook; i++) {
+			if (wasOpen[i]) open_book_slot(target.c_str(), i, wasReadOnly[i]);
+		}
 		return -1; // fail
 	}
-	BookSize[BookNumber] = write_count;
-	book_flush(BookNumber); // commit changes to disk
-	return 0;               // success
+	for (i = 0; i < MaxBook; i++) {
+		if (!wasOpen[i]) continue;
+		if (open_book_slot(target.c_str(), i, wasReadOnly[i]) < 0) {
+			return -1; // fail: the slot stays closed rather than holding a stale
+			           // count
+		}
+	}
+	return 0; // success
 }
 
 // =================================================================
-int scid_book_close(const int BookNumber) {
+// Drop a slot's stream and the count it was holding: after a rewrite the count
+// belongs to a file that no longer exists.
+static void close_slot(const int BookNumber) {
 	if (BookFile[BookNumber] != nullptr) {
-		if (fclose(BookFile[BookNumber]) == EOF) {
-			return -1;
-		}
+		fclose(BookFile[BookNumber]);
+		BookFile[BookNumber] = nullptr;
 	}
-	return 0;
+	BookSize[BookNumber] = 0;
+}
+// =================================================================
+int scid_book_close(const int BookNumber) {
+	if (BookFile[BookNumber] == nullptr) {
+		return 0;
+	}
+	const int res = (fclose(BookFile[BookNumber]) == EOF) ? -1 : 0;
+	BookFile[BookNumber] = nullptr;
+	BookSize[BookNumber] = 0;
+	BookName[BookNumber].clear();
+	BookReadOnly[BookNumber] = false;
+	return res;
+}
+// =================================================================
+// Open one slot onto a book file with the access the caller asks for, so a slot
+// reopened after a rewrite keeps the access it was opened with. Returns 0 for a
+// read-write slot, 1 for a read-only one, -1 on failure.
+static int open_book_slot(const char file_name[], const int BookNumber,
+                          const bool read_only) {
+
+	BookFile[BookNumber] = fopen_utf8(file_name, read_only ? "rb" : "rb+");
+	if (BookFile[BookNumber] == nullptr)
+		return -1;
+
+	if (fseek(BookFile[BookNumber], 0, SEEK_END) == -1) {
+		close_slot(BookNumber);
+		return -1;
+	}
+
+	BookSize[BookNumber] = ftell(BookFile[BookNumber]) / 16;
+	if (BookSize[BookNumber] == 0) {
+		close_slot(BookNumber);
+		return -1;
+	}
+	BookName[BookNumber] = file_name;
+	BookReadOnly[BookNumber] = read_only;
+	return read_only ? 1 : 0; // success
 }
 // =================================================================
 int scid_book_open(const char file_name[], const int BookNumber) {
 
 	int ReadOnlyFile = 0;
 
-	BookFile[BookNumber] = fopen_utf8(file_name, "rb+");
-
-	//--------------------------------------------------
-	if (BookFile[BookNumber] == nullptr) {
-		// the book can not be opened in read/write mode, try read only
-		BookFile[BookNumber] = fopen_utf8(file_name, "rb");
+	// the book can not be opened in read/write mode, try read only
+	if (open_book_slot(file_name, BookNumber, false) < 0) {
 		ReadOnlyFile = 1;
-		if (BookFile[BookNumber] == nullptr)
+		if (open_book_slot(file_name, BookNumber, true) < 0)
 			return -1;
 	}
-	//--------------------------------------------------
-
-	if (fseek(BookFile[BookNumber], 0, SEEK_END) == -1) {
-		return -1;
-	}
-
-	BookSize[BookNumber] = ftell(BookFile[BookNumber]) / 16;
-	if (BookSize[BookNumber] == 0)
-		return -1;
 	return (0 + ReadOnlyFile); // success
 }
 
@@ -438,6 +555,8 @@ void book_clear(const int BookNumber) {
 
 	BookFile[BookNumber] = nullptr;
 	BookSize[BookNumber] = 0;
+	BookName[BookNumber].clear();
+	BookReadOnly[BookNumber] = false;
 }
 
 // book_open()
@@ -460,6 +579,9 @@ void book_open(const char file_name[], const int BookNumber) {
 
 	if (BookSize[BookNumber] == 0)
 		my_fatal("book_open(): empty file\n");
+
+	BookName[BookNumber] = file_name;
+	BookReadOnly[BookNumber] = false;
 }
 
 // book_close()

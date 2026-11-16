@@ -962,7 +962,9 @@ namespace eval book {
           -message $err
       return
     }
-    file delete $tempfile
+    # A successful save renamed the tempfile over the book, so there is usually
+    # nothing left to delete; -force keeps the call harmless either way.
+    file delete -force $tempfile
     if {  [ winfo exists .bookWin ] } {
       ::book::refresh
     }

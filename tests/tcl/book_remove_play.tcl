@@ -131,6 +131,79 @@ sc_book moves 0
 check "with the move still in it" \
     {[string match {*e4*} [lindex [sc_book moves 0] 0]]}
 
+# ---------------------------------------------------------------------------
+# Two slots on one file. The Book window and the Book tuning window are separate
+# slots on the same book, each with its own stream and its own entry count: a
+# rewrite that only fixed up the editing slot left the reader holding a count
+# the file no longer has, and its bounded loops then walked past EOF -- a
+# garbage entry, or an abort inside the reader. Every slot on the rewritten
+# file has to end up on the new file.
+sc_book close 0
+set two [file join $dir two.bin]
+set fh [open $two wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+checkEq "the two-slot book opens read-write" [sc_book load $two 0] ""
+sc_book moves 0
+sc_book movesupdate {e4 d4} {60 40} 0 $tmp
+checkEq "it holds both moves" [fileEntries $two] 3
+checkEq "the same book opens in a second slot" [sc_book load $two 3] ""
+lassign [sc_book moves 3] fromReader
+check "the second slot reads both moves" \
+    {[string match {*e4*} $fromReader] && [string match {*d4*} $fromReader]} \
+    "moves='$fromReader'"
+sc_book moves 0
+sc_book movesupdate {e4} {100} 0 $tmp
+checkEq "the rewrite left one entry per surviving move" [fileEntries $two] 2
+lassign [sc_book moves 3] afterRewrite
+check "the second slot sees the surviving move" \
+    {[string match {*e4*} $afterRewrite]} "moves='$afterRewrite'"
+check "and not the one that was removed" \
+    {![string match {*d4*} $afterRewrite]} "moves='$afterRewrite'"
+sc_book close 3
+sc_book close 0
+
+# ---------------------------------------------------------------------------
+# A rewrite that cannot be completed leaves the book exactly as it was. The
+# writer used to copy the surviving entries into the live file and only then cut
+# the tail off: a failure after that copy left the new entries followed by the
+# old tail, and the next open read the removed entry again. Here the book's
+# directory cannot take the replacement, so the save has to fail -- and the
+# original has to survive it byte for byte, still readable.
+set roDir [file join $dir ro]
+file mkdir $roDir
+set roBook [file join $roDir rob.bin]
+set fh [open $roBook wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+checkEq "the book in its own directory opens" [sc_book load $roBook 0] ""
+sc_book moves 0
+sc_book movesupdate {e4 d4} {60 40} 0 $tmp
+sc_book close 0
+set fh [open $roBook rb]
+set beforeRaw [read $fh]
+close $fh
+checkEq "the fixture holds three entries" [expr {[string length $beforeRaw] / 16}] 3
+checkEq "it re-opens for the failing save" [sc_book load $roBook 0] ""
+sc_book moves 0
+set roTmp [file join $dir rotmp]
+file delete -force $roTmp
+exec chmod 555 $roDir
+set err [catch {sc_book movesupdate {e4} {100} 0 $roTmp} res]
+exec chmod 755 $roDir
+checkEq "a rewrite that cannot be completed is refused" $err 1
+set fh [open $roBook rb]
+set afterRaw [read $fh]
+close $fh
+check "the original is byte for byte what it was" {[string equal $beforeRaw $afterRaw]}
+check "the slot still reads the book it was reopened on" \
+    {[string match {*e4*} [lindex [sc_book moves 0] 0]]}
+sc_book close 0
+
+# the window block below drives slot 0 on the one-entry book
+checkEq "the one-entry book is back in slot 0" [sc_book load $one 0] ""
+sc_book moves 0
+
 # The window's save has to surface that refusal. It called movesupdate for its
 # side effect, deleted the tempfile and refreshed as if the book had been
 # written, so a refused save looked exactly like a successful one.
@@ -159,7 +232,11 @@ if {[llength [info commands ::book::save]] > 0} {
     proc tk_messageBox {args} { lappend ::savedEvents msgbox ; return ok }
     rename ::book::refresh ::book::refresh.harness
     proc ::book::refresh {} { lappend ::savedEvents refresh }
+    # the caller's staging file is there before the save: a refused save must
+    # leave it alone, not delete it the way a successful one does
     file delete -force $tmpSaved
+    set fh [open $tmpSaved w]
+    close $fh
     ::book::save
     checkEq "a refused save reports itself to the user" \
         [llength [lsearch -all -exact $::savedEvents msgbox]] 1

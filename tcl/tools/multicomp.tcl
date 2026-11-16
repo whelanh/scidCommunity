@@ -902,23 +902,31 @@ proc compNM {game n m k} {
     # with the wording the in-game path uses, and saved and ended the way a
     # finished game is: otherwise the tournament plays on from a drawn position.
     set _Data(playing,$game) 0
-    if { [::comp::threefoldPosition $_Data(repetition,$game)] ne "" } {
+    set drawAt [::comp::threefoldPosition $_Data(repetition,$game)]
+    if { $drawAt ne "" } {
         set _Data(result,$game) "="
-        # The note belongs to the line's last move, as the in-game path's does:
-        # if the line already carries a comment per move it is extended, and a
-        # line that does not is padded so the note lands on the last one.
-        set want [llength $_Data(moves,$game)]
-        if { [llength $_Data(comments,$game)] >= $want } {
-            set last [lindex $_Data(comments,$game) end]
-            if { $last ne "" } { append last " - " }
-            append last "3-fold repetion"
-            lset _Data(comments,$game) end $last
-        } else {
-            while { [llength $_Data(comments,$game)] < $want - 1 } {
-                lappend _Data(comments,$game) ""
-            }
-            lappend _Data(comments,$game) "3-fold repetion"
+        # The journal holds one key per position with the start position first,
+        # so index $drawAt is the position after move $drawAt: that is the move
+        # the game is drawn on. A book line can run on past the third
+        # occurrence, and saving the whole line would write those moves into the
+        # PGN with the note on the last of them -- the tournament drew the game
+        # while the saved record plays on. Keep moves 1..$drawAt and put the
+        # note on move $drawAt, as the in-game path does.
+        if { $drawAt < [llength $_Data(moves,$game)] } {
+            set _Data(moves,$game) \
+                [lrange $_Data(moves,$game) 0 [expr {$drawAt - 1}]]
         }
+        set _Data(comments,$game) \
+            [lrange $_Data(comments,$game) 0 [expr {$drawAt - 1}]]
+        # a line that carries a comment per move keeps it; a line that does not
+        # is padded so the note lands on the drawn move
+        while { [llength $_Data(comments,$game)] < $drawAt } {
+            lappend $_Data(comments,$game) ""
+        }
+        set last [lindex $_Data(comments,$game) end]
+        if { $last ne "" } { append last " - " }
+        append last "3-fold repetion"
+        lset _Data(comments,$game) end $last
         ::comp::compSaveGame $game
         after 1000 "::comp::compOkEnd $game"
         return
@@ -1447,17 +1455,25 @@ proc ::comp::checkRepetition { journal board } {
 }
 
 ################################################################################
-# the position a journal already holds three times, or "" when it holds none
+# the index of the third occurrence of a position in a journal, or "" when the
+# journal holds no position three times
 ################################################################################
 # A book line can be a whole game by itself, and the journal bookLineJournal
 # seeds already holds every position the line passes through. A line such as
 # g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 is three occurrences of the start
 # position at its end, which FIDE 9.2 draws; the game has to be adjudicated
 # before an engine is started, not played on from a drawn position.
+#
+# The journal opens with the position before the game's first move, so index i
+# is the position after move i: the draw happens on move i, and moves 1..i are
+# the moves that play the game out. A book line can run on past the third
+# occurrence, so the caller has to know which move drew the game, not just that
+# some position repeated.
 proc ::comp::threefoldPosition { journal } {
-    foreach key $journal {
-        if { [llength [lsearch -all -exact $journal $key]] >= 3 } {
-            return $key
+    for {set i 0} {$i < [llength $journal]} {incr i} {
+        set hits [lsearch -all -exact $journal [lindex $journal $i]]
+        if { [llength $hits] >= 3 } {
+            return [lindex $hits 2]
         }
     }
     return ""

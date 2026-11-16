@@ -282,11 +282,20 @@ puts "\nthe book line that is already a repetition"
 # was played on with a result FIDE 9.2 would have drawn. It is adjudicated at
 # setup now -- result, comment, no engine, no move scheduled.
 set threefoldLine {g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8}
-checkEq "the journal names the position it holds three times" \
-    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $threefoldLine] 0]}] \
-    [call {::comp::startPositionKey startpos}]
+# The journal's index i is the position after move i, and the third occurrence
+# of the start position is the position after the line's eighth move: that move
+# is the one the game is drawn on, and the moves before it are the ones the PGN
+# has to keep.
+checkEq "the journal names the move its third occurrence falls on" \
+    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $threefoldLine] 0]}] 8
 checkEq "a line that never repeats names none" \
     [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos {e2e4 e7e5}] 0]}] ""
+# A book line need not stop at the draw: the move after the third occurrence
+# belongs to a game the tournament has already drawn, and must not move the
+# adjudication off the drawn move.
+set threefoldTail [concat $threefoldLine {e2e4 e7e5}]
+checkEq "a draw inside a longer line still falls on move 8" \
+    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $threefoldTail] 0]}] 8
 
 # compNM's setup path: `update` is a Tk command here, the engines and the save
 # are the tournament's I/O, so both are stubbed. Nothing else in the run calls
@@ -335,6 +344,30 @@ checkEq "the comment sits on the line's last move" \
 checkEq "no engine is started" [llength $::engineInits] 0
 check "no move is scheduled" [expr {[string first compNextMove [pendingScripts]] < 0}]
 checkEq "and the drawn game is saved" $::gamesSaved 7
+
+# The book line can run on past the third occurrence. The game is drawn on move
+# 8, so the saved moves stop there: writing the whole line played e2e4 into the
+# PGN and put the note on that move instead.
+set ::engineInits {}
+set ::gamesSaved {}
+set ::bookLineUnderTest $threefoldTail
+tournamentSetup 9 {}
+set err [catch {compNM 9 White Black 1} res]
+checkEq "a line that runs past the draw is set up without an error" $err 0
+checkEq "it is adjudicated a draw at setup" [call {set ::comp::_Data(result,9)}] "="
+checkEq "the saved moves stop at the drawn move" \
+    [call {llength $::comp::_Data(moves,9)}] 8
+checkEq "which is the line's eighth move" \
+    [call {lindex $::comp::_Data(moves,9) end}] f6g8
+check "the move played after the draw is not saved" \
+    [expr {[lsearch -exact $::comp::_Data(moves,9) e2e4] < 0}]
+checkEq "the note is on the drawn move" \
+    [call {llength $::comp::_Data(comments,9)}] 8
+checkEq "with the in-game wording" \
+    [call {lindex $::comp::_Data(comments,9) end}] "Book - 3-fold repetion"
+checkEq "no engine is started" [llength $::engineInits] 0
+check "no move is scheduled" [expr {[string first compNextMove [pendingScripts]] < 0}]
+checkEq "and the drawn game is saved" $::gamesSaved 9
 
 # A line that is not a threefold still goes to the engines.
 set ::engineInits {}
