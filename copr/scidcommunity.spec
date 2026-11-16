@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit b9ae3841efaf0e05d71909be5ccf63dbb6f758b2
+%global commit 6849855c0ee1648a2f722f821039725e6c0ac6e5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.67
+Version:        5.1.4.68
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Mon Nov 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-68
+- "new search sequence search capability; elo calibration"
 * Sun Nov 15, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-67
 - "Tree View speed; load last mask; epd rework; cleanup"
 * Sat Nov 14, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-66
