@@ -245,6 +245,66 @@ set id $savedId
 sc_base switch $id
 
 # ---------------------------------------------------------------------------
+# A Stop clicked during the final progress report. A search over fewer than
+# 1024 candidates delivers one report only - the final progress.report(1, 1) -
+# so on a small database that is where the queued click is processed. The
+# filter is narrowed first and the reset query below matches a different game,
+# so a discarded cancel is visible as a filter that moved.
+# ---------------------------------------------------------------------------
+puts "\n== a Stop during the final progress report cancels ==\n"
+checkEq "two games to stand on" [run "cql(:gamenumber 1 2) K"] 2
+rename ::progressCallBack ::search_cql_progress_final_
+set ::reports {}
+proc ::progressCallBack {args} {
+    lappend ::reports $args
+    if {[lindex $args 0] eq "init"} { return 1 }
+    if {[lindex $args 0] == 1.0} { return -code break } ;# Stop on the last one
+    return 1 ;# a mid-loop report is not the path under test
+}
+set ::dialogs {}
+set err [catch {
+    set ::search::filterOp_($w) reset
+    $w.options.query.text delete 1.0 end
+    $w.options.query.text insert 1.0 "cql(:gamenumber 3) K"
+    $w.buttons.search invoke
+} msg]
+checkEq "the cancel does not throw" $err 0
+check "the final report reached the callback" \
+    [expr {[lsearch -exact $::reports 1.0] >= 0}] $::reports
+checkEq "no dialog for a cancel" [llength $::dialogs] 0
+checkEq "the cancelled query left the filter alone" \
+    [sc_filter count $id dbfilter] 2
+rename ::progressCallBack {}
+rename ::search_cql_progress_final_ ::progressCallBack
+
+# ---------------------------------------------------------------------------
+# An integer in the query text is user input. `:gamenumber 4294967297` used to
+# wrap to 1 on the usual build - the parser multiplied without a bound - and
+# quietly searched game 1, so the answer was a match the user never asked for
+# rather than the parse error the query deserves.
+# ---------------------------------------------------------------------------
+puts "\n== an out-of-range number is refused, not wrapped ==\n"
+checkEq "two games to stand on" [run "cql(:gamenumber 1 2) K"] 2
+set ::dialogs {}
+set err [catch {run "cql(:gamenumber 4294967297) K"} msg]
+checkEq "the wrapped range does not throw" $err 0
+checkEq "one dialog" [llength $::dialogs] 1
+check "the dialog carries the engine's message" \
+    [expr {[string first "The CQL search failed:" [lindex $::dialogs 0]] >= 0}] \
+    [lindex $::dialogs 0]
+check "the status line is the parse error, not a count" \
+    [expr {[string first "CQL error" [$w.options.query.status cget -text]] >= 0}] \
+    [$w.options.query.status cget -text]
+checkEq "the filter is still the two games" [sc_filter count $id dbfilter] 2
+# The negative form goes through the same accumulation before the sign is
+# applied; a magnitude no int can hold must be refused there too.
+set ::dialogs {}
+set err [catch {run "cql(:gamenumber -9999999999) K"} msg]
+checkEq "the negative out-of-range does not throw" $err 0
+checkEq "one dialog" [llength $::dialogs] 1
+checkEq "and it left the filter alone" [sc_filter count $id dbfilter] 2
+
+# ---------------------------------------------------------------------------
 # A relation annotates every matching source/target pair of a game into a
 # comment. With a source whose target list runs to a few hundred positions the
 # text is well over the fixed 2000-byte stack buffer it used to be built in:

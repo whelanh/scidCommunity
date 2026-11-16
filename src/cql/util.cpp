@@ -5,6 +5,7 @@
 #include "util.h"
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 static int indentlevel;
 
@@ -29,19 +30,33 @@ bool util::signedIntValue(char*s,int*val){
   }
   if(!positiveIntValue(next,val))
     return false;
-  if(negate) *val= -*val;
+  if(negate){
+    // Bound the magnitude before negating it: INT_MIN has no positive
+    // counterpart, so anything above INT_MAX is refused instead of negated
+    // (undefined behaviour) or wrapped. positiveIntValue() already enforces
+    // that bound; the check is here so widening the number bound later cannot
+    // silently reintroduce the overflow at this line.
+    const int magnitude=*val;
+    if(magnitude<0) return false;
+    *val= -magnitude;
+  }
   return true;
 }
     
-  
+    
 bool util::positiveIntValue(char * s,int*val){
   if(!s||!*s)return false;
   int sum=0;
   char c;
   while((c=*s++)!=0){
     if (c>='0'&&c<='9'){
-      sum*=10;
-      sum+= c - '0';
+      const int digit=c-'0';
+      // The query text is user input: :gamenumber 4294967297 wrapped to 1 and
+      // quietly searched game 1. Refuse the range before it accumulates past
+      // what an int can hold, so the query fails with a parse error instead of
+      // matching something the user did not ask for.
+      if(sum>(INT_MAX-digit)/10) return false;
+      sum=sum*10+digit;
     }
     else return false;
   }

@@ -9349,7 +9349,15 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     return UI_Result(ti, ERROR_UserCancel);
   }
 
-  progress.report(1, 1);
+  // The final report is the only one a search over fewer than 1024 candidates
+  // ever delivers, so with a small database this is where a queued Stop click
+  // is processed. It must cancel like the in-loop report does: reporting the
+  // search as done and then applying its results would change the filter
+  // despite the click.
+  if (!progress.report(1, 1)) {
+    CqlQueryReset();
+    return UI_Result(ti, ERROR_UserCancel);
+  }
 
   // Release the parse tree and the engine's global state, whether or not the
   // search completed.

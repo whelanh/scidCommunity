@@ -62,12 +62,19 @@ int EchoLongestSubstringSpec::id_to_int(moveT*posid){
   uassert(posid);
   pieceT piece=50;
   squareT from=65, to=65;
+  pieceT promote=EMPTY;
   //  colorT color=65; Not certain how to handle color, whether encoded in piecetype or not
-  getprev(posid,&piece, &from, &to);
+  getprev(posid,&piece, &from, &to, &promote);
   uassert(piece_valid(piece)&&square_valid(from)&&square_valid(to)&&to!=from);
-  int tmp= to*100+from;
-  tmp=tmp*100+(int)piece;
-  uassert(tmp>0&&tmp<5000000);
+  // The promotion piece is part of the move's identity: a7a8=Q and a7a8=N share
+  // from, to and the moving pawn, so without it the two moves encode the same
+  // and a longest-substring relation counts different move sequences as one.
+  // to and from are < 100, a piece code and a promotion code are < 100, so the
+  // key is injective for every legal move, and its largest value is
+  // ((63*100+63)*100+13)*100+13 = 63,631,313 - the bound below is the next
+  // round number above that, so the check can still fail.
+  int tmp=((to*100+from)*100+(int)piece)*100+(int)promote;
+  uassert(tmp>0&&tmp<64000000);
   return tmp;
 }
 
@@ -76,13 +83,15 @@ int EchoLongestSubstringSpec::id_to_int(moveT*posid){
    That field has a moveData field of type simpleMoveT (in orig/movelist.h).
    See game.h for the moveT definition
 */
-void EchoLongestSubstringSpec::getprev(moveT* posid,pieceT* piece, squareT*from,squareT*to){
+void EchoLongestSubstringSpec::getprev(moveT* posid,pieceT* piece, squareT*from,squareT*to,
+                                       pieceT* promote){
   uassert(posid);
   moveT*prev=posid->prev;
   uassert(prev&&prev->marker!=START_MARKER);
   *from=prev->moveData.from;
   *to=prev->moveData.to;
   *piece=prev->moveData.movingPiece;
+  *promote=prev->moveData.promote;
   return;
 }
 

@@ -105,7 +105,8 @@ class EchoLongestSubstringSpec:public EchoLcaSpec{
   CVV(EchoLongestSubstringSpec);
 
  private:
-  static void getprev(moveT*posid,pieceT*piece,squareT*from,squareT*to);
+  static void getprev(moveT*posid,pieceT*piece,squareT*from,squareT*to,
+                      pieceT*promote);
   static int id_to_int(moveT*posid);
   static vector<int>path_to_ints(const vector<moveT*>&path);
 };
