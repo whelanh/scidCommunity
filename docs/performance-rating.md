@@ -61,6 +61,14 @@ carries a band, and never appears beside a second rating: it replaces the
 `estimated Elo` the report printed from accuracy and ACPL, which remains only as
 a baseline in this study and as the level the coach's facts name.
 
+The statistic is computed the way the calibration computed it: for each move, the
+evaluation before it and an independent evaluation of the position it reaches —
+the pass's own search of the next ply, not the current search's ranked score for
+the move. A pass that runs inside an opening book does not search those plies, so
+they carry no evaluation and are not counted; with a book configured the line is
+therefore read over fewer moves than the fit saw and sits slightly low. Searching
+book plies only to rate them would give away the book.
+
 ## The calibration
 
 Everything below was measured in one run on 2026-11-03. The corpus, the eval

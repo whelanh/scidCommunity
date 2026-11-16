@@ -164,12 +164,29 @@ check "the tail game's accuracy is 80.39, not the unweighted 93.4" \
 
 # A decided position: E_best 0.05 -> E_after 0.03 is 0.02 of expected score
 # given away. The ratio form would call it a 40% loss of a position worth
-# almost nothing; the additive form is what the fit is on.
+# almost nothing; the additive form is what the fit is on. The successor ply is
+# in the list because that is where the rating reads the reached position from --
+# the verdict's own `after` is the root search's ranked score, not an
+# independent evaluation of the position.
 set decided {}
 lappend decided [dict create ply 1 side white cp_loss 0 \
-    eval_before_white [cpOf 5] eval_after_white [cpOf 3]]
+    eval_before_white [cpOf 5] eval_after_white [cpOf 5]]
+lappend decided [dict create ply 2 side black cp_loss 0 \
+    eval_before_white [cpOf 3] eval_after_white [cpOf 3]]
 check "a 5% -> 3% position costs 0.02, not the 40% the ratio form reports" \
     [near [::perfrating::esl $decided white] 0.02 1e-6] [::perfrating::esl $decided white]
+
+# The rating reads the reached position, not the verdict's pair: a move the root
+# search ranked as the best (its `after` equals its `before`) still costs what
+# the position it reached cost. Reading the pair instead would make every best
+# move free and shift the whole axis.
+set bestMove {}
+lappend bestMove [dict create ply 1 side white cp_loss 0 \
+    eval_before_white [cpOf 100] eval_after_white [cpOf 100]]
+lappend bestMove [dict create ply 2 side black cp_loss 0 \
+    eval_before_white [cpOf 0] eval_after_white [cpOf 0]]
+check "a move the engine ranked best still costs what it reached" \
+    [expr {[::perfrating::esl $bestMove white] > 0.10}] [::perfrating::esl $bestMove white]
 
 # Ratio of sums, not mean of ratios: one move in a dead-drawn-to-lost position
 # has E_best = 0, where a per-move ratio divides by zero and a 5% -> 3% move

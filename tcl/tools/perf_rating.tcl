@@ -128,13 +128,45 @@ proc ::perfrating::measuredMoves {moves side} {
     return $out
 }
 
+# The calibration's pair: the evaluation before the move, and an INDEPENDENT
+# evaluation of the position the move reaches. The pass searches every position,
+# so the successor's own figure is the next ply's `before` -- exactly the
+# consecutive positions the fit scored, `cps[i-1]` and `cps[i]`.
+#
+# The verdict's `after` is a different number: the root search's ranked score for
+# the played move, which is the right input for a label (one search, so the drop
+# it measures is not search noise) but is `before` by construction whenever the
+# move is the engine's, which would read a best move as costing nothing at all.
+#
+# Keyed by ply, not by list position: a ply the pass has no verdict for is absent
+# from the list, and its predecessor must lose its successor rather than pair
+# with the position two moves later.
+proc ::perfrating::pairs {moves side} {
+    set at {}
+    foreach m $moves {
+        if {![dict exists $m ply]} { continue }
+        dict set at [dict get $m ply] [dict get $m eval_before_white]
+    }
+    set out {}
+    foreach m $moves {
+        if {[dict get $m side] ne $side} { continue }
+        if {![dict exists $m ply]} { continue }
+        set before [dict get $m eval_before_white]
+        set next [expr {[dict get $m ply] + 1}]
+        if {$before eq "" || ![dict exists $at $next]} { continue }
+        set after [dict get $at $next]
+        if {$after eq ""} { continue }
+        lappend out [list $before $after]
+    }
+    return $out
+}
+
 # Expected score given away with these moves, in expected-score points (0..1
-# scale, summed): the fit's feature.
+# scale, summed): the fit's feature, over the fit's pairs.
 proc ::perfrating::esl {moves side} {
     set sum 0.0
-    foreach m [measuredMoves $moves $side] {
-        set before [dict get $m eval_before_white]
-        set after [dict get $m eval_after_white]
+    foreach pair [pairs $moves $side] {
+        lassign $pair before after
         set eb [::accuracy::winPercent $before]
         set ea [::accuracy::winPercent $after]
         if {$side eq "black"} { set gap [expr {$ea - $eb}] } else { set gap [expr {$eb - $ea}] }
@@ -199,7 +231,7 @@ proc ::perfrating::estimate {eslPerMove} {
 # The rating this side's play suggests, or "" when the pass measured none of
 # its moves.
 proc ::perfrating::estimateFor {moves side} {
-    set measured [measuredMoves $moves $side]
-    if {![llength $measured]} { return "" }
-    return [estimate [expr {[esl $moves $side] / [llength $measured]}]]
+    set n [llength [pairs $moves $side]]
+    if {$n == 0} { return "" }
+    return [estimate [expr {[esl $moves $side] / $n}]]
 }

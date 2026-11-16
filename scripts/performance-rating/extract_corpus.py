@@ -72,6 +72,9 @@ def allocate(counts, count):
     FLOOR x the populated bands cannot satisfy that floor, and the remainder
     loop below could never make progress, so it is refused here rather than
     spinning.
+
+    Returns (alloc, live): the per-band counts and the populated bands, which
+    the caller's shortfall refill needs.
     """
     live = [(b, c) for b, c in counts.items() if c > 0]
     if not live:
@@ -99,7 +102,7 @@ def allocate(counts, count):
             alloc[band] -= 1
             spare += 1
         i += 1
-    return alloc
+    return alloc, live
 
 
 def main():
@@ -117,7 +120,10 @@ def main():
     args = ap.parse_args()
 
     length = f"{args.min_plies} 400"
-    bands = [(lo, lo + 99) for lo in range(args.lo, args.hi + 1, 100)]
+    # 100-point bands over [--lo, --hi]; the last band is cut at --hi so the
+    # search never asks for a rating the caller excluded.
+    bands = [(lo, min(lo + 99, args.hi))
+             for lo in range(args.lo, args.hi + 1, 100)]
 
     h = Headless(args.scid)
     handle = h.call("db_open", path=args.db, type="SCID4", readonly=True)["handle"]
@@ -140,7 +146,7 @@ def main():
         h.close()
         return
 
-    alloc = allocate(counts, args.count)
+    alloc, live = allocate(counts, args.count)
 
     rng = random.Random(args.seed)
     games, picked = [], set()
