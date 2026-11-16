@@ -130,6 +130,7 @@ menuText H SearchNegate "Szûrõ negálása" 6 {Negálja a szûrõt, hogy csak a
 menuText H SearchCurrent "Aktuális állás..." 0 {A táblán lévõ állást keresi.}
 menuText H SearchHeader "Fejléc..." 0 {Keresés fejléc (játékos, esemény, stb.) alapján}
 menuText H SearchMaterial "Anyag/szerkezet..." 6 {Keresés anyag vagy állásszerkezet alapján}
+menuText H SearchCQL "CQL..." 0 {Keresés Chess Query Language lekérdezéssel}
 menuText H SearchComments "Keresés a megjegyzésekben..." 0 {Keresés a játékok megjegyzései között az aktuális szűrőben}
 menuText H SearchUsing "Keresõfájl használata..." 0 {Keresés SearchOptions fájl használatával}
 
@@ -2384,3 +2385,8 @@ set tips(H) {
     A Windows az opciómenü megfelelő bejegyzésének ellenőrzésével dokkolható. A lapok áthúzhatók egyik jegyzetfüzetből a másikba, és a fül widgetre való jobb kattintással elhelyezhetők.
   }
 }
+# CQL search:
+translate H CQLQuery {CQL-lekérdezés}
+translate H CQLQueryHint {CQL-lekérdezés, pl. cql() mate vagy cql(:gamenumber 1 10) K. A Ctrl+Enter keres.}
+translate H CQLQueryEmpty {A keresés előtt adjon meg egy CQL-lekérdezést.}
+translate H CQLSearchFailed {A CQL-keresés sikertelen:}

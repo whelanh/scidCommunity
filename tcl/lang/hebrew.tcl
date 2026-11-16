@@ -128,6 +128,7 @@ menuText V SearchNegate "שלילת מסנן" 0 {שלל את המסנן כך ש�
 menuText V SearchCurrent "המועצה הנוכחית..." 0 {חפש את עמדת הדירקטוריון הנוכחית}
 menuText V SearchHeader "כּוֹתֶרֶת..." 0 {חפש לפי כותרת מידע (שחקן, אירוע וכו').}
 menuText V SearchMaterial "חומר/דפוס..." 0 {חפש חומר או דפוסי לוח}
+menuText V SearchCQL "CQL..." 0 {חיפוש עם שאילתת Chess Query Language}
 menuText V SearchComments "חפש תגובות..." 0 {חפש את ההערות של המשחקים במסנן הנוכחי}
 menuText V SearchUsing "משתמש בקובץ חיפוש..." 0 {חפש באמצעות קובץ SearchOptions}
 
@@ -2362,3 +2363,8 @@ set tips(V) {
     ניתן לעגן את Windows על ידי סימון הערך הרלוונטי בתפריט האפשרויות. ניתן לגרור ולשחרר כרטיסיות ממחברת אחת לאחרת ולפרוס אותן על ידי לחיצה ימנית על ווידג'ט הכרטיסיות.
   }
 }
+# CQL search:
+translate V CQLQuery {שאילתת CQL}
+translate V CQLQueryHint {שאילתת CQL, למשל cql() mate או cql(:gamenumber 1 10) K. Ctrl+Enter מפעיל חיפוש.}
+translate V CQLQueryEmpty {יש להזין שאילתת CQL לפני החיפוש.}
+translate V CQLSearchFailed {חיפוש CQL נכשל:}

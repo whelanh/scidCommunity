@@ -130,6 +130,7 @@ menuText C SearchNegate "Negace filtru" 0 {Negace filtru -  vybrny budou pouze p
 menuText C SearchCurrent "Aktuln pozice..." 0 {Hledat aktuln pozici}
 menuText C SearchHeader "Hlavika..." 0 {Hledat podle hlaviky partie (hr, turnaj apod.)}
 menuText C SearchMaterial "Materil/Vzor..." 0 {Hledat podle materilu nebo podle vzoru}
+menuText C SearchCQL "CQL..." 0 {Hledat pomocí dotazu Chess Query Language}
 menuText C SearchComments "Hledat komentáře..." 0 {Hledejte komentáře her v aktuálním filtru}
 menuText C SearchUsing "Hledat pomoc souboru voleb..." 14 {Hledat s pouitm voleb zapsanch v souboru}
 
@@ -2383,3 +2384,8 @@ set tips(C) {
     Windows lze ukotvit zaškrtnutím příslušné položky v nabídce možností. Karty lze přetahovat a pouštět z jednoho poznámkového bloku do druhého a rozkládat kliknutím pravým tlačítkem na widget karet.
   }
 }
+# CQL search:
+translate C CQLQuery {Dotaz CQL}
+translate C CQLQueryHint {Dotaz CQL, např. cql() mate nebo cql(:gamenumber 1 10) K. Ctrl+Enter spustí hledání.}
+translate C CQLQueryEmpty {Před hledáním zadejte dotaz CQL.}
+translate C CQLSearchFailed {Hledání CQL selhalo:}

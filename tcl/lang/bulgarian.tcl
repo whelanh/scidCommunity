@@ -168,6 +168,7 @@ menuText g SearchNegate "Филтър за отхвърляне" 0 {Отхвър
 menuText g SearchCurrent "Настоящ борд..." 0 {Търсете текущата позиция на борда}
 menuText g SearchHeader "Заглавка..." 0 {Търсене по информация за заглавка (играч, събитие и т.н.).}
 menuText g SearchMaterial "Материал/модел..." 0 {Търсене на материали или шаблони на дъски}
+menuText g SearchCQL "CQL..." 0 {Търсене със заявка Chess Query Language}
 menuText g SearchComments "Търсене на коментари..." 0 {Търсете коментарите на игрите в текущия филтър}
 menuText g SearchUsing "Използване на файл за търсене..." 0 {Търсете с помощта на SearchOptions файл}
 
@@ -2402,3 +2403,8 @@ set tips(g) {
     Windows може да бъде закачен чрез отметка на съответния запис в менюто с опции. Разделите могат да се плъзгат и пускат от един бележник в друг и да се оформят чрез щракване с десен бутон върху приспособлението за раздели.
   }
 }
+# CQL search:
+translate g CQLQuery {Заявка CQL}
+translate g CQLQueryHint {Заявка CQL, напр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter търси.}
+translate g CQLQueryEmpty {Въведете заявка CQL преди търсенето.}
+translate g CQLSearchFailed {Търсенето с CQL се провали:}

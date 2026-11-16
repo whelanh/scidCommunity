@@ -156,6 +156,7 @@ menuText D SearchHeader "Partiedaten..." 0 \
   {Partiedaten (Spieler, Turnier etc.) suchen}
 menuText D SearchMaterial "Material/Muster..." 0 \
   {Nach Material- oder Stellungsmustern suchen}
+menuText D SearchCQL "CQL..." 0 {Mit einer Chess-Query-Language-Abfrage suchen}
 menuText D SearchComments "Kommentare durchsuchen..." 0 {Durchsuchen Sie die Kommentare der Spiele im aktuellen Filter}
 menuText D SearchUsing "Mit Suchoptionsdatei..." 4 \
   {Mit Suchoptionsdatei suchen}
@@ -2433,3 +2434,8 @@ set tips(D) {
     Fenster können angedockt werden, indem der entsprechende Eintrag im Optionsmenü aktiviert wird. Registerkarten können per Drag-and-Drop von einem Notizbuch in ein anderes gezogen und durch Klicken mit der rechten Maustaste auf das Registerkarten-Widget angeordnet werden.
   }
 }
+# CQL search:
+translate D CQLQuery {CQL-Abfrage}
+translate D CQLQueryHint {CQL-Abfrage, z. B. cql() mate oder cql(:gamenumber 1 10) K. Strg+Enter sucht.}
+translate D CQLQueryEmpty {Geben Sie vor der Suche eine CQL-Abfrage ein.}
+translate D CQLSearchFailed {Die CQL-Suche ist fehlgeschlagen:}

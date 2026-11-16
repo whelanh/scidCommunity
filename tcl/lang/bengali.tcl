@@ -127,6 +127,7 @@ menuText b SearchNegate "নেগেট ফিল্টার" 0 {শুধু�
 menuText b SearchCurrent "বর্তমান বোর্ড..." 0 {বর্তমান বোর্ড অবস্থানের জন্য অনুসন্ধান করুন}
 menuText b SearchHeader "হেডার..." 0 {হেডার (প্লেয়ার, ইভেন্ট, ইত্যাদি) তথ্য দ্বারা অনুসন্ধান করুন}
 menuText b SearchMaterial "উপাদান/প্যাটার্ন..." 0 {উপাদান বা বোর্ড নিদর্শন জন্য অনুসন্ধান}
+menuText b SearchCQL "CQL..." 0 {Chess Query Language কোয়েরি দিয়ে অনুসন্ধান করুন}
 menuText b SearchComments "মন্তব্য অনুসন্ধান করুন..." 0 {বর্তমান ফিল্টারে গেমের মন্তব্য অনুসন্ধান করুন}
 menuText b SearchUsing "অনুসন্ধান ফাইল ব্যবহার করে..." 0 {একটি SearchOptions ফাইল ব্যবহার করে অনুসন্ধান করুন}
 
@@ -2361,3 +2362,8 @@ set tips(b) {
     বিকল্প মেনুতে প্রাসঙ্গিক এন্ট্রি চেক করে উইন্ডোজ ডক করা যেতে পারে। ট্যাবগুলিকে একটি নোটবুক থেকে অন্য নোটবুকে টেনে এনে ফেলে দেওয়া যেতে পারে এবং ট্যাব উইজেটে ডান ক্লিক করে বিন্যস্ত করা যেতে পারে।
   }
 }
+# CQL search:
+translate b CQLQuery {CQL কোয়েরি}
+translate b CQLQueryHint {CQL কোয়েরি, যেমন cql() mate বা cql(:gamenumber 1 10) K। Ctrl+Enter অনুসন্ধান করে।}
+translate b CQLQueryEmpty {অনুসন্ধানের আগে একটি CQL কোয়েরি লিখুন।}
+translate b CQLSearchFailed {CQL অনুসন্ধান ব্যর্থ হয়েছে:}

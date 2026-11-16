@@ -127,6 +127,7 @@ menuText h SearchNegate "नकारात्मक फ़िल्टर" 0 {�
 menuText h SearchCurrent "वर्तमान बोर्ड..." 0 {वर्तमान बोर्ड स्थिति खोजें}
 menuText h SearchHeader "हेडर..." 0 {हेडर (खिलाड़ी, घटना, आदि) जानकारी द्वारा खोजें}
 menuText h SearchMaterial "सामग्री/पैटर्न..." 0 {सामग्री या बोर्ड पैटर्न खोजें}
+menuText h SearchCQL "CQL..." 0 {Chess Query Language क्वेरी से खोजें}
 menuText h SearchComments "टिप्पणियाँ खोजें..." 0 {वर्तमान फ़िल्टर में गेम की टिप्पणियाँ खोजें}
 menuText h SearchUsing "खोज फ़ाइल का उपयोग करना..." 0 {SearchOptions फ़ाइल का उपयोग करके खोजें}
 
@@ -2361,3 +2362,8 @@ set tips(h) {
     विकल्प मेनू में संबंधित प्रविष्टि की जाँच करके विंडोज़ को डॉक किया जा सकता है। टैब को एक नोटबुक से दूसरे नोटबुक में खींचा और छोड़ा जा सकता है और टैब विजेट पर राइट क्लिक करके लेआउट किया जा सकता है।
   }
 }
+# CQL search:
+translate h CQLQuery {CQL क्वेरी}
+translate h CQLQueryHint {CQL क्वेरी, जैसे cql() mate या cql(:gamenumber 1 10) K। Ctrl+Enter खोजता है।}
+translate h CQLQueryEmpty {खोजने से पहले CQL क्वेरी दर्ज करें।}
+translate h CQLSearchFailed {CQL खोज विफल रही:}

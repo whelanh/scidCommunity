@@ -128,6 +128,7 @@ menuText Q SearchNegate "Скасувати фільтр" 0 {Відмініть 
 menuText Q SearchCurrent "Поточна рада..." 0 {Пошук поточної позиції дошки}
 menuText Q SearchHeader "Заголовок..." 0 {Пошук за інформацією заголовка (гравець, подія тощо).}
 menuText Q SearchMaterial "Матеріал/Візерунок..." 0 {Шукайте шаблони матеріалів або дощок}
+menuText Q SearchCQL "CQL..." 0 {Пошук за допомогою запиту Chess Query Language}
 menuText Q SearchComments "Пошук коментарів..." 0 {Шукайте коментарі до ігор у поточному фільтрі}
 menuText Q SearchUsing "Використання файлу пошуку..." 0 {Шукайте за допомогою файлу SearchOptions}
 
@@ -2362,3 +2363,8 @@ set tips(Q) {
     Windows можна пристикувати, позначивши відповідний запис у меню параметрів. Вкладки можна перетягувати з одного блокнота в інший і розміщувати, клацнувши правою кнопкою миші віджет вкладки.
   }
 }
+# CQL search:
+translate Q CQLQuery {Запит CQL}
+translate Q CQLQueryHint {Запит CQL, наприклад cql() mate або cql(:gamenumber 1 10) K. Ctrl+Enter запускає пошук.}
+translate Q CQLQueryEmpty {Введіть запит CQL перед пошуком.}
+translate Q CQLSearchFailed {Пошук CQL не вдався:}

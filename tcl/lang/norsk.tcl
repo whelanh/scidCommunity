@@ -132,6 +132,7 @@ menuText O SearchNegate "Snu filter" 0 {Reverserer filteret til å kun inneholde
 menuText O SearchCurrent "Stilling..." 0 {Søk etter denne stillingen}
 menuText O SearchHeader "Header..." 0 {Søk etter Header (partier, turnering etc) informasjon}
 menuText O SearchMaterial "Kvalitet/stilling..." 0 {Søk på kvalitet eller stilling}
+menuText O SearchCQL "CQL..." 0 {Søk med en Chess Query Language-spørring}
 menuText O SearchComments "Søk i kommentarer..." 0 {Søk i kommentarene til spillene i gjeldende filter}
 menuText O SearchUsing "Bruk søkefil..." 0 {Søk vha lagrede søkevilkår}
 
@@ -2383,3 +2384,8 @@ set tips(O) {
     Windows kan dokkes ved å sjekke den aktuelle oppføringen i alternativmenyen. Faner kan dras og slippes fra en notatbok til en annen og legges ut ved å høyreklikke på fanemodulen.
   }
 }
+# CQL search:
+translate O CQLQuery {CQL-spørring}
+translate O CQLQueryHint {CQL-spørring, f.eks. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter søker.}
+translate O CQLQueryEmpty {Skriv inn en CQL-spørring før du søker.}
+translate O CQLSearchFailed {CQL-søket mislyktes:}

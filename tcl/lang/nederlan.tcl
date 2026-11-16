@@ -144,6 +144,7 @@ menuText N SearchHeader "Partijgegevens..." 5 \
   {Zoek op speciale informatie: speler, evenement enz.}
 menuText N SearchMaterial "Materiaal/Kenmerken..." 0 \
   {Zoek op patroon: bord, materiaal enz.}
+menuText N SearchCQL "CQL..." 0 {Zoeken met een Chess Query Language-query}
 menuText N SearchComments "Zoek opmerkingen..." 0 {Zoek de commentaren van de games in het huidige filter}
 menuText N SearchUsing "Zoekopties" 0 \
   {Zoek met gebruikmaking van opgeslagen opties}
@@ -2408,3 +2409,8 @@ set tips(N) {
     Windows kan worden gedockt door het relevante item in het optiemenu aan te vinken. Tabbladen kunnen van het ene notitieboekje naar het andere worden gesleept en neergezet en worden opgemaakt door met de rechtermuisknop op de tabbladwidget te klikken.
   }
 }
+# CQL search:
+translate N CQLQuery {CQL-query}
+translate N CQLQueryHint {CQL-query, bijv. cql() mate of cql(:gamenumber 1 10) K. Ctrl+Enter zoekt.}
+translate N CQLQueryEmpty {Voer een CQL-query in voordat u gaat zoeken.}
+translate N CQLSearchFailed {De CQL-zoekopdracht is mislukt:}

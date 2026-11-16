@@ -137,6 +137,7 @@ menuText F SearchHeader "En-tête..." 0 \
   {Rechercher par l'information dans l'en-tête (joueur, tournoi, etc.)}
 menuText F SearchMaterial "Matériel ou motif..." 0 \
   {Rechercher un motif ou un matériel particulier sur l'échiquier}
+menuText F SearchCQL "CQL..." 0 {Rechercher avec une requête Chess Query Language}
 menuText F SearchComments "Rechercher des commentaires..." 0 {Rechercher les commentaires des jeux dans le filtre actuel}
 menuText F SearchUsing "En utilisant un fichier d'options..." 3 \
   {Rechercher en utilisant un fichier d'options de recherche}
@@ -2389,3 +2390,8 @@ set tips(F) {
     Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
   }
 }
+# CQL search:
+translate F CQLQuery {Requête CQL}
+translate F CQLQueryHint {Requête CQL, par ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Entrée lance la recherche.}
+translate F CQLQueryEmpty {Saisissez une requête CQL avant de lancer la recherche.}
+translate F CQLSearchFailed {La recherche CQL a échoué :}

@@ -168,6 +168,7 @@ menuText L SearchNegate "Negați filtrul" 0 {Anulați filtrul pentru a include n
 menuText L SearchCurrent "Consiliul actual..." 0 {Căutați poziția curentă a consiliului}
 menuText L SearchHeader "Antet..." 0 {Căutați informații după antet (jucător, eveniment etc.).}
 menuText L SearchMaterial "Material/Model..." 0 {Căutați materiale sau modele de tablă}
+menuText L SearchCQL "CQL..." 0 {Căutați cu o interogare Chess Query Language}
 menuText L SearchComments "Căutați comentarii..." 0 {Căutați comentariile jocurilor în filtrul curent}
 menuText L SearchUsing "Se utilizează fișierul de căutare..." 0 {Căutați folosind un fișier SearchOptions}
 
@@ -2402,3 +2403,8 @@ set tips(L) {
     Windows poate fi andocat prin verificarea intrării relevante din meniul de opțiuni. Filele pot fi trase și plasate dintr-un blocnotes în altul și așezate făcând clic dreapta pe widgetul file.
   }
 }
+# CQL search:
+translate L CQLQuery {Interogare CQL}
+translate L CQLQueryHint {Interogare CQL, de ex. cql() mate sau cql(:gamenumber 1 10) K. Ctrl+Enter caută.}
+translate L CQLQueryEmpty {Introduceți o interogare CQL înainte de a căuta.}
+translate L CQLSearchFailed {Căutarea CQL a eșuat:}

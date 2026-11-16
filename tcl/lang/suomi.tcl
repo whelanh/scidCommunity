@@ -166,6 +166,7 @@ menuText U SearchNegate "Käänteinen suodatin" 0 {Suodatin näyttää aiemmin p
 menuText U SearchCurrent "Nykyinen asema..." 0 {Etsi nykyistä asemaa tietokannasta}
 menuText U SearchHeader "Otsikko..." 0 {Etsi otsikkotiedon perusteella (pelaaja, tapahtuma jne.)}
 menuText U SearchMaterial "Materiaali/asema..." 0 {Etsi materiaalin tai aseman tunnusmerkkien perusteella}
+menuText U SearchCQL "CQL..." 0 {Hae Chess Query Language -kyselyllä}
 menuText U SearchComments "Hae kommentteja..." 0 {Hae pelien kommentteja nykyisestä suodattimesta}
 menuText U SearchUsing "Haku tiedostolla..." 0 {Etsi käyttäen apuna erillistä hakutiedostoa}
 
@@ -2414,3 +2415,8 @@ set tips(U) {
     Windows voidaan telakoida tarkistamalla vastaava merkintä asetusvalikosta. Välilehtiä voidaan vetää ja pudottaa yhdestä muistikirjasta toiseen ja asetella napsauttamalla hiiren kakkospainikkeella välilehtiwidgetiä.
   }
 }
+# CQL search:
+translate U CQLQuery {CQL-kysely}
+translate U CQLQueryHint {CQL-kysely, esim. cql() mate tai cql(:gamenumber 1 10) K. Ctrl+Enter hakee.}
+translate U CQLQueryEmpty {Anna CQL-kysely ennen hakua.}
+translate U CQLSearchFailed {CQL-haku epäonnistui:}

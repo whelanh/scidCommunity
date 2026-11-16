@@ -1,0 +1,245 @@
+# Copyright (C) 2026 David Crandall
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# search_cql_tk.tcl -- the CQL search window under real Tk.
+#
+#   wish tests/tcl/search_cql_tk.tcl
+#   xvfb-run -a wish tests/tcl/search_cql_tk.tcl   (no display)
+#
+# search_cql.tcl (run by the binary) proves the query reaches the engine and
+# fills the filter. This one proves the window hands the search the right
+# thing: the query as one string, the chosen filter operation, and no search at
+# all when the box is empty. sc_search is stubbed, so a change in the widget
+# wiring that would silently search for something else fails here instead of in
+# the game list.
+
+set fails 0
+set checks 0
+proc check {label cond {detail ""}} {
+    incr ::checks
+    if {$cond} {
+        puts "  ok   $label"
+    } else {
+        incr ::fails
+        if {$detail eq ""} { puts "  FAIL $label" } else { puts "  FAIL $label -- $detail" }
+    }
+}
+proc checkEq {label got want} {
+    check $label [expr {$got eq $want}] "got '$got' want '$want'"
+}
+
+# --------------------------------------------------------------- environment --
+proc tr {tag args} { return $tag }
+namespace eval ::win {}
+proc ::win::createDialog {w {y 10}} { toplevel $w }
+proc ::setTitle {w title} { wm title $w $title }
+proc CreateSelectDBWidget {parent varname refbase} {
+    ttk::frame $parent.db
+    grid $parent.db -sticky news
+    set $varname 1
+}
+proc autoscrollBars {axis parent canvas} {
+    grid $canvas -sticky news
+    grid columnconfigure $parent 0 -weight 1
+    grid rowconfigure $parent 0 -weight 1
+}
+proc ::applyThemeColor_background {w} {}
+proc progressBarCancel {} {}
+proc progressBarSet {args} {}
+namespace eval ::notify {}
+set ::notified {}
+proc ::notify::filter {args} { lappend ::notified $args }
+namespace eval ::windows::gamelist {}
+proc ::windows::gamelist::formatFilterText {a b} { return "$a of $b" }
+set ::opened {}
+proc ::windows::gamelist::Open {args} { lappend ::opened $args }
+namespace eval ERROR { set UserCancel 2 }
+
+# Record every sc_search and sc_filter call so the button's contract can be read
+# back. ::sc_searchError turns the failure path on.
+set ::searchCalls {}
+set ::filterCalls {}
+set ::sc_searchError ""
+proc sc_search {args} {
+    lappend ::searchCalls $args
+    if {$::sc_searchError ne ""} { error $::sc_searchError }
+    return "1 / 5 (0:00)"
+}
+proc sc_filter {args} {
+    lappend ::filterCalls $args
+    switch -- [lindex $args 0] {
+        sizes { return {1 5 5} }
+        new   { return newfilter }
+    }
+    return ""
+}
+proc sc_base {args} {
+    switch -- [lindex $args 0] {
+        current { return 1 }
+        inUse   { return 1 }
+    }
+    return ""
+}
+
+# The dialogs the window raises, recorded instead of shown.
+set ::dialogs {}
+proc tk_messageBox {args} {
+    lappend ::dialogs $args
+    return ok
+}
+
+set root [file normalize [file join [file dirname [info script]] .. ..]]
+source [file join $root tcl search board.tcl]
+source [file join $root tcl search cql.tcl]
+
+# --------------------------------------------------------------------- tests --
+puts "\n== the window builds ==\n"
+::search::cql
+set w .wnd_SearchCQL
+check "the window exists" [winfo exists $w]
+check "the query box is there" [winfo exists $w.options.query.text]
+check "the hint line is there" [winfo exists $w.options.query.hint]
+check "the status line is there" [winfo exists $w.options.query.status]
+check "the search button is there" [winfo exists $w.buttons.search]
+check "the filter operation buttons are there" \
+    [expr {[winfo exists $w.filterOp.and] && [winfo exists $w.filterOp.reset]}]
+check "the query box takes several lines" \
+    [expr {[$w.options.query.text cget -height] > 1}]
+check "the query box remembers what was typed" \
+    [expr {[$w.options.query.text cget -undo] eq "1"}]
+
+puts "\n== the controls that do not apply are not shown ==\n"
+check "no database chooser" \
+    [expr {[winfo manager $w.refdb] eq ""}]
+check "no invert button" \
+    [expr {[winfo manager $w.buttons.invert] eq ""}]
+check "no search on a bare Return (it is a newline in the box)" \
+    [expr {[bind $w <Return>] eq ""}]
+check "Ctrl+Return runs the query" \
+    [expr {[bind $w.options.query.text <Control-Return>] ne ""}]
+
+puts "\n== an empty box searches nothing and says so ==\n"
+set ::dialogs {}
+set ::searchCalls {}
+$w.buttons.search invoke
+checkEq "sc_search was not called" [llength $::searchCalls] 0
+checkEq "one dialog" [llength $::dialogs] 1
+check "the dialog names the empty query" \
+    [expr {[string first CQLQueryEmpty [lindex $::dialogs 0]] >= 0}] \
+    [lindex $::dialogs 0]
+checkEq "the status line says it too" \
+    [$w.options.query.status cget -text] CQLQueryEmpty
+
+puts "\n== a box of blanks is empty too ==\n"
+$w.options.query.text insert 1.0 "   \n\n  "
+set ::dialogs {}
+set ::searchCalls {}
+$w.buttons.search invoke
+checkEq "sc_search was not called" [llength $::searchCalls] 0
+checkEq "a dialog was shown" [llength $::dialogs] 1
+
+puts "\n== a query reaches the engine with the filter operation ==\n"
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "mate"
+set ::searchCalls {}
+set ::filterCalls {}
+$w.buttons.search invoke
+checkEq "one search" [llength $::searchCalls] 1
+checkEq "sc_search cql <op> <strip> <silent> <query>" \
+    [lindex $::searchCalls 0] {cql reset 0 0 mate}
+checkEq "the database filter is the window's filter" \
+    $::search::filter_($w) dbfilter
+check "the game list was told the filter changed" \
+    [expr {[llength $::notified] > 0}]
+checkEq "and with the database filter" [lindex $::notified end] {1 dbfilter}
+checkEq "the result is reported" \
+    [$w.options.query.status cget -text] "1 / 5 (0:00)"
+
+puts "\n== a multi-line query is passed whole, and AND is carried over ==\n"
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "cql(:gamenumber 3 3)\n  qh4"
+set ::search::filterOp_($w) and
+set ::searchCalls {}
+$w.buttons.search invoke
+checkEq "the newline is kept, the outer blanks are not" \
+    [lindex [lindex $::searchCalls 0] 4] "cql(:gamenumber 3 3)\n  qh4"
+checkEq "the filter operation is the radio's" \
+    [lindex [lindex $::searchCalls 0] 1] and
+
+puts "\n== a failed query is reported, not raised ==\n"
+set ::sc_searchError "error (line 1) Unrecognized filter"
+set ::dialogs {}
+set err [catch {$w.buttons.search invoke} msg]
+checkEq "the button does not throw" $err 0
+checkEq "the status line carries the engine's message" \
+    [$w.options.query.status cget -text] "error (line 1) Unrecognized filter"
+checkEq "one dialog" [llength $::dialogs] 1
+check "the dialog carries the engine's message" \
+    [expr {[string first "Unrecognized filter" [lindex $::dialogs 0]] >= 0}] \
+    [lindex $::dialogs 0]
+set ::sc_searchError ""
+
+puts "\n== a cancelled query says nothing ==\n"
+proc sc_search {args} {
+    lappend ::searchCalls $args
+    return -code error -errorcode 2 "cancelled"
+}
+set ::dialogs {}
+$w.buttons.search invoke
+checkEq "no dialog for a cancel" [llength $::dialogs] 0
+proc sc_search {args} {
+    lappend ::searchCalls $args
+    if {$::sc_searchError ne ""} { error $::sc_searchError }
+    return "1 / 5 (0:00)"
+}
+
+puts "\n== Search (new filter) opens a list of its own ==\n"
+set ::filterCalls {}
+set ::opened {}
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "mate"
+$w.buttons.search_new invoke
+check "a filter was made for the new list" \
+    [expr {[lsearch -exact [lindex $::filterCalls 0] new] >= 0}] \
+    [lindex $::filterCalls 0]
+checkEq "dbfilter was copied into it" \
+    [lrange [lindex $::filterCalls 1] 0 3] {copy 1 newfilter dbfilter}
+checkEq "the list opens on it" [lindex $::opened 0] {1 newfilter}
+
+puts "\n== Defaults clears the box and the operation ==\n"
+set ::search::filterOp_($w) or
+$w.buttons.reset_values invoke
+checkEq "the box is empty" [::search::cqlQuery] ""
+checkEq "the operation is reset" $::search::filterOp_($w) reset
+
+puts "\n== the window's option list ==\n"
+$w.options.query.text insert 1.0 "  Qh4  "
+checkEq "one cql option holding the trimmed query" \
+    [::search::cqlOptions] {{cql Qh4}}
+
+puts "\n== every catalogue carries the window's strings ==\n"
+set missing {}
+foreach f [lsort [glob -nocomplain -directory [file join $root tcl lang] *.tcl]] {
+    set name [file tail $f]
+    if {$name in {checklangs.tcl propagatelang.tcl removedeadlang.tcl removetoken.tcl}} {
+        continue
+    }
+    set fh [open $f r]
+    fconfigure $fh -encoding utf-8
+    set text [read $fh]
+    close $fh
+    foreach key {SearchCQL CQLQuery CQLQueryHint CQLQueryEmpty CQLSearchFailed} {
+        if {[string first $key $text] < 0} { lappend missing "$name:$key" }
+    }
+}
+checkEq "no catalogue is missing a key" $missing ""
+
+destroy $w
+
+puts ""
+if {$fails} {
+    puts "FAILED $fails of $checks checks"
+    exit 1
+}
+puts "$checks checks, 0 failures"
+exit 0

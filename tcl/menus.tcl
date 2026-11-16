@@ -212,6 +212,7 @@ $m add command -label SearchCurrent -command ::search::board -accelerator "Ctrl+
 $m add command -label SearchHeader -command ::search::header -accelerator "Ctrl+Shift+H"
 $m add command -label SearchMaterial -command ::search::material -accelerator "Ctrl+Shift+M"
 $m add command -label SearchMoves -command ::search::moves
+$m add command -label SearchCQL -command ::search::cql
 $m add command -label SearchComments -command ::search::comments::Open
 $m add separator
 $m add checkbutton -label WindowsPList -variable plistWin -command ::plist::toggle -accelerator "Ctrl+Shift+P"

@@ -134,6 +134,7 @@ menuText R SearchNegate "Инвертировать фильтр" 0 {Обрат�
 menuText R SearchCurrent "Текущая позиция..." 0 {Поиск текущей позиции}
 menuText R SearchHeader "Заголовок..." 0 {Поиск по заголовку (игрок, турнир, и т. д.)}
 menuText R SearchMaterial "Материал/позиция..." 0 {Поиск по материалу или образцам позиции}
+menuText R SearchCQL "CQL..." 0 {Поиск с помощью запроса Chess Query Language}
 menuText R SearchComments "Поиск комментариев..." 0 {Поиск комментариев к играм в текущем фильтре}
 menuText R SearchUsing "Использовать файл поиска..." 0 {Поиск с использованием файла с установками поиска}
 
@@ -2385,3 +2386,8 @@ set tips(R) {
     Windows можно закрепить, отметив соответствующий пункт в меню параметров. Вкладки можно перетаскивать из одного блокнота в другой и размещать их, щелкнув правой кнопкой мыши виджет вкладок.
   }
 }
+# CQL search:
+translate R CQLQuery {Запрос CQL}
+translate R CQLQueryHint {Запрос CQL, например cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter запускает поиск.}
+translate R CQLQueryEmpty {Введите запрос CQL перед поиском.}
+translate R CQLSearchFailed {Поиск CQL не удался:}

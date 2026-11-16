@@ -134,6 +134,7 @@ menuText I SearchNegate "Inverti il filtro" 0 {Inverte il filtro per comprendere
 menuText I SearchCurrent "Posizione attuale..." 0 {Cerca la posizione attuale}
 menuText I SearchHeader "Intestazione..." 0 {Ricerca per intestazione (giocatore, evento, etc)}
 menuText I SearchMaterial "Materiale/schema..." 0 {Ricerca per materiale o schema posizionale}
+menuText I SearchCQL "CQL..." 0 {Cerca con una query Chess Query Language}
 menuText I SearchComments "Cerca commenti..." 0 {Cerca i commenti dei giochi nel filtro corrente}
 menuText I SearchUsing "Uso del file di ricerca..." 0 {Ricerca mediante un file di opzioni}
 
@@ -2385,3 +2386,8 @@ set tips(I) {
     È possibile agganciare Windows controllando la voce pertinente nel menu delle opzioni. Le schede possono essere trascinate e rilasciate da un taccuino all'altro e disposte facendo clic con il pulsante destro del mouse sul widget della scheda.
   }
 }
+# CQL search:
+translate I CQLQuery {Query CQL}
+translate I CQLQueryHint {Query CQL, ad es. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Invio avvia la ricerca.}
+translate I CQLQueryEmpty {Inserire una query CQL prima di cercare.}
+translate I CQLSearchFailed {La ricerca CQL non è riuscita:}

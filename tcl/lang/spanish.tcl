@@ -142,6 +142,7 @@ menuText S SearchHeader "Encabezamiento..." 0 \
   {Busca por información de encabezamiento (jugador, evento, etc.)}
 menuText S SearchMaterial "Material/Patrón..." 0 \
   {Busca por material o patrón del tablero}
+menuText S SearchCQL "CQL..." 0 {Buscar con una consulta de Chess Query Language}
 menuText S SearchComments "Buscar comentarios..." 0 {Busca los comentarios de los juegos en el filtro actual.}
 menuText S SearchUsing "Usar archivo de búsqueda..." 0 \
   {Busca usando un archivo de opciones de búsqueda}
@@ -2436,3 +2437,8 @@ set tips(S) {
     Windows se puede acoplar marcando la entrada correspondiente en el menú de opciones. Las pestañas se pueden arrastrar y soltar de un cuaderno a otro y diseñar haciendo clic derecho en el widget de pestaña.
   }
 }
+# CQL search:
+translate S CQLQuery {Consulta CQL}
+translate S CQLQueryHint {Consulta CQL, p. ej. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Intro busca.}
+translate S CQLQueryEmpty {Introduzca una consulta CQL antes de buscar.}
+translate S CQLSearchFailed {La búsqueda CQL ha fallado:}

@@ -167,6 +167,7 @@ menuText P SearchNegate "Odwróć filtr" 0 {Odwróć filtr, aby uwzględnić tyl
 menuText P SearchCurrent "Bieżąca pozycja..." 0 {Wyszukaj bieżącą pozycję na szachownicy}
 menuText P SearchHeader "Nagłówek..." 0 {Wyszukaj według informacji z nagłówka partii (gracz, turniej itp.)}
 menuText P SearchMaterial "Materiał/wzorce..." 0 {Wyszukaj według materiału lub układu figur na szachownicy}
+menuText P SearchCQL "CQL..." 0 {Szukaj za pomocą zapytania Chess Query Language}
 menuText P SearchComments "Szukaj w komentarzach..." 0 {Przeszukaj komentarze w partiach bieżącego filtra}
 menuText P SearchUsing "Użyj pliku wyszukiwania..." 0 {Wyszukaj według ustawień z pliku SearchOptions}
 
@@ -2509,3 +2510,8 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
+# CQL search:
+translate P CQLQuery {Zapytanie CQL}
+translate P CQLQueryHint {Zapytanie CQL, np. cql() mate lub cql(:gamenumber 1 10) K. Ctrl+Enter uruchamia wyszukiwanie.}
+translate P CQLQueryEmpty {Przed wyszukiwaniem wpisz zapytanie CQL.}
+translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}

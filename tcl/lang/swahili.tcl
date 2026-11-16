@@ -127,6 +127,7 @@ menuText Z SearchNegate "Punguza Kichujio" 0 {Punguza kichujio ili kujumuisha mi
 menuText Z SearchCurrent "Bodi ya Sasa..." 0 {Tafuta nafasi ya sasa ya bodi}
 menuText Z SearchHeader "Kijajuu..." 0 {Tafuta kwa Kichwa (mchezaji, tukio, nk) habari}
 menuText Z SearchMaterial "Nyenzo/Muundo..." 0 {Tafuta muundo wa nyenzo au ubao}
+menuText Z SearchCQL "CQL..." 0 {Tafuta kwa hoja ya Chess Query Language}
 menuText Z SearchComments "Tafuta Maoni..." 0 {Tafuta maoni ya michezo kwenye kichujio cha sasa}
 menuText Z SearchUsing "Kwa kutumia Faili ya Utafutaji..." 0 {Tafuta kwa kutumia faili ya SearchOptions}
 
@@ -2361,3 +2362,8 @@ set tips(Z) {
     Windows inaweza kuunganishwa kwa kuangalia ingizo linalofaa kwenye menyu ya chaguo. Vichupo vinaweza kuburutwa na kudondoshwa kutoka daftari moja hadi nyingine na kuwekwa nje kwa kubofya kulia kwenye wijeti ya kichupo.
   }
 }
+# CQL search:
+translate Z CQLQuery {Hoja ya CQL}
+translate Z CQLQueryHint {Hoja ya CQL, k.m. cql() mate au cql(:gamenumber 1 10) K. Ctrl+Enter hutafuta.}
+translate Z CQLQueryEmpty {Weka hoja ya CQL kabla ya kutafuta.}
+translate Z CQLSearchFailed {Utafutaji wa CQL umeshindikana:}

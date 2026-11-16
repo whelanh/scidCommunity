@@ -131,6 +131,7 @@ menuText B SearchNegate "Inverter Filtragem" 0 {Inverte o critério de pesquisa 
 menuText B SearchCurrent "Posição Atual..." 0 {Pesquisa a posição atual do tabuleiro}
 menuText B SearchHeader "Cabeçalho..." 0 {Pesquisa por cabeçalho (jogador, evento, etc)}
 menuText B SearchMaterial "Material/Padrão..." 0 {Pesquisa por material ou padrão de posição}
+menuText B SearchCQL "CQL..." 0 {Pesquisar com uma consulta Chess Query Language}
 menuText B SearchComments "Pesquisar comentários..." 0 {Pesquise os comentários dos jogos no filtro atual}
 menuText B SearchUsing "Usar arquivo de opções de filtro..." 0 {Pesquisa usando arquivo com opções de filtro}
 
@@ -2391,3 +2392,8 @@ set tips(B) {
     O Windows pode ser encaixado marcando a entrada relevante no menu de opções. As guias podem ser arrastadas e soltas de um bloco de notas para outro e dispostas clicando com o botão direito no widget da guia.
   }
 }
+# CQL search:
+translate B CQLQuery {Consulta CQL}
+translate B CQLQueryHint {Consulta CQL, por ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Enter pesquisa.}
+translate B CQLQueryEmpty {Digite uma consulta CQL antes de pesquisar.}
+translate B CQLSearchFailed {A pesquisa CQL falhou:}
