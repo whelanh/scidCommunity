@@ -94,6 +94,12 @@ Allocation across the bands is damped-proportional (weight `√count`, floor 10)
 so the sample is not just the middle of the database. The draw is random inside
 each band with a fixed seed (20261103), so the corpus is reproducible.
 
+The bands are searched through the headless API, which reports a band's true
+match count but returns at most 10,000 ids for it. A band larger than that can
+only be sampled from the ids the search returns, so the corpus records any such
+band in its `capped` field; inside a capped band the draw is random over those
+ids, not over the whole band.
+
 ### Engine pass
 
 | | |

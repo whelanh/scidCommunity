@@ -527,6 +527,18 @@ proc ::reviewreport::collect {p results} {
             set ea [expr {$side eq "black" ? -$after : $after}]
             set loss [expr {min(1000, max(0, $before - $after))}]
         }
+        # The independent evaluation of the position this move reaches: the pass
+        # searched it, so it is the fit's `cps[i]`. It is carried on the move
+        # because the last move of a game has no following move to read it from,
+        # and the fit counted that move too.
+        set succ_w ""
+        if {[dict exists $results $ply] && [dict exists [dict get $results $ply] 1]} {
+            set sc [::reviewdriver::lineScore [dict get [dict get $results $ply] 1]]
+            if {$sc ne ""} {
+                set sc [expr {-$sc}]
+                set succ_w [expr {$side eq "black" ? -$sc : $sc}]
+            }
+        }
         set best_pv ""
         catch { set best_pv [lindex [dict get $results [expr {$ply - 1}] 1] 3] }
         set best_uci [lindex $best_pv 0]
@@ -544,7 +556,8 @@ proc ::reviewreport::collect {p results} {
         lappend moves [dict create ply $ply side $side san $san played $played \
             fen_before $fen_before fen_after $fen_after \
             classification $label cp_loss $loss \
-            eval_before_white $eb eval_after_white $ea eval_before_cp $eb \
+            eval_before_white $eb eval_after_white $ea eval_successor_white $succ_w \
+            eval_before_cp $eb \
             eval_after_cp $ea player_before $pb player_after $pa \
             best_uci $best_uci best_san $best_san best_pv $best_pv]
     }

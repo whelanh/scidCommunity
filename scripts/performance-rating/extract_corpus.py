@@ -13,7 +13,10 @@ Selection, fixed before the run:
   * the game is decided or drawn: result is 1-0, 0-1 or 1/2-1/2, never "*";
   * spread across rating bands: the range is cut into 100-point bands and the
     500 games are allocated across them, so the sample is not the middle of the
-    database. Games are drawn at random inside each band with a fixed seed.
+    database. Games are drawn at random inside each band with a fixed seed. A
+    band whose search matches more games than the API returns ids for (10,000)
+    is sampled from the ids it does return; such bands are listed in the
+    corpus's `capped` field and reported on stderr.
 
 Ratings are read here, offline, as the ground truth of the fit. Nothing in the
 application reads them at runtime.
@@ -129,13 +132,22 @@ def main():
     handle = h.call("db_open", path=args.db, type="SCID4", readonly=True)["handle"]
     print(h.call("db_info", handle=handle), file=sys.stderr)
 
-    counts, ids_by_band = OrderedDict(), {}
+    counts, ids_by_band, capped = OrderedDict(), {}, []
     for lo, hi in bands:
         res = h.call("db_search", handle=handle,
                      welo=f"{lo} {hi}", belo=f"{lo} {hi}", length=length)
         ids = res.get("matches") or []
         counts[(lo, hi)] = res["count"]
         ids_by_band[(lo, hi)] = ids
+        if res["count"] > len(ids):
+            # The search reports the true count but returns at most 10,000 ids
+            # (src/api_headless.cpp), so a band this large is sampled from the
+            # part of it the search yields. Recorded in the corpus rather than
+            # left as an invisible bias.
+            capped.append((lo, hi))
+            print(f"band {lo}-{hi}: {res['count']} matches, only the first "
+                  f"{len(ids)} are reachable through the API; the sample from "
+                  f"this band is drawn from those", file=sys.stderr)
         print(f"band {lo}-{hi}: {res['count']} games, {len(ids)} ids listed",
               file=sys.stderr)
 
@@ -203,6 +215,10 @@ def main():
                       "length": length, "results": sorted(GOOD_RESULTS)},
         "bands": {f"{lo}-{hi}": c for (lo, hi), c in counts.items()},
         "allocation": {f"{lo}-{hi}": n for (lo, hi), n in alloc.items()},
+        # Bands whose search yields more matches than the API returns ids for:
+        # their sample comes from the ids the search returned, not from the
+        # whole band. Empty for a database small enough to list every match.
+        "capped": [f"{lo}-{hi}" for lo, hi in capped],
         "seed": args.seed,
         "games": games,
     }

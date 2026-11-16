@@ -188,6 +188,17 @@ lappend bestMove [dict create ply 2 side black cp_loss 0 \
 check "a move the engine ranked best still costs what it reached" \
     [expr {[::perfrating::esl $bestMove white] > 0.10}] [::perfrating::esl $bestMove white]
 
+# The last move of a game is counted too: it has no following move to read the
+# reached position from, so the move carries that position's own evaluation. The
+# fit scored that move (its `cps[i]` loop runs to the final position).
+set terminal {}
+lappend terminal [dict create ply 1 side white cp_loss 0 \
+    eval_before_white [cpOf 5] eval_after_white [cpOf 5] \
+    eval_successor_white [cpOf 3]]
+check "the last move is measured from the position it reached" \
+    [near [::perfrating::esl $terminal white] 0.02 1e-6] \
+    [::perfrating::esl $terminal white]
+
 # Ratio of sums, not mean of ratios: one move in a dead-drawn-to-lost position
 # has E_best = 0, where a per-move ratio divides by zero and a 5% -> 3% move
 # scores as a 60% disaster.

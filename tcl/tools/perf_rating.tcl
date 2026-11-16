@@ -152,9 +152,19 @@ proc ::perfrating::pairs {moves side} {
         if {[dict get $m side] ne $side} { continue }
         if {![dict exists $m ply]} { continue }
         set before [dict get $m eval_before_white]
-        set next [expr {[dict get $m ply] + 1}]
-        if {$before eq "" || ![dict exists $at $next]} { continue }
-        set after [dict get $at $next]
+        if {$before eq ""} { continue }
+        # The move carries its own successor evaluation when `collect` had the
+        # pass's search of the reached position; the ply map is the fallback for
+        # callers that build only the pair. The last move of a game has no `next`
+        # record, which is why the carried field is the primary source.
+        set after ""
+        if {[dict exists $m eval_successor_white]} {
+            set after [dict get $m eval_successor_white]
+        }
+        if {$after eq ""} {
+            set next [expr {[dict get $m ply] + 1}]
+            if {[dict exists $at $next]} { set after [dict get $at $next] }
+        }
         if {$after eq ""} { continue }
         lappend out [list $before $after]
     }
