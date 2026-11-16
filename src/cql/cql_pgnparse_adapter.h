@@ -83,6 +83,51 @@ bool CqlIsStaleMate(Position *position);
 // ---------------------------------------------------------------------
 squareT CqlSquareMove(squareT square, directionT direction);
 
+// ---------------------------------------------------------------------
+// Query driver surface.
+// src/tkscid.cpp implements the Tcl side of "sc_search cql" but cannot see
+// the engine itself: the imported headers are not self contained enough to
+// be included from another translation unit (see the note in
+// cqlnodematch.cpp), and every engine error is reported with longjmp() to a
+// jmp_buf, so the jump has to be set in the frame that calls the engine.
+// These four functions are the whole of src/cql/ that the search driver sees.
+// ---------------------------------------------------------------------
+
+/**
+ * Parses a CQL query, discarding any previously parsed one.
+ * @param query:         the CQL source, as typed by the user.
+ * @param allowComments: let the engine annotate matched moves with "MATCH".
+ *                       Annotations only exist in the Game passed to
+ *                       CqlQueryMatchGame() and are never written back.
+ * @param error:         set to the engine's message when parsing fails.
+ * @returns true when the query parsed, false on a syntax error (which is a
+ *          normal, reportable failure - the engine longjmp()s out of its own
+ *          parser and the jump is caught here).
+ */
+bool CqlQueryParse(const char *query, bool allowComments, std::string *error);
+
+/// Outcome of matching one game; Error means the engine raised an error and
+/// the search cannot continue.
+enum class CqlMatchResult { Error = -1, NoMatch = 0, Match = 1 };
+
+/**
+ * Matches one game against the parsed query.
+ * The caller must set the game number with CqlSetGameNumber() first: the
+ * engine keys its per game caches on it.
+ * @param game:     the game to match; its position and variation stack are
+ *                  reset to the start of the game before matching.
+ * @param firstPly: set to the ply of the first match (0 = the start position)
+ *                  when the result is Match.
+ * @param error:    set to the engine's message when the result is Error.
+ */
+CqlMatchResult CqlQueryMatchGame(Game *game, unsigned *firstPly,
+                                 std::string *error);
+
+/// Releases the parsed query and resets the engine's global state, so the next
+/// CqlQueryParse() starts from a clean engine. Safe to call at any time and
+/// after a failed parse or match.
+void CqlQueryReset();
+
 /**
  * Minimal replacement for Scid vs. PC's MFile: a read-only regular file
  * handle, with the extra skipNonAscii() member scidvspc added for CQL.

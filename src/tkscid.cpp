@@ -23,6 +23,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "cql/cql_pgnparse_adapter.h"
 #include "crosstab.h"
 #include "dbasepool.h"
 #include "dstring.h"
@@ -8729,8 +8730,8 @@ int sc_search_comments(Tcl_Interp *ti, scidBaseT *base, int argc,
 //    Search function interface.
 int sc_search(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {"board", "comments", "header", "material",
-                                  nullptr};
-  enum { OPT_BOARD, OPT_COMMENTS, OPT_HEADER, OPT_MATERIAL };
+                                  "cql", nullptr};
+  enum { OPT_BOARD, OPT_COMMENTS, OPT_HEADER, OPT_MATERIAL, OPT_CQL };
 
   int index = -1;
   if (argc > 1) {
@@ -8759,6 +8760,10 @@ int sc_search(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case OPT_MATERIAL:
     ret = sc_search_material(cd, ti, argc, argv);
+    break;
+
+  case OPT_CQL:
+    ret = sc_search_cql(ti, db, db->getFilter("dbfilter"), argc, argv);
     break;
 
   default:
@@ -9189,6 +9194,203 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
           static_cast<unsigned long>(filter->size()),
           static_cast<unsigned long>(startFilterCount), centisecs / 100,
           decimalPointChar, centisecs % 100);
+  Tcl_AppendResult(ti, temp, nullptr);
+  return TCL_OK;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_search_cql:
+//    Searches the database with a Chess Query Language query.
+//
+//    The CQL engine imported from Scid vs. PC (src/cql/) is a global-state,
+//    single-threaded matcher: it keeps the parse tree and the "current game"
+//    in globals, it reports every syntax and runtime error with longjmp(), and
+//    it annotates the Game it is given. This driver therefore stays on one
+//    thread (unlike sc_search_moves), hands the engine a freshly decoded Game
+//    per game, and turns any engine error into a normal search error string.
+//
+//    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
+//    unchanged; the second is the short form):
+//      sc_search cql <filterOp> <stripSwitch> <allowComments> <cql>
+//      sc_search cql <cql>
+int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
+                  int argc, const char **argv) {
+  ASSERT(dbase != nullptr && filter != nullptr);
+
+  const char *usageStr =
+      "Usage: sc_search cql <filterOp> <stripSwitch> <allowComments> <cql>\n"
+      "       sc_search cql <cql>";
+  if (argc != 3 && argc != 6)
+    return errorResult(ti, usageStr);
+
+  // argv[0] is "sc_search" and argv[1] is "cql".
+  filterOpT filterOp = FILTEROP_AND;
+  bool allowComments = false;
+  const char *query = argv[2];
+  if (argc == 6) {
+    filterOp = strGetFilterOp(argv[2]);
+    // argv[3] (stripSwitch) removes the "MATCH" markers a previous CQL run
+    // left in the games. Nothing is written back to the database here - the
+    // annotated Game is thrown away with the search - so there is nothing to
+    // strip and the switch is accepted but has no effect.
+    allowComments = (argv[4][0] == '1');
+    query = argv[5];
+  }
+  if (query[0] == '\0')
+    return errorResult(ti, "The CQL query is empty.");
+
+  // Take a private copy of the query before anything evaluates Tcl code: the
+  // engine keeps a pointer to it for the whole parse (and every token copies
+  // from it), and creating the progress bar below runs Tcl.
+  const std::string queryText(query);
+
+  // Parse the query. A syntax error is a normal, reportable failure: the
+  // engine longjmp()s out of its own parser and the adapter catches it.
+  std::string cqlError;
+  if (!CqlQueryParse(queryText.c_str(), allowComments, &cqlError)) {
+    CqlQueryReset();
+    Tcl_ResetResult(ti);
+    Tcl_AppendResult(ti, cqlError.c_str(), nullptr);
+    return errorResult(ti, ERROR_BadArg, nullptr);
+  }
+
+  Progress progress = UI_CreateProgress(ti);
+  // Creating the progress bar evaluates "::progressCallBack init" and leaves
+  // the error in the interpreter result when there is no such Tcl command (a
+  // headless run, the test harnesses), so the result is cleared before this
+  // command writes its own message into it.
+  Tcl_ResetResult(ti);
+  Timer timer; // Start timing this search.
+  // If filter operation is to reset the filter, reset it:
+  if (filterOp == FILTEROP_RESET) {
+    filter->includeAll();
+    filterOp = FILTEROP_AND;
+  }
+  const size_t startFilterCount = filter->size();
+  const gamenumT totalGames = dbase->numGames();
+
+  // Collect candidates, respecting the filterOp: AND searches the games in the
+  // filter, OR the games out of it. Games without a gamefile record are dropped
+  // from the filter when searching it, and never added to it.
+  std::vector<gamenumT> candidates;
+  candidates.reserve(totalGames / 4);
+  for (gamenumT gn = 0; gn < totalGames; ++gn) {
+    const bool inFilter = (filter.get(gn) != 0);
+    if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+      if (filterOp == FILTEROP_AND && inFilter)
+        filter.set(gn, 0);
+      continue;
+    }
+    if (filterOp == FILTEROP_AND ? !inFilter : inFilter)
+      continue;
+    candidates.push_back(gn);
+  }
+
+  // results[i] is the ply to display for candidates[i]: 0 = no match, the ply
+  // of the first matching move otherwise. A read failure is recorded
+  // separately: the filter value is a byte, so a match in a very long game is
+  // capped and must not be mistaken for an error.
+  const size_t cand_total = candidates.size();
+  std::vector<byte> results(cand_total, 0);
+  std::vector<byte> readErrors(cand_total, 0);
+  bool readError = false;
+  bool engineError = false;
+  bool cancelled = false;
+  size_t examined = 0; // candidates whose outcome is known
+
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
+      cancelled = true;
+      break;
+    }
+
+    const gamenumT gameNum = candidates[ci];
+    // The engine caches the legal moves of the game it is working on under that
+    // game's number (see MarkBoard::getLegalMoves()), and :gamenumber and echo
+    // annotations read it, so it has to be set before matching, not after.
+    CqlSetGameNumber(gameNum + 1);
+
+    // A Game per game: its position, variation stack and comments start from
+    // the decoded game, so nothing can leak from the game before it.
+    Game game;
+    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
+      readErrors[ci] = 1;
+      ++examined;
+      continue;
+    }
+
+    unsigned firstPly = 0;
+    const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
+    ++examined;
+    if (res == CqlMatchResult::Error) {
+      engineError = true;
+      char where[80];
+      snprintf(where, sizeof(where), "CQL error in game %u: ",
+               static_cast<unsigned>(gameNum + 1));
+      cqlError.insert(0, where);
+      break;
+    }
+    if (res == CqlMatchResult::Match) {
+      // The filter value is 1 + the ply of the first match, so the game list
+      // opens on the matched position, the same convention sc_search_moves
+      // uses for the position its move is played from.
+      const unsigned ply = (firstPly > 254 ? 254 : firstPly) + 1;
+      results[ci] = static_cast<byte>(ply);
+    }
+  }
+
+  if (cancelled) {
+    CqlQueryReset();
+    return UI_Result(ti, ERROR_UserCancel);
+  }
+
+  // Apply results to the filter serially.
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    const gamenumT gameNum = candidates[ci];
+    if (ci >= examined) {
+      // Not searched because the engine failed: drop it from an AND search,
+      // leave an OR search alone. Scid vs. PC leaves the filter in the same
+      // state when it aborts a search.
+      if (filterOp == FILTEROP_AND)
+        filter.set(gameNum, 0);
+      continue;
+    }
+    if (readErrors[ci]) {
+      readError = true;
+      filter.set(gameNum, 0);
+      continue;
+    }
+    const byte ply = results[ci];
+    if (filterOp == FILTEROP_AND) {
+      // For AND: keep the game at its match ply, or exclude if no match.
+      filter.set(gameNum, ply);
+    } else if (ply > 0) { // For OR: only add the game if it matched.
+      filter.set(gameNum, ply);
+    }
+  }
+
+  progress.report(1, 1);
+
+  // Release the parse tree and the engine's global state, whether or not the
+  // search completed.
+  CqlQueryReset();
+
+  if (engineError) {
+    Tcl_ResetResult(ti);
+    Tcl_AppendResult(ti, cqlError.c_str(), nullptr);
+    return errorResult(ti, ERROR_BadArg, nullptr);
+  }
+  if (readError)
+    return errorResult(ti, "Error reading game file.");
+
+  // Print statistics and time for the search:
+  char temp[200];
+  const int centisecs = timer.CentiSecs();
+  sprintf(temp, "%lu / %lu  (%d%c%02d s)",
+          static_cast<unsigned long>(filter->size()),
+          static_cast<unsigned long>(startFilterCount), centisecs / 100,
+          decimalPointChar, centisecs % 100);
+  Tcl_ResetResult(ti);
   Tcl_AppendResult(ti, temp, nullptr);
   return TCL_OK;
 }

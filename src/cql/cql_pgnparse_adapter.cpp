@@ -15,6 +15,7 @@
 #include "game.h"
 #include "pgnparse.h" // scidCommunity's own buffer oriented PGN parser
 
+#include <csetjmp>
 #include <cstddef>
 
 //////////////////////////////////////////////////////////////////////
@@ -143,4 +144,107 @@ errorT PgnParser::ParseGame(Game *game) {
 			break;
 	}
 	return ERROR_NotFound;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Query driver (see cql_pgnparse_adapter.h)
+//
+// The engine reports every error - syntax and runtime alike - with
+// longjmp(), so each call into it is guarded by its own setjmp() here. The
+// imported functions below are declared rather than included for the reason
+// given in cqlnodematch.cpp: the engine's own headers cannot be pulled into
+// another translation unit.
+//////////////////////////////////////////////////////////////////////
+
+extern std::jmp_buf jump_buffer;   // cqlexit.cpp
+extern char *cqlErrMsg;            // cqlexit.h
+extern bool CqlSilent;             // cqlglobals.h
+bool CqlParseBuffer(char *buffer); // parser.cpp
+void CqlReset();                   // parser.cpp
+bool CqlMatchGame(Game *game);     // cqlnodematch.cpp
+extern uint CqlMatchPlyFirst;      // cqlnodematch.cpp
+
+namespace {
+
+/// The engine's message for the error it last raised, or a generic one: not
+/// every path to longjmp() sets cqlErrMsg.
+std::string engineError() {
+	if (cqlErrMsg)
+		return std::string(cqlErrMsg);
+	return std::string("Error reported back from CQL engine");
+}
+
+} // namespace
+
+bool CqlQueryParse(const char *query, bool allowComments, std::string *error) {
+	if (!query) {
+		if (error)
+			*error = "No CQL query given";
+		return false;
+	}
+
+	// Guard the reset as well: it drives the engine's own cleanup, which can
+	// raise an error of its own (and so longjmp()), and a longjmp() to a frame
+	// that has already returned would take the application down.
+	cqlErrMsg = nullptr;
+	if (setjmp(jump_buffer) != 0) {
+		if (error)
+			*error = engineError();
+		return false;
+	}
+
+	// Start from a known-clean engine: a previous query - including one that
+	// was abandoned by an error - may still hold a parse tree, tokens and
+	// mark state.
+	CqlReset();
+
+	// The engine reads CqlSilent while it builds the parse tree (CqlNode's
+	// constructor decides whether matched moves get a "MATCH" comment), so it
+	// has to be set before parsing, not per game.
+	CqlSilent = !allowComments;
+
+	CqlParseBuffer(const_cast<char *>(query));
+
+	// A syntax error never reaches this point: it longjmp()s to the setjmp()
+	// above.
+	return true;
+}
+
+CqlMatchResult CqlQueryMatchGame(Game *game, unsigned *firstPly,
+                                 std::string *error) {
+	if (!game)
+		return CqlMatchResult::Error;
+	if (firstPly)
+		*firstPly = 0;
+
+	// Reset the game position and the variation stack the engine walks before
+	// every game, so nothing from the previous game can leak into this one.
+	// The engine's own per-game state (match count, bound variables, cached
+	// legal moves) is keyed on the game number (see MarkBoard::getLegalMoves())
+	// and reset by CqlNode::match_game(), so the caller only has to have set
+	// the number with CqlSetGameNumber().
+	game->MoveToStart();
+
+	cqlErrMsg = nullptr;
+	if (setjmp(jump_buffer) != 0) {
+		if (error)
+			*error = engineError();
+		return CqlMatchResult::Error;
+	}
+
+	if (!CqlMatchGame(game))
+		return CqlMatchResult::NoMatch;
+
+	if (firstPly)
+		*firstPly = CqlMatchPlyFirst;
+	return CqlMatchResult::Match;
+}
+
+void CqlQueryReset() {
+	cqlErrMsg = nullptr;
+	if (setjmp(jump_buffer) != 0)
+		return; // the engine could not clean up; the next parse tries again
+
+	CqlReset();
+	CqlSetGameNumber(0);
 }
