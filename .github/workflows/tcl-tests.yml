@@ -398,3 +398,9 @@ jobs:
       # filter, and the empty and rejected queries reported rather than raised.
       - name: CQL search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql.tcl
+
+      # Every query printed on the CQL help page, through the same engine: the
+      # page's samples cannot drift away from what the parser accepts without
+      # this failing, which is the point of the page.
+      - name: CQL help page examples
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/help_cql_examples.tcl

@@ -91,10 +91,10 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   
   <h3>C</h3>
   <ul>
+  <li><a CQL>Chess Query Language (CQL)</a></li>
   <li><a PGNChessCom>Chess.com analysis (PGN Window button)</a></li>
   <li><a ImportChessCom>Chess.com, importing games from</a></li>
   <li><a PGNChessDB>ChessDB Engine Tree (PGN Window button)</a></li>
-  <li><a CQL>Chess Query Language (CQL)</a></li>
   <li><a Maintenance Cleaner>Cleaner</a></li>
   <li><a Clipbase>Clipbase</a></li>
   <li><a Cmdline>Command-line options</a></li>
@@ -1034,7 +1034,7 @@ set helpTitle(Searches) "Searches"
 set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <p>
   scidCommunity can perform many different types of search on a database.
-  The main types of search are:
+  The four main types of search are:
   <ul>
   <li><b>1)</b> for the current board, </li>
   <li><b>2)</b> for specified material and piece patterns, and </li>
@@ -1042,7 +1042,9 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   <li><b>4)</b> for text in position comments. </li>
   </ul>
   <p>
-  For advanced users, scidCommunity also supports the <a CQL><b>Chess Query Language (CQL)</b></a>, which allows for searching complex move sequences and board patterns.
+  A fifth way, for patterns the four above cannot express, is the
+  <a CQL><b>Chess Query Language (CQL)</b></a>: you type the position or move to
+  look for as a query in the CQL window (<b>Search &gt; CQL...</b>).
   </p>
   <p>
   In addition to these, there is also an automatic search mode called the
@@ -5914,99 +5916,138 @@ set helpText(Presentation) {<h1>The Presentation Board window</h1>
 set helpTitle(CQL) "Chess Query Language (CQL)"
 set helpText(CQL) {<h1>Chess Query Language (CQL)</h1>
   <p>
-  The Chess Query Language (CQL) is a powerful tool for searching for specific move sequences and board patterns in a chess database. Unlike standard searches, CQL allows you to define complex structural and tactical patterns.
+  The Chess Query Language (CQL) describes a board pattern or a move and finds
+  the games in which it occurs. Where the other searches ask you to fill in a
+  form, a CQL query is text: choose <b>Search &gt; CQL...</b>, type the query in
+  the box and press <b>Ctrl+Enter</b> (or click Search). The games the query
+  matches become the filter the game list shows.
   </p>
 
-  <h3>Query Structure</h3>
+  <h3>How a Query is Written</h3>
   <p>
-  A CQL query begins with a specification in the form <term>cql(...)</term>, which defines general search criteria (such as game numbers), followed by one or more <b>filters</b>.
-  </p>
-  <p>
-  Example: <b>cql(:gamenumber 1 100) qh4</b><br>
-  This search finds the move <b>qh4</b> in games numbered 1 through 100.
-  </p>
-
-  <h3>Basic Filters</h3>
-  <p>
-  Filters can be simple keywords or complex expressions:
+  A query is the word <b>cql</b>, a specification in parentheses, and one or
+  more filters. The specification carries the search's own options - the game
+  numbers to search, for instance - and may be empty. The filters say what the
+  board must look like; a game matches when at least one position in it
+  satisfies all of them at once.
   </p>
   <ul>
-  <li><b>:check</b>, <b>:stalemate</b>, <b>:mate</b> - the side to move is in check, stalemate, or checkmate.</li>
-  <li><b>:wtm</b>, <b>:btm</b> - White to move or Black to move.</li>
-  <li><b>:initial</b> - the starting position.</li>
+  <li><term>cql() qh4</term> - a black queen on h4. Piece letters are a piece's
+  uppercase letter, <b>KQRBNP</b>, for White, and the same letters in lower case
+  for Black.</li>
+  <li><term>cql(:gamenumber 1 2) qh4</term> - the same pattern, restricted to
+  games 1 and 2.</li>
   </ul>
 
-  <h3>Board and Piece Patterns</h3>
+  <h3>Pieces and Squares</h3>
   <p>
-  You can search for specific pieces on specific squares or more general patterns:
+  A piece letter followed by a square names that piece on that square, and a
+  set in square brackets names any of the pieces it lists. <b>.</b> matches any
+  piece and <b>_</b> an empty square.
   </p>
   <ul>
-  <li><b>Piece Location</b> (e.g., <b>Ng5</b>) - a white knight on g5. Pieces are denoted by: <b>RNBQKPrnbqkpAaU?_</b>.</li>
-  <li><b>.</b> - any piece on any square.</li>
-  <li><b>_</b> - an empty square.</li>
-  <li><b>:attack (p1 p2)</b> - piece p1 attacks square/piece p2.</li>
-  <li><b>between (p1 p2)</b> - some piece is located between p1 and p2.</li>
-  <li><b>ray [directions] (p1 p2 ...)</b> - searches for a ray of pieces in the specified directions.</li>
-  <li><b>countsquares [range] set</b> - filters for positions where the number of squares matching the set is within the given range.</li>
+  <li><term>cql() [N]f3</term> - a white knight on f3.</li>
+  <li><term>cql() [B]b5</term> - a white bishop on b5.</li>
+  <li><term>cql() [RQ]a1</term> - a white rook or queen on a1.</li>
   </ul>
 
-  <h3>Move Sequences</h3>
+  <h3>Check, Mate and the Side to Move</h3>
+  <ul>
+  <li><term>cql() :check</term> - the side to move is in check.</li>
+  <li><term>cql() :mate</term> - the side to move is checkmated.</li>
+  <li><term>cql() :wtm :check</term> - White is to move, and is in check.</li>
+  </ul>
   <p>
-  Move sequences can be searched for in the main line of the games.
+  <b>:btm</b> is the other side to move, <b>:stalemate</b> is stalemate and
+  <b>:initial</b> the starting position.
+  </p>
+
+  <h3>Moves</h3>
+  <p>
+  <b>move</b> matches a move, and <b>from</b> and <b>to</b> take a piece, a
+  square or both. Parameters after them narrow the move down: <b>:promote</b>
+  takes the piece promoted to, and <b>enpassant</b> keeps only en passant
+  captures.
   </p>
   <ul>
-  <li><b>Move Syntax</b>: Use the <term>move</term> keyword. Example: <b>move from Ng1 to f3</b>.</li>
-  <li><b>Past Moves</b>: Use <b>move previous</b> to search for moves that occurred in the past.</li>
-  <li><b>Modifiers</b>: You can use <b>null</b> (for a pass), <b>primary</b>, or <b>secondary</b> moves.</li>
-  <li><b>Special Moves</b>: <b>:promote R</b> (promotion to rook) and <b>enpassant</b> are supported.</li>
+  <li><term>cql() move from Ng1 to f3</term> - a knight moving from g1 to
+  f3.</li>
+  <li><term>cql() move from d1 to h5</term> - a queen moving from d1 to h5.</li>
+  <li><term>cql() move :promote R</term> - a pawn promoting to a rook.</li>
+  <li><term>cql() move enpassant</term> - an en passant capture.</li>
   </ul>
 
-  <h3>Relation and Echoes</h3>
+  <h3>Combining and Negating Filters</h3>
   <p>
-  The <term>relation</term> (or <term>echo</term>) keyword allows you to find positions that are similar to each other.
+  Filters written one after another must all hold in the same position, and
+  braces group them. <b>:not</b> inverts the filter that follows it.
   </p>
   <ul>
-  <li><b>Ancestors and Descendants</b>: Use <b>(ancestor)</b> or <b>(descendant)</b> to find positions in the same game.</li>
-  <li><b>Symmetry and Transforms</b>: Use transform keywords like <b>echoshift</b>, <b>echoflip</b>, <b>echorotate90</b>, or <b>echodihedral</b> followed by a specification.</li>
-  <li><b>Square Relations</b>: Use <b>(sourcesquares set targetsquares set match range mismatch range)</b> to find positions with similar piece placements.</li>
-  <li><b>Side to Move</b>: Use <b>(tomove match)</b> or <b>(tomove mismatch)</b>.</li>
+  <li><term>cql() { qh4 :check }</term> - a black queen on h4 with the side to
+  move in check.</li>
+  <li><term>cql() { [N]f3 :not [B]b5 }</term> - a white knight on f3 and no
+  white bishop on b5.</li>
   </ul>
 
-  <h3>Advanced Logic</h3>
-  <ul>
-  <li><b>AND</b>: Group filters in braces: <b>{ filter1 filter2 ... }</b>.</li>
-  <li><b>NOT</b>: Use <b>:not [filter]</b> to negate a filter.</li>
-  <li><b>Quantifiers</b>:
-    <ul>
-      <li><b>forall</b>: <b>square all [var] in [set] [filters]</b></li>
-      <li><b>exists</b>: <b>square [range] [var] in [set] [filters]</b></li>
-    </ul>
-  </li>
-  </ul>
-
-  <h3>General Search Filters</h3>
+  <h3>Comparing Positions</h3>
   <p>
-  You can combine CQL with standard search criteria:
+  <b>relation</b> matches a position against another position of the same game.
+  The parenthesised part says how the two must stand to each other:
+  <b>(ancestor)</b> requires a later position in the game, <b>(descendant)</b>
+  an earlier one, and <b>(tomove match)</b> that the same side is to move in
+  both.
   </p>
   <ul>
-  <li><b>elo [color] [range]</b> - filter by Elo rating.</li>
-  <li><b>year [range]</b> - filter by year.</li>
-  <li><b>event "string"</b>, <b>site "string</b>, <b>player [color] "string"</b> - filter by PGN header tags.</li>
-  <li><b>result "1-0"|"0-1"|"1/2-1/2"</b> - filter by result.</li>
-  <li><b>hascomment "string"</b> - games containing a specific comment.</li>
-  <li><b>comment "string"</b> or <b>comment (set)</b> - filter for specific comments.</li>
-  <li><b>:movenumber [range]</b> - filter by move number.</li>
+  <li><term>cql() relation qh4 (ancestor)</term> - a black queen on h4 in a
+  position that is followed by another one.</li>
+  <li><term>cql() relation [q]h4 (tomove match)</term> - with the same side to
+  move in the two positions.</li>
+  </ul>
+
+  <h3>Comments, Headers and Move Numbers</h3>
+  <ul>
+  <li><term>cql() hascomment "Ruy Lopez note"</term> - a game with that text in
+  one of its comments.</li>
+  <li><term>cql() event "Ruy Lopez"</term> - the Event tag.</li>
+  <li><term>cql() player "Gamma"</term> - a player name, in either colour.</li>
+  <li><term>cql() :movenumber 6 10</term> - a position between moves 6 and
+  10.</li>
+  </ul>
+  <p>
+  <b>site</b>, <b>result</b> and <b>year</b> take the same quoted string or
+  range. There is no filter for the NAG annotation glyphs (<b>$1</b>,
+  <b>!?</b> and the like); <b>hascomment</b> finds an annotation's text
+  instead.
+  </p>
+
+  <h3>Counting Pieces and Attacks</h3>
+  <ul>
+  <li><term>cql() countsquares 2 2 [N]</term> - exactly two white knights on
+  the board.</li>
+  <li><term>cql() :attack (d1 d4)</term> - the piece on d1 attacks the piece on
+  d4.</li>
   </ul>
 
   <h3>Common Error Messages</h3>
   <p>
-  If your query is invalid, scidCommunity will report a syntax error. Common ones include:
+  A query the engine rejects is reported in the CQL window with the engine's
+  own message, and the filter is left as it was. The common ones are:
   </p>
   <ul>
-  <li><i>"Expected 'cql' word to start :cql specification..."</i> - the query must begin with the keyword <b>cql</b>.</li>
-  <li><i>"Expected left paren following the 'cql' keyword"</i> - the specification must be enclosed in parentheses: <b>cql(...)</b>.</li>
-  <li><i>"Syntax error while parsing the CQL specification. Expected right paren."</i> - a closing parenthesis is missing.</li>
-  <li><i>"The 'any' keyword has been replaced by the '.' character..."</i> - use <b>.</b> instead of the word <b>any</b>.</li>
+  <li><i>"Expected 'cql' word to start :cql specification but got: "</i> - a
+  query has to begin with the word <b>cql</b>.</li>
+  <li><i>"Expected left paren following the 'cql' keyword"</i> - the
+  specification goes in parentheses even when it is empty.</li>
+  <li><i>"Expected one or more filters following CQL specification, got
+  none"</i> - the specification is not followed by a single filter.</li>
+  <li><i>"Lexer: Unknown or not understood sequence of characters: ..."</i> -
+  the characters named are not part of the language. Chess glyphs, arrows and
+  <b>~</b> are not accepted; pieces are written with the letters
+  <b>KQRBNPkrqbnp</b>.</li>
+  <li><i>"The 'any' keyword has been replaced by the '.' character since
+  version 5.2. Use '_' instead of '.' to denote an empty square"</i> - write
+  <b>.</b> for any piece and <b>_</b> for an empty square.</li>
   </ul>
 
-  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>\n}
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+}
