@@ -63,8 +63,12 @@ proc ::search::cql {{ref_base ""} {ref_filter "dbfilter"}} {
 	# A query spans several lines, so Return must insert a newline in the box
 	# rather than press Search from the toplevel binding ::search::Open set.
 	bind $w <Return> {}
+	# The break must sit at the top level of the binding script: inside a proc
+	# (or apply) body it raises "invoked \"break\" outside of a loop", which Tk
+	# routes to bgerror. Its job is to stop the Text class binding inserting a
+	# newline.
 	bind $w.options.query.text <Control-Return> \
-		[list apply {{w} { ::search::cqlRun_ $w 0 ; break }} $w]
+		"[list ::search::cqlRun_ $w 0]; break"
 
 	focus $w.options.query.text
 }

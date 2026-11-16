@@ -81,6 +81,12 @@ proc sc_base {args} {
     return ""
 }
 
+# Record background errors instead of printing them: a binding that mishandles
+# its return code (e.g. the old `break` inside an apply body) surfaces here and
+# nowhere else.
+set ::bgerrors {}
+proc bgerror {msg} { lappend ::bgerrors $msg }
+
 # The dialogs the window raises, recorded instead of shown.
 set ::dialogs {}
 proc tk_messageBox {args} {
@@ -115,8 +121,6 @@ check "no invert button" \
     [expr {[winfo manager $w.buttons.invert] eq ""}]
 check "no search on a bare Return (it is a newline in the box)" \
     [expr {[bind $w <Return>] eq ""}]
-check "Ctrl+Return runs the query" \
-    [expr {[bind $w.options.query.text <Control-Return>] ne ""}]
 
 puts "\n== an empty box searches nothing and says so ==\n"
 set ::dialogs {}
@@ -165,6 +169,25 @@ checkEq "the newline is kept, the outer blanks are not" \
     [lindex [lindex $::searchCalls 0] 4] "cql(:gamenumber 3 3)\n  qh4"
 checkEq "the filter operation is the radio's" \
     [lindex [lindex $::searchCalls 0] 1] and
+
+puts "\n== Ctrl+Return runs the query, with no background error ==\n"
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "cql() mate"
+set ::search::filterOp_($w) reset
+set ::searchCalls {}
+set ::bgerrors {}
+wm deiconify $w
+update
+focus -force $w.options.query.text
+event generate $w.options.query.text <Control-Return> -when now
+update
+checkEq "the shortcut runs one search" [llength $::searchCalls] 1
+checkEq "with the query as typed" [lindex $::searchCalls 0] \
+    {cql reset 0 0 {cql() mate}}
+checkEq "no background error (a break in a proc body would land here)" \
+    $::bgerrors ""
+checkEq "and no newline left in the box" \
+    [$w.options.query.text get 1.0 end-1c] "cql() mate"
 
 puts "\n== a failed query is reported, not raised ==\n"
 set ::sc_searchError "error (line 1) Unrecognized filter"

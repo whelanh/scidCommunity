@@ -119,6 +119,25 @@ checkEq "two games again" [run "cql(:gamenumber 1 2) K"] 2
 checkEq "or the fool's mate" [run "cql(:gamenumber 4 4) mate" or] 3
 checkEq "reset starts again" [run "cql(:gamenumber 4 4) mate" reset] 1
 
+puts "\n== Ctrl+Return runs the query, with no background error ==\n"
+# The shipped bgerror (tcl/file.tcl) prints a trace; record instead, so a
+# binding that mishandles its return code fails this check instead of the user.
+catch { rename bgerror ::search_cql_bgerror_ }
+set ::bgerrors {}
+proc bgerror {msg} { lappend ::bgerrors $msg }
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "cql(:gamenumber 1 2) K"
+set ::search::filterOp_($w) reset
+wm deiconify $w
+update
+focus -force $w.options.query.text
+event generate $w.options.query.text <Control-Return> -when now
+update
+checkEq "the shortcut ran the query" [sc_filter count $id dbfilter] 2
+checkEq "no background error" $::bgerrors ""
+checkEq "and no newline added to the box" \
+    [$w.options.query.text get 1.0 end-1c] "cql(:gamenumber 1 2) K"
+
 puts "\n== a query the engine rejects is reported, not raised ==\n"
 set before [sc_filter count $id dbfilter]
 set err [catch {run "cql(no paren"} msg]
