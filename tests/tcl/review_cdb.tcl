@@ -557,6 +557,15 @@ checkEq "a one-line lichess reply leaves chessdb to decide" \
     [lindex [dict get [dict get $::results 0] 1] 0] 26
 checkEq "named as the source" [provenance 0] {source cloud-chessdb depth 26}
 
+# And a reply that carries alternatives but fewer than `mpv` of them is not a
+# short evaluation either. Adopting it as one line would let a one-line ladder
+# stand in for the alternatives the pass asked for, so it is refused outright -
+# only a one-line reply is adopted as one line.
+set short [::reviewcloud::parse [cloudJson 24 {{{e2e4 e7e5} 20 cp}}] $::whiteFen]
+checkEq "a multi-line reply shorter than mpv is readable" [dict get $short depth] 24
+checkEq "and is refused rather than read as one line" \
+    [dict size [::reviewcloud::adoptable $short 3]] 0
+
 # And a cdb reply is held back where the verdict needs the alternatives the reply
 # does not carry: the gap to the second line is what `great` reads.
 resetAll
@@ -603,6 +612,132 @@ localLines 18
 feed InfoBestMove {}
 checkEq "a shallower chessdb reply loses to the search" \
     [lindex [dict get [dict get $::results 0] 1] 0] 18
+
+puts "\na one-line reply with nothing to hand back decides the score"
+
+# The guard's other branch, which is the whole point of the second provider: a
+# depth-only pass in which Lichess holds nothing for the position (a 404), so there
+# is no candidate-bearing reply, and no local search either, because a depth-only
+# pass never runs one. The one line is the position's evaluation and is adopted;
+# the labels it may carry are the ones a single line can carry, so `great` - the
+# gap to a second line - is not on the table for this ply.
+resetAll
+checkEq "the depth-only pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+checkEq "both providers are asked" \
+    [list [llength $::cloudRequests] [llength $::cdbRequests]] {1 1}
+cloudAnswer "{\"error\":\"No cloud evaluation available for the given position\"}"
+checkEq "lichess holding nothing leaves the position open" [sentCount Go] 0
+cdbAnswer [pvJson 30 400]
+checkEq "chessdb's one line settles it, with no search at all" [sentCount Go] 0
+checkEq "the pass finishes" $::doneCalls 1
+checkEq "on chessdb's evaluation" [provenance 0] {source cloud-chessdb depth 30}
+set kept [dict get $::results 0]
+checkEq "the reply is kept as the one line it is" [dict size $kept] 1
+checkEq "at the depth it states" [lindex [dict get $kept 1] 0] 30
+checkEq "with the score it states" [lindex [dict get $kept 1] 1] 400
+# What a report can read off that ply: one candidate, so no gap, so no `great`.
+# (A fallback to the local search here - the option that was rejected - would put
+# three lines on this position and make the gap readable.)
+set candidates {}
+foreach index [lsort -integer [dict keys $kept]] {
+    lappend candidates [::reviewcloud::lineCp [dict get $kept $index]]
+}
+checkEq "one line is all the alternatives this ply has" [llength $candidates] 1
+checkEq "so the great branch cannot fire on it" \
+    [::movelabels::refine best [dict create is_best 1 cp_before 400 cp_after 400 \
+        cp_loss 0 win_drop 0.0 ply 10 in_book 0 candidates $candidates]] best
+checkEq "and there is no alternatives question to ask" \
+    [::movelabels::needsAlternatives $candidates $::whiteFen ""] 0
+
+# `brilliant` is not lost with it: its sacrifice test reads the best move of the
+# line the reply carries, which the reply has.
+resetAll
+checkEq "a sacrifice the cloud alone answers starts" \
+    [newPass [list [list 0 $::SAC]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "{\"error\":\"No cloud evaluation available for the given position\"}"
+cdbAnswer [pvJson 30 150 {h5h7}]
+checkEq "the one line is adopted" [provenance 0] {source cloud-chessdb depth 30}
+set kept [dict get $::results 0]
+checkEq "and its own best move still decides brilliant" \
+    [::movelabels::needsAlternatives \
+        [list [::reviewcloud::lineCp [dict get $kept 1]]] \
+        [::reviewcloud::fenForSpec $::SAC] h5h7] 1
+
+# Where a candidate-bearing reply DOES exist the guard decides, unchanged: a
+# great-shaped drop hands the position to that reply, an ordinary one leaves the
+# deeper stored evaluation in place.
+resetAll
+checkEq "a great-shaped capped pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+cloudAnswer [cloudJson 24 \
+    {{{e2e4 e7e5} 400 cp} {{d2d4 d5} 50 cp} {{c2c4 e5} -100 cp}}]
+cdbAnswer [pvJson 30 400]
+localLines 18
+feed InfoBestMove {}
+checkEq "the gap hands the position to the source with the alternatives" \
+    [lindex [dict get [dict get $::results 0] 1] 0] 24
+checkEq "and lichess is named" [provenance 0] {source cloud-lichess depth 24}
+
+resetAll
+checkEq "an ordinary capped pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+cloudAnswer [cloudJson 24 $::WIDE]
+cdbAnswer [pvJson 30 150]
+localLines 18
+feed InfoBestMove {}
+checkEq "no qualifying gap keeps chessdb's deeper reply" \
+    [lindex [dict get [dict get $::results 0] 1] 0] 30
+checkEq "named as the source" [provenance 0] {source cloud-chessdb depth 30}
+
+puts "\na cached one-line reply settles a timed pass without a search"
+
+# A warm cache reaches the same decision with no search at all, and the bound
+# still decides which side of the `deeper` rule the cached reply is on. The cache
+# is left standing between the passes on purpose: that is the state a second pass
+# over the same game starts in.
+resetAll
+checkEq "a depth-only pass warms the cache" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "{\"error\":\"No cloud evaluation available for the given position\"}"
+cdbAnswer [pvJson 30 40]
+checkEq "with chessdb's one line" [provenance 0] {source cloud-chessdb depth 30}
+checkEq "and the pass is over" $::doneCalls 1
+
+checkEq "a timed pass over the same position starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+checkEq "the cached reply deeper than the bound settles it" \
+    [list [sentCount Go] [sentCount StopGo]] {0 0}
+checkEq "with no provider asked again" \
+    [list [llength $::cloudRequests] [llength $::cdbRequests]] {0 0}
+checkEq "on the cached evaluation" [provenance 0] {source cloud-chessdb depth 30}
+checkEq "and the pass finishes" $::doneCalls 1
+
+# The same cached reply AT the bound is held instead: the search can still reach
+# D and the tie goes to the local engine.
+checkEq "a timed pass at the cached reply's own depth starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 30 movetime 900}] ""
+checkEq "a reply at the bound does not settle the position" [sentCount Go] 1
+checkEq "and nothing is stopped" [sentCount StopGo] 0
+localLines 30
+feed InfoBestMove {}
+checkEq "the search's own lines win the tie" [provenance 0] {source local depth 30}
+
+# mpv 1: the pass itself asked for one line, so a one-line reply is exactly what
+# the verdict needs and no alternatives question arises at all.
+resetAll
+checkEq "a one-line pass starts" \
+    [newPass [list [list 0 $::START]] 1 {depth 20 movetime {}}] ""
+checkEq "lichess is asked for one line too" \
+    [lindex [lindex $::cloudRequests 0] 2] 1
+cloudAnswer "{\"error\":\"No cloud evaluation available for the given position\"}"
+cdbAnswer [pvJson 30 400]
+checkEq "a great-shaped score is adopted when one line is what was asked for" \
+    [sentCount Go] 0
+checkEq "the pass finishes on it" $::doneCalls 1
+checkEq "named as chessdb's" [provenance 0] {source cloud-chessdb depth 30}
+checkEq "and it is the one line asked for" \
+    [dict size [dict get $::results 0]] 1
 
 puts "\na reply that never lands does not extend the run"
 
