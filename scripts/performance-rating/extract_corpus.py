@@ -6,7 +6,7 @@ headless JSON-RPC API.
         --db data/KingBase2018.si4 --count 500 --seed 20261103 \
         --out data/corpus.json
 
-Selection, fixed before the run (card t_6bb4de78):
+Selection, fixed before the run:
 
   * both players carry a rating, inside [--lo, --hi];
   * at least --min-plies plies (the length filter is in plies);
@@ -24,6 +24,10 @@ import random
 import subprocess
 import sys
 from collections import OrderedDict
+
+# Every populated band carries at least this many games, so the tails are not
+# anecdotes. A --count below FLOOR x the populated bands is refused.
+FLOOR = 10
 
 
 class Headless:
@@ -57,6 +61,45 @@ class Headless:
 # Scid's result codes: 1-0, 0-1, "=-=" (draw), "*" (unknown/unfinished). The
 # search API cannot filter on result, so the sample drops "*" here.
 GOOD_RESULTS = {"1-0", "0-1", "=-="}
+
+
+def allocate(counts, count):
+    """Games per band for a --count sample over the populated bands.
+
+    Damped proportional allocation: full proportionality would put almost the
+    whole sample on the 2200-2500 bands and leave the tails as anecdotes, so
+    every band with data carries at least FLOOR games. A count below
+    FLOOR x the populated bands cannot satisfy that floor, and the remainder
+    loop below could never make progress, so it is refused here rather than
+    spinning.
+    """
+    live = [(b, c) for b, c in counts.items() if c > 0]
+    if not live:
+        raise SystemExit("no band matched")
+    if count < FLOOR * len(live):
+        raise SystemExit(f"--count {count} cannot cover {len(live)} populated "
+                         f"bands at the floor of {FLOOR} games each "
+                         f"(needs at least {FLOOR * len(live)})")
+    weights = [c ** 0.5 for _, c in live]
+    wsum = sum(weights)
+    alloc, spare = {}, count
+    for (band, _), w in zip(live, weights):
+        n = max(FLOOR, int(round(count * w / wsum)))
+        alloc[band] = n
+        spare -= n
+    # hand out (or take back) the rounding remainder, largest bands first
+    order = [b for b, _ in sorted(live, key=lambda x: -x[1])]
+    i = 0
+    while spare != 0:
+        band = order[i % len(order)]
+        if spare > 0:
+            alloc[band] += 1
+            spare -= 1
+        elif alloc[band] > FLOOR:
+            alloc[band] -= 1
+            spare += 1
+        i += 1
+    return alloc
 
 
 def main():
@@ -97,32 +140,7 @@ def main():
         h.close()
         return
 
-    live = [(b, c) for b, c in counts.items() if c > 0]
-    if not live:
-        raise SystemExit("no band matched")
-
-    # Damped proportional allocation: full proportionality would put almost the
-    # whole sample on the 2200-2500 bands and leave the tails as anecdotes; a
-    # floor of 10 games per band keeps every band with data in the study.
-    weights = [c ** 0.5 for _, c in live]
-    wsum = sum(weights)
-    alloc, spare = {}, args.count
-    for (band, _), w in zip(live, weights):
-        n = max(10, int(round(args.count * w / wsum)))
-        alloc[band] = n
-        spare -= n
-    # hand out (or take back) the rounding remainder, largest bands first
-    order = [b for b, _ in sorted(live, key=lambda x: -x[1])]
-    i = 0
-    while spare != 0:
-        band = order[i % len(order)]
-        if spare > 0:
-            alloc[band] += 1
-            spare -= 1
-        elif alloc[band] > 10:
-            alloc[band] -= 1
-            spare += 1
-        i += 1
+    alloc = allocate(counts, args.count)
 
     rng = random.Random(args.seed)
     games, picked = [], set()

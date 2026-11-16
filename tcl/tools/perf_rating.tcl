@@ -67,12 +67,20 @@ namespace eval ::perfrating {
     variable BIN 25
 }
 
-# Load the app's win% function if the caller has not.
+# Load the app's win% function if the caller has not. The configured path is
+# only joined when the global exists: a bare `tclsh` sourcing this module has no
+# ::scidTclDir, and reading it there would abort the block before the
+# sibling-file fallback below ever ran.
 if {[llength [info commands ::accuracy::winPercent]] == 0} {
-    foreach f [list [file join $::scidTclDir tools accuracy.tcl] \
-                   [file join [file dirname [info script]] accuracy.tcl]] {
+    set _perfrating_candidates {}
+    if {[info exists ::scidTclDir]} {
+        lappend _perfrating_candidates [file join $::scidTclDir tools accuracy.tcl]
+    }
+    lappend _perfrating_candidates [file join [file dirname [info script]] accuracy.tcl]
+    foreach f $_perfrating_candidates {
         if {[file exists $f]} { catch { source -encoding utf-8 $f } ; break }
     }
+    unset _perfrating_candidates
 }
 
 proc ::perfrating::table {} {

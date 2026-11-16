@@ -3,8 +3,10 @@
 
     .venv/bin/python tools/report.py --out data/REPORT.md
 
-Every number in the report is read from a data/ JSON or a logs/ line, never
-typed in by hand.
+Numbers in the tables are read from a data/ JSON, never typed in by hand; where
+the prose quotes one of them it quotes the same value, and where it describes a
+comparison it names the log that records the comparison rather than asserting
+its result.
 """
 import argparse
 import json
@@ -57,14 +59,21 @@ def main():
       "`estimate - actual` is computed or displayed anywhere, and no opponent "
       "rating is an input at runtime; ratings are offline ground truth only.")
     A("")
-    A("**Verdict: SHIP.** The pre-registered stop rule passes for the pinned "
-      f"statistic: ESL's held-out MAE is {f2(esl_mae)}, against {f2(cur_mae)} "
-      "for the shipped `::reviewreport::estimateElo` on the same folds -- better "
-      f"by {f2(cur_mae - esl_mae)} Elo. (ACPL, the best of the five, is "
-      f"{f2(winner_mae)} and is indistinguishable from ESL, section 7.2.) The "
-      "honest caveats are in section 7: the statistic is level with the other "
-      "two linear candidates, and it is only "
-      f"{f2(const - esl_mae)} Elo MAE better than predicting the corpus mean.")
+    if stop_passes:
+        A("**Verdict: SHIP.** The pre-registered stop rule passes for the pinned "
+          f"statistic: ESL's held-out MAE is {f2(esl_mae)}, against {f2(cur_mae)} "
+          "for the shipped `::reviewreport::estimateElo` on the same folds -- better "
+          f"by {f2(cur_mae - esl_mae)} Elo. (ACPL, the best of the five, is "
+          f"{f2(winner_mae)} and is indistinguishable from ESL, section 7.2.) The "
+          "honest caveats are in section 7: the statistic is level with the other "
+          "two linear candidates, and it is only "
+          f"{f2(const - esl_mae)} Elo MAE better than predicting the corpus mean.")
+    else:
+        A("**Verdict: DO NOT SHIP.** The pre-registered stop rule fails: the best "
+          f"candidate's held-out MAE is {f2(winner_mae)} against {f2(cur_mae)} "
+          "for the shipped `::reviewreport::estimateElo` on the same folds, or the "
+          f"pinned statistic ({f2(esl_mae)}) is not better than it. The rule says "
+          "write no Tcl; the measurements below are reported as they came out.")
     A("")
     A("## 1. Design, fixed before the run")
     A("")
@@ -104,15 +113,21 @@ def main():
     A("")
     A("## 3. What ran, and that it reproduces")
     A("")
-    A(f"- engine pass, 150 ms: {evals_meta['done']}/{evals_meta['games']} games, "
+    # Count the selection, not the whole output file: a pass resumed into an
+    # output that already holds other games would otherwise report more games
+    # done than it selected.
+    done150 = evals_meta["games"] - len(evals_meta.get("failed") or [])
+    done18 = evals18_meta["games"] - len(evals18_meta.get("failed") or [])
+    A(f"- engine pass, 150 ms: {done150}/{evals_meta['games']} games, "
       f"{evals_meta['engine_version'][0]}; `logs/engine-pass-150ms.log`.")
     A(f"- engine pass, depth 18 on the 100-game subsample: "
-      f"{evals18_meta['done']}/{evals18_meta['games']} games, "
+      f"{done18}/{evals18_meta['games']} games, "
       f"`logs/engine-pass-depth18.log`.")
     A("- features rebuilt from the eval records in a second run and compared "
-      "field by field: **0 differences** (`logs/features-reproduce.log`).")
-    A("- the study re-run from the same features: **0 differences** against "
-      "`data/study-150ms.json` (`logs/study-reproduce.log`).")
+      "field by field; the comparison and its output are in "
+      "`logs/features-reproduce.log`.")
+    A("- the study re-run from the same features against "
+      "`data/study-150ms.json`, recorded in `logs/study-reproduce.log`.")
     A("")
     A("## 4. Held-out error, 500 games at 150 ms")
     A("")
@@ -217,8 +232,11 @@ def main():
     A("**Stop rule.** Pinned statistic (ESL): "
       f"{f2(esl_mae)} MAE. `estimateElo`: {f2(cur_mae)} MAE on the same folds, "
       f"bias {s['aggregate']['current']['bias']:+.1f} (it under-reads this "
-      "population by more than 200 Elo on average). The pinned statistic is not "
-      "worse, so the rule does not close the study: **ship**.")
+      "population by more than 200 Elo on average). The pinned statistic is "
+      + ("not worse, so the rule does not close the study: **ship**."
+         if stop_passes else
+         "worse than `estimateElo`, so the rule closes the study: "
+         "**write no Tcl**."))
     A("")
     A("What ships is the ESL table, replaced in place of the `estimateElo` line, "
       "one rating line per side, no band, no second number.")

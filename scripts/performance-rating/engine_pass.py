@@ -63,6 +63,11 @@ def eval_game(task):
                 info = info[0]
             sc = info["score"].pov(chess.WHITE).score(mate_score=MATE_CP)
             cps.append(int(sc) if sc is not None else 0)
+    except Exception as exc:
+        # An engine that died or timed out must leave an error record, exactly
+        # like the popen failure above: without one the exception aborts the
+        # whole pool and a resume walks into the same game again.
+        return gid, {"id": gid, "error": f"analysis: {exc}"}
     finally:
         eng.quit()
     return gid, {"id": gid, "cps": cps, "sans": sans, "plies": len(positions) - 1}
