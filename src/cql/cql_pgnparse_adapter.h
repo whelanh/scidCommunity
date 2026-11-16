@@ -1,3 +1,8 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Part of scidCommunity (Shane's Chess Information Database).
+ * scidCommunity's own code, not imported from Scid vs. PC: see the notice below.
+ */
 //////////////////////////////////////////////////////////////////////
 //
 //  FILE:       cql_pgnparse_adapter.h

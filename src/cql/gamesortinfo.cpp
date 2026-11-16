@@ -20,7 +20,7 @@ void GameSortInfo::output(FILE* os)const{
 }
 
 void GameSortInfo::output(FILE* os, const vector<GameSortInfo>& v){
-  for (const auto gs : v)
+  for (const auto &gs : v)
     gs.output(os);
 }
 

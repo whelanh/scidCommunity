@@ -26,7 +26,7 @@
 errorT
 Game::WritePGN_CQL (TextBuffer * tb, uint stopLocation)
 {
-    char temp [255];
+    char temp [512];
     char dateStr [20];
     const char * newline = "\n";
     tb->NewlinesToSpaces (false);
