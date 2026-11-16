@@ -25,6 +25,13 @@ namespace eval comp {
     set _Data(count) 0 ; # number of computer players
     set _Data(start) 0 ; # "Start at position" radiobutton
     set _Data(delta) 4000; # 4 seconds is the time
+    # Time per move: a move that takes longer than leeway * time + grace is a
+    # loss. The grace is what keeps a 1 s (or 0.5 s) clock alive: the first move
+    # from a cold engine legitimately takes longer than 175% of its time.
+    set _Data(permoveleeway) 1.75
+    set _Data(permovegrace) 1000
+    # the standard start position, a1 first, white pieces upper case
+    set startBoard "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr"
     set _Data(tournament) "Scid Engine [tr Event]"
     set _Data(carousel) 1
     set _Data(site) "SCID"
@@ -821,7 +828,7 @@ proc compNM {game n m k} {
     set _Data(moves,$game) {}
     set _Data(comments,$game) {}
     set _Data(scoreHistory,$game) {}
-    set _Data(board,$game) "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr"
+    set _Data(board,$game) $::comp::startBoard
     if { $_Data(usebook) } {
         if { $_Data(repeatReverse) } {
             set pairId [expr {($_Data(currentIdx,$game) + 1) / 2}]
@@ -870,7 +877,12 @@ proc compNM {game n m k} {
     }
     set tomove [expr { ([llength $_Data(moves,$game)] % 2) == 0 ? "white" : "black" } ]
     set _Data(result,$game) "*"
-    set _Data(repetition,$game) {}
+    # The start position counts as an occurrence like any other (FIDE 9.2), so
+    # the journal opens with it instead of an empty list.
+    set _Data(repetition,$game) [list [::comp::startPositionKey $_Data(fen,$game)]]
+    lassign [::comp::stateFromPosition $_Data(fen,$game) $_Data(board,$game)] crights epsq
+    set _Data(crights,$game) $crights
+    set _Data(epsq,$game) $epsq
     set _Data(moves50,$game) 0
     set _Data(material,$game) {}
     set _Data(pawns,$game) {}
@@ -938,7 +950,12 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
 #potentiel prolemeatisch Halogen blockiert alles, u.u. auch den Desktop! kovisto oder Smarthink blockieren
     if { $bestmove eq "Time out"} {
         set _Data(result,$game) [expr {$tomove eq "white" ? 0 : 1}]
-        lappend _Data(comments,$game) "Time out: $tomove move $bestmove ismate $_Data(mate,$game) score $_Data(score,$game)"
+        if { $expired > 0 } {
+            # a move that arrived, but too late: say how late in seconds, not ms
+            lappend _Data(comments,$game) "Time out: $tomove lost, move took [format %.2f [expr {$expired / 1000.0}]] secs (allowed [format %.2f [expr {($_Data(permoveleeway) * $_Data(time) + $_Data(permovegrace)) / 1000.0}]] secs)"
+        } else {
+            lappend _Data(comments,$game) "Time out: $tomove move $bestmove ismate $_Data(mate,$game) score $_Data(score,$game)"
+        }
     } elseif { ! [regexp {[a-h][1-8][a-h][1-8]} $bestmove] } {
         set _Data(result,$game) [ expr { $_Data(score,$game) > 0 ? 1 : 0}]
         if { [expr { abs($_Data(score,$game))} ] < 1 } { set _Data(result,$game) = }
@@ -957,11 +974,20 @@ proc ::comp::compCheckMove { game tomove expired bestmove } {
             lappend _Data(comments,$game) "Mate detected: $tomove"
         }
     } else {
-        lassign [::comp::compUpdateboard $_Data(board,$game) $bestmove] moveOk _Data(board,$game)
+        set preBoard $_Data(board,$game)
+        lassign [::comp::compUpdateboard $preBoard $bestmove] moveOk _Data(board,$game)
         if { $moveOk } {
             set result 1
             set sideToMove [expr {$tomove eq "white" ? "b" : "w"}]
-            lassign [::comp::checkRepetition $_Data(repetition,$game) "$_Data(board,$game) $sideToMove"] isRepetition _Data(repetition,$game)
+            # The repetition key carries the castling rights and the en-passant
+            # square too: a position that differs only in those is not the same
+            # position, and scoring it as a draw ends games that are still open.
+            lassign [::comp::nextPositionState [list $_Data(crights,$game) $_Data(epsq,$game)] \
+                         $preBoard $bestmove] crights epsq
+            set _Data(crights,$game) $crights
+            set _Data(epsq,$game) $epsq
+            set repKey [::comp::repetitionKey $_Data(board,$game) $sideToMove $crights $epsq]
+            lassign [::comp::checkRepetition $_Data(repetition,$game) $repKey] isRepetition _Data(repetition,$game)
             lassign [::comp::checkfiftyMoveRule $_Data(moves50,$game) $_Data(material,$game) $_Data(pawns,$game) $_Data(board,$game)] \
                 isFifty _Data(moves50,$game) _Data(material,$game) _Data(pawns,$game)
             if {$_Data(showscores) && $_Data(scoreIsNew,$game) } {
@@ -1169,17 +1195,8 @@ proc ::comp::compSaveGame {game} {
     sc_game tags set -black [set _Data(name,$game)(nameB)]
     sc_game tags set -event $_Data(tournament)
     sc_game tags set -site $_Data(site)
-    set total [expr int($_Data(base))]
-    set mins [expr $total/60]
-    set secs [expr $total%60]
-    if {$secs == 0} {
-        set timecontrol $mins
-    } else {
-        if {$secs < 10} { set secs "0$secs" }
-        set timecontrol $mins:$secs
-    }
     set lextra [list "Time \"[clock format [clock seconds] -format %T]\"\n"]
-    lappend lextra [expr {$_Data(timecontrol) == "permove" ? "Movetime \"$_Data(seconds)\"" : "TimeControl \"$timecontrol/$_Data(incr)\""}]
+    lappend lextra [::comp::timeControlTag]
     sc_game tags set -date [::utils::date::today] -round $_Data(round,$game) -extra $lextra
 
     if { $_Data(fen,$game) ne "startpos"} {
@@ -1362,6 +1379,11 @@ proc ::comp::eng_messages {id w msg} {
             set expired [expr [clock clicks -milli] - $_Data(lasttime,$game)]
             after cancel "compTimeout $game $tomove"
             lassign $msgData bestmove
+            # with time per move, a reply later than the leeway is a loss, but
+            # the grace is what lets a 1 s clock survive its first move
+            if { [::comp::moveOverrun $expired $_Data(time)] } {
+                set bestmove "Time out"
+            }
             ::comp::compNextMove $game $tomove $expired $bestmove
         }
         "InfoDisconnected" {
@@ -1381,8 +1403,128 @@ proc ::comp::checkRepetition { journal board } {
     # append the position only if different from the last element
     if { $board != [ lindex $journal end ] } { lappend journal $board }
     # 3fold repetion detected
-    if { [llength [lsearch -all $journal $board] ] >=3 } { set isRep 1 }
+    if { [llength [lsearch -all -exact $journal $board] ] >=3 } { set isRep 1 }
     return [list $isRep $journal]
+}
+
+################################################################################
+# Castling rights and en-passant square
+#
+# FIDE 9.2: two positions are the same only when the pieces, the side to move,
+# the castling rights and the possible en-passant capture all match. Keying the
+# repetition on the placement and the side alone ends a game as a draw while one
+# side still has castling rights the other occurrence did not have.
+################################################################################
+
+# ::comp::repetitionKey -- the string that identifies one position.
+# A board read from a FEN carries its side to move as a second token; only the
+# placement takes part in the key, followed by the explicit side.
+proc ::comp::repetitionKey { board side rights epsq } {
+    return [list [lindex $board 0] $side $rights $epsq]
+}
+
+# ::comp::initialPositionState -- castling rights and en-passant square of a FEN.
+# Returns {rights epsq}; a FEN without those fields keeps every right.
+proc ::comp::initialPositionState { fen } {
+    set rights "KQkq"
+    set epsq "-"
+    if { $fen ne "" && $fen ne "startpos" } {
+        set tok [split $fen]
+        if { [llength $tok] >= 4 } {
+            set r [lindex $tok 2]
+            if { [regexp {^[KQkq]*$} $r] } { set rights $r }
+            if { [regexp {^[a-h][1-8]$} [lindex $tok 3]] } { set epsq [lindex $tok 3] }
+        }
+    }
+    if { $rights eq "" } { set rights "-" }
+    return [list $rights $epsq]
+}
+
+# ::comp::stateFromPosition -- the state a game starts with: a FEN tells it,
+# and for the start position (or the end of a book line) a right is plausible
+# while the king and its rook still stand on their home squares.
+proc ::comp::stateFromPosition { fen board } {
+    if { $fen ne "" && $fen ne "startpos" && [llength [split $fen]] >= 4 } {
+        return [::comp::initialPositionState $fen]
+    }
+    set placement [lindex $board 0]
+    set rights ""
+    if { [string index $placement 4] eq "K" } {
+        if { [string index $placement 7] eq "R" } { append rights K }
+        if { [string index $placement 0] eq "R" } { append rights Q }
+    }
+    if { [string index $placement 60] eq "k" } {
+        if { [string index $placement 63] eq "r" } { append rights k }
+        if { [string index $placement 56] eq "r" } { append rights q }
+    }
+    if { $rights eq "" } { set rights "-" }
+    return [list $rights "-"]
+}
+
+# ::comp::startPositionKey -- the key of the position the game started from.
+proc ::comp::startPositionKey { fen } {
+    if { $fen ne "" && $fen ne "startpos" && [llength [split $fen]] >= 2 } {
+        lassign [::comp::initialPositionState $fen] rights epsq
+        set side [lindex [split $fen] 1]
+        if { $side ni {w b} } { set side w }
+        return [::comp::repetitionKey [::comp::FENtoBoard $fen] $side $rights $epsq]
+    }
+    return [::comp::repetitionKey $::comp::startBoard w KQkq -]
+}
+
+# ::comp::nextPositionState -- the state of the position after $move.
+# $board is the position before the move.
+proc ::comp::nextPositionState { state board move } {
+    lassign $state rights epsq
+    set from [::board::sq [string range $move 0 1]]
+    set to [::board::sq [string range $move 2 3]]
+    set piece [string index $board $from]
+    set epsq "-"
+    # a king move, or a rook move off its corner, takes the right with it
+    switch -- $piece {
+        K { set rights [string map {K "" Q ""} $rights] }
+        k { set rights [string map {k "" q ""} $rights] }
+        R {
+            if { $from == 0 } { set rights [string map {Q ""} $rights] }
+            if { $from == 7 } { set rights [string map {K ""} $rights] }
+        }
+        r {
+            if { $from == 56 } { set rights [string map {q ""} $rights] }
+            if { $from == 63 } { set rights [string map {k ""} $rights] }
+        }
+    }
+    # and so does a capture on the corner, wherever the capturer came from
+    switch -- $to {
+        0  { set rights [string map {Q ""} $rights] }
+        7  { set rights [string map {K ""} $rights] }
+        56 { set rights [string map {q ""} $rights] }
+        63 { set rights [string map {k ""} $rights] }
+    }
+    if { $rights eq "" } { set rights "-" }
+    # a double pawn push leaves the square it crossed as the en-passant target
+    if { ($piece eq "P" || $piece eq "p") && abs($to - $from) == 16 } {
+        set epsq [::board::san [expr {($to + $from) / 2}]]
+    }
+    return [list $rights $epsq]
+}
+
+# ::comp::timeControlTag -- the PGN tag for the tournament's time control.
+# TimeControl is "base+increment" in seconds; the old mm:ss/base form parsed as
+# "0 moves in 5 seconds" rather than "5 minutes + 0.1".
+proc ::comp::timeControlTag {} {
+    global ::comp::_Data
+    if { $_Data(timecontrol) eq "permove" } {
+        return "Movetime \"$_Data(seconds)\""
+    }
+    return "TimeControl \"[expr {int($_Data(base))}]+$_Data(incr)\""
+}
+
+# ::comp::moveOverrun -- did a time-per-move reply arrive too late to count?
+# An engine gets leeway * time plus the grace before the move is a loss.
+proc ::comp::moveOverrun { expired time } {
+    global ::comp::_Data
+    if { $_Data(timecontrol) ne "permove" || $time <= 0 } { return 0 }
+    return [expr { $expired > $_Data(permoveleeway) * $time + $_Data(permovegrace) }]
 }
 
 proc ::comp::checkfiftyMoveRule { moves prevmaterial prevpawns board} {

@@ -1587,6 +1587,9 @@ namespace eval sergame {
       }
       catch {sc_game save [sc_game number] [sc_base current]}
       ::notify::GameChanged
+      # the move that ended the game may still be animating: a dialog freezes
+      # the board mid-move and leaves the piece between two squares
+      ::board::waitForAnimation
       tk_messageBox -type ok -message "$::tr(Iresign) - $::tr(ResultSaved)" -parent .main -icon info
       set ::sergame::resignCount 0
     }
@@ -1609,6 +1612,8 @@ namespace eval sergame {
       lappend ::sergame::lFen $elt
     }
     if { [llength [lsearch -all $::sergame::lFen $elt] ] >=3 } {
+      # the drawing move is still animating; finish it before the dialog
+      ::board::waitForAnimation
       tk_messageBox -type ok -message $::tr(Draw) -parent .main -icon info
       return 1
     }

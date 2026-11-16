@@ -2104,6 +2104,10 @@ proc ::board::update {w {board ""} {animate 0}} {
 
   # Cancel any current animation:
   after cancel "::board::_animate $w"
+  if {!$animate} {
+    # a redraw will not animate, so nothing is moving any more
+    set ::board::_animate($w,moving) 0
+  }
 
   # Remove all marks (incl. arrows) from the board:
   $w.bd delete mark
@@ -2654,6 +2658,7 @@ proc ::board::animate {w oldboard newboard} {
 
   # Start the animation:
   set start [clock clicks -milli]
+  set ::board::_animate($w,moving) 1
   set ::board::_animate($w) [list $start [expr {$start + $::animateDelay}] $from $to $from2 $to2]
   ::board::_animate $w
 }
@@ -2662,7 +2667,11 @@ proc ::board::animate {w oldboard newboard} {
 #   Internal procedure for updating a board move animation.
 #
 proc ::board::_animate {w} {
-  if {! [winfo exists $w]} { return }
+  if {! [winfo exists $w]} {
+    # the board is gone; nobody will ever finish this animation
+    set ::board::_animate($w,moving) 0
+    return
+  }
 
   lassign $::board::_animate($w) start end from to from2 to2
   set now [clock clicks -milli]
@@ -2697,8 +2706,22 @@ proc ::board::_animate {w} {
   if {$now < $end} {
     after 5 "::board::_animate $w"
   } else {
+    set ::board::_animate($w,moving) 0
     $w.bd delete tmp_animate
   }
+}
+
+# ::board::waitForAnimation
+#   Wait for a running move animation to finish, then let Tk redraw.
+#   A modal dialog raised on top of a board that is still animating leaves the
+#   moving piece where the animation stopped, so every game-over message asks
+#   this first. The delay covers the redraw of the final position.
+proc ::board::waitForAnimation {{delay 500} {w .main.board}} {
+  if {[info exists ::board::_animate($w,moving)] && $::board::_animate($w,moving)} {
+    vwait ::board::_animate($w,moving)
+  }
+  catch { update }
+  if {$delay > 0} { after $delay }
 }
 
 proc InitBoard {} {

@@ -116,6 +116,12 @@ jobs:
       - name: Engine reply
         run: tclsh tests/tcl/engine_reply.tcl
 
+      # Computer tournament: the PGN time control it writes, the repetition key
+      # that decides a draw (castling rights and en passant included), and the
+      # time-per-move deadline with its grace.
+      - name: Computer tournament
+        run: tclsh tests/tcl/multicomp.tcl
+
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
 

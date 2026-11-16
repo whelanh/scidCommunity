@@ -790,11 +790,17 @@ namespace eval book {
     ttk::menubutton $w.fbutton.mbAdd -text $::tr(AddMove) -menu $w.fbutton.mbAdd.otherMoves
     menu $w.fbutton.mbAdd.otherMoves
 
+    # A move already in the book is taken out of the position from here: its
+    # probability becomes -1, which is the book format's "forget this move".
+    ttk::menubutton $w.fbutton.mbRemove -text $::tr(RemoveMove) -menu $w.fbutton.mbRemove.otherMoves
+    menu $w.fbutton.mbRemove.otherMoves
+
 
     ttk::button $w.fbutton.bExport -text $::tr(Export) -command ::book::export
     ttk::button $w.fbutton.bSave -text $::tr(Save) -command ::book::save
 
-    pack $w.fbutton.mbAdd $w.fbutton.bExport $w.fbutton.bSave -side top -fill x -expand yes
+    pack $w.fbutton.mbAdd $w.fbutton.mbRemove $w.fbutton.bExport $w.fbutton.bSave \
+        -side top -fill x -expand yes
 
 
     pack $w.fcombo $w.f $w.fbutton -side top
@@ -838,16 +844,42 @@ namespace eval book {
     if { $::book::isReadonly > 0 } { return }
 
     set w .bookTuningWin
-    set children [winfo children $w.f]
-    set count [expr [llength $children] / 2]
-    ttk::label $w.f.m$count -text [::trans $move]
-    bind $w.f.m$count <ButtonPress-1> " ::book::makeBookMove $move"
-    ttk::spinbox $w.f.sp$count -from 0 -to 100 -width 3
-    $w.f.sp$count set 0
-    grid $w.f.m$count -row $count -column 0 -sticky w
-    grid $w.f.sp$count -row $count -column 1 -sticky w
+    # a move that was removed from this position is only hidden, so bring its
+    # row back instead of adding a second one for the same move
+    set row [lsearch -exact $::book::bookTuningMoves $move]
+    if { $row >= 0 } {
+      $w.f.sp$row set 0
+      grid $w.f.m$row -row $row -column 0 -sticky w
+      grid $w.f.sp$row -row $row -column 1 -sticky w
+    } else {
+      set row [llength $::book::bookTuningMoves]
+      ttk::label $w.f.m$row -text [::trans $move]
+      bind $w.f.m$row <ButtonPress-1> " ::book::makeBookMove $move"
+      ttk::spinbox $w.f.sp$row -from 0 -to 100 -width 3
+      $w.f.sp$row set 0
+      grid $w.f.m$row -row $row -column 0 -sticky w
+      grid $w.f.sp$row -row $row -column 1 -sticky w
+      lappend ::book::bookTuningMoves $move
+    }
     $w.fbutton.mbAdd.otherMoves delete [::trans $move]
-    lappend ::book::bookTuningMoves $move
+    $w.fbutton.mbRemove.otherMoves add command -label [::trans $move] \
+        -command "::book::removeBookMove $move $row"
+  }
+  ################################################################################
+  #   remove a move from the position: hidden row, probability -1
+  ################################################################################
+  proc removeBookMove { move row } {
+    if { $::book::isReadonly > 0 } { return }
+
+    set w .bookTuningWin
+    # -1 is the book format's "forget this move" (save() sends the spinbox
+    # values); the row stays so the move can be added back
+    grid remove $w.f.m$row
+    grid remove $w.f.sp$row
+    $w.f.sp$row set -1
+    $w.fbutton.mbRemove.otherMoves delete [::trans $move]
+    $w.fbutton.mbAdd.otherMoves add command -label [::trans $move] \
+        -command "::book::addBookMove $move"
   }
   ################################################################################
   #   updates book display when board changes
@@ -870,6 +902,7 @@ namespace eval book {
     }
 
     set row 0
+    $w.fbutton.mbRemove.otherMoves delete 0 end
     for {set i 0} {$i<[llength $moves]} {incr i 2} {
       lappend ::book::bookTuningMoves [lindex $moves $i]
       ttk::label $w.f.m$row -text [::trans [lindex $moves $i]]
@@ -880,6 +913,8 @@ namespace eval book {
       $w.f.sp$row set $value
       grid $w.f.m$row -row $row -column 0 -sticky w
       grid $w.f.sp$row -row $row -column 1 -sticky w
+      $w.fbutton.mbRemove.otherMoves add command -label [::trans [lindex $moves $i]] \
+          -command "::book::removeBookMove [lindex $moves $i] $row"
       incr row
     }
     # load legal moves

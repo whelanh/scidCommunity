@@ -264,6 +264,9 @@ set ::pgn::shortHeader 0
 set ::pgn::boldMainLine 1
 set ::pgn::columnFormat 0
 set ::pgn::stripMarks 0
+# keep the current move in the middle of the window instead of on the first or
+# last visible line, so the moves and comments around it stay in sight
+set ::pgn::centerMove 0
 set ::pgn::showPhoto 1
 set ::pgn::figurine 0
 # PGN tag order for export/display: the Seven Tag Roster is always emitted
@@ -545,6 +548,15 @@ foreach type {PGN HTML} {
 
 set autoRaise 1
 
+# Wayland (KWin) opens a new toplevel behind another undocked one, so a window
+# that was just mapped - an engine window after a move, a progress bar - stays
+# invisible until it is clicked. Raising on <Map> fixes it; it is a no-op where
+# no other toplevel is open, and it honours autoRaise above.
+set waylandSession [expr {[info exists ::env(XDG_SESSION_TYPE)] && $::env(XDG_SESSION_TYPE) eq "wayland"}]
+if {$waylandSession} {
+  bind Toplevel <Map> {if {$::autoRaise} {raise %W}}
+}
+
 proc raiseWin {w} {
   global autoRaise
   if {$autoRaise} { raise $w }
@@ -729,7 +741,7 @@ proc options.write {} {
     puts $optionF ""
     foreach i {boardSize boardStyle language ::pgn::showColor \
           ::pgn::indentVars ::pgn::indentComments ::pgn::showPhoto \
-          ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::figurine \
+          ::pgn::shortHeader ::pgn::boldMainLine ::pgn::stripMarks ::pgn::centerMove ::pgn::figurine \
           ::pgn::symbolicNags ::pgn::moveNumberSpaces ::pgn::columnFormat \
           ::pgn::repetitionAlert \
           tree(order) tree(moveDepth) optionsAutoSave ::tree::mask::recentMask \
