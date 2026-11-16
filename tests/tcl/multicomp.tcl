@@ -197,6 +197,53 @@ checkEq "a double push beside an enemy pawn records its ep square" \
 checkEq "a double push with no enemy pawn beside it records none" \
     [call {lindex [::comp::nextPositionState {KQkq -} $START e2e4] 1}] -
 
+puts "\nthe en-passant target of a FEN start"
+# The FEN/EPD ep field used to be taken verbatim while the post-move path kept
+# it only when a capture was available, so one position reached two ways keyed
+# differently and the repeat was never seen. Both ask epCaptureAvailable now.
+set phantomEP "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1"
+set plainEP "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1"
+checkEq "a FEN ep square nobody can take is not part of the position" \
+    [call {::comp::initialPositionState $phantomEP}] {KQkq -}
+checkEq "so the FEN with it and the FEN without it key the same" \
+    [call {::comp::startPositionKey $phantomEP}] \
+    [call {::comp::startPositionKey $plainEP}]
+# Black pawn d4, White has just played e2-e4: dxe3 is available, so the square
+# is real and the start is a different position from the one without it.
+set liveEP "4k3/8/8/8/3pP3/8/8/4K3 b - e3 0 1"
+checkEq "a FEN ep square an enemy pawn can take is kept" \
+    [call {::comp::initialPositionState $liveEP}] {- e3}
+set pushBoard [call {::comp::FENtoBoard "4k3/8/8/8/3p4/8/4P3/4K3 w - - 0 1"}]
+checkEq "and the post-move path agrees with it" \
+    [call {lindex [::comp::nextPositionState {- -} $pushBoard e2e4] 1}] e3
+
+puts "\nthe book line's positions"
+# A .opn/.bin line arrives already played into _Data(board,$game) while
+# _Data(fen,$game) is still startpos, so the journal used to open with the start
+# key alone: every position the line reached was missing from it, and a line
+# that repeats a position (or recurs later) undercounted the threefold.
+set line {g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8}
+lassign [call {::comp::bookLineJournal startpos $line}] journal lineState
+checkEq "the journal has one key per position, the start first" \
+    [call {llength $journal}] 9
+checkEq "with the start key still first" \
+    [call {lindex $journal 0}] [call {::comp::startPositionKey startpos}]
+checkEq "the line's second occurrence of the start is keyed" \
+    [call {lindex $journal 4}] [call {lindex $journal 0}]
+checkEq "and the third is already a draw" \
+    [call {expr {[llength [lsearch -all -exact $journal [lindex $journal 0]]]}}] 3
+checkEq "a position one knight away is not the start" \
+    [call {expr {[lindex $journal 1] ne [lindex $journal 0]}}] 1
+# The state handed back is the line's last position, so a rook moved inside the
+# book line leaves the game without that castling right instead of the start
+# position's rights being restored onto a board that has already moved.
+lassign [call {::comp::bookLineJournal startpos {a2a3 a7a6 a1a2}}] rookJournal rookState
+checkEq "the line's last position hands the game its real rights" \
+    [call {lindex $rookState 0}] Kkq
+checkEq "and the journal ends on that position" \
+    [call {lindex $rookJournal end}] \
+    [call {::comp::repetitionKey [call {::comp::FENtoBoard "rnbqkbnr/1ppppppp/p7/8/8/P7/RPPPPPPP/1NBQKBNR b Kqkq - 0 3"}] b Kkq -}]
+
 puts "\ntime per move"
 set ::comp::_Data(timecontrol) permove
 set ::comp::_Data(time) 1000

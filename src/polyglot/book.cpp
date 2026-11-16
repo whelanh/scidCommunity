@@ -269,6 +269,15 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 		probs_written = 1;
 	}
 	ASSERT(probs_written);
+	if (write_count == 0) {
+		// Refuse the degenerate save. scid_book_open treats a zero-length file
+		// as "not a book" (BookSize = ftell / 16 == 0 -> -1), so cutting the
+		// last entry away would leave a file the app can never open again.
+		// Nothing else in the tree expects a book with no entries: the save
+		// fails and the caller reports it.
+		fclose(f);
+		return -1; // fail
+	}
 	fseek(BookFile[BookNumber], 0, SEEK_SET);
 	fseek(f, 0, SEEK_SET);
 	for (pos = 0; pos < write_count; pos++) {

@@ -878,9 +878,15 @@ proc compNM {game n m k} {
     set tomove [expr { ([llength $_Data(moves,$game)] % 2) == 0 ? "white" : "black" } ]
     set _Data(result,$game) "*"
     # The start position counts as an occurrence like any other (FIDE 9.2), so
-    # the journal opens with it instead of an empty list.
-    set _Data(repetition,$game) [list [::comp::startPositionKey $_Data(fen,$game)]]
-    lassign [::comp::stateFromPosition $_Data(fen,$game) $_Data(board,$game)] crights epsq
+    # the journal opens with it instead of an empty list. A .opn/.bin book line
+    # arrives already played into _Data(board,$game) while _Data(fen,$game) is
+    # still the start, so the positions the line reaches belong in the journal
+    # too -- bookLineJournal replays them and hands back the state the line ends
+    # in, which is the state the game continues from.
+    lassign [::comp::bookLineJournal $_Data(fen,$game) $_Data(moves,$game)] \
+        journal lineState
+    set _Data(repetition,$game) $journal
+    lassign $lineState crights epsq
     set _Data(crights,$game) $crights
     set _Data(epsq,$game) $epsq
     set _Data(moves50,$game) 0
@@ -1429,6 +1435,28 @@ proc ::comp::repetitionKey { board side rights epsq } {
     return [list [lindex $board 0] $side $rights $epsq]
 }
 
+# ::comp::epCaptureAvailable -- can $side actually capture on $epsq?
+# FIDE 9.2 keys a position on the en-passant capture that is *available*, so an
+# ep target nobody can take is not part of the position. The pawn that pushed
+# stands on the square behind $epsq; the capture is real only when a pawn of
+# $side stands on an adjacent file, on that rank. Both the FEN/EPD start and
+# the post-move path ask this one proc, so the two cannot drift apart again.
+proc ::comp::epCaptureAvailable { placement side epsq } {
+    if { ![regexp {^[a-h][1-8]$} $epsq] } { return 0 }
+    if { $side ni {w b} } { return 0 }
+    set e [::board::sq $epsq]
+    set landing [expr { $side eq "w" ? $e - 8 : $e + 8 }]
+    if { $landing < 0 || $landing > 63 } { return 0 }
+    set pawn [expr { $side eq "w" ? "P" : "p" }]
+    set file [expr { $e % 8 }]
+    foreach neighbour [list [expr {$landing - 1}] [expr {$landing + 1}]] {
+        if { $neighbour < 0 || $neighbour > 63 } continue
+        if { abs(($neighbour % 8) - $file) != 1 } continue
+        if { [string index $placement $neighbour] eq $pawn } { return 1 }
+    }
+    return 0
+}
+
 # ::comp::initialPositionState -- castling rights and en-passant square of a FEN.
 # Returns {rights epsq}; a FEN without those fields keeps every right.
 proc ::comp::initialPositionState { fen } {
@@ -1447,7 +1475,16 @@ proc ::comp::initialPositionState { fen } {
             } elseif { [regexp {^[KQkq]+$} $r] } {
                 set rights $r
             }
-            if { [regexp {^[a-h][1-8]$} [lindex $tok 3]] } { set epsq [lindex $tok 3] }
+            # The ep field is kept only when the capture is available, exactly
+            # as the post-move path decides it: a FEN/EPD start whose ep square
+            # nobody can take otherwise keys differently from the same position
+            # reached by play, and the repetition is never seen.
+            set side [lindex $tok 1]
+            if { $side ni {w b} } { set side "w" }
+            if { [::comp::epCaptureAvailable [lindex [::comp::FENtoBoard $fen] 0] \
+                      $side [lindex $tok 3]] } {
+                set epsq [lindex $tok 3]
+            }
         }
     }
     if { $rights eq "" } { set rights "-" }
@@ -1516,25 +1553,53 @@ proc ::comp::nextPositionState { state board move } {
     }
     if { $rights eq "" } { set rights "-" }
     # A double pawn push leaves the square it crossed as the en-passant target
-    # only when a capture there is actually available: an enemy pawn on an
-    # adjacent file, on the rank the pushing pawn landed on. FIDE 9.2 keys a
-    # position on the *possible* en-passant capture, so after 1.e4 with no black
-    # pawn on d4/f4 the position is the same as any other and a repeat there
-    # must be recognised, not differ by a phantom square.
+    # only when a capture there is actually available (epCaptureAvailable, the
+    # rule initialPositionState uses too). FIDE 9.2 keys a position on the
+    # *possible* en-passant capture, so after 1.e4 with no black pawn on d4/f4
+    # the position is the same as any other and a repeat there must be
+    # recognised, not differ by a phantom square. The neighbouring squares are
+    # untouched by the push, so the board before the move answers for both.
     if { ($piece eq "P" || $piece eq "p") && abs($to - $from) == 16 } {
-        set enemy [expr {$piece eq "P" ? "p" : "P"}]
-        set file [expr {$to % 8}]
-        set neighbours {}
-        if { $file > 0 } { lappend neighbours [expr {$to - 1}] }
-        if { $file < 7 } { lappend neighbours [expr {$to + 1}] }
-        foreach sq $neighbours {
-            if { [string index $board $sq] eq $enemy } {
-                set epsq [::board::san [expr {($to + $from) / 2}]]
-                break
-            }
+        set capturer [expr {$piece eq "P" ? "b" : "w"}]
+        set target [::board::san [expr {($to + $from) / 2}]]
+        if { [::comp::epCaptureAvailable [lindex $board 0] $capturer $target] } {
+            set epsq $target
         }
     }
     return [list $rights $epsq]
+}
+
+# ::comp::bookLineJournal -- the repetition journal of a book line, and the
+# state the line ends in. Returns {journal {rights epsq}}.
+# A .opn/.bin line arrives with its moves already played into _Data(board,$game)
+# while _Data(fen,$game) is still the start position, so seeding the journal with
+# the start key alone leaves every position the book line reaches out of it: a
+# line that repeats a position (or recurs later in the game) undercounts, which
+# delays or misses the threefold adjudication. The start key stays first; each
+# position the line reaches follows, and the state handed back is the line's
+# last position, so the moves played after it are keyed from the right rights
+# and en-passant square.
+proc ::comp::bookLineJournal { fen moves } {
+    if { $fen ne "" && $fen ne "startpos" } {
+        set board [::comp::FENtoBoard $fen]
+        set side [lindex [split $fen] 1]
+        if { $side ni {w b} } { set side "w" }
+    } else {
+        set board $::comp::startBoard
+        set side "w"
+    }
+    lassign [::comp::stateFromPosition $fen $board] rights epsq
+    set journal [list [::comp::startPositionKey $fen]]
+    foreach move $moves {
+        set pre $board
+        lassign [::comp::compUpdateboard $pre $move] ok board
+        if { ! $ok } break
+        set side [expr {$side eq "w" ? "b" : "w"}]
+        lassign [::comp::nextPositionState [list $rights $epsq] $pre $move] \
+            rights epsq
+        lappend journal [::comp::repetitionKey $board $side $rights $epsq]
+    }
+    return [list $journal [list $rights $epsq]]
 }
 
 # ::comp::timeControlTag -- the PGN tag for the tournament's time control.

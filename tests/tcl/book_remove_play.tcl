@@ -11,6 +11,11 @@
 # the writer turns into an unsigned entry count and rewrites at ~full weight.
 # Red on the pre-fix writer too: a shrinking rewrite left the old tail in the
 # file, so closing and re-opening the book brought the entry back.
+#
+# Round 2 adds the degenerate save: removing the *last* entry would truncate the
+# file to zero bytes, which both scid_book_open paths read as "not a book", so
+# the writer refuses it and the window's save reports the refusal instead of
+# deleting the tempfile and refreshing as if the book had been written.
 
 set fails 0
 set checks 0
@@ -84,6 +89,89 @@ check "a restored move is saved beside another" \
     {[string match {*e4*} $both] && [string match {*d4*} $both]} "moves='$both'"
 sc_book close 0
 checkEq "and both entries are on disk" [fileEntries $book] 3
+
+# ---------------------------------------------------------------------------
+# Removing the last entry. The rewrite would leave a zero-length file, and both
+# scid_book_open paths read that as "not a book" (BookSize == 0 -> -1), so a
+# save that emptied the file would leave a book the app can never open again.
+# The writer refuses it and the Tcl command raises instead of reporting success.
+set one [file join $dir one.bin]
+set fh [open $one wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+checkEq "the one-entry fixture book opens" [sc_book load $one 0] ""
+sc_book moves 0
+sc_book movesupdate {e4} {100} 0 $tmp
+sc_book close 0
+# keep the move's own entry alone: the book then holds exactly the entry the
+# next save would remove
+set fh [open $one rb]
+set raw [read $fh]
+close $fh
+set fh [open $one wb]
+puts -nonewline $fh [string range $raw 16 31]
+close $fh
+checkEq "the one-entry book re-opens" [sc_book load $one 0] ""
+sc_book moves 0
+# ::book::save writes its tempfile under ::scidUserDir; this harness runs the
+# binary in script mode, where the profile variable is not initialised.
+set ::scidUserDir $dir
+set tmpSaved [file join $::scidUserDir tempfile.[pid]]
+file delete -force $tmpSaved
+set err [catch {sc_book movesupdate {} {} 0 $tmp} res]
+checkEq "emptying the book is refused" $err 1
+check "and the refusal says what happened" \
+    {[string match {*at least one entry*} $res]} "res='$res'"
+check "the book keeps its move" \
+    {[string match {*e4*} [lindex [sc_book moves 0] 0]]}
+checkEq "and the file still holds its entry" [fileEntries $one] 1
+sc_book close 0
+checkEq "the book still opens after the refused save" [sc_book load $one 0] ""
+sc_book moves 0
+check "with the move still in it" \
+    {[string match {*e4*} [lindex [sc_book moves 0] 0]]}
+
+# The window's save has to surface that refusal. It called movesupdate for its
+# side effect, deleted the tempfile and refreshed as if the book had been
+# written, so a refused save looked exactly like a successful one.
+# A binary running a script never loads tcl/windows/book.tcl, so load it here:
+# the refusal must reach the window, not only the sc_book command.
+set root [file normalize [file join [file dirname [info script]] .. ..]]
+if {[catch {source [file join $root tcl windows book.tcl]} bookErr]} {
+    puts "note: tcl/windows/book.tcl did not load: $bookErr"
+}
+check "the book window's save is loaded" \
+    {[llength [info commands ::book::save]] > 0}
+if {[llength [info commands ::book::save]] > 0} {
+    set ::book::bookTuningMoves {e4}
+    set ::book::bookTuningSlot 0
+    set ::book::isReadonly 0
+    if {[winfo exists .bookTuningWin]} { destroy .bookTuningWin }
+    toplevel .bookTuningWin
+    frame .bookTuningWin.f
+    pack .bookTuningWin.f
+    ttk::spinbox .bookTuningWin.f.sp0 -from 0 -to 100 -width 3
+    .bookTuningWin.f.sp0 set -1        ;# the row is removed
+    # .bookWin exists so the success path would reach ::book::refresh, and the
+    # spy records whether it did; a modal box would hang the harness.
+    toplevel .bookWin
+    set ::savedEvents {}
+    proc tk_messageBox {args} { lappend ::savedEvents msgbox ; return ok }
+    rename ::book::refresh ::book::refresh.harness
+    proc ::book::refresh {} { lappend ::savedEvents refresh }
+    file delete -force $tmpSaved
+    ::book::save
+    checkEq "a refused save reports itself to the user" \
+        [llength [lsearch -all -exact $::savedEvents msgbox]] 1
+    check "and the window is not refreshed as if saved" \
+        [expr {[lsearch -exact $::savedEvents refresh] < 0}]
+    check "and the tempfile is not deleted on failure" [file exists $tmpSaved]
+    rename ::book::refresh {}
+    rename ::book::refresh.harness ::book::refresh
+    destroy .bookWin
+    destroy .bookTuningWin
+}
+sc_book close 0
 
 file delete -force $dir
 puts "\n$checks checks, $fails failures"

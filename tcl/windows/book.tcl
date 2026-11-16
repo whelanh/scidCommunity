@@ -953,7 +953,15 @@ namespace eval book {
       lappend prob $p
     }
     set tempfile [file join $::scidUserDir tempfile.[pid]]
-    sc_book movesupdate $moves $prob $::book::bookTuningSlot $tempfile
+    # A refused save (the writer now declines to empty the book) must reach the
+    # user: the old code called movesupdate for its side effect and carried on
+    # whatever happened, so the tempfile was deleted and the window refreshed
+    # as if the book had been written.
+    if { [catch {sc_book movesupdate $moves $prob $::book::bookTuningSlot $tempfile} err] } {
+      tk_messageBox -parent .bookTuningWin -title "scidCommunity" -type ok -icon error \
+          -message $err
+      return
+    }
     file delete $tempfile
     if {  [ winfo exists .bookWin ] } {
       ::book::refresh
