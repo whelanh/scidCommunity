@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, vector<Node*>nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");

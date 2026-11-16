@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #pragma once
 #include "node.h"
 class EchoMatchInfo{

@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 // for TransformNode::transform_in_place(Transform*t) see the file transform_members.cpp
 

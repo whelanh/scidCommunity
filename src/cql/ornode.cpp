@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 OrNode::OrNode(MFilter*c1,MFilter*c2){
   uassert(c1&&c2,"internal OrNode, null args to constructor");

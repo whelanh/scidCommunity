@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 MoveBase::MoveBase(SetBase*f, SetBase*t, PieceLoc*p,SetBase* e,bool nullmove, bool mainline, bool variation){
   uassert(!(mainline&&variation),"Movebase args");

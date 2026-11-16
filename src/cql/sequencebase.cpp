@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 void SequenceBase::print(){
   printf("<%s at %p: %d constituents: ",thisclass(),this,nconstituents());

@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 RepeatConstituent::RepeatConstituent(SeqConstituent*c,int tmin, int tmax){
   uassert(c,"nullscsc");

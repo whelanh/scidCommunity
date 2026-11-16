@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 #define CCCC(X) X* X::clone(){X* ret=new X(*this);ret->deepify();cloneverify(this,ret);return ret;}
 CCCC(AnyNode);

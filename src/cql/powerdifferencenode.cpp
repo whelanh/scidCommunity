@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 PowerDifferenceNode::PowerDifferenceNode(SetBase*s1,SetBase*s2,Range*r){
   uassert(s1&&s2&&r);

@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
+ */
 #include "node.h"
 
 FutureNode::FutureNode(vector<SeqConstituent*>cs,Range*r,bool isskip,bool allownest):SequenceBase(cs,r,isskip,allownest){
