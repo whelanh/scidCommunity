@@ -26,14 +26,24 @@ existing moves, board, header, comments and material searches.
 `CqlQueryParse()`'s second parameter is Scid vs. PC's `silentSwitch` polarity
 (1 = annotations/comments allowed), not an `allowComments` flag.
 
-## One deliberate deviation from r3777
+## Deliberate deviations
 
-`src/cql/lexer.cpp` is **not** byte-identical to r3777. `bgetc()` no longer
-advances `rsIndex` past the terminating NUL:
+Four files differ from r3777 on purpose. **Do not revert any of these when
+re-syncing**; each one fixes a bug that only shows against scidCommunity's own
+callers.
+
+| # | Where | Why |
+|---|---|---|
+| 1 | `lexer.cpp` — `bgetc()` leaves the cursor **on** the terminating NUL | Upstream advances first, so it consumes the terminator and the next `readstring()` lexes whatever bytes follow the query in memory. |
+| 2 | `lexer.cpp` — `bgetc()` returns the byte **unsigned** | `char` is signed on x86-64, so a UTF-8 byte ≥ 0x80 came back negative and ended the token at the first accented character (a non-ASCII comment or player name truncated the query). |
+| 3 | `echomatchinfo.cpp` — relation id lists are built in a `std::string`, not a `char buffer[2000]` | An unchecked `sprintf()` per target overflowed the stack buffer for a source with a few hundred targets; a list too long for the engine's comment limit now ends with `...]` instead of overflowing. |
+| 4 | `nodematch.cpp` — `extension` is refused at parse time | The generator needs `MarkBoard::getLegalMoves()`, which this tree does not implement: it asserted, and the adapter turned that into a per-game runtime error, so the keyword could never match. |
+
+Details on the two lexer deviations, both in `bgetc()`:
 
 ```cpp
 int bgetc(char *buffer) {
-  int c = buffer[rsIndex];
+  const unsigned char c = static_cast<unsigned char>(buffer[rsIndex]);
   if (!c) return EOF;
   rsIndex++;
   return c;
@@ -47,8 +57,13 @@ memory. scidCommunity is the first caller to hand the lexer an in-memory
 not a delimiter (`cql() qh4`) reads one phantom `NameToken` and fails with
 `Lexer: Unknown or not understood sequence of characters` — measured as 4-7
 failures in 8 runs before the fix, 0 afterwards, and 5 tokens before vs 4 after
-on a standalone harness over the real lexer. **Do not revert this line when
-re-syncing.**
+on a standalone harness over the real lexer.
+
+The `static_cast<unsigned char>` is the second half: without it a query such as
+`cql() ; Zürich` followed by `qh4` on the next line lexed only up to the `ü`
+and the rest of the query was silently dropped. `bungetc()` now rewinds only a
+byte `bgetc()` actually consumed, for the same reason (`EOF` is reported for the
+NUL without advancing).
 
 ## Files adapted to scidCommunity's API (23)
 

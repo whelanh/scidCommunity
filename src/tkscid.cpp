@@ -9264,24 +9264,30 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // command writes its own message into it.
   Tcl_ResetResult(ti);
   Timer timer; // Start timing this search.
-  // If filter operation is to reset the filter, reset it:
-  if (filterOp == FILTEROP_RESET) {
-    filter->includeAll();
+  // A reset filter operation starts from every game, but the reset itself is
+  // deferred: nothing may touch the filter until the search has succeeded, so a
+  // query that fails a parse, fails at runtime or is cancelled leaves dbfilter
+  // exactly as it was (the window and the help page promise that, and the game
+  // list shows the filter).
+  const bool resetFilter = (filterOp == FILTEROP_RESET);
+  if (resetFilter)
     filterOp = FILTEROP_AND;
-  }
-  const size_t startFilterCount = filter->size();
   const gamenumT totalGames = dbase->numGames();
+  const size_t startFilterCount =
+      resetFilter ? static_cast<size_t>(totalGames) : filter->size();
 
   // Collect candidates, respecting the filterOp: AND searches the games in the
   // filter, OR the games out of it. Games without a gamefile record are dropped
-  // from the filter when searching it, and never added to it.
+  // from the filter when searching it, and never added to it; the drop is
+  // remembered rather than applied, for the same reason the results are.
   std::vector<gamenumT> candidates;
+  std::vector<gamenumT> unreadable; // in the filter, but with no gamefile record
   candidates.reserve(totalGames / 4);
   for (gamenumT gn = 0; gn < totalGames; ++gn) {
-    const bool inFilter = (filter.get(gn) != 0);
+    const bool inFilter = resetFilter || (filter.get(gn) != 0);
     if (dbase->getIndexEntry(gn)->GetLength() == 0) {
       if (filterOp == FILTEROP_AND && inFilter)
-        filter.set(gn, 0);
+        unreadable.push_back(gn);
       continue;
     }
     if (filterOp == FILTEROP_AND ? !inFilter : inFilter)
@@ -9295,11 +9301,9 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // capped and must not be mistaken for an error.
   const size_t cand_total = candidates.size();
   std::vector<byte> results(cand_total, 0);
-  std::vector<byte> readErrors(cand_total, 0);
   bool readError = false;
   bool engineError = false;
   bool cancelled = false;
-  size_t examined = 0; // candidates whose outcome is known
 
   for (size_t ci = 0; ci < cand_total; ++ci) {
     if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
@@ -9317,14 +9321,12 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     // the decoded game, so nothing can leak from the game before it.
     Game game;
     if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
-      readErrors[ci] = 1;
-      ++examined;
+      readError = true;
       continue;
     }
 
     unsigned firstPly = 0;
     const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
-    ++examined;
     if (res == CqlMatchResult::Error) {
       engineError = true;
       char where[80];
@@ -9347,31 +9349,6 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     return UI_Result(ti, ERROR_UserCancel);
   }
 
-  // Apply results to the filter serially.
-  for (size_t ci = 0; ci < cand_total; ++ci) {
-    const gamenumT gameNum = candidates[ci];
-    if (ci >= examined) {
-      // Not searched because the engine failed: drop it from an AND search,
-      // leave an OR search alone. Scid vs. PC leaves the filter in the same
-      // state when it aborts a search.
-      if (filterOp == FILTEROP_AND)
-        filter.set(gameNum, 0);
-      continue;
-    }
-    if (readErrors[ci]) {
-      readError = true;
-      filter.set(gameNum, 0);
-      continue;
-    }
-    const byte ply = results[ci];
-    if (filterOp == FILTEROP_AND) {
-      // For AND: keep the game at its match ply, or exclude if no match.
-      filter.set(gameNum, ply);
-    } else if (ply > 0) { // For OR: only add the game if it matched.
-      filter.set(gameNum, ply);
-    }
-  }
-
   progress.report(1, 1);
 
   // Release the parse tree and the engine's global state, whether or not the
@@ -9385,6 +9362,22 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   }
   if (readError)
     return errorResult(ti, "Error reading game file.");
+
+  // The search succeeded: only now is the filter changed. Nothing above this
+  // line touched it, so a failed or cancelled search cannot leave the database
+  // filter holding a partial result while the game list still shows the old
+  // one.
+  if (resetFilter)
+    filter->includeAll();
+  for (const gamenumT gnum : unreadable)
+    filter.set(gnum, 0);
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    const byte ply = results[ci];
+    // For AND: keep the game at its match ply, or exclude it if it did not
+    // match. For OR: only add the games that matched.
+    if (filterOp == FILTEROP_AND || ply > 0)
+      filter.set(candidates[ci], ply);
+  }
 
   // Print statistics and time for the search:
   char temp[200];

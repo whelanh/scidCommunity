@@ -898,6 +898,11 @@ BetweenNode* Tokens::match_betweennode(){
 ExtensionNode* Tokens::match_extensionnode(){
   if(!match_keyword("extension"))
     return NULL;
+  // The 'extension' generator runs MarkBoard::getLegalMoves(), which this tree
+  // does not implement: it asserts, and the adapter turns that into a runtime
+  // error for every game examined, so the keyword could never match anything.
+  // Refuse it here instead, where the message names the query the user wrote.
+  show_error("the 'extension' keyword is not supported in this build");
   return new ExtensionNode();
 }
 

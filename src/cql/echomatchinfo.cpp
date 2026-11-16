@@ -2,6 +2,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
+#include <string>
 #include "node.h"
 EchoMatchInfo::EchoMatchInfo(EchoNode* node){
   Game*g=node->theGame;
@@ -56,6 +57,36 @@ void EchoMatchInfo::print(){
 	 substringlen());
 }
 
+namespace {
+
+// The engine's comment limit: MarkBoard::gameAppendComment() drops a comment
+// longer than 500 characters (and asserts on one of 2000 or more), so an id
+// list is cut here, with an explicit marker, instead of being handed over and
+// thrown away. The list used to be built with sprintf() into a fixed 2000-byte
+// stack buffer with no bound at all, which overflows for a relation whose
+// source has a few hundred targets.
+const size_t kIdListLimit = 480;
+
+// "SOURCE 1 [3 4 7]" - the ids are 1-based target/source numbers, in the order
+// they were first seen. A list too long for one comment ends with "...]" so
+// the reader can tell a cut list from a complete one.
+std::string idList(const char*label,int number,const vector<int>&ids){
+  std::string text(label);
+  text+=' ';
+  text+=std::to_string(number);
+  text+=" [";
+  for(int id:ids){
+    const std::string next=std::to_string(id+1)+' ';
+    if(text.size()+next.size()+1>kIdListLimit)
+      return text+"...]";
+    text+=next;
+  }
+  text[text.size()-1]=']'; // the space after the last id becomes the bracket
+  return text;
+}
+
+} // namespace
+
 void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
   //Stage 1: Compute the list of sources and targets used
   vector<moveT*>sources;
@@ -77,14 +108,8 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
 	myinsert(targetids,targetid);
       }
     uassert(targetids.size());
-    char buffer[2000];
-    char*current=buffer;
-    current+=sprintf(current,"SOURCE %d [",i+1);
-    for(auto targetid: targetids)
-      current+=sprintf(current,"%d ",targetid+1);
-    --current;
-    current+=sprintf(current,"]");
-    MarkBoard::gameAppendComment(game,thissource,buffer);
+    MarkBoard::gameAppendComment(game,thissource,
+				 idList("SOURCE",i+1,targetids).c_str());
   }
 
   //Stage 3: Annotate the targets
@@ -98,15 +123,8 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
 	myinsert(sourceids,sourceid);
       }
     uassert(sourceids.size());
-    char buffer[2000];
-    char*current=buffer;
-    
-    current+=sprintf(current,"TARGET %d [",i+1);
-    for(auto sourceid: sourceids)
-      current+=sprintf(current,"%d ",sourceid+1);
-    --current;
-    current+=sprintf(current,"]");
-    MarkBoard::gameAppendComment(game,thistarget,buffer);
+    MarkBoard::gameAppendComment(game,thistarget,
+				 idList("TARGET",i+1,sourceids).c_str());
   }
 
   //Stage 4: Annotate the LCAs

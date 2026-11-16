@@ -124,15 +124,24 @@ char * readstring(FILE * file){
 // one token too many for any query whose last token is not a delimiter - e.g.
 // "cql() qh4" - and reports a garbage lexer error). Leaving the cursor on the
 // NUL makes every later call report EOF, which is what lexStream() expects.
+//
+// The byte is read unsigned: char is signed on x86-64, so a UTF-8 byte >= 0x80
+// would reach the callers as a negative int and every `(c = bgetc(...)) >= 0`
+// reader loop below would end the token at the first accented byte - a query
+// with a non-ASCII comment ("cql() ; Zuerich" followed by a filter on the next
+// line) lexes only the part before it. EOF stays reserved for the terminator.
 int bgetc(char *buffer) {
-  int c = buffer[rsIndex];
+  const unsigned char c = static_cast<unsigned char>(buffer[rsIndex]);
   if (!c) return EOF;
   rsIndex++;
   return c;
 }
 
 int bungetc(int c, char *buffer) {
-  rsIndex--;
+  // Only a byte bgetc() actually consumed may be pushed back: bgetc() reports
+  // the NUL as EOF without advancing, so rewinding for EOF would step back
+  // onto the byte before the terminator.
+  if (c >= 0) rsIndex--;
   return c;
 }
 

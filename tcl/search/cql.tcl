@@ -158,6 +158,15 @@ proc ::search::cqlRun_ {w {new_filter 0}} {
 
 	if {$err} {
 		$status configure -text $result
+		# The database filter is what this window shows. Report it even when
+		# the search failed: sc_search cql leaves the filter untouched on a
+		# failed or cancelled query, but the window must follow the database
+		# wherever it ends up rather than keep showing the filter it had
+		# before the query ran.
+		set ::search::dbase_($w) $dbase
+		set ::search::filter_($w) dbfilter
+		::notify::filter $dbase dbfilter
+		::search::refresh_ $w
 		if {$::errorCode ne $::ERROR::UserCancel} {
 			tk_messageBox -parent $w -title [::tr SearchCQL] -type ok \
 				-icon warning \

@@ -160,6 +160,128 @@ puts "\n== a good query after a bad one ==\n"
 checkEq "a good query after a bad one" [run "cql(:gamenumber 1 2) K"] 2
 
 # ---------------------------------------------------------------------------
+# The four ways a query can fail its caller without failing the window. Each
+# one used to leave the database filter - which is what the game list shows -
+# in a state the window did not report: a runtime error applied the results it
+# had, a cancel and a reset error left the filter reset, and a non-ASCII byte
+# ended the lexer early so the rest of the query was silently dropped.
+# ---------------------------------------------------------------------------
+puts "\n== a failed or cancelled query leaves the filter alone ==\n"
+
+# A runtime error (not a syntax error): the engine only supports transforms on
+# square specifiers, so this parses and then fails on the first game examined.
+checkEq "two games to stand on" [run "cql(:gamenumber 1 2) K"] 2
+set err [catch {run "cql() relation \[K\] echoflip (ancestor)"} msg]
+checkEq "the runtime error does not throw" $err 0
+check "the status line carries the runtime message" \
+    [expr {[string first "An echo transform can only operator" \
+        [$w.options.query.status cget -text]] >= 0}] \
+    [$w.options.query.status cget -text]
+checkEq "the filter is still the two games" [sc_filter count $id dbfilter] 2
+
+# 'extension' has no legal-move generator in this build, so it is refused while
+# the query is parsed, not once per game examined.
+set err [catch {run "cql() extension"} msg]
+checkEq "extension is refused without throwing" $err 0
+check "the message says the keyword is unsupported" \
+    [expr {[string first "the 'extension' keyword is not supported in this build" \
+        [$w.options.query.status cget -text]] >= 0}] \
+    [$w.options.query.status cget -text]
+check "and it is a parse error, not a per-game error" \
+    [expr {[string first "CQL error in game" \
+        [$w.options.query.status cget -text]] < 0}] \
+    [$w.options.query.status cget -text]
+checkEq "the filter is still the two games" [sc_filter count $id dbfilter] 2
+
+# A cancel is the progress callback refusing to continue. sc_search reports at
+# most one game in 1024, so the base has to hold enough games for the callback
+# to be reached at all (and for the report to be more than 30 ms of work, which
+# the UI throttle needs). The filter is narrowed first: a reset operation that
+# is cancelled must not have reset it.
+puts "\n== a cancelled query leaves the filter alone ==\n"
+set manyPgn [file join [expr {[info exists ::env(TMPDIR)] ? $::env(TMPDIR) : "/tmp"}] \
+                  "search_cql_many[pid].pgn"]
+set fh [open $manyPgn w]
+set shuffle {}
+for {set n 1} {$n <= 50} {incr n} {
+    append shuffle "$n. " [expr {$n % 2 ? "Nf3 Nf6" : "Ng1 Ng8"}] " "
+}
+for {set g 1} {$g <= 2100} {incr g} {
+    puts $fh "\[Event \"G$g\"\]\n\[White \"W$g\"\]\n\[Black \"B$g\"\]\n\[Result \"*\"\]\n\n${shuffle}51. Nf3 *\n"
+}
+close $fh
+set manyId [sc_base create MEMORY search_cql_many]
+sc_base switch $manyId
+sc_base import $manyId $manyPgn
+file delete $manyPgn
+checkEq "the many-game base imported" [sc_base numGames $manyId] 2100
+# The window stays the one the harness already has; it is pointed at the new
+# base the way ::search::cqlRun_ leaves it after a search there.
+set savedId $id
+set id $manyId
+set ::search::dbase_($w) $manyId
+set ::search::filter_($w) dbfilter
+# Two games in the filter, then a reset query the user cancels.
+checkEq "a filter to lose" [run "cql(:gamenumber 1 2) K"] 2
+rename ::progressCallBack ::search_cql_progress_
+proc ::progressCallBack {args} {
+    if {[lindex $args 0] eq "init"} { return 1 }
+    return -code break ;# the user pressed Cancel
+}
+set ::dialogs {}
+set err [catch {
+    set ::search::filterOp_($w) reset
+    $w.options.query.text delete 1.0 end
+    $w.options.query.text insert 1.0 "cql() qh4"
+    $w.buttons.search invoke
+} msg]
+checkEq "the cancel does not throw" $err 0
+checkEq "no dialog for a cancel" [llength $::dialogs] 0
+checkEq "the cancelled query left the filter alone" \
+    [sc_filter count $manyId dbfilter] 2
+rename ::progressCallBack {}
+rename ::search_cql_progress_ ::progressCallBack
+set id $savedId
+sc_base switch $id
+
+# ---------------------------------------------------------------------------
+# A relation annotates every matching source/target pair of a game into a
+# comment. With a source whose target list runs to a few hundred positions the
+# text is well over the fixed 2000-byte stack buffer it used to be built in:
+# under ASan, the 560-position game below reports a stack-buffer-overflow
+# (echomatchinfo.cpp:84, writing past 'buffer' at echomatchinfo.cpp:80) before
+# this fix, and the same query is clean after it. The engine is driven directly
+# because the window always searches silently, and a silent search never
+# annotates.
+puts "\n== a relation over hundreds of targets does not overflow ==\n"
+set relPgn [file join [expr {[info exists ::env(TMPDIR)] ? $::env(TMPDIR) : "/tmp"}] \
+                 "search_cql_relation[pid].pgn"]
+set fh [open $relPgn w]
+set shuffle {}
+for {set n 1} {$n <= 280} {incr n} {
+    append shuffle "$n. " [expr {$n % 2 ? "Nf3 Nf6" : "Ng1 Ng8"}] " "
+}
+puts $fh "\[Event \"Long shuffle\"\]\n\[Result \"*\"\]\n\n${shuffle}281. Nf3 *"
+close $fh
+set relId [sc_base create MEMORY search_cql_relation]
+sc_base switch $relId
+sc_base import $relId $relPgn
+file delete $relPgn
+checkEq "the long game imported" [sc_base numGames $relId] 1
+set err [catch {sc_search cql reset 0 1 {cql() relation [K] (ancestor)}} msg]
+checkEq "the annotation does not overflow" $err 0
+checkEq "the game is the match" [sc_filter count $relId dbfilter] 1
+sc_base switch $id
+
+puts "\n== a non-ASCII byte does not end the query ==\n"
+# The lexer read the query bytes as signed chars, so the accented byte in the
+# comment ended readstring() and everything after it - the actual filter - was
+# dropped: the engine saw just "cql()" and rejected the query.
+checkEq "the plain query matches one game" [run "cql() qh4"] 1
+checkEq "the accented comment is skipped, not the query" \
+    [run "cql() ; Z\u00fcrich\nqh4"] 1
+
+# ---------------------------------------------------------------------------
 # The three query shapes the port has to answer, on a fixture that can tell
 # them apart. The moves fixture has no variation and no material change: the
 # fixture below is 1.e4 e5 2.Nf3 (2.Qh5 Nc6) 2...Nc6 3.Bb5, so Qh5 exists only

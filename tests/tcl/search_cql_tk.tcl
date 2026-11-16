@@ -192,6 +192,7 @@ checkEq "and no newline left in the box" \
 puts "\n== a failed query is reported, not raised ==\n"
 set ::sc_searchError "error (line 1) Unrecognized filter"
 set ::dialogs {}
+set ::notified {}
 set err [catch {$w.buttons.search invoke} msg]
 checkEq "the button does not throw" $err 0
 checkEq "the status line carries the engine's message" \
@@ -200,6 +201,12 @@ checkEq "one dialog" [llength $::dialogs] 1
 check "the dialog carries the engine's message" \
     [expr {[string first "Unrecognized filter" [lindex $::dialogs 0]] >= 0}] \
     [lindex $::dialogs 0]
+# The database filter is what the game list shows: report it even when the
+# search failed, so a window can never keep showing a filter the database no
+# longer has.
+check "the game list is told the filter after a failure" \
+    [expr {[llength $::notified] > 0}] $::notified
+checkEq "and with the database filter" [lindex $::notified end] {1 dbfilter}
 set ::sc_searchError ""
 
 puts "\n== a cancelled query says nothing ==\n"
@@ -208,8 +215,12 @@ proc sc_search {args} {
     return -code error -errorcode 2 "cancelled"
 }
 set ::dialogs {}
+set ::notified {}
 $w.buttons.search invoke
 checkEq "no dialog for a cancel" [llength $::dialogs] 0
+check "the game list is told the filter after a cancel" \
+    [expr {[llength $::notified] > 0}] $::notified
+checkEq "and with the database filter" [lindex $::notified end] {1 dbfilter}
 proc sc_search {args} {
     lappend ::searchCalls $args
     if {$::sc_searchError ne ""} { error $::sc_searchError }

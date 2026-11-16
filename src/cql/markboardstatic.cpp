@@ -240,9 +240,14 @@ vector<simpleMoveT*> MarkBoard::getMoves(Game*game,bool searchvars){
 }
   
 vector<simpleMoveT*> MarkBoard::getLegalMoves(Game*game){
+  // Not implemented in scidCommunity. Its only callers are ExtensionNode and
+  // MoveLegalNode: Tokens::match_extensionnode() now refuses 'extension' at
+  // parse time (nodematch.cpp), and MoveLegalNode is unreachable because
+  // 'legal' is never set to true in match_movebase(). Either becoming reachable
+  // again needs a real generator here; the body below is not one.
   uassert(false,"getLegalMoves is not implemented");
-  static int gamenumber=0; //ignore non-reentrancy as not called
-  static std::map<moveT*,vector<simpleMoveT*>> legalmap; //ignore non-reentrancy as not called
+  static int gamenumber=0;
+  static std::map<moveT*,vector<simpleMoveT*>> legalmap;
   if(CqlGameNumber()!=gamenumber){
     gamenumber=CqlGameNumber();
     legalmap.clear();
