@@ -2079,6 +2079,9 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       if (subcmd == "header")
         return sc_search_header(cd, ti, dbase, filter, argc - 3, argv + 3);
 
+      if (subcmd == "moves")
+        return sc_search_moves(ti, dbase, filter, argc - 4, argv + 4);
+
       if (subcmd == "board") {
         if (argc == 5 || argc == 6) {
           // sc_filter search baseId filterTo board [filterFrom]
@@ -9003,6 +9006,186 @@ int sc_search_board(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // Print statistics and time for the search:
   char temp[200];
   int centisecs = timer.CentiSecs();
+  sprintf(temp, "%lu / %lu  (%d%c%02d s)",
+          static_cast<unsigned long>(filter->size()),
+          static_cast<unsigned long>(startFilterCount), centisecs / 100,
+          decimalPointChar, centisecs % 100);
+  Tcl_AppendResult(ti, temp, nullptr);
+  return TCL_OK;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_search_moves:
+//    Searches the main line of the games for a sequence of moves.
+//    Usage: sc_filter search <baseId> <filter> moves <moves> <sideToMove>
+//           <mateOnly> [-filter <op>]
+//      <moves>: a Tcl list of SAN moves; "?" matches any single move
+//      <sideToMove>: w, b or wb -- the side that must be to move before the
+//                    first move of the sequence
+//      <mateOnly>: true if the position after the last move must be checkmate
+int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
+                    int argc, const char **argv) {
+  ASSERT(dbase != nullptr && filter != nullptr);
+
+  const char *usageStr =
+      "Usage: sc_filter search <baseId> <filter> moves <moves> <sideToMove> "
+      "<mateOnly>";
+  if (argc < 4)
+    return errorResult(ti, usageStr);
+
+  filterOpT filterOp = FILTEROP_AND;
+  for (int i = 4; i + 1 < argc; ++i) {
+    if (std::strcmp(argv[i], "-filter") == 0) {
+      filterOp = strGetFilterOp(argv[i + 1]);
+      break;
+    }
+  }
+
+  std::vector<std::string> moves;
+  {
+    int n_moves = 0;
+    const char **m_argv = nullptr;
+    if (Tcl_SplitList(ti, argv[1], &n_moves, (CONST84 char ***)&m_argv) !=
+        TCL_OK)
+      return errorResult(ti, "Error splitting the move list.");
+    moves.reserve(n_moves);
+    for (int i = 0; i < n_moves; ++i) {
+      if (*m_argv[i] != '\0')
+        moves.emplace_back(m_argv[i]);
+    }
+    Tcl_Free((char *)m_argv);
+  }
+  if (moves.empty())
+    return errorResult(ti, "No moves specified.");
+
+  const std::string_view side(argv[2]);
+  bool wToMove = (side == "w" || side == "W");
+  bool bToMove = (side == "b" || side == "B");
+  if (!wToMove && !bToMove) // "wb", "both" or anything else: either side
+    wToMove = bToMove = true;
+  const bool mateOnly = strGetBoolean(argv[3]);
+
+  Progress progress = UI_CreateProgress(ti);
+  Timer timer; // Start timing this search.
+
+  // If filter operation is to reset the filter, reset it:
+  if (filterOp == FILTEROP_RESET) {
+    filter->includeAll();
+    filterOp = FILTEROP_AND;
+  }
+  const size_t startFilterCount = filter->size();
+  const gamenumT totalGames = dbase->numGames();
+
+  // Collect candidates, respecting the filterOp: AND searches the games in the
+  // filter, OR the games out of it. Games without a gamefile record are dropped
+  // from the filter when searching it, and never added to it.
+  std::vector<gamenumT> candidates;
+  candidates.reserve(totalGames / 4);
+  for (gamenumT gn = 0; gn < totalGames; ++gn) {
+    const bool inFilter = (filter.get(gn) != 0);
+    if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+      if (filterOp == FILTEROP_AND && inFilter)
+        filter.set(gn, 0);
+      continue;
+    }
+    if (filterOp == FILTEROP_AND ? !inFilter : inFilter)
+      continue;
+    candidates.push_back(gn);
+  }
+
+  // results[i] is the ply to display for candidates[i]: 0 = no match, the ply
+  // of the matched move otherwise. A read failure is recorded separately: the
+  // filter value is a byte, so a match in a very long game is capped at 255 and
+  // must not be mistaken for an error.
+  std::vector<byte> results(candidates.size(), 0);
+  std::vector<byte> readErrors(candidates.size(), 0);
+  bool readError = false;
+  std::atomic<size_t> n_done{0};
+  std::atomic<bool> cancelled{false};
+
+  const size_t cand_total = candidates.size();
+  const unsigned nThreads =
+      std::max(1u, std::min(std::thread::hardware_concurrency(), 8u));
+  const size_t chunkSize = (cand_total + nThreads - 1) / nThreads;
+
+  auto search_chunk = [&](size_t begin, size_t end) {
+    Game g; // Per-thread Game object
+    for (size_t ci = begin; ci < end; ++ci) {
+      if (cancelled.load(std::memory_order_relaxed))
+        return;
+
+      const gamenumT gameNum = candidates[ci];
+      byte res = 0;
+      ByteBuffer bbuf = dbase->getGame(*dbase->getIndexEntry(gameNum));
+      if (!bbuf) {
+        readErrors[ci] = 1;
+      } else if (g.DecodeMovesOnly(bbuf) == OK &&
+                 g.MoveMatch(moves, wToMove, bToMove, mateOnly)) {
+        // The filter value is 1 + the number of half-moves to play before
+        // displaying, so the game opens on the position the move is played
+        // from.
+        const auto ply = g.GetCurrentPly() + 1;
+        res = static_cast<byte>(ply > 255 ? 255 : ply);
+      }
+      results[ci] = res;
+      n_done.fetch_add(1, std::memory_order_relaxed);
+    }
+  };
+
+  std::vector<std::future<void>> futures;
+  futures.reserve(nThreads);
+  for (unsigned t = 0; t < nThreads; ++t) {
+    const size_t begin = t * chunkSize;
+    if (begin >= cand_total)
+      break;
+    const size_t end = std::min(begin + chunkSize, cand_total);
+    futures.push_back(std::async(std::launch::async, search_chunk, begin, end));
+  }
+
+  // Report progress (and honour the Stop button) while the chunks run.
+  size_t lastReport = 0;
+  while (n_done.load(std::memory_order_relaxed) < cand_total) {
+    const size_t done = n_done.load(std::memory_order_relaxed);
+    if (done != lastReport) {
+      lastReport = done;
+      if (!progress.report(done, cand_total)) {
+        cancelled.store(true, std::memory_order_relaxed);
+        break;
+      }
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  }
+  for (auto &f : futures)
+    f.get();
+
+  if (cancelled.load(std::memory_order_relaxed))
+    return UI_Result(ti, ERROR_UserCancel);
+
+  // Apply results to the filter serially.
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    const gamenumT gameNum = candidates[ci];
+    if (readErrors[ci]) {
+      readError = true;
+      filter.set(gameNum, 0);
+      continue;
+    }
+    const byte ply = results[ci];
+    if (filterOp == FILTEROP_AND) {
+      // For AND: keep the game at its match ply, or exclude if no match.
+      filter.set(gameNum, ply);
+    } else if (ply > 0) { // For OR: only add the game if it matched.
+      filter.set(gameNum, ply);
+    }
+  }
+
+  progress.report(1, 1);
+
+  if (readError)
+    return errorResult(ti, "Error reading game file.");
+
+  // Print statistics and time for the search:
+  char temp[200];
+  const int centisecs = timer.CentiSecs();
   sprintf(temp, "%lu / %lu  (%d%c%02d s)",
           static_cast<unsigned long>(filter->size()),
           static_cast<unsigned long>(startFilterCount), centisecs / 100,

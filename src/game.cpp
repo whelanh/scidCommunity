@@ -21,6 +21,7 @@
 #include "stored.h"
 #include "textbuf.h"
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <memory>
 
@@ -1706,6 +1707,82 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
     }
   }
   return false;
+}
+
+namespace {
+
+/// Reduce a SAN move to the form used for matching: case is folded, a zero is
+/// read as the letter O (castling), and the check/mate mark and the "!?" move
+/// suffix are dropped, so "0-0+!" matches "O-O".
+size_t sanKey(std::string_view san, char *buf, size_t cap) {
+  size_t n = 0;
+  for (char c : san) {
+    if (c == '+' || c == '#' || c == '!' || c == '?')
+      continue;
+    if (n + 1 >= cap)
+      break;
+    buf[n++] =
+        (c == '0')
+            ? 'O'
+            : static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+  }
+  return n;
+}
+
+bool sanMatches(const char *san, const std::string &token) {
+  char a[16], b[16];
+  const size_t na = sanKey(san, a, sizeof a);
+  const size_t nb = sanKey(token, b, sizeof b);
+  return na == nb && std::memcmp(a, b, na) == 0;
+}
+
+} // namespace
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Game::MoveMatch():
+//    Searches the main line for a sequence of SAN moves; "?" matches any
+//    single move. Leaves the location on the first matched move.
+//
+bool Game::MoveMatch(const std::vector<std::string> &moves, bool wToMove,
+                     bool bToMove, bool mateOnly) {
+  if (moves.empty())
+    return false;
+
+  const auto startLocation = currentLocation();
+  bool found = false;
+
+  MoveToStart();
+  while (!AtEnd()) {
+    const bool sideMatches =
+        (CurrentPos->GetToMove() == WHITE) ? wToMove : bToMove;
+    if (sideMatches && sanMatches(GetNextSAN(), moves[0])) {
+      const auto matchLocation = currentLocation();
+      bool allMatched = true;
+      for (size_t i = 1; allMatched && i < moves.size(); ++i) {
+        if (MoveForward() != OK) {
+          allMatched = false;
+          break;
+        }
+        allMatched = moves[i] == "?" || sanMatches(GetNextSAN(), moves[i]);
+      }
+      if (allMatched && mateOnly) {
+        // CurrentPos is the position the matched move is played from; the
+        // checkmate is in the position it leads to.
+        MoveForward();
+        allMatched = CurrentPos->IsKingInMate();
+      }
+      restoreLocation(matchLocation);
+      if (allMatched) {
+        found = true;
+        break;
+      }
+    }
+    MoveForward();
+  }
+
+  if (!found)
+    restoreLocation(startLocation);
+  return found;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

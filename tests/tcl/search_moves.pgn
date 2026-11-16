@@ -1,0 +1,39 @@
+[Event "Ruy Lopez"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "1"]
+[White "Alpha"]
+[Black "Beta"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 1-0
+
+[Event "Queen's Gambit Declined"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "2"]
+[White "Gamma"]
+[Black "Delta"]
+[Result "1/2-1/2"]
+
+1. d4 d5 2. c4 e6 1/2-1/2
+
+[Event "Sicilian"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "3"]
+[White "Epsilon"]
+[Black "Zeta"]
+[Result "0-1"]
+
+1. e4 c5 2. Nf3 d6 0-1
+
+[Event "Fool's mate"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "4"]
+[White "Eta"]
+[Black "Theta"]
+[Result "0-1"]
+
+1. f3 e5 2. g4 Qh4# 0-1

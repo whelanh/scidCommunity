@@ -291,6 +291,11 @@ jobs:
       - name: Lichess study
         run: xvfb-run -a wish tests/tcl/lichess_study_tk.tcl
 
+      # The Moves search window: the widgets build under real Tk and the Search
+      # button hands sc_search_moves the move list, side and mate flag in order.
+      - name: Moves search window
+        run: xvfb-run -a wish tests/tcl/search_moves_tk.tcl
+
   startup-smoke:
     name: startup with a clean profile
     runs-on: ubuntu-latest
@@ -351,3 +356,8 @@ jobs:
       # count that ends a finished game must be the count the notice uses.
       - name: Repetition detection and notice
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/repetition_integration.tcl
+
+      # The binary's own move-sequence search: the filter it leaves behind is
+      # what the game list opens at, so the ply is checked through sc_game.
+      - name: Move sequence search
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_moves.tcl

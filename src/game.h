@@ -525,6 +525,17 @@ public:
   bool ExactMatch(Position *pos, ByteBuffer *buf, gameExactMatchT searchType);
   bool VarExactMatch(Position *searchPos, gameExactMatchT searchType);
 
+  /// Return true if the main line contains the sequence of SAN moves @e moves.
+  /// The first move must be played by the side selected with @e wToMove /
+  /// @e bToMove, and a move equal to "?" matches any single move. If
+  /// @e mateOnly is true the position after the last move must be checkmate.
+  /// Case and the trailing check/mate mark are ignored, so "qh5" matches
+  /// "Qh5+" and "Qh5#".
+  /// On success the current location is left on the first matched move, so
+  /// GetCurrentPly() is the ply of the position the move is played from.
+  bool MoveMatch(const std::vector<std::string> &moves, bool wToMove,
+                 bool bToMove, bool mateOnly);
+
   std::pair<IndexEntry, TagRoster> Encode(std::vector<byte> &dest) const;
   errorT DecodeSkipTags(ByteBuffer *buf);
   errorT DecodeNextMove(ByteBuffer *buf, simpleMoveT &sm);

@@ -394,3 +394,65 @@ proc ::search::boardOptions {{cmd ""}} {
 	lappend options $::search::boardOptIgnoreCol_
 	return [list $options]
 }
+
+# ::search::moves
+#   Opens the search window for a sequence of moves: the games whose main line
+#   contains the moves, in order, from a position where the chosen side is to
+#   move. "?" matches any single move, and the query may be pasted as notation
+#   ("1. e4 e5 2. Nf3") -- the move numbers are stripped.
+#
+proc ::search::moves {{ref_base ""} {ref_filter "dbfilter"}} {
+	::search::Open $ref_base $ref_filter SearchMoves ::search::movesCreateFrame
+}
+
+proc ::search::movesCreateFrame {w} {
+	if {![info exists ::search::movesOptText_]} {
+		::search::movesOptions reset
+	}
+
+	ttk::labelframe $w.moves -text [::tr Moves]
+	grid $w.moves -sticky news -pady 6
+	grid columnconfigure $w.moves 0 -weight 1
+	ttk::entry $w.moves.text -textvariable ::search::movesOptText_
+	grid $w.moves.text -sticky news -padx 4 -pady 4
+	ttk::label $w.moves.hint -text [::tr MovesSearchHint] -justify left \
+		-wraplength 380
+	grid $w.moves.hint -sticky w -padx 4 -pady "0 4"
+
+	ttk::labelframe $w.side -text [::tr SideToMove]
+	grid $w.side -sticky news -pady 6
+	ttk::radiobutton $w.side.white -text [::tr White] \
+		-variable ::search::movesOptSide_ -value w
+	ttk::radiobutton $w.side.black -text [::tr Black] \
+		-variable ::search::movesOptSide_ -value b
+	ttk::radiobutton $w.side.both -text [::tr Both] \
+		-variable ::search::movesOptSide_ -value wb
+	grid $w.side.white $w.side.black $w.side.both -sticky w -padx 4
+
+	ttk::checkbutton $w.mate -text [::tr LastMoveIsMate] \
+		-variable ::search::movesOptMate_ -onvalue 1 -offvalue 0
+	grid $w.mate -sticky w
+
+	return "::search::movesOptions"
+}
+
+proc ::search::movesOptions {{cmd ""}} {
+	if {$cmd eq "reset"} {
+		set ::search::movesOptText_ ""
+		set ::search::movesOptSide_ wb
+		set ::search::movesOptMate_ 0
+		return
+	}
+
+	# Accept a pasted line of notation: drop the move numbers ("1." "2...").
+	set moves {}
+	foreach token [regexp -all -inline {\S+} [string trim $::search::movesOptText_]] {
+		regsub {^\d+\.+} $token {} token
+		if {$token ne ""} {
+			lappend moves $token
+		}
+	}
+
+	set options [list moves $moves $::search::movesOptSide_ $::search::movesOptMate_]
+	return [list $options]
+}

@@ -167,6 +167,7 @@ menuText E SearchNegate "Negate Filter" 0 {Negate the filter to only include exc
 menuText E SearchCurrent "Current Board..." 0 {Search for the current board position}
 menuText E SearchHeader "Header..." 0 {Search by Header (player, event, etc) information}
 menuText E SearchMaterial "Material/Pattern..." 0 {Search for material or board patterns}
+menuText E SearchMoves "Moves..." 0 {Search for a sequence of moves in the main line}
 menuText E SearchComments "Search Comments..." 0 {Search the comments of the games in the current filter}
 menuText E SearchUsing "Using Search File..." 0 {Search using a SearchOptions file}
 
@@ -1416,6 +1417,10 @@ translate E SearchBoardFiles {Files (same material, all pawns on same files)}
 translate E SearchBoardAny {Any (same material, pawns and pieces anywhere)}
 translate E SearchInRefDatabase { Search in reference database }
 translate E LookInVars {Look in variations}
+
+# Moves search:
+translate E MovesSearchHint {SAN moves in order, e.g. e4 e5 Nf3. "?" matches any single move.}
+translate E LastMoveIsMate {Last move is mate}
 
 # Material search:
 translate E MaterialSearch {Material Search}

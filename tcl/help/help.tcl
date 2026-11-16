@@ -81,6 +81,7 @@ set helpText(Index) {<h1>scidCommunity Help Topic Index</h1>
   <ul>
   <li><a Tree Best>Best games</a> window</li>
   <li><a Searches Board>Board searches</a></li>
+  <li><a Searches Moves>Move sequence searches</a></li>
   <li><a Book>Book</a> window</li>
   <li><a BookTuning>Book</a> tuning</li>
   <li><a Bookmarks>Bookmarks</a></li>
@@ -720,6 +721,8 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <a Searches Material>material</a> or chessboard patterns. This
   filter is cumulative to a filter eventually set by an open <a
   Tree>tree window</a>.</li>
+  <li><menu>Moves...</menu>: Searches for a
+  <a Searches Moves>sequence of moves</a> in the main line of the games.</li>
   <li><menu>Search Comments...</menu>: Searches the position comments of the
   games in the current filter. Double-click a result to load its position.</li>
   <br>
@@ -1102,6 +1105,31 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   is large and has many games with variations.
   </p>
   
+  <h3><name Moves>Search: Moves</name></h3>
+  <p>
+  This search finds games whose main line contains a sequence of moves, in
+  order. Type the moves in SAN, separated by spaces: <b>e4 e5 Nf3</b> finds
+  every game that starts with those three moves. A pasted line of notation
+  works too -- the move numbers are ignored, so <b>1. e4 e5 2. Nf3</b> is the
+  same search.
+  </p>
+  <p>
+  The sequence may start anywhere in the game, not only at the first move.
+  Use <b>?</b> for a move you do not care about: <b>d4 ? c4</b> matches any
+  game whose first three moves are a queen's pawn move, any reply, and c4.
+  </p>
+  <p>
+  The check and mate marks are optional, and case does not matter: <b>Qh4</b>,
+  <b>qh4</b> and <b>Qh4+</b> all match the move <b>Qh4#</b>. Tick
+  <b>Last move is mate</b> to keep only the games where the last move of the
+  sequence gives checkmate.
+  </p>
+  <p>
+  <b>Side to move</b> selects who plays the first move of the sequence: white,
+  black, or either. The games that match are shown in the game list opened at
+  the position the first matched move is played from.
+  </p>
+
   <h3><name Material>Search: Material/Pattern</name></h3>
   <p>
   This search is useful for finding endgame or middlegame themes.
