@@ -139,7 +139,6 @@ proc keyboardShortcuts {w} {
 	bind $w <Control-B> ::search::board
 	bind $w <Control-H> ::search::header
 	bind $w <Control-M> ::search::material
-	bind $w <Control-Shift-O> ::search::moves
 
 	bind $w <Control-C> ::copyFEN
 	bind $w <Control-V> ::pasteFEN

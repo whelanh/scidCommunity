@@ -32,7 +32,7 @@ set id [sc_base create MEMORY search_moves_test]
 sc_base switch $id
 sc_base import $id $pgn
 
-checkEq "the base holds the four games" [sc_base numGames $id] 4
+checkEq "the base holds the five games" [sc_base numGames $id] 5
 
 # Run a search and return the number of games in the filter afterwards.
 proc search {moves side mate {op reset}} {
@@ -54,6 +54,12 @@ checkEq "white to move before e4: two" [search {e4} w 0] 2
 puts "\n== the wildcard matches any single move =="
 checkEq "d4 ? c4" [search {d4 ? c4} wb 0] 1
 checkEq "e4 ? Nf3 spans both replies" [search {e4 ? Nf3} wb 0] 2
+checkEq "a leading ? is a wildcard too" [search {? e5} wb 0] 3
+
+puts "\n== castling matches however it is typed =="
+checkEq "0-0 matches the castled game" [search {0-0} wb 0] 1
+checkEq "O-O matches the castled game" [search {O-O} wb 0] 1
+checkEq "o-o matches the castled game" [search {o-o} wb 0] 1
 
 puts "\n== the check/mate mark and case are optional in the query =="
 checkEq "qh4 matches Qh4#" [search {qh4} wb 0] 1
@@ -95,6 +101,21 @@ set ::search::movesOptSide_ w
 set ::search::movesOptMate_ 1
 checkEq "the move numbers are stripped" \
     [lindex [::search::movesOptions] 0] {moves {e4 e5 Nf3} w 1}
+
+# Pasting a whole game brings the result token, the NAGs and the comments with
+# it; none of them is a move, so each one would make the search find nothing.
+::search::movesOptions reset
+set ::search::movesOptText_ "1. e4 e5 2. Nf3 1-0"
+checkEq "the result token is dropped" \
+    [lindex [::search::movesOptions] 0] {moves {e4 e5 Nf3} wb 0}
+
+set ::search::movesOptText_ {1. e4 {the king's pawn} $1 e5 2.Nf3 1/2-1/2}
+checkEq "comments, NAGs and the result are dropped" \
+    [lindex [::search::movesOptions] 0] {moves {e4 e5 Nf3} wb 0}
+
+set ::search::movesOptText_ {1. e4 e5 *}
+checkEq "the end-of-game marker is dropped" \
+    [lindex [::search::movesOptions] 0] {moves {e4 e5} wb 0}
 
 
 puts "\n== an empty list is refused =="

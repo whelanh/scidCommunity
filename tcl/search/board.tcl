@@ -444,13 +444,17 @@ proc ::search::movesOptions {{cmd ""}} {
 		return
 	}
 
-	# Accept a pasted line of notation: drop the move numbers ("1." "2...").
+	# Accept a pasted line of notation: drop the move numbers ("1." "2..."),
+	# brace comments, evaluation NAGs ("$1") and the result token ("1-0", "*"),
+	# which are not moves and would otherwise make the search find nothing.
+	set text [regsub -all {\{[^\}]*\}} $::search::movesOptText_ ""]
 	set moves {}
-	foreach token [regexp -all -inline {\S+} [string trim $::search::movesOptText_]] {
+	foreach token [regexp -all -inline {\S+} [string trim $text]] {
 		regsub {^\d+\.+} $token {} token
-		if {$token ne ""} {
-			lappend moves $token
+		if {$token eq "" || $token eq "*" || [regexp {^\d+(?:/\d+)?-\d+(?:/\d+)?$|^\$\d+$} $token]} {
+			continue
 		}
+		lappend moves $token
 	}
 
 	set options [list moves $moves $::search::movesOptSide_ $::search::movesOptMate_]

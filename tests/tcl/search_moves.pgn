@@ -37,3 +37,14 @@
 [Result "0-1"]
 
 1. f3 e5 2. g4 Qh4# 0-1
+
+[Event "Caro-Kann"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "5"]
+[White "Iota"]
+[Black "Kappa"]
+[Result "*"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 Bc5 4. Bg2 O-O 5. Nf3 d6 *
+

@@ -1711,9 +1711,9 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
 
 namespace {
 
-/// Reduce a SAN move to the form used for matching: case is folded, a zero is
-/// read as the letter O (castling), and the check/mate mark and the "!?" move
-/// suffix are dropped, so "0-0+!" matches "O-O".
+/// Reduce a SAN move to the form used for matching: everything is fold-cased
+/// to lower case, a zero is read as the letter O (castling), and the check/mate
+/// mark and the "!?" move suffix are dropped, so "0-0+!" matches "O-O".
 size_t sanKey(std::string_view san, char *buf, size_t cap) {
   size_t n = 0;
   for (char c : san) {
@@ -1723,7 +1723,7 @@ size_t sanKey(std::string_view san, char *buf, size_t cap) {
       break;
     buf[n++] =
         (c == '0')
-            ? 'O'
+            ? 'o'
             : static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
   }
   return n;
@@ -1755,7 +1755,8 @@ bool Game::MoveMatch(const std::vector<std::string> &moves, bool wToMove,
   while (!AtEnd()) {
     const bool sideMatches =
         (CurrentPos->GetToMove() == WHITE) ? wToMove : bToMove;
-    if (sideMatches && sanMatches(GetNextSAN(), moves[0])) {
+    if (sideMatches &&
+        (moves[0] == "?" || sanMatches(GetNextSAN(), moves[0]))) {
       const auto matchLocation = currentLocation();
       bool allMatched = true;
       for (size_t i = 1; allMatched && i < moves.size(); ++i) {
