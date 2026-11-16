@@ -14,9 +14,13 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#include <fcntl.h>
 #include <io.h>
+#include <sys/stat.h>
 #include <windows.h>
 #else
+#include <fcntl.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #endif
 
@@ -70,15 +74,139 @@ static bool same_book(const std::string& a, const std::string& b) {
 	return ca == cb;
 }
 
+// Carry the book's permission bits onto the file that is about to replace it.
+// The rename replaces the inode, so the mode of the staged file -- 0644 under
+// the usual umask -- would otherwise become the book's, and a 0600 book would
+// come back readable by every user. A book that does not exist yet keeps the
+// mode its staging file was created with: there is nothing to carry over.
+static bool carry_book_mode(const std::filesystem::path& staged,
+                            const std::filesystem::path& book) {
+#ifdef _WIN32
+	// MoveFileExW promotes the *staged* file's security descriptor, and that is
+	// the descriptor the staged file inherited from the directory it was
+	// created in. An inherited ACE therefore keeps the book as private as the
+	// staging directory is; a per-file ACL set by hand on the book is not
+	// carried over, and Windows has no mode bits that could stand in for it.
+	// scidCommunity does not edit per-book ACLs, so this is the whole story --
+	// do not read it as full ACL retention.
+	(void)staged;
+	(void)book;
+	return true;
+#else
+	std::error_code ec;
+	// status() follows a symlink, which is what the rename lands on.
+	const auto status = std::filesystem::status(book, ec);
+	if (ec) return true; // no book to copy from: the created mode stands
+	const auto perms = status.permissions();
+	if (perms == std::filesystem::perms::unknown) return true;
+	std::filesystem::permissions(staged, perms,
+	                             std::filesystem::perm_options::replace, ec);
+	// A book whose mode could not be carried would land with the staging file's
+	// mode instead, which is what the finding is about: refuse the promotion
+	// rather than hand over a file less protected than the one it replaces.
+	return !ec;
+#endif
+}
+
+// The name a replacement sibling gets: a suffix after the book's own name, so
+// it lands on the book's filesystem and no other save can pick it by accident.
+static std::filesystem::path staging_name(const std::filesystem::path& book,
+                                          int attempt) {
+	char suffix[32];
+	std::snprintf(suffix, sizeof suffix, ".tmp-%ld-%d",
+#ifdef _WIN32
+	              static_cast<long>(_getpid()),
+#else
+	              static_cast<long>(getpid()),
+#endif
+	              attempt);
+#ifdef _WIN32
+	std::wstring name = book.native();
+	name.append(suffix, suffix + std::strlen(suffix));
+	return std::filesystem::path{name};
+#else
+	return std::filesystem::path{book.native() + suffix};
+#endif
+}
+
+// Stage a copy of `source` beside `book` under a name claimed exclusively before
+// a byte is written. The old fallback copied onto a fixed `book + ".tmp"` with
+// overwrite_existing: a stranded staging file from an interrupted save, or any
+// file the user happened to put there, lost its contents, and copy_file follows
+// a symlink placed at the destination. O_EXCL means the name is ours before it
+// can be anything else, a taken name is retried under another suffix and never
+// overwritten, and only the file this call created is removed on failure.
+static bool stage_beside(const char* source, const std::filesystem::path& book,
+                         std::filesystem::path& staged) {
+	FILE* in = fopen_utf8(source, "rb");
+	if (in == nullptr) return false;
+	bool staged_ok = false;
+	for (int attempt = 0; attempt < 32 && !staged_ok; ++attempt) {
+		const std::filesystem::path candidate = staging_name(book, attempt);
+#ifdef _WIN32
+		const int fd = _wopen(candidate.c_str(),
+		                      _O_WRONLY | _O_CREAT | _O_EXCL | _O_BINARY,
+		                      _S_IREAD | _S_IWRITE);
+		FILE* out = (fd < 0) ? nullptr : _fdopen(fd, "wb");
+#else
+		const int fd = open(candidate.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0600);
+		FILE* out = (fd < 0) ? nullptr : fdopen(fd, "wb");
+#endif
+		if (out == nullptr) {
+			// Someone else's file is at that name: leave it alone and try
+			// another, never truncate it.
+			if (fd >= 0) {
+#ifdef _WIN32
+				_close(fd);
+#else
+				close(fd);
+#endif
+			}
+			continue;
+		}
+		char buf[65536];
+		size_t n;
+		int failed = 0;
+		while ((n = fread(buf, 1, sizeof buf, in)) > 0) {
+			if (fwrite(buf, 1, n, out) != n) {
+				failed = 1;
+				break;
+			}
+		}
+		if (ferror(in)) failed = 1;
+		if (fflush(out) != 0) failed = 1;
+		if (fclose(out) != 0) failed = 1;
+		if (failed) {
+			std::error_code ignored;
+			std::filesystem::remove(candidate, ignored);
+			break; // a write error does not clear up under another name
+		}
+		staged = candidate;
+		staged_ok = true;
+	}
+	fclose(in);
+	return staged_ok;
+}
+
 // Put the staged replacement in place with one rename: the operation is then
 // all-or-nothing. Copying the surviving entries back into the live file is not
 // -- a failure after the copy leaves the new entries followed by the old tail,
 // while the caller still holds the old entry count, and a reopen reads the
 // removed entry again. The caller closes the slots first: Windows cannot
 // replace an open file.
+//
+// The rename lands on the file the book name *resolves* to. A book opened
+// through a symlink must be rewritten at the link's target: renaming onto the
+// name itself replaces the link with a regular file and leaves the book the
+// user picked holding the old contents.
 static bool replace_book_file(const char* tempfile, const std::string& target) {
-	const auto book = path_utf8(target.c_str());
+	std::filesystem::path book = path_utf8(target.c_str());
 	std::error_code ec;
+	if (std::filesystem::exists(book, ec) && !ec) {
+		const auto real = std::filesystem::canonical(book, ec);
+		if (!ec) book = real;
+	}
+	if (!carry_book_mode(path_utf8(tempfile), book)) return false;
 #ifdef _WIN32
 	// std::filesystem::rename fails on Windows if the destination exists;
 	// MoveFileExW with MOVEFILE_REPLACE_EXISTING replaces it and keeps the
@@ -96,13 +224,13 @@ static bool replace_book_file(const char* tempfile, const std::string& target) {
 	// on Windows those are often different drives. A rename cannot cross
 	// devices, so stage a copy beside the book and rename that instead: the step
 	// that changes the book is still a single rename, on its own filesystem.
-	std::filesystem::path sibling = book;
-	sibling += ".tmp";
-	ec.clear();
-	std::filesystem::copy_file(path_utf8(tempfile), sibling,
-	                           std::filesystem::copy_options::overwrite_existing,
-	                           ec);
-	if (ec) return false;
+	std::filesystem::path sibling;
+	if (!stage_beside(tempfile, book, sibling)) return false;
+	if (!carry_book_mode(sibling, book)) {
+		std::error_code ignored;
+		std::filesystem::remove(sibling, ignored); // ours, and only ours
+		return false;
+	}
 #ifdef _WIN32
 	if (!MoveFileExW(sibling.c_str(), book.c_str(),
 	                 MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
@@ -393,22 +521,28 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	const std::string target = BookName[BookNumber];
 	bool wasOpen[MaxBook] = {};
 	bool wasReadOnly[MaxBook] = {};
+	std::string wasName[MaxBook];
 	for (i = 0; i < MaxBook; i++) {
 		wasOpen[i] = BookFile[i] != nullptr && same_book(BookName[i], target);
 		wasReadOnly[i] = BookReadOnly[i];
+		wasName[i] = BookName[i];
 		if (wasOpen[i]) close_slot(i);
 	}
+	// Reopen each slot on the path it was opened with, not on the edited slot's
+	// name: two slots can read one book through different names (a symlink, or
+	// the path the file dialog happened to hand out), and reopening them all on
+	// the edited name moves a slot onto a file it never read.
 	if (!replace_book_file(tempfile, target)) {
 		// Nothing of the book was touched: put the slots back on the original.
 		for (i = 0; i < MaxBook; i++) {
-			if (wasOpen[i]) open_book_slot(target.c_str(), i, wasReadOnly[i]);
+			if (wasOpen[i]) open_book_slot(wasName[i].c_str(), i, wasReadOnly[i]);
 		}
 		return -1; // fail
 	}
 	int failed = 0;
 	for (i = 0; i < MaxBook; i++) {
 		if (!wasOpen[i]) continue;
-		if (open_book_slot(target.c_str(), i, wasReadOnly[i]) < 0) {
+		if (open_book_slot(wasName[i].c_str(), i, wasReadOnly[i]) < 0) {
 			failed = 1; // the slot stays closed rather than holding a stale count
 		}
 	}

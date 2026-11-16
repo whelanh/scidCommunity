@@ -248,6 +248,33 @@ checkEq "a pinned White pawn's ep capture leaves no square" \
 checkEq "and the unpinned one keeps e6" \
     [call {lindex [::comp::nextPositionState {- -} $whiteFree e7e5] 1}] e6
 
+puts "\nthe board after an en-passant capture"
+# compUpdateboard handles castling but carried a bare "#Todo enpassant": it wrote
+# the moved pawn to its destination and cleared the from square, so on e5xd6
+# e.p. the black pawn stayed on d5. Every later position of that game was then
+# keyed with a phantom pawn -- and the repetition key is built on this board
+# string, so a genuine threefold on the position never matched it.
+set epStart "rnbqkbnr/1pp1pppp/p7/3pP3/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3"
+set epBoard [call {::comp::FENtoBoard $::epStart}]
+# a1 is index 0, so d5 is 35, e5 36 and d6 43
+checkEq "the captured pawn leaves d5" \
+    [call {string index [lindex [::comp::compUpdateboard $::epBoard e5d6] 1] 35}] "."
+checkEq "the capturing pawn lands on d6" \
+    [call {string index [lindex [::comp::compUpdateboard $::epBoard e5d6] 1] 43}] "P"
+# The black pawn is gone, so the position after the capture is the one a FEN
+# without it describes: the journal of a line that starts with the capture has
+# to key it that way, or a repeat of that position is never recognised.
+set epAfter "rnbqkbnr/1pp1pppp/p2P4/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3"
+set epLine {e5d6 g8f6 g1f3 f6g8 f3g1 g8f6 g1f3 f6g8 f3g1}
+lassign [call {::comp::bookLineJournal $::epStart $::epLine}] epJournal epState
+checkEq "the position after an en-passant capture is keyed as the placement it is" \
+    [lindex $epJournal 1] \
+    [call {::comp::repetitionKey [::comp::FENtoBoard $::epAfter] b KQkq -}]
+# The line then returns to that position twice more, so a game that contains an
+# en-passant capture and repeats the position is adjudicated a draw on move 9.
+checkEq "and its third occurrence draws the game on move 9" \
+    [call {::comp::threefoldPosition $::epJournal}] 9
+
 puts "\nthe book line's positions"
 # A .opn/.bin line arrives already played into _Data(board,$game) while
 # _Data(fen,$game) is still startpos, so the journal used to open with the start

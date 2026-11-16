@@ -164,6 +164,100 @@ sc_book close 3
 sc_book close 0
 
 # ---------------------------------------------------------------------------
+# A save keeps the book's permissions. The window stages the replacement under
+# ::scidUserDir with the ambient umask and the writer renames it over the book,
+# so the destination's inode -- and with it the book's mode -- goes away: a 0600
+# book came back 0644, readable by every user of the machine.
+set perm [file join $dir perm.bin]
+set fh [open $perm wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+checkEq "the permissions fixture book opens read-write" [sc_book load $perm 0] ""
+sc_book moves 0
+sc_book movesupdate {e4} {100} 0 $tmp
+sc_book close 0
+exec chmod 600 $perm
+checkEq "the book is 0600 before the save" [exec stat -c %a $perm] 600
+checkEq "it re-opens for the save" [sc_book load $perm 0] ""
+sc_book moves 0
+sc_book movesupdate {e4 d4} {60 40} 0 $tmp
+sc_book close 0
+checkEq "a save leaves the book 0600" [exec stat -c %a $perm] 600
+checkEq "and the rewrite really happened" [fileEntries $perm] 3
+
+# ---------------------------------------------------------------------------
+# A book read through a symlink. rename(tempfile, name) replaces the link
+# itself and leaves the book it points at holding the old contents: the window
+# then shows the new book while the file it names still holds the old one. The
+# rename has to land on the link's target, and a slot that opened the target
+# under its own name has to be reopened on that name.
+set real [file join $dir real.bin]
+set alias [file join $dir alias.bin]
+set fh [open $real wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+file link $alias $real
+checkEq "the book opens through the symlink" [sc_book load $alias 0] ""
+sc_book moves 0
+checkEq "and under its own name in a second slot" [sc_book load $real 3] ""
+sc_book moves 3
+sc_book moves 0
+sc_book movesupdate {e4 d4} {60 40} 0 $tmp
+checkEq "the link is still a link after the save" [file type $alias] link
+# readlink raises when the save replaced the link with a regular file, which is
+# what the base does: report that as the failure it is rather than take the run
+# down here.
+checkEq "and still points at the book it pointed at" \
+    [expr {[catch {file readlink $alias} target] ? "not a link" : $target}] $real
+checkEq "the book the link points at was rewritten" [fileEntries $real] 3
+lassign [sc_book moves 0] viaLink
+check "the slot opened through the link reads both moves" \
+    {[string match {*e4*} $viaLink] && [string match {*d4*} $viaLink]} "moves='$viaLink'"
+lassign [sc_book moves 3] viaReal
+check "and the slot opened on the real file reads them too" \
+    {[string match {*e4*} $viaReal] && [string match {*d4*} $viaReal]} "moves='$viaReal'"
+sc_book close 3
+sc_book close 0
+
+# ---------------------------------------------------------------------------
+# A staged copy that crosses filesystems. The window stages the replacement
+# under ::scidUserDir, so the rename can fail with EXDEV and the writer copies
+# beside the book instead. That copy used to land on a fixed "<book>.tmp" with
+# overwrite_existing: a stranded staging file from an interrupted save -- or any
+# file the user happened to put there -- lost its contents. The name is claimed
+# exclusively now and a taken one is left alone.
+set xdev [file join $dir xdev.bin]
+set fh [open $xdev wb]
+puts -nonewline $fh [string repeat \x00 16]
+close $fh
+set stranded "$xdev.tmp"
+set fh [open $stranded wb]
+puts -nonewline $fh "not a staging file"
+close $fh
+checkEq "the cross-filesystem book opens" [sc_book load $xdev 0] ""
+sc_book moves 0
+set shmTmp /dev/shm/scidbook.[pid]
+file delete -force $shmTmp
+# /dev/shm is a different filesystem from the book's directory, so this save is
+# the copy-beside-the-book one; the source tempfile stays and the window deletes
+# it, exactly as ::book::save does.
+sc_book movesupdate {e4 d4} {60 40} 0 $shmTmp
+# the base renames the user's file away, so it need not be there to read
+set sentinel "the stale staging file is gone"
+if {[file exists $stranded]} {
+    set fh [open $stranded rb]
+    set sentinel [read $fh]
+    close $fh
+}
+checkEq "a file already at the stale staging name keeps its contents" \
+    $sentinel "not a staging file"
+checkEq "and the book was written anyway" [fileEntries $xdev] 3
+checkEq "with no staging file left behind" \
+    [llength [glob -nocomplain "$xdev.tmp-*"]] 0
+sc_book close 0
+file delete -force $shmTmp
+
+# ---------------------------------------------------------------------------
 # A rewrite that cannot be completed leaves the book exactly as it was. The
 # writer used to copy the surviving entries into the live file and only then cut
 # the tail off: a failure after that copy left the new entries followed by the

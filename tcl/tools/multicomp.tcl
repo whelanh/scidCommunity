@@ -977,7 +977,19 @@ proc ::comp::compUpdateboard {board move} {
             set board [string replace $board 59 59 "r"]
         }
     }
-#Todo enpassant
+#En passant: a pawn that lands diagonally on an empty square has taken the pawn
+#that just passed it, which stands on the destination's file, one rank behind
+#the square the pawn landed on. Left on the board it keys every later position
+#of the game with a phantom pawn, so a repetition that involves that square is
+#never seen.
+    set piece [string index $board $from]
+    if { ($piece eq "P" || $piece eq "p") && ($from % 8) != ($to % 8) &&
+         [string index $board $to] eq "." } {
+        set captured [expr {$piece eq "P" ? $to - 8 : $to + 8}]
+        if { $captured >= 0 && $captured < 64 } {
+            set board [string replace $board $captured $captured "."]
+        }
+    }
     set board [string replace $board $to $to $p]
     set board [string replace $board $from $from "."]
     return [list 1 $board]
