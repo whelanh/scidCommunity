@@ -445,9 +445,11 @@ proc ::search::movesOptions {{cmd ""}} {
 	}
 
 	# Accept a pasted line of notation: drop the move numbers ("1." "2..."),
-	# brace comments, evaluation NAGs ("$1") and the result token ("1-0", "*"),
-	# which are not moves and would otherwise make the search find nothing.
+	# the comments ("{...}" and "; to end of line"), the evaluation NAGs ("$1")
+	# and the result token ("1-0", "*"), which are not moves and would otherwise
+	# make the search find nothing.
 	set text [regsub -all {\{[^\}]*\}} $::search::movesOptText_ ""]
+	set text [regsub -all {\;[^\n]*} $text ""]
 	set moves {}
 	foreach token [regexp -all -inline {\S+} [string trim $text]] {
 		regsub {^\d+\.+} $token {} token

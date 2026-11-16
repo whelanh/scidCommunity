@@ -117,6 +117,10 @@ set ::search::movesOptText_ {1. e4 e5 *}
 checkEq "the end-of-game marker is dropped" \
     [lindex [::search::movesOptions] 0] {moves {e4 e5} wb 0}
 
+set ::search::movesOptText_ {1. e4 e5 ; the king's pawn, to the end of the line}
+checkEq "the semicolon comment is dropped" \
+    [lindex [::search::movesOptions] 0] {moves {e4 e5} wb 0}
+
 
 puts "\n== an empty list is refused =="
 set err [catch {sc_filter search $id dbfilter moves {} wb 0 -filter reset} msg]
