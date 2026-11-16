@@ -1004,6 +1004,7 @@ translate L ReviewVarLines {Variante de scris}
 translate L ReviewVarCp {Marja variantelor (cp)}
 translate L ReviewMoveWait {Așteaptă adâncimea analizei}
 translate L ReviewMovetime {Limită de timp (ms)}
+translate L ReviewCloudEval {Cloud pre-pass}
 translate L ReviewEstimatedRating {evaluare de performanță (din acest meci)}
 translate L ReviewOpeningMoves {Mișcări de deschidere}
 translate L ReviewFromPreset {%s (din profilul motorului)}

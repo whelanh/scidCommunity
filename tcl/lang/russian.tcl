@@ -970,6 +970,7 @@ translate R ReviewVarLines {Варианты для записи}
 translate R ReviewVarCp {Порог вариантов (cp)}
 translate R ReviewMoveWait {Ждать глубину разбора}
 translate R ReviewMovetime {Ограничение времени (ms)}
+translate R ReviewCloudEval {Cloud pre-pass}
 translate R ReviewEstimatedRating {оценка уровня игры (по этой партии)}
 translate R ReviewOpeningMoves {Первые ходы}
 translate R ReviewFromPreset {%s (из профиля движка)}

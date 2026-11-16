@@ -199,8 +199,14 @@ proc ::reviewverify::begin {enginecfg jobs mpv lim onDone} {
         # The driver's own queue, on the driver's own connection: the same
         # per-position machinery the pass uses, so there is one place that
         # decides how an engine is opened, configured, fed and closed.
+        #
+        # The pre-pass is off, and it is passed explicitly: a verifier that
+        # consulted Lichess's stored evaluation would be handed the very value
+        # the pass just adopted, so its "second opinion" would be the same
+        # opinion, and the label it is meant to be able to withdraw could never
+        # move. A cloud result is not independent evidence.
         set started [::reviewdriver::start $enginecfg $positions $mpv $lim \
-            "" [list ::reviewverify::answer $jobs $onDone]]
+            "" [list ::reviewverify::answer $jobs $onDone] 0]
     } err]} {
         set token $previous
         return ""

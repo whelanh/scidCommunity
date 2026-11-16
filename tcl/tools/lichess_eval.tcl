@@ -15,6 +15,13 @@ namespace eval ::lichess_eval {
     variable refreshPending ""
     variable pendingFd ""
     variable queryBuf ""
+    # The general async transport (cloudEvalAsync): one buffer and one callback
+    # per channel, so a request from the review pass and one from the eval
+    # window cannot overwrite each other.
+    variable asyncBuf
+    variable asyncReq
+    array set asyncBuf {}
+    array set asyncReq {}
 }
 
 # ::lichess_eval::formatScore
@@ -123,6 +130,139 @@ proc ::lichess_eval::queryCloudEval {fen variant} {
     }
 
     return [list $ok $result $err $fen]
+}
+
+# ::lichess_eval::cloudEvalAsync
+#   Queries the cloud eval API without waiting for the answer, for callers that
+#   have something else to do while it runs (the review pass searches beside it).
+#   Calls `callback` as {*}$callback <ok> <data> <err> from the event loop:
+#   ok 1 with the reply body, or ok 0 with the reason.
+#
+#   `ok 0` is a transport failure, and it is decided by whether a reply actually
+#   arrived: curl's --write-out appends the HTTP status, and a status other than
+#   200 (an answer) or 404 (Lichess holds nothing for this FEN) means no answer -
+#   a refused connection, an unresolvable host and a timeout all leave an empty
+#   body and status 000. The two must not be confused: "nothing stored" is
+#   cacheable, "the network is down" is not.
+#
+#   Never blocks the Tk event loop and never calls back before it returns.
+#
+#   Unlike queryCloudEvalAsync this is not tied to the eval window and keeps its
+#   own buffer, so the window and a pass can be in flight at the same time.
+#
+#   Returns the channel it opened, or "" when curl could not start - in which
+#   case it falls back to the Tcl http package (see below), and the callback
+#   fires from the event loop either way.
+proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
+    variable asyncBuf
+    variable asyncReq
+    set urlFen [string map {" " "%20" "/" "%2F" "+" "%2B" "?" "%3F" "&" "%26" "=" "%3D" "#" "%23" "%" "%25"} $fen]
+    set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$mpv&variant=$variant"
+
+    if {[catch {
+        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} \
+            -w {|HTTP%{http_code}} $url] r]
+    } err]} {
+        # curl is not on PATH. The synchronous query above falls back to the Tcl
+        # http package from here; this is that fallback's asynchronous twin -
+        # ::http::geturl with -command returns at once and answers from the event
+        # loop, so the caller still is not blocked - and its reply goes through
+        # onCloudEvalHttp, which maps the status onto the same
+        # <ok> <data> <err> contract onCloudEvalData reports.
+        if {![catch {package require http}]} {
+            catch {package require tls}
+            catch {::http::register https 443 ::tls::socket}
+            if {![catch {
+                ::http::geturl $url -timeout 10000 \
+                    -command [list ::lichess_eval::onCloudEvalHttp $callback]
+            }]} {
+                return ""
+            }
+        }
+        after idle [list {*}$callback 0 "" $err]
+        return ""
+    }
+    fconfigure $fd -blocking 0 -buffering full
+    set asyncBuf($fd) ""
+    set asyncReq($fd) [list $callback]
+    fileevent $fd readable [list ::lichess_eval::onCloudEvalData $fd]
+    return $fd
+}
+
+# ::lichess_eval::onCloudEvalHttp
+#   Internal: the http package's callback for an async cloud-eval request, the
+#   twin of onCloudEvalData for the fallback taken when curl is absent.
+#
+#   ::http::ncode is the status the reply carried: 200 is an answer and 404 is
+#   "Lichess holds nothing for this FEN", and both hand their body over with
+#   ok=1 - exactly as the curl path does. Anything else, including the 0 a
+#   transport error leaves behind, is ok=0 with the reason. Never throws: the
+#   caller is an event-loop callback.
+proc ::lichess_eval::onCloudEvalHttp {callback token} {
+    set code 0
+    set data ""
+    catch { set code [::http::ncode $token] }
+    catch { set data [::http::data $token] }
+    catch { ::http::cleanup $token }
+    if {![string is integer -strict $code]} { set code 0 }
+    if {$code == 200 || $code == 404} {
+        catch { {*}$callback 1 $data "" }
+        return
+    }
+    if {$code == 0} {
+        set reason "the cloud eval reply did not arrive (no HTTP status)"
+    } else {
+        set reason "the cloud eval reply did not arrive (HTTP $code)"
+    }
+    catch { {*}$callback 0 $data $reason }
+    return
+}
+
+# ::lichess_eval::onCloudEvalData
+#   Internal: accumulates one async cloud-eval reply and hands it to the caller's
+#   callback at EOF.
+proc ::lichess_eval::onCloudEvalData {fd} {
+    variable asyncBuf
+    variable asyncReq
+    if {![info exists asyncReq($fd)]} {
+        catch { close $fd }
+        return
+    }
+    if {[catch { append asyncBuf($fd) [read $fd] }]} {
+        set callback [lindex $asyncReq($fd) 0]
+        unset asyncReq($fd)
+        unset asyncBuf($fd)
+        catch { close $fd }
+        catch { {*}$callback 0 "" "the cloud eval reply could not be read" }
+        return
+    }
+    if {![eof $fd]} { return }
+    set data $asyncBuf($fd)
+    set callback [lindex $asyncReq($fd) 0]
+    unset asyncReq($fd)
+    unset asyncBuf($fd)
+    catch { close $fd }
+    # curl's --write-out is the last thing it writes: the HTTP status of the
+    # reply, or 000 when there was no reply. Take it off the body before anyone
+    # sees the body, and report anything that is not an answer as the transport
+    # failure it is - an empty body is not "Lichess holds nothing for this FEN".
+    set code ""
+    set marker [string last {|HTTP} $data]
+    if {$marker >= 0} {
+        set code [string trim [string range $data [expr {$marker + 5}] end]]
+        set data [string range $data 0 [expr {$marker - 1}]]
+    }
+    if {$code ne "200" && $code ne "404"} {
+        if {$code eq ""} {
+            set reason "the cloud eval reply did not arrive (no HTTP status)"
+        } else {
+            set reason "the cloud eval reply did not arrive (HTTP $code)"
+        }
+        catch { {*}$callback 0 $data $reason }
+        return
+    }
+    catch { {*}$callback 1 $data "" }
+    return
 }
 
 # ::lichess_eval::lookupPosition

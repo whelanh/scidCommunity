@@ -47,19 +47,32 @@ proc ::reviewdriver::reservedId {id} {
     return [expr {[string equal $id $::reviewdriver::ENGINE_ID]}]
 }
 
-proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone} {
+# Start one pass. `cloud` is the cloud pre-pass switch, and it defaults to OFF:
+# a caller that has not read the setting asks Lichess nothing, so a new caller
+# cannot fall into the cloud by omission. ::reviewdriver::run passes the
+# setting's own value; the verifier passes 0 on purpose (a stored evaluation is
+# not a second opinion - ::reviewverify::begin says why).
+proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 0} {variant standard}} {
     variable job
     variable seq
     set id $::reviewdriver::ENGINE_ID
     if {[::reviewdriver::busy $id]} {
         error "engine $id is already running a pass"
     }
+    # A new cloud-enabled pass starts asking again: the last pass's transport
+    # failure was that pass's answer, not the session's. A pass with the pre-pass
+    # off neither clears the flag nor sets it.
+    if {$cloud && [::reviewdriver::cloudModule]} {
+        ::reviewcloud::newPass
+    }
     incr seq
     set token "pass$seq"
     set job($token) [dict create \
         id $id enginecfg $enginecfg positions $positions index -1 \
         mpv $mpv limits $lim results {} lines {} configured 0 \
-        stopped 0 onprogress $onprogress ondone $ondone]
+        stopped 0 onprogress $onprogress ondone $ondone \
+        cloud $cloud variant $variant sources {} waiting "" inflight "" \
+        decided {} cloudwins {}]
     set exe [lindex $enginecfg 1]
     set args [lindex $enginecfg 2]
     ::engine::setLogCmd $id {}
@@ -100,6 +113,14 @@ proc ::reviewdriver::stop {token {restore 1}} {
         return 0
     }
     set id [dict get $job($token) id]
+    # A reply that arrives after the pass is gone has no position to belong to.
+    foreach key {waiting inflight} {
+        set handle ""
+        catch { set handle [dict get $job($token) $key] }
+        if {$handle ne "" && [::reviewdriver::cloudModule]} {
+            catch { ::reviewcloud::drop $handle }
+        }
+    }
     unset job($token)
     catch { ::engine::send $id StopGo }
     ::reviewdriver::closeSoon $id
@@ -270,48 +291,224 @@ proc ::reviewdriver::collect {token msgData} {
     dict set job($token) lines $lines
 }
 
+# Is the cloud pre-pass module in this tree? A harness that drives the driver
+# without it (the driver's own, annotate's) then behaves exactly as a pass with
+# the pre-pass off, and the pass never depends on a module it did not load.
+proc ::reviewdriver::cloudModule {} {
+    return [expr {[llength [info commands ::reviewcloud::begin]] > 0}]
+}
+
 proc ::reviewdriver::next {token} {
     variable job
     if {![info exists job($token)]} {
         return
     }
-    set j $job($token)
-    set positions [dict get $j positions]
-    set index [dict get $j index]
-    if {$index >= 0} {
-        # The position we were searching has finished: keep what it found.
-        lassign [lindex $positions $index] ply spec
-        set lines [dict get $j lines]
-        set results [dict get $j results]
-        dict set results $ply $lines
-        dict set job($token) results $results
-        dict set job($token) lines {}
-        if {[dict get $j onprogress] ne ""} {
-            catch { {*}[dict get $j onprogress] [expr {$index + 1}] [llength $positions] $ply $lines }
-            # The handler may have stopped the pass. Then there is no job to
-            # advance and no engine left to search the next position.
-            if {![info exists job($token)]} {
-                return
+    while {1} {
+        set j $job($token)
+        set positions [dict get $j positions]
+        set index [dict get $j index]
+        if {$index >= 0} {
+            # The position we were searching has finished: keep what it found,
+            # which is the cloud's evaluation when that one is deeper.
+            lassign [lindex $positions $index] ply spec
+            set lines [::reviewdriver::settle $token $index $ply]
+            set results [dict get $j results]
+            dict set results $ply $lines
+            dict set job($token) results $results
+            dict set job($token) lines {}
+            if {[dict get $j onprogress] ne ""} {
+                catch { {*}[dict get $j onprogress] [expr {$index + 1}] [llength $positions] $ply $lines }
+                # The handler may have stopped the pass. Then there is no job to
+                # advance and no engine left to search the next position.
+                if {![info exists job($token)]} {
+                    return
+                }
             }
         }
-    }
-    incr index
-    if {$index >= [llength $positions]} {
-        ::reviewdriver::finish $token
+        incr index
+        if {$index >= [llength $positions]} {
+            ::reviewdriver::finish $token
+            return
+        }
+        dict set job($token) index $index
+        dict set job($token) lines {}
+        lassign [lindex $positions $index] ply spec
+        set id [dict get $j id]
+        # The cloud first: a position it already covers at the depth the pass was
+        # asked for is not searched again. ::reviewcloud decides, from the
+        # position's own FEN and the pass's limits.
+        set action local
+        set decision ""
+        if {[dict get $j cloud] && [::reviewdriver::cloudModule]} {
+            catch {
+                set decision [::reviewcloud::begin [list $token $index] $spec \
+                    [dict get $j limits] [dict get $j mpv] [dict get $j variant] \
+                    [list ::reviewdriver::cloudArrived $token]]
+                set action [dict get $decision action]
+            }
+        }
+        if {$action eq "cloud"} {
+            # No Go at all for this position.
+            dict set job($token) decided $index [dict create \
+                lines [dict get $decision lines] depth [dict get $decision depth]]
+            continue
+        }
+        if {$action eq "wait"} {
+            # The lookup decides whether this position is searched at all; the
+            # pass continues from ::reviewdriver::cloudArrived.
+            dict set job($token) waiting [list $token $index]
+            return
+        }
+        dict set job($token) waiting ""
+        if {$action eq "query"} {
+            dict set job($token) inflight [list $token $index]
+        } else {
+            dict set job($token) inflight ""
+        }
+        # Both bounds in one Go, built by ::enginelimits::goLimits from the dict
+        # ::review::passLimits decided: a depth floor and (when one is set) a time
+        # ceiling. The engine stops at whichever comes first.
+        ::engine::send $id Go [list $spec [::enginelimits::goLimits [dict get $j limits]]]
         return
     }
-    dict set job($token) index $index
-    dict set job($token) lines {}
-    lassign [lindex $positions $index] ply spec
-    set id [dict get $j id]
-    # Both bounds in one Go, built by ::enginelimits::goLimits from the dict
-    # ::review::passLimits decided: a depth floor and (when one is set) a time
-    # ceiling. The engine stops at whichever comes first.
-    ::engine::send $id Go [list $spec [::enginelimits::goLimits [dict get $j limits]]]
+}
+
+# The depth of a line dict's PRIMARY line - MultiPV 1 - never the deepest slot.
+# A deeper second-best line is not a deeper evaluation of the position.
+proc ::reviewdriver::primaryDepth {lines} {
+    if {![dict exists $lines 1]} { return 0 }
+    set depth [lindex [dict get $lines 1] 0]
+    if {![string is integer -strict $depth]} { return 0 }
+    return $depth
+}
+
+# What one finished position keeps: the local lines, or the cloud's evaluation
+# when that one is deeper. Also records where the evaluation came from, so a
+# report can say which positions the cloud answered.
+#
+# A cloud evaluation is adopted on three conditions, in this order:
+#   * the search was stopped because the cloud was deeper than the depth bound;
+#   * the local search produced nothing (the engine refused or went away);
+#   * the cloud is strictly deeper than the local primary line. A tie is local:
+#     the local engine is the one the user configured.
+proc ::reviewdriver::settle {token index ply} {
+    variable job
+    set j $job($token)
+    set local [dict get $j lines]
+    set chosen ""
+    set source local
+    set depth 0
+    set decided ""
+    catch { set decided [dict get $j decided $index] }
+    if {$decided ne ""} {
+        set chosen [dict get $decided lines]
+        set source cloud
+        set depth [dict get $decided depth]
+    } else {
+        set entry ""
+        if {[::reviewdriver::cloudModule]} {
+            set entry [::reviewcloud::take [list $token $index]]
+        }
+        set cloudLines ""
+        if {$entry ne ""} {
+            set cloudLines [::reviewcloud::usable $entry [dict get $j mpv]]
+        }
+        set C -1
+        if {[::reviewdriver::cloudModule]} {
+            set C [::reviewcloud::depth $entry]
+        }
+        set L [::reviewdriver::primaryDepth $local]
+        set cloudwins 0
+        catch { set cloudwins [dict get $j cloudwins $index] }
+        if {$cloudLines ne ""} {
+            if {$cloudwins} {
+                set chosen $cloudLines
+                set source cloud
+                set depth $C
+            } elseif {![llength $local]} {
+                set chosen $cloudLines
+                set source cloud
+                set depth $C
+            } elseif {[::reviewcloud::decide 0 1 $C $L] eq "cloud"} {
+                set chosen $cloudLines
+                set source cloud
+                set depth $C
+            }
+        }
+        if {$chosen eq ""} {
+            set chosen $local
+            set source local
+            set depth $L
+        }
+    }
+    dict set job($token) sources $ply [dict create source $source depth $depth]
+    return $chosen
+}
+
+# A cloud reply landed.
+#
+# Two cases. The pass may be WAITING for it (a depth bound with no time cap): the
+# position is not searched at all unless the cloud is too shallow. Or a local
+# search is running beside it (a time cap) and the cloud is already deeper than
+# the depth bound, in which case the search cannot reach past it and is stopped
+# rather than run out. A reply merely AT the bound does not stop the search: the
+# search can still reach it, and a tie goes to the local engine, so the reply is
+# left for the comparison at completion.
+proc ::reviewdriver::cloudArrived {token handle entry} {
+    variable job
+    if {![info exists job($token)]} { return }
+    if {![::reviewdriver::cloudModule]} { return }
+    set j $job($token)
+    if {[dict get $j waiting] eq $handle} {
+        ::reviewdriver::cloudWaitDone $token $handle $entry
+        return
+    }
+    if {[dict get $j inflight] ne $handle} { return }
+    if {$entry eq ""} { return }
+    set lines [::reviewcloud::usable $entry [dict get $j mpv]]
+    if {$lines eq ""} { return }
+    set D 0
+    catch { set D [dict get [dict get $j limits] depth] }
+    if {![::reviewcloud::deeper $D [dict get $entry depth]]} { return }
+    set index [dict get $j index]
+    dict set job($token) cloudwins $index 1
+    catch { ::engine::send [dict get $j id] StopGo }
+    return
+}
+
+# The reply a depth-only pass was waiting for: adopt the cloud and move on, or
+# search the position locally after all.
+proc ::reviewdriver::cloudWaitDone {token handle entry} {
+    variable job
+    if {![info exists job($token)]} { return }
+    set j $job($token)
+    dict set job($token) waiting ""
+    set index [dict get $j index]
+    lassign [lindex [dict get $j positions] $index] ply spec
+    set lines ""
+    if {$entry ne ""} {
+        set lines [::reviewcloud::usable $entry [dict get $j mpv]]
+    }
+    set D 0
+    catch { set D [dict get [dict get $j limits] depth] }
+    set adopt 0
+    if {$lines ne ""} {
+        set adopt [expr {[::reviewcloud::decide $D 0 [dict get $entry depth] 0] eq "cloud"}]
+    }
+    ::reviewcloud::drop $handle
+    if {$adopt} {
+        dict set job($token) decided $index [dict create \
+            lines $lines depth [dict get $entry depth]]
+        ::reviewdriver::next $token
+        return
+    }
+    ::engine::send [dict get $j id] Go [list $spec [::enginelimits::goLimits [dict get $j limits]]]
+    return
 }
 
 proc ::reviewdriver::finish {token} {
     variable job
+    variable state
     if {![info exists job($token)]} {
         return
     }
@@ -323,6 +520,10 @@ proc ::reviewdriver::finish {token} {
     # finish runs inside the last InfoBestMove reply, so the close is queued rather
     # than done here; ondone still sees the whole result.
     ::reviewdriver::closeSoon $id
+    # Where each evaluation came from, before the run reports: the status is what
+    # a report or a future UI reads.
+    if {![dict size $state]} { set state [::reviewdriver::blankState] }
+    dict set state sources [dict get $j sources]
     if {$done ne ""} {
         catch { {*}$done $results }
     }
@@ -333,12 +534,38 @@ proc ::reviewdriver::finish {token} {
 # because there is nothing left to close.
 proc ::reviewdriver::lost {token} {
     variable job
+    variable state
     if {![info exists job($token)]} {
         return
     }
     set j $job($token)
-    unset job($token)
     set results [dict get $j results]
+    # The position that was searching when the engine went away still has an
+    # evaluation if the cloud answered: a local failure falls back to it. The
+    # local lines it had are not recorded - a half-finished search is not a
+    # result, which is why a lost pass reports fewer positions than it planned.
+    #
+    # The sources are built here rather than in the job dict: the source of the
+    # position this fallback answers belongs in the status this proc publishes,
+    # and the job dict is discarded a few lines below.
+    set sources [dict get $j sources]
+    set index [dict get $j index]
+    if {$index >= 0 && [::reviewdriver::cloudModule]} {
+        lassign [lindex [dict get $j positions] $index] ply spec
+        set entry [::reviewcloud::take [list $token $index]]
+        set lines ""
+        if {$entry ne ""} {
+            set lines [::reviewcloud::usable $entry [dict get $j mpv]]
+        }
+        if {[llength $lines]} {
+            dict set results $ply $lines
+            dict set sources $ply [dict create \
+                source cloud depth [::reviewcloud::depth $entry]]
+        }
+    }
+    if {![dict size $state]} { set state [::reviewdriver::blankState] }
+    dict set state sources $sources
+    unset job($token)
     set done [dict get $j ondone]
     if {$done ne ""} {
         catch { {*}$done $results }
@@ -632,7 +859,7 @@ proc ::reviewdriver::verdicts {map results} {
 # review, because the comments landed.
 proc ::reviewdriver::blankState {{state idle}} {
     return [dict create state $state searched 0 total 0 written 0 failed 0 \
-        coachDone 0 coachTotal 0 errors {} reason "" restored 0]
+        coachDone 0 coachTotal 0 errors {} reason "" restored 0 sources {}]
 }
 
 proc ::reviewdriver::status {} {
@@ -825,10 +1052,20 @@ proc ::reviewdriver::run {engine args} {
     # of a run that is already in flight alone.
     set starting [dict merge [::reviewdriver::blankState searching] \
         [dict create total [llength $positions]]]
+    # The cloud pre-pass is read once, here, like the coach and the verifier: a
+    # toggle flipped mid-run must not split one pass in two. The variant is the
+    # game's, because the cloud is only asked about standard chess - the FEN this
+    # module replays is a standard one.
+    set cloud 1
+    catch { set cloud [::review::get cloud_eval] }
+    set variant standard
+    catch {
+        if {[sc_game variant] ne "standard"} { set variant [sc_game variant] }
+    }
     set token ""
     if {[catch {
         set token [::reviewdriver::start $engine $positions $mpv $lim \
-            ::reviewdriver::runProgress ::reviewdriver::runDone]
+            ::reviewdriver::runProgress ::reviewdriver::runDone $cloud $variant]
     } err]} {
         # id 20 is already running a pass, or the engine could not be opened. A
         # pass that is already running keeps its own state: this refusal is the

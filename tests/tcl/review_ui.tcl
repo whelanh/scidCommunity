@@ -52,6 +52,7 @@ array set ::EN {
     ReviewVarCp             {Variation margin (cp)}
     ReviewMoveWait          {Wait for the review depth}
     ReviewMovetime          {Time cap (ms)}
+    ReviewCloudEval         {Cloud pre-pass}
     ReviewFromPreset        {%s (from engine preset)}
     ReviewProgress          {Reviewing position %s of %s}
     ReviewWaitForDepth      {Waiting for depth %s}
@@ -80,14 +81,15 @@ proc tr {tag} {
     if {[info exists ::EN($tag)]} { return $::EN($tag) }
     return $tag
 }
-# The keys that must be in every language file: the fifteen above are Scid's
-# already, and the rest are the assertion at the end of this file.
+# The keys that must be in every language file: the ones above that Scid already
+# carried, and the review's own, which the assertion at the end of this file
+# checks in every catalogue.
 set ::NEWKEYS {
     ReviewGameButton ReviewGameButtonTooltip ReviewMoveButton
     ReviewMoveButtonTooltip ReviewSettings ReviewSettingsTooltip
     ReviewVarLines ReviewVarCp
     ReviewMoveWait ReviewMovetime ReviewFromPreset ReviewProgress
-    ReviewWaitForDepth ReviewFailed
+    ReviewWaitForDepth ReviewFailed ReviewCloudEval
     ReviewCoach ReviewCoachProgress ReviewWriting ReviewCoachSettings
     ReviewCoachNoModel ReviewCoachKept ReviewCoachDiscarded
     ToolsWhatThreat ToolsWhatThreatTooltip
@@ -285,11 +287,12 @@ puts "what the settings dialog holds"
 # place to get them wrong. The dialog shows them, read-only, from the preset.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "twelve rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
+checkEq "thirteen rows, no threads, no hash" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach cloud_eval verifier}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
+checkEq "the cloud pre-pass on unless it is turned off" [dict get $s cloud_eval] 1
 checkEq "the coach off unless it is asked for" [dict get $s coach] 0
 # The verifier is off by default: today's behaviour exactly, and the labels are
 # written as the search produced them.
@@ -297,7 +300,7 @@ checkEq "and no verifier engine" [dict get $s verifier] ""
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
     move_comment_wait 0 diagram 1 opening_errors 1 opening_window 15 \
-    tactical_exercises 1 coach 1 verifier ""]
+    tactical_exercises 1 coach 1 cloud_eval 1 verifier ""]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500

@@ -1004,6 +1004,7 @@ translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
+translate J ReviewCloudEval {Cloud pre-pass}
 translate J ReviewEstimatedRating {процена учинка (из ове партије)}
 translate J ReviewOpeningMoves {Отварање потеза}
 translate J ReviewFromPreset {%s (из профила мотора)}

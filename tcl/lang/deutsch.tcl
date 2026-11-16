@@ -1003,6 +1003,7 @@ translate D ReviewVarLines {Zu schreibende Varianten}
 translate D ReviewVarCp {Variantenabstand (cp)}
 translate D ReviewMoveWait {Auf die Prüfungstiefe warten}
 translate D ReviewMovetime {Zeitlimit (ms)}
+translate D ReviewCloudEval {Cloud pre-pass}
 translate D ReviewEstimatedRating {Leistungswertung (aus dieser Partie)}
 translate D ReviewOpeningMoves {Eröffnungszüge}
 translate D ReviewFromPreset {%s (aus dem Motorprofil)}

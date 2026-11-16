@@ -989,6 +989,7 @@ translate K ReviewVarLines {Variants a escriure}
 translate K ReviewVarCp {Marge de variants (cp)}
 translate K ReviewMoveWait {Espera la profunditat de la revisió}
 translate K ReviewMovetime {Límit de temps (ms)}
+translate K ReviewCloudEval {Cloud pre-pass}
 translate K ReviewEstimatedRating {valoració de rendiment (d'aquesta partida)}
 translate K ReviewOpeningMoves {Moviments d'obertura}
 translate K ReviewFromPreset {%s (del perfil del motor)}

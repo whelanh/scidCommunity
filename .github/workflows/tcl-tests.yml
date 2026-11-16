@@ -119,6 +119,11 @@ jobs:
       - name: Review driver
         run: tclsh tests/tcl/review_driver.tcl
 
+      # The cloud pre-pass: the comparison, the normalisation, the cache, and the
+      # pass driven against a stubbed transport (no network in CI).
+      - name: Review cloud pre-pass
+        run: tclsh tests/tcl/review_cloud.tcl
+
       # The Brilliant/Great second opinion, without an engine: the pure decision
       # and the three writers that call the shared transform before they write.
       - name: Review verifier
