@@ -263,12 +263,12 @@ proc ::reviewcloud::decide {D T C L} {
     return local
 }
 
-# Whether the cloud is at least as deep as the local search could reach under a
-# depth bound - the case where running the local search out cannot beat it.
+# Whether the cloud is at least as deep as the depth bound - the depth-only rule
+# (T = 0), where the local search never runs at all.
 #
-# This is the depth-only rule (T = 0), where the local search never runs: C >= D
-# is the whole comparison. It is NOT the rule for stopping a search under a time
-# cap - see ::reviewcloud::deeper.
+# This is the whole comparison for that case: C >= D is the depth the user asked
+# for, and the cloud is at least that deep. It is NOT the rule for stopping a
+# search under a time cap - see ::reviewcloud::deeper.
 proc ::reviewcloud::reaches {D C} {
     return [expr {$D > 0 && $C >= $D}]
 }
