@@ -112,14 +112,16 @@ static bool carry_book_mode(const std::filesystem::path& staged,
 // it lands on the book's filesystem and no other save can pick it by accident.
 static std::filesystem::path staging_name(const std::filesystem::path& book,
                                           int attempt) {
-	char suffix[32];
-	std::snprintf(suffix, sizeof suffix, ".tmp-%ld-%d",
+	// The pid alone already separates two saves' candidates; the attempt counter
+	// separates the retries inside one. A name that is taken is retried, never
+	// reused, so a stale staging file is left where its owner put it.
 #ifdef _WIN32
-	              static_cast<long>(_getpid()),
+	const unsigned long pid = GetCurrentProcessId();
 #else
-	              static_cast<long>(getpid()),
+	const unsigned long pid = static_cast<unsigned long>(getpid());
 #endif
-	              attempt);
+	char suffix[40];
+	std::snprintf(suffix, sizeof suffix, ".tmp-%lu-%d", pid, attempt);
 #ifdef _WIN32
 	std::wstring name = book.native();
 	name.append(suffix, suffix + std::strlen(suffix));
