@@ -1105,10 +1105,12 @@ proc ::comp::compNextMove { game tomove expired bestmove } {
         set bestmove ""
         set _Data(scoreIsNew,$game) 0
         # Time out a per-move game when the engine overruns its leeway; other
-        # controls fall back to their clock plus the 4-second grace.
+        # controls fall back to their clock plus the 4-second grace. The timer
+        # fires one tick past the allowance so a reply that lands exactly on it
+        # is still accepted, matching moveOverrun's strict > comparison.
         set timeout [expr {$_Data(timecontrol) == "permove" ? $_Data(time) : $_Data($tomove,$game)}]
         if {$_Data(timecontrol) == "permove"} {
-            after [expr {int(ceil([::comp::permoveAllowed]))}] "compTimeout $game $tomove"
+            after [expr {int([::comp::permoveAllowed]) + 1}] "compTimeout $game $tomove"
         } else {
             after [expr {$timeout + $_Data(delta)}] "compTimeout $game $tomove"
         }
