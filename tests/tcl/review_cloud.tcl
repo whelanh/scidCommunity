@@ -78,7 +78,14 @@ proc feed {msgType msgData} {
 namespace eval ::lichess_eval {}
 set ::cloudRequests {}
 set ::cloudCallbacks {}
+# Set to 1 to make the transport fail to start: ::reviewcloud::query's catch
+# branch, which is what a broken transport (no curl, no http package) looks like
+# from the module above it.
+set ::cloudThrow 0
 proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
+    if {$::cloudThrow} {
+        error {couldn't execute "curl": no such file or directory}
+    }
     lappend ::cloudRequests [list $fen $variant $mpv]
     lappend ::cloudCallbacks $callback
     return "stubfd[llength $::cloudCallbacks]"
@@ -155,6 +162,14 @@ proc localLines {depth} {
     feed InfoPV [list 3 $depth $depth 900 300 0 0 120 5 cp 0 c2c4 e5]
 }
 
+# Finish a pass that is still running, so a check that failed does not leave the
+# next section unable to start one ("engine 20 is already running a pass").
+proc drainPass {} {
+    if {![llength [array names ::reviewdriver::job]]} { return }
+    localLines 18
+    feed InfoBestMove {}
+}
+
 puts "the comparison"
 
 checkEq "a depth bound with the cloud at the bound is the cloud" \
@@ -169,10 +184,17 @@ checkEq "and a tie goes to the local engine" \
     [::reviewcloud::decide 18 900 20 20] local
 checkEq "a cloud under the local depth loses even under a depth bound" \
     [::reviewcloud::decide 30 900 20 22] local
-checkEq "the cloud matches the depth bound the local search cannot pass" \
+checkEq "under a depth bound only, a cloud at the bound is the cloud" \
     [::reviewcloud::reaches 18 18] 1
 checkEq "and a shallower one does not" [::reviewcloud::reaches 18 17] 0
 checkEq "no depth bound means no ceiling to match" [::reviewcloud::reaches 0 40] 0
+# The stop/cancel rule under a time cap: only a reply PAST the bound settles the
+# position early. At the bound the search can still tie with it, and the tie is
+# the local engine's, so that reply waits for the comparison at completion.
+checkEq "a reply past the depth bound is unambiguously deeper" \
+    [::reviewcloud::deeper 18 19] 1
+checkEq "a reply at the depth bound is not" [::reviewcloud::deeper 18 18] 0
+checkEq "and no depth bound means nothing to be past" [::reviewcloud::deeper 0 40] 0
 
 puts "\nthe FEN the cloud is asked about"
 
@@ -317,20 +339,52 @@ feed InfoBestMove {}
 checkEq "the cloud wins though it is under the depth bound" \
     [lindex [dict get [dict get $::results 0] 1] 0] 20
 
-puts "\na depth bound and a time cap: the cloud at the bound stops the search"
+puts "\na depth bound and a time cap: only a reply past the bound stops the search"
 
 ::reviewcloud::reset
 checkEq "the capped pass starts" \
     [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
 checkEq "the local search is running" [sentCount Go] 1
-cloudAnswer [cloudJson 22 $::WIDE]
-checkEq "a cloud at least as deep as the bound cancels it" [sentCount StopGo] 1
+cloudAnswer [cloudJson 21 $::WIDE]
+checkEq "a cloud deeper than the bound cancels it" [sentCount StopGo] 1
 localLines 15
 feed InfoBestMove {}
 checkEq "and the cloud's lines are what the position keeps" \
-    [lindex [dict get [dict get $::results 0] 1] 0] 22
+    [lindex [dict get [dict get $::results 0] 1] 0] 21
 checkEq "with the cloud named as the source" \
-    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 22}
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 21}
+
+# C == D under a time cap. The search can still reach the bound, so a tie with the
+# cloud is possible and the tie is the local engine's: the reply must not cancel
+# the search. It is compared when the search ends, and there it loses the tie.
+::reviewcloud::reset
+checkEq "a capped pass at the bound starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+cloudAnswer [cloudJson 20 $::WIDE]
+checkEq "a cloud merely at the bound does not cancel it" [sentCount StopGo] 0
+localLines 20
+feed InfoBestMove {}
+checkEq "the tie keeps the local engine's lines" \
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source local depth 20}
+
+# The same reply, held in the cache. A cached entry is adopted without searching
+# under a depth bound only; under a time cap a cached evaluation at the bound is
+# no more decisive than a fresh one, and the position is searched.
+::reviewcloud::reset
+checkEq "a depth-only pass seeds the cache" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+cloudAnswer [cloudJson 20 $::WIDE]
+checkEq "the depth-only rule adopts a reply at the bound" \
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 20}
+checkEq "the capped pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+checkEq "a cached evaluation at the bound does not skip the search" [sentCount Go] 1
+checkEq "and nothing is asked about a position the cache holds" \
+    [llength $::cloudRequests] 0
+localLines 20
+feed InfoBestMove {}
+checkEq "the tie is the local engine's here too" \
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source local depth 20}
 
 ::reviewcloud::reset
 checkEq "a capped pass under the bound starts" \
@@ -358,6 +412,24 @@ checkEq "the run is over, not waiting" \
 cloudAnswer [cloudJson 30 $::WIDE]
 checkEq "a late reply changes nothing" \
     [lindex [dict get [dict get $::results 0] 1] 0] 18
+
+puts "\nthe engine going away still names where the position's evaluation came from"
+
+# The position that was searching when the engine died falls back to a cloud
+# evaluation it already holds. The result carries the cloud's lines and the
+# status must say so for that ply as well - a status that describes the run has
+# to describe what the run published.
+::reviewcloud::reset
+checkEq "the capped pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime 900}] ""
+cloudAnswer [cloudJson 25 $::WIDE]
+checkEq "a deeper reply stops the search" [sentCount StopGo] 1
+feed InfoDisconnected {}
+checkEq "the pass reports the position the engine died on" \
+    [lindex [dict get [dict get $::results 0] 1] 0] 25
+set ::published ""
+catch { set ::published [dict get [dict get [::reviewdriver::status] sources] 0] }
+checkEq "and its source is published with it" $::published {source cloud depth 25}
 
 puts "\na reply the verdict cannot use falls back to the search"
 
@@ -390,10 +462,66 @@ checkEq "a transport failure searches the position" [sentCount Go] 1
 localLines 18
 feed InfoBestMove {}
 checkEq "and the pass finishes" $::doneCalls 1
-checkEq "the cloud is not asked again this session" \
+checkEq "the cloud is not asked again in this pass" \
     [::reviewcloud::enabled] 0
 ::reviewcloud::reset
 checkEq "a reset makes it usable again" [::reviewcloud::enabled] 1
+
+# A failure ends the cloud for the pass that saw it, not for the session: the
+# next pass asks again rather than paying for one rate limit (or one offline
+# start) for the rest of the session while the setting still shows it on.
+::reviewcloud::reset
+checkEq "the failing pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "" 0
+checkEq "the transport failure stops this pass asking" [::reviewcloud::enabled] 0
+localLines 18
+feed InfoBestMove {}
+checkEq "and it finishes locally" $::doneCalls 1
+checkEq "a second pass starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+checkEq "and asks the cloud again" [llength $::cloudRequests] 1
+# A harness must not die on the case it is there to disprove: with no request in
+# flight there is nothing to answer, and the check above is the failure.
+catch { cloudAnswer [cloudJson 25 $::WIDE] }
+checkEq "adopting what it is told" \
+    [dict get [dict get [::reviewdriver::status] sources] 0] {source cloud depth 25}
+# However that went, no pass is left running: a check that failed above must not
+# take the next section down with "already running a pass".
+drainPass
+
+# A pass with the pre-pass off neither clears the flag nor sets it: the next
+# cloud-enabled pass is the one that decides, and until then the state is exactly
+# as the last cloud pass left it.
+::reviewcloud::reset
+checkEq "a pass that fails starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "" 0
+checkEq "the cloud is off" [::reviewcloud::enabled] 0
+localLines 18
+feed InfoBestMove {}
+checkEq "a pass with the pre-pass off starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}} 0] ""
+checkEq "and leaves the flag exactly as it was" [::reviewcloud::enabled] 0
+localLines 18
+feed InfoBestMove {}
+checkEq "and finishes locally" $::doneCalls 1
+
+# The transport could not even be started: ::lichess_eval::cloudEvalAsync threw
+# instead of returning a handle. No reply is coming, so the pass must search the
+# position and move on rather than wait for one.
+::reviewcloud::reset
+set ::cloudThrow 1
+checkEq "a pass whose transport cannot start still starts" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}}] ""
+checkEq "nothing is asked of a transport that is not there" \
+    [llength $::cloudRequests] 0
+checkEq "the cloud is off for the pass" [::reviewcloud::enabled] 0
+checkEq "and the position is searched at once" [sentCount Go] 1
+localLines 18
+feed InfoBestMove {}
+checkEq "the pass finishes instead of waiting for a reply" $::doneCalls 1
+set ::cloudThrow 0
 
 # The shape the real transport produces on an outage before the status check:
 # ok 1 with an empty body. It is not "Lichess holds nothing for this FEN", and
@@ -496,6 +624,119 @@ checkEq "the verifier starts" \
 feed InfoConfig {}
 checkEq "it asks the cloud nothing" [llength $::cloudRequests] 0
 checkEq "and searches the position on its own engine" [sentCount Go] 1
+
+puts "\nno curl: the async query falls back to the Tcl http package"
+
+# The stub above is the module's own contract. This section replaces it with the
+# REAL ::lichess_eval, because the finding is in the transport: with no curl on
+# PATH, the synchronous query has always fallen back to the Tcl http package and
+# the asynchronous one did not, so a machine without curl lost the whole pre-pass
+# while the eval window kept working.
+source [file join $root tcl tools lichess_eval.tcl]
+
+# A loopback server stands in for lichess.org: nothing here leaves the machine,
+# and the status and body it answers are the test's to set.
+set ::httpCode 200
+set ::httpBody ""
+set ::httpHits 0
+# Non-blocking on purpose: the http package connects asynchronously, and a
+# blocking `gets` in an accept handler would hold the event loop until the
+# request line arrived - a deadlock, not a slow test.
+proc httpAccept {chan addr port} {
+    fconfigure $chan -blocking 0 -translation binary
+    set ::httpBuf($chan) ""
+    fileevent $chan readable [list httpServed $chan]
+}
+proc httpServed {chan} {
+    if {[catch { append ::httpBuf($chan) [read $chan] }]} {
+        fileevent $chan readable {}
+        unset -nocomplain ::httpBuf($chan)
+        catch { close $chan }
+        return
+    }
+    if {[string first "\n\n" [string map {"\r\n" "\n"} $::httpBuf($chan)]] < 0} {
+        if {[eof $chan]} {
+            fileevent $chan readable {}
+            unset -nocomplain ::httpBuf($chan)
+            catch { close $chan }
+        }
+        return
+    }
+    fileevent $chan readable {}
+    unset -nocomplain ::httpBuf($chan)
+    incr ::httpHits
+    set body $::httpBody
+    puts -nonewline $chan "HTTP/1.1 $::httpCode X\r\nContent-Type: application/json\r\nContent-Length: [string length $body]\r\nConnection: close\r\n\r\n$body"
+    flush $chan
+    # The client closes once it has read Content-Length bytes; give it a turn.
+    after 100 [list catch [list close $chan]]
+}
+set server [socket -server httpAccept 0]
+set ::httpPort [lindex [fconfigure $server -sockname] 2]
+
+set savedUrl $::lichess_eval::apiUrl
+set ::lichess_eval::apiUrl "http://127.0.0.1:$::httpPort/api/cloud-eval"
+# No curl, and no shell to find one with: the pipeline cannot start.
+set savedPath $::env(PATH)
+set ::env(PATH) /nonexistent
+
+# A reply that has to be waited for must fail the check, not hang the harness.
+proc waitFor {varName ms} {
+    upvar #0 $varName var
+    set deadline [expr {[clock milliseconds] + $ms}]
+    while {![info exists var] && [clock milliseconds] < $deadline} {
+        after 20 {set ::tick 1}
+        vwait ::tick
+        unset -nocomplain ::tick
+    }
+    if {![info exists var]} { return "__timeout__" }
+    return $var
+}
+
+set probeFen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1}
+set body [cloudJson 24 $::WIDE]
+set ::httpBody $body
+set ::httpCode 200
+
+unset -nocomplain ::httpReply
+set t0 [clock milliseconds]
+::lichess_eval::cloudEvalAsync $probeFen standard 3 \
+    {apply {{ok data err} {set ::httpReply [list $ok $data $err]}}}
+set elapsed [expr {[clock milliseconds] - $t0}]
+check "the caller is not held while the fallback request runs" [expr {$elapsed < 500}]
+checkEq "the fallback answers with the reply body" [waitFor ::httpReply 8000] \
+    [list 1 $body ""]
+checkEq "and it really went over http" $::httpHits 1
+
+# A 404 is the other answer Lichess gives, and it must read as \"nothing stored\"
+# through this path too: ok=1 with the error body, which is what ::reviewcloud
+# caches as none.
+set notFound "{\"error\":\"No cloud evaluation available for the given position\"}"
+set ::httpCode 404
+set ::httpBody $notFound
+unset -nocomplain ::httpReply
+::lichess_eval::cloudEvalAsync $probeFen standard 3 \
+    {apply {{ok data err} {set ::httpReply [list $ok $data $err]}}}
+checkEq "a 404 body arrives as an answer, not a failure" [waitFor ::httpReply 8000] \
+    [list 1 $notFound ""]
+checkEq "and it carries no evaluation" \
+    [::reviewcloud::parse $notFound $probeFen] ""
+
+# Anything else is the transport failing, with the same reason the curl path
+# gives: the reply did not arrive.
+set ::httpCode 500
+set ::httpBody "{\"error\":\"boom\"}"
+unset -nocomplain ::httpReply
+::lichess_eval::cloudEvalAsync $probeFen standard 3 \
+    {apply {{ok data err} {set ::httpReply [list $ok $data $err]}}}
+lassign [waitFor ::httpReply 8000] ok data err
+checkEq "a 500 is a failure, not an empty answer" $ok 0
+checkEq "and it names the status" $err \
+    "the cloud eval reply did not arrive (HTTP 500)"
+
+set ::env(PATH) $savedPath
+set ::lichess_eval::apiUrl $savedUrl
+catch { close $server }
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

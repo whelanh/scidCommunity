@@ -47,7 +47,9 @@ namespace eval ::reviewcloud {
     variable entries
     # Set when the transport itself failed (no curl, no network). One failure is
     # the whole pass's answer: a review of eighty positions must not spend ten
-    # seconds per position discovering the same thing.
+    # seconds per position discovering the same thing. It lasts for the pass that
+    # saw it and no longer - ::reviewcloud::newPass clears it at the start of the
+    # next one (the cache is kept).
     variable unusable 0
     array set cache {}
     array set pending {}
@@ -77,6 +79,21 @@ proc ::reviewcloud::reset {} {
 proc ::reviewcloud::enabled {} {
     variable unusable
     return [expr {!$unusable && [llength [info commands ::lichess_eval::cloudEvalAsync]] > 0}]
+}
+
+# A pass is starting.
+#
+# A failure ends the cloud for the pass that saw it, not for the session: a rate
+# limit at one position, one timeout, or a network that was down when the run
+# began must not disable the pre-pass for every later review while the setting
+# still shows it on. The cache is kept - it is keyed by the position, and a
+# stored evaluation does not go stale.
+#
+# The caller is ::reviewdriver::start, and only when it is starting a pass with
+# the pre-pass on: a pass with it off neither clears the flag nor sets it.
+proc ::reviewcloud::newPass {} {
+    set ::reviewcloud::unusable 0
+    return
 }
 
 # The evaluation-relevant FEN: the first four fields. Halfmove and fullmove
@@ -242,14 +259,30 @@ proc ::reviewcloud::decide {D T C L} {
     if {$T > 0} {
         return [expr {$C > $L ? "cloud" : "local"}]
     }
-    if {$D > 0 && $C >= $D} { return cloud }
+    if {[::reviewcloud::reaches $D $C]} { return cloud }
     return local
 }
 
 # Whether the cloud is at least as deep as the local search could reach under a
 # depth bound - the case where running the local search out cannot beat it.
+#
+# This is the depth-only rule (T = 0), where the local search never runs: C >= D
+# is the whole comparison. It is NOT the rule for stopping a search under a time
+# cap - see ::reviewcloud::deeper.
 proc ::reviewcloud::reaches {D C} {
     return [expr {$D > 0 && $C >= $D}]
+}
+
+# Whether the cloud is strictly deeper than the depth bound.
+#
+# With a time cap the local search does run, and it can still reach D, so a reply
+# equal to the bound is not unambiguously better than what the search will find:
+# only a reply PAST D is. Anything else is compared when the search ends, where
+# the deeper evaluation wins and a tie goes to the local engine - the comparison
+# at completion decides C > D >= L in the cloud's favour anyway, which is why
+# stopping there early cannot change the outcome.
+proc ::reviewcloud::deeper {D C} {
+    return [expr {$D > 0 && $C > $D}]
 }
 
 # What to do with one position.
@@ -293,7 +326,11 @@ proc ::reviewcloud::begin {handle spec limits mpv variant arrive} {
     if {!$known} {
         # A depth-only pass has nothing else to do while the lookup runs, and
         # the lookup is one cheap call; a timed pass searches beside it.
-        ::reviewcloud::query $handle $fen $variant $mpv $arrive
+        if {![::reviewcloud::query $handle $fen $variant $mpv $arrive]} {
+            # The transport would not even start: nothing is held, nothing will
+            # arrive, and the position is searched locally like any other.
+            return $local
+        }
         if {$T > 0} { return [dict create action query lines {} depth 0] }
         return [dict create action wait lines {} depth 0]
     }
@@ -308,9 +345,11 @@ proc ::reviewcloud::begin {handle spec limits mpv variant arrive} {
         return $local
     }
     # A time cap is in force, so the local search runs either way - unless the
-    # cloud already matches the depth bound, in which case the local search
-    # cannot reach past it.
-    if {[::reviewcloud::reaches $D $C]} {
+    # cloud is already deeper than the depth bound, in which case the search
+    # cannot reach past it and the comparison at completion would choose the
+    # cloud anyway. A reply AT the bound is not that case: the search can still
+    # reach it, and the tie goes to the local engine, so it is held instead.
+    if {[::reviewcloud::deeper $D $C]} {
         return [dict create action cloud lines $lines depth $C]
     }
     # Held for the comparison when the local search finishes.
@@ -320,6 +359,13 @@ proc ::reviewcloud::begin {handle spec limits mpv variant arrive} {
 
 # Ask the cloud, asynchronously. Never waits for the answer: the reply arrives
 # through the event loop and calls ::reviewcloud::arrived.
+#
+# Answers 1 when the transport started, 0 when it did not. A transport that
+# failed to start is NOT reported through `arrive` here: a callback made from
+# inside this call would reach the driver before ::reviewcloud::begin had
+# returned, and a depth-only pass has nothing to settle until begin's answer has
+# told the driver it is waiting - the reply would be dropped and the pass would
+# hang with nothing to move it on. The caller tests the return value instead.
 proc ::reviewcloud::query {handle fen variant mpv arrive} {
     variable pending
     set ::reviewcloud::pending($handle) [dict create \
@@ -331,9 +377,9 @@ proc ::reviewcloud::query {handle fen variant mpv arrive} {
         # The transport could not even be started: no cloud for this pass.
         unset -nocomplain ::reviewcloud::pending($handle)
         set ::reviewcloud::unusable 1
-        if {$arrive ne ""} { catch { {*}$arrive $handle "" } }
+        return 0
     }
-    return
+    return 1
 }
 
 # The reply. `ok` is 0 when the transport failed; a reply that carries no

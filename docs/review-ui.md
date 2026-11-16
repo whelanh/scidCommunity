@@ -388,10 +388,13 @@ depth is unknowable until the search ends, so the query runs concurrently and
 the answer is held for the comparison; this is what makes `D > C > L` resolve to
 the cloud — the time cap cut the local search below both.
 
-**With `T > 0` and `D > 0`, a reply with `C >= D` stops the local search** instead
-of letting it run out: `D` caps the local search, so nothing it can reach is
-deeper. This is an optimisation, not a rule of the comparison — the result is the
-same evaluation either way, only sooner.
+**With `T > 0` and `D > 0`, a reply *deeper than* `D` stops the local search** — `D`
+caps that search, so nothing it can reach is past the reply. A reply equal to `D`
+does not: the search can still reach `D`, and the tie is the local engine's, so the
+reply is held and compared when the search ends, exactly as one under the bound
+is. Either way the outcome is the one the comparison at completion would reach,
+which is the same evaluation, only sooner — and never depends on whether the reply
+landed before or after the search ended.
 
 **The run is never extended for the cloud.** A reply that has not landed when the
 local search completes is not waited for, with no grace period: the local result
@@ -420,12 +423,16 @@ position is not asked twice.
 
 Cloud failure, no network, a malformed reply or too few lines all fall back to the
 local search. A **transport failure** — no reply at all: a refused connection, an
-unresolvable host, a timeout (curl's status `000`) — stops the pass asking for the
-rest of the session rather than paying the same wait at every position; it is not
-cached as "nothing stored", because a position Lichess holds nothing for (a 404
-answering with an error body) *is* remembered and only that one is. A local
-failure — the engine going away — falls back to a cloud evaluation if one is
-held.
+unresolvable host, a timeout (curl's status `000`) — stops the pass asking rather
+than paying the same wait at every position; it is not cached as "nothing stored",
+because a position Lichess holds nothing for (a 404 answering with an error body)
+*is* remembered and only that one is. It ends the cloud for the pass that saw it,
+not for the session: the next cloud-enabled pass starts asking again
+(`::reviewcloud::newPass`, called by `::reviewdriver::start`), so one rate limit or
+one offline start does not disable the pre-pass for the rest of the session while
+the setting still shows it on. The cache is kept across passes. A local failure —
+the engine going away — falls back to a cloud evaluation if one is held, and the
+position's source is published with the result it produced.
 
 The chosen **source and depth** are recorded per position in the run's status
 (`::reviewdriver::status` → `sources`, ply → `{source cloud|local depth N}`), so a
@@ -817,7 +824,7 @@ plain-text form.
 | `tcl/tools/game_review.tcl` | `::review` settings, `passLimits`, `plan`, `searchPlies`, `mainLineMap`, `playedMove`, `moveCommentPlan`, `writeMove`, `selectLines`, `scoreToNag`, `variationWanted` |
 | `tcl/tools/comment_colors.tcl` | the provenance spans: the review's green, the coach's blue, line wrapping, and the span-aware strip |
 | `tcl/tools/review_driver.tcl` | `::reviewdriver` — the engine pass on connection 20, `run` (plan → verdicts → verify → write), the `-done` completion hook, the `-coach` override, coach-block ownership for the default writer only, `verified`/`verifyWrite` (the shared seam and the verifier's pass), `settle`/`cloudArrived` (where a position's evaluation is chosen), `status` (including each position's evaluation `sources`), `cancel` |
-| `tcl/tools/review_cloud.tcl` | `::reviewcloud` — the Lichess cloud pre-pass: the comparison (`decide`, `reaches`), the FEN replay a spec needs (`fenForSpec`, `key`), the reply's parsing and mover-relative normalisation (`parse`, `lines`), the FEN-keyed cache, and the asynchronous query through `::lichess_eval::cloudEvalAsync` |
+| `tcl/tools/review_cloud.tcl` | `::reviewcloud` — the Lichess cloud pre-pass: the comparison (`decide`, `reaches` for the depth-only rule, `deeper` for stopping a search under a time cap), the per-pass latch (`newPass`), the FEN replay a spec needs (`fenForSpec`, `key`), the reply's parsing and mover-relative normalisation (`parse`, `lines`), the FEN-keyed cache, and the asynchronous query through `::lichess_eval::cloudEvalAsync` |
 | `tcl/tools/review_verify.tcl` | `::reviewverify` — the second opinion on Brilliant and Great: which positions are re-searched (`jobs`), what a disagreement means (`corrections`, only ever down to `best`), and the search on the driver's queue (`start`, `answer`, `stop`) |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` - the two marks the review writer asks for: `writeTactical` (the T flag and its difficulty comment) and `openingMark` (the Annotator tag's opening entry) |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
@@ -832,7 +839,7 @@ plain-text form.
 | `tests/tcl/review_marks.tcl` | 54 checks: the two marks the review writer asks for - the T flag, the difficulty ladder and the "****D" comment on a puzzle's move, the Annotator tag's opening entry at the ply the book ended, the window Review Settings asks for, a quote escaping the tag, a re-run replacing rather than stacking, and a pass that never left the book writing nothing |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 496 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
-| `tests/tcl/review_cloud.tcl` | 109 checks: the comparison table (depth-only, the tie, `D > C > L`), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, the cancel when the cloud matches the depth bound, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces), a 404 for a position Lichess holds nothing for being remembered, the FEN-keyed cache across move counters, the toggle and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
+| `tests/tcl/review_cloud.tcl` | 148 checks: the comparison table (depth-only, the tie, `D > C > L`, and the strictly-deeper rule that decides when a reply may stop a search), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, a reply at the bound that does not cancel the search (fresh and cached) and one past it that does, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces) and a transport that will not start at all, the latch ending with the pass rather than the session, the engine going away with a held evaluation still naming its source, a 404 for a position Lichess holds nothing for being remembered, the no-curl fallback to the Tcl http package, the FEN-keyed cache across move counters, the toggle and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/review_report.tcl` | 123 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — the performance rating line (one per side, the table's own bins, no `estimated Elo` beside it, no band, no expected-score figure, a block that cannot see a rating in the PGN: neither rating, one, both) — and the block removal, two writes deep |
@@ -874,7 +881,8 @@ stubbed so no test touches the network — and so the stub itself is the asserti
 that a request returns before its reply lands:
 
 - **the comparison** — the depth-only rule at, above and below `D`, the tie going
-  to the local engine, and `D > C > L` resolving to the cloud;
+  to the local engine, `D > C > L` resolving to the cloud, and the strictly-deeper
+  rule that allows a reply to stop a search: past the bound, never at it;
 - **the position** — the FEN replayed from an engine spec (and `""` for a spec
   that cannot be followed), and the cache key dropping the move counters while
   keeping the en-passant square;
@@ -882,13 +890,19 @@ that a request returns before its reply lands:
   position, its mate distance becoming the app's mate line, and a MultiPV-1 reply
   refusing to feed a three-line verdict;
 - **the pass** — a depth-only position the cloud covers sends no `go` at all, a
-  capped one searches beside the query and keeps whichever is deeper, a cloud at
-  the depth bound stops the search, a reply that never lands does not extend the
-  run, a transport failure (the empty body a real outage produces, as well as an
-  explicit `ok 0`) falls back to the search and stops asking while a 404 for the
-  position is remembered instead, the same position in a second set of counters
-  hits the cache, and the toggle and a non-standard variant both leave the pass
-  entirely local;
+  capped one searches beside the query and keeps whichever is deeper, a reply past
+  the depth bound stops the search while one at the bound (fresh or cached) is
+  compared when it ends, a reply that never lands does not extend the run, a
+  transport failure (the empty body a real outage produces, as well as an explicit
+  `ok 0`, and a transport that throws instead of starting) falls back to the search
+  and stops asking for the rest of that pass only — the next pass asks again — so a
+  404 for the position is remembered instead, the engine going away mid-position
+  still publishes the source of the cloud evaluation it falls back to, the same
+  position in a second set of counters hits the cache, and the toggle and a
+  non-standard variant both leave the pass entirely local;
+- **the transport** — with no curl on `PATH`, the real `::lichess_eval` answers
+  through the Tcl http package against a loopback server: a 200 body is an answer,
+  a 404 body reads as "nothing stored", and a 500 is the failure it is;
 - **the verifier** — its pass through `::reviewverify::begin` sends the search and
   asks the cloud nothing, so a stored evaluation can never be the second opinion.
 

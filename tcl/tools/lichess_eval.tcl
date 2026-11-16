@@ -150,8 +150,9 @@ proc ::lichess_eval::queryCloudEval {fen variant} {
 #   Unlike queryCloudEvalAsync this is not tied to the eval window and keeps its
 #   own buffer, so the window and a pass can be in flight at the same time.
 #
-#   Returns the channel it opened, or "" when the transport could not start (the
-#   callback still fires, from `after idle`).
+#   Returns the channel it opened, or "" when curl could not start - in which
+#   case it falls back to the Tcl http package (see below), and the callback
+#   fires from the event loop either way.
 proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
     variable asyncBuf
     variable asyncReq
@@ -162,8 +163,22 @@ proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
         set fd [open [list | curl -s --max-time 10 -H {Accept: */*} \
             -w {|HTTP%{http_code}} $url] r]
     } err]} {
-        # Not a synchronous retry: the caller asked for an answer it does not
-        # wait for, and blocking here is the one thing this proc must not do.
+        # curl is not on PATH. The synchronous query above falls back to the Tcl
+        # http package from here; this is that fallback's asynchronous twin -
+        # ::http::geturl with -command returns at once and answers from the event
+        # loop, so the caller still is not blocked - and its reply goes through
+        # onCloudEvalHttp, which maps the status onto the same
+        # <ok> <data> <err> contract onCloudEvalData reports.
+        if {![catch {package require http}]} {
+            catch {package require tls}
+            catch {::http::register https 443 ::tls::socket}
+            if {![catch {
+                ::http::geturl $url -timeout 10000 \
+                    -command [list ::lichess_eval::onCloudEvalHttp $callback]
+            }]} {
+                return ""
+            }
+        }
         after idle [list {*}$callback 0 "" $err]
         return ""
     }
@@ -172,6 +187,35 @@ proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
     set asyncReq($fd) [list $callback]
     fileevent $fd readable [list ::lichess_eval::onCloudEvalData $fd]
     return $fd
+}
+
+# ::lichess_eval::onCloudEvalHttp
+#   Internal: the http package's callback for an async cloud-eval request, the
+#   twin of onCloudEvalData for the fallback taken when curl is absent.
+#
+#   ::http::ncode is the status the reply carried: 200 is an answer and 404 is
+#   "Lichess holds nothing for this FEN", and both hand their body over with
+#   ok=1 - exactly as the curl path does. Anything else, including the 0 a
+#   transport error leaves behind, is ok=0 with the reason. Never throws: the
+#   caller is an event-loop callback.
+proc ::lichess_eval::onCloudEvalHttp {callback token} {
+    set code 0
+    set data ""
+    catch { set code [::http::ncode $token] }
+    catch { set data [::http::data $token] }
+    catch { ::http::cleanup $token }
+    if {![string is integer -strict $code]} { set code 0 }
+    if {$code == 200 || $code == 404} {
+        catch { {*}$callback 1 $data "" }
+        return
+    }
+    if {$code == 0} {
+        set reason "the cloud eval reply did not arrive (no HTTP status)"
+    } else {
+        set reason "the cloud eval reply did not arrive (HTTP $code)"
+    }
+    catch { {*}$callback 0 $data $reason }
+    return
 }
 
 # ::lichess_eval::onCloudEvalData

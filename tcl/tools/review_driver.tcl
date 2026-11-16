@@ -59,6 +59,12 @@ proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud
     if {[::reviewdriver::busy $id]} {
         error "engine $id is already running a pass"
     }
+    # A new cloud-enabled pass starts asking again: the last pass's transport
+    # failure was that pass's answer, not the session's. A pass with the pre-pass
+    # off neither clears the flag nor sets it.
+    if {$cloud && [::reviewdriver::cloudModule]} {
+        ::reviewcloud::newPass
+    }
     incr seq
     set token "pass$seq"
     set job($token) [dict create \
@@ -381,7 +387,7 @@ proc ::reviewdriver::primaryDepth {lines} {
 # report can say which positions the cloud answered.
 #
 # A cloud evaluation is adopted on three conditions, in this order:
-#   * the search was stopped because the cloud already matched the depth bound;
+#   * the search was stopped because the cloud was deeper than the depth bound;
 #   * the local search produced nothing (the engine refused or went away);
 #   * the cloud is strictly deeper than the local primary line. A tie is local:
 #     the local engine is the one the user configured.
@@ -443,9 +449,11 @@ proc ::reviewdriver::settle {token index ply} {
 #
 # Two cases. The pass may be WAITING for it (a depth bound with no time cap): the
 # position is not searched at all unless the cloud is too shallow. Or a local
-# search is running beside it (a time cap) and the cloud already matches the
-# depth bound, in which case the search cannot reach past it and is stopped
-# rather than run out.
+# search is running beside it (a time cap) and the cloud is already deeper than
+# the depth bound, in which case the search cannot reach past it and is stopped
+# rather than run out. A reply merely AT the bound does not stop the search: the
+# search can still reach it, and a tie goes to the local engine, so the reply is
+# left for the comparison at completion.
 proc ::reviewdriver::cloudArrived {token handle entry} {
     variable job
     if {![info exists job($token)]} { return }
@@ -461,7 +469,7 @@ proc ::reviewdriver::cloudArrived {token handle entry} {
     if {$lines eq ""} { return }
     set D 0
     catch { set D [dict get [dict get $j limits] depth] }
-    if {![::reviewcloud::reaches $D [dict get $entry depth]]} { return }
+    if {![::reviewcloud::deeper $D [dict get $entry depth]]} { return }
     set index [dict get $j index]
     dict set job($token) cloudwins $index 1
     catch { ::engine::send [dict get $j id] StopGo }
@@ -536,6 +544,11 @@ proc ::reviewdriver::lost {token} {
     # evaluation if the cloud answered: a local failure falls back to it. The
     # local lines it had are not recorded - a half-finished search is not a
     # result, which is why a lost pass reports fewer positions than it planned.
+    #
+    # The sources are built here rather than in the job dict: the source of the
+    # position this fallback answers belongs in the status this proc publishes,
+    # and the job dict is discarded a few lines below.
+    set sources [dict get $j sources]
     set index [dict get $j index]
     if {$index >= 0 && [::reviewdriver::cloudModule]} {
         lassign [lindex [dict get $j positions] $index] ply spec
@@ -546,12 +559,12 @@ proc ::reviewdriver::lost {token} {
         }
         if {[llength $lines]} {
             dict set results $ply $lines
-            dict set job($token) sources $ply [dict create \
+            dict set sources $ply [dict create \
                 source cloud depth [::reviewcloud::depth $entry]]
         }
     }
     if {![dict size $state]} { set state [::reviewdriver::blankState] }
-    dict set state sources [dict get $j sources]
+    dict set state sources $sources
     unset job($token)
     set done [dict get $j ondone]
     if {$done ne ""} {
