@@ -2104,10 +2104,12 @@ proc ::board::update {w {board ""} {animate 0}} {
 
   # Cancel any current animation:
   after cancel "::board::_animate $w"
-  if {!$animate} {
-    # a redraw will not animate, so nothing is moving any more
-    set ::board::_animate($w,moving) 0
-  }
+  # Nothing is moving once the pending animation is cancelled. Clearing the flag
+  # only on a non-animating redraw left it set when a redraw was asked for with
+  # animate 1 but the board did not change: no new animation starts, so
+  # waitForAnimation's vwait waited for a flag nothing would ever clear.
+  # A new animation sets the flag again below.
+  set ::board::_animate($w,moving) 0
 
   # Remove all marks (incl. arrows) from the board:
   $w.bd delete mark
@@ -2720,7 +2722,8 @@ proc ::board::waitForAnimation {{delay 500} {w .main.board}} {
   if {[info exists ::board::_animate($w,moving)] && $::board::_animate($w,moving)} {
     vwait ::board::_animate($w,moving)
   }
-  catch { update }
+  # "update" inside ::board is ::board::update; the global one is ::update
+  catch { ::update }
   if {$delay > 0} { after $delay }
 }
 

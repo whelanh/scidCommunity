@@ -147,6 +147,19 @@ checkEq "the key holds placement, side, rights and ep" \
 checkEq "a FEN board's side token is not part of it" \
     [call {::comp::repetitionKey [list $START b] b - e3}] [list $START b - e3]
 
+# A FEN/EPD whose castling field is "-" grants nothing at all. It used to keep
+# initialPositionState's KQkq default (the "-" satisfies no [KQkq] pattern), so a
+# position that can only ever exist without a right was keyed as if it had all
+# four, and since rights only shrink a real repetition never matched.
+set noRightsFEN "4k3/8/8/8/8/8/8/4K2R w - - 0 1"
+checkEq "a FEN that grants no castling right says so" \
+    [call {::comp::initialPositionState $noRightsFEN}] {- -}
+checkEq "and its start key carries no phantom right" \
+    [call {::comp::startPositionKey $noRightsFEN}] \
+    [call {::comp::repetitionKey [::comp::FENtoBoard $noRightsFEN] w - -}]
+checkEq "a FEN that does grant a right still keeps it" \
+    [call {::comp::initialPositionState "4k3/8/8/8/8/8/8/4K2R w K - 0 1"}] {K -}
+
 # A rook out and home again returns the placement, but White's Q-side right is
 # gone for good: the second and third occurrences are not the first position.
 set castlingMoves {
@@ -161,18 +174,28 @@ checkEq "a repetition that differs in castling rights is not a draw" [call {repA
 checkEq "the real third occurrence is a draw" [call {repAt $p 14}] 1
 checkEq "the first occurrence is never a draw" [call {repAt $p 2}] 0
 
-# A double pawn push leaves an en-passant square; the same placement reached by
-# ordinary moves is a different position.
+# A double pawn push leaves an en-passant square only when an enemy pawn can
+# actually take there (FIDE 9.2). After 1.e4 no black pawn stands on d4 or f4,
+# so the position is the same as any other: ply 5 is its second occurrence and
+# ply 9 the third, which is the draw.
 set epMoves {
     e2e4 g8f6 g1f3 f6g8 f3g1
     g8f6 g1f3 f6g8 f3g1
     g8f6 g1f3 f6g8 f3g1
 }
 set q [call {replay $::epMoves}]
-# Base sees the placement three times at ply 9, though the first one still had
-# an en-passant capture available and the others did not.
-checkEq "a repetition that differs in en passant is not a draw" [call {repAt $q 9}] 0
-checkEq "the real third occurrence is a draw here too" [call {repAt $q 13}] 1
+checkEq "a double push nobody can answer is the same position" [call {repAt $q 9}] 1
+checkEq "its second occurrence is not a draw yet" [call {repAt $q 5}] 0
+checkEq "the fourth occurrence is a draw here too" [call {repAt $q 13}] 1
+
+# The distinction FIDE 9.2 does draw: an enemy pawn on the file beside the
+# landing square makes the en-passant capture available, so the position stays a
+# different one. Board indices start at a1, so d4 is 27 and c4/e4 are 26/28.
+set epBoard "...........P................p..................................."
+checkEq "a double push beside an enemy pawn records its ep square" \
+    [call {lindex [::comp::nextPositionState {KQkq -} $epBoard d2d4] 1}] d3
+checkEq "a double push with no enemy pawn beside it records none" \
+    [call {lindex [::comp::nextPositionState {KQkq -} $START e2e4] 1}] -
 
 puts "\ntime per move"
 set ::comp::_Data(timecontrol) permove
@@ -240,8 +263,8 @@ proc playMove {game move} {
 
 checkEq "a played move is accepted" [call {playMove 4 e2e4}] 1
 checkEq "it lands in the move list" [call {set ::comp::_Data(moves,4)}] e2e4
-checkEq "and the double push records e3 as the ep square" \
-    [call {set ::comp::_Data(epsq,4)}] e3
+checkEq "and a double push nobody can answer records no ep square" \
+    [call {set ::comp::_Data(epsq,4)}] -
 checkEq "castling rights survive an ordinary pawn move" \
     [call {set ::comp::_Data(crights,4)}] KQkq
 

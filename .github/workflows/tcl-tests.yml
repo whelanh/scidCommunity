@@ -310,6 +310,12 @@ jobs:
       - name: Moves search window
         run: xvfb-run -a wish tests/tcl/search_moves_tk.tcl
 
+      # The two redraw promises the game-over dialogs rely on: waitForAnimation
+      # must force Tk's own update (not ::board::update), and a cancelled
+      # animation must not leave the moving flag set.
+      - name: Board animation and redraw
+        run: xvfb-run -a wish tests/tcl/board_animation_tk.tcl
+
   startup-smoke:
     name: startup with a clean profile
     runs-on: ubuntu-latest
@@ -365,6 +371,11 @@ jobs:
       # arrives, rather than adding a second copy.
       - name: Import updates an online game by Link
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/import_nodup_link.tcl
+
+      # Book Tuning's Remove Move + Save: the move must be gone from the book
+      # after a save and a re-read, not rewritten at full weight.
+      - name: Remove Move deletes the move
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/book_remove_play.tcl
 
       # The binary's own repetition counter driving each presentation: the
       # count that ends a finished game must be the count the notice uses.

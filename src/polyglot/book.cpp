@@ -9,6 +9,12 @@
 #include <cstring>
 #include <filesystem>
 
+#ifdef _WIN32
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include "board.h"
 #include "book.h"
 #include "list.h"
@@ -33,6 +39,19 @@ static FILE* fopen_utf8(const char* filename, const char* mode) {
 	return _wfopen(path.c_str(), wmode);
 #else
 	return fopen(filename, mode);
+#endif
+}
+
+// A rewrite can shrink the book: a move the user removed is left out of the
+// arrays, so the copy-back writes fewer entries than the file holds, and a
+// stream left longer than that keeps the old tail on disk -- re-opening the
+// book then reads the removed entry again. Cut the file to the entry count.
+static bool truncate_entries(FILE* f, int entries) {
+  const long size = static_cast<long>(entries) * 16; // one entry is 16 bytes
+#ifdef _WIN32
+  return _chsize_s(_fileno(f), size) == 0;
+#else
+  return ftruncate(fileno(f), size) == 0;
 #endif
 }
 
@@ -257,6 +276,13 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 		write_entry_file(BookFile[BookNumber], entry);
 	}
 	fclose(f);
+	// The stream is longer than the surviving entries whenever this update
+	// dropped one, so flush what was written and cut the tail off; otherwise
+	// the next open reads the removed entry from the old bytes.
+	if (fflush(BookFile[BookNumber]) != 0 ||
+	    !truncate_entries(BookFile[BookNumber], write_count)) {
+		return -1; // fail
+	}
 	BookSize[BookNumber] = write_count;
 	book_flush(BookNumber); // commit changes to disk
 	return 0;               // success

@@ -791,7 +791,8 @@ namespace eval book {
     menu $w.fbutton.mbAdd.otherMoves
 
     # A move already in the book is taken out of the position from here: its
-    # probability becomes -1, which is the book format's "forget this move".
+    # row is hidden and its probability set to -1, and save() leaves a -1 row
+    # out of what it sends, which is how the book forgets the move.
     ttk::menubutton $w.fbutton.mbRemove -text $::tr(RemoveMove) -menu $w.fbutton.mbRemove.otherMoves
     menu $w.fbutton.mbRemove.otherMoves
 
@@ -872,8 +873,9 @@ namespace eval book {
     if { $::book::isReadonly > 0 } { return }
 
     set w .bookTuningWin
-    # -1 is the book format's "forget this move" (save() sends the spinbox
-    # values); the row stays so the move can be added back
+    # -1 marks a row as removed; save() leaves it out of the lists it sends,
+    # which is what makes the book forget the move. The row stays (hidden) so
+    # the move can be added back
     grid remove $w.f.m$row
     grid remove $w.f.sp$row
     $w.f.sp$row set -1
@@ -934,15 +936,24 @@ namespace eval book {
     global ::book::bookTuningMoves
     if { $::book::isReadonly > 0 } { return }
 
+    # A removed row (probability -1) must not travel to the writer. The book
+    # deletes a move by *omitting* it from both lists -- scid_book_movesupdate
+    # rebuilds that key's entries from the arrays -- while a negative
+    # probability becomes an unsigned entry count and puts the move back at
+    # ~full weight. The rows stay in the window so ::book::addBookMove can
+    # restore one before the next save.
+    set moves {}
     set prob {}
     set w .bookTuningWin
-    set children [winfo children $w.f]
-    set count [expr [llength $children] / 2]
+    set count [llength $::book::bookTuningMoves]
     for {set row 0} {$row < $count} {incr row} {
-      lappend prob [$w.f.sp$row get]
+      set p [$w.f.sp$row get]
+      if { [string is integer -strict $p] && $p < 0 } { continue }
+      lappend moves [lindex $::book::bookTuningMoves $row]
+      lappend prob $p
     }
     set tempfile [file join $::scidUserDir tempfile.[pid]]
-    sc_book movesupdate $::book::bookTuningMoves $prob $::book::bookTuningSlot $tempfile
+    sc_book movesupdate $moves $prob $::book::bookTuningSlot $tempfile
     file delete $tempfile
     if {  [ winfo exists .bookWin ] } {
       ::book::refresh

@@ -1438,7 +1438,15 @@ proc ::comp::initialPositionState { fen } {
         set tok [split $fen]
         if { [llength $tok] >= 4 } {
             set r [lindex $tok 2]
-            if { [regexp {^[KQkq]*$} $r] } { set rights $r }
+            # "-" is a FEN that grants no castling right at all; without this
+            # arm it fails the pattern below and a FEN/EPD start keeps the
+            # phantom KQkq, so two positions that differ only in a right
+            # nobody has get different keys and a real repetition is missed.
+            if { $r eq "-" } {
+                set rights "-"
+            } elseif { [regexp {^[KQkq]+$} $r] } {
+                set rights $r
+            }
             if { [regexp {^[a-h][1-8]$} [lindex $tok 3]] } { set epsq [lindex $tok 3] }
         }
     }
@@ -1507,9 +1515,24 @@ proc ::comp::nextPositionState { state board move } {
         63 { set rights [string map {k ""} $rights] }
     }
     if { $rights eq "" } { set rights "-" }
-    # a double pawn push leaves the square it crossed as the en-passant target
+    # A double pawn push leaves the square it crossed as the en-passant target
+    # only when a capture there is actually available: an enemy pawn on an
+    # adjacent file, on the rank the pushing pawn landed on. FIDE 9.2 keys a
+    # position on the *possible* en-passant capture, so after 1.e4 with no black
+    # pawn on d4/f4 the position is the same as any other and a repeat there
+    # must be recognised, not differ by a phantom square.
     if { ($piece eq "P" || $piece eq "p") && abs($to - $from) == 16 } {
-        set epsq [::board::san [expr {($to + $from) / 2}]]
+        set enemy [expr {$piece eq "P" ? "p" : "P"}]
+        set file [expr {$to % 8}]
+        set neighbours {}
+        if { $file > 0 } { lappend neighbours [expr {$to - 1}] }
+        if { $file < 7 } { lappend neighbours [expr {$to + 1}] }
+        foreach sq $neighbours {
+            if { [string index $board $sq] eq $enemy } {
+                set epsq [::board::san [expr {($to + $from) / 2}]]
+                break
+            }
+        }
     }
     return [list $rights $epsq]
 }
