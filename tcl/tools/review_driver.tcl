@@ -47,7 +47,12 @@ proc ::reviewdriver::reservedId {id} {
     return [expr {[string equal $id $::reviewdriver::ENGINE_ID]}]
 }
 
-proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 1} {variant standard}} {
+# Start one pass. `cloud` is the cloud pre-pass switch, and it defaults to OFF:
+# a caller that has not read the setting asks Lichess nothing, so a new caller
+# cannot fall into the cloud by omission. ::reviewdriver::run passes the
+# setting's own value; the verifier passes 0 on purpose (a stored evaluation is
+# not a second opinion - ::reviewverify::begin says why).
+proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 0} {variant standard}} {
     variable job
     variable seq
     set id $::reviewdriver::ENGINE_ID

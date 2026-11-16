@@ -419,9 +419,13 @@ them share one entry. A FEN Lichess holds nothing for is cached too, so a repeat
 position is not asked twice.
 
 Cloud failure, no network, a malformed reply or too few lines all fall back to the
-local search; a transport failure stops the pass asking for the rest of the
-session rather than paying the same wait at every position. A local failure — the
-engine going away — falls back to a cloud evaluation if one is held.
+local search. A **transport failure** — no reply at all: a refused connection, an
+unresolvable host, a timeout (curl's status `000`) — stops the pass asking for the
+rest of the session rather than paying the same wait at every position; it is not
+cached as "nothing stored", because a position Lichess holds nothing for (a 404
+answering with an error body) *is* remembered and only that one is. A local
+failure — the engine going away — falls back to a cloud evaluation if one is
+held.
 
 The chosen **source and depth** are recorded per position in the run's status
 (`::reviewdriver::status` → `sources`, ply → `{source cloud|local depth N}`), so a
@@ -435,8 +439,10 @@ gets it too.
 
 **The verifier never re-uses a cloud value.** A pre-pass evaluation that beat the
 configured depth was already adopted where it belonged; the verifier's whole
-purpose is an independent second opinion, which a reused value is not. It searches
-its own positions on its own engine and only ever moves a label down.
+purpose is an independent second opinion, which a reused value is not. Its pass
+therefore starts with the pre-pass off (`::reviewverify::begin` passes `cloud 0`
+to `::reviewdriver::start`), searches its own positions on its own engine, and
+only ever moves a label down.
 
 The **Cloud pre-pass** row in Review Settings turns all of this off (`cloud_eval`,
 on by default): with it off the pass asks Lichess nothing at all and searches every
@@ -826,7 +832,7 @@ plain-text form.
 | `tests/tcl/review_marks.tcl` | 54 checks: the two marks the review writer asks for - the T flag, the difficulty ladder and the "****D" comment on a puzzle's move, the Annotator tag's opening entry at the ply the book ended, the window Review Settings asks for, a quote escaping the tag, a re-run replacing rather than stacking, and a pass that never left the book writing nothing |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
 | `tests/tcl/review_driver.tcl` | 496 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
-| `tests/tcl/review_cloud.tcl` | 94 checks: the comparison table (depth-only, the tie, `D > C > L`), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, the cancel when the cloud matches the depth bound, a reply that never lands, a transport failure that stops the pass asking, the FEN-keyed cache across move counters, and the toggle and the variant both leaving the pass local |
+| `tests/tcl/review_cloud.tcl` | 109 checks: the comparison table (depth-only, the tie, `D > C > L`), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, the cancel when the cloud matches the depth bound, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces), a 404 for a position Lichess holds nothing for being remembered, the FEN-keyed cache across move counters, the toggle and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/review_report.tcl` | 123 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — the performance rating line (one per side, the table's own bins, no `estimated Elo` beside it, no band, no expected-score figure, a block that cannot see a rating in the PGN: neither rating, one, both) — and the block removal, two writes deep |
@@ -878,9 +884,13 @@ that a request returns before its reply lands:
 - **the pass** — a depth-only position the cloud covers sends no `go` at all, a
   capped one searches beside the query and keeps whichever is deeper, a cloud at
   the depth bound stops the search, a reply that never lands does not extend the
-  run, a transport failure falls back to the search and stops asking, the same
-  position in a second set of counters hits the cache, and the toggle and a
-  non-standard variant both leave the pass entirely local.
+  run, a transport failure (the empty body a real outage produces, as well as an
+  explicit `ok 0`) falls back to the search and stops asking while a 404 for the
+  position is remembered instead, the same position in a second set of counters
+  hits the cache, and the toggle and a non-standard variant both leave the pass
+  entirely local;
+- **the verifier** — its pass through `::reviewverify::begin` sends the search and
+  asks the cloud nothing, so a stored evaluation can never be the second opinion.
 
 `tclsh tests/tcl/review_threat.tcl` pins the probe, which is the one part of the
 review layer that answers a question about a single position:

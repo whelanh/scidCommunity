@@ -343,6 +343,12 @@ proc ::reviewcloud::arrived {handle ok data {err ""}} {
     if {![info exists pending($handle)]} { return }
     set req $pending($handle)
     unset pending($handle)
+    # An `ok` carrying an empty body is not an answer: a real reply is a 200 (an
+    # evaluation) or a 404 (an error body saying Lichess holds nothing for the
+    # FEN), and ::lichess_eval hands both over with their body. An empty one is
+    # the transport failing, and it must not be cached as "nothing stored" -
+    # that would make an offline pass re-ask for every position.
+    if {$ok && [string trim $data] eq ""} { set ok 0 }
     set entry ""
     if {$ok} {
         set entry [::reviewcloud::parse $data [dict get $req fen]]

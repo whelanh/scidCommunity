@@ -42,6 +42,7 @@ source [file join $root tcl tools engine_limits.tcl]
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_cloud.tcl]
 source [file join $root tcl tools review_driver.tcl]
+source [file join $root tcl tools review_verify.tcl]
 
 # ------------------------------------------------------------------ stubs --
 # The engine layer, as tests/tcl/review_driver.tcl stubs it: what the driver
@@ -394,6 +395,23 @@ checkEq "the cloud is not asked again this session" \
 ::reviewcloud::reset
 checkEq "a reset makes it usable again" [::reviewcloud::enabled] 1
 
+# The shape the real transport produces on an outage before the status check:
+# ok 1 with an empty body. It is not "Lichess holds nothing for this FEN", and
+# mistaking it for one is what made an offline pass re-ask at every position.
+::reviewcloud::reset
+checkEq "a two-position pass starts" \
+    [newPass [list [list 0 $::START] [list 1 $::BLACK]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "" 1
+checkEq "an empty reply is a failure to answer, not an empty answer" [sentCount Go] 1
+checkEq "and it stops the pass asking" [::reviewcloud::enabled] 0
+localLines 18
+feed InfoBestMove {}
+checkEq "the next position is not asked about" [llength $::cloudRequests] 1
+checkEq "it is searched instead" [sentCount Go] 2
+localLines 18
+feed InfoBestMove {}
+checkEq "and the pass finishes" $::doneCalls 1
+
 puts "\nthe cache is the position, not the move counters"
 
 ::reviewcloud::reset
@@ -411,6 +429,26 @@ checkEq "both positions carry a cloud evaluation" \
     {cloud cloud}
 checkEq "Black's score is the mover's" \
     [lindex [dict get [dict get $::results 0] 1] 1] -20
+
+# The other answer Lichess gives: a 404 body saying it holds nothing for the FEN.
+# That one IS remembered - it is a fact about the position, not a failed request
+# - so the same position is not asked about twice.
+::reviewcloud::reset
+checkEq "a two-position pass starts" \
+    [newPass [list [list 0 $::BLACK] [list 1 $::BLACK2]] 3 {depth 20 movetime {}}] ""
+cloudAnswer "{\"error\":\"No cloud evaluation available for the given position\"}"
+checkEq "a position Lichess holds nothing for is searched" [sentCount Go] 1
+checkEq "and the pass is still asking" [::reviewcloud::enabled] 1
+localLines 18
+feed InfoBestMove {}
+checkEq "the same position is not asked about again" [llength $::cloudRequests] 1
+localLines 18
+feed InfoBestMove {}
+checkEq "and that position is searched too" $::doneCalls 1
+checkEq "neither position came from the cloud" \
+    [list [dict get [dict get [::reviewdriver::status] sources] 0 source] \
+          [dict get [dict get [::reviewdriver::status] sources] 1 source]] \
+    {local local}
 
 puts "\nthe toggle"
 
@@ -438,6 +476,26 @@ checkEq "a chess960 pass starts" \
     [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}} 1 chess960] ""
 checkEq "and asks the cloud nothing" [llength $::cloudRequests] 0
 checkEq "with the search sent instead" [sentCount Go] 1
+localLines 18
+feed InfoBestMove {}
+
+puts "\nthe verifier never re-uses a cloud value"
+
+# The verifier's pass starts from ::reviewverify::begin, which asks the driver
+# for a pass of its own. That pass must have the pre-pass off: the cache is
+# process-wide, so a verifier that asked would be handed the very evaluation the
+# pass just adopted, and the label it exists to withdraw could never move. The
+# request is the assertion - the cloud module and its stub are loaded here, so a
+# pass that asked would show up in this count.
+::reviewcloud::reset
+set ::sent {}
+checkEq "the verifier starts" \
+    [expr {[::reviewverify::begin $::enginecfg \
+        [list [list 2 1 $::START e2e4 brilliant]] 3 {depth 20 movetime {}} \
+        ::verifierAnswered] ne ""}] 1
+feed InfoConfig {}
+checkEq "it asks the cloud nothing" [llength $::cloudRequests] 0
+checkEq "and searches the position on its own engine" [sentCount Go] 1
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

@@ -136,8 +136,16 @@ proc ::lichess_eval::queryCloudEval {fen variant} {
 #   Queries the cloud eval API without waiting for the answer, for callers that
 #   have something else to do while it runs (the review pass searches beside it).
 #   Calls `callback` as {*}$callback <ok> <data> <err> from the event loop:
-#   ok 1 with the reply body, or ok 0 with the reason. Never blocks the Tk event
-#   loop and never calls back before it returns.
+#   ok 1 with the reply body, or ok 0 with the reason.
+#
+#   `ok 0` is a transport failure, and it is decided by whether a reply actually
+#   arrived: curl's --write-out appends the HTTP status, and a status other than
+#   200 (an answer) or 404 (Lichess holds nothing for this FEN) means no answer -
+#   a refused connection, an unresolvable host and a timeout all leave an empty
+#   body and status 000. The two must not be confused: "nothing stored" is
+#   cacheable, "the network is down" is not.
+#
+#   Never blocks the Tk event loop and never calls back before it returns.
 #
 #   Unlike queryCloudEvalAsync this is not tied to the eval window and keeps its
 #   own buffer, so the window and a pass can be in flight at the same time.
@@ -151,7 +159,8 @@ proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
     set url "$::lichess_eval::apiUrl?fen=$urlFen&multiPv=$mpv&variant=$variant"
 
     if {[catch {
-        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} $url] r]
+        set fd [open [list | curl -s --max-time 10 -H {Accept: */*} \
+            -w {|HTTP%{http_code}} $url] r]
     } err]} {
         # Not a synchronous retry: the caller asked for an answer it does not
         # wait for, and blocking here is the one thing this proc must not do.
@@ -189,6 +198,25 @@ proc ::lichess_eval::onCloudEvalData {fd} {
     unset asyncReq($fd)
     unset asyncBuf($fd)
     catch { close $fd }
+    # curl's --write-out is the last thing it writes: the HTTP status of the
+    # reply, or 000 when there was no reply. Take it off the body before anyone
+    # sees the body, and report anything that is not an answer as the transport
+    # failure it is - an empty body is not "Lichess holds nothing for this FEN".
+    set code ""
+    set marker [string last {|HTTP} $data]
+    if {$marker >= 0} {
+        set code [string trim [string range $data [expr {$marker + 5}] end]]
+        set data [string range $data 0 [expr {$marker - 1}]]
+    }
+    if {$code ne "200" && $code ne "404"} {
+        if {$code eq ""} {
+            set reason "the cloud eval reply did not arrive (no HTTP status)"
+        } else {
+            set reason "the cloud eval reply did not arrive (HTTP $code)"
+        }
+        catch { {*}$callback 0 $data $reason }
+        return
+    }
     catch { {*}$callback 1 $data "" }
     return
 }
