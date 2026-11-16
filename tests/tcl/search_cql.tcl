@@ -156,8 +156,64 @@ puts "\n== an empty specification is the engine's error too ==\n"
 checkEq "cql() alone does not search" [run "cql()"] $before
 checkEq "and it is reported" [llength $::dialogs] 1
 
-puts "\n== the window is still usable after a bad query ==\n"
+puts "\n== a good query after a bad one ==\n"
 checkEq "a good query after a bad one" [run "cql(:gamenumber 1 2) K"] 2
+
+# ---------------------------------------------------------------------------
+# The three query shapes the port has to answer, on a fixture that can tell
+# them apart. The moves fixture has no variation and no material change: the
+# fixture below is 1.e4 e5 2.Nf3 (2.Qh5 Nc6) 2...Nc6 3.Bb5, so Qh5 exists only
+# inside the variation and Bb5 only on the mainline. Every count here was
+# measured through this same window before it was written down.
+# ---------------------------------------------------------------------------
+puts "\n== a second fixture: a variation and a material difference ==\n"
+destroy $w
+set id [sc_base create MEMORY search_cql_fixture]
+sc_base import $id [file join [file dirname [info script]] search_cql.pgn]
+sc_base switch $id
+::search::cql
+set w .wnd_SearchCQL
+checkEq "the fixture holds three games" [sc_base numGames $id] 3
+
+puts "\n== a board pattern ==\n"
+checkEq "a piece on a square: Bb5" [run "cql() Bb5"] 1
+checkEq "a piece that is only in the variation is not in the mainline" \
+    [run "cql() Qh5"] 0
+
+puts "\n== a material query ==\n"
+checkEq "every game has pawns on the board" [run "cql() countsquares 1 8 \[P\]"] 3
+checkEq "no game reaches a pawnless position" \
+    [run "cql() countsquares 0 0 \[P\]"] 0
+
+puts "\n== a query that matches inside a variation ==\n"
+checkEq ":variations searches the side line" [run "cql(:variations) Qh5"] 1
+
+puts "\n== board, comments, header and material still dispatch ==\n"
+# The CQL slice appended one entry to sc_search's option list. If the enum had
+# moved, one of the four older searches would stop routing, so check the list
+# the dispatcher itself prints and then drive two of them for real.
+set err [catch {sc_search bogus} msg]
+checkEq "an unknown subcommand is refused" $err 1
+foreach opt {board comments header material cql} {
+    check "the option list still names $opt" \
+        [expr {[string first $opt $msg] >= 0}] $msg
+}
+checkEq "comments still takes a text and a filter" \
+    [catch {sc_search comments zzzz dbfilter}] 0
+check "comments still reports its usage" \
+    [expr {[catch {sc_search comments} m] == 1 \
+        && [string first "Usage: sc_search comments" $m] == 0}] $m
+# A fresh base, so the board search starts from a filter nothing else touched.
+set idd [sc_base create MEMORY search_cql_dispatch]
+sc_base import $idd [file join [file dirname [info script]] search_moves.pgn]
+sc_base switch $idd
+sc_game load 1
+checkEq "board still searches the current position" \
+    [catch {sc_search board reset E false false}] 0
+checkEq "and fills the filter with the matching games" \
+    [sc_filter count $idd dbfilter] 5
+check "material still routes" \
+    [expr {[catch {sc_search material} m] == 0 && [string first " / " $m] >= 0}] $m
 
 destroy $w
 
