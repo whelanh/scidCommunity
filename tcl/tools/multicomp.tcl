@@ -896,6 +896,33 @@ proc compNM {game n m k} {
     set _Data(name,$game)(nameB) $m
     set _Data(round,$game) $k
     set _Data(mate,$game) 0
+    # The line the journal was built from can itself have repeated a position
+    # three times -- a book line is a whole game when it ends in threefold. It
+    # is adjudicated here, before an engine is started or a move is scheduled,
+    # with the wording the in-game path uses, and saved and ended the way a
+    # finished game is: otherwise the tournament plays on from a drawn position.
+    set _Data(playing,$game) 0
+    if { [::comp::threefoldPosition $_Data(repetition,$game)] ne "" } {
+        set _Data(result,$game) "="
+        # The note belongs to the line's last move, as the in-game path's does:
+        # if the line already carries a comment per move it is extended, and a
+        # line that does not is padded so the note lands on the last one.
+        set want [llength $_Data(moves,$game)]
+        if { [llength $_Data(comments,$game)] >= $want } {
+            set last [lindex $_Data(comments,$game) end]
+            if { $last ne "" } { append last " - " }
+            append last "3-fold repetion"
+            lset _Data(comments,$game) end $last
+        } else {
+            while { [llength $_Data(comments,$game)] < $want - 1 } {
+                lappend _Data(comments,$game) ""
+            }
+            lappend _Data(comments,$game) "3-fold repetion"
+        }
+        ::comp::compSaveGame $game
+        after 1000 "::comp::compOkEnd $game"
+        return
+    }
     if { ! [::engineNoWin::initEngine compEnginewhite$game $n \
                 [list ::comp::eng_messages compEnginewhite$game nop]] ||
          ! [::engineNoWin::initEngine compEngineblack$game $m \
@@ -1420,6 +1447,23 @@ proc ::comp::checkRepetition { journal board } {
 }
 
 ################################################################################
+# the position a journal already holds three times, or "" when it holds none
+################################################################################
+# A book line can be a whole game by itself, and the journal bookLineJournal
+# seeds already holds every position the line passes through. A line such as
+# g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 is three occurrences of the start
+# position at its end, which FIDE 9.2 draws; the game has to be adjudicated
+# before an engine is started, not played on from a drawn position.
+proc ::comp::threefoldPosition { journal } {
+    foreach key $journal {
+        if { [llength [lsearch -all -exact $journal $key]] >= 3 } {
+            return $key
+        }
+    }
+    return ""
+}
+
+################################################################################
 # Castling rights and en-passant square
 #
 # FIDE 9.2: two positions are the same only when the pieces, the side to move,
@@ -1427,6 +1471,25 @@ proc ::comp::checkRepetition { journal board } {
 # repetition on the placement and the side alone ends a game as a draw while one
 # side still has castling rights the other occurrence did not have.
 ################################################################################
+
+# Whether an en-passant capture is legal is asked of the position model in
+# tcl/utils/chessboard.tcl, which start.tcl loads before this file. Load it when
+# it is not there -- the tournament tool can be sourced on its own -- rather than
+# duplicating attack detection here.
+if { [llength [info commands ::chessboard::inCheck]] == 0 } {
+    set _boards {}
+    if { [info exists ::scidTclDir] } {
+        lappend _boards [file join $::scidTclDir utils chessboard.tcl]
+    }
+    lappend _boards [file join [file dirname [info script]] .. utils chessboard.tcl]
+    foreach _f $_boards {
+        if { [file exists $_f] } {
+            catch { source -encoding utf-8 $_f }
+            break
+        }
+    }
+    unset _boards _f
+}
 
 # ::comp::repetitionKey -- the string that identifies one position.
 # A board read from a FEN carries its side to move as a second token; only the
@@ -1439,8 +1502,11 @@ proc ::comp::repetitionKey { board side rights epsq } {
 # FIDE 9.2 keys a position on the en-passant capture that is *available*, so an
 # ep target nobody can take is not part of the position. The pawn that pushed
 # stands on the square behind $epsq; the capture is real only when a pawn of
-# $side stands on an adjacent file, on that rank. Both the FEN/EPD start and
-# the post-move path ask this one proc, so the two cannot drift apart again.
+# $side stands on an adjacent file, on that rank, and is *allowed* to play it:
+# a pinned pawn's en-passant capture is no capture at all, and keying the target
+# on it makes the position differ from an identical placement whose pawn is not
+# pinned, so a real repetition is never seen. Both the FEN/EPD start and the
+# post-move path ask this one proc, so the two cannot drift apart again.
 proc ::comp::epCaptureAvailable { placement side epsq } {
     if { ![regexp {^[a-h][1-8]$} $epsq] } { return 0 }
     if { $side ni {w b} } { return 0 }
@@ -1449,12 +1515,41 @@ proc ::comp::epCaptureAvailable { placement side epsq } {
     if { $landing < 0 || $landing > 63 } { return 0 }
     set pawn [expr { $side eq "w" ? "P" : "p" }]
     set file [expr { $e % 8 }]
+    # The pawn the capture takes stands on the square the pushed pawn crossed,
+    # which is $landing: the capturer's rank and the ep file meet there.
+    set captured $landing
     foreach neighbour [list [expr {$landing - 1}] [expr {$landing + 1}]] {
         if { $neighbour < 0 || $neighbour > 63 } continue
         if { abs(($neighbour % 8) - $file) != 1 } continue
-        if { [string index $placement $neighbour] eq $pawn } { return 1 }
+        if { [string index $placement $neighbour] ne $pawn } continue
+        if { [::comp::epCaptureLegal $placement $side $neighbour $e $captured] } {
+            return 1
+        }
     }
     return 0
+}
+
+# ::comp::epCaptureLegal -- is the en-passant capture from $from to $to legal?
+# The capture is played on a copy of the placement -- the capturing pawn leaves
+# $from, the pawn it takes leaves $crossed, the capturer lands on $to -- and the
+# mover's own king is then asked whether it is attacked. ::chessboard is the
+# tree's own position model (the comment facts and the finish-game verdict use
+# it already), so the attack detection is not a second copy of its own; only
+# one board is tested, so the cost is a single attack scan on the few positions
+# that have a pawn push beside an enemy pawn.
+proc ::comp::epCaptureLegal { placement side from to crossed } {
+    # Without the position model the placement-only answer is still better than
+    # ending the game with an error; the loaders above make this unreachable in
+    # the app and in the test runner.
+    if { [llength [info commands ::chessboard::inCheck]] == 0 } { return 1 }
+    # a placement writes an empty square as ".", the position model as ""
+    set board [lmap sq [split $placement ""] { expr { $sq eq "." ? "" : $sq } }]
+    lset board $from ""
+    lset board $crossed ""
+    lset board $to [expr { $side eq "w" ? "P" : "p" }]
+    set pos [dict create board $board side [expr { $side eq "w" ? "b" : "w" }] \
+                 castle "" ep -1 half 0 full 1]
+    return [expr { ![::chessboard::inCheck $pos $side] }]
 }
 
 # ::comp::initialPositionState -- castling rights and en-passant square of a FEN.
@@ -1557,12 +1652,16 @@ proc ::comp::nextPositionState { state board move } {
     # rule initialPositionState uses too). FIDE 9.2 keys a position on the
     # *possible* en-passant capture, so after 1.e4 with no black pawn on d4/f4
     # the position is the same as any other and a repeat there must be
-    # recognised, not differ by a phantom square. The neighbouring squares are
-    # untouched by the push, so the board before the move answers for both.
+    # recognised, not differ by a phantom square. The capture is judged on the
+    # position the push leaves -- the pawn on its landing square, the square it
+    # left empty -- because a pinned pawn's capture is illegal there and the
+    # pre-move board cannot see the piece the push moved.
     if { ($piece eq "P" || $piece eq "p") && abs($to - $from) == 16 } {
         set capturer [expr {$piece eq "P" ? "b" : "w"}]
         set target [::board::san [expr {($to + $from) / 2}]]
-        if { [::comp::epCaptureAvailable [lindex $board 0] $capturer $target] } {
+        set after [string replace [lindex $board 0] $to $to $piece]
+        set after [string replace $after $from $from "."]
+        if { [::comp::epCaptureAvailable $after $capturer $target] } {
             set epsq $target
         }
     }

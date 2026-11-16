@@ -217,6 +217,37 @@ set pushBoard [call {::comp::FENtoBoard "4k3/8/8/8/3p4/8/4P3/4K3 w - - 0 1"}]
 checkEq "and the post-move path agrees with it" \
     [call {lindex [::comp::nextPositionState {- -} $pushBoard e2e4] 1}] e3
 
+# An ep capture that is illegal is no capture, so the square is not part of the
+# position (FIDE 9.2 keys on the *possible* capture, and a pinned pawn cannot
+# play one). Black Kd8, pawn d4, White Re1... the rook stands on d1: dxe3 takes
+# the d4 pawn off the d-file and exposes its own king, so e3 must not enter the
+# key -- it did, and the identical placement reached later never matched.
+set pinnedEP [call {::comp::FENtoBoard "3k4/8/8/8/3p4/8/4P3/3RK3 w - - 0 1"}]
+set freeEP   [call {::comp::FENtoBoard "3k4/8/8/8/3p4/8/4P3/4K3 w - - 0 1"}]
+lassign [call {::comp::nextPositionState {- -} $pinnedEP e2e4}] pr pe
+lassign [call {::comp::nextPositionState {- -} $freeEP e2e4}] fr fe
+checkEq "a pinned pawn's ep capture leaves no square" $pe -
+checkEq "the same push with the pawn free keeps it" $fe e3
+set pinnedKey [call {::comp::repetitionKey \
+    [call {lindex [::comp::compUpdateboard $pinnedEP e2e4] 1}] b $pr $pe}]
+set freeKey [call {::comp::repetitionKey \
+    [call {lindex [::comp::compUpdateboard $freeEP e2e4] 1}] b $fr $fe}]
+check "the pinned position's key carries no e3" [expr {[lsearch -exact $pinnedKey e3] < 0}]
+check "the legal one's key does" [expr {[lsearch -exact $freeKey e3] >= 0}]
+checkEq "and the FEN/EPD path drops the pinned square too" \
+    [call {::comp::initialPositionState "3k4/8/8/8/3pP3/8/8/3RK3 b - e3 0 1"}] {- -}
+checkEq "while it keeps the one that can be taken" \
+    [call {::comp::initialPositionState "3k4/8/8/8/3pP3/8/8/4K3 b - e3 0 1"}] {- e3}
+# The same rule on the other colour: White Kd1, pawn d5, Black Re8... the rook
+# stands on d8 here, so dxe6 e.p. exposes its own king and e6 stays out of the
+# key, while the push without the pin keeps it.
+set whitePinned [call {::comp::FENtoBoard "3r4/4p3/8/3P4/8/8/8/3K4 w - - 0 1"}]
+set whiteFree   [call {::comp::FENtoBoard "8/4p3/8/3P4/8/8/8/3K4 w - - 0 1"}]
+checkEq "a pinned White pawn's ep capture leaves no square" \
+    [call {lindex [::comp::nextPositionState {- -} $whitePinned e7e5] 1}] -
+checkEq "and the unpinned one keeps e6" \
+    [call {lindex [::comp::nextPositionState {- -} $whiteFree e7e5] 1}] e6
+
 puts "\nthe book line's positions"
 # A .opn/.bin line arrives already played into _Data(board,$game) while
 # _Data(fen,$game) is still startpos, so the journal used to open with the start
@@ -243,6 +274,76 @@ checkEq "the line's last position hands the game its real rights" \
 checkEq "and the journal ends on that position" \
     [call {lindex $rookJournal end}] \
     [call {::comp::repetitionKey [call {::comp::FENtoBoard "rnbqkbnr/1ppppppp/p7/8/8/P7/RPPPPPPP/1NBQKBNR b Kqkq - 0 3"}] b Kkq -}]
+
+puts "\nthe book line that is already a repetition"
+# compNM seeded the journal with the line's positions and then went straight to
+# initEngine + compNextMove: nothing asked whether the journal it had just built
+# already held three occurrences, so a line that repeats a position three times
+# was played on with a result FIDE 9.2 would have drawn. It is adjudicated at
+# setup now -- result, comment, no engine, no move scheduled.
+set threefoldLine {g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8}
+checkEq "the journal names the position it holds three times" \
+    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos $threefoldLine] 0]}] \
+    [call {::comp::startPositionKey startpos}]
+checkEq "a line that never repeats names none" \
+    [call {::comp::threefoldPosition [lindex [::comp::bookLineJournal startpos {e2e4 e7e5}] 0]}] ""
+
+# compNM's setup path: `update` is a Tk command here, the engines and the save
+# are the tournament's I/O, so both are stubbed. Nothing else in the run calls
+# compNM, so the stubs stay for the rest of the file.
+proc update {} {}
+namespace eval ::engineNoWin {}
+set ::engineInits {}
+proc ::engineNoWin::initEngine {id engine args} {
+    lappend ::engineInits [list $id $engine]
+    return 1
+}
+proc ::engineNoWin::closeEngine {id} {}
+set ::gamesSaved {}
+proc ::comp::compSaveGame {game} { lappend ::gamesSaved $game }
+
+proc pendingScripts {} {
+    set out {}
+    foreach id [after info] { lappend out [lindex [after info $id] 0] }
+    return $out
+}
+
+proc tournamentSetup {game moves} {
+    set ::comp::_Data(timecontrol) pergame
+    set ::comp::_Data(base) 60
+    set ::comp::_Data(incr) 0
+    # the .bin reader is the app's opening book; the line it hands back is what
+    # the setup under test sees, and makeBookLine (real) plays it into the board.
+    set ::comp::_Data(usebook) 1
+    set ::comp::_Data(bookTyp) bin
+    set ::comp::_Data(fen,$game) startpos
+    set ::comp::_Data(moves,$game) $moves
+    set ::comp::_Data(comments,$game) {}
+    set ::comp::_Data(runninggames) 1
+}
+proc ::comp::readBookLine {game} { return $::bookLineUnderTest }
+
+set ::engineInits {}
+set ::bookLineUnderTest $threefoldLine
+tournamentSetup 7 {}
+set err [catch {compNM 7 White Black 1} res]
+checkEq "a threefold book line is set up without an error" $err 0
+checkEq "it is adjudicated a draw at setup" [call {set ::comp::_Data(result,7)}] "="
+checkEq "with the in-game wording" [call {lindex $::comp::_Data(comments,7) end}] "Book - 3-fold repetion"
+checkEq "the comment sits on the line's last move" \
+    [call {expr {[llength $::comp::_Data(comments,7)] == [llength $::comp::_Data(moves,7)]}}] 1
+checkEq "no engine is started" [llength $::engineInits] 0
+check "no move is scheduled" [expr {[string first compNextMove [pendingScripts]] < 0}]
+checkEq "and the drawn game is saved" $::gamesSaved 7
+
+# A line that is not a threefold still goes to the engines.
+set ::engineInits {}
+set ::gamesSaved {}
+set ::bookLineUnderTest {e2e4 e7e5}
+tournamentSetup 8 {}
+catch {compNM 8 White Black 1} res
+checkEq "an ordinary book line is not adjudicated" [call {set ::comp::_Data(result,8)}] "*"
+checkEq "both engines are started for it" [llength $::engineInits] 2
 
 puts "\ntime per move"
 set ::comp::_Data(timecontrol) permove
