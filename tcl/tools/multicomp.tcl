@@ -1104,9 +1104,14 @@ proc ::comp::compNextMove { game tomove expired bestmove } {
     if { $_Data(playing,$game) } {
         set bestmove ""
         set _Data(scoreIsNew,$game) 0
-        # Automatically time-out comp in $movetime + 4 secs
+        # Time out a per-move game when the engine overruns its leeway; other
+        # controls fall back to their clock plus the 4-second grace.
         set timeout [expr {$_Data(timecontrol) == "permove" ? $_Data(time) : $_Data($tomove,$game)}]
-        after [expr {$timeout + $_Data(delta)}] "compTimeout $game $tomove"
+        if {$_Data(timecontrol) == "permove"} {
+            after [expr {int(ceil([::comp::permoveAllowed]))}] "compTimeout $game $tomove"
+        } else {
+            after [expr {$timeout + $_Data(delta)}] "compTimeout $game $tomove"
+        }
         if {$_Data(timecontrol) == "pergame"} {
             set parameter "wtime $_Data(white,$game) btime $_Data(black,$game) winc $_Data(incr50) binc $_Data(incr50)"
         } elseif {$_Data(timecontrol) == "permove"} {

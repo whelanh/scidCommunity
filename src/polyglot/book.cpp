@@ -11,7 +11,11 @@
 #include <string>
 
 #ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
 #include <io.h>
+#include <windows.h>
 #else
 #include <unistd.h>
 #endif
@@ -75,8 +79,18 @@ static bool same_book(const std::string& a, const std::string& b) {
 static bool replace_book_file(const char* tempfile, const std::string& target) {
 	const auto book = path_utf8(target.c_str());
 	std::error_code ec;
+#ifdef _WIN32
+	// std::filesystem::rename fails on Windows if the destination exists;
+	// MoveFileExW with MOVEFILE_REPLACE_EXISTING replaces it and keeps the
+	// original intact until the temporary file is promoted.
+	if (MoveFileExW(path_utf8(tempfile).c_str(), book.c_str(),
+	                MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+		return true;
+	}
+#else
 	std::filesystem::rename(path_utf8(tempfile), book, ec);
 	if (!ec) return true;
+#endif
 	// The staging file need not be on the book's filesystem -- the window puts
 	// it under the user directory, the book lives under the books directory, and
 	// on Windows those are often different drives. A rename cannot cross
@@ -89,12 +103,21 @@ static bool replace_book_file(const char* tempfile, const std::string& target) {
 	                           std::filesystem::copy_options::overwrite_existing,
 	                           ec);
 	if (ec) return false;
+#ifdef _WIN32
+	if (!MoveFileExW(sibling.c_str(), book.c_str(),
+	                 MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+		std::error_code ignored;
+		std::filesystem::remove(sibling, ignored);
+		return false;
+	}
+#else
 	std::filesystem::rename(sibling, book, ec);
 	if (ec) {
 		std::error_code ignored;
 		std::filesystem::remove(sibling, ignored);
 		return false;
 	}
+#endif
 	return true;
 }
 
@@ -353,8 +376,11 @@ int scid_book_movesupdate(char* moves, char* probs, const int BookNumber,
 	}
 	// The replacement is complete in the tempfile. Close it, and only then touch
 	// the book: the surviving entries are already in place, so the rename below
-	// is the whole write.
-	if (fflush(f) != 0 || fclose(f) != 0) {
+	// is the whole write. fclose must run even when fflush has already failed,
+	// so a failed flush cannot leak the staging file.
+	int flush_err = fflush(f);
+	int close_err = fclose(f);
+	if (flush_err != 0 || close_err != 0) {
 		return -1; // fail: the original is untouched
 	}
 
