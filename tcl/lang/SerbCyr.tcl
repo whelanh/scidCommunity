@@ -1004,6 +1004,7 @@ translate J ReviewVarLines {Варијанте за упис}
 translate J ReviewVarCp {Граница варијанти (cp)}
 translate J ReviewMoveWait {Чекај дубину прегледа}
 translate J ReviewMovetime {Временско ограничење (ms)}
+translate J ReviewEstimatedRating {процена учинка (из ове партије)}
 translate J ReviewOpeningMoves {Отварање потеза}
 translate J ReviewFromPreset {%s (из профила мотора)}
 translate J ReviewProgress {Преглед позиције %s од %s}
@@ -1021,7 +1022,7 @@ translate J ReviewCoachLevelLabel {Ниво}
 translate J ReviewCoachOpeningLabel {Отварање}
 translate J ReviewCoachPhase {потези %d-%d - тачност В %.1f%% Б %.1f%%, АЦПЛ В %d Б %d.}
 translate J ReviewReportMarker {Преглед игре}
-translate J ReviewReportSide {%s: %s%% тачност, АЦПЛ %d, процењено Ело %d}
+translate J ReviewReportSide {%s: %s%% тачност, АЦПЛ %d}
 translate J ReviewReportLabels {%s ознаке: %s}
 translate J ReviewReportKeyMoments {Кључни моменти: %s}
 translate J ReviewReportPhases {Фазе: %s}

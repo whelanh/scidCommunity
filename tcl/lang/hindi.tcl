@@ -963,6 +963,7 @@ translate h ReviewVarLines {लिखने के लिए वेरिएश�
 translate h ReviewVarCp {वेरिएशन अंतर (cp)}
 translate h ReviewMoveWait {समीक्षा गहराई की प्रतीक्षा करें}
 translate h ReviewMovetime {समय सीमा (ms)}
+translate h ReviewEstimatedRating {प्रदर्शन रेटिंग (इस खेल से)}
 translate h ReviewOpeningMoves {खुलने की चाल}
 translate h ReviewFromPreset {%s (इंजन प्रीसेट से)}
 translate h ReviewProgress {स्थिति %s / %s की समीक्षा हो रही है}
@@ -980,7 +981,7 @@ translate h ReviewCoachLevelLabel {स्तर}
 translate h ReviewCoachOpeningLabel {प्रारंभिक}
 translate h ReviewCoachPhase {चाल %d-%d - सटीकता W %.1f%% B %.1f%%, ACPL W %d B %d।}
 translate h ReviewReportMarker {खेल समीक्षा}
-translate h ReviewReportSide {%s: %s%% सटीकता, ACPL %d, अनुमानित Elo %d}
+translate h ReviewReportSide {%s: %s%% सटीकता, ACPL %d}
 translate h ReviewReportLabels {%s लेबल: %s}
 translate h ReviewReportKeyMoments {मुख्य क्षण: %s}
 translate h ReviewReportPhases {चरण: %s}

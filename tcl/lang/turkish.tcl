@@ -967,6 +967,7 @@ translate T ReviewVarLines {Yazılacak varyantlar}
 translate T ReviewVarCp {Varyant aralığı (cp)}
 translate T ReviewMoveWait {İnceleme derinliğini bekle}
 translate T ReviewMovetime {Süre sınırı (ms)}
+translate T ReviewEstimatedRating {performans değerlendirmesi (bu partiden)}
 translate T ReviewOpeningMoves {Açılış hamleleri}
 translate T ReviewFromPreset {%s (motor profilinden)}
 translate T ReviewProgress {%s / %s konumu inceleniyor}
@@ -984,7 +985,7 @@ translate T ReviewCoachLevelLabel {Seviye}
 translate T ReviewCoachOpeningLabel {Açılış}
 translate T ReviewCoachPhase {%d-%d hareket eder - doğruluk W %.1f%% B %.1f%%, ACPL W %d B %d.}
 translate T ReviewReportMarker {Oyun incelemesi}
-translate T ReviewReportSide {%s: %s%% doğruluk, ACPL %d, tahmini Elo %d}
+translate T ReviewReportSide {%s: %s%% doğruluk, ACPL %d}
 translate T ReviewReportLabels {%s etiketleri: %s}
 translate T ReviewReportKeyMoments {Önemli anlar: %s}
 translate T ReviewReportPhases {Aşamalar: %s}

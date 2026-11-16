@@ -479,9 +479,9 @@ so the next press starts rather than only clearing a stale flag.
 ## The review report
 
 `tcl/tools/review_report.tcl` turns a finished pass into the figures a reader
-wants first: accuracy per side, ACPL, an estimated Elo, the label tally, the
-key moments, and the opening / middlegame / endgame split. The accuracy is the
-app's own figure — `::accuracy::calculate`, the same call the engine window's
+wants first: accuracy per side, ACPL, the performance rating the moves suggest,
+the label tally, the key moments, and the opening / middlegame / endgame split.
+The accuracy is the app's own figure — `::accuracy::calculate`, the same call the engine window's
 chart and the PGN viewer's chart make — so one game has one accuracy in this
 application instead of two. It is arithmetic over
 the pass's own results — no second search and no model — and it writes one block
@@ -493,6 +493,25 @@ the moves are in the game, so the header is part of a review rather than a
 separate command; a Move Comment pass names its plies and writes no report, and
 a review of a variation line writes none either: the figures describe the whole
 game, so only a review of the main line produces them.
+
+**The performance rating.** The report's rating used to be an estimate read off
+accuracy and ACPL through a hand-drawn ladder (`estimateElo`, still in this file
+and still the level the coach's facts name). It is now a number fitted on what
+the moves cost — the expected score given away per move, read off the monotone
+table in `tcl/tools/perf_rating.tcl` (rows only, no coefficients) and printed at
+the table's own 25 as one line per side:
+
+```
+  White performance rating (from this game): ≈2375
+```
+
+Ratings are **not a runtime input**. The line is the same whether the PGN
+carries neither rating, one, or both, because the estimate is a function of the
+moves alone: `estimateElo` survives as the calibration's baseline and as the
+level the coach's facts name, it is never printed beside the rating, and it is
+no longer part of the side line (`ReviewReportSide` lost its Elo field in all 29
+language files). The corpus, the folds and the held-out error of every candidate
+are in [`performance-rating.md`](performance-rating.md).
 
 **It reads in the window's language.** The marker, the side names, the figures,
 the phase names and every move label in the tally and the key moments go through
@@ -711,7 +730,8 @@ plain-text form.
 | `tcl/tools/review_verify.tcl` | `::reviewverify` — the second opinion on Brilliant and Great: which positions are re-searched (`jobs`), what a disagreement means (`corrections`, only ever down to `best`), and the search on the driver's queue (`start`, `answer`, `stop`) |
 | `tcl/tools/review_annotate.tcl` | `::reviewannotate` - the two marks the review writer asks for: `writeTactical` (the T flag and its difficulty comment) and `openingMark` (the Annotator tag's opening entry) |
 | `tcl/tools/review_ui.tcl` | `::reviewui` — button state, the call a press makes, dialog values, the time cap's note, the status line |
-| `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, estimated Elo, key moments, and the phase split with the three-signal opening boundary |
+| `tcl/tools/review_report.tcl` | the deterministic report: accuracy, ACPL, the performance rating, key moments, and the phase split with the three-signal opening boundary |
+| `tcl/tools/perf_rating.tcl` | `::perfrating` — the calibration table (expected-score loss per move → rating), its lookup and clamping, and the expected-score arithmetic the fit is on |
 | `tcl/tools/review_coach.tcl` | `::reviewcoach` — the facts a coach may use, the prompts built from them, and the prose layer: `start`, `place`, `finish`, `clear`, `strip`, `stripHeader`. No model, no network |
 | `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped. Two callers: the review's coach prompts and the threat probe's one sentence |
 | `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
@@ -723,7 +743,8 @@ plain-text form.
 | `tests/tcl/review_driver.tcl` | 496 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
-| `tests/tcl/review_report.tcl` | 115 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — and the block removal, two writes deep |
+| `tests/tcl/review_report.tcl` | 123 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — the performance rating line (one per side, the table's own bins, no `estimated Elo` beside it, no band, no expected-score figure, a block that cannot see a rating in the PGN: neither rating, one, both) — and the block removal, two writes deep |
+| `tests/tcl/perf_rating.tcl` | 23 checks: the table's shape, monotonicity and bin grid, the lookup's interpolation, clamping and rounding at both ends, the two games' ESL and accuracy arithmetic (95.60 for 0.40 given away, 80.39 for 0.89), the `0.05 → 0.03` case as 0.02 rather than a ratio, the ratio of sums against the mean of ratios on a set with a zero-`E_best` move, side attribution across holes and book plies, and a side with no judged move getting no estimate |
 | `tests/tcl/comment_colors.tcl` | 14 checks: the two writer colours, the wrapper's escaping and per-line form, the empty-wrapper cleanup, and a strip that takes a wrapper with its line while a reader's note beside it stays |
 | `tests/tcl/comment_default_color_tk.tcl` | 8 checks: under Tk: unspanned text takes `::pgnColor(Comment)`, the Format menu carries the entry, and choosing a colour saves it, repaints the editor and tells the PGN window |
 | `tests/tcl/comment_facts.tcl` | 107 checks: the position core against the published perft counts, the exact block for a mating move, each rule line stated positively and negatively, the fifty-move clock stated in moves, the engine's line as SAN numbered from the position's own fullmove — one conversion per line, the five-ply clip, a setup game at move 30, a line that starts on Black, a mate score surviving it, the "no bare UCI" and "one number per move" invariants — and a punishment line that ends in mate |

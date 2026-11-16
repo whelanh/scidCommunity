@@ -963,6 +963,7 @@ translate b ReviewVarLines {যে ভ্যারিয়েশনগুলো
 translate b ReviewVarCp {ভ্যারিয়েশনের ব্যবধান (cp)}
 translate b ReviewMoveWait {পর্যালোচনার গভীরতার জন্য অপেক্ষা করুন}
 translate b ReviewMovetime {সময়সীমা (ms)}
+translate b ReviewEstimatedRating {প্রদর্শন রেটিং (এই খেলা থেকে)}
 translate b ReviewOpeningMoves {ওপেনিং চলন}
 translate b ReviewFromPreset {%s (ইঞ্জিন প্রিসেট থেকে)}
 translate b ReviewProgress {অবস্থান %s / %s পর্যালোচনা করা হচ্ছে}
@@ -980,7 +981,7 @@ translate b ReviewCoachLevelLabel {স্তর}
 translate b ReviewCoachOpeningLabel {খোলা হচ্ছে}
 translate b ReviewCoachPhase {মুভ %d-%d - সঠিকতা W %.1f%% B %.1f%%, ACPL W %d B %d।}
 translate b ReviewReportMarker {খেলা পর্যালোচনা}
-translate b ReviewReportSide {%s: %s%% নির্ভুলতা, ACPL %d, আনুমানিক Elo %d}
+translate b ReviewReportSide {%s: %s%% নির্ভুলতা, ACPL %d}
 translate b ReviewReportLabels {%s লেবেল: %s}
 translate b ReviewReportKeyMoments {গুরুত্বপূর্ণ মুহূর্ত: %s}
 translate b ReviewReportPhases {পর্যায়: %s}

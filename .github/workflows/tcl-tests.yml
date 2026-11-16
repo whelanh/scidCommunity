@@ -63,6 +63,9 @@ jobs:
       - name: Review report
         run: tclsh tests/tcl/review_report.tcl
 
+      - name: Performance rating
+        run: tclsh tests/tcl/perf_rating.tcl
+
       - name: Review coach facts
         run: tclsh tests/tcl/review_coach.tcl
 

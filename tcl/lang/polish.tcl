@@ -1003,6 +1003,7 @@ translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
+translate P ReviewEstimatedRating {ocena wyniku (z tej partii)}
 translate P ReviewOpeningMoves {Posunięcia w debiucie}
 translate P ReviewFromPreset {%s (z ustawień silnika)}
 translate P ReviewProgress {Analiza pozycji %s z %s}
@@ -1020,7 +1021,7 @@ translate P ReviewCoachLevelLabel {Poziom}
 translate P ReviewCoachOpeningLabel {Debiut}
 translate P ReviewCoachPhase {posunięcia %d-%d — dokładność Białych %.1f%%, Czarnych %.1f%%, ACPL Białych %d, Czarnych %d.}
 translate P ReviewReportMarker {Analiza partii}
-translate P ReviewReportSide {%s: dokładność %.1f%%, ACPL %d, szacowany ranking Elo %d}
+translate P ReviewReportSide {%s: dokładność %.1f%%, ACPL %d}
 translate P ReviewReportLabels {Oceny %s: %s}
 translate P ReviewReportKeyMoments {Kluczowe momenty: %s}
 translate P ReviewReportPhases {Fazy partii: %s}

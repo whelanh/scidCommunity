@@ -524,7 +524,7 @@ puts "\nthe header"
 
 set text [::reviewreport::headerText $moves]
 check "it carries the marker" [expr {[string first {[Game review]} $text] == 0}]
-check "both sides and their Elo" [expr {[string first "White:" $text] >= 0 && [string first "Black:" $text] >= 0 && [string first "estimated Elo" $text] >= 0}]
+check "both sides are reported" [expr {[string first "White:" $text] >= 0 && [string first "Black:" $text] >= 0}]
 check "the key moments" [expr {[string first "Key moments:" $text] >= 0}]
 check "and the phases" [expr {[string first "Phases:" $text] >= 0}]
 # A scoresheet counts moves, not plies: the header must read "moves 1-13", not
@@ -540,6 +540,47 @@ checkEq "a second run strips the old block" \
 checkEq "a passing mention is not a block" \
     [::reviewreport::stripHeader "See \[Game review\] notes below."] \
     "See \[Game review\] notes below."
+
+puts "\nthe performance rating"
+
+# One rating per side, and it replaces the accuracy+ACPL estimate instead of
+# joining it: two ratings for one player is the same mistake as two accuracies.
+check "a rating line for each side" \
+    [expr {[regexp -all {performance rating \(from this game\): ≈[0-9]+} $text] == 2}] \
+    [regexp -all -inline {performance rating[^\n]*} $text]
+check "the accuracy+ACPL estimate is gone, not beside it" \
+    [expr {[string first "estimated Elo" $text] < 0}]
+# The number is a row of the calibration table at its own resolution, never a
+# fit output with decimals and never a band.
+set ratings [regexp -all -inline {≈([0-9]+)} $text]
+set ratings [lmap {_ r} $ratings { set r }]
+check "every rating is the table's bin grid, with no decimals and no band" \
+    [expr {[llength $ratings] == 2 && [join [lmap r $ratings { expr {$r % $::perfrating::BIN} }]] eq "0 0"}]
+check "the block carries no band" [expr {[string first "±" $text] < 0}]
+
+# Nothing derived from the internal statistic reaches the reader: no loss
+# figure, no kept percentage, no estimate-minus-actual.
+check "no expected-score figure and no kept percentage" \
+    [expr {[string first "kept" $text] < 0 && [string first "expected score" $text] < 0}]
+
+# Ratings are not a runtime input. The report never sees the header, and a move
+# list whose entries carry ratings must produce the very same block, byte for
+# byte: the test that the estimate cannot be reading one. Neither rating, one
+# rating, both - the line is the moves' own.
+set noRating {}
+set whiteOnly {}
+set both {}
+foreach m $moves {
+    lappend noRating [dict merge $m {white_elo "" black_elo ""}]
+    lappend whiteOnly [dict merge $m {white_elo 2710 black_elo ""}]
+    lappend both [dict merge $m {elo 2710 opp_elo 2480 white_elo 2710 black_elo 2480}]
+}
+checkEq "the block is identical when neither game carries a rating" \
+    [::reviewreport::headerText $noRating] $text
+checkEq "the block is identical when one game carries a rating" \
+    [::reviewreport::headerText $whiteOnly] $text
+checkEq "the block is identical when both games carry a rating" \
+    [::reviewreport::headerText $both] $text
 
 puts "\nthe block removal"
 
@@ -610,7 +651,8 @@ proc ::tr {tag} {
         White                  { return "Blancas" }
         Black                  { return "Negras" }
         ReviewReportMarker     { return "Revisión de la partida" }
-        ReviewReportSide       { return "%s: %s%% de precisión, ACPL %d, Elo estimado %d" }
+        ReviewReportSide       { return "%s: %s%% de precisión, ACPL %d" }
+        ReviewEstimatedRating  { return "valoración de rendimiento (de esta partida)" }
         ReviewReportLabels     { return "Etiquetas de %s: %s" }
         ReviewReportKeyMoments { return "Momentos clave: %s" }
         ReviewReportPhases     { return "Fases: %s" }
