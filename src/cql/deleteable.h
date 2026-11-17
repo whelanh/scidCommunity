@@ -25,6 +25,7 @@ For safety there should be no class E with parents F and G both of which are Del
 class Deleteable{
  public:
   Deleteable();
+  Deleteable(const Deleteable&);
   virtual ~Deleteable();
   static void deleteableCleanup();
 

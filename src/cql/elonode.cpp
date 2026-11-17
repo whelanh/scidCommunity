@@ -21,7 +21,7 @@ bool EloNode::match_count(Game*game,NumValue*value){
   if ((color==BLACK||color==NOCOLOR)
       && range->valid(blackelo)){
     matched=true;
-    maxelo=std::max(maxelo,whiteelo);
+    maxelo=std::max(maxelo,blackelo);
   }
   if(!matched)return false;
   *value=(NumValue)maxelo;

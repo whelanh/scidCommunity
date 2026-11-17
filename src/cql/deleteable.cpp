@@ -15,6 +15,17 @@ Deleteable::Deleteable(){
   deleteableConstructed->insert(this);
 }
 
+// A clone (clone.cpp's `new X(*this)`) copy-constructs the node, so it never
+// runs the default constructor above and would otherwise never be registered
+// for cleanup. Register the copy too, so CqlReset() frees the clones.
+Deleteable::Deleteable(const Deleteable&){
+  deleteableInitialize();
+  uassert(!deleteableCleaningUp,"Deletable: copy-constructing during the cleanup phase");
+  uassert(deleteableConstructed,"deleteable: internal: copy construct");
+  uassert(deleteableConstructed->count(this)==0,"Deleteable: attempted copy construction of already constructed object");
+  deleteableConstructed->insert(this);
+}
+
 Deleteable::~Deleteable(){
   uassert(deleteableCleaningUp,"Deleteable: a deletion occurred outside of the allowed cleanup time");
   uassert(deleteableConstructed,"deleteable: internal: delete");

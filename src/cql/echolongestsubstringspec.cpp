@@ -39,7 +39,7 @@ bool EchoLongestSubstringSpec::match_lca(const vector<moveT*>&sourcepath,
   matchedTargetStart=tstarti;
   matchedSourcePath.clear();
   matchedTargetPath.clear();
-  for(int i=0;i<mylen;++i){
+  for(int i=0;i<=mylen;++i){
     matchedSourcePath.push_back(sourcepath.at(sstarti+i));
     matchedTargetPath.push_back(targetpath.at(tstarti+i));
   }

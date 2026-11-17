@@ -20,7 +20,9 @@ bool MoveNumberNode::match_position(Game*game){
 }
 
 bool MoveNumberNode::match_count(Game*game, NumValue*value){
-  int ply=game->GetCurrentPly();
+  // GetCurrentPly() is relative to the start position; add the start's own ply
+  // counter so a FEN-started game keeps its fullmove number.
+  int ply=game->GetCurrentPly() + (int)game->initialPlyCounter();
   int mn=ply/2+1;
   if (!range->valid(mn)) return false;
   *value=mn;
