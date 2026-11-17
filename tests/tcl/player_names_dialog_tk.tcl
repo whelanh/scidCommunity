@@ -175,6 +175,12 @@ if {$w ne ""} {
 # every line of the description gets taller and the text box asks for twice the
 # height. The window has to follow, which a fixed 440 cannot do.
 tk scaling 2.0
+# Tk resolves a point size when the font is created, so recreate the named fonts
+# after the scaling change: some Tk 8.6 builds do not revisit an existing font on
+# 'tk scaling', which left this case identical to the default one on CI.
+font delete font_Regular font_Bold
+font create font_Regular -size 10
+font create font_Bold -size 10 -weight bold
 set w [buildDialog "opening at 200% scaling"]
 if {$w ne ""} {
     # The point sizes resolve against the display's own DPI, so how much the
