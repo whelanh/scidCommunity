@@ -132,17 +132,21 @@ list(APPEND SCID_SRC ${CQL_SRC})
 # The engine's #ifdef INTEGRATED branch is the library version (CqlMatchGame),
 # as opposed to the STANDALONE command line program.
 set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_DEFINITIONS INTEGRATED)
-# The engine is pre-C++11 code: `char* thisclass(){return "X";}` alone produces
-# ~100 -Wwrite-strings warnings. scidvspc builds src/cql/ with
-# -Wno-write-strings for exactly this reason (its Makefile.conf); do the same
-# instead of editing the imported files.
+# The engine is pre-C++11 code and trips several -Wall warnings: `char*
+# thisclass(){return "X";}` (-Wwrite-strings), int loop counters against
+# vector::size() (-Wsign-compare), a static print(moveT*) hiding Node::print()
+# (-Woverloaded-virtual), operator precedence (-Wparentheses) and a dangling
+# else (-Wdangling-else). scidvspc builds src/cql/ with -Wno-write-strings
+# -Wno-char-subscripts -Wno-parentheses -Wno-sign-compare (its Makefile.conf);
+# match that, add the two newer-GCC warnings, and leave the imported files
+# verbatim rather than modernising them.
 #
 # -frtti: the engine dispatches on dynamic_cast<>() throughout. The release
 # packages pass -fno-rtti in CMAKE_CXX_FLAGS (see the ctg2obr() note above and
 # .github/workflows/release.yml), so re-enable RTTI for these files only; GCC
 # honours the last flag on the command line.
 if(NOT MSVC)
-  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-Wno-write-strings;-frtti")
+  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-Wno-write-strings;-Wno-char-subscripts;-Wno-parentheses;-Wno-sign-compare;-Wno-overloaded-virtual;-Wno-dangling-else;-frtti")
 endif()
 
 if(MSVC)
