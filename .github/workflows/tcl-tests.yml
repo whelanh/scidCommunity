@@ -335,6 +335,12 @@ jobs:
       - name: Board animation and redraw
         run: xvfb-run -a wish tests/tcl/board_animation_tk.tcl
 
+      # The board screenshot composes the board's own piece and square photos,
+      # so it must make a valid PNG without TkImg, in both orientations, with
+      # coordinates, and number the files automatically.
+      - name: Board screenshot
+        run: xvfb-run -a wish tests/tcl/board_image_tk.tcl
+
       # The CQL search window: the box, the filter operation the button carries
       # to sc_search cql, the empty-query dialog, a failed query reported rather
       # than raised, and every catalogue carrying the window's strings.

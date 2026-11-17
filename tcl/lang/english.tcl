@@ -519,6 +519,14 @@ translate E LichessPuzzlesRated {Rated}
 translate E LichessPuzzlesGame {Game}
 translate E LichessPuzzlesNoNew {No new puzzles found for these settings.\n\nTry changing the theme, difficulty, or puzzle color.}
 
+# Board screenshot
+menuText E ToolsScreenshot "Board Screenshot" 0 \
+  {Save the current board position as a PNG image}
+translate E ScreenshotTitle {Board Screenshot}
+translate E ScreenshotFileType {PNG images}
+translate E ScreenshotError {The screenshot could not be saved.}
+translate E ScreenshotSaved {Board screenshot saved:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).

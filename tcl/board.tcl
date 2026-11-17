@@ -2194,6 +2194,275 @@ proc ::board::update {w {board ""} {animate 0}} {
   }
 }
 
+################################################################################
+# Saving the position as an image
+################################################################################
+
+# ::board::imageSize
+#   Returns the piece size used for exported images.  Picking the largest
+#   available size up to $max keeps the PNG printable even when the on-screen
+#   board is small.  If the piece set has no size at or below $max, the
+#   smallest available size is used.
+#
+proc ::board::imageSize {{max 160}} {
+  set best 0
+  foreach size $::boardSizes {
+    if {$size <= $max && $size > $best} { set best $size }
+  }
+  if {$best == 0} {
+    foreach size $::boardSizes {
+      if {$best == 0 || $size < $best} { set best $size }
+    }
+  }
+  return $best
+}
+
+# ::board::nextImageFile
+#   Returns $dir/<prefix>-<n><ext>, where n is one more than the highest
+#   number already used by a file of that shape.  This is what gives each
+#   saved position its own number without the user renaming anything.
+#
+proc ::board::nextImageFile {dir {prefix "position"} {ext ".png"}} {
+  if {![file isdirectory $dir]} {
+    return [file join $dir "$prefix-1$ext"]
+  }
+  set max 0
+  foreach name [glob -nocomplain -directory $dir -tails *] {
+    if {[file isfile [file join $dir $name]]
+        && [regexp {^(.*)-([0-9]+)(\.[^.]*)$} $name -> p n e]
+        && [string equal -nocase $p $prefix]
+        && [string equal -nocase $e $ext]} {
+      set n [expr {$n + 0}]
+      if {$n > $max} { set max $n }
+    }
+  }
+  return [file join $dir "$prefix-[expr {$max + 1}]$ext"]
+}
+
+# Glyphs for the coordinate labels.  Tk's photo images have no text
+# primitive, and TkImg is exactly the dependency this feature avoids, so the
+# few characters needed are drawn from a 5x7 bitmap.
+#
+proc ::board::_coordGlyph {c} {
+  switch -- $c {
+    a { return {00000 01110 00001 01111 10001 10001 01111} }
+    b { return {10000 10000 11110 10001 10001 10001 11110} }
+    c { return {00000 00000 01110 10000 10000 10000 01110} }
+    d { return {00001 00001 01111 10001 10001 10001 01111} }
+    e { return {00000 00000 01110 10001 11111 10000 01110} }
+    f { return {00110 01001 01000 11100 01000 01000 01000} }
+    g { return {00000 01111 10001 10001 01111 00001 01110} }
+    h { return {10000 10000 10110 11001 10001 10001 10001} }
+    1 { return {00100 01100 00100 00100 00100 00100 01110} }
+    2 { return {01110 10001 00001 00010 00100 01000 11111} }
+    3 { return {11111 00010 00100 00010 00001 10001 01110} }
+    4 { return {00010 00110 01010 10010 11111 00010 00010} }
+    5 { return {11111 10000 11110 00001 00001 10001 01110} }
+    6 { return {00110 01000 10000 11110 10001 10001 01110} }
+    7 { return {11111 00001 00010 00100 01000 01000 01000} }
+    8 { return {01110 10001 10001 01110 10001 10001 01110} }
+  }
+  return {}
+}
+
+# Draw one coordinate character into a photo image.
+#
+proc ::board::_putCoordChar {img char color x y scale} {
+  set row 0
+  foreach line [::board::_coordGlyph $char] {
+    set col 0
+    foreach bit [split $line ""] {
+      if {$bit eq "1"} {
+        set x1 [expr {$x + $col * $scale}]
+        set y1 [expr {$y + $row * $scale}]
+        $img put $color -to $x1 $y1 [expr {$x1 + $scale}] [expr {$y1 + $scale}]
+      }
+      incr col
+    }
+    incr row
+  }
+}
+
+# ::board::saveImage
+#   Saves the position shown by board $w as a PNG file.
+#
+#   The image is composed from the same square and piece photos that
+#   ::board::update draws with, so it needs only Tk's built-in PNG support
+#   (Tk 8.6 and later).  Unlike a window capture it does not need TkImg
+#   (libtk-img), which is not available everywhere scidCommunity runs.
+#
+#   $psize overrides the exported square size; 0 picks a printable default.
+#   $coords adds the file and rank labels in a margin around the board.
+#   Returns $filename.
+#
+proc ::board::saveImage {w filename {psize 0} {coords 1}} {
+  if {![winfo exists $w.bd]} {
+    error "board does not exist: $w"
+  }
+  if {$psize <= 0} { set psize [::board::imageSize] }
+  if {$psize <= 0} {
+    error "no piece images are loaded"
+  }
+  set king $::board::letterToPiece(K)$psize
+  foreach name [list $king bgl$psize bgd$psize] {
+    if {[lsearch -exact [image names] $name] < 0} {
+      error "no images are loaded for board size $psize"
+    }
+  }
+
+  set board $::board::_data($w)
+  if {[string length $board] < 64} {
+    set board [sc_pos board]
+  }
+
+  set border $::board::_border($w)
+  set poffset [expr {[image height $king] - $psize}]
+  set headroom [expr {$poffset > 0 ? $poffset : 0}]
+  set boardSize [expr {$psize * 8 + $border * 9}]
+
+  set scale [expr {max(2, $psize / 45)}]
+  set glyphW [expr {5 * $scale}]
+  set glyphH [expr {7 * $scale}]
+  set margin [expr {$coords ? $glyphH + 14 : 0}]
+
+  set width [expr {$boardSize + 2 * $margin}]
+  set height [expr {$boardSize + $headroom + 2 * $margin}]
+  set left $margin
+  set top [expr {$margin + $headroom}]
+
+  set img [image create photo -width $width -height $height]
+  try {
+    # A light, print-friendly background for the margin and the gaps between
+    # squares.  The labels use the dark colour of the same scheme.
+    $img put $::squareColor_lite -to 0 0 $width $height
+
+    set fileLabels {}
+    set rankLabels {}
+    for {set sq 0} {$sq < 64} {incr sq} {
+      # Square 0 is a1.  On screen a1 is bottom-left, unless the board is
+      # flipped, so the display column and row depend on the orientation.
+      if {$::board::_flip($w)} {
+        set col [expr {7 - ($sq % 8)}]
+        set row [expr {$sq / 8}]
+      } else {
+        set col [expr {$sq % 8}]
+        set row [expr {7 - $sq / 8}]
+      }
+      set x [expr {$left + $border + $col * ($psize + $border)}]
+      set y [expr {$top + $border + $row * ($psize + $border)}]
+
+      # The board draws a filled rectangle first and a texture image over it.
+      # In solid-colour mode that texture is transparent, so the fill is
+      # what shows and has to be in the image too.
+      set color [::board::defaultColor $sq]
+      $img put $color -to $x $y [expr {$x + $psize}] [expr {$y + $psize}]
+
+      set square bgd$psize
+      if {($sq + $sq / 8) % 2} { set square bgl$psize }
+      $img copy $square -compositingrule overlay -to $x $y
+
+      set piece [string index $board $sq]
+      if {$piece ne "." && $piece ne ""} {
+        set pimg $::board::letterToPiece($piece)$psize
+        if {[lsearch -exact [image names] $pimg] >= 0} {
+          # Same placement as ::board::update: tall pieces are centred on the
+          # square and get the extra headroom at the top of the image.
+          set xc [expr {$x + $psize / 2}]
+          set yc [expr {$y + $psize / 2 - $poffset / 2}]
+          set px [expr {$xc - [image width $pimg] / 2}]
+          set py [expr {$yc - [image height $pimg] / 2}]
+          $img copy $pimg -compositingrule overlay -to $px $py
+        }
+      }
+
+      if {$coords} {
+        if {$row == 7} {
+          lappend fileLabels [list [string index [::board::san $sq] 0] $col]
+        }
+        if {$col == 0} {
+          lappend rankLabels [list [string index [::board::san $sq] 1] $row]
+        }
+      }
+    }
+
+    if {$coords} {
+      set labelColor $::squareColor_dark
+      set fileY [expr {$top + $boardSize + ($margin - $glyphH) / 2}]
+      foreach item $fileLabels {
+        lassign $item ch col
+        set x [expr {$left + $border + $col * ($psize + $border) +
+                     ($psize - $glyphW) / 2}]
+        ::board::_putCoordChar $img $ch $labelColor $x $fileY $scale
+      }
+      set rankX [expr {($margin - $glyphW) / 2}]
+      foreach item $rankLabels {
+        lassign $item ch row
+        set y [expr {$top + $border + $row * ($psize + $border) +
+                     ($psize - $glyphH) / 2}]
+        ::board::_putCoordChar $img $ch $labelColor $rankX $y $scale
+      }
+    }
+
+    $img write -format png $filename
+  } finally {
+    image delete $img
+  }
+  return $filename
+}
+
+# ::board::saveImageDialog
+#   Asks for a filename (pre-filled with the next free position-N.png) and
+#   saves the board as a PNG image.
+#
+proc ::board::saveImageDialog {w} {
+  set dir "."
+  if {[info exists ::initialDir(image)] &&
+      [file isdirectory $::initialDir(image)] &&
+      $::initialDir(image) ne "."} {
+    set dir $::initialDir(image)
+  } elseif {[info exists ::initialDir(base)] &&
+            [file isdirectory $::initialDir(base)] &&
+            $::initialDir(base) ne "."} {
+    set dir $::initialDir(base)
+  }
+
+  set initial [::board::nextImageFile $dir]
+  set types [list [list [tr ScreenshotFileType] [list .png]]]
+  set filename [tk_getSaveFile \
+      -parent . \
+      -title [tr ScreenshotTitle] \
+      -initialdir $dir \
+      -initialfile [file tail $initial] \
+      -filetypes $types \
+      -defaultextension ".png"]
+  if {$filename eq ""} { return }
+
+  # The dialog offers PNG only, but a typed name can still carry another
+  # extension.  Replace a known image extension and append .png otherwise,
+  # rather than writing PNG data into a .jpg file.
+  set ext [string tolower [file extension $filename]]
+  if {$ext ne ".png"} {
+    if {[lsearch -exact {.jpg .jpeg .gif .bmp .tif .tiff} $ext] >= 0} {
+      set filename "[string range $filename 0 end-[string length $ext]].png"
+    } else {
+      append filename ".png"
+    }
+  }
+
+  if {[catch {::board::saveImage $w $filename} err]} {
+    tk_messageBox -parent . -type ok -icon error \
+        -title [tr ScreenshotTitle] \
+        -message "[tr ScreenshotError]\n\n$err"
+    return
+  }
+
+  set ::initialDir(image) [file dirname $filename]
+  catch {
+    ::board::setInfo $w [list "[tr ScreenshotSaved] [file tail $filename]" ""]
+  }
+  return $filename
+}
+
 proc ::board::isFlipped {w} {
   return $::board::_flip($w)
 }
