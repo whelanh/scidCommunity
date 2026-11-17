@@ -79,8 +79,11 @@ proc ::validate::integer {value {min ""} {max ""}} {
     if {$max ne "" && $value > $max} { return 0 }
     return 1
 }
-# The text widget's own font, which the panel measures its labels with.
-set ::font_Regular TkDefaultFont
+# The text widget's own font, which the panel measures its labels with. Define
+# the named font the way engine_display_tk.tcl does rather than relying on Tk's
+# family fallback (the app creates it in start.tcl).
+font create font_Regular -family Helvetica -size 10
+set ::font_Regular font_Regular
 # engines.dat, written where the panel's save path expects it.
 set ::enginesFile [file join [pwd] engines-test.dat]
 proc scidConfigFile {name} { return $::enginesFile }
@@ -448,6 +451,28 @@ set ::sent {}
 ::engineNoWin::initEngine noopts Stockfish {}
 checkEq "nothing is sent rather than an empty SetOptions" $::sent {}
 unset -nocomplain ::enginecfg::engConfig_noopts
+
+puts "\na failed engines.dat write is shown on the switch"
+
+# The setting only helps if it survives the restart. A write failure must not
+# come back as a successful toggle: the option-error style is where the panel
+# reports a value the app could not keep, the same mark an engine option gets
+# when the engine refuses it.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {} {}]]
+set frameI .cfgI
+set wI [panel $frameI]
+::enginecfg::resetConfigOptions r10 $frameI [::enginecfg::get Stockfish]
+handshake r10 $frameI {{Threads 1 integer 1 1 128 {} 0}}
+update idletasks
+rename ::enginecfg::write ::enginecfg::write_real
+proc ::enginecfg::write {} { error "the engines file is not writable" }
+$wI.value1 invoke
+update idletasks
+checkEq "the switch is marked as an error" \
+    [$wI.value1 cget -style] Error.TCheckbutton
+rename ::enginecfg::write {}
+rename ::enginecfg::write_real ::enginecfg::write
 
 catch { file delete -force $::enginesFile }
 puts "\n$checks checks, $fails failures"

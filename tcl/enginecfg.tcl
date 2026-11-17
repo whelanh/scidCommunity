@@ -207,7 +207,10 @@ proc ::enginecfg::saveReviewOption {engine option value {default true}} {
     }
     if {!$found && $value ne $default} { lappend rows [list $option $value] }
     lset ::engines(list) $pos [lreplace $stored 8 8 $rows]
-    catch { ::enginecfg::write }
+    # Not swallowed: a failed write is a setting that will revert on restart, and
+    # the caller's option-error path (the switch's error style) is where the user
+    # sees it. Every other engines.dat write behaves the same way.
+    ::enginecfg::write
 }
 
 # Search a previous configuration with the same name and replace it.
@@ -539,15 +542,17 @@ proc ::enginecfg::setOption {id idx value} {
     # of ::engines(list) - must see the value the switch shows. Only this one row
     # is written to the preset, not the window's whole snapshot: a second window
     # on the same preset may be holding an older value and must not revert it.
+    #
+    # A write failure is not caught here: ::enginecfg::onReviewToggle turns it
+    # into the switch's error style, the same mark an engine option gets when the
+    # engine refuses a value.
     if {[::enginecfg::isReviewOption $name]} {
         set row [lreplace [lindex [set ::enginecfg::engConfig_$id] 8 $idx] 1 1 $value]
         set ::enginecfg::engConfig_$id \
             [lreplace [set ::enginecfg::engConfig_$id] 8 8 \
                 [lreplace [lindex [set ::enginecfg::engConfig_$id] 8] $idx $idx $row]]
-        catch {
-            ::enginecfg::saveReviewOption [lindex [set ::enginecfg::engConfig_$id] 0] \
-                $name $value $default
-        }
+        ::enginecfg::saveReviewOption [lindex [set ::enginecfg::engConfig_$id] 0] \
+            $name $value $default
         return true
     }
     ::engine::send $id SetOptions [list [list $name $value]]
@@ -892,8 +897,16 @@ proc ::enginecfg::onSubmitReset {id w} {
         if {! $internal && $value ne $default} {
             if {[::enginecfg::isReviewOption $name]} {
                 if {[winfo exists $w.text.value$index]} {
-                    ::enginecfg::setOption $id $index $default
-                    set reviewRows 1
+                    # The switch is reset in memory and written to the preset;
+                    # a failed write is the switch's error style, not a background
+                    # error out of the Reset button.
+                    if {[catch {::enginecfg::setOption $id $index $default}]} {
+                        ::enginecfg::refreshReviewRows $id $w
+                        $w.text.value$index configure \
+                            -style Error.[winfo class $w.text.value$index]
+                    } else {
+                        set reviewRows 1
+                    }
                 }
             } else {
                 lappend options [list $name $default]
