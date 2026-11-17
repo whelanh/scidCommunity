@@ -464,6 +464,12 @@ jobs:
         run: |
           set -eux
           TCL9="$RUNNER_TEMP/tcl9"
+          # The Tcl and Tk archives are static and reference zlib (Tcl) and
+          # X11/Xft/fontconfig/cups (Tk). Those libraries must be linked AFTER
+          # the archives, but CMAKE_EXE_LINKER_FLAGS is placed before the
+          # objects - a static link then leaves the references unresolved.
+          # CMAKE_CXX_STANDARD_LIBRARIES is placed at the end, after
+          # target_link_libraries, which is where the Tcl/Tk archives sit.
           cmake -S . -B build-tcl9 \
                 -DCMAKE_BUILD_TYPE=Release \
                 -DCMAKE_INSTALL_PREFIX=/usr \
@@ -471,7 +477,7 @@ jobs:
                 -DTK_INCLUDE_PATH="$TCL9/inst/include" \
                 -DTCL_LIBRARY="$TCL9/inst/lib/libtcl9.0.a" \
                 -DTK_LIBRARY="$TCL9/inst/lib/libtcl9tk9.0.a" \
-                -DCMAKE_EXE_LINKER_FLAGS="-lcups -lXft -lfontconfig -lX11 -ldl -lz -lm -lpthread"
+                -DCMAKE_CXX_STANDARD_LIBRARIES="-lcups -lXft -lfontconfig -lX11 -ldl -lz -lm -lpthread"
           cmake --build build-tcl9 -j"$(nproc)"
           DESTDIR="$PWD/AppDir" cmake --install build-tcl9
 
