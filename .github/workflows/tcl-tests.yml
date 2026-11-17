@@ -418,6 +418,14 @@ jobs:
       - name: Move sequence search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_moves.tcl
 
+      # sc_search cql itself, headless: a script argument runs the binary on a
+      # bare interpreter, so this needs no display and finishes in well under a
+      # second. It checks the index pre-filters, the filter operations and a
+      # 3000-game base big enough to take the multi-threaded path, which the
+      # window harness cannot reach as cheaply.
+      - name: CQL engine checks
+        run: ./AppDir/usr/bin/scidCommunity tests/cql/check.tcl
+
       # The binary's own CQL search through the window the Search menu opens:
       # the query in the box, the filter operation, the result in the database
       # filter, and the empty and rejected queries reported rather than raised.
@@ -568,8 +576,8 @@ jobs:
           fail=0
           xvfb-run -a tests/startup_smoke.sh "$PWD/AppDir/usr/bin/scidCommunity" \
             || { echo "::error::the app does not boot on Tcl 9.0"; fail=1; }
-          files=$(grep -oE 'AppDir/usr/bin/scidCommunity" tests/tcl/[a-z_0-9]+\.tcl' \
-                    .github/workflows/tcl-tests.yml | sed 's|.*" ||')
+          files=$(grep -oE 'AppDir/usr/bin/scidCommunity"? tests/(tcl|cql)/[a-z_0-9]+\.tcl' \
+                    .github/workflows/tcl-tests.yml | sed 's|^.*\(tests/\)|\1|')
           test -n "$files"
           for f in $files; do
             echo "::group::$f"
