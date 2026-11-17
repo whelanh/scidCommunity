@@ -31,7 +31,35 @@ proc ::woodpecker::set::rootDir {} {
     set base [expr {[info exists ::scidUserDir] ? $::scidUserDir : [file join $::env(HOME) .scidCommunity]}]
     set dir [file join $base woodpecker]
     file mkdir $dir
+    set readme [file join $dir README.txt]
+    if {![file exists $readme]} { catch { ::woodpecker::writeAtomic $readme [readmeText] } }
     return $dir
+}
+
+# What the folder holds, for whoever opens it: nothing here is to be deleted by
+# hand unless the whole set is meant to go (the Delete button does that).
+proc ::woodpecker::set::readmeText {} {
+    return {scidCommunity - Woodpecker Method training data
+================================================
+
+One folder per training set, named <creation date>-<set name>. Delete a set
+from Play > Woodpecker Method > Delete, not by hand.
+
+In each set folder:
+  set.si5 set.sg5 set.sn5   the exercises, a Scid database (one game each:
+                            the position to solve and its solution)
+  exercises.tsv             the same exercises, read by a session so it never
+                            opens the database (rebuilt with the set)
+  marks.tsv                 the ! and !! of every evaluation, versioned
+  log.tsv                   every exercise played and every session: the
+                            statistics are computed from this file
+  set.tsv                   the set's name, source and schedule
+
+token.txt (in this folder) is your Lichess API token. It gives access to your
+Lichess account: keep it private.
+
+log.tsv is the only file that cannot be recreated: back it up with the set.
+}
 }
 
 # Every set: a list of {dir meta}, newest first.
@@ -51,10 +79,14 @@ proc ::woodpecker::set::all {} {
 
 # A directory name for a new set: letters, digits and dashes from the name,
 # made unique.
-proc ::woodpecker::set::newDir {name} {
+proc ::woodpecker::set::newDir {name {now ""}} {
+    if {$now eq ""} { set now [clock seconds] }
     set slug [string tolower [regsub -all {[^A-Za-z0-9]+} $name "-"]]
-    set slug [string trim $slug "-"]
+    set slug [string trim [string range [string trim $slug "-"] 0 40] "-"]
     if {$slug eq ""} { set slug set }
+    # The date first: the folders list in creation order and say when a set
+    # was made even to someone who never opens them.
+    set slug "[clock format $now -format %Y-%m-%d]-$slug"
     set dir [file join [rootDir] $slug]
     set n 1
     while {[file exists $dir]} { set dir [file join [rootDir] "$slug-[incr n]"] }
@@ -81,10 +113,15 @@ proc ::woodpecker::set::usedIds {} {
 # User-Agent, a bearer token), otherwise Tcl's http package with tls. The wait
 # keeps the event loop alive so the progress window stays responsive.
 proc ::woodpecker::set::httpGet {url {token ""}} {
+    return [httpRequest GET $url $token]
+}
+
+proc ::woodpecker::set::httpRequest {method url {token ""} {body ""}} {
     variable UA
     if {[auto_execok curl] ne ""} {
         set cmd [list curl -sS --max-time 30 -A $UA -H "Accept: application/json" -w "\n%{http_code}"]
         if {$token ne ""} { lappend cmd -H "Authorization: Bearer $token" }
+        if {$method eq "POST"} { lappend cmd -X POST -H "Content-Type: text/plain" --data-binary $body }
         lappend cmd $url
         set f [open |[concat $cmd [list 2>@1]] r]
         fconfigure $f -blocking 0 -encoding utf-8
@@ -107,7 +144,11 @@ proc ::woodpecker::set::httpGet {url {token ""}} {
     set headers [list Accept application/json]
     if {$token ne ""} { lappend headers Authorization "Bearer $token" }
     ::http::config -useragent $UA
-    set tok [::http::geturl $url -timeout 30000 -headers $headers]
+    if {$method eq "POST"} {
+        set tok [::http::geturl $url -timeout 30000 -headers $headers -type text/plain -query $body]
+    } else {
+        set tok [::http::geturl $url -timeout 30000 -headers $headers]
+    }
     set status [::http::ncode $tok]
     set body [::http::data $tok]
     ::http::cleanup $tok
@@ -274,6 +315,8 @@ proc ::woodpecker::set::buildFromExercises {dir meta exercises} {
     close $f
     set imported [importPgn $dir $pgn]
     if {$imported != $ex} { error "the set database has $imported games, expected $ex" }
+    # The PGN was only the way into the database, which holds the same games.
+    catch { file delete $pgn }
     ::woodpecker::writeExercises $dir $rows
     ::woodpecker::writeMeta $dir $meta
     return $ex
@@ -465,4 +508,61 @@ proc ::woodpecker::set::writeMarks {dir exMarks} {
 proc ::woodpecker::set::newMeta {name source days1 restDays now} {
     return [dict create name $name source $source created [clock format $now -format "%Y-%m-%d %H:%M:%S"] \
         days1 $days1 restDays $restDays version 1]
+}
+
+################################################################################
+# The Lichess token: <user dir>/woodpecker/token.txt, readable by its owner only
+# (the publish-to-Lichess feature keeps its own the same way).
+
+proc ::woodpecker::set::tokenPath {} { return [file join [rootDir] token.txt] }
+
+proc ::woodpecker::set::tokenRead {} {
+    set path [tokenPath]
+    if {![file exists $path]} { return "" }
+    set f [open $path r]
+    set t [string trim [read $f]]
+    close $f
+    return $t
+}
+
+proc ::woodpecker::set::tokenValid {t} { return [regexp {^[A-Za-z0-9_]+$} $t] }
+
+proc ::woodpecker::set::tokenWrite {t} {
+    set t [string trim $t]
+    if {$t ne "" && ![tokenValid $t]} { error "invalid token" }
+    set path [tokenPath]
+    ::woodpecker::writeAtomic $path $t
+    catch { file attributes $path -permissions 0600 }
+}
+
+# The page that creates a token with exactly the scope the trainer needs.
+proc ::woodpecker::set::tokenCreateUrl {} {
+    return {https://lichess.org/account/oauth/token/create?scopes[]=puzzle:read&description=scidCommunity+Woodpecker}
+}
+
+# Ask Lichess what a token is: {status user scopes rating}.
+#   status: ok | noscope (valid, but without puzzle:read) | invalid | error
+#   rating: the account's puzzle rating, "" when unknown
+proc ::woodpecker::set::tokenCheck {t} {
+    set out [dict create status error user "" scopes "" rating ""]
+    if {![tokenValid $t]} { dict set out status invalid; return $out }
+    if {[catch { httpRequest POST https://lichess.org/api/token/test "" $t } res]} { return $out }
+    lassign $res status body
+    if {$status != 200 || [catch { ::woodpecker::jsonParse $body } reply]} { return $out }
+    if {![dict exists $reply $t] || [dict get $reply $t] eq ""} {
+        dict set out status invalid
+        return $out
+    }
+    set info [dict get $reply $t]
+    set scopes [expr {[dict exists $info scopes] ? [dict get $info scopes] : ""}]
+    dict set out user [expr {[dict exists $info userId] ? [dict get $info userId] : ""}]
+    dict set out scopes $scopes
+    dict set out status [expr {"puzzle:read" in [split $scopes ","] ? "ok" : "noscope"}]
+    if {![catch { httpRequest GET https://lichess.org/api/account $t } acc]} {
+        lassign $acc st body
+        if {$st == 200 && ![catch { ::woodpecker::jsonParse $body } me]} {
+            if {[dict exists $me perfs puzzle rating]} { dict set out rating [dict get $me perfs puzzle rating] }
+        }
+    }
+    return $out
 }

@@ -314,6 +314,19 @@ checkEq "the same move" [::woodpecker::sameMove e7e8Q e7e8q] 1
 checkEq "castling as king takes rook" [::woodpecker::sameMove e1h1 e1g1] 1
 checkEq "different moves" [::woodpecker::sameMove e2e4 e2e3] 0
 
+
+# --------------------------------------------------------------- presets ----
+checkEq "three presets" [dict keys [::woodpecker::presets]] {automatic standard challenge}
+foreach name {automatic standard challenge} {
+    set sum 0
+    dict for {k v} [::woodpecker::presetShares $name] {
+        incr sum $v
+        check "$name uses a level the API knows ($k)" {$k in {easiest easier normal harder hardest}}
+    }
+    checkEq "$name adds up to 100" $sum 100
+}
+check "an unknown preset is refused" {[catch {::woodpecker::presetShares bogus}]}
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

@@ -5,9 +5,12 @@
 ### session panel and the session summary; a dialog to create a set, one to
 ### evaluate it, and a statistics window. Plan: docs/woodpecker-plan.md.
 ###
-### The session follows Repertoire Recall's rules: a scratch game in the
-### clipbase (the open game is left alone), no pop-up inside an exercise,
-### feedback that never blocks, the opponent's reply without a click.
+### A session takes the whole main window (the "focus layout"): the user's
+### layout is saved, every window is closed but the board and this panel, and
+### the layout comes back when the trainee leaves the session. Inside the
+### session Repertoire Recall's rules apply: no pop-up inside an exercise,
+### feedback that never blocks, the reply without a click, the important things
+### (result, attempts, clock) readable from the corner of the eye.
 
 namespace eval ::woodpecker::ui {
     variable w .woodpeckerWin
@@ -15,30 +18,32 @@ namespace eval ::woodpecker::ui {
     array set txt {}
     variable run
     array set run {on 0}
+    variable focus
+    array set focus {active 0 relayout 0}
     variable keysBound 0
     variable newCfg
     array set newCfg {}
-    variable evalCfg
-    array set evalCfg {}
     variable progress
     array set progress {}
+    # The panel's place in the focus layout: share of the width for the board.
+    variable BOARD_SHARE 0.58
 }
 
 if {[llength [info commands ::options.store]]} {
     ::options.store ::woodpecker::ui::engine ""
     ::options.store ::woodpecker::ui::lastCount 300
     ::options.store ::woodpecker::ui::lastDays 28
+    ::options.store ::woodpecker::ui::lastPreset standard
 }
-if {![info exists ::woodpecker::ui::engine]} { set ::woodpecker::ui::engine "" }
-if {![info exists ::woodpecker::ui::lastCount]} { set ::woodpecker::ui::lastCount 300 }
-if {![info exists ::woodpecker::ui::lastDays]} { set ::woodpecker::ui::lastDays 28 }
+foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard} {
+    if {![info exists ::woodpecker::ui::$_v]} { set ::woodpecker::ui::$_v $_d }
+}
+unset -nocomplain _v _d
 
 proc ::woodpecker::ui::T {tag args} {
     if {[llength $args]} { return [format [tr $tag] {*}$args] }
     return [tr $tag]
 }
-
-proc ::woodpecker::ui::neutral {} { return [ttk::style lookup TFrame -background] }
 
 proc ::woodpecker::ui::pct {x} { return [format "%.0f%%" $x] }
 
@@ -49,125 +54,324 @@ proc ::woodpecker::ui::num {x} {
 }
 
 ################################################################################
+# Look: colours that read on light and dark themes, and the fonts
+
+proc ::woodpecker::ui::dark {} {
+    return [expr {[info exists ::darkThemes] && [ttk::style theme use] in $::darkThemes}]
+}
+
+proc ::woodpecker::ui::color {name} {
+    set d [dark]
+    switch -- $name {
+        bg     { return [ttk::style lookup . -background {} [expr {$d ? "#2b2b2b" : "#efefef"}]] }
+        fg     { return [ttk::style lookup . -foreground {} [expr {$d ? "#e6e6e6" : "#202020"}]] }
+        field  { return [ttk::style lookup TEntry -fieldbackground {} [expr {$d ? "#1f1f1f" : "#ffffff"}]] }
+        muted  { return [expr {$d ? "#a8a8a8" : "#6f6f6f"}] }
+        track  { return [expr {$d ? "#454545" : "#dedede"}] }
+        accent { return [expr {$d ? "#5aa2e8" : "#2f7bd0"}] }
+        good   { return [expr {$d ? "#4cc24c" : "#2e9d2e"}] }
+        bad    { return [expr {$d ? "#ef5350" : "#d32f2f"}] }
+        warn   { return [expr {$d ? "#f0b040" : "#c98200"}] }
+        extra  { return "#f5a623" }
+        bang   { return [expr {$d ? "#4cc24c" : "#1e8a1e"}] }
+        bang2  { return [expr {$d ? "#4dd0c8" : "#00897b"}] }
+        link   { return [expr {$d ? "#6db3f2" : "#1a6ec4"}] }
+    }
+    return black
+}
+
+proc ::woodpecker::ui::fonts {} {
+    set base [font actual font_Regular]
+    foreach {name size weight} {woodpeckerClock 22 bold woodpeckerHead 18 bold woodpeckerTitle 13 bold
+            woodpeckerText 11 normal woodpeckerMove 12 bold woodpeckerSmall 9 normal woodpeckerBig 26 bold} {
+        catch { font create $name {*}$base -size $size -weight $weight }
+    }
+}
+
+# A rounded rectangle on a canvas.
+proc ::woodpecker::ui::roundRect {c x0 y0 x1 y1 r args} {
+    if {$x1 - $x0 < 2 * $r} { set r [expr {max(0, ($x1 - $x0) / 2.0)}] }
+    set pts [list [expr {$x0 + $r}] $y0 [expr {$x1 - $r}] $y0 $x1 $y0 $x1 [expr {$y0 + $r}] \
+        $x1 [expr {$y1 - $r}] $x1 $y1 [expr {$x1 - $r}] $y1 [expr {$x0 + $r}] $y1 $x0 $y1 \
+        $x0 [expr {$y1 - $r}] $x0 [expr {$y0 + $r}] $x0 $y0]
+    return [$c create polygon $pts -smooth 1 {*}$args]
+}
+
+proc ::woodpecker::ui::openLink {url} {
+    if {$::tcl_platform(platform) eq "windows"} {
+        catch { exec rundll32 url.dll,FileProtocolHandler $url & }
+    } else {
+        catch { openURL $url }
+    }
+}
+
+################################################################################
 # The window
 
 proc ::woodpecker::ui::open {} {
     variable w
     if {[::createToplevel $w] eq "already_exists"} { return }
+    build
+    showPage home
+    refresh
+}
+
+proc ::woodpecker::ui::build {} {
+    variable w
     ::setTitle $w [tr WoodpeckerTitle]
-    catch { font create woodpeckerBig {*}[font actual font_Regular] -size 18 -weight bold }
-    catch { font create woodpeckerMid {*}[font actual font_Regular] -size 11 }
-    catch { font create woodpeckerMove {*}[font actual font_Regular] -size 12 -weight bold }
+    fonts
     set v ::woodpecker::ui
 
     # --- the sets
-    set h [ttk::frame $w.home -padding 10]
-    ttk::treeview $h.sets -columns {name ex cycle progress last} -show headings -height 8 \
+    set h [ttk::frame $w.home -padding 12]
+    ttk::label $h.title -text [tr WoodpeckerTitle] -font woodpeckerHead
+    ttk::label $h.sub -text [tr WoodpeckerTagline] -foreground [color muted]
+    ttk::treeview $h.sets -columns {name ex cycle progress last} -show headings -height 7 \
         -selectmode browse -yscrollcommand [list $h.sb set]
     ttk::scrollbar $h.sb -command [list $h.sets yview]
     foreach {c tag width} {name WoodpeckerColName 200 ex WoodpeckerColExercises 80 \
             cycle WoodpeckerColCycle 60 progress WoodpeckerColProgress 110 last WoodpeckerColLast 110} {
         $h.sets heading $c -text [tr $tag]
-        $h.sets column $c -width $width -stretch [expr {$c eq "name"}]
+        $h.sets column $c -width $width -stretch [expr {$c eq "name"}] -anchor [expr {$c eq "name" ? "w" : "center"}]
     }
     bind $h.sets <<TreeviewSelect>> ${v}::selected
     bind $h.sets <Double-1> ${v}::train
-    ttk::label $h.info -textvariable ${v}::txt(info) -wraplength 520 -justify left -font woodpeckerMid
+    ttk::label $h.info -textvariable ${v}::txt(info) -wraplength 520 -justify left -font woodpeckerText
     ttk::frame $h.b
-    ttk::button $h.b.new -text [tr WoodpeckerNew] -command ${v}::newDialog
     ttk::button $h.b.train -image tb_play -text [tr WoodpeckerTrain] -compound left -command ${v}::train
+    ttk::button $h.b.new -text [tr WoodpeckerNew] -command ${v}::newDialog
     ttk::button $h.b.eval -text [tr WoodpeckerEvaluate] -command ${v}::evaluate
     ttk::button $h.b.stats -text [tr WoodpeckerStats] -command ${v}::stats
     ttk::button $h.b.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
-    ttk::button $h.b.close -text $::tr(Close) -command [list destroy $w]
-    pack $h.b.new $h.b.train $h.b.eval $h.b.stats $h.b.del -side left -padx {0 6}
-    pack $h.b.close -side right
-    grid $h.sets -row 0 -column 0 -sticky nsew
-    grid $h.sb -row 0 -column 1 -sticky ns
-    grid $h.info -row 1 -column 0 -columnspan 2 -sticky w -pady 8
-    grid $h.b -row 2 -column 0 -columnspan 2 -sticky ew
-    grid rowconfigure $h 0 -weight 1
+    pack $h.b.train $h.b.new $h.b.eval $h.b.stats -side left -padx {0 6}
+    pack $h.b.del -side right
+    grid $h.title -row 0 -column 0 -columnspan 2 -sticky w
+    grid $h.sub -row 1 -column 0 -columnspan 2 -sticky w -pady {0 8}
+    grid $h.sets -row 2 -column 0 -sticky nsew
+    grid $h.sb -row 2 -column 1 -sticky ns
+    grid $h.info -row 3 -column 0 -columnspan 2 -sticky w -pady 10
+    grid $h.b -row 4 -column 0 -columnspan 2 -sticky ew
+    grid rowconfigure $h 2 -weight 1
     grid columnconfigure $h 0 -weight 1
 
-    # --- the session
-    set p [ttk::frame $w.sess -padding 10]
-    ttk::frame $p.top
-    label $p.top.verdict -textvariable ${v}::txt(verdict) -font woodpeckerBig -width 3 -background [neutral]
-    ttk::label $p.top.clock -textvariable ${v}::txt(clock) -font woodpeckerBig
-    ttk::label $p.top.att -textvariable ${v}::txt(attempts) -font woodpeckerBig
-    pack $p.top.verdict -side left
-    pack $p.top.clock -side left -padx 16
-    pack $p.top.att -side right
-    ttk::label $p.title -textvariable ${v}::txt(title) -font woodpeckerMove
-    ttk::label $p.ltoday -textvariable ${v}::txt(today) -font woodpeckerMid
-    canvas $p.today -height 8 -highlightthickness 0 -background white -relief solid -borderwidth 1
-    ttk::label $p.lcycle -textvariable ${v}::txt(cycle) -font woodpeckerMid
-    canvas $p.cyc -height 8 -highlightthickness 0 -background white -relief solid -borderwidth 1
-    ttk::label $p.pace -textvariable ${v}::txt(pace) -font woodpeckerMid
-    ttk::label $p.stats -textvariable ${v}::txt(stats) -font woodpeckerMid
-    ttk::label $p.notice -textvariable ${v}::txt(notice) -wraplength 340 -justify left -foreground "#8a5a00"
-    text $p.card -height 3 -width 42 -wrap word -font woodpeckerMid -relief solid -borderwidth 1 \
-        -padx 8 -pady 6 -cursor arrow -state disabled -takefocus 0
-    $p.card tag configure move -font woodpeckerMove
-    $p.card tag configure good -font woodpeckerMove -foreground "#1e8a1e"
-    $p.card tag configure bad -font woodpeckerMove -foreground "#c62828"
+    buildSession
+    buildSummary
+
+    ::createToplevelFinalize $w
+    bind $w <Destroy> "+if {{%W} eq {$w}} { ${v}::closed }"
+}
+
+# The session panel. The order of packing is the order of importance: the
+# buttons and the status line from the bottom, then from the top the result
+# and the clock, the exercise, the card with the solution, the progress bars,
+# and last the details a small pane may hide.
+proc ::woodpecker::ui::buildSession {} {
+    variable w
+    set v ::woodpecker::ui
+    set p [ttk::frame $w.sess -padding 12]
+    ttk::frame $p.head
+    label $p.head.verdict -textvariable ${v}::txt(verdict) -font woodpeckerClock -width 2 \
+        -background [color bg] -foreground white -padx 6
+    ttk::label $p.head.clock -textvariable ${v}::txt(clock) -font woodpeckerClock
+    canvas $p.head.att -width 64 -height 28 -highlightthickness 0 -background [color bg]
+    pack $p.head.verdict -side left
+    pack $p.head.clock -side left -padx 14
+    pack $p.head.att -side right
+    ttk::label $p.title -textvariable ${v}::txt(title) -font woodpeckerTitle
+    ttk::frame $p.sub
+    canvas $p.sub.side -width 12 -height 12 -highlightthickness 0 -background [color bg]
+    ttk::label $p.sub.text -textvariable ${v}::txt(sub) -foreground [color muted]
+    pack $p.sub.side -side left -padx {0 6}
+    pack $p.sub.text -side left
+    # The card: the result, the points and the solution. While the exercise is
+    # on, it says only whose move it is - the solution stays hidden.
+    frame $p.card -background [color field] -highlightthickness 1 -highlightbackground [color track]
+    frame $p.card.stripe -width 5 -background [color track]
+    text $p.card.t -height 4 -width 40 -wrap word -font woodpeckerText -relief flat -borderwidth 0 \
+        -padx 10 -pady 8 -cursor arrow -state disabled -takefocus 0 \
+        -background [color field] -foreground [color fg]
+    pack $p.card.stripe -side left -fill y
+    pack $p.card.t -side left -fill both -expand 1
+    set t $p.card.t
+    $t tag configure head -font woodpeckerTitle
+    $t tag configure good -foreground [color good]
+    $t tag configure bad -foreground [color bad]
+    $t tag configure warn -foreground [color warn]
+    $t tag configure pts -font woodpeckerMove
+    $t tag configure move -font woodpeckerMove
+    $t tag configure bang -foreground [color bang] -font woodpeckerMove
+    $t tag configure bang2 -foreground [color bang2] -font woodpeckerMove
+    $t tag configure dim -foreground [color muted]
+    $t tag configure cur -background [color track]
+    $t tag configure link -underline 0
+    ttk::frame $p.bars
+    foreach {k} {today cycle} {
+        ttk::label $p.bars.l$k -textvariable ${v}::txt(l$k) -foreground [color muted]
+        canvas $p.bars.c$k -height 10 -highlightthickness 0 -background [color bg]
+        ttk::label $p.bars.n$k -textvariable ${v}::txt(n$k) -font woodpeckerMove
+    }
+    grid $p.bars.ltoday $p.bars.ctoday $p.bars.ntoday -sticky ew -pady 3
+    grid $p.bars.lcycle $p.bars.ccycle $p.bars.ncycle -sticky ew -pady 3
+    grid configure $p.bars.ltoday $p.bars.lcycle -sticky w -padx {0 10}
+    grid configure $p.bars.ntoday $p.bars.ncycle -sticky e -padx {10 0}
+    grid columnconfigure $p.bars 1 -weight 1
+    bind $p.bars.ctoday <Configure> ${v}::drawBars
+    ttk::label $p.meta -textvariable ${v}::txt(meta) -foreground [color muted]
+    # One tile per exercise of this session: green, amber or red.
+    canvas $p.strip -height 18 -highlightthickness 0 -background [color bg]
+    bind $p.strip <Configure> ${v}::drawStrip
+    ttk::label $p.notice -textvariable ${v}::txt(notice) -wraplength 360 -justify left \
+        -foreground [color warn] -font woodpeckerSmall
     ttk::frame $p.line
-    ttk::label $p.line.status -textvariable ${v}::txt(status) -font woodpeckerMid -wraplength 300 -justify left
-    ttk::button $p.line.cont -text [tr WoodpeckerContinue] -command ${v}::keyContinue
+    ttk::label $p.line.status -textvariable ${v}::txt(status) -wraplength 260 -justify left
+    ttk::button $p.line.cont -text [tr WoodpeckerContinue] -command ${v}::keyContinue -default active
     pack $p.line.status -side left
     ttk::frame $p.b
     ttk::button $p.b.pause -text [tr WoodpeckerPause] -command ${v}::pause
     ttk::button $p.b.end -text [tr WoodpeckerEnd] -command ${v}::finish
     pack $p.b.pause -side left
     pack $p.b.end -side right
-    # The buttons and the status line go in first, from the bottom, so a small
-    # docked pane squeezes the feedback card rather than hiding them.
-    pack $p.b -side bottom -fill x -pady {6 0}
-    pack $p.line -side bottom -fill x
-    pack $p.top -side top -anchor w -fill x
-    pack $p.title -side top -anchor w -pady {4 2}
-    # Then the feedback card, before the bars: the result and the points of
-    # the exercise just played matter more than the totals below it.
-    pack $p.card -side top -fill x -pady 4
-    pack $p.ltoday -side top -anchor w
-    pack $p.today -side top -fill x -pady {0 4}
-    pack $p.lcycle -side top -anchor w
-    pack $p.cyc -side top -fill x -pady {0 4}
-    pack $p.pace $p.stats -side top -anchor w -pady 1
-    pack $p.notice -side top -anchor w -pady 2
+    pack $p.b -side bottom -fill x -pady {8 0}
+    pack $p.line -side bottom -fill x -pady {6 0}
+    pack $p.head -side top -fill x
+    pack $p.title -side top -anchor w -pady {10 0}
+    pack $p.sub -side top -anchor w -pady {2 8}
+    pack $p.card -side top -fill x
+    pack $p.bars -side top -fill x -pady {12 4}
+    pack $p.meta -side top -anchor w
+    pack $p.strip -side top -fill x -pady {10 0}
+    pack $p.notice -side top -anchor w -pady {6 0}
+}
 
-    # --- the summary
-    set s [ttk::frame $w.sum -padding 10]
-    text $s.t -height 12 -width 52 -wrap word -font woodpeckerMid -relief flat -cursor arrow \
-        -state disabled -takefocus 0 -background [neutral]
-    $s.t tag configure title -font woodpeckerBig
-    $s.t tag configure head -font woodpeckerMove
+proc ::woodpecker::ui::buildSummary {} {
+    variable w
+    set v ::woodpecker::ui
+    set s [ttk::frame $w.sum -padding 16]
+    ttk::label $s.title -textvariable ${v}::txt(sumTitle) -font woodpeckerHead
+    ttk::label $s.badge -textvariable ${v}::txt(sumBadge) -foreground [color good] -font woodpeckerTitle
+    ttk::label $s.points -textvariable ${v}::txt(sumPoints) -font woodpeckerBig
+    ttk::label $s.pl -textvariable ${v}::txt(sumPointsLabel) -foreground [color muted]
+    canvas $s.strip -height 18 -highlightthickness 0 -background [color bg]
+    bind $s.strip <Configure> ${v}::drawStrip
+    ttk::frame $s.grid
+    ttk::label $s.notes -textvariable ${v}::txt(sumNotes) -wraplength 380 -justify left
     ttk::frame $s.b
-    ttk::button $s.b.back -text [tr WoodpeckerBack] -command ${v}::backHome
+    ttk::button $s.b.exit -text [tr WoodpeckerExit] -command ${v}::exitSession -default active
+    ttk::button $s.b.more -text [tr WoodpeckerMore] -command ${v}::more
     ttk::button $s.b.stats -text [tr WoodpeckerStats] -command ${v}::stats
-    pack $s.b.back -side left
-    pack $s.b.stats -side right
-    pack $s.b -side bottom -fill x -pady {8 0}
-    pack $s.t -side top -fill both -expand 1
-
-    ::createToplevelFinalize $w
-    bind $w <Destroy> "+if {{%W} eq {$w}} { ${v}::closed }"
-    showPage home
-    refresh
+    pack $s.b.exit -side right
+    pack $s.b.more $s.b.stats -side left -padx {0 6}
+    pack $s.b -side bottom -fill x -pady {12 0}
+    pack $s.title -side top -anchor w
+    pack $s.badge -side top -anchor w
+    pack $s.points -side top -anchor w -pady {10 0}
+    pack $s.pl -side top -anchor w
+    pack $s.strip -side top -fill x -pady {10 0}
+    pack $s.grid -side top -anchor w -pady 10
+    pack $s.notes -side top -anchor w
 }
 
 proc ::woodpecker::ui::showPage {page} {
     variable w
-    foreach p {home sess sum} { pack forget $w.$p }
+    foreach p {home sess sum} { catch { pack forget $w.$p } }
     pack $w.$page -fill both -expand 1
 }
 
+# The window is gone. During a relayout that is the layout's doing; otherwise
+# the trainee closed it: the session ends and the layout comes back.
 proc ::woodpecker::ui::closed {} {
     variable run
+    variable focus
+    if {$focus(relayout)} { return }
     if {$run(on)} { stop }
+    if {$focus(active)} { after idle ::woodpecker::ui::leaveFocus }
 }
 
-proc ::woodpecker::ui::backHome {} {
+################################################################################
+# The focus layout: board and panel, nothing else, for the whole session
+
+# Scid saves the layout as "auto" when it writes its options, on exit too. A
+# session must not become the layout the next start opens: while the focus
+# layout is on, the saved "auto" is the trainee's own layout.
+proc ::woodpecker::ui::layoutSaved {cmd code result op} {
+    variable focus
+    if {!$focus(active) || [lindex $cmd 1] ne "auto"} { return }
+    if {[info exists ::docking::layout_list(woodpecker_user)]} {
+        set ::docking::layout_list(auto) $::docking::layout_list(woodpecker_user)
+    }
+}
+if {[llength [info commands ::docking::layout_save]]} {
+    trace add execution ::docking::layout_save leave ::woodpecker::ui::layoutSaved
+}
+
+proc ::woodpecker::ui::enterFocus {} {
+    variable focus
+    variable w
+    variable BOARD_SHARE
+    if {$focus(active)} { return 1 }
+    if {![llength [info commands ::docking::layout_restore]]} { return 0 }
+    ::docking::layout_save woodpecker_user
+    set geom [wm geometry .]
+    set zoomed [expr {[wm state .] eq "zoomed"}]
+    if {[scan $geom "%dx%d+%d+%d" gw gh gx gy] == 4 && !$zoomed} {
+        # The panel needs room beside the board.
+        set gw [expr {max($gw, min([winfo screenwidth .] - 40, 1180))}]
+        set gh [expr {max($gh, min([winfo screenheight .] - 80, 720))}]
+        set geom "${gw}x${gh}+$gx+$gy"
+    }
+    set g [list MainWindowGeometry $geom]
+    if {$zoomed} { lappend g zoomed }
+    set ::docking::layout_list(woodpecker_focus) [list $g {{.pw horizontal {}} {TNotebook .nb .main}}]
+    set focus(relayout) 1
+    set err [catch {
+        ::docking::layout_restore woodpecker_focus
+        set nb .pw.woodpeckerTab
+        ::docking::create_notebook_ $nb
+        ::docking::insert_notebook_ .pw end $nb
+        set ::docking::layout_dest_notebook $nb
+        ::createToplevel $w
+        unset -nocomplain ::docking::layout_dest_notebook
+        build
+        update idletasks
+        catch { .pw sashpos 0 [expr {int([winfo width .pw] * $BOARD_SHARE)}] }
+    } msg]
+    unset -nocomplain ::docking::layout_dest_notebook
+    set focus(relayout) 0
+    unset -nocomplain ::docking::layout_list(woodpecker_focus)
+    if {$err} {
+        puts stderr "Woodpecker: focus layout failed: $msg"
+        # Put the trainee's layout back; the session runs in it.
+        set focus(relayout) 1
+        catch { ::docking::layout_restore woodpecker_user }
+        set focus(relayout) 0
+        unset -nocomplain ::docking::layout_list(woodpecker_user)
+        if {![winfo exists $w]} { open }
+        return 0
+    }
+    set focus(active) 1
+    return 1
+}
+
+# Back to the trainee's layout, with this window on its list of sets.
+proc ::woodpecker::ui::leaveFocus {} {
+    variable focus
+    variable w
+    if {!$focus(active)} { return }
+    set focus(relayout) 1
+    catch { ::docking::layout_restore woodpecker_user }
+    set focus(relayout) 0
+    set focus(active) 0
+    unset -nocomplain ::docking::layout_list(woodpecker_user)
+    open
+    showPage home
+    refresh
+}
+
+proc ::woodpecker::ui::exitSession {} {
+    variable run
+    if {$run(on)} { finish }
+    leaveFocus
+    if {![winfo exists .woodpeckerWin.home]} { open }
     showPage home
     refresh
 }
@@ -206,8 +410,6 @@ proc ::woodpecker::ui::current {} {
     return [lindex [$w.home.sets selection] 0]
 }
 
-# The selected set's day, in a few lines: where the cycle is, today's quota,
-# rest days, and whether the set has been evaluated.
 proc ::woodpecker::ui::selected {} {
     variable txt
     set dir [current]
@@ -265,7 +467,6 @@ proc ::woodpecker::ui::deleteSet {} {
     set name [dict get [::woodpecker::readMeta $dir] name]
     if {[tk_messageBox -icon warning -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
             -message [T WoodpeckerDeleteAsk $name]] ne "yes"} { return }
-    # A set's database may be open in the main window.
     catch {
         set want [file normalize [::woodpecker::set::basePath $dir]]
         foreach b [sc_base list] {
@@ -279,83 +480,189 @@ proc ::woodpecker::ui::deleteSet {} {
 ################################################################################
 # Creating a set
 
+proc ::woodpecker::ui::presetLabels {} {
+    return [list automatic [tr WoodpeckerPreset_automatic] standard [tr WoodpeckerPreset_standard] \
+        challenge [tr WoodpeckerPreset_challenge] custom [tr WoodpeckerPreset_custom]]
+}
+
 proc ::woodpecker::ui::newDialog {} {
     variable newCfg
     set d .woodpeckerNew
     if {[winfo exists $d]} { raise $d; return }
     win::createDialog $d
     ::setTitle $d [tr WoodpeckerNewTitle]
+    fonts
     set v ::woodpecker::ui
+    set preset $::woodpecker::ui::lastPreset
+    if {$preset ni {automatic standard challenge custom}} { set preset standard }
     array set newCfg [list name "Woodpecker [clock format [clock seconds] -format %Y-%m-%d]" \
         source lichess count $::woodpecker::ui::lastCount color both theme [tr WoodpeckerThemeMix] \
-        file "" days1 $::woodpecker::ui::lastDays restDays 1 \
-        easiest 0 easier 0 normal 100 harder 0 hardest 0 token ""]
-    if {[info exists ::lichess_puzzles::apiToken]} { set newCfg(token) $::lichess_puzzles::apiToken }
-    set f [ttk::frame $d.f -padding 10]
+        file "" days1 $::woodpecker::ui::lastDays restDays 1 preset $preset \
+        presetLabel [dict get [presetLabels] $preset] \
+        easiest 0 easier 25 normal 60 harder 15 hardest 0 \
+        token [::woodpecker::set::tokenRead] tokenState "" tokenUser "" tokenRating ""]
+    set f [ttk::frame $d.f -padding 4]
     pack $f -fill both -expand 1
     ttk::label $f.lname -text [tr WoodpeckerName]
     ttk::entry $f.name -textvariable ${v}::newCfg(name) -width 36
     ttk::radiobutton $f.rl -text [tr WoodpeckerFromLichess] -variable ${v}::newCfg(source) -value lichess
-    ttk::frame $f.lich -padding {20 0 0 0}
-    ttk::label $f.lich.lcount -text [tr WoodpeckerCount]
-    ttk::spinbox $f.lich.count -from 20 -to 2000 -increment 10 -width 6 -textvariable ${v}::newCfg(count)
-    ttk::label $f.lich.ldiff -text [tr WoodpeckerDifficulty]
-    ttk::frame $f.lich.diff
+    set l [ttk::frame $f.lich -padding {20 2 0 0}]
+    # The token first: without it the set is hardly usable.
+    ttk::label $l.ltoken -text [tr WoodpeckerToken]
+    ttk::frame $l.tok
+    ttk::entry $l.tok.e -textvariable ${v}::newCfg(token) -show * -width 28
+    ttk::button $l.tok.b -text [tr WoodpeckerTokenSave] -command ${v}::tokenSave
+    pack $l.tok.e -side left
+    pack $l.tok.b -side left -padx 4
+    ttk::label $l.toklink -text [tr WoodpeckerTokenCreate] -foreground [color link] -cursor hand2
+    bind $l.toklink <ButtonRelease-1> [list ${v}::openLink [::woodpecker::set::tokenCreateUrl]]
+    ttk::label $l.tokstate -textvariable ${v}::newCfg(tokenText) -wraplength 400 -justify left
+    ttk::label $l.lcount -text [tr WoodpeckerCount]
+    ttk::spinbox $l.count -from 20 -to 2000 -increment 50 -width 6 -textvariable ${v}::newCfg(count)
+    ttk::label $l.ldiff -text [tr WoodpeckerDifficulty]
+    ttk::combobox $l.preset -state readonly -width 30 -values [dict values [presetLabels]] \
+        -textvariable ${v}::newCfg(presetLabel)
+    bind $l.preset <<ComboboxSelected>> ${v}::presetChosen
+    ttk::label $l.presethelp -textvariable ${v}::newCfg(presetHelp) -wraplength 400 -justify left \
+        -foreground [color muted]
+    ttk::frame $l.diff
     set col 0
     foreach lv $::woodpecker::set::LEVELS {
-        ttk::label $f.lich.diff.l$lv -text [tr WoodpeckerLevel_$lv]
-        ttk::spinbox $f.lich.diff.s$lv -from 0 -to 100 -increment 10 -width 4 -textvariable ${v}::newCfg($lv)
-        grid $f.lich.diff.l$lv -row 0 -column $col -padx 3
-        grid $f.lich.diff.s$lv -row 1 -column $col -padx 3
+        ttk::label $l.diff.l$lv -text [tr WoodpeckerLevel_$lv]
+        ttk::spinbox $l.diff.s$lv -from 0 -to 100 -increment 5 -width 4 -textvariable ${v}::newCfg($lv)
+        grid $l.diff.l$lv -row 0 -column $col -padx 3
+        grid $l.diff.s$lv -row 1 -column $col -padx 3
         incr col
     }
-    ttk::label $f.lich.diffhelp -text [tr WoodpeckerDifficultyHelp] -wraplength 380 -justify left
-    ttk::label $f.lich.ltheme -text [tr WoodpeckerTheme]
+    ttk::label $l.ltheme -text [tr WoodpeckerTheme]
     set themes [list [tr WoodpeckerThemeMix]]
     if {[info exists ::lichess_puzzles::themeNames]} { lappend themes {*}$::lichess_puzzles::themeNames }
-    ttk::combobox $f.lich.theme -state readonly -width 28 -values $themes -textvariable ${v}::newCfg(theme)
-    ttk::label $f.lich.lcolor -text [tr WoodpeckerColor]
-    ttk::frame $f.lich.color
+    ttk::combobox $l.theme -state readonly -width 30 -values $themes -textvariable ${v}::newCfg(theme)
+    ttk::label $l.lcolor -text [tr WoodpeckerColor]
+    ttk::frame $l.color
     foreach c {both white black} {
-        ttk::radiobutton $f.lich.color.$c -text [tr WoodpeckerColor_$c] -variable ${v}::newCfg(color) -value $c
-        pack $f.lich.color.$c -side left -padx {0 8}
+        ttk::radiobutton $l.color.$c -text [tr WoodpeckerColor_$c] -variable ${v}::newCfg(color) -value $c
+        pack $l.color.$c -side left -padx {0 8}
     }
-    ttk::label $f.lich.ltoken -text [tr WoodpeckerToken]
-    ttk::entry $f.lich.token -textvariable ${v}::newCfg(token) -show * -width 30
-    set r 0
-    foreach {l x} {lcount count ldiff diff {} diffhelp ltheme theme lcolor color ltoken token} {
-        if {$l ne ""} { grid $f.lich.$l -row $r -column 0 -sticky nw -padx {0 8} -pady 2 }
-        grid $f.lich.$x -row $r -column 1 -sticky w -pady 2
-        incr r
-    }
+    grid $l.ltoken $l.tok -sticky w -pady 2
+    grid x $l.toklink -sticky w
+    grid x $l.tokstate -sticky w -pady {0 6}
+    grid $l.lcount $l.count -sticky w -pady 2
+    grid $l.ldiff $l.preset -sticky w -pady 2
+    grid x $l.presethelp -sticky w
+    grid x $l.diff -sticky w -pady 2
+    grid $l.ltheme $l.theme -sticky w -pady 2
+    grid $l.lcolor $l.color -sticky w -pady 2
+    grid configure $l.ltoken $l.lcount $l.ldiff $l.ltheme $l.lcolor -padx {0 10}
     ttk::radiobutton $f.rf -text [tr WoodpeckerFromFile] -variable ${v}::newCfg(source) -value file
     ttk::frame $f.file -padding {20 0 0 0}
     ttk::entry $f.file.e -textvariable ${v}::newCfg(file) -width 36
     ttk::button $f.file.b -text "..." -width 3 -command ${v}::chooseFile
     pack $f.file.e -side left -fill x -expand 1
     pack $f.file.b -side left -padx 4
-    ttk::label $f.filehelp -text [tr WoodpeckerFileHelp] -wraplength 420 -justify left -padding {20 0 0 0}
+    ttk::label $f.filehelp -text [tr WoodpeckerFileHelp] -wraplength 440 -justify left \
+        -padding {20 0 0 0} -foreground [color muted]
     ttk::separator $f.sep
     ttk::label $f.ldays -text [tr WoodpeckerDays1]
     ttk::spinbox $f.days -from 1 -to 120 -width 5 -textvariable ${v}::newCfg(days1)
     ttk::label $f.lrest -text [tr WoodpeckerRestDays]
     ttk::spinbox $f.rest -from 0 -to 14 -width 5 -textvariable ${v}::newCfg(restDays)
-    ttk::label $f.dayshelp -text [tr WoodpeckerDaysHelp] -wraplength 420 -justify left
+    ttk::label $f.dayshelp -text [tr WoodpeckerDaysHelp] -wraplength 440 -justify left -foreground [color muted]
     grid $f.lname $f.name -sticky w -pady 3
     grid $f.rl - -sticky w -pady {8 2}
     grid $f.lich - -sticky w
-    grid $f.rf - -sticky w -pady {8 2}
+    grid $f.rf - -sticky w -pady {10 2}
     grid $f.file - -sticky ew
     grid $f.filehelp - -sticky w
     grid $f.sep - -sticky ew -pady 8
     grid $f.ldays $f.days -sticky w -pady 2
     grid $f.lrest $f.rest -sticky w -pady 2
     grid $f.dayshelp - -sticky w -pady 2
-    ttk::frame $d.b -padding {10 0 10 10}
-    ttk::button $d.b.ok -text [tr WoodpeckerCreate] -command ${v}::create
+    ttk::frame $d.b -padding {10 6 10 10}
+    ttk::button $d.b.ok -text [tr WoodpeckerCreate] -command ${v}::create -default active
     ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d]
     pack $d.b.cancel $d.b.ok -side right -padx 4
     pack $d.b -fill x
+    presetChosen
+    tokenShow
+    if {$newCfg(token) ne ""} { after idle ::woodpecker::ui::tokenVerify }
+}
+
+proc ::woodpecker::ui::presetChosen {} {
+    variable newCfg
+    set key custom
+    dict for {k label} [presetLabels] { if {$label eq $newCfg(presetLabel)} { set key $k } }
+    set newCfg(preset) $key
+    set l .woodpeckerNew.f.lich
+    if {$key eq "custom"} {
+        grid $l.diff
+        set newCfg(presetHelp) [tr WoodpeckerPresetHelp_custom]
+    } else {
+        grid remove $l.diff
+        foreach lv $::woodpecker::set::LEVELS { set newCfg($lv) 0 }
+        dict for {lv share} [::woodpecker::presetShares $key] { set newCfg($lv) $share }
+        set newCfg(presetHelp) [tr WoodpeckerPresetHelp_$key]
+    }
+    if {$newCfg(tokenRating) ne ""} {
+        append newCfg(presetHelp) " " [T WoodpeckerPresetRating $newCfg(tokenRating)]
+    } else {
+        append newCfg(presetHelp) " " [tr WoodpeckerPresetNoRating]
+    }
+}
+
+# The line under the token: what the token is, or why a set needs one.
+proc ::woodpecker::ui::tokenShow {} {
+    variable newCfg
+    set l .woodpeckerNew.f.lich
+    if {![winfo exists $l.tokstate]} { return }
+    switch -- $newCfg(tokenState) {
+        ok {
+            set txt [T WoodpeckerTokenOk $newCfg(tokenUser)]
+            if {$newCfg(tokenRating) ne ""} { append txt " " [T WoodpeckerTokenRating $newCfg(tokenRating)] }
+            set c good
+        }
+        noscope { set txt [tr WoodpeckerTokenNoScope]; set c bad }
+        invalid { set txt [tr WoodpeckerTokenInvalid]; set c bad }
+        error   { set txt [tr WoodpeckerTokenUnchecked]; set c warn }
+        checking { set txt [tr WoodpeckerTokenChecking]; set c muted }
+        default { set txt [tr WoodpeckerTokenMissing]; set c warn }
+    }
+    set newCfg(tokenText) $txt
+    $l.tokstate configure -foreground [color $c]
+}
+
+proc ::woodpecker::ui::tokenSave {} {
+    variable newCfg
+    set t [string trim $newCfg(token)]
+    if {$t ne "" && ![::woodpecker::set::tokenValid $t]} {
+        set newCfg(tokenState) invalid
+        tokenShow
+        return
+    }
+    catch { ::woodpecker::set::tokenWrite $t }
+    if {$t eq ""} {
+        set newCfg(tokenState) ""
+        set newCfg(tokenRating) ""
+        tokenShow
+        presetChosen
+        return
+    }
+    tokenVerify
+}
+
+proc ::woodpecker::ui::tokenVerify {} {
+    variable newCfg
+    set t [string trim $newCfg(token)]
+    if {$t eq ""} { return }
+    set newCfg(tokenState) checking
+    tokenShow
+    set r [::woodpecker::set::tokenCheck $t]
+    if {![winfo exists .woodpeckerNew]} { return }
+    set newCfg(tokenState) [dict get $r status]
+    set newCfg(tokenUser) [dict get $r user]
+    set newCfg(tokenRating) [dict get $r rating]
+    tokenShow
+    presetChosen
 }
 
 proc ::woodpecker::ui::chooseFile {} {
@@ -391,6 +698,21 @@ proc ::woodpecker::ui::create {} {
         $newCfg(restDays) [clock seconds]]
     set ::woodpecker::ui::lastDays $newCfg(days1)
     if {$newCfg(source) eq "lichess"} {
+        set token [string trim $newCfg(token)]
+        if {$token ne "" && $newCfg(tokenState) ne "ok"} { tokenVerify }
+        switch -- $newCfg(tokenState) {
+            invalid - noscope {
+                tk_messageBox -icon error -parent $d -message $newCfg(tokenText)
+                return
+            }
+        }
+        if {$token eq ""} {
+            if {[choice [tr WoodpeckerNoTokenAsk] [list go [tr WoodpeckerNoTokenGo] cancel $::tr(Cancel)] $d] ne "go"} {
+                return
+            }
+        } else {
+            catch { ::woodpecker::set::tokenWrite $token }
+        }
         set shares [dict create]
         foreach lv $::woodpecker::set::LEVELS {
             if {[string is double -strict $newCfg($lv)] && $newCfg($lv) > 0} { dict set shares $lv $newCfg($lv) }
@@ -400,10 +722,14 @@ proc ::woodpecker::ui::create {} {
             return
         }
         set ::woodpecker::ui::lastCount $newCfg(count)
+        set ::woodpecker::ui::lastPreset $newCfg(preset)
         set spec [dict create count $newCfg(count) shares $shares angle [themeKey $newCfg(theme)] \
-            color $newCfg(color) token [string trim $newCfg(token)]]
+            color $newCfg(color) token $token]
+        dict set meta preset $newCfg(preset)
         dict set meta shares $shares
         dict set meta angle [dict get $spec angle]
+        dict set meta token [expr {$token ne ""}]
+        if {$newCfg(tokenRating) ne ""} { dict set meta rating $newCfg(tokenRating) }
         destroy $d
         set dir [::woodpecker::set::newDir $name]
         progressOpen [tr WoodpeckerDownloading] ::woodpecker::set::cancel
@@ -460,8 +786,8 @@ proc ::woodpecker::ui::selectSet {dir} {
     }
 }
 
-# A new set: say what was built and offer the evaluation (plan 7, user's rule:
-# no annotations -> strongly recommended; some -> complete or overwrite).
+# A new set: say what was built and offer the evaluation (no annotations ->
+# strongly recommended; some -> complete or overwrite).
 proc ::woodpecker::ui::afterCreate {dir msg} {
     set st [::woodpecker::set::markStatus $dir]
     if {[dict get $st annotated] == 0} {
@@ -514,12 +840,12 @@ proc ::woodpecker::ui::progressClose {} {
 }
 
 ################################################################################
-# Evaluating a set (plan 7)
+# Evaluating a set
 
-# `mode`: all | missing | ask. With ask, the dialog follows the user's rule:
-#   no annotations       -> the evaluation is strongly recommended
-#   some annotated       -> complete with the review, or overwrite everything
-#   all annotated        -> the review is optional: overwrite or keep
+# `mode`: all | missing | ask. With ask the dialog follows the trainee's rule:
+#   no annotations -> the evaluation is strongly recommended
+#   some annotated -> complete with the review, or overwrite everything
+#   all annotated  -> the review is optional: overwrite or keep
 proc ::woodpecker::ui::evaluate {{dir ""} {mode ask}} {
     if {$dir eq ""} { set dir [current] }
     if {$dir eq ""} { return }
@@ -598,14 +924,14 @@ proc ::woodpecker::ui::evalDone {dir status summary} {
     refresh
 }
 
-# A small modal choice; returns the key of the button pressed.
-proc ::woodpecker::ui::choice {message buttons} {
+# A small modal choice outside a session; returns the key of the button.
+proc ::woodpecker::ui::choice {message buttons {parent .woodpeckerWin}} {
     set d .woodpeckerChoice
     catch { destroy $d }
     win::createDialog $d
     ::setTitle $d [tr WoodpeckerTitle]
     set ::woodpecker::ui::choiceAns cancel
-    ttk::label $d.m -text $message -wraplength 380 -justify left -padding 12
+    ttk::label $d.m -text $message -wraplength 400 -justify left -padding 12
     ttk::frame $d.b -padding {10 0 10 10}
     foreach {key label} $buttons {
         ttk::button $d.b.$key -text $label -command [list set ::woodpecker::ui::choiceAns $key]
@@ -614,6 +940,7 @@ proc ::woodpecker::ui::choice {message buttons} {
     pack $d.m -fill x
     pack $d.b -fill x
     wm protocol $d WM_DELETE_WINDOW { set ::woodpecker::ui::choiceAns cancel }
+    catch { ::tk::PlaceWindow $d widget $parent }
     grab $d
     vwait ::woodpecker::ui::choiceAns
     catch { grab release $d }
@@ -659,12 +986,13 @@ proc ::woodpecker::ui::chooseEngine {count} {
 ################################################################################
 # The session
 
-proc ::woodpecker::ui::train {} {
+proc ::woodpecker::ui::train {{dir ""}} {
     variable run
     variable w
     variable keysBound
     variable txt
-    set dir [current]
+    variable focus
+    if {$dir eq ""} { set dir [current] }
     if {$dir eq "" || $run(on)} { return }
     if {[info exists ::playMode]} {
         tk_messageBox -icon info -parent $w -message [tr WoodpeckerOtherMode]
@@ -678,22 +1006,24 @@ proc ::woodpecker::ui::train {} {
         if {[tk_messageBox -icon question -type yesno -parent $w -title [tr WoodpeckerTitle] \
                 -message [T WoodpeckerRestAsk [dict get $dp rest] [dict get $dp cycle]]] ne "yes"} { return }
     }
+    # The whole main window for the session: board and panel, nothing else.
+    set focused [enterFocus]
     lassign [::woodpecker::readLog $dir] xs ss
     set session 0
     foreach x $xs { if {[dict get $x session] > $session} { set session [dict get $x session] } }
     foreach s $ss { if {[dict get $s session] > $session} { set session [dict get $s session] } }
     set marks [::woodpecker::readMarks $dir]
+    set meta [dict get $dp meta]
     array unset run
     array set run [list on 1 dir $dir exs $exs n [dict size $exs] cycle [dict get $dp cycle] \
         next [dict get $dp next] session [expr {$session + 1}] quota [dict get $dp quota] \
-        doneToday0 [dict get $dp doneToday] doneToday [dict get $dp doneToday] \
-        deadline [dict get $dp deadline] doneCycle [expr {[dict get $dp next] - 1}] \
+        doneToday [dict get $dp doneToday] deadline [dict get $dp deadline] \
+        doneCycle [expr {[dict get $dp next] - 1}] \
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
         wait "" ex 0 state {} exT0 0 exPaused 0 pending "" results {} streak 0 points 0.0 max 0.0 \
-        prevBase [sc_base current] cycleDays [::woodpecker::cycleDays [dict get $dp cycle] \
-            [expr {[dict exists [dict get $dp meta] days1] ? [dict get [dict get $dp meta] days1] : 28}]] \
-        xs $xs]
+        prevBase [sc_base current] xs $xs engines {} played 0 fen "" solution {} why "" \
+        name [dict get $meta name]]
     # The session plays in a database of its own, in memory: the game open in
     # any base is left exactly as it is. (sc_game push/pop keeps one slot per
     # base, which other windows also use, so it cannot hold a game for a
@@ -701,12 +1031,14 @@ proc ::woodpecker::ui::train {} {
     if {[catch { sc_base create MEMORY "Woodpecker" } mem]} {
         array set run {on 0}
         tk_messageBox -icon error -parent $w -message [T WoodpeckerNoSlot $mem]
+        if {$focus(active)} { leaveFocus }
         return
     }
     set run(memBase) $mem
     ::file::SwitchToBase $mem
-    # An engine window that follows the board would show the solution.
-    set run(engines) [pauseEngines]
+    # Without the focus layout an engine window that follows the board would
+    # show the solution.
+    if {!$focused} { set run(engines) [pauseEngines] }
     if {!$keysBound} {
         bind MainBoardKeys <Return> {+::woodpecker::ui::keyContinue}
         bind MainBoardKeys <space> {+::woodpecker::ui::keyContinue}
@@ -715,17 +1047,22 @@ proc ::woodpecker::ui::train {} {
     ::setPlayMode ::woodpecker::ui::callback
     showPage sess
     $w.sess.b.pause configure -text [tr WoodpeckerPause]
-    set notes {}
-    foreach l [lrange [dict get $dp lines] 2 end] { lappend notes $l }
+    set notes [lrange [dict get $dp lines] 2 end]
     set unrated 0
     dict for {ex e} $exs { if {![dict exists $run(table) $ex]} { incr unrated } }
     if {$unrated} { lappend notes [T WoodpeckerUnratedShort $unrated] }
     set txt(notice) [join $notes "\n"]
-    card {}
+    set txt(ltoday) [tr WoodpeckerToday]
     verdict ""
     statsLine
     tick
     nextExercise
+}
+
+proc ::woodpecker::ui::more {} {
+    variable run
+    if {$run(on) || ![info exists run(dir)]} { return }
+    train $run(dir)
 }
 
 proc ::woodpecker::ui::elapsedMs {} {
@@ -742,8 +1079,6 @@ proc ::woodpecker::ui::tick {} {
     if {!$run(on) || ![winfo exists $w]} { return }
     set e [expr {[elapsedMs] / 1000}]
     set txt(clock) [format "%d:%02d" [expr {$e / 60}] [expr {$e % 60}]]
-    bar $w.sess.today $run(doneToday) $run(quota)
-    bar $w.sess.cyc $run(doneCycle) $run(n)
     if {$run(wait) eq "ask" && !$run(paused) \
             && [clock milliseconds] - $run(lastInput) > $::woodpecker::P(idleMs)} {
         pause 1
@@ -751,41 +1086,104 @@ proc ::woodpecker::ui::tick {} {
     after 500 ::woodpecker::ui::tick
 }
 
-# A progress bar: blue up to the target, orange for what goes beyond it.
+# The two bars: today's target and the cycle. Blue up to the target, orange for
+# what goes beyond it, on a rounded track.
+proc ::woodpecker::ui::drawBars {} {
+    variable run
+    variable w
+    if {!$run(on) && ![info exists run(doneToday)]} { return }
+    catch { bar $w.sess.bars.ctoday $run(doneToday) $run(quota) }
+    catch { bar $w.sess.bars.ccycle $run(doneCycle) $run(n) }
+}
+
 proc ::woodpecker::ui::bar {c done target} {
     if {![winfo exists $c]} { return }
     $c delete all
     set cw [winfo width $c]
     set ch [winfo height $c]
+    if {$cw < 4} { return }
     set total [expr {double(max($target, $done, 1))}]
-    set xt [expr {$cw * $target / $total}]
-    $c create rectangle 0 0 [expr {$cw * min($done, $target) / $total}] $ch -fill "#4a90d9" -outline ""
+    roundRect $c 0 0 $cw $ch [expr {$ch / 2.0}] -fill [color track] -outline ""
+    set x [expr {$cw * min($done, $target) / $total}]
+    if {$x > 0} { roundRect $c 0 0 $x $ch [expr {$ch / 2.0}] -fill [color accent] -outline "" }
     if {$done > $target} {
-        $c create rectangle $xt 0 [expr {$cw * $done / $total}] $ch -fill "#f5a623" -outline ""
+        roundRect $c [expr {$cw * $target / $total - $ch / 2.0}] 0 [expr {$cw * $done / $total}] $ch \
+            [expr {$ch / 2.0}] -fill [color extra] -outline ""
     }
-    if {$target > 0} { $c create line $xt 0 $xt $ch -fill black -width 2 }
+}
+
+# The attempts left, as two dots: blue while both are there, orange when one
+# is left, an empty ring for each spent.
+# The session's exercises as tiles, wrapping onto more rows when they do not
+# fit: the colour of each result, in the order they were played.
+proc ::woodpecker::ui::drawStrip {} {
+    variable run
+    variable w
+    if {![info exists run(results)]} { return }
+    foreach c [list $w.sess.strip $w.sum.strip] {
+        if {![winfo exists $c]} { continue }
+        $c delete all
+        set cw [winfo width $c]
+        if {$cw < 20} { continue }
+        set size 14
+        set gap 4
+        set perRow [expr {max(1, ($cw + $gap) / ($size + $gap))}]
+        set i 0
+        foreach r $run(results) {
+            set x [expr {($i % $perRow) * ($size + $gap)}]
+            set y [expr {($i / $perRow) * ($size + $gap) + 2}]
+            set col [dict get {clean good second warn failed bad} [dict get $r result]]
+            roundRect $c $x $y [expr {$x + $size}] [expr {$y + $size}] 3 -fill [color $col] -outline ""
+            incr i
+        }
+        set rows [expr {$i ? ($i - 1) / $perRow + 1 : 1}]
+        set want [expr {$rows * ($size + $gap) + 2}]
+        if {[$c cget -height] != $want} { $c configure -height $want }
+    }
+}
+
+proc ::woodpecker::ui::drawAttempts {} {
+    variable run
+    variable w
+    set c $w.sess.head.att
+    if {![winfo exists $c]} { return }
+    $c delete all
+    if {$run(state) eq ""} { return }
+    set left [expr {2 - [dict get $run(state) errors]}]
+    set fill [expr {$left == 2 ? [color accent] : [color warn]}]
+    foreach i {0 1} {
+        set x [expr {6 + $i * 30}]
+        if {$i < $left} {
+            $c create oval $x 4 [expr {$x + 20}] 24 -fill $fill -outline $fill
+        } else {
+            $c create oval [expr {$x + 1}] 5 [expr {$x + 19}] 23 -outline [color muted] -width 2
+        }
+    }
 }
 
 proc ::woodpecker::ui::statsLine {} {
     variable run
     variable txt
-    set txt(today) [T WoodpeckerTodayBar $run(doneToday) $run(quota)]
-    set txt(cycle) [T WoodpeckerCycleBar $run(cycle) $run(doneCycle) $run(n) $run(deadline)]
+    set txt(ntoday) "$run(doneToday) / $run(quota)"
+    set txt(lcycle) [T WoodpeckerCycleShort $run(cycle)]
+    set txt(ncycle) "$run(doneCycle) / $run(n)"
     set done [llength $run(results)]
-    set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
-    set txt(stats) [T WoodpeckerStatsLine $run(streak) [num $run(points)] [pct $pct]]
-    # Pace: this session's average against the target (the previous cycle's
-    # time halved, spread over the set), when there is a previous cycle.
-    set txt(pace) ""
+    set parts {}
     if {$done} {
         set avg [expr {[sumMs] / 1000.0 / $done}]
         set target [targetPace]
         if {$target ne ""} {
-            set txt(pace) [T WoodpeckerPace [format %.0f $avg] [format %.0f $target]]
+            lappend parts [T WoodpeckerPace [format %.0f $avg] [format %.0f $target]]
         } else {
-            set txt(pace) [T WoodpeckerPaceFirst [format %.0f $avg]]
+            lappend parts [T WoodpeckerPaceFirst [format %.0f $avg]]
         }
+        set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
+        lappend parts [T WoodpeckerStatsLine $run(streak) [pct $pct]]
     }
+    lappend parts [T WoodpeckerDeadline $run(deadline)]
+    set txt(meta) [join $parts "   \u00b7   "]
+    drawBars
+    drawStrip
 }
 
 proc ::woodpecker::ui::sumMs {} {
@@ -811,17 +1209,17 @@ proc ::woodpecker::ui::targetPace {} {
     return [expr {$ms / 2000.0 / $n}]
 }
 
-proc ::woodpecker::ui::attemptsText {} {
+proc ::woodpecker::ui::attemptsLeft {} {
     variable run
-    if {$run(state) eq ""} { return "" }
-    set left [expr {2 - [dict get $run(state) errors]}]
-    return [string repeat "●" $left][string repeat "○" [expr {2 - $left}]]
+    if {$run(state) eq ""} { return 2 }
+    return [expr {2 - [dict get $run(state) errors]}]
 }
 
 # The next exercise of the cycle, or the end of the cycle.
 proc ::woodpecker::ui::nextExercise {} {
     variable run
     variable txt
+    variable w
     if {!$run(on)} { return }
     if {$run(next) < 1 || $run(next) > $run(n)} {
         finish cycle
@@ -833,6 +1231,7 @@ proc ::woodpecker::ui::nextExercise {} {
     set run(state) [::woodpecker::exStart [dict get $e nmoves]]
     set run(solution) [dict get $e solution]
     set run(fen) [dict get $e fen]
+    set run(played) 0
     sc_game new
     sc_game startBoard $run(fen)
     set side [::woodpecker::fenSide $run(fen)]
@@ -846,10 +1245,16 @@ proc ::woodpecker::ui::nextExercise {} {
     set run(exPaused) 0
     set run(wait) ask
     set rating [dict get $e rating]
-    set txt(title) [T WoodpeckerExercise $ex $run(n) [tr [expr {$side eq "w" ? "WoodpeckerWhiteToMove" : "WoodpeckerBlackToMove"}]] \
-        [expr {$rating ne "" ? " · $rating" : ""}]]
-    set txt(attempts) [attemptsText]
-    status [tr WoodpeckerYourMove]
+    set txt(title) [T WoodpeckerExercise $ex $run(n)]
+    set txt(sub) "[tr [expr {$side eq "w" ? "WoodpeckerWhiteToMove" : "WoodpeckerBlackToMove"}]][expr {$rating ne "" ? "   \u00b7   $rating" : ""}]"
+    set c $w.sess.sub.side
+    if {[winfo exists $c]} {
+        $c delete all
+        $c create rectangle 1 1 11 11 -fill [expr {$side eq "w" ? "#ffffff" : "#1a1a1a"}] -outline [color muted]
+    }
+    drawAttempts
+    cardAsk
+    status ""
 }
 
 proc ::woodpecker::ui::arrow {uci color tag} {
@@ -880,7 +1285,7 @@ proc ::woodpecker::ui::premove {uci} {
     if {!$correct && $last && [::woodpecker::isMateMove [sc_pos fen] $uci]} { set correct 1 }
     lassign [::woodpecker::exAnswer $run(state) $correct] state what
     set run(state) $state
-    set ::woodpecker::ui::txt(attempts) [attemptsText]
+    drawAttempts
     if {$correct} {
         set run(pending) $what
         set run(wait) move
@@ -889,7 +1294,7 @@ proc ::woodpecker::ui::premove {uci} {
     verdict ko
     catch { ::utils::sound::PlaySound sound_alert }
     if {$what eq "retry"} {
-        status [tr WoodpeckerWrong]
+        cardAsk wrong
     } else {
         set run(wait) done
         after idle [list ::woodpecker::ui::exerciseDone failed]
@@ -901,6 +1306,7 @@ proc ::woodpecker::ui::premove {uci} {
 proc ::woodpecker::ui::postmove {} {
     variable run
     if {!$run(on) || $run(wait) ne "move"} { return }
+    incr run(played)
     verdict ok
     if {$run(pending) eq "solved"} {
         set run(wait) done
@@ -917,20 +1323,113 @@ proc ::woodpecker::ui::reply {uci} {
     variable run
     if {!$run(on) || $run(wait) ne "reply"} { return }
     if {[catch { sc_move addSan $uci }]} { catch { sc_move addSan [string range $uci 0 3] } }
+    incr run(played)
     ::notify::PosChanged -pgn -animate
     set run(lastInput) [clock milliseconds]
     set run(wait) ask
-    status [tr WoodpeckerYourMove]
+    cardAsk
 }
+
+################################################################################
+# The card
+
+proc ::woodpecker::ui::cardText {} { return $::woodpecker::ui::w.sess.card.t }
+
+proc ::woodpecker::ui::cardBegin {stripe} {
+    set t [cardText]
+    if {![winfo exists $t]} { return "" }
+    $t configure -state normal
+    $t delete 1.0 end
+    [winfo parent $t].stripe configure -background [color $stripe]
+    return $t
+}
+
+proc ::woodpecker::ui::cardEnd {t} {
+    $t configure -state disabled
+}
+
+# While the exercise is on: whose move it is, the moves played so far, and the
+# solution kept out of sight. `mode` wrong: one attempt is gone.
+proc ::woodpecker::ui::cardAsk {{mode ""}} {
+    variable run
+    set t [cardBegin [expr {$mode eq "wrong" ? "warn" : "track"}]]
+    if {$t eq ""} { return }
+    if {$mode eq "wrong"} {
+        $t insert end "[tr WoodpeckerWrongHead]\n" {head warn}
+        $t insert end [tr WoodpeckerWrong] dim
+    } else {
+        $t insert end "[tr WoodpeckerYourMove]\n" head
+        if {$run(played)} {
+            set line ""
+            catch { set line [::woodpecker::lineText $run(fen) [lrange $run(solution) 0 [expr {$run(played) - 1}]] {}] }
+            $t insert end "$line  " move
+        }
+        $t insert end [tr WoodpeckerHidden] dim
+    }
+    cardEnd $t
+}
+
+# The exercise is over: the result, the points, and the whole line with its
+# marks. On a failure the moves can be clicked to show their position.
+proc ::woodpecker::ui::cardResult {result points max marks quotaDone} {
+    variable run
+    set stripe [dict get {clean good second warn failed bad} $result]
+    set t [cardBegin $stripe]
+    if {$t eq ""} { return }
+    set head [dict get {clean WoodpeckerSolved second WoodpeckerSolvedSecond failed WoodpeckerFailed} $result]
+    $t insert end "[tr $head]   " [list head $stripe]
+    $t insert end [T WoodpeckerPoints [num $points] [num $max]] pts
+    $t insert end "\n"
+    set pos [::chessboard::fromFen $run(fen)]
+    set i 0
+    set first 1
+    foreach uci $run(solution) {
+        set san ""
+        catch { set san [::woodpecker::uciToSan $pos $uci] }
+        set mark ""
+        if {$i % 2 == 0} { set mark [lindex $marks [expr {$i / 2}]] }
+        if {$mark eq "-"} { set mark "" }
+        set num [dict get $pos full]
+        if {[dict get $pos side] eq "w"} {
+            $t insert end "$num. " dim
+        } elseif {$first} {
+            $t insert end "$num... " dim
+        }
+        set first 0
+        set tag "ply[expr {$i + 1}]"
+        $t insert end $san [list move link $tag]
+        if {$mark ne ""} { $t insert end $mark [list [expr {$mark eq "!!" ? "bang2" : "bang"}] $tag] }
+        $t insert end " "
+        $t tag bind $tag <ButtonRelease-1> [list ::woodpecker::ui::gotoPly [expr {$i + 1}]]
+        $t tag bind $tag <Enter> [list $t configure -cursor hand2]
+        $t tag bind $tag <Leave> [list $t configure -cursor arrow]
+        catch { set pos [::chessboard::makeMove $pos $uci] }
+        incr i
+    }
+    if {![llength $marks]} { $t insert end "\n[tr WoodpeckerNoMarks]" dim }
+    if {$quotaDone} { $t insert end "\n[tr WoodpeckerQuotaDone]" good }
+    cardEnd $t
+}
+
+proc ::woodpecker::ui::gotoPly {ply} {
+    variable run
+    if {!$run(on) || $run(wait) ne "solution"} { return }
+    catch { sc_move ply $ply }
+    ::notify::PosChanged -pgn
+    set t [cardText]
+    $t tag remove cur 1.0 end
+    foreach {a b} [$t tag ranges ply$ply] { $t tag add cur $a $b }
+}
+
+################################################################################
+# End of an exercise
 
 # One exercise is over: score it, write it down, then the next one.
 proc ::woodpecker::ui::exerciseDone {result} {
     variable run
-    variable txt
     if {!$run(on)} { return }
     set ex $run(ex)
-    set ms [expr {[clock milliseconds] - $run(exT0) - $run(exPaused)}]
-    set ms [expr {max(0, $ms)}]
+    set ms [expr {max(0, [clock milliseconds] - $run(exT0) - $run(exPaused))}]
     set found [::woodpecker::foundString $run(state)]
     set e [dict get $run(exs) $ex]
     set marks {}
@@ -947,22 +1446,14 @@ proc ::woodpecker::ui::exerciseDone {result} {
     incr run(doneCycle)
     set run(next) [expr {$ex + 1}]
     statsLine
-    # What the card shows: the result, the points, and the line with its marks.
-    set head [dict get {clean WoodpeckerSolved second WoodpeckerSolvedSecond failed WoodpeckerFailed} $result]
-    set parts [list "[tr $head]  " [expr {$result eq "failed" ? "bad" : "good"}] \
-        [T WoodpeckerPoints [num [dict get $s points]] [num [dict get $s max]]] {}]
-    set line ""
-    catch { set line [::woodpecker::lineText $run(fen) $run(solution) $marks] }
-    if {$line ne ""} { lappend parts "\n$line" move }
-    if {![llength $marks]} { lappend parts "\n[tr WoodpeckerNoMarks]" {} }
-    if {$run(doneToday) == $run(quota) && $run(quota) > 0} { lappend parts "\n\n[tr WoodpeckerQuotaDone]" good }
-    card $parts
+    cardResult $result [dict get $s points] [dict get $s max] $marks \
+        [expr {$run(doneToday) == $run(quota) && $run(quota) > 0}]
     if {$result eq "failed"} {
         showSolution
         return
     }
     set run(wait) next
-    after 900 ::woodpecker::ui::advance
+    after 1100 ::woodpecker::ui::advance
 }
 
 proc ::woodpecker::ui::advance {} {
@@ -972,7 +1463,7 @@ proc ::woodpecker::ui::advance {} {
 }
 
 # After a failure the rest of the solution goes on the board, with its marks,
-# and can be stepped through; Enter goes on.
+# and can be stepped through (arrows, or a click on the card); Enter goes on.
 proc ::woodpecker::ui::showSolution {} {
     variable run
     set idx [dict get $run(state) idx]
@@ -981,9 +1472,8 @@ proc ::woodpecker::ui::showSolution {} {
     set i 0
     foreach uci [lrange $run(solution) [expr {2 * $idx}] end] {
         if {[catch { sc_move addSan $uci }]} { break }
-        set solver [expr {(2 * $idx + $i) % 2 == 0}]
-        if {$solver} {
-            set m [lindex $marks [expr {($idx * 2 + $i) / 2}]]
+        if {$i % 2 == 0} {
+            set m [lindex $marks [expr {$idx + $i / 2}]]
             if {$m ne "" && $m ne "-"} { catch { sc_pos addNag $m } }
         }
         incr i
@@ -1018,7 +1508,7 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         set run(paused) 0
         set run(lastInput) $now
         $w.sess.b.pause configure -text [tr WoodpeckerPause]
-        if {$run(wait) eq "ask"} { status [tr WoodpeckerYourMove] }
+        status ""
     } else {
         set run(paused) 1
         # An automatic pause gives back the time spent away from the board.
@@ -1041,29 +1531,23 @@ proc ::woodpecker::ui::status {text {cont 0}} {
     }
 }
 
-proc ::woodpecker::ui::card {parts} {
-    variable w
-    set t $w.sess.card
-    if {![winfo exists $t]} { return }
-    $t configure -state normal
-    $t delete 1.0 end
-    foreach {text tag} $parts { $t insert end $text $tag }
-    $t configure -state disabled
-}
-
+# The tile next to the clock: a tick or a cross for half a second.
 proc ::woodpecker::ui::verdict {kind} {
     variable w
     variable txt
     after cancel {::woodpecker::ui::verdict ""}
-    if {![winfo exists $w.sess.top.verdict]} { return }
-    lassign [dict get {ok {"✓" #2e9d2e} ko {"✗" #d32f2f} "" {{} {}}} $kind] sym color
+    if {![winfo exists $w.sess.head.verdict]} { return }
+    lassign [dict get [list ok [list "\u2713" good] ko [list "\u2717" bad] "" {{} bg}] $kind] sym col
     set txt(verdict) $sym
-    $w.sess.top.verdict configure -background [expr {$color eq "" ? [neutral] : $color}] -foreground white
+    $w.sess.head.verdict configure -background [color $col]
     if {$kind ne ""} { after 500 {::woodpecker::ui::verdict ""} }
 }
 
-# The session ends: the record sheet row, the summary, and the board back as
-# it was. `why`: "" (the trainee stopped) or cycle (the set is done).
+################################################################################
+# End of the session
+
+# The session ends: the record sheet row, the board back as it was, and the
+# summary - still in the focus layout, until the trainee leaves.
 proc ::woodpecker::ui::finish {{why ""}} {
     variable run
     if {!$run(on)} { return }
@@ -1072,61 +1556,71 @@ proc ::woodpecker::ui::finish {{why ""}} {
     if {$done} {
         ::woodpecker::logSession $run(dir) [clock seconds] $run(cycle) $run(session) $run(start) $dur
     }
-    set summary [summaryParts $why $dur]
+    set run(why) $why
+    set run(dur) $dur
     stop
-    showPage sum
-    summary $summary
+    if {[winfo exists .woodpeckerWin.sum]} {
+        summary
+        showPage sum
+    }
 }
 
-proc ::woodpecker::ui::summaryParts {why dur} {
+proc ::woodpecker::ui::summary {} {
     variable run
+    variable txt
+    variable w
     set done [llength $run(results)]
-    set parts [list "[tr WoodpeckerSessionOver]\n" title]
-    if {$why eq "cycle"} { lappend parts "[T WoodpeckerCycleComplete $run(cycle)]\n" head }
+    set txt(sumTitle) [tr WoodpeckerSessionOver]
+    set txt(sumBadge) [expr {$run(why) eq "cycle" ? [T WoodpeckerCycleComplete $run(cycle)] : ""}]
+    set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
+    set txt(sumPoints) [pct $pct]
+    set txt(sumPointsLabel) [T WoodpeckerSumPoints [num $run(points)] [num $run(max)]]
     set c [dict create clean 0 second 0 failed 0]
     set failed {}
     foreach r $run(results) {
         dict incr c [dict get $r result]
         if {[dict get $r result] eq "failed"} { lappend failed [dict get $r ex] }
     }
-    set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
-    lappend parts "\n" {} \
-        "[T WoodpeckerSumDate [clock format $run(start) -format {%Y-%m-%d %H:%M}]]\n" {} \
-        "[T WoodpeckerSumDuration [::woodpecker::fmtDuration $dur]]\n" {} \
-        "[T WoodpeckerSumExercises $done]\n" {} \
-        "[T WoodpeckerSumPoints [num $run(points)] [num $run(max)] [pct $pct]]\n" head \
-        "[T WoodpeckerSumResults [dict get $c clean] [dict get $c second] [dict get $c failed]]\n" {}
+    set g $w.sum.grid
+    foreach ch [winfo children $g] { destroy $ch }
+    set rows [list \
+        WoodpeckerSumDate [clock format $run(start) -format {%Y-%m-%d %H:%M}] \
+        WoodpeckerSumDuration [::woodpecker::fmtDuration $run(dur)] \
+        WoodpeckerSumExercises $done \
+        WoodpeckerSumResults "[dict get $c clean] \u00b7 [dict get $c second] \u00b7 [dict get $c failed]" \
+        WoodpeckerSumQuota "$run(doneToday) / $run(quota)[expr {$run(doneToday) >= $run(quota) ? "  \u2713" : ""}]" \
+        WoodpeckerSumCycle "$run(doneCycle) / $run(n)   ([T WoodpeckerDeadline $run(deadline)])"]
     if {$done} {
-        lappend parts "[T WoodpeckerSumAvg [format %.0f [expr {[sumMs] / 1000.0 / $done}]]]\n" {}
+        lappend rows WoodpeckerSumAvg "[format %.0f [expr {[sumMs] / 1000.0 / $done}]] s"
     }
-    set ok [expr {$run(doneToday) >= $run(quota)}]
-    lappend parts "\n[T WoodpeckerSumQuota $run(doneToday) $run(quota)]" [expr {$ok ? "head" : ""}] \
-        [expr {$ok ? "  ✓\n" : "\n"}] {} \
-        "[T WoodpeckerCycleBar $run(cycle) $run(doneCycle) $run(n) $run(deadline)]\n" {}
+    set r 0
+    foreach {tag value} $rows {
+        ttk::label $g.l$r -text [tr $tag] -foreground [color muted]
+        ttk::label $g.v$r -text $value -font woodpeckerMove
+        grid $g.l$r $g.v$r -sticky w -pady 2
+        grid configure $g.l$r -padx {0 16}
+        incr r
+    }
+    set notes {}
     if {$run(cycle) > 1 && $done} {
-        set cmp [::woodpecker::compareCycles $run(xs) $run(cycle) [lmap r $run(results) { dict get $r ex }]]
+        set cmp [::woodpecker::compareCycles $run(xs) $run(cycle) [lmap x $run(results) { dict get $x ex }]]
         if {[dict get $cmp compared]} {
-            lappend parts "\n[T WoodpeckerSumCompare [dict get $cmp faster] [dict get $cmp slower] \
-                [dict get $cmp fixed] [dict get $cmp newErrors]]\n" {}
+            lappend notes [T WoodpeckerSumCompare [dict get $cmp faster] [dict get $cmp slower] \
+                [dict get $cmp fixed] [dict get $cmp newErrors]]
         }
     }
-    if {[llength $failed]} {
-        lappend parts "\n[T WoodpeckerSumReview [join $failed {, }]]\n" {}
+    if {[llength $failed]} { lappend notes [T WoodpeckerSumReview [join $failed {, }]] }
+    set txt(sumNotes) [join $notes "\n\n"]
+    after idle ::woodpecker::ui::drawStrip
+    # More exercises only while the cycle has some left.
+    if {$run(why) eq "cycle"} {
+        pack forget $w.sum.b.more
+    } elseif {![winfo ismapped $w.sum.b.more]} {
+        pack $w.sum.b.more -side left -padx {0 6} -before $w.sum.b.stats
     }
-    return $parts
 }
 
-proc ::woodpecker::ui::summary {parts} {
-    variable w
-    set t $w.sum.t
-    if {![winfo exists $t]} { return }
-    $t configure -state normal
-    $t delete 1.0 end
-    foreach {text tag} $parts { $t insert end $text $tag }
-    $t configure -state disabled
-}
-
-# Leave the session and put the board and the open game back.
+# Leave the session's board and put back the open game.
 proc ::woodpecker::ui::stop {} {
     variable run
     if {!$run(on)} { return }
@@ -1136,13 +1630,13 @@ proc ::woodpecker::ui::stop {} {
     after cancel {::woodpecker::ui::verdict ""}
     clearArrows
     if {[info exists ::playMode] && $::playMode eq "::woodpecker::ui::callback"} { ::setPlayMode "" }
-    ::board::flipAuto .main.board
+    catch { ::board::flipAuto .main.board }
     if {[catch {sc_base switch $run(prevBase)}]} { sc_base switch $::clipbase_db }
     set ::curr_db [sc_base current]
     if {[info exists run(memBase)]} { catch { sc_base close $run(memBase) } }
-    ::notify::GameChanged
-    ::notify::DatabaseChanged
-    if {[info exists run(engines)]} { resumeEngines $run(engines) }
+    catch { ::notify::GameChanged }
+    catch { ::notify::DatabaseChanged }
+    if {[llength $run(engines)]} { resumeEngines $run(engines) }
     catch { ::woodpecker::eval::flushPending }
 }
 
@@ -1185,11 +1679,14 @@ proc ::woodpecker::ui::callback {cmd args} {
 # Statistics: the record sheet per session, the cycles, and their trend
 
 proc ::woodpecker::ui::stats {} {
+    variable run
     set dir [current]
+    if {$dir eq "" && [info exists run(dir)]} { set dir $run(dir) }
     if {$dir eq ""} { return }
     set d .woodpeckerStats
     catch { destroy $d }
-    toplevel $d
+    toplevel $d -background [color bg]
+    fonts
     ::setTitle $d "[tr WoodpeckerStats]: [dict get [::woodpecker::readMeta $dir] name]"
     set exs [::woodpecker::readExercises $dir]
     lassign [::woodpecker::readLog $dir] xs ss
@@ -1199,20 +1696,20 @@ proc ::woodpecker::ui::stats {} {
     set sessions [::woodpecker::sessionStats $xs $ss $exs $table]
     set cycles [::woodpecker::cycleStats $xs $exs $table]
 
-    ttk::label $d.lc -text [tr WoodpeckerCyclesTitle] -font font_Bold -padding {10 8 10 2}
-    canvas $d.chart -width 520 -height 170 -background white -highlightthickness 0
+    ttk::label $d.lc -text [tr WoodpeckerCyclesTitle] -font woodpeckerTitle -padding {10 8 10 2}
+    canvas $d.chart -width 540 -height 170 -background [color field] -highlightthickness 0
     ttk::treeview $d.cyc -columns {cycle days time ex res pct} -show headings -height 4
-    foreach {c tag w} {cycle WoodpeckerColCycle 50 days WoodpeckerColDays 170 time WoodpeckerColTime 80 \
+    foreach {c tag w} {cycle WoodpeckerColCycle 50 days WoodpeckerColDays 190 time WoodpeckerColTime 90 \
             ex WoodpeckerColExercises 70 res WoodpeckerColResults 110 pct WoodpeckerColPct 60} {
         $d.cyc heading $c -text [tr $tag]
         $d.cyc column $c -width $w -anchor center
     }
     foreach c $cycles {
-        $d.cyc insert {} end -values [list [dict get $c cycle] "[dict get $c start] → [dict get $c end]" \
+        $d.cyc insert {} end -values [list [dict get $c cycle] "[dict get $c start] \u2192 [dict get $c end]" \
             [::woodpecker::fmtDuration [dict get $c ms]] [dict get $c exercises] \
             "[dict get $c clean]/[dict get $c second]/[dict get $c failed]" [pct [dict get $c pct]]]
     }
-    ttk::label $d.ls -text [tr WoodpeckerSessionsTitle] -font font_Bold -padding {10 8 10 2}
+    ttk::label $d.ls -text [tr WoodpeckerSessionsTitle] -font woodpeckerTitle -padding {10 8 10 2}
     ttk::treeview $d.ses -columns {date dur ex pts pct} -show headings -height 10 -yscrollcommand [list $d.sb set]
     ttk::scrollbar $d.sb -command [list $d.ses yview]
     foreach {c tag w} {date WoodpeckerColDate 110 dur WoodpeckerColDuration 90 ex WoodpeckerColExercises 90 \
@@ -1224,7 +1721,8 @@ proc ::woodpecker::ui::stats {} {
         $d.ses insert {} end -values [list [dict get $s date] [::woodpecker::fmtDuration [dict get $s dur]] \
             [dict get $s exercises] "[num [dict get $s points]] / [num [dict get $s max]]" [pct [dict get $s pct]]]
     }
-    ttk::label $d.note -text [T WoodpeckerStatsNote $ver] -wraplength 520 -justify left -padding 10
+    ttk::label $d.note -text [T WoodpeckerStatsNote $ver] -wraplength 540 -justify left -padding 10 \
+        -foreground [color muted]
     ttk::button $d.close -text $::tr(Close) -command [list destroy $d]
     grid $d.lc - -sticky w
     grid $d.chart - -padx 10
@@ -1235,18 +1733,19 @@ proc ::woodpecker::ui::stats {} {
     grid $d.close - -pady {0 10}
     grid columnconfigure $d 0 -weight 1
     grid rowconfigure $d 4 -weight 1
+    bind $d <Escape> [list destroy $d]
     after idle [list ::woodpecker::ui::chart $d.chart $cycles]
 }
 
 # Bars: each cycle's solving time, with the target (the previous cycle halved)
-# as a line; the percentage of points above each bar.
+# as a dashed line; the percentage of points above each bar.
 proc ::woodpecker::ui::chart {c cycles} {
     if {![winfo exists $c]} { return }
     $c delete all
     set W [winfo reqwidth $c]
     set H [winfo reqheight $c]
     if {![llength $cycles]} {
-        $c create text [expr {$W / 2}] [expr {$H / 2}] -text [tr WoodpeckerNoData] -fill "#777777"
+        $c create text [expr {$W / 2}] [expr {$H / 2}] -text [tr WoodpeckerNoData] -fill [color muted]
         return
     }
     set maxMs 1
@@ -1254,25 +1753,28 @@ proc ::woodpecker::ui::chart {c cycles} {
     set n [llength $cycles]
     set slot [expr {($W - 40.0) / max($n, 6)}]
     set base [expr {$H - 22}]
-    set top 18
+    set top 24
     set prev ""
     set i 0
     foreach cy $cycles {
         set x0 [expr {30 + $i * $slot + $slot * 0.2}]
         set x1 [expr {30 + ($i + 1) * $slot - $slot * 0.2}]
-        set h [expr {($base - $top) * [dict get $cy ms] / double($maxMs)}]
-        $c create rectangle $x0 [expr {$base - $h}] $x1 $base -fill "#4a90d9" -outline ""
-        $c create text [expr {($x0 + $x1) / 2}] [expr {$base + 10}] -text [dict get $cy cycle] -font font_Small
+        set h [expr {max(2, ($base - $top) * [dict get $cy ms] / double($maxMs))}]
+        roundRect $c $x0 [expr {$base - $h}] $x1 $base 4 -fill [color accent] -outline ""
+        $c create text [expr {($x0 + $x1) / 2}] [expr {$base + 10}] -text [dict get $cy cycle] \
+            -font woodpeckerSmall -fill [color fg]
         $c create text [expr {($x0 + $x1) / 2}] [expr {$base - $h - 8}] \
-            -text "[::woodpecker::fmtDuration [dict get $cy ms]] · [pct [dict get $cy pct]]" -font font_Small
+            -text "[::woodpecker::fmtDuration [dict get $cy ms]] \u00b7 [pct [dict get $cy pct]]" \
+            -font woodpeckerSmall -fill [color fg]
         if {$prev ne ""} {
             set ht [expr {($base - $top) * $prev / 2.0 / $maxMs}]
             $c create line [expr {$x0 - 4}] [expr {$base - $ht}] [expr {$x1 + 4}] [expr {$base - $ht}] \
-                -fill "#f5a623" -width 2 -dash {4 2}
+                -fill [color extra] -width 2 -dash {4 2}
         }
         set prev [dict get $cy ms]
         incr i
     }
-    $c create line 28 $base [expr {$W - 8}] $base -fill "#999999"
-    $c create text [expr {$W - 10}] 8 -anchor ne -text [tr WoodpeckerChartLegend] -font font_Small -fill "#555555"
+    $c create line 28 $base [expr {$W - 8}] $base -fill [color muted]
+    $c create text [expr {$W - 10}] 8 -anchor ne -text [tr WoodpeckerChartLegend] \
+        -font woodpeckerSmall -fill [color muted]
 }

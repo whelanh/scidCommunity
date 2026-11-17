@@ -902,3 +902,25 @@ proc ::woodpecker::sameMove {a b} {
     if {[dict exists $map $b]} { set b [dict get $map $b] }
     return [expr {$a eq $b}]
 }
+
+################################################################################
+# Difficulty presets: shares of the Lichess levels, relative to the trainee's
+# puzzle rating. The book is mostly Intermediate with some Easy exercises
+# (222 + 762, p. 11) and keeps the Advanced ones out of the main plan; the
+# standard preset follows that proportion.
+#   automatic  simple tactics until they are seen at once
+#   standard   about a quarter easier, the rest around one's level
+#   challenge  around and above one's level
+proc ::woodpecker::presets {} {
+    return {
+        automatic {easiest 30 easier 50 normal 20}
+        standard  {easier 25 normal 60 harder 15}
+        challenge {normal 40 harder 45 hardest 15}
+    }
+}
+
+proc ::woodpecker::presetShares {name} {
+    set p [presets]
+    if {![dict exists $p $name]} { error "unknown preset '$name'" }
+    return [dict get $p $name]
+}

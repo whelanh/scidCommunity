@@ -542,7 +542,6 @@ translate E WoodpeckerContinue {Continue (Enter)}
 translate E WoodpeckerPause {Pause}
 translate E WoodpeckerResume {Resume}
 translate E WoodpeckerEnd {End session}
-translate E WoodpeckerBack {Back to the sets}
 translate E WoodpeckerNoSets {No set yet: press New set to download puzzles from Lichess or to use a PGN book.}
 translate E WoodpeckerUnrated {%d of %d exercises have no ! / !! marks: evaluate the set to earn those bonuses (earlier sessions are rescored too).}
 translate E WoodpeckerCycleOver {Cycle %d is complete. Rest until %s, then the next cycle starts, with half the days.}
@@ -556,15 +555,14 @@ translate E WoodpeckerNewTitle {New Woodpecker set}
 translate E WoodpeckerName {Name}
 translate E WoodpeckerFromLichess {Puzzles from Lichess}
 translate E WoodpeckerCount {Exercises}
-translate E WoodpeckerDifficulty {Difficulty mix (%)}
-translate E WoodpeckerDifficultyHelp {Relative to your Lichess puzzle rating (1500 without a token). The set is sorted from easy to hard. No puzzle of another set is repeated.}
+translate E WoodpeckerDifficulty {Difficulty}
 translate E WoodpeckerTheme {Theme}
 translate E WoodpeckerThemeMix {Mixed (recommended)}
 translate E WoodpeckerColor {Side}
 translate E WoodpeckerColor_both {Both}
 translate E WoodpeckerColor_white {White}
 translate E WoodpeckerColor_black {Black}
-translate E WoodpeckerToken {Lichess token (optional)}
+translate E WoodpeckerToken {Lichess token}
 translate E WoodpeckerFromFile {PGN or Scid database (e.g. a book)}
 translate E WoodpeckerFileHelp {Each game that starts from a set-up position becomes an exercise: its main line is the solution, variations are ignored. The author's ! and !! are kept.}
 translate E WoodpeckerDays1 {First cycle (days)}
@@ -605,34 +603,32 @@ translate E WoodpeckerNoSlot {No free database slot for the session: close a dat
 (%s)}
 translate E WoodpeckerRestAsk {The rest days end on %s. Start cycle %d anyway?}
 translate E WoodpeckerUnratedShort {%d exercises are not evaluated: there only the line counts.}
-translate E WoodpeckerTodayBar {Today %d / %d}
-translate E WoodpeckerCycleBar {Cycle %d: %d / %d, deadline %s}
-translate E WoodpeckerStatsLine {Streak %d   Points %s (%s)}
-translate E WoodpeckerPace {Pace %s s per exercise, target %s s}
-translate E WoodpeckerPaceFirst {Pace %s s per exercise}
-translate E WoodpeckerExercise {Exercise %d/%d - %s%s}
+translate E WoodpeckerStatsLine {streak %d   points %s}
+translate E WoodpeckerPace {%s s per exercise (target %s s)}
+translate E WoodpeckerPaceFirst {%s s per exercise}
+translate E WoodpeckerExercise {Exercise %d of %d}
 translate E WoodpeckerWhiteToMove {White to move}
 translate E WoodpeckerBlackToMove {Black to move}
 translate E WoodpeckerYourMove {Your move.}
-translate E WoodpeckerWrong {Wrong move: one attempt left.}
+translate E WoodpeckerWrong {One attempt left.}
 translate E WoodpeckerSolved {Solved!}
 translate E WoodpeckerSolvedSecond {Solved at the second attempt.}
 translate E WoodpeckerFailed {Failed.}
-translate E WoodpeckerPoints {+%s of %s points}
+translate E WoodpeckerPoints {+%s / %s}
 translate E WoodpeckerNoMarks {(not evaluated: no ! / !! bonus yet)}
 translate E WoodpeckerQuotaDone {Today's target reached! Go on, or end the session.}
-translate E WoodpeckerSolutionShown {The solution is on the board: step through it, then press Enter.}
+translate E WoodpeckerSolutionShown {Step through the solution on the board or on the card, then press Enter.}
 translate E WoodpeckerPaused {Paused.}
 translate E WoodpeckerAutoPaused {Paused: no move for two minutes. The time away does not count.}
 translate E WoodpeckerSessionOver {Session over}
 translate E WoodpeckerCycleComplete {Cycle %d complete!}
-translate E WoodpeckerSumDate {Date: %s}
-translate E WoodpeckerSumDuration {Duration: %s}
-translate E WoodpeckerSumExercises {Exercises completed: %d}
-translate E WoodpeckerSumPoints {Score: %s / %s points (%s)}
-translate E WoodpeckerSumResults {First attempt %d, second attempt %d, failed %d}
-translate E WoodpeckerSumAvg {Average time per exercise: %s s}
-translate E WoodpeckerSumQuota {Today's target: %d / %d}
+translate E WoodpeckerSumDate {Date}
+translate E WoodpeckerSumDuration {Duration}
+translate E WoodpeckerSumExercises {Exercises completed}
+translate E WoodpeckerSumPoints {%s of %s points}
+translate E WoodpeckerSumResults {1st attempt / 2nd / failed}
+translate E WoodpeckerSumAvg {Average per exercise}
+translate E WoodpeckerSumQuota {Today's target}
 translate E WoodpeckerSumCompare {Against the previous cycle: %d faster, %d slower, %d errors fixed, %d new errors.}
 translate E WoodpeckerSumReview {To review: exercises %s}
 translate E WoodpeckerCyclesTitle {Cycles}
@@ -640,6 +636,38 @@ translate E WoodpeckerSessionsTitle {Sessions}
 translate E WoodpeckerStatsNote {Points use the marks of evaluation %d. Earlier sessions are rescored with the same marks, so cycles compare fairly.}
 translate E WoodpeckerNoData {No cycle yet}
 translate E WoodpeckerChartLegend {bars: solving time   dashed: target (previous cycle halved)}
+translate E WoodpeckerTagline {Solve the same set again and again, faster each time.}
+translate E WoodpeckerExit {Leave the session}
+translate E WoodpeckerMore {More exercises}
+translate E WoodpeckerToday {Today}
+translate E WoodpeckerCycleShort {Cycle %d}
+translate E WoodpeckerDeadline {deadline %s}
+translate E WoodpeckerWrongHead {Not that one}
+translate E WoodpeckerHidden {The solution will appear here.}
+translate E WoodpeckerSumCycle {Cycle}
+translate E WoodpeckerTokenSave {Save and check}
+translate E WoodpeckerTokenCreate {Create a token (scope puzzle:read)}
+translate E WoodpeckerTokenOk {✓ Token works: %s.}
+translate E WoodpeckerTokenRating {Puzzle rating %s.}
+translate E WoodpeckerTokenNoScope {This token lacks the puzzle:read scope: create one with the link above.}
+translate E WoodpeckerTokenInvalid {Lichess does not know this token.}
+translate E WoodpeckerTokenUnchecked {The token could not be checked (no connection?). It will be used as it is.}
+translate E WoodpeckerTokenChecking {Checking the token...}
+translate E WoodpeckerTokenMissing {Strongly recommended. Without a token Lichess serves puzzles for a 1500 player rather than for you, may repeat puzzles you already solved there, and its limits make big sets slow: use it only to try the trainer.}
+translate E WoodpeckerNoTokenAsk {Create the set without a Lichess token?
+
+The difficulty will be set for a 1500 player rather than for you, and puzzles you already solved on Lichess may come up. Fine for a try; for real training create a token first.}
+translate E WoodpeckerNoTokenGo {Create it anyway}
+translate E WoodpeckerPreset_automatic {Automatic (easier)}
+translate E WoodpeckerPreset_standard {Standard (recommended)}
+translate E WoodpeckerPreset_challenge {Challenging}
+translate E WoodpeckerPreset_custom {Custom...}
+translate E WoodpeckerPresetHelp_automatic {Mostly simple tactics, to see them at once: the book's first aim.}
+translate E WoodpeckerPresetHelp_standard {A quarter easier, most around your level, a few harder - the proportion of the book's Easy and Intermediate sections.}
+translate E WoodpeckerPresetHelp_challenge {Around and above your level, for strong players (like the book's Advanced section).}
+translate E WoodpeckerPresetHelp_custom {Choose the share of each Lichess level yourself.}
+translate E WoodpeckerPresetRating {Levels are relative to your puzzle rating (%s).}
+translate E WoodpeckerPresetNoRating {Levels are relative to your Lichess puzzle rating.}
 
 # Board screenshot
 menuText E ToolsScreenshot "Board Screenshot" 0 \

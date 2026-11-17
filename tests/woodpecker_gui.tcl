@@ -78,8 +78,11 @@ proc ::wpgui::run {} {
     ::woodpecker::set::buildFromExercises $dir [::woodpecker::set::newMeta "GUI test" lichess 7 1 [clock seconds]] $exs
     ::woodpecker::marksAppend $dir [dict create 1 [dict create marks {"!" "" "!!"} source review] \
         2 [dict create marks {"!!" ""} source review] 3 [dict create marks {"" "!"} source review]]
-
     checkEq "building a set leaves the current database alone" [sc_base current] $before
+    check "the set folder starts with its date" [string match "[clock format [clock seconds] -format %Y-%m-%d]-gui-test*" [file tail $dir]] [file tail $dir]
+    check "no PGN is left behind" [expr {![file exists [file join $dir set.pgn]]}]
+    check "the folder explains itself" [file exists [file join [file dirname $dir] README.txt]]
+
     ::woodpecker::ui::open
     wait 300
     check "the window opens on the sets" [winfo ismapped .woodpeckerWin.home]
@@ -91,11 +94,20 @@ proc ::wpgui::run {} {
     sc_move addSan e4
     ::notify::GameChanged
     set openFen [sc_pos fen]
+    set userWindows [lsort [::win::getWindows]]
+    check "the user's layout has more than the board" [expr {[llength $userWindows] > 2}] $userWindows
     ::woodpecker::ui::train
-    wait 300
+    wait 500
     checkEq "the session drives the board" $::playMode ::woodpecker::ui::callback
+    checkEq "the focus layout: the board and the panel only" [lsort [::win::getWindows]] [lsort {.main .fdockwoodpeckerWin}]
+    shot focus
+    ::docking::layout_save auto
+    checkEq "an options save in a session keeps the user's layout as auto" \
+        $::docking::layout_list(auto) $::docking::layout_list(woodpecker_user)
     checkEq "exercise 1 is on the board" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 1 fen]
-    checkEq "two attempts" $::woodpecker::ui::txt(attempts) "●●"
+    checkEq "two attempts" [::woodpecker::ui::attemptsLeft] 2
+    set card [.woodpeckerWin.sess.card.t get 1.0 end]
+    check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
 
     # Exercise 1: e6e1 (right), reply, a wrong move, e1f1, reply, f1f8.
     addMoveUCI e6e1
@@ -106,13 +118,18 @@ proc ::wpgui::run {} {
     addMoveUCI $bad
     wait 200
     checkEq "a wrong move is taken back" [sc_pos fen] $fenBefore
-    checkEq "one attempt left" $::woodpecker::ui::txt(attempts) "●○"
+    checkEq "one attempt left" [::woodpecker::ui::attemptsLeft] 1
+    check "the card says so" [string match "*[tr WoodpeckerWrong]*" [.woodpeckerWin.sess.card.t get 1.0 end]]
+    shot session
     check "the board is not moved back by the arrows" \
         [expr {[::woodpecker::ui::callback moveBack] == 0}]
     addMoveUCI e1f1
     wait 600
     addMoveUCI f1f8
-    wait 1800
+    wait 300
+    set card [.woodpeckerWin.sess.card.t get 1.0 end]
+    check "the card shows the result and the marked line" [string match "*Re1+!*" $card] $card
+    wait 1500
     checkEq "exercise 2 follows by itself" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 2 fen]
 
     # Exercise 2: two wrong moves.
@@ -128,6 +145,9 @@ proc ::wpgui::run {} {
     ::move::Forward
     wait 100
     checkEq "the first solution move carries its !!" [string trim [sc_pos getNags]] "!!"
+    ::woodpecker::ui::gotoPly 3
+    wait 100
+    checkEq "a click on the card shows that move's position" [sc_pos location] 3
     shot solution
     ::woodpecker::ui::keyContinue
     wait 300
@@ -141,22 +161,30 @@ proc ::wpgui::run {} {
     checkEq "the cycle is over: the summary is shown" [winfo ismapped .woodpeckerWin.sum] 1
     check "the board is free again" [expr {![info exists ::playMode]}]
     checkEq "the game that was open is back" [sc_pos fen] $openFen
-    shot summary
     checkEq "the open database is back" [sc_base current] $::clipbase_db
+    checkEq "the summary stays in the focus layout" [lsort [::win::getWindows]] [lsort {.main .fdockwoodpeckerWin}]
+    check "a finished cycle offers no more exercises" [expr {![winfo ismapped .woodpeckerWin.sum.b.more]}]
+    shot summary
 
     lassign [::woodpecker::readLog $dir] xs ss
     checkEq "three exercises logged" [lmap x $xs { dict get $x result }] {second failed clean}
     checkEq "what was found" [lmap x $xs { dict get $x found }] {111 00 11}
     checkEq "one session row" [llength $ss] 1
-    set sum [.woodpeckerWin.sum.t get 1.0 end]
-    check "the summary counts three exercises" [string match "*: 3*" $sum] $sum
-    check "the summary lists the failed exercise" [string match "*2*" [lindex [split [string trim $sum] "\n"] end]] $sum
-    # Points: ex1 second = (0.75 + 1 + 2) * 1466/1500; ex2 failed = 0;
+    checkEq "the summary counts three exercises" [.woodpeckerWin.sum.grid.v2 cget -text] 3
+    check "the summary lists the failed exercise" [string match "*2*" $::woodpecker::ui::txt(sumNotes)] $::woodpecker::ui::txt(sumNotes)
+    # Points: ex1 second = (0.75 + 1 + 2) * 1466/1500; ex2 failed with nothing found = 0;
     # ex3 clean = (1 + 1 + 1) * 1597/1500.
     set st [lindex [::woodpecker::sessionStats $xs $ss [::woodpecker::readExercises $dir] \
         [::woodpecker::marksAt [::woodpecker::readMarks $dir] 1]] 0]
-    set want [expr {3.75 * 1466 / 1500.0 + 3.0 * 1597 / 1500.0}]
+    set want [expr {3.75 * 1466 / 1500.0 + 0.0 + 3.0 * 1597 / 1500.0}]
     check "session points" [expr {abs([dict get $st points] - $want) < 1e-6}] "[dict get $st points] vs $want"
+
+    ::woodpecker::ui::exitSession
+    wait 800
+    checkEq "leaving the session restores the user's layout" [lsort -unique [::win::getWindows]] \
+        [lsort -unique [concat $userWindows .fdockwoodpeckerWin]]
+    check "the Woodpecker window is back on its sets" [winfo ismapped .woodpeckerWin.home]
+    checkEq "the open game is still there" [sc_pos fen] $openFen
 
     ::woodpecker::ui::newDialog
     wait 300
