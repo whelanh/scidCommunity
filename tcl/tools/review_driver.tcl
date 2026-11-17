@@ -1072,8 +1072,23 @@ proc ::reviewdriver::judge {map results sides ply {ctx ""}} {
     # sacrifice, the only move that keeps the game, a win thrown away. Every
     # figure it needs is already here except the board and the book, which the
     # pass handed in as `ctx`.
-    set label [::movelabels::refine $label \
-        [::reviewdriver::refineArgs $map $results $lines $ctx $ply $played $cp1 $judged $isBest]]
+    #
+    # It is given the score of the position the move *reached*, not the pair the
+    # base ladder measured. For the engine's own move the root line's score IS
+    # the before figure - it is the same line - so handing it over twice would
+    # let `cp_after >= cp_before - 20` be read off a number compared with itself,
+    # and the move would be called `great` without evidence it kept anything.
+    # The searched successor is the only real measurement there; with none, the
+    # refinement vocabulary has nothing to say about this move and the base label
+    # stands, with the evidence it was made from. A move the engine ranked below
+    # its best line already has its own measured figure (`judged`), which is a
+    # score of the position it reached, so nothing changes for it.
+    set reached $judged
+    if {$isBest} { set reached $successor }
+    if {$reached ne ""} {
+        set label [::movelabels::refine $label \
+            [::reviewdriver::refineArgs $map $results $lines $ctx $ply $played $cp1 $reached $isBest]]
+    }
     # The second engine's verdict, when it withdrew this label: ::reviewdriver::
     # verified folds the verifier's corrections into the results, so every writer
     # that judges a move sees the same label the verifier agreed with. A

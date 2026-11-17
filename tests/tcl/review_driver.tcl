@@ -794,6 +794,27 @@ checkEq "the same gap beside a board the replay reached is still a pair" \
 checkEq "and that move is still great" \
     [lindex [dict get [::reviewdriver::verdicts $boardMap $noBoardRes] 1] 0] great
 
+# What refinement is told the move reached. The best line's own score at the root
+# is the *before* figure; with no search of the position after the move there is
+# no second figure at all, and passing the first one twice lets the gap branch
+# read `cp_after >= cp_before - 20` off a number compared with itself. The base
+# ladder still gets its pair (that is what `best` is made of); refinement, which
+# is a claim about what the move kept, gets nothing to claim from - so the base
+# label stands.
+set unmeasuredMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set unmeasuredRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}]]
+checkEq "a gap with no score for the reached position is best, not great" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $unmeasuredRes] 1] 0] best
+# The positive control: the same two lines, the same gap, and the reached
+# position actually searched. If this stops being great the rule has switched
+# the label off rather than made the caller prove the position behind it.
+set measuredRes [dict merge $unmeasuredRes [dict create 1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]]
+checkEq "and the same gap with a score after the move is great" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $measuredRes] 1] 0] great
+
 set badArgs [::reviewdriver::refineArgs $badMap [dict create] \
     [dict create 1 {20 30 cp {e2e4 e7e5}}] \
     [::reviewdriver::refineContext $badMap 0] 2 zzzz 30 20 0]

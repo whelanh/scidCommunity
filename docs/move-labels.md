@@ -48,7 +48,7 @@ actually learns from:
 | forced | only one legal move — not a choice, whatever it costs |
 | book | inside the opening (`ply <= 12` by default, `in_book` overrides) and not a mistake. The resolved status gates every later rule too — brilliant, great and the blunder upgrade all use it, so an early novelty marked `in_book 0` is judged on its merits |
 | brilliant | the engine's move, out of book, keeps the game (`cp_before <= 500`, `cp_after >= -50`, `cp_loss <= 20`), gives up two points or more that the line does not simply trade back |
-| great | the best move beats the second-best by 200cp or more and the position is still playable — or a rescue from `-150` to `-50`; never for taking a piece the opponent left hanging |
+| great | the best move beats the second-best by 200cp or more and the position is still playable — or a rescue from `-150` to `-50`; never for taking a piece the opponent left hanging. Both routes need `fen_before` **and** `played`: the exclusion is evidence, and a missing board cannot be read as "not a free capture", so it blocks the claim rather than passing it |
 | miss | already an inaccuracy, mistake or blunder, and it gave up a win: `cp_before >= 150` and `cp_after < 50`, or a mate was there and is gone |
 
 A board loss of 300cp or more with a win-chance drop of 12 or more is a blunder
@@ -125,8 +125,8 @@ it computes (1.93 points still excellent, 2.02 not; 4.95 good, 5.05 inaccuracy;
 asserts that a bigger loss never earns a better label, and the mate transitions
 are covered separately. The refinements are checked on real positions (a
 sacrifice measured on the board, a free en passant capture, a line that cannot
-be replayed, an early novelty marked out of book) as well as on fixed contexts;
-142 checks in all.
+be replayed, an early novelty marked out of book, a rescue with no board at all)
+as well as on fixed contexts; 145 checks in all.
 
 ## Related
 
