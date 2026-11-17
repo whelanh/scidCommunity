@@ -2,12 +2,17 @@
 
 Two headless scripts for working on `sc_search cql` and the CQL engine in
 `src/cql/`. Both are run with the built binary and a script argument, which the
-application executes on a bare interpreter: no Tk, no display, no X server.
+application executes without sourcing `tcl/start.tcl`: no window and no menu,
+but - because the binary initialises Tk unconditionally - still a display. On a
+machine with no X server, run them under `xvfb-run`:
 
 ```
-./scidCommunity tests/cql/check.tcl      # correctness, well under a second
-./scidCommunity tests/cql/bench.tcl      # timing on a synthetic base
+xvfb-run -a ./scidCommunity tests/cql/check.tcl      # correctness, well under a second
+xvfb-run -a ./scidCommunity tests/cql/bench.tcl      # timing on a synthetic base
 ```
+
+With a desktop session running, `./scidCommunity tests/cql/check.tcl` on its
+own is enough.
 
 `check.tcl` builds a MEMORY base from `tests/tcl/search_moves.pgn` (five games)
 and checks the filter each query leaves behind. It covers the position filters,

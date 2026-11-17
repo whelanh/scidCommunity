@@ -5,7 +5,8 @@
 #   ./scidCommunity tests/cql/bench.tcl ?pgn? ?games? ?rangeEnd?
 #
 # Builds a MEMORY base by repeating the PGN (five games by default) until it
-# holds at least @games games, then times a few queries. No display, no Tk.
+# holds at least @games games, then times a few queries. No window or menu, but
+# the binary initialises Tk, so a machine with no X server needs xvfb-run.
 # A synthetic base is enough to see whether a change removes work per game: the
 # real database only scales the numbers.
 #

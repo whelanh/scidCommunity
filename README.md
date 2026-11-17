@@ -159,6 +159,8 @@ benchmark to record which paths a search actually takes, and rebuilds with that
 profile. The result is a normal `-O3` binary; the profile only improves inlining
 and code layout. `PGO_TRAIN` overrides the training run, for example
 `make pgo PGO_TRAIN="./scidCommunity tests/cql/bench.tcl tests/tcl/search_moves.pgn 100000 1000"`.
+The training run opens no window but the binary initialises Tk, so a machine
+with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 
 ## Contributors
 

@@ -4,11 +4,13 @@
 #
 #   ./scidCommunity tests/cql/check.tcl ?pgn?
 #
-# Unlike tests/tcl/search_cql.tcl this never sources tcl/start.tcl, so it needs
-# no display and no X server: a script argument runs the application on a bare
-# interpreter with its Tcl commands registered. It builds a MEMORY base from
-# the (five game) search_moves.pgn, runs queries through the real engine and
-# checks the filter each leaves behind, in well under a second.
+# Unlike tests/tcl/search_cql.tcl this never sources tcl/start.tcl, so it creates
+# no window and no menus: a script argument runs the application with just its
+# Tcl commands registered. It is not display-free, though - the binary calls
+# Tk_Init unconditionally - so a machine with no X server must run it under
+# xvfb-run (CI does). It builds a MEMORY base from the (five game)
+# search_moves.pgn, runs queries through the real engine and checks the filter
+# each leaves behind, in well under a second.
 #
 # Use it while working on the CQL driver and its index pre-filters. The Tk
 # harness remains the end-to-end gate (window, menu, progress bar); CI runs
