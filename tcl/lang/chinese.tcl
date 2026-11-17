@@ -2344,3 +2344,4 @@ translate M CQLQuery {CQL 查询}
 translate M CQLQueryHint {CQL 查询，例如 cql() mate 或 cql(:gamenumber 1 10) K。Ctrl+Enter 开始搜索。}
 translate M CQLQueryEmpty {搜索前请输入 CQL 查询。}
 translate M CQLSearchFailed {CQL 搜索失败：}
+translate M CQLUnreadableGames {%d 局棋无法读取}

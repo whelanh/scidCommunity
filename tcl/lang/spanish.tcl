@@ -2442,3 +2442,4 @@ translate S CQLQuery {Consulta CQL}
 translate S CQLQueryHint {Consulta CQL, p. ej. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Intro busca.}
 translate S CQLQueryEmpty {Introduzca una consulta CQL antes de buscar.}
 translate S CQLSearchFailed {La búsqueda CQL ha fallado:}
+translate S CQLUnreadableGames {%d partida(s) no se pudieron leer}

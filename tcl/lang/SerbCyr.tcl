@@ -2408,3 +2408,4 @@ translate J CQLQuery {CQL упит}
 translate J CQLQueryHint {CQL упит, нпр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter покреће претрагу.}
 translate J CQLQueryEmpty {Унесите CQL упит пре претраге.}
 translate J CQLSearchFailed {CQL претрага није успела:}
+translate J CQLUnreadableGames {%d партија није могуће прочитати}

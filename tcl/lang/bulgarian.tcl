@@ -2408,3 +2408,4 @@ translate g CQLQuery {Заявка CQL}
 translate g CQLQueryHint {Заявка CQL, напр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter търси.}
 translate g CQLQueryEmpty {Въведете заявка CQL преди търсенето.}
 translate g CQLSearchFailed {Търсенето с CQL се провали:}
+translate g CQLUnreadableGames {%d партии не можаха да бъдат прочетени}

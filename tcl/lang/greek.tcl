@@ -2416,3 +2416,4 @@ translate G CQLQuery {Ερώτημα CQL}
 translate G CQLQueryHint {Ερώτημα CQL, π.χ. cql() mate ή cql(:gamenumber 1 10) K. Το Ctrl+Enter εκτελεί την αναζήτηση.}
 translate G CQLQueryEmpty {Εισαγάγετε ένα ερώτημα CQL πριν από την αναζήτηση.}
 translate G CQLSearchFailed {Η αναζήτηση CQL απέτυχε:}
+translate G CQLUnreadableGames {%d παρτίδες δεν ήταν δυνατό να διαβαστούν}

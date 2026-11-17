@@ -2408,3 +2408,4 @@ translate k CQLQuery {CQL 쿼리}
 translate k CQLQueryHint {CQL 쿼리(예: cql() mate, cql(:gamenumber 1 10) K). Ctrl+Enter로 검색합니다.}
 translate k CQLQueryEmpty {검색하기 전에 CQL 쿼리를 입력하십시오.}
 translate k CQLSearchFailed {CQL 검색에 실패했습니다:}
+translate k CQLUnreadableGames {%d개 게임을 읽을 수 없습니다}

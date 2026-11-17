@@ -2389,3 +2389,4 @@ translate O CQLQuery {CQL-spørring}
 translate O CQLQueryHint {CQL-spørring, f.eks. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter søker.}
 translate O CQLQueryEmpty {Skriv inn en CQL-spørring før du søker.}
 translate O CQLSearchFailed {CQL-søket mislyktes:}
+translate O CQLUnreadableGames {%d parti(er) kunne ikke leses}

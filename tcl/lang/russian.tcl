@@ -2391,3 +2391,4 @@ translate R CQLQuery {Запрос CQL}
 translate R CQLQueryHint {Запрос CQL, например cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter запускает поиск.}
 translate R CQLQueryEmpty {Введите запрос CQL перед поиском.}
 translate R CQLSearchFailed {Поиск CQL не удался:}
+translate R CQLUnreadableGames {%d партий не удалось прочитать}

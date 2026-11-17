@@ -2420,3 +2420,4 @@ translate U CQLQuery {CQL-kysely}
 translate U CQLQueryHint {CQL-kysely, esim. cql() mate tai cql(:gamenumber 1 10) K. Ctrl+Enter hakee.}
 translate U CQLQueryEmpty {Anna CQL-kysely ennen hakua.}
 translate U CQLSearchFailed {CQL-haku epäonnistui:}
+translate U CQLUnreadableGames {%d peliä ei voitu lukea}

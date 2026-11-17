@@ -60,10 +60,11 @@ namespace eval ERROR { set UserCancel 2 }
 set ::searchCalls {}
 set ::filterCalls {}
 set ::sc_searchError ""
+set ::sc_searchSkipped 0
 proc sc_search {args} {
     lappend ::searchCalls $args
     if {$::sc_searchError ne ""} { error $::sc_searchError }
-    return "1 / 5 (0:00)"
+    return [list "1 / 5 (0:00)" $::sc_searchSkipped]
 }
 proc sc_filter {args} {
     lappend ::filterCalls $args
@@ -159,6 +160,17 @@ checkEq "and with the database filter" [lindex $::notified end] {1 dbfilter}
 checkEq "the result is reported" \
     [$w.options.query.status cget -text] "1 / 5 (0:00)"
 
+puts "\n== games the search could not read are named in the result ==\n"
+# A damaged record is skipped rather than failing the search, so the window has
+# to say how many games it did not look at; otherwise a large database quietly
+# comes back with a smaller count.
+set ::sc_searchSkipped 2
+$w.buttons.search invoke
+checkEq "the skipped games are part of the result" \
+    [$w.options.query.status cget -text] \
+    "1 / 5 (0:00)  ([format [::tr CQLUnreadableGames] 2])"
+set ::sc_searchSkipped 0
+
 puts "\n== a multi-line query is passed whole, and AND is carried over ==\n"
 $w.options.query.text delete 1.0 end
 $w.options.query.text insert 1.0 "cql(:gamenumber 3 3)\n  qh4"
@@ -224,7 +236,7 @@ checkEq "and with the database filter" [lindex $::notified end] {1 dbfilter}
 proc sc_search {args} {
     lappend ::searchCalls $args
     if {$::sc_searchError ne ""} { error $::sc_searchError }
-    return "1 / 5 (0:00)"
+    return [list "1 / 5 (0:00)" $::sc_searchSkipped]
 }
 
 puts "\n== Search (new filter) opens a list of its own ==\n"

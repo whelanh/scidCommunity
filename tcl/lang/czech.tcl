@@ -2389,3 +2389,4 @@ translate C CQLQuery {Dotaz CQL}
 translate C CQLQueryHint {Dotaz CQL, např. cql() mate nebo cql(:gamenumber 1 10) K. Ctrl+Enter spustí hledání.}
 translate C CQLQueryEmpty {Před hledáním zadejte dotaz CQL.}
 translate C CQLSearchFailed {Hledání CQL selhalo:}
+translate C CQLUnreadableGames {%d partií nešlo načíst}

@@ -2408,3 +2408,4 @@ translate L CQLQuery {Interogare CQL}
 translate L CQLQueryHint {Interogare CQL, de ex. cql() mate sau cql(:gamenumber 1 10) K. Ctrl+Enter caută.}
 translate L CQLQueryEmpty {Introduceți o interogare CQL înainte de a căuta.}
 translate L CQLSearchFailed {Căutarea CQL a eșuat:}
+translate L CQLUnreadableGames {%d partide nu au putut fi citite}

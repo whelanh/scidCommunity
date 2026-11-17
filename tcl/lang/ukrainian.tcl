@@ -2368,3 +2368,4 @@ translate Q CQLQuery {Запит CQL}
 translate Q CQLQueryHint {Запит CQL, наприклад cql() mate або cql(:gamenumber 1 10) K. Ctrl+Enter запускає пошук.}
 translate Q CQLQueryEmpty {Введіть запит CQL перед пошуком.}
 translate Q CQLSearchFailed {Пошук CQL не вдався:}
+translate Q CQLUnreadableGames {не вдалося прочитати %d партій}
