@@ -225,6 +225,13 @@ jobs:
       - name: Auto Comment dialogs
         run: xvfb-run -a wish tests/tcl/auto_comment_dialogs.tcl
 
+      # My Player Names: a fixed 440-high window cut off the OK row as soon as a
+      # larger UI font or a HiDPI display wrapped the description onto another
+      # line. The harness opens it at the default size and at 200% scaling and
+      # checks every button is inside the window.
+      - name: My Player Names dialog
+        run: xvfb-run -a wish tests/tcl/player_names_dialog_tk.tcl
+
       # The Review Settings dialog: the tclsh harnesses decide what it stores,
       # but only building it shows that the proc holding the widgets compiles
       # and that the OK button is there to press.

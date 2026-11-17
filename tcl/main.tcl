@@ -800,19 +800,14 @@ proc editMyPlayerNames {} {
   }
   ::win::createDialog $w
   wm title $w "[tr OptionsBoardNames]"
-  wm minsize $w 400 260
 
   set desc [string trim $::tr(MyPlayerNamesDescription)]
   ttk::label $w.desc -text $desc -wraplength 500 -justify left
   pack $w.desc -side top -fill x -padx 6 -pady 6
 
-  autoscrollText both $w.txtframe $w.txtframe.text Treeview
-  $w.txtframe.text configure -height 10 -width 60 -wrap none -state normal
-  foreach name $myPlayerNames {
-    $w.txtframe.text insert end "$name\n"
-  }
-  pack $w.txtframe -side top -fill both -expand yes -padx 6 -pady 6
-
+  # The button bar is packed before the text box: pack hands out space in order,
+  # so the OK row keeps its height and the name list gives way when the window
+  # is made smaller. Packed last, the bar was the slave that lost its space.
   ttk::frame $w.b
   pack $w.b -side bottom -fill x
   dialogbutton $w.b.white -text $::tr(White) -command {
@@ -828,15 +823,38 @@ proc editMyPlayerNames {} {
   packbuttons right $w.b.cancel $w.b.ok
   packbuttons left $w.b.white $w.b.black $w.b.help
 
+  autoscrollText both $w.txtframe $w.txtframe.text Treeview
+  $w.txtframe.text configure -height 10 -width 60 -wrap none -state normal
+  foreach name $myPlayerNames {
+    $w.txtframe.text insert end "$name\n"
+  }
+  pack $w.txtframe -side top -fill both -expand yes -padx 6 -pady 6
+
   bind $w <Escape> "destroy $w"
 
-  # Use a fixed, modest size and center it on the screen. Hyprland/XWayland
-  # neither honors the requested geometry nor centers floating dialogs, so
-  # both the size and the position are set explicitly. The position is
-  # re-applied on a short timer so it wins over the after-idle re-centering
-  # done by centerWindowHyprland.
-  set gw 560
-  set gh 440
+  # Size the dialog from what its contents ask for, with the old 560x440 as the
+  # floor. Those numbers hold only at the default font size: a larger UI font or
+  # a HiDPI display wraps the description onto more lines, the content grew
+  # taller than the window and the OK row was cut off at the bottom until the
+  # window was dragged bigger. Hyprland/XWayland neither honors the requested
+  # geometry nor centers floating dialogs, so both the size and the position are
+  # set explicitly. The position is re-applied on a short timer so it wins over
+  # the after-idle re-centering done by centerWindowHyprland.
+  update idletasks
+  set barW [winfo reqwidth $w.b]
+  set gw [expr {max(560, $barW + 12)}]
+  set gh [winfo reqheight $w]
+  if {$gh < 440} { set gh 440 }
+  set maxH [expr {max(200, [winfo screenheight $w] - 60)}]
+  if {$gh > $maxH} { set gh $maxH }
+
+  # Dragging the window smaller must not hide the description or the buttons
+  # again, so the minimum is everything but the name list, plus three lines of
+  # it, and as wide as the button row.
+  set textReq [winfo reqheight $w.txtframe]
+  set lineH [font metrics [$w.txtframe.text cget -font] -linespace]
+  wm minsize $w [expr {max(400, $barW)}] [expr {max(260, $gh - $textReq + 3 * $lineH)}]
+
   set x [expr {([winfo screenwidth $w] - $gw) / 2}]
   set y [expr {([winfo screenheight $w] - $gh) / 2}]
   if {$x < 0} { set x 0 }
