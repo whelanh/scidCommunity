@@ -94,6 +94,12 @@ proc ::wpgui::run {} {
     sc_move addSan e4
     ::notify::GameChanged
     set openFen [sc_pos fen]
+    set undocked [expr {[info exists ::env(WOODPECKER_GUI_UNDOCKED)] && $::env(WOODPECKER_GUI_UNDOCKED) eq "1"}]
+    if {$undocked} {
+        ::win::toggleDocked .pgnWin
+        wait 300
+        checkEq "the PGN window floats in the user's layout" [lindex [::win::isDocked .pgnWin] 0] ""
+    }
     set userWindows [lsort [::win::getWindows]]
     check "the user's layout has more than the board" [expr {[llength $userWindows] > 2}] $userWindows
     ::woodpecker::ui::train
@@ -184,7 +190,37 @@ proc ::wpgui::run {} {
     checkEq "leaving the session restores the user's layout" [lsort -unique [::win::getWindows]] \
         [lsort -unique [concat $userWindows .fdockwoodpeckerWin]]
     check "the Woodpecker window is back on its sets" [winfo ismapped .woodpeckerWin.home]
+    if {$undocked} {
+        check "the PGN window is back" [winfo exists .pgnWin]
+        checkEq "and floats again" [lindex [::win::isDocked .pgnWin] 0] ""
+    }
     checkEq "the open game is still there" [sc_pos fen] $openFen
+
+    # A second set, abandoned half-way by closing the panel: the session ends,
+    # the exercise played is kept, the user's layout and game come back.
+    set dir2 [::woodpecker::set::newDir "GUI test two"]
+    ::woodpecker::set::buildFromExercises $dir2 [::woodpecker::set::newMeta "GUI test two" lichess 7 1 [clock seconds]] $exs
+    ::woodpecker::ui::refresh
+    ::woodpecker::ui::selectSet $dir2
+    set userWindows2 [lsort -unique [::win::getWindows]]
+    ::woodpecker::ui::train
+    wait 500
+    checkEq "the second session is in the focus layout" [lsort [::win::getWindows]] [lsort {.main .fdockwoodpeckerWin}]
+    addMoveUCI e6e1
+    wait 600
+    addMoveUCI e1f1
+    wait 600
+    addMoveUCI f1f8
+    wait 1600
+    ::win::closeWindow .fdockwoodpeckerWin
+    wait 800
+    check "closing the panel ends the session" [expr {![info exists ::playMode] && !$::woodpecker::ui::run(on)}]
+    checkEq "the exercise played is kept" [llength [lindex [::woodpecker::readLog $dir2] 0]] 1
+    checkEq "the user's layout is back, without the closed panel" [lsort -unique [::win::getWindows]] \
+        [lsearch -all -inline -not -exact $userWindows2 .fdockwoodpeckerWin]
+    checkEq "and so is the open game" [sc_pos fen] $openFen
+    ::woodpecker::ui::open
+    wait 300
 
     ::woodpecker::ui::newDialog
     wait 300

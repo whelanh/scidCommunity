@@ -6,6 +6,10 @@
 # a clean profile. Needs a display (xvfb-run on a headless machine):
 #
 #   xvfb-run -a tests/woodpecker_gui.sh build/scidCommunity
+#   WOODPECKER_GUI_UNDOCKED=1 xvfb-run -a tests/woodpecker_gui.sh build/scidCommunity
+#
+# With WOODPECKER_GUI_UNDOCKED=1 the user's layout has a floating (undocked)
+# PGN window, which must come back floating after the session.
 #
 # The binary must find tcl/start.tcl (an installed build, or the repository's
 # tcl/ next to it) and report the version start.tcl expects.

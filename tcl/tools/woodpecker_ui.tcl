@@ -284,7 +284,8 @@ proc ::woodpecker::ui::closed {} {
     variable focus
     if {$focus(relayout)} { return }
     if {$run(on)} { stop }
-    if {$focus(active)} { after idle ::woodpecker::ui::leaveFocus }
+    # The panel was closed on purpose: back to Scid as it was, without it.
+    if {$focus(active)} { after idle [list ::woodpecker::ui::leaveFocus 0] }
 }
 
 ################################################################################
@@ -352,8 +353,9 @@ proc ::woodpecker::ui::enterFocus {} {
     return 1
 }
 
-# Back to the trainee's layout, with this window on its list of sets.
-proc ::woodpecker::ui::leaveFocus {} {
+# Back to the trainee's layout; `reopen` puts this window back on its list of
+# sets (not when the trainee closed it to leave).
+proc ::woodpecker::ui::leaveFocus {{reopen 1}} {
     variable focus
     variable w
     if {!$focus(active)} { return }
@@ -362,6 +364,7 @@ proc ::woodpecker::ui::leaveFocus {} {
     set focus(relayout) 0
     set focus(active) 0
     unset -nocomplain ::docking::layout_list(woodpecker_user)
+    if {!$reopen} { return }
     open
     showPage home
     refresh
