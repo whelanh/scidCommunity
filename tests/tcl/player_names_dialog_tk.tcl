@@ -148,8 +148,10 @@ puts "display: [winfo screenwidth .]x[winfo screenheight .]"
 
 # The size it opens with is the whole point: a user should not have to drag the
 # window before the buttons appear.
+set defaultReq 0
 set w [buildDialog "opening at the default font size"]
 if {$w ne ""} {
+    set defaultReq [winfo reqheight $w]
     check "it is not smaller than the size it always had" \
         [expr {[winfo width $w] >= 560 && [winfo height $w] >= min(440, [allowedHeight $w])}] \
         "[winfo width $w]x[winfo height $w]"
@@ -175,8 +177,13 @@ if {$w ne ""} {
 tk scaling 2.0
 set w [buildDialog "opening at 200% scaling"]
 if {$w ne ""} {
-    check "the content really did grow past the old fixed height" \
-        [expr {[winfo reqheight $w] > 440}] "content [winfo reqheight $w]"
+    # The point sizes resolve against the display's own DPI, so how much the
+    # content grows depends on the font stack. What must hold everywhere is that
+    # it grew, and that the dialog followed it - the fixed 440 is what used to
+    # cut the row off once it did.
+    check "the content really did grow with the scaling" \
+        [expr {[winfo reqheight $w] > $defaultReq}] \
+        "content [winfo reqheight $w], default $defaultReq"
     destroy $w
 }
 
