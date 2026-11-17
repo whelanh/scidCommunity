@@ -924,3 +924,43 @@ proc ::woodpecker::presetShares {name} {
     if {![dict exists $p $name]} { error "unknown preset '$name'" }
     return [dict get $p $name]
 }
+
+################################################################################
+# Difficulty without a Lichess token.
+#
+# Lichess picks puzzles around the solver's rating plus the level's delta
+# (lila, modules/puzzle/src/main/PuzzleDifficulty.scala: easiest -600, easier
+# -300, normal 0, harder +300, hardest +600; PuzzlePath.scala takes the range
+# rating +- (100 + |1500 - rating| / 4)). Without a token the rating is 1500
+# (Lichess API spec). Given the rating the trainee states, each level's target
+# band is emulated: the anonymous levels nearest to it are fetched and only the
+# puzzles inside the band are kept - slower, since the rest is discarded.
+
+proc ::woodpecker::levelDelta {level} {
+    return [dict get {easiest -600 easier -300 normal 0 harder 300 hardest 600} $level]
+}
+
+proc ::woodpecker::levelWindow {centre} {
+    return [expr {100 + abs(1500 - $centre) / 4}]
+}
+
+# For one level and the trainee's rating: {centre window sources}, where
+# sources are the anonymous levels (centred on 1500 + delta) to fetch from,
+# nearest first: the two that bracket the centre, or the nearest one when the
+# centre is outside what the anonymous levels reach.
+proc ::woodpecker::anonPlan {rating level} {
+    set centre [expr {$rating + [levelDelta $level]}]
+    set dist {}
+    foreach l {easiest easier normal harder hardest} {
+        lappend dist [list $l [expr {abs(1500 + [levelDelta $l] - $centre)}]]
+    }
+    set dist [lsort -integer -index 1 $dist]
+    set first [lindex $dist 0 0]
+    set sources [list $first]
+    set second [lindex $dist 1 0]
+    set c1 [expr {1500 + [levelDelta $first]}]
+    set c2 [expr {1500 + [levelDelta $second]}]
+    # Only a level on the other side of the centre widens the choice.
+    if {($c1 - $centre) * ($c2 - $centre) < 0} { lappend sources $second }
+    return [dict create centre $centre window [levelWindow $centre] sources $sources]
+}

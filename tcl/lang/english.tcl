@@ -653,11 +653,7 @@ translate E WoodpeckerTokenNoScope {This token lacks the puzzle:read scope: crea
 translate E WoodpeckerTokenInvalid {Lichess does not know this token.}
 translate E WoodpeckerTokenUnchecked {The token could not be checked (no connection?). It will be used as it is.}
 translate E WoodpeckerTokenChecking {Checking the token...}
-translate E WoodpeckerTokenMissing {Strongly recommended. Without a token Lichess serves puzzles for a 1500 player rather than for you, may repeat puzzles you already solved there, and its limits make big sets slow: use it only to try the trainer.}
-translate E WoodpeckerNoTokenAsk {Create the set without a Lichess token?
-
-The difficulty will be set for a 1500 player rather than for you, and puzzles you already solved on Lichess may come up. Fine for a try; for real training create a token first.}
-translate E WoodpeckerNoTokenGo {Create it anyway}
+translate E WoodpeckerTokenMissing {No token? It works too: enter your puzzle rating below (Lichess profile, Puzzles). The download is slower and puzzles you already solved on Lichess may come up; with a token it is faster.}
 translate E WoodpeckerPreset_automatic {Automatic (easier)}
 translate E WoodpeckerPreset_standard {Standard (recommended)}
 translate E WoodpeckerPreset_challenge {Challenging}
@@ -668,6 +664,9 @@ translate E WoodpeckerPresetHelp_challenge {Around and above your level, for str
 translate E WoodpeckerPresetHelp_custom {Choose the share of each Lichess level yourself.}
 translate E WoodpeckerPresetRating {Levels are relative to your puzzle rating (%s).}
 translate E WoodpeckerPresetNoRating {Levels are relative to your Lichess puzzle rating.}
+translate E WoodpeckerRatingAsk {Your Lichess puzzle rating}
+translate E WoodpeckerBadRating {Enter your Lichess puzzle rating (400-3200): it is on your Lichess profile, under Puzzles.}
+translate E WoodpeckerPresetStated {Levels are relative to the rating you entered (%s).}
 
 # Board screenshot
 menuText E ToolsScreenshot "Board Screenshot" 0 \

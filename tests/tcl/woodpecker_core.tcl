@@ -327,6 +327,20 @@ foreach name {automatic standard challenge} {
 }
 check "an unknown preset is refused" {[catch {::woodpecker::presetShares bogus}]}
 
+
+# ------------------------------------------------- without a Lichess token ----
+checkEq "level deltas as in lila" [lmap l {easiest easier normal harder hardest} { ::woodpecker::levelDelta $l }] {-600 -300 0 300 600}
+checkEq "the window at 1500" [::woodpecker::levelWindow 1500] 100
+checkEq "the window grows away from 1500" [::woodpecker::levelWindow 2300] 300
+set p [::woodpecker::anonPlan 1500 normal]
+checkEq "a 1500 player's normal is the anonymous normal" [list [dict get $p centre] [dict get $p sources]] {1500 normal}
+set p [::woodpecker::anonPlan 1650 normal]
+checkEq "between two levels both are fetched" [list [dict get $p centre] [dict get $p sources]] {1650 {normal harder}}
+set p [::woodpecker::anonPlan 1900 harder]
+checkEq "above the anonymous range: the nearest level only" [list [dict get $p centre] [dict get $p sources]] {2200 hardest}
+set p [::woodpecker::anonPlan 1200 easiest]
+checkEq "below it too" [list [dict get $p centre] [dict get $p sources] [dict get $p window]] {600 easiest 325}
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

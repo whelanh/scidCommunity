@@ -34,8 +34,9 @@ if {[llength [info commands ::options.store]]} {
     ::options.store ::woodpecker::ui::lastCount 300
     ::options.store ::woodpecker::ui::lastDays 28
     ::options.store ::woodpecker::ui::lastPreset standard
+    ::options.store ::woodpecker::ui::lastRating 1500
 }
-foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard} {
+foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500} {
     if {![info exists ::woodpecker::ui::$_v]} { set ::woodpecker::ui::$_v $_d }
 }
 unset -nocomplain _v _d
@@ -503,7 +504,8 @@ proc ::woodpecker::ui::newDialog {} {
         file "" days1 $::woodpecker::ui::lastDays restDays 1 preset $preset \
         presetLabel [dict get [presetLabels] $preset] \
         easiest 0 easier 25 normal 60 harder 15 hardest 0 \
-        token [::woodpecker::set::tokenRead] tokenState "" tokenUser "" tokenRating ""]
+        token [::woodpecker::set::tokenRead] tokenState "" tokenUser "" tokenRating "" \
+        rating $::woodpecker::ui::lastRating]
     set f [ttk::frame $d.f -padding 4]
     pack $f -fill both -expand 1
     ttk::label $f.lname -text [tr WoodpeckerName]
@@ -520,6 +522,11 @@ proc ::woodpecker::ui::newDialog {} {
     ttk::label $l.toklink -text [tr WoodpeckerTokenCreate] -foreground [color link] -cursor hand2
     bind $l.toklink <ButtonRelease-1> [list ${v}::openLink [::woodpecker::set::tokenCreateUrl]]
     ttk::label $l.tokstate -textvariable ${v}::newCfg(tokenText) -wraplength 400 -justify left
+    # Without a token the trainee's rating stands in for Lichess's own.
+    ttk::label $l.lrating -text [tr WoodpeckerRatingAsk]
+    ttk::spinbox $l.rating -from 400 -to 3200 -increment 50 -width 6 -textvariable ${v}::newCfg(rating) \
+        -command ${v}::presetChosen
+    bind $l.rating <KeyRelease> ${v}::presetChosen
     ttk::label $l.lcount -text [tr WoodpeckerCount]
     ttk::spinbox $l.count -from 20 -to 2000 -increment 50 -width 6 -textvariable ${v}::newCfg(count)
     ttk::label $l.ldiff -text [tr WoodpeckerDifficulty]
@@ -550,6 +557,8 @@ proc ::woodpecker::ui::newDialog {} {
     grid $l.ltoken $l.tok -sticky w -pady 2
     grid x $l.toklink -sticky w
     grid x $l.tokstate -sticky w -pady {0 6}
+    grid $l.lrating $l.rating -sticky w -pady {0 6}
+    grid configure $l.lrating -padx {0 10}
     grid $l.lcount $l.count -sticky w -pady 2
     grid $l.ldiff $l.preset -sticky w -pady 2
     grid x $l.presethelp -sticky w
@@ -606,10 +615,12 @@ proc ::woodpecker::ui::presetChosen {} {
         dict for {lv share} [::woodpecker::presetShares $key] { set newCfg($lv) $share }
         set newCfg(presetHelp) [tr WoodpeckerPresetHelp_$key]
     }
-    if {$newCfg(tokenRating) ne ""} {
+    if {$newCfg(tokenState) eq "ok" && $newCfg(tokenRating) ne ""} {
         append newCfg(presetHelp) " " [T WoodpeckerPresetRating $newCfg(tokenRating)]
-    } else {
+    } elseif {$newCfg(tokenState) eq "ok"} {
         append newCfg(presetHelp) " " [tr WoodpeckerPresetNoRating]
+    } elseif {[string is integer -strict $newCfg(rating)]} {
+        append newCfg(presetHelp) " " [T WoodpeckerPresetStated $newCfg(rating)]
     }
 }
 
@@ -632,6 +643,12 @@ proc ::woodpecker::ui::tokenShow {} {
     }
     set newCfg(tokenText) $txt
     $l.tokstate configure -foreground [color $c]
+    # The rating field only when Lichess will not supply the rating.
+    if {$newCfg(tokenState) eq "ok"} {
+        grid remove $l.lrating $l.rating
+    } else {
+        grid $l.lrating $l.rating
+    }
 }
 
 proc ::woodpecker::ui::tokenSave {} {
@@ -709,10 +726,14 @@ proc ::woodpecker::ui::create {} {
                 return
             }
         }
+        set rating ""
         if {$token eq ""} {
-            if {[choice [tr WoodpeckerNoTokenAsk] [list go [tr WoodpeckerNoTokenGo] cancel $::tr(Cancel)] $d] ne "go"} {
+            set rating [string trim $newCfg(rating)]
+            if {![string is integer -strict $rating] || $rating < 400 || $rating > 3200} {
+                tk_messageBox -icon error -parent $d -message [tr WoodpeckerBadRating]
                 return
             }
+            set ::woodpecker::ui::lastRating $rating
         } else {
             catch { ::woodpecker::set::tokenWrite $token }
         }
@@ -727,12 +748,13 @@ proc ::woodpecker::ui::create {} {
         set ::woodpecker::ui::lastCount $newCfg(count)
         set ::woodpecker::ui::lastPreset $newCfg(preset)
         set spec [dict create count $newCfg(count) shares $shares angle [themeKey $newCfg(theme)] \
-            color $newCfg(color) token $token]
+            color $newCfg(color) token $token rating $rating]
         dict set meta preset $newCfg(preset)
         dict set meta shares $shares
         dict set meta angle [dict get $spec angle]
         dict set meta token [expr {$token ne ""}]
         if {$newCfg(tokenRating) ne ""} { dict set meta rating $newCfg(tokenRating) }
+        if {$rating ne ""} { dict set meta rating $rating }
         destroy $d
         set dir [::woodpecker::set::newDir $name]
         progressOpen [tr WoodpeckerDownloading] ::woodpecker::set::cancel

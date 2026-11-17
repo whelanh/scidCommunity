@@ -28,6 +28,8 @@ proc ::wpgui::check {label cond {detail ""}} {
         incr ::wpgui::fails
         lappend out "  FAIL $label[expr {$detail eq "" ? "" : " -- $detail"}]"
     }
+    # As it goes, too: if the GUI hangs, the last line says where.
+    catch { puts stderr [lindex $out end] }
 }
 proc ::wpgui::checkEq {label got want} { check $label [expr {$got eq $want}] "got '$got' want '$want'" }
 
@@ -227,6 +229,9 @@ proc ::wpgui::run {} {
     check "the new-set dialog opens" [winfo exists .woodpeckerNew]
     checkEq "it proposes the Lichess source" $::woodpecker::ui::newCfg(source) lichess
     check "it offers the five Lichess levels" [winfo exists .woodpeckerNew.f.lich.diff.shardest]
+    check "without a token it asks for the puzzle rating" [winfo ismapped .woodpeckerNew.f.lich.rating]
+    check "the presets explain themselves with that rating" \
+        [string match "*1500*" $::woodpecker::ui::newCfg(presetHelp)] $::woodpecker::ui::newCfg(presetHelp)
     shot newset
     destroy .woodpeckerNew
 

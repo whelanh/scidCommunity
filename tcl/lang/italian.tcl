@@ -621,11 +621,7 @@ translate I WoodpeckerTokenNoScope {Questo token non ha l'ambito puzzle:read: cr
 translate I WoodpeckerTokenInvalid {Lichess non riconosce questo token.}
 translate I WoodpeckerTokenUnchecked {Impossibile verificare il token (nessuna connessione?). Verrà usato così com'è.}
 translate I WoodpeckerTokenChecking {Verifica del token...}
-translate I WoodpeckerTokenMissing {Caldamente consigliato. Senza token Lichess propone puzzle per un giocatore da 1500 invece che per te, può ripetere puzzle che hai già risolto lì e i suoi limiti rendono lenti i set grandi: usalo solo per provare.}
-translate I WoodpeckerNoTokenAsk {Creare il set senza token Lichess?
-
-La difficoltà sarà quella per un giocatore da 1500 invece che per te, e potrebbero uscire puzzle che hai già risolto su Lichess. Va bene per una prova; per allenarti davvero crea prima un token.}
-translate I WoodpeckerNoTokenGo {Crealo comunque}
+translate I WoodpeckerTokenMissing {Niente token? Funziona lo stesso: indica qui sotto il tuo rating puzzle (profilo Lichess, voce Puzzle). Il download è più lento e possono tornare puzzle già risolti su Lichess; con un token è più veloce.}
 translate I WoodpeckerPreset_automatic {Automatismi (più facile)}
 translate I WoodpeckerPreset_standard {Standard (consigliato)}
 translate I WoodpeckerPreset_challenge {Impegnativo}
@@ -636,6 +632,9 @@ translate I WoodpeckerPresetHelp_challenge {Al tuo livello e sopra, per giocator
 translate I WoodpeckerPresetHelp_custom {Scegli tu la quota di ciascun livello di Lichess.}
 translate I WoodpeckerPresetRating {I livelli sono relativi al tuo rating puzzle (%s).}
 translate I WoodpeckerPresetNoRating {I livelli sono relativi al tuo rating puzzle su Lichess.}
+translate I WoodpeckerRatingAsk {Il tuo rating puzzle su Lichess}
+translate I WoodpeckerBadRating {Indica il tuo rating puzzle su Lichess (400-3200): lo trovi sul tuo profilo, alla voce Puzzle.}
+translate I WoodpeckerPresetStated {I livelli sono relativi al rating indicato (%s).}
 
 # Board screenshot
 menuText I ToolsScreenshot "Schermata della scheda" 0 \
