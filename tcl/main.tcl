@@ -864,8 +864,14 @@ proc editMyPlayerNames {} {
   set y [expr {([winfo screenheight $w] - $gh) / 2}]
   if {$x < 0} { set x 0 }
   if {$y < 0} { set y 0 }
+  # Both the size and the position are re-applied on a short timer. The window
+  # manager maps the dialog at the size its contents ask for and ignores a
+  # geometry set while it is not yet visible, so the pre-map call alone loses
+  # the 560x440 floor (the contents are smaller now that the bar is packed
+  # first). The timer also wins over the after-idle re-centering done by
+  # centerWindowHyprland.
   wm geometry $w ${gw}x${gh}+${x}+${y}
-  after 1 [list wm geometry $w +$x+$y]
+  after 1 [list wm geometry $w ${gw}x${gh}+${x}+${y}]
   ::win::makeVisible $w
 }
 
