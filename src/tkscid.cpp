@@ -10299,8 +10299,14 @@ int sc_book_movesupdate(ClientData, Tcl_Interp *ti, int argc,
   if (polyglot_is_obr(slot)) {
     return errorResult(ti, "OpenBook Rich books are read-only");
   }
-  scid_book_movesupdate((char *)argv[2], (char *)argv[3], slot,
-                        (char *)argv[5]);
+  if (scid_book_movesupdate((char *)argv[2], (char *)argv[3], slot,
+                            (char *)argv[5]) != 0) {
+    // A failed rewrite used to report success: ::book::save then deleted the
+    // tempfile and refreshed the window as if the book had been written.
+    return errorResult(ti,
+                       "The book was not saved: the write failed (a book must "
+                       "keep at least one entry)");
+  }
   return TCL_OK;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~

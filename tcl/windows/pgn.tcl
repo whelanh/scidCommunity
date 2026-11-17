@@ -106,6 +106,8 @@ namespace eval pgn {
         -variable ::pgn::boldMainLine -command {if { $::pgn::boldMainLine } { \
                                                      .pgnWin.text configure -font font_Bold } \
                                                 else { .pgnWin.text configure -font font_Regular} }
+    $w.menu.opt add checkbutton -label PgnOptCenter \
+        -variable ::pgn::centerMove -command {::pgn::update_current_move}
     $w.menu.opt add checkbutton -label GInfoPhotos \
         -variable ::pgn::showPhoto -command {::pgn::Refresh 1}
 
@@ -386,6 +388,15 @@ namespace eval pgn {
       if {[llength $moveRange] == 2} {
         .pgnWin.text tag add Current [lindex $moveRange 0] [lindex $moveRange 1]
         .pgnWin.text see [lindex $moveRange 1]
+        if {$::pgn::centerMove} {
+          # put the current move in the middle of the window: after a jump the
+          # moves and comments that follow it would otherwise fall off the foot
+          set line [.pgnWin.text dlineinfo [lindex $moveRange 0]]
+          if {[llength $line] == 5} {
+            .pgnWin.text yview scroll \
+                [expr {[lindex $line 1] + [lindex $line 3] / 2 - [winfo height .pgnWin.text] / 2}] pixels
+          }
+        }
       } else {
         .pgnWin.text yview moveto 0
       }

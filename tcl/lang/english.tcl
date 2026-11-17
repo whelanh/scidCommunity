@@ -948,10 +948,12 @@ translate E PgnOptColumn "Column Style (one move per line)"
 translate E PgnOptSpace "Space after Move Numbers"
 translate E PgnOptStripMarks "Strip out Colored Square/Arrow Codes"
 translate E PgnOptBoldMainLine "Use Bold Text for Main Line Moves"
+translate E PgnOptCenter "Center Current Move"
 
 # Analysis window:
 translate E AddAllVariations {Add All Variations}
 translate E AddMove {Add Move}
+translate E RemoveMove {Remove Move}
 translate E Annotate {Annotate}
 translate E FinishGame {Finish game}
 translate E StartEngine {Start engine}
@@ -1104,6 +1106,7 @@ menuText E PgnOptColumn "Column Style (one move per line)" 1
 menuText E PgnOptSpace "Space after Move Numbers" 1
 menuText E PgnOptStripMarks "Strip out Colored Square/Arrow Codes" 1
 menuText E PgnOptBoldMainLine "Use Bold Text for Main Line Moves" 4
+menuText E PgnOptCenter "Center Current Move" 7
 menuText E PgnColor "Colors" 0
 menuText E PgnColorHeader "Header..." 0
 menuText E PgnColorAnno "Annotations..." 0

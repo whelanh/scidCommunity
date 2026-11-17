@@ -551,6 +551,8 @@ proc ::game::Clear {} { return "" }
 namespace eval ::board {}
 proc ::board::sq {sq} { return $sq }
 proc ::board::flip {w args} { return }
+# sergame asks the board to finish a move animation before it raises a dialog
+proc ::board::waitForAnimation {args} { return }
 namespace eval ::book {}
 proc ::book::getMove {args} { return "" }
 namespace eval ::utils {}
