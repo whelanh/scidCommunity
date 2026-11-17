@@ -284,23 +284,28 @@ puts "what the settings dialog holds"
 
 # The dialog owns twelve settings. Threads and Hash are not among them: they
 # belong to the engine preset (#382), and a second place to set them is a second
-# place to get them wrong. The dialog shows them, read-only, from the preset.
+# place to get them wrong. Nor is the cloud pre-pass switch: it moved to the
+# engine configuration, where a browsing preset and a verdict preset can answer
+# differently.
 ::review::reset
 set s [::reviewui::settings]
-checkEq "thirteen rows, no threads, no hash" [dict keys $s] \
-    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach cloud_eval verifier}
+checkEq "twelve rows, no threads, no hash, no pre-pass switch" [dict keys $s] \
+    {mpv depth movetime var_lines var_cp move_comment_wait diagram opening_errors opening_window tactical_exercises coach verifier}
 checkEq "at their defaults" [dict get $s depth] 18
 checkEq "with no time cap of its own" [dict get $s movetime] 0
 checkEq "and mpv with them" [dict get $s mpv] 3
-checkEq "the cloud pre-pass on unless it is turned off" [dict get $s cloud_eval] 1
 checkEq "the coach off unless it is asked for" [dict get $s coach] 0
+# A retired setting is not a setting with a default of 0: the dialog must not read
+# one at all, or the pass would consult a value no row can change.
+checkEq "the pre-pass switch is gone from the dialog" \
+    [dict exists $s cloud_eval] 0
 # The verifier is off by default: today's behaviour exactly, and the labels are
 # written as the search produced them.
 checkEq "and no verifier engine" [dict get $s verifier] ""
 
 set good [dict create mpv 4 depth 24 movetime 1500 var_lines 2 var_cp 40 \
     move_comment_wait 0 diagram 1 opening_errors 1 opening_window 15 \
-    tactical_exercises 1 coach 1 cloud_eval 1 verifier ""]
+    tactical_exercises 1 coach 1 verifier ""]
 checkEq "a valid dialog is stored without complaint" [::reviewui::applySettings $good] {}
 checkEq "and reads straight back" [::reviewui::settings] $good
 checkEq "the cap is stored as the review's own option" $::reviewopt(movetime) 1500

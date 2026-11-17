@@ -26,11 +26,20 @@ proc ::engineNoWin::initEngine { id engine callback {options ""} } {
     }
     if {[info exists oldwdir]} { cd $oldwdir }
     # A caller with its own budget (the review pass's one-shot engines) supplies
-    # the options it may use. Everyone else keeps the preset's own.
+    # the options it may use. Everyone else keeps the preset's own. The review's
+    # rows in element 8 are not UCI options and are never sent.
+    #
+    # Filter before the emptiness test: a preset whose only stored row is the
+    # review switch filters down to nothing, and a SetOptions with an empty list
+    # reaches ::uci::sendOptions without its data argument.
+    set send {}
     if { $options ne "" } {
-        ::engine::send $id SetOptions $options
+        set send [::engine::uciOptions $options]
     } elseif { $presetOptions ne "" } {
-        ::engine::send $id SetOptions $presetOptions
+        set send [::engine::uciOptions $presetOptions]
+    }
+    if { [llength $send] } {
+        ::engine::send $id SetOptions $send
     }
     return 1
 }
@@ -119,15 +128,20 @@ proc ::engineNoWin::createEngineOptionsFrame {f id var col callback {engTyp "uci
 
 proc ::engineNoWin::initEngineOptions {id w options} {
     upvar ::enginecfg::engConfig_$id engConfig_
+    # The review's own switches live in element 8 beside the engine's options and
+    # are carried across the handshake, but they are not shown here: an engine used
+    # without a window (Tactics, an EPD pass) runs no review pass. What the panel
+    # renders is the engine's own list, so the two stay positionally aligned.
+    set options [::enginecfg::withReviewOptions $options [lindex $engConfig_ 8]]
     if { ! [winfo exists $w.text.reset] } {
         lset ::enginecfg::engConfig_$id 8 $options
-        ::enginecfg::createOptionWidgets $id $w $options
+        ::enginecfg::createOptionWidgets $id $w [::enginecfg::uciOptions $options]
         if {[winfo exists $w.text.reset]} {
             ::engine::replyInfoConfig $id
         }
     } else {
         lset ::enginecfg::engConfig_$id 8 $options
-        ::enginecfg::updateOptionWidgets $id $w $options {}
+        ::enginecfg::updateOptionWidgets $id $w [::enginecfg::uciOptions $options] {}
         $w.text configure -state disabled
     }
 }

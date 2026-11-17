@@ -38,9 +38,20 @@ namespace eval ::review {
         threads 0
         hash_mb 128
         skip_book 1
-        cloud_eval 1
         verifier ""
     }
+    # The cloud pre-pass switch is NOT a global setting: it lives in the engine
+    # configuration's option list (element 8, beside Threads/Hash/MultiPV) because
+    # whether the pre-pass is worth waiting for is a property of that config - a
+    # 100 ms browsing preset gains nothing from it and a depth-18 verdict preset
+    # gains a lot. An engine config that says nothing about it keeps this built-in
+    # default, on, which is what an engines.dat written before it moved there
+    # carries.
+    variable PREPASS_DEFAULT {cloud_eval 1}
+    # The key as it was spelled while it was a global setting. An options file from
+    # an older version can still carry it; it is dropped (::review::retireGlobals
+    # says why).
+    variable RETIRED_GLOBALS {cloud_eval}
     variable S [dict create]
     variable MAX_MPV 5
     variable MIN_DEPTH 6
@@ -133,10 +144,45 @@ proc ::review::saved {} {
     }
     # The flags are on or off, and setValue takes only 0 or 1: a file that says 2
     # must not open the dialog on a value pressing OK would refuse.
-    foreach flag {move_comment_wait skip_book diagram opening_errors tactical_exercises coach cloud_eval} {
+    foreach flag {move_comment_wait skip_book diagram opening_errors tactical_exercises coach} {
         if {[dict get $S $flag] != 0} { dict set S $flag 1 }
     }
+    ::review::retireGlobals
     return $S
+}
+
+# Take the pre-pass switch out of the options file now that it is per engine
+# configuration.
+#
+# The saved value is DROPPED, not carried into the presets: the per-config switch
+# governs and defaults to on, and a global "off" written before the move says
+# nothing about which presets the user wanted the pre-pass skipped in - folding it
+# into all of them would silently keep the pass off where it was only ever
+# switched off globally. A user who wants it off now unticks it on the config
+# that should not ask.
+#
+# ::reviewopt(cloud_eval) is not registered any more (the registration below walks
+# ::review::defaults, and the key is not in it), so nothing reads it. What would
+# keep it ALIVE is ::autosave_opt: the options file lists every variable to save,
+# and the list survives a load, so options.write would go on writing the retired
+# setting forever. Removing the entry is the whole of the retirement.
+proc ::review::retireGlobals {} {
+    variable RETIRED_GLOBALS
+    if {![info exists ::autosave_opt]} { return }
+    set keep {}
+    foreach elem $::autosave_opt {
+        set retired 0
+        foreach key $RETIRED_GLOBALS {
+            if {$elem eq "::reviewopt($key)"} {
+                unset -nocomplain ::reviewopt($key)
+                set retired 1
+                break
+            }
+        }
+        if {!$retired} { lappend keep $elem }
+    }
+    set ::autosave_opt $keep
+    return
 }
 
 # Write the working copy where the options file reads it. Called by setValue, so
@@ -254,9 +300,6 @@ proc ::review::setValue {key value} {
         coach {
             if {$value < 0 || $value > 1} { return "coach is 0 or 1" }
         }
-        cloud_eval {
-            if {$value < 0 || $value > 1} { return "cloud_eval is 0 or 1" }
-        }
         threads {
             if {$value < 0} { return "threads cannot be negative" }
         }
@@ -289,17 +332,38 @@ proc ::review::setValue {key value} {
 # The resources a pass should use, read from the engine's own config: Threads
 # and Hash are properties of that preset, and MultiPV is the preset's own value.
 # A key the engine does not advertise comes back empty.
+#
+# The cloud pre-pass switch is read from the same place even though it is not a
+# UCI option: the engine configuration's option list is where a per-config
+# decision belongs, and it is already the one list a preset carries from session
+# to session. "" is "this config says nothing", which is what every engines.dat
+# written before the switch moved there carries.
 proc ::review::engineDefaults {enginecfg} {
-    set out [dict create threads "" hash "" mpv ""]
+    set out [dict create threads "" hash "" mpv "" cloud_eval ""]
     foreach elem [lindex $enginecfg 8] {
         lassign $elem name value
         switch -nocase -- $name {
             threads { dict set out threads $value }
             hash    { dict set out hash $value }
             multipv { dict set out mpv $value }
+            cloud_eval { dict set out cloud_eval [::review::flagValue $value] }
         }
     }
     return $out
+}
+
+# That switch, as 0 or 1, or "" when the stored value is neither.
+#
+# The engine configuration dialog writes it true/false, the shape element 8's
+# other on/off options already use, and 0/1 is read too so a hand-edited
+# engines.dat works. Anything else is an absent value rather than an error: the
+# built-in default is the answer to a config that does not say.
+proc ::review::flagValue {value} {
+    switch -nocase -- [string trim $value] {
+        true  - yes - on  - 1 { return 1 }
+        false - no  - off - 0 { return 0 }
+    }
+    return ""
 }
 
 # The limits one position of a pass is searched under, from the review's own
@@ -375,8 +439,23 @@ proc ::review::effective {enginecfg} {
         set preset [::enginelimits::forName [lindex $enginecfg 0]]
     }
     set lim [::review::passLimits [all] $preset]
+    # The pre-pass switch: config over the built-in default, and the config wins
+    # even when the answer is "off". Nothing global is consulted - the row that
+    # used to hold it is gone, so the only two answers are the preset's and the
+    # default's.
+    set cloud [::review::switchValue $defaults cloud_eval]
     return [dict create threads $threads hash $hash mpv $mpv \
-        depth [dict get $lim depth] movetime [dict get $lim movetime]]
+        depth [dict get $lim depth] movetime [dict get $lim movetime] \
+        cloud_eval $cloud]
+}
+
+# The pre-pass switch resolved: what the config says, or the built-in default when
+# it says nothing.
+proc ::review::switchValue {defaults key} {
+    variable PREPASS_DEFAULT
+    set value [dict get $defaults $key]
+    if {$value eq ""} { return [dict get $PREPASS_DEFAULT $key] }
+    return $value
 }
 
 # Cross-field problems, for a dialog that wants to show them all at once.

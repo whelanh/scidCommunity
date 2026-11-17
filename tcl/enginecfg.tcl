@@ -95,6 +95,140 @@ proc ::enginecfg::remove {name} {
     return true
 }
 
+# The review's own per-config switch.
+#
+# It lives in the engine configuration's option list (element 8) beside Threads
+# and MultiPV, but it is not a UCI option: nothing is ever sent to the engine for
+# it (::enginecfg::uciOptions strips it from every SetOptions), and the review
+# reads it back with ::review::engineDefaults. A config that does not carry it
+# keeps the built-in default, on - which is what every engines.dat written before
+# it moved there carries, so nothing needs migrating.
+#
+# The value is true/false, the shape element 8's other check options already use,
+# and `default` is true for the same reason: ::enginecfg::save drops an option
+# sitting at its default, so a config that keeps the pre-pass on writes nothing
+# and stays a config that "says nothing".
+variable ::enginecfg::REVIEW_OPTIONS {
+    cloud_eval   ReviewCloudEval
+}
+
+# Is `name` that switch (case insensitive)?
+proc ::enginecfg::isReviewOption {name} {
+    variable REVIEW_OPTIONS
+    return [expr {[dict exists $REVIEW_OPTIONS [string tolower $name]]}]
+}
+
+# The label a review option's row shows, translated.
+proc ::enginecfg::reviewOptionLabel {name} {
+    variable REVIEW_OPTIONS
+    set key [dict get $REVIEW_OPTIONS [string tolower $name]]
+    if {[llength [info commands tr]] == 0} { return $name }
+    return [tr $key]
+}
+
+# One review option as an element-8 row:
+# {name value type default min max var_list internal}.
+#
+# min and max are empty on purpose: a check row whose bounds were set would have
+# ::enginecfg::setOption compare "true" as a number.
+proc ::enginecfg::reviewOptionRow {name value} {
+    return [list $name $value check true {} {} {} 0]
+}
+
+# A stored on/off value as the checkbutton's true/false.
+#
+# engines.dat is hand-editable, and the switch is documented as reading 0/1 as
+# well as the true/false the panel writes. A value neither spelling recognises
+# means the config says nothing usable, so the built-in default (on) is shown -
+# the same answer ::review::flagValue gives the pass.
+proc ::enginecfg::switchValue {value {default true}} {
+    switch -nocase -- [string trim $value] {
+        true  - yes - on  - 1 { return true }
+        false - no  - off - 0 { return false }
+    }
+    return $default
+}
+
+# The review option rows an option list carries, in a fixed order, with the
+# values it stores or the default for one it does not. `options` is element 8's
+# list, whatever shape its rows are in.
+proc ::enginecfg::reviewOptions {options} {
+    variable REVIEW_OPTIONS
+    set stored [dict create]
+    foreach elem $options {
+        lassign $elem name value
+        if {[isReviewOption $name]} {
+            dict set stored [string tolower $name] $value
+        }
+    }
+    set out {}
+    foreach name [dict keys $REVIEW_OPTIONS] {
+        set value true
+        if {[dict exists $stored $name]} {
+            set value [switchValue [dict get $stored $name]]
+        }
+        lappend out [reviewOptionRow $name $value]
+    }
+    return $out
+}
+
+# An option list with the review row put back: the engine's own options first, in
+# the order it advertised them, then the review's.
+#
+# The engine hands over a fresh option list on every handshake and on every
+# SetOptions reply, and the review row is not in it - the engine has never heard
+# of it. Carrying it across from the list being replaced is what keeps a config's
+# switch from being wiped by the engine connecting.
+proc ::enginecfg::withReviewOptions {options {oldOptions ""}} {
+    return [concat [uciOptions $options] [reviewOptions $oldOptions]]
+}
+
+# The options that are the engine's own: the review's rows are settings for the
+# review pass, not UCI options, and are never sent to an engine.
+proc ::enginecfg::uciOptions {options} {
+    set out {}
+    foreach elem $options {
+        if {[isReviewOption [lindex $elem 0]]} { continue }
+        lappend out $elem
+    }
+    return $out
+}
+
+# Persist one review switch into the saved preset, leaving every other field of
+# the preset alone.
+#
+# The switch is the one option a window can change without the engine answering,
+# and two engine windows can hold the same preset (a fresh window starts the most
+# recently used engine). Saving a window's whole snapshot would let the older
+# window's close write its stale row back over the newer value, so a toggle
+# writes only its own row here and ::enginecfg::save carries the stored row
+# through a snapshot rather than taking the snapshot's value.
+proc ::enginecfg::saveReviewOption {engine option value {default true}} {
+    set pos [lsearch -exact -index 0 $::engines(list) $engine]
+    if {$pos < 0} {
+        return
+    }
+    set stored [lindex $::engines(list) $pos]
+    set rows {}
+    set found 0
+    foreach row [lindex $stored 8] {
+        if {[llength $row] > 1 && [string equal -nocase [lindex $row 0] $option]} {
+            set found 1
+            # A value at its default is left out, exactly as ::enginecfg::save
+            # leaves it out of element 8.
+            if {$value ne $default} { lappend rows [list $option $value] }
+        } else {
+            lappend rows $row
+        }
+    }
+    if {!$found && $value ne $default} { lappend rows [list $option $value] }
+    lset ::engines(list) $pos [lreplace $stored 8 8 $rows]
+    # Not swallowed: a failed write is a setting that will revert on restart, and
+    # the caller's option-error path (the switch's error style) is where the user
+    # sees it. Every other engines.dat write behaves the same way.
+    ::enginecfg::write
+}
+
 # Search a previous configuration with the same name and replace it.
 # Write the "Engine list" file if it is necessary or force_write is true.
 # Return the engine's name or "" (and does nothing) if the engine do not exists.
@@ -107,15 +241,27 @@ proc ::enginecfg::save {enginecfg {force_write false}} {
     # A record loaded from the file holds already-filtered {name value} pairs;
     # only the live widget form carries the type/default/... fields. The old
     # filter threw "expected boolean value" on a loaded pair.
-    lset enginecfg 8 [lmap elem [lindex $enginecfg 8] {
+    #
+    # A review switch is NOT taken from this snapshot: it is persisted by its own
+    # row (::enginecfg::saveReviewOption), and another window holding the same
+    # preset may have an older value. The stored row is carried through instead,
+    # so a stale window's close cannot revert it.
+    set storedReview {}
+    foreach row [::enginecfg::reviewOptions [lindex [lindex $::engines(list) $idx] 8]] {
+        lassign $row name value type default
+        if {$value ne $default} { lappend storedReview [list $name $value] }
+    }
+    lset enginecfg 8 [concat [lmap elem [lindex $enginecfg 8] {
         if {[llength $elem] == 2} {
+            if {[::enginecfg::isReviewOption [lindex $elem 0]]} { continue }
             set elem
         } else {
             lassign $elem name value type default min max var_list internal
             if {$internal || $value eq $default} { continue }
+            if {[::enginecfg::isReviewOption $name]} { continue }
             list $name $value
         }
-    }]
+    }] $storedReview]
     if {$force_write || [lindex $::engines(list) $idx] ne $enginecfg} {
         lset ::engines(list) $idx $enginecfg
         ::enginecfg::write
@@ -264,7 +410,10 @@ proc ::enginecfg::resetConfigOptions {id configFrame config} {
     lassign $config name cmd args wdir elo time url uci options
     lassign $url scoreside notation pvwrap debugframe priority netport
     set time [clock seconds]; # Update engine's last used time.
-    set live [list $name $cmd $args $wdir $elo $time $url $uci {}]
+    # The review's own switches start from what the preset stored, so a config
+    # whose engine never connects still carries them - and so the handshake's
+    # fresh option list has something to be merged with (::enginecfg::withReviewOptions).
+    set live [list $name $cmd $args $wdir $elo $time $url $uci [::enginecfg::reviewOptions $options]]
     if {[llength $config] >= 10} { lappend live [lindex $config 9] }
     set ::enginecfg::engConfig_$id $live
     if {$config ne ""} {
@@ -289,8 +438,11 @@ proc ::enginecfg::updateConfigOptions {id configFrame msgInfoConfig} {
     set w $configFrame.text
     lassign $msgInfoConfig protocol netclients options
 
-    # Replace the engine's available options
+    # Replace the engine's available options. The review's switches are not in
+    # what the engine advertises, so they are carried across from the list being
+    # replaced: the engine connecting must not untick them.
     set oldOptions [lindex $engConfig_ 8]
+    set options [::enginecfg::withReviewOptions $options $oldOptions]
     lset engConfig_ 8 $options
 
     set renamed ""
@@ -397,6 +549,27 @@ proc ::enginecfg::setOption {id idx value} {
         } else {
             error "wrong value"
         }
+    }
+    # The review's own switches are stored in the config and go no further: the
+    # engine has no such option, so there is nothing to set on it. The value is
+    # written into element 8 here because no handshake reply will ever bring it
+    # back, and then saved at once: there is no SetOptions reply to make the
+    # frame's own save run, so a pass started from this window - and every reader
+    # of ::engines(list) - must see the value the switch shows. Only this one row
+    # is written to the preset, not the window's whole snapshot: a second window
+    # on the same preset may be holding an older value and must not revert it.
+    #
+    # A write failure is not caught here: ::enginecfg::onReviewToggle turns it
+    # into the switch's error style, the same mark an engine option gets when the
+    # engine refuses a value.
+    if {[::enginecfg::isReviewOption $name]} {
+        set row [lreplace [lindex [set ::enginecfg::engConfig_$id] 8 $idx] 1 1 $value]
+        set ::enginecfg::engConfig_$id \
+            [lreplace [set ::enginecfg::engConfig_$id] 8 8 \
+                [lreplace [lindex [set ::enginecfg::engConfig_$id] 8] $idx $idx $row]]
+        ::enginecfg::saveReviewOption [lindex [set ::enginecfg::engConfig_$id] 0] \
+            $name $value $default
+        return true
     }
     ::engine::send $id SetOptions [list [list $name $value]]
     return true
@@ -597,8 +770,15 @@ proc ::enginecfg::createOptionWidgets {id configFrame options} {
                 -command "::enginecfg::onSubmitReset $id $configFrame"
             $w window create end -window $w.reset
         }
-        $w insert end "\n$name:" opt_label "\t"
-        set label_width [font measure font_Regular -displayof $w "$name: "]
+        # The review's switches read as words ("Cloud pre-pass"), not as their
+        # config keys: they are the dialog's own rows, not options an engine
+        # advertised.
+        set label $name
+        if {[::enginecfg::isReviewOption $name]} {
+            set label [::enginecfg::reviewOptionLabel $name]
+        }
+        $w insert end "\n$label:" opt_label "\t"
+        set label_width [font measure font_Regular -displayof $w "$label: "]
         if {$label_width > $tab_width} {
             set tab_width $label_width
             $w tag configure opt_label -tabs $tab_width
@@ -612,8 +792,17 @@ proc ::enginecfg::createOptionWidgets {id configFrame options} {
                 ttk::combobox $w.value$i -width [incr maxlen] -values $var_list -state readonly
                 bind $w.value$i <<ComboboxSelected>> "::enginecfg::setOptionFromWidget $id $i %W"
             } elseif {$type eq "check"} {
-                ttk::checkbutton $w.value$i -onvalue true -offvalue false -style Switch.Toolbutton -command \
-                    "::enginecfg::setOption $id $i \[::update_switch_btn $w.value$i \]"
+                if {[::enginecfg::isReviewOption $name]} {
+                    # The engine never answers for a review row, so the InfoConfig
+                    # reply that repaints the panel and settles Reset after an
+                    # engine option changes never comes for this one: the row
+                    # settles both itself.
+                    ttk::checkbutton $w.value$i -onvalue true -offvalue false -style Switch.Toolbutton -command \
+                        "::enginecfg::onReviewToggle $id $i $configFrame $w.value$i"
+                } else {
+                    ttk::checkbutton $w.value$i -onvalue true -offvalue false -style Switch.Toolbutton -command \
+                        "::enginecfg::setOption $id $i \[::update_switch_btn $w.value$i \]"
+                }
             } else {
                 if {$type eq "spin" || $type eq "slider"} {
                     ttk::spinbox $w.value$i -width 12 -from $min -to $max -increment 1 \
@@ -706,18 +895,110 @@ proc ::enginecfg::updateNetClients {configFrame netclients} {
 }
 
 # Reset all the engine's options to their default values.
+#
+# The review's own rows in element 8 are reset with everything else: they are not
+# engine options, so a SetOptions for them would set nothing on the engine, but the
+# dialog's word "default" covers the whole panel the user is looking at - the panel
+# that draws them. ::engineNoWin::initEngineOptions draws the engine's own rows only
+# and leaves the review's row in element 8 with no widget; resetting that one would
+# turn the Cloud pre-pass back on behind a switch the user cannot see, so a review
+# row the panel does not render is left where it is.
 proc ::enginecfg::onSubmitReset {id w} {
     upvar ::enginecfg::engConfig_$id engConfig_
     set options {}
+    set index 0
+    set reviewRows 0
     foreach option [lindex $engConfig_ 8] {
         lassign $option name value type default min max var_list internal
         if {! $internal && $value ne $default} {
-            lappend options [list $name $default]
+            if {[::enginecfg::isReviewOption $name]} {
+                if {[winfo exists $w.text.value$index]} {
+                    # The switch is reset in memory and written to the preset;
+                    # a failed write is the switch's error style, not a background
+                    # error out of the Reset button.
+                    if {[catch {::enginecfg::setOption $id $index $default}]} {
+                        ::enginecfg::refreshReviewRows $id $w
+                        $w.text.value$index configure \
+                            -style Error.[winfo class $w.text.value$index]
+                    } else {
+                        set reviewRows 1
+                    }
+                }
+            } else {
+                lappend options [list $name $default]
+            }
         }
+        incr index
     }
     if {[llength $options]} {
         ::engine::send $id SetOptions $options
     }
+    # The panel is normally repainted by the InfoConfig reply to the SetOptions
+    # above (::enginecfg::updateOptionWidgets). The review's rows are not engine
+    # options, so the engine never answers for them: a reset of only those rows
+    # sends nothing, no reply comes, and they would go on showing the value the
+    # user just reset.
+    if {$reviewRows} {
+        ::enginecfg::refreshReviewRows $id $w
+    }
+}
+
+# Show the review's rows the values element 8 holds now, and settle the Reset
+# button from the same pass.
+#
+# The button is part of it, in both directions. A panel whose every live row is
+# back at its default has nothing left for Reset to do; a panel with a row away
+# from its default offers it. The review's rows only ever change through this
+# file - the engine never answers for them - so no InfoConfig reply comes to
+# settle the button, and ::enginecfg::updateOptionWidgets is the only other code
+# that sets it.
+proc ::enginecfg::refreshReviewRows {id configFrame} {
+    upvar ::enginecfg::engConfig_$id engConfig_
+    set w $configFrame.text
+    set options [lindex $engConfig_ 8]
+    set awayFromDefault 0
+    for {set i 0} {$i < [llength $options]} {incr i} {
+        lassign [lindex $options $i] name value type default min max var_list internal
+        if {$internal || $type in [list button save reset]} { continue }
+        # A review row without a widget is one this panel does not draw
+        # (::engineNoWin::initEngineOptions): it shows nothing for Reset to put
+        # back, so it is not one that offers the button either.
+        if {[::enginecfg::isReviewOption $name] && ![winfo exists $w.value$i]} { continue }
+        if {$value ne $default} { set awayFromDefault 1 }
+        if {[::enginecfg::isReviewOption $name]} {
+            ::update_switch_btn $w.value$i $value
+            # The label is bold while the row is away from its default, exactly
+            # as ::enginecfg::updateOptionWidgets paints an engine row. No
+            # InfoConfig reply comes for a review row to do it, so the repaint
+            # that settles the switch settles the mark too.
+            if {$value eq $default} {
+                $w tag remove header "$w.value$i linestart" $w.value$i
+            } else {
+                $w tag add header "$w.value$i linestart" $w.value$i
+            }
+        }
+    }
+    if {[winfo exists $w.reset]} {
+        $w.reset configure -state [expr {$awayFromDefault ? "normal" : "disabled"}]
+    }
+}
+
+# The checkbutton's own -command for a review switch: store the value in element
+# 8 and settle the panel from it.
+#
+# The engine is not told and never answers (::enginecfg::setOption returns without
+# sending for these rows), so this is where the row's effect on the Reset button
+# lands: unticking one leaves the panel with something Reset can put back, and
+# ticking it again takes that away.
+proc ::enginecfg::onReviewToggle {id idx configFrame widget} {
+    set value [::update_switch_btn $widget]
+    if {[catch {::enginecfg::setOption $id $idx $value} res]} {
+        $widget configure -style Error.[winfo class $widget]
+        return false
+    }
+    $widget configure -style {}
+    ::enginecfg::refreshReviewRows $id $configFrame
+    return $res
 }
 
 # Invoked to send to the engine a button option that have no value.

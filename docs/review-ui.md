@@ -109,7 +109,9 @@ about, whichever opening it belongs to.
 Depth and MultiPV are **not** settings of the review dialog: they come from
 `::review::effective`, where the engine preset wins `Threads`, `Hash` and a
 higher `MultiPV`, and the review's own depth is a floor a shallower preset cannot
-lower.
+lower. The Cloud pre-pass switch is the preset's too: `::review::effective` hands
+the pass the config's own answer, or the built-in default (on) for a config that
+says nothing.
 
 **The time cap** is the other way round. `::review::movetime` (milliseconds, 0 =
 none) is a ceiling on one position's search, and `::review::passLimits` decides
@@ -243,7 +245,7 @@ did not mean.
 
 ## Review Settings
 
-**Review Settings** opens thirteen rows:
+**Review Settings** opens twelve rows and the verifier engine:
 
 | Row | Setting | Range |
 | --- | --- | --- |
@@ -258,8 +260,16 @@ did not mean.
 | Opening moves | `opening_window` | 10–20 (default 12) |
 | Mark tactical exercises | `tactical_exercises` | 0–1 |
 | Coach prose | `coach` | 0–1 |
-| Cloud pre-pass | `cloud_eval` | 0–1 (default on) |
 | Verifier engine | `verifier` | `Off (no verification)`, or the name of an engine preset |
+
+The **Cloud pre-pass** switch is not here: it belongs to the engine configuration,
+where a 100 ms browsing preset can leave it off and a depth-18 verdict preset can
+keep it on. It is drawn in the engine options panel beside Threads and MultiPV
+(`cloud_eval` in the config's option list; `::review::engineDefaults` reads it,
+`::review::effective` resolves it config-over-default, and the built-in default is
+on). An `engines.dat` that says nothing about it needs no migration; a global
+`cloud_eval` saved by an older version is dropped, and the per-config default (on)
+governs from then on.
 
 The time cap sits beside Depth because it bounds the same thing. A value of 0
 means the review sets no cap of its own, and the row then shows the preset's, as
@@ -451,9 +461,10 @@ therefore starts with the pre-pass off (`::reviewverify::begin` passes `cloud 0`
 to `::reviewdriver::start`), searches its own positions on its own engine, and
 only ever moves a label down.
 
-The **Cloud pre-pass** row in Review Settings turns all of this off (`cloud_eval`,
-on by default): with it off the pass asks Lichess nothing at all and searches every
-position locally, exactly as before.
+The **Cloud pre-pass** switch on the engine configuration (the engine options
+panel, `cloud_eval` in the preset's option list, on unless that preset says
+otherwise) turns all of this off: with it off the pass asks Lichess nothing at all
+and searches every position locally, exactly as before.
 
 ChessDB is **not** a second provider: there is no client for it in this tree, and a
 second provider would double the normalisation and failure surface for no gain
@@ -834,12 +845,13 @@ plain-text form.
 | `tcl/tools/review_prose.tcl` | `::reviewprose` — the queue: one request at a time through `::auto_comment::queryAsync`, cache-keyed, with progress, cancel and a failed request dropped. Two callers: the review's coach prompts and the threat probe's one sentence |
 | `tcl/tools/review_threat.tcl` | `::reviewthreat` — "What's the threat?": `sideName`, `san`, `threatClauses`, `forcing`, `answer`, `factsBlock`, `prompt`, `search` (one shot, connection `reviewThreat`), `block`, `stripOwn`, `write` (the move comment, cursor restored), `prose`, `spoken`, `ready`, `ask`. Writes one line into the move's comment |
 | `tcl/windows/engine.tcl` | the review icons, the status line, the settings dialog (guarded glue), and `::enginewin::threat` (the window's preset) |
-| `tests/tcl/review_settings_dialog.tcl` | 71 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes (the cloud pre-pass among them, on when it opens), the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
+| `tests/tcl/review_settings_dialog.tcl` | 71 checks: under Tk: the dialog builds, has OK/Cancel, stores what is typed, refuses a bad value, the variation box follows `mpv`, the time cap's row shows the preset's cap and drops the note, the on/off rows are checkboxes, the cloud pre-pass row is GONE (it belongs to the engine configuration now; neither `::review::defaults` nor the dialog's label map carries the key), the opening finder and exercise rows are saved and the opening window is refused outside 10–20, `Coach settings…` opens a window of its own from a dialog that holds no grab, and both traces are removed when the dialog closes |
+| `tests/tcl/engine_review_options_tk.tcl` | 59 checks: under Tk, the engine options panel: the review's row is drawn after the engine's own options with its translated label, a handshake carries a config's value across instead of wiping it, ticking the switch stores it in element 8 and sends the engine nothing, `::enginecfg::save` writes `{cloud_eval false}` into engines.dat and writes nothing for a switch left on, a reopen with a fresh handshake still shows it off, two configs keep two answers, "Reset Options" puts it back on without a SetOptions for it and repaints the row — turning the Reset button off when nothing is left away from its default — and a click on the switch itself settles that button and the label's changed-mark both ways |
 | `tests/tcl/review_ui.tcl` | 258 checks: the call a press makes, the status line (including the coach's counts), the button states, the dialog round trip, the precedence table through the dialog, the time cap's note, the verifier row's Off word and refused preset name, which move a comment judges, the move-comment depth, the key set |
 | `tests/tcl/review_marks.tcl` | 54 checks: the two marks the review writer asks for - the T flag, the difficulty ladder and the "****D" comment on a puzzle's move, the Annotator tag's opening entry at the ply the book ended, the window Review Settings asks for, a quote escaping the tag, a re-run replacing rather than stacking, and a pass that never left the book writing nothing |
 | `tests/tcl/review_toolbar.tcl` | 43 checks: the five review icons use `::icon::` names and exist in icons_light and icons_dark at 24×24, the whole engine toolbar uses `::icon::` images, the labels are tooltips rather than text, the stop icon is gridded only while a pass runs, a visible divider separates the review group from Config, the dark-theme cache matches `::icon::` names, and the threat button exists only when its command does and not in an embedded PGN viewer |
-| `tests/tcl/review_driver.tcl` | 496 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
-| `tests/tcl/review_cloud.tcl` | 148 checks: the comparison table (depth-only, the tie, `D > C > L`, and the strictly-deeper rule that decides when a reply may stop a search), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, a reply at the bound that does not cancel the search (fresh and cached) and one past it that does, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces) and a transport that will not start at all, the latch ending with the pass rather than the session, the engine going away with a held evaluation still naming its source, a 404 for a position Lichess holds nothing for being remembered, the no-curl fallback to the Tcl http package, the FEN-keyed cache across move counters, the toggle and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
+| `tests/tcl/review_driver.tcl` | 517 checks: the pass against a stub engine, the line the cursor is on (its map, the pass over it, the node the verdict lands on, the whole-game layers staying off it, and Move Comment's index), the four Go shapes the precedence table produces, a capped run, two reviews of the same game in a row, the engine window's hand-off to it, the completion hook, the engine name on an exported variation and in the Annotator tag, the cloud pre-pass switch read from the engine configuration (`::review::engineDefaults` for a config that says nothing / off / on, both spellings, `::review::effective`'s config-over-default precedence, a saved global `cloud_eval 0` from the old options format dropped rather than honoured, and the switch the pass it starts actually runs with), and the coach: started after the write, the run held open until the answers land, not started for a single move or an annotate pass, an annotate pass leaving the coach blocks alone, not holding a run open when it cannot start, and Cancel while the model is writing |
+| `tests/tcl/review_cloud.tcl` | 148 checks: the comparison table (depth-only, the tie, `D > C > L`, and the strictly-deeper rule that decides when a reply may stop a search), the FEN replay a spec needs, mover-relative score and mate normalisation, the reply the verdict cannot use, a depth-only position the cloud covers with no `go` at all, a capped position where the deeper evaluation wins either way, a reply at the bound that does not cancel the search (fresh and cached) and one past it that does, a reply that never lands, a transport failure that stops the pass asking (including the empty-body shape a real outage produces) and a transport that will not start at all, the latch ending with the pass rather than the session, the engine going away with a held evaluation still naming its source, a 404 for a position Lichess holds nothing for being remembered, the no-curl fallback to the Tcl http package, the FEN-keyed cache across move counters, the per-config pre-pass switch and the variant both leaving the pass local, and the verifier's own pass asking the cloud nothing |
 | `tests/tcl/review_verify.tcl` | 66 checks: only Brilliant and Great are jobs, book skips them but a named ply does not, the second engine agreeing or disagreeing about the move and about a Great move's gap, a correction only ever moving down to Best, a miss never becoming a candidate, fail-closed answers (nothing, an empty result, no second line, a bound), a mate score, and the callers that decide to write — `runDone`, `finalize_game` and `commit` — each reaching the seam with its verifier and bounds and writing its answer, with an all-flat run changing nothing, a cancelled batch not writing, a Rapid Annotate commit refusing another database, the verifier start waiting for the old connection to close, Cancel before that idle start dropping the run, that cancellation finishing the progress job, and an answer from a previous batch writing nothing |
 | `tests/tcl/review_verify_engine.tcl` | 56 checks: the verifier driven through the driver's own queue against a stub second engine at the pass's depth and cap, two lines asked for, the disagreement demoting both labels, the agreement correcting nothing, a silent answer correcting nothing, an engine lost mid-search writing as unverified, Cancel dropping the search, the engine closed after the reply rather than inside it, the seam handing the search the pass's own depth and cap, two callers taking turns on the one connection, the analysis engine refusing to verify itself, cancelling a queued token, and no `vwait` anywhere in the verifier path |
 | `tests/tcl/review_report.tcl` | 123 checks: accuracy as the app's own figure and the parity a phase starting on Black's move needs, Elo, key moments, the endgame rule — one material total, with the six-piece net rejected at 38 points — the opening boundary — Smyrnov met and half met, rook-less and file/rank connectivity, mixedness at 150 and 161, the material net at ten and eleven, the first-firing signal at 17/21/25, no ply floor — the performance rating line (one per side, the table's own bins, no `estimated Elo` beside it, no band, no expected-score figure, a block that cannot see a rating in the PGN: neither rating, one, both) — and the block removal, two writes deep |

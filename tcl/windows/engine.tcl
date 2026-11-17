@@ -1366,7 +1366,18 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review} {line
     set name ""
     catch { set name $::enginewin_lastengine($id) }
     if {$name ne ""} {
-        catch { dict set state engine [::enginecfg::get $name] }
+        # The engine options panel edits the LIVE config; ::engines(list) is
+        # written only when the frame is destroyed (::enginecfg::autoSaveConfig).
+        # A switch or option the reader has just changed must be the one this
+        # pass reads, so the live config wins when the window has one for this
+        # engine; the saved preset is the fallback when it does not.
+        set engine ""
+        catch { set engine [set ::enginecfg::engConfig_$id] }
+        if {$engine eq "" || [lindex $engine 0] ne $name} {
+            set engine ""
+            catch { set engine [::enginecfg::get $name] }
+        }
+        if {$engine ne ""} { dict set state engine $engine }
         # The header's fields, composed here while the window still knows which
         # engine it is pointed at. The driver turns them into the one string the
         # popup draws, so a header can never name an engine the reader has since
@@ -1686,7 +1697,7 @@ proc ::enginewin::reviewSettings {id} {
     set row 0
     foreach key [::reviewui::settingKeys] {
         set value [::review::get $key]
-        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach cloud_eval} $key] >= 0} {
+        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach} $key] >= 0} {
             # On/off settings are a checkbox, not a number box holding 0 or 1: a
             # spinbox beside "Coach prose" offers "2", which the setter refuses.
             set ::enginewin::reviewsetting($id,$key) $value
@@ -2956,6 +2967,13 @@ proc ::enginewin::connectEngine {id enginename} {
         ERROR::MessageBox
     }
 
+    # The review's own row in element 8 (the cloud pre-pass switch) is not a
+    # UCI option and is never sent: a setoption for a name the engine does not
+    # advertise is ignored at best and a lie in the engine's log at worst. Filter
+    # BEFORE the emptiness check: a preset whose only stored row is that switch
+    # filters down to nothing, and a SetOptions with an empty list reaches
+    # ::uci::sendOptions without its data argument.
+    set options [::engine::uciOptions $options]
     if {[llength $options]} {
         ::engine::send $id SetOptions $options
     }

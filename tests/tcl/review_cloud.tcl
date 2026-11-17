@@ -582,20 +582,33 @@ puts "\nthe toggle"
 
 ::reviewcloud::reset
 ::review::reset
-checkEq "the cloud pre-pass is on by default" [::review::get cloud_eval] 1
-checkEq "and it is a switch, not a number" [::review::setValue cloud_eval 2] \
-    "cloud_eval is 0 or 1"
-::review::setValue cloud_eval 0
-checkEq "turning it off stores" [::review::get cloud_eval] 0
-::review::reset
-checkEq "a pass with it off asks nothing" \
-    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}} 0] ""
+# The switch is per engine configuration now (element 8, beside Threads and
+# MultiPV), so the global row is GONE rather than defaulted somewhere else: a pass
+# must not consult a setting no dialog can change.
+checkEq "the global cloud pre-pass row is retired" [catch {::review::get cloud_eval}] 1
+# A config that says nothing keeps the built-in default, on: every engines.dat
+# written before the switch moved there is one of those.
+checkEq "a config that says nothing keeps the pre-pass on" \
+    [dict get [::review::effective $::enginecfg] cloud_eval] 1
+# A config that turns it off decides for itself, and the pass it starts asks
+# nothing. (The retired key's own setter refusal and the 0 spelling a hand-edited
+# engines.dat may carry are pinned in tests/tcl/review_driver.tcl.)
+set offcfg $::enginecfg
+lset offcfg 8 {{cloud_eval false}}
+checkEq "a config that turns it off says so" \
+    [dict get [::review::effective $offcfg] cloud_eval] 0
+checkEq "and the pass it starts asks nothing" \
+    [newPass [list [list 0 $::START]] 3 {depth 20 movetime {}} \
+        [dict get [::review::effective $offcfg] cloud_eval]] ""
 checkEq "no request is made" [llength $::cloudRequests] 0
 checkEq "and the position is searched" [sentCount Go] 1
 localLines 18
 feed InfoBestMove {}
 checkEq "the pass finishes on the local lines" \
     [dict get [dict get [::reviewdriver::status] sources] 0] {source local depth 18}
+
+# The same config with the switch spelled 0, which is what a hand-edited
+# engines.dat may carry, is pinned in tests/tcl/review_driver.tcl.
 
 # A variant whose FEN this module cannot replay is searched locally rather than
 # asked about: the cloud is a standard-chess shortcut.

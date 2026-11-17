@@ -48,10 +48,11 @@ proc ::reviewdriver::reservedId {id} {
 }
 
 # Start one pass. `cloud` is the cloud pre-pass switch, and it defaults to OFF:
-# a caller that has not read the setting asks Lichess nothing, so a new caller
-# cannot fall into the cloud by omission. ::reviewdriver::run passes the
-# setting's own value; the verifier passes 0 on purpose (a stored evaluation is
-# not a second opinion - ::reviewverify::begin says why).
+# a caller that has not read the configuration asks Lichess nothing, so a new
+# caller cannot fall into the cloud by omission. ::reviewdriver::run passes
+# ::review::effective's answer for the engine config; the verifier passes 0 on
+# purpose (a stored evaluation is not a second opinion - ::reviewverify::begin
+# says why).
 proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 0} {variant standard}} {
     variable job
     variable seq
@@ -1377,12 +1378,12 @@ proc ::reviewdriver::run {engine args} {
     # of a run that is already in flight alone.
     set starting [dict merge [::reviewdriver::blankState searching] \
         [dict create total [llength $positions]]]
-    # The cloud pre-pass is read once, here, like the coach and the verifier: a
-    # toggle flipped mid-run must not split one pass in two. The variant is the
-    # game's, because the cloud is only asked about standard chess - the FEN this
-    # module replays is a standard one.
-    set cloud 1
-    catch { set cloud [::review::get cloud_eval] }
+    # The cloud pre-pass switch is read once, here, from the engine config
+    # (::review::effective: config over the built-in default), like the coach and
+    # the verifier: a toggle flipped mid-run must not split one pass in two. The
+    # variant is the game's, because the cloud is only asked about standard chess
+    # - the FEN this module replays is a standard one.
+    set cloud [dict get $eff cloud_eval]
     set variant standard
     catch {
         if {[sc_game variant] ne "standard"} { set variant [sc_game variant] }

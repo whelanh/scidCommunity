@@ -15,6 +15,11 @@ the same binary and differ only in options, which is how "Stockfish Deep" and
 | `UCI`, `UCIoptions` | protocol flag and the UCI options the engine advertises (`Threads`, `Hash`, `MultiPV`, `SyzygyPath`, …) |
 | `Limits` | search limits — see below |
 
+`UCIoptions` also carries the review pass's own switch, `cloud_eval` — the Cloud
+pre-pass, on unless this preset turns it off. It is written beside the engine's
+options because it is a per-preset decision, but it is not a UCI option: nothing is
+ever sent to the engine for it, and a handshake carries it across.
+
 ## Search limits
 
 `Limits` is a dict with three keys, any of which may be absent:

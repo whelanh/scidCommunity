@@ -361,7 +361,12 @@ proc ::reviewthreat::search {enginecfg fen onDone {game ""}} {
     # reservation: a 110 GB transposition table is no more welcome here than in
     # Game Review.
     set opts {}
-    set presetOpts [lindex $enginecfg 8]
+    # The review's own switches in element 8 are settings for the review pass,
+    # not UCI options - the probe is one search, not a review, and the engine has
+    # never heard of them. ::engine::uciOptions is the filter every other
+    # SetOptions path uses; it reads ::enginecfg's REVIEW_OPTIONS registry rather
+    # than a name list here, so a new review switch is excluded by construction.
+    set presetOpts [::engine::uciOptions [lindex $enginecfg 8]]
     if {[llength $presetOpts]} {
         foreach pair $presetOpts {
             set name [lindex $pair 0]
