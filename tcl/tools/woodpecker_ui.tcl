@@ -35,6 +35,8 @@ if {[llength [info commands ::options.store]]} {
     ::options.store ::woodpecker::ui::lastDays 28
     ::options.store ::woodpecker::ui::lastPreset standard
     ::options.store ::woodpecker::ui::lastRating 1500
+    ::options.store ::woodpecker::dataDir ""
+    ::options.store ::woodpecker::usedDir ""
 }
 foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500} {
     if {![info exists ::woodpecker::ui::$_v]} { set ::woodpecker::ui::$_v $_d }
@@ -114,6 +116,59 @@ proc ::woodpecker::ui::open {} {
     if {[::createToplevel $w] eq "already_exists"} { return }
     build
     showPage home
+    refresh
+    after idle ::woodpecker::ui::dataDirCheck
+}
+
+################################################################################
+# The data folder (Options > Resources)
+
+# The browse button of the Resources dialog.
+proc ::woodpecker::ui::chooseDataDir {widget} {
+    set init [expr {$::woodpecker::dataDir ne "" ? $::woodpecker::dataDir : $::scidUserDir}]
+    set dir [tk_chooseDirectory -initialdir $init -parent [winfo toplevel $widget] -mustexist 1 \
+        -title [tr WoodpeckerDataDir]]
+    if {$dir eq ""} { return }
+    $widget delete 0 end
+    $widget insert end $dir
+    set ::woodpecker::dataDir $dir
+    dataDirCheck
+}
+
+# The Resources dialog's setter: called while the path is typed, so the
+# question about the existing sets waits for the typing to stop.
+proc ::woodpecker::ui::setDataDir {dir} {
+    set ::woodpecker::dataDir $dir
+    after cancel ::woodpecker::ui::dataDirCheck
+    after 1500 ::woodpecker::ui::dataDirCheck
+}
+
+# The folder changed since the sets were last used: offer to bring them along
+# (once), and show the sets of the folder now in use.
+proc ::woodpecker::ui::dataDirCheck {} {
+    if {[catch { ::woodpecker::set::dataRoot } new]} { refresh; return }
+    set old $::woodpecker::usedDir
+    set ::woodpecker::usedDir $new
+    if {$old eq "" || [file normalize $old] eq [file normalize $new] || ![file isdirectory $old]} {
+        refresh
+        return
+    }
+    set oldSets [::woodpecker::set::setDirs $old]
+    if {![llength $oldSets]} { refresh; return }
+    set parent [expr {[winfo exists .resDialog] ? ".resDialog" : "."}]
+    set newSets [::woodpecker::set::setDirs $new]
+    if {[llength $newSets]} {
+        tk_messageBox -icon info -parent $parent -title [tr WoodpeckerTitle] \
+            -message [T WoodpeckerDataDirHasSets [llength $newSets] $new $old]
+        refresh
+        return
+    }
+    if {[tk_messageBox -icon question -type yesno -parent $parent -title [tr WoodpeckerTitle] \
+            -message [T WoodpeckerDataDirMove [llength $oldSets] $old $new]] eq "yes"} {
+        if {[catch { ::woodpecker::set::moveSets $old $new } res]} {
+            tk_messageBox -icon error -parent $parent -message $res
+        }
+    }
     refresh
 }
 
@@ -390,7 +445,11 @@ proc ::woodpecker::ui::refresh {} {
     set keep [$t selection]
     $t delete [$t children {}]
     set today [::woodpecker::today [clock seconds]]
-    foreach s [::woodpecker::set::all] {
+    if {[catch { ::woodpecker::set::all } sets]} {
+        set ::woodpecker::ui::txt(info) [T WoodpeckerNoDataDir $::woodpecker::dataDir]
+        return
+    }
+    foreach s $sets {
         lassign $s dir meta
         set exs [::woodpecker::readExercises $dir]
         set n [dict size $exs]
@@ -493,6 +552,10 @@ proc ::woodpecker::ui::newDialog {} {
     variable newCfg
     set d .woodpeckerNew
     if {[winfo exists $d]} { raise $d; return }
+    if {[catch { ::woodpecker::set::rootDir } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -message [T WoodpeckerNoDataDir $::woodpecker::dataDir]
+        return
+    }
     win::createDialog $d
     ::setTitle $d [tr WoodpeckerNewTitle]
     fonts

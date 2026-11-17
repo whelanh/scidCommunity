@@ -667,6 +667,10 @@ translate E WoodpeckerPresetNoRating {Levels are relative to your Lichess puzzle
 translate E WoodpeckerRatingAsk {Your Lichess puzzle rating}
 translate E WoodpeckerBadRating {Enter your Lichess puzzle rating (400-3200): it is on your Lichess profile, under Puzzles.}
 translate E WoodpeckerPresetStated {Levels are relative to the rating you entered (%s).}
+translate E WoodpeckerDataDir {Woodpecker Method data folder (empty: Scid's own)}
+translate E WoodpeckerNoDataDir {The Woodpecker data folder cannot be found:\n%s\n\nIs the drive connected? The folder is set in Options > Resources.}
+translate E WoodpeckerDataDirMove {%d Woodpecker sets are in the previous data folder:\n%s\n\nMove them into the new one?\n%s\n\nNo: the new folder starts empty and the sets stay where they are.}
+translate E WoodpeckerDataDirHasSets {The new data folder already holds %d sets (synchronised from another computer?):\n%s\n\nScid uses those. The sets of the previous folder stay in:\n%s}
 
 # Board screenshot
 menuText E ToolsScreenshot "Board Screenshot" 0 \

@@ -27,9 +27,32 @@ namespace eval ::woodpecker::set {
 ################################################################################
 # Directories
 
-proc ::woodpecker::set::rootDir {} {
+# The data folder. Options > Resources can point it somewhere else - a folder
+# synchronised with a cloud service, typically: the sets then live in its
+# "woodpecker" subfolder (or in the folder itself when it is already called
+# woodpecker). Empty means Scid's own user folder. A chosen folder that does
+# not exist (a cloud drive not mounted) is an error, never a silent switch to
+# the default folder: the records would split in two.
+if {![info exists ::woodpecker::dataDir]} { set ::woodpecker::dataDir "" }
+if {![info exists ::woodpecker::usedDir]} { set ::woodpecker::usedDir "" }
+
+proc ::woodpecker::set::localDir {} {
     set base [expr {[info exists ::scidUserDir] ? $::scidUserDir : [file join $::env(HOME) .scidCommunity]}]
     set dir [file join $base woodpecker]
+    file mkdir $dir
+    return $dir
+}
+
+proc ::woodpecker::set::dataRoot {} {
+    set custom [string trim $::woodpecker::dataDir]
+    if {$custom eq ""} { return [localDir] }
+    if {![file isdirectory $custom]} { error "the Woodpecker data folder does not exist: $custom" }
+    if {[file tail $custom] eq "woodpecker"} { return $custom }
+    return [file join $custom woodpecker]
+}
+
+proc ::woodpecker::set::rootDir {} {
+    set dir [dataRoot]
     file mkdir $dir
     set readme [file join $dir README.txt]
     if {![file exists $readme]} { catch { ::woodpecker::writeAtomic $readme [readmeText] } }
@@ -55,14 +78,42 @@ In each set folder:
                             statistics are computed from this file
   set.tsv                   the set's name, source and schedule
 
-token.txt (in this folder) is your Lichess API token. It gives access to your
-Lichess account: keep it private.
-
 log.tsv is the only file that cannot be recreated: back it up with the set.
+
+The folder can be moved (Options > Resources), e.g. into a folder your cloud
+service synchronises. The Lichess token is never stored here: it stays in
+Scid's own user folder.
 }
 }
 
 # Every set: a list of {dir meta}, newest first.
+# The set folders under a data folder.
+proc ::woodpecker::set::setDirs {root} {
+    set out {}
+    foreach d [glob -nocomplain -types d -directory $root *] {
+        if {[file exists [file join $d set.tsv]]} { lappend out $d }
+    }
+    return [lsort $out]
+}
+
+# Move every set from one data folder to another (copy, check, then delete the
+# original). A set that already exists in the destination is left where it is.
+# Returns {moved skipped}.
+proc ::woodpecker::set::moveSets {from to} {
+    file mkdir $to
+    set moved 0
+    set skipped 0
+    foreach d [setDirs $from] {
+        set dest [file join $to [file tail $d]]
+        if {[file exists $dest]} { incr skipped; continue }
+        file copy $d $dest
+        if {![file exists [file join $dest set.tsv]]} { error "copy of [file tail $d] failed" }
+        file delete -force $d
+        incr moved
+    }
+    return [list $moved $skipped]
+}
+
 proc ::woodpecker::set::all {} {
     set out {}
     foreach d [glob -nocomplain -types d -directory [rootDir] *] {
@@ -566,10 +617,11 @@ proc ::woodpecker::set::newMeta {name source days1 restDays now} {
 }
 
 ################################################################################
-# The Lichess token: <user dir>/woodpecker/token.txt, readable by its owner only
-# (the publish-to-Lichess feature keeps its own the same way).
+# The Lichess token: <Scid user dir>/woodpecker/token.txt, readable by its owner
+# only (the publish-to-Lichess feature keeps its own the same way). Always in
+# Scid's own folder, never in a data folder that may be synchronised.
 
-proc ::woodpecker::set::tokenPath {} { return [file join [rootDir] token.txt] }
+proc ::woodpecker::set::tokenPath {} { return [file join [localDir] token.txt] }
 
 proc ::woodpecker::set::tokenRead {} {
     set path [tokenPath]

@@ -224,6 +224,27 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::open
     wait 300
 
+    # Options > Resources: the data folder row, and a folder that holds no set.
+    ::preferences::resources
+    wait 300
+    set found 0
+    foreach c [winfo children .resDialog] {
+        if {[winfo class $c] eq "TLabel" && [string match "[tr WoodpeckerDataDir]*" [$c cget -text]]} { set found 1 }
+    }
+    check "Options > Resources has the Woodpecker data folder" $found
+    catch { grab release .resDialog }
+    destroy .resDialog
+    set cloud [file join [file dirname $::scidUserDir] cloudsync]
+    file mkdir $cloud
+    set ::woodpecker::usedDir [file join $cloud woodpecker]
+    ::woodpecker::ui::setDataDir $cloud
+    wait 1900
+    checkEq "another data folder shows its own sets" [llength [.woodpeckerWin.home.sets children {}]] 0
+    set ::woodpecker::usedDir [::woodpecker::set::localDir]
+    ::woodpecker::ui::setDataDir ""
+    wait 1900
+    checkEq "back to Scid's folder, the sets are there" [llength [.woodpeckerWin.home.sets children {}]] 2
+
     ::woodpecker::ui::newDialog
     wait 300
     check "the new-set dialog opens" [winfo exists .woodpeckerNew]

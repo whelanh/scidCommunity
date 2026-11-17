@@ -57,6 +57,9 @@ jobs:
       - name: Woodpecker evaluation
         run: tclsh tests/tcl/woodpecker_eval.tcl
 
+      - name: Woodpecker sets on disk
+        run: tclsh tests/tcl/woodpecker_set.tcl
+
       # Repetition presentation: off/banner/dialog must not change the count,
       # and the Finish Game and autoplay passes must stay silent.
       - name: Repetition alert
