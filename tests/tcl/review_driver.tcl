@@ -685,6 +685,31 @@ set promoVerdict [lindex [dict get [::reviewdriver::verdicts $promoMap $promoRes
 checkEq "a promotion is the only legal move, and it is forced" $promoVerdict forced
 checkEq "so no mark is written for it" [::review::nagForLabel $promoVerdict] ""
 
+# The same promotion from the cheap path. A move that was not the engine's choice
+# is normally decided without a board when the engine's own lines named two root
+# moves, and that count is of *moves*: h7h8q and h7h8r are two promotions of one
+# pawn, so the reply proves nothing about the mover's choice. Counted as UCI
+# strings it read as two, the board was skipped, `legal_moves` was never set,
+# `refine` fell back to its default of 20 and the only move in the position was
+# called a blunder. Played is the rook promotion and slot 1 is the queen's, so the
+# mover is not on the engine's move and `$isBest || $distinct < 2` is the branch
+# under test - only counting the from-to squares reaches the board.
+set promoPickMap [::review::mainLineMap [list \
+    {position fen 8/7P/6b1/8/p7/Pp6/RP6/K7 w - - 0 1 moves} h7h8r]]
+set promoPickRes [dict create \
+    0 [dict create \
+        1 {20 500 cp {h7h8q}} \
+        2 {20 100 cp {h7h8r}}] \
+    1 [dict create 1 {20 0 cp {}}]]
+set promoPickArgs [::reviewdriver::refineArgs $promoPickMap $promoPickRes \
+    [dict get $promoPickRes 0] [::reviewdriver::refineContext $promoPickMap 0] \
+    1 h7h8r 500 100 0]
+checkEq "two promotions of one pawn are one root move, so the board is asked" \
+    [expr {[dict exists $promoPickArgs legal_moves] \
+        ? [dict get $promoPickArgs legal_moves] : ""}] 1
+checkEq "and the mover's only move is forced, not judged on its drop" \
+    [lindex [dict get [::reviewdriver::verdicts $promoPickMap $promoPickRes] 1] 0] forced
+
 # The gap `great` claims is the engine's first two ranked slots, and neither may be
 # a bound. `lowerbound`/`upperbound` is how far a search got before it stopped, not
 # a score: slot 1 +30, slot 2 `lowerbound 20`, slot 3 -300 used to skip the bound and
@@ -735,6 +760,39 @@ checkEq "two exact lines at one depth are two candidates" \
     [dict get $deepArgs candidates] {30 -300}
 checkEq "and the real gap still earns great" \
     [lindex [dict get [::reviewdriver::verdicts $crossMap $deepRes] 1] 0] great
+
+# A gap is not a claim about a board nobody could build. `refine`'s `great` branch
+# skips its free-capture exclusion when `fen_before` is missing - it reads an
+# absence as "not a free capture" - and the caller used to hand it candidates from
+# the two scores alone, so a move the board could not replay was labelled great on
+# the gap, including a move that simply took what was left hanging. The replay
+# failing is the caller's evidence gap, so the caller withholds the claim: no
+# `fen_before`, no `candidates`. `position startpos moves zzzz` cannot be walked
+# past zzzz, so there is no board before the move at all.
+set noBoardMap [::review::mainLineMap [list {position startpos moves zzzz} e2e4]]
+set noBoardRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set noBoardArgs [::reviewdriver::refineArgs $noBoardMap $noBoardRes \
+    [dict get $noBoardRes 0] [::reviewdriver::refineContext $noBoardMap 0] \
+    1 e2e4 30 20 1]
+check "a replay that failed leaves the board out, so the gap is not a pair" \
+    [expr {![dict exists $noBoardArgs fen_before] && ![dict exists $noBoardArgs candidates]}]
+checkEq "and the move is best, not great on a board nobody can show" \
+    [lindex [dict get [::reviewdriver::verdicts $noBoardMap $noBoardRes] 1] 0] best
+# The positive control: the identical two lines, the identical gap, at a position
+# the board *can* replay. If this stops being great the gate has switched the
+# label off rather than made the caller prove the board behind it.
+set boardMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set boardArgs [::reviewdriver::refineArgs $boardMap $noBoardRes \
+    [dict get $noBoardRes 0] [::reviewdriver::refineContext $boardMap 0] \
+    1 e2e4 30 20 1]
+checkEq "the same gap beside a board the replay reached is still a pair" \
+    [dict get $boardArgs candidates] {30 -300}
+checkEq "and that move is still great" \
+    [lindex [dict get [::reviewdriver::verdicts $boardMap $noBoardRes] 1] 0] great
 
 set badArgs [::reviewdriver::refineArgs $badMap [dict create] \
     [dict create 1 {20 30 cp {e2e4 e7e5}}] \

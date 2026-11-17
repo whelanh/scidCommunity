@@ -906,11 +906,17 @@ proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAft
     # only ever read the board for the engine's own move. So a move that was not
     # the engine's choice, at a position it gave two alternatives for, is decided
     # without generating a single move.
+    #
+    # "Distinct" is distinct *moves*, not distinct UCI strings: a MultiPV reply that
+    # names two promotions of one pawn (h7h8q, h7h8r) has named one move, exactly as
+    # ::reviewdriver::moveCount counts it. Counting the strings would make the
+    # engine's own alternatives stand in for a choice the mover never had, skip the
+    # board, and leave the only legal move unforced.
     set distinct {}
     foreach idx [dict keys $lines] {
         set pv [lindex [dict get $lines $idx] 3]
         set first [lindex $pv 0]
-        if {$first ne ""} { lappend distinct $first }
+        if {$first ne ""} { lappend distinct [string range $first 0 3] }
     }
     set distinct [llength [lsort -unique $distinct]]
     if {$fenBefore ne "" && ($isBest || $distinct < 2)} {
@@ -969,7 +975,13 @@ proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAft
     }
     # Sorted rather than trusted to arrive in order, so a slot the engine reported
     # out of turn cannot widen the gap.
-    if {[llength $cands] >= 2} {
+    #
+    # And a gap is only a claim beside the board that can test it. `great` skips
+    # its free-capture exclusion when `fen_before` is missing - a missing board is
+    # not evidence that the move did not simply take what was left hanging - so a
+    # caller whose replay failed withholds `candidates` rather than leave the
+    # ladder to read an absence as a pass.
+    if {[llength $cands] >= 2 && [dict exists $out fen_before]} {
         dict set out candidates [lsort -integer -decreasing $cands]
     }
     # The line the search of the reached position found: the evidence a sacrifice
