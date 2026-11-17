@@ -2367,3 +2367,4 @@ translate h CQLQuery {CQL क्वेरी}
 translate h CQLQueryHint {CQL क्वेरी, जैसे cql() mate या cql(:gamenumber 1 10) K। Ctrl+Enter खोजता है।}
 translate h CQLQueryEmpty {खोजने से पहले CQL क्वेरी दर्ज करें।}
 translate h CQLSearchFailed {CQL खोज विफल रही:}
+translate h CQLUnreadableGames {%d गेम पढ़े नहीं जा सके}

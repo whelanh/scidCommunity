@@ -399,6 +399,15 @@ jobs:
       - name: CQL search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql.tcl
 
+      # The CQL search over a base holding a game whose .sg4 record cannot be
+      # decoded: the search must skip that game and still fill the filter,
+      # which is the path 6e7b52ca fixed for a 4.45M-game database with one bad
+      # record in it. The harness damages the record itself, so it needs a
+      # file-based base rather than a MEMORY one, and nothing else in CI
+      # reaches that path.
+      - name: CQL search over an unreadable game
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql_unreadable.tcl
+
       # Every query printed on the CQL help page, through the same engine: the
       # page's samples cannot drift away from what the parser accepts without
       # this failing, which is the point of the page.

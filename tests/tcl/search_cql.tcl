@@ -397,6 +397,16 @@ checkEq "and fills the filter with the matching games" \
 check "material still routes" \
     [expr {[catch {sc_search material} m] == 0 && [string first " / " $m] >= 0}] $m
 
+puts "\n== the search says how many games it could not read ==\n"
+# The result is the statistics line plus the count of games whose record could
+# not be read: the window words that count in the user's language, so the count
+# has to arrive separately rather than baked into an English sentence.
+set report [sc_search cql reset 0 1 {cql() qh4}]
+checkEq "the report has two elements" [llength $report] 2
+checkEq "the statistics line keeps its shape" \
+    [regexp {^[0-9]+ / [0-9]+  \([0-9]+[.:][0-9][0-9] s\)$} [lindex $report 0]] 1
+checkEq "no game was skipped" [lindex $report 1] 0
+
 destroy $w
 
 puts ""

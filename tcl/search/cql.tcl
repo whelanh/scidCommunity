@@ -190,6 +190,15 @@ proc ::search::cqlRun_ {w {new_filter 0}} {
 		::windows::gamelist::Open $dbase $dest
 	}
 
+	# sc_search cql returns its statistics line and the number of games whose
+	# record could not be read. Say so rather than losing them silently: on a
+	# large database a few damaged games would otherwise just shrink the count.
+	lassign $result stats skipped
+	set result $stats
+	if {$skipped > 0} {
+		append result "  ([format [::tr CQLUnreadableGames] $skipped])"
+	}
+
 	$status configure -text $result
 	::search::refresh_ $w
 }

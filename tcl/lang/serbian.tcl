@@ -3471,3 +3471,4 @@ translate Y CQLQuery {CQL upit}
 translate Y CQLQueryHint {CQL upit, npr. cql() mate ili cql(:gamenumber 1 10) K. Ctrl+Enter pokreće pretragu.}
 translate Y CQLQueryEmpty {Unesite CQL upit pre pretrage.}
 translate Y CQLSearchFailed {CQL pretraga nije uspela:}
+translate Y CQLUnreadableGames {%d partija nije moguće pročitati}

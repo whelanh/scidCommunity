@@ -2371,3 +2371,4 @@ translate T CQLQuery {CQL sorgusu}
 translate T CQLQueryHint {CQL sorgusu, ör. cql() mate veya cql(:gamenumber 1 10) K. Ctrl+Enter arar.}
 translate T CQLQueryEmpty {Aramadan önce bir CQL sorgusu girin.}
 translate T CQLSearchFailed {CQL araması başarısız oldu:}
+translate T CQLUnreadableGames {%d oyun okunamadı}

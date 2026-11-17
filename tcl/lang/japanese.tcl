@@ -2408,3 +2408,4 @@ translate A CQLQuery {CQL クエリ}
 translate A CQLQueryHint {CQL クエリ（例: cql() mate、cql(:gamenumber 1 10) K）。Ctrl+Enter で検索します。}
 translate A CQLQueryEmpty {検索する前に CQL クエリを入力してください。}
 translate A CQLSearchFailed {CQL 検索に失敗しました:}
+translate A CQLUnreadableGames {%d 局を読み込めませんでした}

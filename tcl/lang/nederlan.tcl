@@ -2414,3 +2414,4 @@ translate N CQLQuery {CQL-query}
 translate N CQLQueryHint {CQL-query, bijv. cql() mate of cql(:gamenumber 1 10) K. Ctrl+Enter zoekt.}
 translate N CQLQueryEmpty {Voer een CQL-query in voordat u gaat zoeken.}
 translate N CQLSearchFailed {De CQL-zoekopdracht is mislukt:}
+translate N CQLUnreadableGames {%d partij(en) konden niet worden gelezen}

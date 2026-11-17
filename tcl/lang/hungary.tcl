@@ -2390,3 +2390,4 @@ translate H CQLQuery {CQL-lekérdezés}
 translate H CQLQueryHint {CQL-lekérdezés, pl. cql() mate vagy cql(:gamenumber 1 10) K. A Ctrl+Enter keres.}
 translate H CQLQueryEmpty {A keresés előtt adjon meg egy CQL-lekérdezést.}
 translate H CQLSearchFailed {A CQL-keresés sikertelen:}
+translate H CQLUnreadableGames {%d játszma nem olvasható}

@@ -2292,6 +2292,7 @@ translate E CQLQuery {CQL Query}
 translate E CQLQueryHint {CQL query, e.g. cql() mate or cql(:gamenumber 1 10) K. Ctrl+Enter searches.}
 translate E CQLQueryEmpty {Enter a CQL query before searching.}
 translate E CQLSearchFailed {The CQL search failed:}
+translate E CQLUnreadableGames {%d game(s) could not be read}
 }
 # end of english.tcl
 

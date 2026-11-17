@@ -2367,3 +2367,4 @@ translate Z CQLQuery {Hoja ya CQL}
 translate Z CQLQueryHint {Hoja ya CQL, k.m. cql() mate au cql(:gamenumber 1 10) K. Ctrl+Enter hutafuta.}
 translate Z CQLQueryEmpty {Weka hoja ya CQL kabla ya kutafuta.}
 translate Z CQLSearchFailed {Utafutaji wa CQL umeshindikana:}
+translate Z CQLUnreadableGames {michezo %d haikuweza kusomwa}

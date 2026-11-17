@@ -2368,3 +2368,4 @@ translate V CQLQuery {שאילתת CQL}
 translate V CQLQueryHint {שאילתת CQL, למשל cql() mate או cql(:gamenumber 1 10) K. Ctrl+Enter מפעיל חיפוש.}
 translate V CQLQueryEmpty {יש להזין שאילתת CQL לפני החיפוש.}
 translate V CQLSearchFailed {חיפוש CQL נכשל:}
+translate V CQLUnreadableGames {לא ניתן לקרוא %d משחקים}

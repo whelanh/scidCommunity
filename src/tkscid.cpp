@@ -9282,10 +9282,15 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // remembered rather than applied, for the same reason the results are.
   std::vector<gamenumT> candidates;
   std::vector<gamenumT> unreadable; // in the filter, but with no gamefile record
+  // Index entries with no game record at all, in either scope. Counted apart
+  // from `unreadable`, which also drives the filter drop below and so only
+  // holds the games that were in the filter.
+  size_t missingRecords = 0;
   candidates.reserve(totalGames / 4);
   for (gamenumT gn = 0; gn < totalGames; ++gn) {
     const bool inFilter = resetFilter || (filter.get(gn) != 0);
     if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+      ++missingRecords;
       if (filterOp == FILTEROP_AND && inFilter)
         unreadable.push_back(gn);
       continue;
@@ -9302,6 +9307,11 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   std::vector<byte> results(cand_total, 0);
   bool engineError = false;
   bool cancelled = false;
+  // Games the search had to skip because their record does not decode. The
+  // index entries with no record at all are collected in `unreadable` above;
+  // both are reported, so a large database holding damaged games does not drop
+  // them from the count without saying so.
+  size_t decodeFailures = 0;
 
   for (size_t ci = 0; ci < cand_total; ++ci) {
     if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
@@ -9321,8 +9331,10 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     // A record that does not decode is skipped, not fatal: its filter slot is
     // left at 0 below (AND) or simply not added (OR), exactly as the other
     // searches handle a game whose record cannot be read.
-    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK)
+    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
+      ++decodeFailures;
       continue;
+    }
 
     unsigned firstPly = 0;
     const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
@@ -9384,15 +9396,23 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
       filter.set(candidates[ci], ply);
   }
 
-  // Print statistics and time for the search:
+  // Print statistics and time for the search. The games that could not be read
+  // come back as a second list element rather than as part of this line: the
+  // window says so in the user's language, which only the Tcl side can do.
   char temp[200];
   const int centisecs = timer.CentiSecs();
   sprintf(temp, "%lu / %lu  (%d%c%02d s)",
           static_cast<unsigned long>(filter->size()),
           static_cast<unsigned long>(startFilterCount), centisecs / 100,
           decimalPointChar, centisecs % 100);
+  char skipped[24];
+  snprintf(skipped, sizeof(skipped), "%lu",
+           static_cast<unsigned long>(missingRecords + decodeFailures));
   Tcl_ResetResult(ti);
-  Tcl_AppendResult(ti, temp, nullptr);
+  Tcl_Obj *const report = Tcl_NewListObj(0, nullptr);
+  Tcl_ListObjAppendElement(ti, report, Tcl_NewStringObj(temp, -1));
+  Tcl_ListObjAppendElement(ti, report, Tcl_NewStringObj(skipped, -1));
+  Tcl_SetObjResult(ti, report);
   return TCL_OK;
 }
 

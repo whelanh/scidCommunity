@@ -2367,3 +2367,4 @@ translate b CQLQuery {CQL কোয়েরি}
 translate b CQLQueryHint {CQL কোয়েরি, যেমন cql() mate বা cql(:gamenumber 1 10) K। Ctrl+Enter অনুসন্ধান করে।}
 translate b CQLQueryEmpty {অনুসন্ধানের আগে একটি CQL কোয়েরি লিখুন।}
 translate b CQLSearchFailed {CQL অনুসন্ধান ব্যর্থ হয়েছে:}
+translate b CQLUnreadableGames {%d টি গেম পড়া যায়নি}

@@ -2395,3 +2395,4 @@ translate W CQLQuery {CQL-fråga}
 translate W CQLQueryHint {CQL-fråga, t.ex. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter söker.}
 translate W CQLQueryEmpty {Ange en CQL-fråga innan du söker.}
 translate W CQLSearchFailed {CQL-sökningen misslyckades:}
+translate W CQLUnreadableGames {%d parti(er) kunde inte läsas}
