@@ -488,6 +488,7 @@ menuText T ToolsScreenshot "Pano Ekran Görüntüsü" 0 \
   {Geçerli pano konumunu PNG görüntüsü olarak kaydedin}
 translate T ScreenshotTitle {Pano Ekran Görüntüsü}
 translate T ScreenshotFileType {PNG görüntüleri}
+translate T ScreenshotOverwrite {Bu isimde bir dosya zaten mevcut. Üzerine yazılsın mı?}
 translate T ScreenshotError {Ekran görüntüsü kaydedilemedi.}
 translate T ScreenshotSaved {Pano ekran görüntüsü kaydedildi:}
 

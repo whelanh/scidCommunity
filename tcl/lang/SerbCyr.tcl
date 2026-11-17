@@ -525,6 +525,7 @@ menuText J ToolsScreenshot "Снимак екрана плоче" 0 \
   {Сачувајте тренутну позицију плоче као ПНГ слику}
 translate J ScreenshotTitle {Снимак екрана плоче}
 translate J ScreenshotFileType {ПНГ слике}
+translate J ScreenshotOverwrite {Датотека са тим именом већ постоји. Преписати?}
 translate J ScreenshotError {Није могуће сачувати снимак екрана.}
 translate J ScreenshotSaved {Снимак екрана је сачуван:}
 

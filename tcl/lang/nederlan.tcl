@@ -513,6 +513,7 @@ menuText N ToolsScreenshot "Schermafbeelding van het bord" 0 \
   {Sla de huidige bordpositie op als PNG-afbeelding}
 translate N ScreenshotTitle {Schermafbeelding van het bord}
 translate N ScreenshotFileType {PNG-afbeeldingen}
+translate N ScreenshotOverwrite {Er bestaat al een bestand met die naam. Overschrijven?}
 translate N ScreenshotError {De schermafbeelding kon niet worden opgeslagen.}
 translate N ScreenshotSaved {Bordscreenshot opgeslagen:}
 

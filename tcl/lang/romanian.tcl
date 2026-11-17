@@ -525,6 +525,7 @@ menuText L ToolsScreenshot "Captură de ecran de la bord" 0 \
   {Salvați poziția curentă a panoului ca imagine PNG}
 translate L ScreenshotTitle {Captură de ecran de la bord}
 translate L ScreenshotFileType {imagini PNG}
+translate L ScreenshotOverwrite {Un fișier cu acest nume există deja. Îl suprascrieți?}
 translate L ScreenshotError {Captura de ecran nu a putut fi salvată.}
 translate L ScreenshotSaved {Captură de ecran pe tablă salvată:}
 

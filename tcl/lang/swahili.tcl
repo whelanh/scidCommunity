@@ -484,6 +484,7 @@ menuText Z ToolsScreenshot "Picha ya skrini ya Bodi" 0 \
   {Hifadhi nafasi ya sasa ya ubao kama picha ya PNG}
 translate Z ScreenshotTitle {Picha ya skrini ya Bodi}
 translate Z ScreenshotFileType {Picha za PNG}
+translate Z ScreenshotOverwrite {Faili yenye jina hilo tayari ipo. Ungependa kuifuta?}
 translate Z ScreenshotError {Picha ya skrini haikuweza kuhifadhiwa.}
 translate Z ScreenshotSaved {Picha ya skrini ya ubao imehifadhiwa:}
 

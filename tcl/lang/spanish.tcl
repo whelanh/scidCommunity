@@ -525,6 +525,7 @@ menuText S ToolsScreenshot "Captura de pantalla del tablero" 0 \
   {Guarde la posición actual del tablero como una imagen PNG}
 translate S ScreenshotTitle {Captura de pantalla del tablero}
 translate S ScreenshotFileType {Imágenes PNG}
+translate S ScreenshotOverwrite {Ya existe un archivo con ese nombre. ¿Sobrescribirlo?}
 translate S ScreenshotError {No se pudo guardar la captura de pantalla.}
 translate S ScreenshotSaved {Captura de pantalla del tablero guardada:}
 

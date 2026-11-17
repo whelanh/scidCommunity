@@ -493,6 +493,7 @@ menuText B ToolsScreenshot "Captura de tela do quadro" 0 \
   {Salve a posição atual do tabuleiro como uma imagem PNG}
 translate B ScreenshotTitle {Captura de tela do quadro}
 translate B ScreenshotFileType {Imagens PNG}
+translate B ScreenshotOverwrite {Já existe um arquivo com esse nome. Substituir?}
 translate B ScreenshotError {A captura de tela não pôde ser salva.}
 translate B ScreenshotSaved {Captura de tela do quadro salva:}
 

@@ -484,6 +484,7 @@ menuText h ToolsScreenshot "बोर्ड स्क्रीनशॉट" 0 \
   {वर्तमान बोर्ड स्थिति को पीएनजी छवि के रूप में सहेजें}
 translate h ScreenshotTitle {बोर्ड स्क्रीनशॉट}
 translate h ScreenshotFileType {पीएनजी छवियाँ}
+translate h ScreenshotOverwrite {उस नाम की एक फ़ाइल पहले से मौजूद है. इसे अधिलेखित करें?}
 translate h ScreenshotError {स्क्रीनशॉट सहेजा नहीं जा सका.}
 translate h ScreenshotSaved {बोर्ड स्क्रीनशॉट सहेजा गया:}
 

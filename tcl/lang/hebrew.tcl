@@ -485,6 +485,7 @@ menuText V ToolsScreenshot "צילום מסך של לוח" 0 \
   {שמור את מיקום הלוח הנוכחי כתמונת PNG}
 translate V ScreenshotTitle {צילום מסך של לוח}
 translate V ScreenshotFileType {תמונות PNG}
+translate V ScreenshotOverwrite {קובץ בשם זה כבר קיים. להחליף אותו?}
 translate V ScreenshotError {לא ניתן היה לשמור את צילום המסך.}
 translate V ScreenshotSaved {צילום מסך לוח נשמר:}
 

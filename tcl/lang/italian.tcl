@@ -492,6 +492,7 @@ menuText I ToolsScreenshot "Schermata della scheda" 0 \
   {Salva la posizione corrente del tabellone come immagine PNG}
 translate I ScreenshotTitle {Schermata della scheda}
 translate I ScreenshotFileType {Immagini PNG}
+translate I ScreenshotOverwrite {Esiste già un file con quel nome. Sovrascriverlo?}
 translate I ScreenshotError {Impossibile salvare lo screenshot.}
 translate I ScreenshotSaved {Screenshot della scheda salvata:}
 

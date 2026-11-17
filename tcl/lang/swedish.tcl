@@ -495,6 +495,7 @@ menuText W ToolsScreenshot "Styrelsens skärmdump" 0 \
   {Spara den aktuella brädpositionen som en PNG-bild}
 translate W ScreenshotTitle {Styrelsens skärmdump}
 translate W ScreenshotFileType {PNG-bilder}
+translate W ScreenshotOverwrite {En fil med det namnet finns redan. Vill du skriva över det?}
 translate W ScreenshotError {Det gick inte att spara skärmdumpen.}
 translate W ScreenshotSaved {Styrelsens skärmdump sparad:}
 

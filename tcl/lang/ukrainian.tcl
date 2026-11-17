@@ -485,6 +485,7 @@ menuText Q ToolsScreenshot "Скріншот дошки" 0 \
   {Збережіть поточне положення дошки як зображення PNG}
 translate Q ScreenshotTitle {Скріншот дошки}
 translate Q ScreenshotFileType {PNG зображення}
+translate Q ScreenshotOverwrite {Файл із такою назвою вже існує. Перезаписати?}
 translate Q ScreenshotError {Не вдалося зберегти знімок екрана.}
 translate Q ScreenshotSaved {Скріншот дошки збережено:}
 

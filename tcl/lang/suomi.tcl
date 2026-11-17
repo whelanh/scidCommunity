@@ -523,6 +523,7 @@ menuText U ToolsScreenshot "Board Screenshot" 0 \
   {Tallenna nykyinen taulun sijainti PNG-kuvana}
 translate U ScreenshotTitle {Board Screenshot}
 translate U ScreenshotFileType {PNG-kuvat}
+translate U ScreenshotOverwrite {Samanniminen tiedosto on jo olemassa. Korvaako se?}
 translate U ScreenshotError {Kuvakaappausta ei voitu tallentaa.}
 translate U ScreenshotSaved {Taustakuva tallennettu:}
 

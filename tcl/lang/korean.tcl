@@ -525,6 +525,7 @@ menuText k ToolsScreenshot "보드 스크린샷" 0 \
   {현재 보드 위치를 PNG 이미지로 저장}
 translate k ScreenshotTitle {보드 스크린샷}
 translate k ScreenshotFileType {PNG 이미지}
+translate k ScreenshotOverwrite {해당 이름의 파일이 이미 존재합니다. 덮어쓰시겠습니까?}
 translate k ScreenshotError {스크린샷을 저장할 수 없습니다.}
 translate k ScreenshotSaved {보드 스크린샷이 저장되었습니다:}
 

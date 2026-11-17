@@ -492,6 +492,7 @@ menuText H ToolsScreenshot "Board Screenshot" 0 \
   {Mentse el az aktuális táblapozíciót PNG-képként}
 translate H ScreenshotTitle {Board Screenshot}
 translate H ScreenshotFileType {PNG képek}
+translate H ScreenshotOverwrite {Már létezik ilyen nevű fájl. Felülírni?}
 translate H ScreenshotError {A képernyőképet nem sikerült elmenteni.}
 translate H ScreenshotSaved {A tábla képernyőképe mentve:}
 

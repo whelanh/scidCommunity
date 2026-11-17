@@ -491,6 +491,7 @@ menuText R ToolsScreenshot "Скриншот доски" 0 \
   {Сохраните текущее положение доски в виде PNG-изображения.}
 translate R ScreenshotTitle {Скриншот доски}
 translate R ScreenshotFileType {PNG изображения}
+translate R ScreenshotOverwrite {Файл с таким именем уже существует. Перезаписать?}
 translate R ScreenshotError {Скриншот не удалось сохранить.}
 translate R ScreenshotSaved {Скриншот платы сохранен:}
 

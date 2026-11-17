@@ -484,6 +484,7 @@ menuText b ToolsScreenshot "বোর্ড স্ক্রিনশট" 0 \
   {একটি PNG ইমেজ হিসাবে বর্তমান বোর্ড অবস্থান সংরক্ষণ করুন}
 translate b ScreenshotTitle {বোর্ড স্ক্রিনশট}
 translate b ScreenshotFileType {PNG ছবি}
+translate b ScreenshotOverwrite {এই নামের একটি ফাইল ইতিমধ্যেই বিদ্যমান। এটা ওভাররাইট?}
 translate b ScreenshotError {স্ক্রিনশট সংরক্ষণ করা যায়নি.}
 translate b ScreenshotSaved {বোর্ড স্ক্রিনশট সংরক্ষিত:}
 

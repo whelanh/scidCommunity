@@ -524,6 +524,7 @@ menuText P ToolsScreenshot "Zrzut ekranu tablicy" 0 \
   {Zapisz bieżącą pozycję planszy jako obraz PNG}
 translate P ScreenshotTitle {Zrzut ekranu tablicy}
 translate P ScreenshotFileType {Obrazy PNG}
+translate P ScreenshotOverwrite {Plik o tej nazwie już istnieje. Nadpisać to?}
 translate P ScreenshotError {Nie udało się zapisać zrzutu ekranu.}
 translate P ScreenshotSaved {Zapisano zrzut ekranu tablicy:}
 

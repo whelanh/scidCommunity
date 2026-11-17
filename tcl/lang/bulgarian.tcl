@@ -525,6 +525,7 @@ menuText g ToolsScreenshot "Екранна снимка на борда" 0 \
   {Запазете текущата позиция на дъската като PNG изображение}
 translate g ScreenshotTitle {Екранна снимка на борда}
 translate g ScreenshotFileType {PNG изображения}
+translate g ScreenshotOverwrite {Файл с това име вече съществува. Да го презапиша?}
 translate g ScreenshotError {Екранната снимка не можа да бъде запазена.}
 translate g ScreenshotSaved {Екранната снимка на дъската е запазена:}
 

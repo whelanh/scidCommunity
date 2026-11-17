@@ -461,6 +461,7 @@ menuText M ToolsScreenshot "棋盘截图" 0 \
   {将当前棋盘位置保存为PNG图像}
 translate M ScreenshotTitle {棋盘截图}
 translate M ScreenshotFileType {PNG 图像}
+translate M ScreenshotOverwrite {具有该名称的文件已存在。覆盖它吗？}
 translate M ScreenshotError {无法保存屏幕截图。}
 translate M ScreenshotSaved {已保存的板截图：}
 

@@ -488,6 +488,7 @@ menuText C ToolsScreenshot "Snímek obrazovky desky" 0 \
   {Uložte aktuální pozici desky jako obrázek PNG}
 translate C ScreenshotTitle {Snímek obrazovky desky}
 translate C ScreenshotFileType {obrázky PNG}
+translate C ScreenshotOverwrite {Soubor s tímto názvem již existuje. Přepsat to?}
 translate C ScreenshotError {Snímek obrazovky se nepodařilo uložit.}
 translate C ScreenshotSaved {Snímek obrazovky desky uložen:}
 

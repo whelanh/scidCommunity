@@ -516,6 +516,7 @@ menuText G ToolsScreenshot "Στιγμιότυπο οθόνης πίνακα" 0 
   {Αποθηκεύστε την τρέχουσα θέση του πίνακα ως εικόνα PNG}
 translate G ScreenshotTitle {Στιγμιότυπο οθόνης πίνακα}
 translate G ScreenshotFileType {εικόνες PNG}
+translate G ScreenshotOverwrite {Ένα αρχείο με αυτό το όνομα υπάρχει ήδη. Να το αντικαταστήσω;}
 translate G ScreenshotError {Δεν ήταν δυνατή η αποθήκευση του στιγμιότυπου οθόνης.}
 translate G ScreenshotSaved {Το στιγμιότυπο οθόνης πίνακα αποθηκεύτηκε:}
 

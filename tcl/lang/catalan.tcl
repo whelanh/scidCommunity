@@ -507,6 +507,7 @@ menuText K ToolsScreenshot "Captura de pantalla del tauler" 0 \
   {Deseu la posició actual del tauler com a imatge PNG}
 translate K ScreenshotTitle {Captura de pantalla del tauler}
 translate K ScreenshotFileType {Imatges PNG}
+translate K ScreenshotOverwrite {Ja existeix un fitxer amb aquest nom. Sobreescriure-ho?}
 translate K ScreenshotError {No s'ha pogut desar la captura de pantalla.}
 translate K ScreenshotSaved {S'ha desat la captura de pantalla del tauler:}
 

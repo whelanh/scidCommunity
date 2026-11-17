@@ -518,6 +518,7 @@ menuText D ToolsScreenshot "Board-Screenshot" 0 \
   {Speichern Sie die aktuelle Platinenposition als PNG-Bild}
 translate D ScreenshotTitle {Board-Screenshot}
 translate D ScreenshotFileType {PNG-Bilder}
+translate D ScreenshotOverwrite {Eine Datei mit diesem Namen existiert bereits. Überschreiben?}
 translate D ScreenshotError {Der Screenshot konnte nicht gespeichert werden.}
 translate D ScreenshotSaved {Board-Screenshot gespeichert:}
 

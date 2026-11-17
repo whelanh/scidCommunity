@@ -494,6 +494,7 @@ menuText O ToolsScreenshot "Skjermbilde av bord" 0 \
   {Lagre gjeldende tavleposisjon som et PNG-bilde}
 translate O ScreenshotTitle {Skjermbilde av bord}
 translate O ScreenshotFileType {PNG-bilder}
+translate O ScreenshotOverwrite {En fil med det navnet finnes allerede. Vil du overskrive det?}
 translate O ScreenshotError {Skjermbildet kunne ikke lagres.}
 translate O ScreenshotSaved {Skjermbilde av tavlen lagret:}
 

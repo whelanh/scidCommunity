@@ -525,6 +525,7 @@ menuText A ToolsScreenshot "ボードのスクリーンショット" 0 \
   {現在のボード位置を PNG 画像として保存します}
 translate A ScreenshotTitle {ボードのスクリーンショット}
 translate A ScreenshotFileType {PNG画像}
+translate A ScreenshotOverwrite {その名前のファイルはすでに存在します。上書きしますか?}
 translate A ScreenshotError {スクリーンショットを保存できませんでした。}
 translate A ScreenshotSaved {ボードのスクリーンショットが保存されました:}
 

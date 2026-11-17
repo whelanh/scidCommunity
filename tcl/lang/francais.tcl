@@ -500,6 +500,7 @@ menuText F ToolsScreenshot "Capture d'écran du tableau" 0 \
   {Enregistrer la position actuelle du tableau sous forme d'image PNG}
 translate F ScreenshotTitle {Capture d'écran du tableau}
 translate F ScreenshotFileType {Image PNG}
+translate F ScreenshotOverwrite {Un fichier portant ce nom existe déjà. L'écraser ?}
 translate F ScreenshotError {La capture d'écran n'a pas pu être enregistrée.}
 translate F ScreenshotSaved {Capture d'écran du tableau enregistrée :}
 
