@@ -9,10 +9,14 @@ existing moves, board, header, comments and material searches.
 - **Source:** Scid vs. PC, `svn://svn.code.sf.net/p/scidvspc/code` at
   **r3777** (`src/cql/`).
 - **Mirror reference:** [github.com/tagatac/scidvspc](https://github.com/tagatac/scidvspc)
-  at `cb5309c2`. The mirror lags r3777 in two files only
-  (`gamesortinfo.cpp`, `origChanges.cpp`); both were refreshed from r3777, so
-  the imported tree matches r3777 rather than the mirror.
+  at `cb5309c2`; `gamesortinfo.cpp` was taken from r3777 because the mirror lags
+  there.
 - **Imported:** 2026-11-16.
+- **Not imported:** two upstream files are not part of this tree: `cql.cpp`
+  (the standalone command-line driver, with its own `main()`) and
+  `origChanges.cpp` (patches to Scid vs. PC's `Game`/`MFile` classes, which
+  scidCommunity does not have). Neither is needed by the integrated engine; see
+  below.
 - **Licence:** see `COPYING` in this directory. Every imported source carries
   an `SPDX-License-Identifier` header.
 
@@ -28,9 +32,9 @@ existing moves, board, header, comments and material searches.
 
 ## Deliberate deviations
 
-Five files differ from r3777 on purpose. **Do not revert any of these when
-re-syncing**; each one fixes a bug that only shows against scidCommunity's own
-callers.
+Beyond the C++20 modernisation described below, five files differ from r3777
+on purpose. **Do not revert any of these when re-syncing**; each one fixes a
+bug that only shows against scidCommunity's own callers.
 
 | # | Where | Why |
 |---|---|---|
@@ -66,16 +70,54 @@ and the rest of the query was silently dropped. `bungetc()` now rewinds only a
 byte `bgetc()` actually consumed, for the same reason (`EOF` is reported for the
 NUL without advancing).
 
+## C++20 modernisation
+
+The whole engine is compiled as C++20 and is warning-free at `-Wall -Wextra`
+with GCC and Clang. It no longer needs the `-Wno-*` suppressions that the
+import originally carried, and **new CQL-specific ones must not be added**
+(the tree-wide `-Wno-deprecated-declarations` that predates CQL still applies
+everywhere):
+
+- `Makefile.conf` / `Makefile` keep only `-frtti -DINTEGRATED` for `src/cql/`.
+- `CMakeLists.txt` keeps only `-frtti`; the MSVC `/Zc:strictStrings-` exception
+  is gone too.
+- `src/cql/scripts/check-warnings.sh` compiles every built translation unit and
+  fails on a warning, so an imported file that reintroduces an old idiom shows
+  up before it can be silenced.
+
+What changed, in terms of idioms rather than behaviour:
+
+- Tokens, variables and parse-tree nodes **own their text** (`std::string`)
+  instead of borrowing `const char*` from a lexer buffer that has already gone
+  away. The lexer returns `std::string`; constructors take `std::string_view`.
+- `nullptr` everywhere; `override` on overrides; `using` instead of `typedef`;
+  `std::size_t`, range-for and the container's own type for indices.
+- Comments and diagnostic strings are assembled with `std::string` instead of
+  `sprintf()` into fixed stack buffers.
+- C-style casts are `static_cast`; `SquareMask` is a `std::uint64_t` with
+  `const` accessors and `std::popcount()`.
+- Dead declarations and commented-out blocks from the import were removed.
+
+Every `.cpp` in this directory is part of the application build and is covered
+by that check; there are no excluded files. Upstream's `cql.cpp` and
+`origChanges.cpp` were not imported (see **Provenance**), so the directory holds
+only translation units scidCommunity actually compiles. Git history retains
+both files should the standalone driver ever be wanted.
+
+This is deliberately **not** kept in sync with Scid vs. PC: the imported source
+is a starting point, not a code style to preserve.
+
 ## Files adapted to scidCommunity's API (23)
 
-The rest of the engine is upstream's, unchanged apart from the SPDX headers.
-These 23 files were adapted because scidCommunity's `Game`/`Position`/`MoveList`
-API differs from Scid vs. PC's: `isNullMove(sm)` becomes `sm->isNullMove()`,
-`pieceT*` board parameters become `const pieceT*`, `pos->IsStaleMate()` goes
-through `CqlIsStaleMate(pos)`, `game->GetNumber()` through `CqlGameNumber()`,
-`game->GetCurrentMoveCQL()` through `CqlCurrentMove(game)`, and
-`Game::WriteToPGN_CQL()` (which lives in Scid vs. PC's `origChanges.cpp`) is
-replaced by scidCommunity's `Game::WriteToPGN()`:
+The file list below is the set that needed API adaptations; the whole tree also
+carries the C++20 changes above. These 23 files were adapted because
+scidCommunity's `Game`/`Position`/`MoveList` API differs from Scid vs. PC's:
+`isNullMove(sm)` becomes `sm->isNullMove()`, `pieceT*` board parameters become
+`const pieceT*`, `pos->IsStaleMate()` goes through `CqlIsStaleMate(pos)`,
+`game->GetNumber()` through `CqlGameNumber()`, `game->GetCurrentMoveCQL()`
+through `CqlCurrentMove(game)`, and
+`Game::WriteToPGN_CQL()` (upstream's CQL-specific writer, not imported here)
+is replaced by scidCommunity's `Game::WriteToPGN()`:
 
 ```
 attacknode.cpp            echomatchinfo.cpp         node.h
@@ -131,10 +173,12 @@ before rewriting the lineariser.
    it. That diff is all four deliberate deviations listed above - both
    `lexer.cpp` changes, the `echomatchinfo.cpp` buffer fix and the
    `nodematch.cpp` parse-time rejection of `extension` - plus the 23 API
-   adaptations in the next section. Re-applying only the `lexer.cpp` part
-   restores the stack-buffer overflow and lets `extension` reach the runtime
-   stub again, and both regressions look like engine behaviour rather than a
-   missing change.
+   adaptations, plus the C++20 modernisation of the whole tree. Re-applying
+   only the `lexer.cpp` part restores the stack-buffer overflow and lets
+   `extension` reach the runtime stub again, and both regressions look like
+   engine behaviour rather than a missing change.
 4. Re-add the SPDX headers.
-5. `cmake --build build` and run `tests/tcl/search_cql.tcl` and
-   `tests/tcl/search_cql_tk.tcl`.
+5. `src/cql/scripts/check-warnings.sh`, then `cmake --build build` and run
+   `tests/tcl/search_cql.tcl`, `tests/tcl/search_cql_tk.tcl`,
+   `tests/tcl/search_cql_unreadable.tcl` and
+   `tests/tcl/help_cql_examples.tcl`.

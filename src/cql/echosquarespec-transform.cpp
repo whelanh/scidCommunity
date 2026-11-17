@@ -42,17 +42,3 @@ bool EchoSquareSpec::match_target(Transform*transform){
   if(!mismatchrange->valid(nmismatches))return false;
   return true;
 };
-
-// bool EchoSquareSpec::compareSourceTargetTransformed(squareT square,squareT transformedsquare){
-//   uassert(square_valid(square));
-//   pieceT sourcepiece=sourceboard[square];
-//   pieceT targetpiece;
-  
-// =
-//     square_valid(transformedsquare) ? 
-//      MarkBoard::piece_at_square(transformedsquare,theGame)
-//     : EMPTY;
-  
-//   //  uassert(piece_valid(sourcepiece)&&piece_valid(targetpiece));
-//   return sourcepiece==targetpiece;
-// }

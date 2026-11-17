@@ -5,7 +5,7 @@
 #include "node.h"
 #include "tokenstream.h"
 EchoNode* Tokens::match_echonode(){
-  if(!match_keyword("relation")&&!match_keyword("echo")) return NULL;
+  if(!match_keyword("relation")&&!match_keyword("echo")) return nullptr;
   vector<Node*>filters=match_some_basicnodes();
   vector<EchoSpec*>specs=match_echospecs();
   if(specs.empty())
@@ -16,12 +16,12 @@ EchoNode* Tokens::match_echonode(){
     {
       printf("\nmatch_echonode: filters:\n");
       for(auto f:filters){
-	printf("filter: %p: \n",f);
+	printf("filter: %p: \n",static_cast<const void*>(f));
 	f->print();
       }
       printf("\nmatch_echonode: specs:\n");
       for(auto s:specs){
-	printf("spec: %p: \n",s);
+	printf("spec: %p: \n",static_cast<const void*>(s));
 	s->print();
       }
       printf("\nmatch_echonode: got echonode of: \n");
@@ -33,8 +33,8 @@ EchoNode* Tokens::match_echonode(){
 
 vector<EchoSpec*> Tokens::match_echospecs(){
   vector<EchoSpec*>specs;
-  EchoSpec*spec=NULL;
-  while(spec=match_echospec())
+  EchoSpec*spec=nullptr;
+  while((spec=match_echospec())!=nullptr)
     specs.push_back(spec);
   return specs;
 }
@@ -43,7 +43,7 @@ vector<EchoSpec*> Tokens::match_echospecs(){
 EchoSpec* Tokens::match_echospec(){
   if(match_echoemptyspec())
     show_error("Invalid empty 'relation' specification");
-  EchoSpec*e=NULL;
+  EchoSpec*e=nullptr;
   if(!e) e=match_echodescendant();
   if(!e) e=match_echosquarespec();
   if(!e) e=match_echolongestsubstringspec();
@@ -69,11 +69,11 @@ bool Tokens::match_echoemptyspec(){
 
 EchoSquareSpec* Tokens::match_echosquarespec(){
   int x=save();
-  if(!match_lparen())return NULL;
-  SetBase*source=NULL;
-  SetBase*target=NULL;
-  Range*match=NULL;
-  Range*mismatch=NULL;
+  if(!match_lparen())return nullptr;
+  SetBase*source=nullptr;
+  SetBase*target=nullptr;
+  Range*match=nullptr;
+  Range*mismatch=nullptr;
   while(true)
     if(match_keyword("sourcesquares")){
       source=match_set();
@@ -102,40 +102,40 @@ EchoSquareSpec* Tokens::match_echosquarespec(){
     return new EchoSquareSpec(source,target,match,mismatch);
   }
   restore(x);
-  return NULL;
+  return nullptr;
 }
 
 EchoDistanceSpec* Tokens::match_echoancestor(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   if (!match_keyword("ancestor")) {
     restore(x);
-    return NULL;
+    return nullptr;
   }
   if (!match_rparen())
     show_error("expecting ')' following 'ancestor' keyword in relation specification");
-  return new EchoTargetDistanceSpec(new Range(0,0),NULL);
+  return new EchoTargetDistanceSpec(new Range(0,0),nullptr);
 }
 
 EchoDistanceSpec* Tokens::match_echodescendant(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   if (!match_keyword("descendant")) {
     restore(x);
-    return NULL;
+    return nullptr;
   }
   if (!match_rparen())
     show_error("expecting ')' following 'descendant' keyword in relation specification");
-  return new EchoSourceDistanceSpec(new Range(0,0),NULL);
+  return new EchoSourceDistanceSpec(new Range(0,0),nullptr);
 }
 
 EchoMaxDistanceSpec* Tokens::match_echomaxdistancespec(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   NumericVariable*var=match_sortheader();
   if(!match_keyword("lcamax")){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   Range*range=match_range();
   if(!range)
@@ -147,11 +147,11 @@ EchoMaxDistanceSpec* Tokens::match_echomaxdistancespec(){
 
 EchoSumDistanceSpec* Tokens::match_echosumdistancespec(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   NumericVariable*var=match_sortheader();
   if(!match_keyword("lcasum")){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   Range*range=match_range();
   if(!range)
@@ -163,11 +163,11 @@ EchoSumDistanceSpec* Tokens::match_echosumdistancespec(){
 
 EchoSourceDistanceSpec* Tokens::match_echosourcedistancespec(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   NumericVariable*var=match_sortheader();
   if(!match_keyword("lcasource")){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   Range*range=match_range();
   if(!range)
@@ -179,11 +179,11 @@ EchoSourceDistanceSpec* Tokens::match_echosourcedistancespec(){
 
 EchoTargetDistanceSpec* Tokens::match_echotargetdistancespec(){
   int x=save();
-  if(!match_lparen()) return NULL;
+  if(!match_lparen()) return nullptr;
   NumericVariable*var=match_sortheader();
   if(!match_keyword("lcatarget")){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   Range*range=match_range();
   if(!range)
@@ -195,11 +195,11 @@ EchoTargetDistanceSpec* Tokens::match_echotargetdistancespec(){
 
 EchoLongestSubstringSpec* Tokens::match_echolongestsubstringspec(){
   int x=save();
-  if(!match_lparen())return NULL;
+  if(!match_lparen())return nullptr;
   NumericVariable*var=match_sortheader();
   if(!match_keyword("lcasubstring")){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   Range*range=match_range();
   if(!range)
@@ -211,7 +211,7 @@ EchoLongestSubstringSpec* Tokens::match_echolongestsubstringspec(){
 
 EchoSpec* Tokens::match_echotransformspec(){
   vector<Transform*> transforms=match_echotransforms();
-  if(transforms.empty())return NULL;
+  if(transforms.empty())return nullptr;
   EchoSpec*spec=match_echospec();
   if(!spec)
     show_error("echo transforms  must be followed by a specification: expecting '(' for an echo spec");
@@ -240,8 +240,8 @@ vector<Transform*>Tokens::match_echotransforms(){
 
 EchoSideToMoveSpec* Tokens::match_echosidetomovespec(){
   int x=save();
-  if(!match_lparen())return NULL;
-  if(!match_keyword("tomove")) {restore(x);return NULL;}
+  if(!match_lparen())return nullptr;
+  if(!match_keyword("tomove")) {restore(x);return nullptr;}
   bool same=false;
   if(match_keyword("match")) same=true;
   else if (match_keyword("mismatch")) same=false;

@@ -8,7 +8,7 @@
 TransformNode* TransformNode::create(vector<Transform*> ts,Node*n,Range*r){
   uassert(n);
   TransformNode* nbasenode=dynamic_cast<TransformNode*>(n);
-  Range*subrange=NULL;
+  Range*subrange=nullptr;
   if(nbasenode)subrange=nbasenode->range;
   if(!r&&nbasenode&&!subrange){
     uassert(!nbasenode->expanded());
@@ -16,18 +16,18 @@ TransformNode* TransformNode::create(vector<Transform*> ts,Node*n,Range*r){
     vector<Transform*>composedts=
       ComposeTransform::composeVectors(ts,basets);
     Node* source=nbasenode->getSource();
-    return create(composedts,source,r);
+    return create(std::move(composedts),source,r);
   }
   MFilter* mf=dynamic_cast<MFilter*>(n);
   uassert(mf, "tb::create: invalid node");
-  return new TransformNode(ts,mf,r);
+  return new TransformNode(std::move(ts),mf,r);
 }
 
 bool TransformNode::isSet(){
   if (range)return false;
   if(expanded()){
-    uassert(filter==NULL,"TransformNode:isSet i1");
-    uassert(transformedFilters.size(),"TransformNode:isSet i2");
+    uassert(filter==nullptr,"TransformNode:isSet i1");
+    uassert(!transformedFilters.empty(),"TransformNode:isSet i2");
     for (auto tf:transformedFilters) // We actually only need to check the 0'th element
       if(!tf->isSet()) return false;
     return true;
@@ -37,7 +37,7 @@ bool TransformNode::isSet(){
 }
 
 bool TransformNode::isCountable(){
-  return range!=NULL;
+  return range!=nullptr;
 }
 
 SquareMask TransformNode::getSquares(Game*game){
@@ -64,7 +64,7 @@ void TransformNode::expand(){
   }
   for(auto transformedfilter : transformedFilters)
     transformedfilter->expand();
-  filter=NULL;
+  filter=nullptr;
 }
 
 
@@ -80,7 +80,7 @@ vnode TransformNode::children(){
 TransformNode::TransformNode(vector<Transform*>ts,MFilter*f,Range*r){
   uassert(f);
   for(auto t:ts) uassert(t);
-  transforms=ts;
+  transforms=std::move(ts);
   filter=f;
   range=r;
 }
@@ -125,10 +125,10 @@ void TransformNode::deepify(){
   filter=filter->clone();
 }
     
-bool TransformNode::expanded(){
-  uassert(!filter&&transformedFilters.size() ||
-	  filter&&transformedFilters.empty(),"TransformNode::expanded internal");
-  return filter==NULL;
+bool TransformNode::expanded() const{
+  uassert((!filter&&!transformedFilters.empty()) ||
+	  (filter&&transformedFilters.empty()),"TransformNode::expanded internal");
+  return filter==nullptr;
 }
 
 TransformNode* TransformNode::clone(){
@@ -153,7 +153,7 @@ bool TransformNode::match_position(Game*game){
 bool TransformNode::match_count(Game*game,NumValue*value){
   uassert(range,"Attempt to sort or count transform that lacks a range. Only transforms with ranges can be sorted or counted");
   if(match_position(game)){
-    *value=(NumValue)count;
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;

@@ -3,6 +3,8 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
+#include <cstddef>
+#include <utility>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -35,16 +37,16 @@ void unindent();
 bool filename_is_pgn(const char*filename);
 bool filename_is_cql(const char* filename);
 const char* filename_extension(const char* filename);
-const char* filename_stem(const char*name);
+std::string filename_stem(const char*name);
 const char* filename_trim_path_prefix(const char*name);
 const char* filename_trim_last(const char* name, char c);
-const char* filename_trim_extension(const char* name);
+std::string filename_trim_extension(const char* name);
 
 class util{
  public:
   static char * copy(const char * buffer);
-  static bool positiveIntValue(char * s, int*val);
-  static bool signedIntValue(char * s, int*val);
+  static bool positiveIntValue(const char * s, int*val);
+  static bool signedIntValue(const char * s, int*val);
   static void printgame(FILE* stream,Game* game);
   static void my_dump_board(boardT board);
   static int squareShiftDirection(int sq, directionT direction);

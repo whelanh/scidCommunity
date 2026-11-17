@@ -106,6 +106,12 @@ checkEq "no dialog for a good query" [llength $::dialogs] 0
 
 checkEq "check is the same game" [run "cql() check"] 1
 checkEq "a plain piece designator matches every game" [run "cql() K"] 5
+# A square designator may be followed by variables ("[a1,b2]$x"). The C++20
+# pass briefly moved match_variables() inside the "no leading square" branch,
+# which made the lexer reject these; "square $x in" binds the variable.
+checkEq "a square designator may be followed by a variable" \
+    [run "cql() square \$x in \[a1,b2\] \[a1,b2\]\$x"] 5
+check "and it is not a parse error" [expr {[llength $::dialogs] == 0}]
 checkEq "a game number range narrows it" [run "cql(:gamenumber 1 1) K"] 1
 checkEq "a two-game range" [run "cql(:gamenumber 1 2) K"] 2
 checkEq "a multi-line query is one query" \

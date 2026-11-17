@@ -4,7 +4,7 @@
  */
 #include "node.h"
 EchoTransformSpec::EchoTransformSpec(vector<Transform*>ts, EchoSpec*s){
-  uassert(ts.size()&&s);
+  uassert(!ts.empty()&&s);
   transforms=ts;
   spec=s;
 }
@@ -26,7 +26,7 @@ void EchoTransformSpec::print(){
 }
 
 bool EchoTransformSpec::match_target(){
-  matchedTransform=NULL;
+  matchedTransform=nullptr;
   for(Transform* t : transforms)
     if (spec->match_target(t)){
       matchedTransform=t;

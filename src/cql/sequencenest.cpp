@@ -15,7 +15,7 @@ void SequenceBase::nestRegisterPosition(Game*game){
   nestIds.insert(me);
 }
 
-bool SequenceBase::nestSeenPosition(Game*game){
+bool SequenceBase::nestSeenPosition(Game*game) const{
   uassert(nestBan,"nestSeenPosition: internal");
   moveT*me=MarkBoard::identity(game);
   if(nestIds.count(me)>0)return true;
@@ -26,9 +26,9 @@ void SequenceBase::nestClearPositions(){
   nestIds.clear();
 }
 
-set<SequenceBase*>* SequenceBase::nestGetSequenceFilters(){
+std::set<SequenceBase*>* SequenceBase::nestGetSequenceFilters(){
   if (CqlAllSequences) return CqlAllSequences;
-  CqlAllSequences=new set<SequenceBase*>;
+  CqlAllSequences=new std::set<SequenceBase*>;
   CqlNode*root=CqlParseRoot;
   uassert(root,"nestGetSequenceFilters: internal");
   auto descendants=root->descendants();

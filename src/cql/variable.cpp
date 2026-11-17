@@ -23,11 +23,11 @@ void Variable::clearAll(){
   }
 }
 
-Variable* Variable::find(const char*nm){
+Variable* Variable::find(std::string_view nm){
   for(Variable* v:*(getVariables()))
     if (v->eq(nm))
       return v;
-  return NULL;
+  return nullptr;
 }
 
 void Variable::unbindTags(){
@@ -44,12 +44,12 @@ void Variable::unbindTags(){
 }
 
 void Variable::unbind(){
-  uassert(bound,"attempt to unbind unbound variable: ",name);
+  uassert(bound,"attempt to unbind unbound variable: ",name.c_str());
   bound=false;
 }
 
-bool Variable::eq(const char*n){
-  uassert(n,"bad arg to variable eq");
-  return strcmp(name,n)==0;
+bool Variable::eq(std::string_view n) const{
+  uassert(!n.empty(),"bad arg to variable eq");
+  return name==n;
 }
 

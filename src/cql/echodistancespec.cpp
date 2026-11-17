@@ -25,10 +25,10 @@ bool EchoDistanceSpec::match_distance(int sourcedistance,int targetdistance){
 
 bool EchoDistanceSpec::match_lca(const vector<moveT*>& sourcepath,
 				 const vector<moveT*>& targetpath){
-  uassert(sourcepath.size()&&targetpath.size()&&sourcepath[0]==targetpath[0]);
+  uassert(!sourcepath.empty()&&!targetpath.empty()&&sourcepath[0]==targetpath[0]);
   uassert(targetpath.back()==MarkBoard::identity(theGame));
-  int sourcedistance=(int)(sourcepath.size()-1);
-  int targetdistance=(int)(targetpath.size()-1);
+  int sourcedistance=static_cast<int>(sourcepath.size()-1);
+  int targetdistance=static_cast<int>(targetpath.size()-1);
   if(!match_distance(sourcedistance,targetdistance))return false;
   return true;
 }
@@ -38,11 +38,11 @@ void EchoMaxDistanceSpec::computeCount(int sourced, int targetd){
   setCount(std::max(sourced,targetd));
 }
 
-void EchoSourceDistanceSpec::computeCount(int sourced,int targetd){
+void EchoSourceDistanceSpec::computeCount(int sourced,int /*targetd*/){
   setCount(sourced);
 }
 
-void EchoTargetDistanceSpec::computeCount(int sourced, int targetd){
+void EchoTargetDistanceSpec::computeCount(int /*sourced*/, int targetd){
   setCount(targetd);
 }
 

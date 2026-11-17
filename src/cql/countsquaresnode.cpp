@@ -11,7 +11,7 @@ bool CountSquaresNode::match_position(Game*game){
 
 bool CountSquaresNode::match_count(Game*game,NumValue*value){
   if(match_position(game)){
-    *value=(NumValue)(getCount());
+    *value=static_cast<NumValue>(getCount());
     return true;
   }
   return false;

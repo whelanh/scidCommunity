@@ -18,10 +18,10 @@ void ResultNode::transform_members(Transform*t){
 void PieceLoc::transform_members(Transform*t){
   SquareMask newpieces;
   for(int i=0;i<64;++i)if (pieces.member(i)){
-      pieceT p = (pieceT) i;
+      pieceT p = static_cast<pieceT>(i);
       uassert (piece_valid(p));
       pieceT newp=t->transformPiece(p);
-      newpieces.insert((int)newp);
+      newpieces.insert(static_cast<int>(newp));
     }
   pieces=newpieces;
   squaremask=t->transform(squaremask);
@@ -40,8 +40,8 @@ void EloNode::transform_members(Transform*t){
 }
 
 void RayNode::transform_members(Transform*t){
-  for(int i=0;i<directions.size();++i)
-    directions[i]=t->transform(directions[i]);
+  for(auto & direction : directions)
+    direction=t->transform(direction);
 }
 
 void VectorNode::transform_members(Transform*t){

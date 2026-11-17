@@ -4,8 +4,8 @@
  */
 #include "node.h"
 
-EchoNode::EchoNode(vector<Node*>fs, vector<EchoSpec*>ss){
-  uassert(filters.size()==0);
+EchoNode::EchoNode(const vector<Node*>& fs, const vector<EchoSpec*>& ss){
+  uassert(filters.empty());
   for(Node*n:fs){
     MFilter*m=dynamic_cast<MFilter*>(n);
     uassert(m,"Bad argument to echonode, expected MFilter");
@@ -18,22 +18,24 @@ EchoNode::EchoNode(vector<Node*>fs, vector<EchoSpec*>ss){
 }
 
 void EchoNode::print(){
-  printf("<%s NFilters: %lu NSpecs: %lu ",thisclass(),filters.size(),specs.size());
+  printf("<%s NFilters: %zu NSpecs: %zu ",thisclass(),filters.size(),specs.size());
   if(isSilent())printf("silent ");
-  for(int i=0;i<filters.size();++i){
+  std::size_t i=0;
+  for(MFilter* filter:filters){
     printf("\n");
     indent();
     tab();
-    printf("Filter <%d of %lu: ",i,filters.size());
-    filters[i]->print();
+    printf("Filter <%zu of %zu: ",i++,filters.size());
+    filter->print();
     unindent();
   }
-  for(int i=0;i<specs.size();++i){
+  i=0;
+  for(EchoSpec* spec:specs){
     printf("\n");
     indent();
     tab();
-    printf("Spec <%d of %lu: ",i,specs.size());
-    specs[i]->print();
+    printf("Spec <%zu of %zu: ",i++,specs.size());
+    spec->print();
     unindent();
   }
 };
@@ -58,7 +60,7 @@ void EchoNode::start_new_search(Game*g){
   uassert(!insearch);
   insearch=true;
   theGame=g;
-  if(matchinfos.size()&&matchinfos[0].gamenumber!=CqlGameNumber())
+  if(!matchinfos.empty()&&matchinfos[0].gamenumber!=CqlGameNumber())
     matchinfos.clear();
   sourceIdentity=MarkBoard::identity(g);
   for(auto spec:specs)
@@ -98,7 +100,7 @@ void EchoNode::assignVariables(){
     NumericVariable*var=lcaspec->assignee;
     if(!var) continue;
     int len=lcaspec->getCount();
-    var->bindNumeric((NumValue)len);
+    var->bindNumeric(static_cast<NumValue>(len));
   }
 }
 
@@ -108,13 +110,13 @@ void EchoNode::end_search(){
     spec->end_search();
   uassert(sourceIdentity);
   MarkBoard::gameToIdentity(sourceIdentity,theGame,true);
-  sourceIdentity=NULL;
+  sourceIdentity=nullptr;
   insearch=false;
 }
 
 void EchoNode::registerMatch(){
   EchoMatchInfo info(this);
-  if(matchinfos.size())
+  if(!matchinfos.empty())
     uassert(matchinfos.back().gamenumber==CqlGameNumber());
   matchinfos.push_back(info);
 }

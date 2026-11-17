@@ -25,8 +25,8 @@ void EchoLcaSpec::computeLca(moveT*sourceid,
   uassert(sourceid&&targetid&&sourceid!=targetid);
   vector<moveT*>sourceback=backsequence(sourceid);
   vector<moveT*>targetback=backsequence(targetid);
-  int sourcebacklen=(int)(sourceback.size());
-  int targetbacklen=(int)(targetback.size());
+  int sourcebacklen=static_cast<int>(sourceback.size());
+  int targetbacklen=static_cast<int>(targetback.size());
   uassert(sourcebacklen&&targetbacklen);
   uassert(sourceback[0]==targetback[0]);
   uassert(sourceback.back()==sourceid);
@@ -70,7 +70,7 @@ bool EchoLcaSpec::match_target(){
   moveT* targetid=MarkBoard::identity(theGame);
   uassert(targetid&&sourceIdentity&&targetid!=sourceIdentity);
   computeLca(sourceIdentity,targetid,sourcepath,targetpath);
-  uassert(sourcepath.size()&&targetpath.size()&&sourcepath[0]==targetpath[0]&&
+  uassert(!sourcepath.empty()&&!targetpath.empty()&&sourcepath[0]==targetpath[0]&&
 	  sourcepath.back()==sourceIdentity&&
 	  targetpath.back()==targetid);
   return match_lca(sourcepath,targetpath);
@@ -78,6 +78,6 @@ bool EchoLcaSpec::match_target(){
 
 void EchoLcaSpec::start_new_search(Game*g){
   EchoSpec::start_new_search(g);
-  theLca=NULL;
+  theLca=nullptr;
 }
 

@@ -47,7 +47,7 @@ void MarkBoardMap::print(){
 }
 
 void MarkBoardMap::make_null_move(squareT fromsquare, squareT tosquare, const pieceT*board, colorT color){
-  // NULL MOVE CONTRIVED EXCEPTION... testing purposes only
+  // nullptr MOVE CONTRIVED EXCEPTION... testing purposes only
   //uassert(false, "contrived null move markboard exception");
   uassert(square_valid(fromsquare)&&
 	  square_valid(tosquare)&&

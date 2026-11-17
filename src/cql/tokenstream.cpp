@@ -6,21 +6,23 @@
 #include "util.h"
 
 void Tokens::print(){
-  printf("Tokens: Bottom: %d size: %lu Tokens:\n",bottom, tokens.size());
-  for(int i=0;i<tokens.size();++i){
-    printf("Token %d of %lu: ",i,tokens.size());
-    tokens[i]->print();
+  printf("Tokens: Bottom: %d size: %zu Tokens:\n",bottom, tokens.size());
+  std::size_t i=0;
+  for(auto* token:tokens){
+    printf("Token %zu of %zu: ",i,tokens.size());
+    token->print();
     printf("\n");
+    ++i;
   }
   printf("\n");
 }
 
-bool Tokens::eof(){
-  return bottom==(int)tokens.size();
+bool Tokens::eof() const{
+  return static_cast<std::size_t>(bottom)==tokens.size();
 }
 
 Token* Tokens::current(){
-  if(eof())return NULL;
+  if(eof())return nullptr;
   return tokens[bottom];
 }
 
@@ -29,14 +31,13 @@ void Tokens::forward(){
   ++bottom;
 }
 
-Tokens::Tokens(vector<Token*>ts){
-  for(auto s:ts)
-    {uassert (s!=NULL);}
-  tokens=ts;
+Tokens::Tokens(vector<Token*>ts) : tokens(std::move(ts)){
+  for(auto* token:tokens)
+    uassert(token!=nullptr);
   bottom=0;
 }
 
-int Tokens::save(){
+int Tokens::save() const{
   return bottom;
 }
 

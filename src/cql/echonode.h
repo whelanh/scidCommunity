@@ -9,18 +9,18 @@ class EchoNode : public MFilter,public VariationFlags,public CommentFlags{
  public:
   vector<MFilter*>filters;
   vector<EchoSpec*> specs;
-  EchoNode(vector<Node*> filters, vector<EchoSpec*> specs);
-  bool match_position(Game*game);
-  void print();
+  EchoNode(const vector<Node*>& filters, const vector<EchoSpec*>& specs);
+  bool match_position(Game*game) override;
+  void print() override;
   CVV(EchoNode);
-  vnode children();
-  moveT* sourceIdentity{NULL};
-  void deepify(){clonevec(filters);clonevec(specs);}
+  vnode children() override;
+  moveT* sourceIdentity{nullptr};
+  void deepify() override{clonevec(filters);clonevec(specs);}
   vector<EchoMatchInfo> matchinfos;
   void registerMatch();
   bool matched{false};
   int nfound{0};
-  Game*theGame{NULL};
+  Game*theGame{nullptr};
   void annotate(Game*game);
  private:
   bool insearch{false};

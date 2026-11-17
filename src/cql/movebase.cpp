@@ -74,7 +74,7 @@ vector<simpleMoveT*>MoveFutureNode::getMoves(Game*game){
   vector<simpleMoveT*>allmoves=MarkBoard::getMoves(game,getSearchVariations());
   vector<simpleMoveT*>ret;
   if (requiredMove){
-    uassert(requiredIndex>=0 && requiredIndex<allmoves.size(),"getMoves: required size");
+    uassert(requiredIndex>=0 && static_cast<std::size_t>(requiredIndex)<allmoves.size(),"getMoves: required size");
     uassert(requiredMove==allmoves.at(requiredIndex),"getMove, rm ==, possible issue");
     vector<simpleMoveT*>requiredret(1, allmoves.at(requiredIndex));
     if(primaryMove && requiredIndex>0) return ret;
@@ -91,7 +91,7 @@ vector<simpleMoveT*>MoveFutureNode::getMoves(Game*game){
     return ret;
   }
   else if (secondaryMove){
-    for (int i=1;i<allmoves.size();++i)
+    for (std::size_t i=1;i<allmoves.size();++i)
       ret.push_back(allmoves.at(i));
     return ret;
   }
@@ -120,7 +120,7 @@ bool MoveBase::match_position(Game*game){
 }
 
 bool MoveBase::match_move(simpleMoveT* move, Game*game){
-  bool ispast=(dynamic_cast<MovePastNode*>(this)!=NULL);
+  bool ispast=(dynamic_cast<MovePastNode*>(this)!=nullptr);
   bool ret=true;
   auto me=MarkBoard::identity(game);
   bool movenull=MarkBoard::myIsNullMove(move);

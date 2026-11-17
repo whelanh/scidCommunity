@@ -13,9 +13,9 @@ bool YearNode::match_game(Game*game){
 }
 
 bool YearNode::match_count(Game*game, NumValue*value){
-  int year=(int)(date_GetYear(game->GetDate()));
+  int year=static_cast<int>(date_GetYear(game->GetDate()));
   if (range->valid(year)){
-    *value=(NumValue)year;
+    *value=static_cast<NumValue>(year);
     return true;
   }
   return false;

@@ -3,16 +3,18 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
+#include <string>
+#include <string_view>
 class SquareVariable;
 class TagVariable;
 class NumericVariable;
-typedef int NumValue;
+using NumValue = int;
 
 class Variable{
  public:
-  virtual ~Variable(){}
-  const char*name{NULL};
-  bool eq(const char*name);
+  virtual ~Variable() = default;
+  std::string name;
+  bool eq(std::string_view name) const;
   bool bound{false};
   virtual bool isSquare()const {return false;}
   virtual bool isTag()const {return false;}
@@ -20,18 +22,18 @@ class Variable{
   bool isBound() const{return bound;}
   bool isUnbound()const {return !isBound();}
   virtual void print()=0;
-  virtual const char* thisclass()=0;;
-  static Variable* find(const char*name);
+  virtual const char* thisclass()=0;
+  static Variable* find(std::string_view name);
   virtual bool getSquare(squareT*s)=0; // now that we have numerics this should be taken out
   static vector<Variable*>* theVariables;
   static vector<Variable*>*getVariables();
   static void clearAll();
-  static SquareVariable* createSquareVariable(const char*n);
-  static TagVariable* createTagVariable(const char*n);
-  static NumericVariable* createNumericVariable(const char*n,bool ismax);
-  static SquareVariable* getSquareVariable(const char*n);
-  static TagVariable* getTagVariable(const char*n);
-  static NumericVariable* getNumericVariable(const char*n,bool ismax);
+  static SquareVariable* createSquareVariable(std::string_view n);
+  static TagVariable* createTagVariable(std::string_view n);
+  static NumericVariable* createNumericVariable(std::string_view n,bool ismax);
+  static SquareVariable* getSquareVariable(std::string_view n);
+  static TagVariable* getTagVariable(std::string_view n);
+  static NumericVariable* getNumericVariable(std::string_view n,bool ismax);
   void unbind();
   static void unbindTags();
   static NumericVariable* matchCountVariable();
@@ -45,11 +47,11 @@ class SquareVariable:public Variable{
  
  public:
   bool isUsed()const {return used;}
-  bool isSquare() const {return true;}
-  void print();
-  const char*thisclass() {return "SquareVariable";}
-  SquareVariable(const char*nm);
-  bool getSquare(squareT*s);
+  bool isSquare() const override {return true;}
+  void print() override;
+  const char*thisclass() override {return "SquareVariable";}
+  explicit SquareVariable(std::string_view nm);
+  bool getSquare(squareT*s) override;
   void bindSquare(squareT s);
 };
 
@@ -57,11 +59,11 @@ class TagVariable:public Variable{
  private: markT tag{-1};
  private: squareT origin{65};
  public:
-  bool isTag() const {return true;}
-  void print();
-  const char*thisclass(){return "TagVariable";}
-  TagVariable(const char* name);
-  bool getSquare(squareT*s);
+  bool isTag() const override {return true;}
+  void print() override;
+  const char*thisclass() override{return "TagVariable";}
+  explicit TagVariable(std::string_view name);
+  bool getSquare(squareT*s) override;
   squareT getOrigin();
   void bindTag(int t);
 };
@@ -75,13 +77,13 @@ class NumericVariable:public Variable{
  public:
   void increment();
   NumValue extremeValue()const;
-  bool getSquare(squareT*s); //for compilation, calls a stub
-  NumericVariable(const char* nm, bool ismax);
-  bool isNumeric()const {return true;}
+  bool getSquare(squareT*s) override; //for compilation, calls a stub
+  explicit NumericVariable(std::string_view nm, bool ismax);
+  bool isNumeric()const override {return true;}
   bool isMax()const {return theIsMax;}
   bool isMin()const {return !isMax();}
-  void print();
-  const char* thisclass(){return "NumericVariable";}
+  void print() override;
+  const char* thisclass() override{return "NumericVariable";}
   NumValue getValue()const;
   virtual NumValue getExtremalValue();
   void clear();

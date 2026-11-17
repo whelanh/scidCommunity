@@ -7,8 +7,8 @@ using std::vector;
 //void printarray(int m, int n, vector<vector<int>>arr);
 
 int longestCommonSubstring(std::vector<int>a, std::vector<int>b, int* astart, int*bstart){
-  int m=(int)(a.size());
-  int n=(int)(b.size());
+  int m=static_cast<int>(a.size());
+  int n=static_cast<int>(b.size());
   if(!m|!n)return 0;
   /* lcsuff[i][j] is the longest common suffix in a[0..i]
       and b[0..j]

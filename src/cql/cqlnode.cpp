@@ -5,7 +5,7 @@
 #include "node.h"
 #include "cql_pgnparse_adapter.h"
 #include "tokenstream.h"
-CqlNode::CqlNode(vector<Node*> features,Node*node){
+CqlNode::CqlNode(const vector<Node*>& features,Node*node){
 #ifdef STANDALONE
   uassert(features.size(),"null feature");
 #endif
@@ -29,19 +29,19 @@ CqlNode::CqlNode(vector<Node*> features,Node*node){
     }
     PgnNode *pgnnode=dynamic_cast<PgnNode*>(feature);
     if(pgnnode){
-      uassert(!inputfile,"multiple pgn designators");
+      uassert(inputfile.empty(),"multiple pgn designators");
       inputfile=pgnnode->value;
-      uassert(inputfile);
+      uassert(!inputfile.empty());
       pgnnode->disable();
       continue;
     }
 
     OutputNode* outputnode=dynamic_cast<OutputNode*>(feature);
     if(outputnode){
-      uassert(!outputfile,"Multiple outputfiles");
+      uassert(outputfile.empty(),"Multiple outputfiles");
       outputfile=outputnode->value;
-      uassert(outputfile);
-      if(0)printf("cqlnode: got output file of: %s\n",outputfile);
+      uassert(!outputfile.empty());
+      if(0)printf("cqlnode: got output file of: %s\n",outputfile.c_str());
       outputnode->disable();
       continue;
     }
@@ -74,18 +74,18 @@ CqlNode::CqlNode(vector<Node*> features,Node*node){
   }
   if(!isVariationsSet())
     setSearchVariations(false);
-  if(!inputfile)
+  if(inputfile.empty()&&CqlPgnFilename)
     inputfile=CqlPgnFilename;
-  uassert(inputfile,"Missing pgn file: no pgn file was specified either (a) via 'pgn filname.pgn' in cql form, or (b) via '--pgn filename.pgn' or '--input filename.pgn' as a command line argument to 'cql'");
-  if(!outputfile)
+  uassert(!inputfile.empty(),"Missing pgn file: no pgn file was specified either (a) via 'pgn filname.pgn' in cql form, or (b) via '--pgn filename.pgn' or '--input filename.pgn' as a command line argument to 'cql'");
+  if(outputfile.empty()&&CqlOutputFilename)
     outputfile=CqlOutputFilename;
-  if(outputfile)
-    uassert(filename_is_pgn(outputfile),"Expected pgn extension in output file: ",outputfile);
-  if(!outputfile)
+  if(!outputfile.empty())
+    uassert(filename_is_pgn(outputfile.c_str()),"Expected pgn extension in output file: ",outputfile.c_str());
+  if(outputfile.empty()&&CqlFilename)
     outputfile=outputFileFromCqlFile(CqlFilename);
-  if(outputfile)
-    uassert(filename_is_pgn(outputfile),"Expected pgn extension in output file: ",outputfile);
-  uassert(outputfile,"internal: expected output file in cql creation");
+  if(!outputfile.empty())
+    uassert(filename_is_pgn(outputfile.c_str()),"Expected pgn extension in output file: ",outputfile.c_str());
+  uassert(!outputfile.empty(),"internal: expected output file in cql creation");
   if(CqlGameNumberRange)
     gamenumberrange=CqlGameNumberRange;
   if(CqlSilent)makeSilent();
@@ -99,15 +99,15 @@ CqlNode::CqlNode(vector<Node*> features,Node*node){
   }
 }
 
-const char* CqlNode::outputFileFromCqlFile(const char* cqlname){
+std::string CqlNode::outputFileFromCqlFile(const char* cqlname){
   uassert(filename_is_cql(cqlname));
-  const char*stem=filename_stem(cqlname);
-  uassert(stem&&strlen(stem),"bad stem from: ",cqlname);
-  return util::string_append(stem,"-out.pgn");
+  const std::string stem=filename_stem(cqlname);
+  uassert(!stem.empty(),"bad stem from: ",cqlname);
+  return stem+"-out.pgn";
 }
   
 void CqlNode::print(){
-  printf("<%s  inputfile: %s outputfile: %s",thisclass(),inputfile,outputfile);
+  printf("<%s  inputfile: %s outputfile: %s",thisclass(),inputfile.c_str(),outputfile.c_str());
   printVariationFlags();
   if(usemarks) printf(" usemarks ");
   if(gamenumberrange){
@@ -116,19 +116,20 @@ void CqlNode::print(){
   }
   if(!sortfields.empty()){
     printf(" sortfields:");
-    for(int i=0;i<sortfields.size();++i){
-      sortfields[i]->print();}
+    for(NumericVariable* field:sortfields)
+      field->print();
   }
   if(matchCountRange){
     printf("matchCountRange: ");
     matchCountRange->print();
   }
   indent();
-  for(int i=0;i<gamefilters.size();++i){
+  std::size_t i=0;
+  for(GameFilter* gamefilter:gamefilters){
     printf("\n");
     tab();
-    printf("GameFilter %d of %lu: ",i,gamefilters.size());
-    gamefilters[i]->print();
+    printf("GameFilter %zu of %zu: ",i++,gamefilters.size());
+    gamefilter->print();
   }
     
   printf("\n");tab();
@@ -155,12 +156,10 @@ void CqlNode::setUseMarks(){
 void CqlNode::setFirstComment(Game*game){
   if (isSilent())return;
   MarkBoard::gameMoveToPly(game,0);
-  char buffer[10000];
-  char*current=buffer;
-  *current=0;
+  std::string comment;
   for(NumericVariable* var:sortfields)
-    current+=sprintf(current," %s: %d",var->name,(int)(var->getExtremalValue()));
-  MarkBoard::gameAppendComment(game,buffer);
+    comment+=" "+var->name+": "+std::to_string(var->getExtremalValue());
+  MarkBoard::gameAppendComment(game,comment.c_str());
 }
 
      
@@ -168,9 +167,9 @@ void CqlNode::setFirstComment(Game*game){
 GameSortInfo CqlNode::makeInfo(Game*game){
   vector<SortValue> values;
   for(NumericVariable* var : sortfields)
-    values.push_back(SortValue(var->getExtremalValue(),var->isMax()));
+    values.emplace_back(var->getExtremalValue(),var->isMax());
   string out=util::game_to_string(game);
-  return GameSortInfo(out,values);
+  return {out,values};
 }
   
 void CqlNode::annotateEchoes(Game*game){

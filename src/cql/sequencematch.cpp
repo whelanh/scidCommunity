@@ -24,7 +24,7 @@ SequenceBase*Tokens::match_sequencenode(){
     isfuture=false;
     is2=true;
   }
-  else return NULL;
+  else return nullptr;
   Range*range=match_range();
   if (match_keyword("nestban"))
     nestban=true;
@@ -34,7 +34,7 @@ SequenceBase*Tokens::match_sequencenode(){
   if(!argsv)
     show_error("invalid or missing argument list in next/previous");
   vector<SeqConstituent*>ps=argsv->constituents;
-  SequenceBase*ret=NULL;
+  SequenceBase*ret=nullptr;
   if(isfuture) ret = new FutureNode(ps,range,is2,nestban);
   else ret = new PastNode(ps,range,is2,nestban);
   ret->setOffsets();
@@ -52,10 +52,10 @@ vector<SeqConstituent*> Tokens::match_some_seqconstituents(){
 }
 
 SeqConstituent* Tokens::match_seqconstituent(){
-  SeqConstituent*current=NULL;
+  SeqConstituent*current=nullptr;
   if(!current)current=match_vectorconstituent();
   if(!current)current=match_holderconstituent();
-  if(!current) return NULL;
+  if(!current) return nullptr;
   return match_seqsuffix(current);
 }
 
@@ -81,7 +81,7 @@ SeqConstituent* Tokens::match_seqsuffix(SeqConstituent*c){
 //This expects either a non-lparen start OR a valid paren contained nonempty list of seqconstituent
 VectorConstituent* Tokens::match_vectorconstituent(){
   vector<SeqConstituent*>args;
-  if(!match_lparen())return NULL;
+  if(!match_lparen())return nullptr;
   args=match_some_seqconstituents();
   if(!match_rparen())
     show_error("malformed expression inside next/previous: expected ')'");
@@ -92,7 +92,7 @@ VectorConstituent* Tokens::match_vectorconstituent(){
 
 HolderConstituent* Tokens::match_holderconstituent(){
   Node*n=match_basicnode();
-  if(!n)return NULL;
+  if(!n)return nullptr;
   MFilter*filter=dynamic_cast<MFilter*>(n);
   if(!filter)
     show_error("Invalid and unexpected entry in next/previous");
@@ -103,14 +103,14 @@ Range* Tokens::match_repeat_range(){
   int x=save();
   if (!match_lbrace()){
     restore(x);
-    return NULL;}
+    return nullptr;}
   Range*range=match_range();
   if(!range){
     restore(x);
-    return NULL;}
+    return nullptr;}
   if(!match_rbrace()){
     restore(x);
-    return NULL;
+    return nullptr;
   }
   if(range->min<0||range->max<range->min)
     show_error("Invalid range to repeat expression: min must be nonnegative and smaller than max");

@@ -4,7 +4,7 @@
  */
 #include "node.h"
 
-PastNode::PastNode(vector<SeqConstituent*>cs,Range*r,bool isskip, bool allownest):SequenceBase(cs,r,isskip,allownest){
+PastNode::PastNode(vector<SeqConstituent*>cs,Range*r,bool isskip, bool allownest):SequenceBase(std::move(cs),r,isskip,allownest){
 }
 
 SeqRet PastNode::compute(HolderConstituent*holder,SeqStack&stack){
@@ -13,8 +13,8 @@ SeqRet PastNode::compute(HolderConstituent*holder,SeqStack&stack){
   MFilter*filter=holder->filter;
   uassert(filter,"fncfilter");
   if(!filter->match_position(game))
-    return SeqRet(false);
-  if(stack.empty())return SeqRet(game,holder->getOffset());
+    return {false};
+  if(stack.empty())return {game,holder->getOffset()};
   auto me=MarkBoard::identity(game);
   SeqRet best(false);
   if(game->GetCurrentPly()!=0){
@@ -37,9 +37,8 @@ void PastNode::notate(SeqRet& ret){
   int len=ret.getLength();
   if(!len)return;
   moveT*me=MarkBoard::identity(game);
-  moveT*previousid=NULL;
+  moveT*previousid=nullptr;
   uassert(me==ret.getId(0),"notate bad back");
-  char buffer[1000];
   int positionsseen=0;
   int positionsexpected=len;
   if(isSkip()) positionsexpected=(len+1)/2;
@@ -56,8 +55,9 @@ void PastNode::notate(SeqRet& ret){
     int offset=ret.getOffset(index);
     if (offset>=0){
       ++positionsseen;
-      sprintf(buffer,"PREVIOUS %d (position %d of %d)",offset+1,positionsseen,positionsexpected);
-      MarkBoard::gameAppendComment(game,buffer);
+      const std::string comment="PREVIOUS "+std::to_string(offset+1)+" (position "+
+        std::to_string(positionsseen)+" of "+std::to_string(positionsexpected)+")";
+      MarkBoard::gameAppendComment(game,comment.c_str());
     }
     previousid=thisid;
   }

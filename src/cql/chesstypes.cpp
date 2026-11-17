@@ -15,7 +15,7 @@ const char * direction_to_string(directionT d){
   case DOWN_RIGHT: return "DR";
       };
   uassert(false, "unknown direction");
-  return NULL;
+  return nullptr;
 }
 
 const char* color_string(colorT c){
@@ -36,13 +36,13 @@ bool rank_valid(int r){
 
 char file_to_char_cql(int f){
   uassert(file_valid(f));
-  return (char)(f+'a');
+  return static_cast<char>(f+'a');
 }
 
 
 char rank_to_char_cql(int r){
   uassert(rank_valid(r));
-  return (char)(r+'1');
+  return static_cast<char>(r+'1');
 }
 
 bool piece_valid(pieceT p){
@@ -80,15 +80,11 @@ char piece_to_char(pieceT p){
 
 ///square related functions
 
-char* square_to_string(squareT square){
-  char buffer[100];
+std::string square_to_string(squareT square){
   uassert(square_valid(square));
-  int f=square_file(square);
-  int r=square_rank(square);
-  char fc=file_to_char_cql(f);
-  char rc=rank_to_char_cql(r);
-  sprintf(buffer,"%c%c",fc,rc);
-  return util::copy(buffer);
+  const char fc=file_to_char_cql(square_file(square));
+  const char rc=rank_to_char_cql(square_rank(square));
+  return {fc,rc};
 }
   
 void square_print(squareT square){
@@ -129,7 +125,7 @@ const char * result_to_string(resultT rc){
   case RESULT_None: return "No_Result";
   }
   uassert(false,"bad result");
-  return NULL;
+  return nullptr;
 }
 
 bool direction_valid(directionT d){

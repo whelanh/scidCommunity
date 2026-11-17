@@ -351,6 +351,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      # The imported CQL engine is updated to C++20 and compiles warning-free
+      # (see src/cql/README.md). Keep it that way instead of silencing the
+      # warnings in the build files.
+      - name: CQL engine warning-free
+        run: src/cql/scripts/check-warnings.sh
+
       # The app itself, not a harness: a clean profile has no options.dat, so
       # the built-in layout is restored and it docks .engineWin1. v5.1.4.50
       # sourced end.tcl before the modules that window calls, and every such

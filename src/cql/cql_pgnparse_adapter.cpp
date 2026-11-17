@@ -162,9 +162,9 @@ errorT PgnParser::ParseGame(Game *game) {
 //////////////////////////////////////////////////////////////////////
 
 extern std::jmp_buf jump_buffer;   // cqlexit.cpp
-extern char *cqlErrMsg;            // cqlexit.h
+extern const char* cqlErrMsg;      // cqlexit.h
 extern bool CqlSilent;             // cqlglobals.h
-bool CqlParseBuffer(char *buffer); // parser.cpp
+bool CqlParseBuffer(const char *buffer); // parser.cpp
 void CqlReset();                   // parser.cpp
 bool CqlMatchGame(Game *game);     // cqlnodematch.cpp
 extern uint CqlMatchPlyFirst;      // cqlnodematch.cpp
@@ -175,8 +175,8 @@ namespace {
 /// every path to longjmp() sets cqlErrMsg.
 std::string engineError() {
 	if (cqlErrMsg)
-		return std::string(cqlErrMsg);
-	return std::string("Error reported back from CQL engine");
+		return {cqlErrMsg};
+	return {"Error reported back from CQL engine"};
 }
 
 } // namespace
@@ -209,7 +209,7 @@ bool CqlQueryParse(const char *query, bool silent, std::string *error) {
 	// silent means no annotations.
 	CqlSilent = silent;
 
-	CqlParseBuffer(const_cast<char *>(query));
+	CqlParseBuffer(query);
 
 	// A syntax error never reaches this point: it longjmp()s to the setjmp()
 	// above.

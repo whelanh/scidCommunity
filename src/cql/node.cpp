@@ -19,10 +19,10 @@ bool Node::isCountable(){
 void Node::cloneverify(Node*s,Node*t){
   uassert(s,"cloneverify s");
   uassert(t,"cloneverify t");
-  vector<Node*>schildren=s->children();
-  vector<Node*>tchildren=t->children();
+  vnode schildren=s->children();
+  vnode tchildren=t->children();
   uassert(schildren.size()==tchildren.size(),"bad child count");
-  for(int i=0;i<schildren.size();++i){
+  for(std::size_t i=0;i<schildren.size();++i){
     Node*schild=schildren[i];
     Node*tchild=tchildren[i];
     uassert(schild&&tchild,"internal cloneverify");
@@ -44,26 +44,26 @@ void Node::cloneverify(Node*s,Node*t){
   
   
 void KeywordNode::print(){
-  printf("%s: %s>",thisclass(),value);
+  printf("%s: %s>",thisclass(),value.c_str());
 }
 
 void PgnNode::print(){
-  printf("<%s: %s>",thisclass(),value);
+  printf("<%s: %s>",thisclass(),value.c_str());
 }
 
 void OutputNode::print(){
-  printf("<%s: %s>",thisclass(),value);
+  printf("<%s: %s>",thisclass(),value.c_str());
 }
 
-KeywordNode::KeywordNode(const char* v){
-  uassert(v&&strlen(v)>=1);
+KeywordNode::KeywordNode(std::string_view v){
+  uassert(!v.empty());
   uassert(KeywordToken::isReserved(v),"KeywordNode: internal");
   value=v;
 }
 
-bool KeywordNode::eq(const char*v){
+bool KeywordNode::eq(const char* v) const{
   if(!v) return false;
-  return strcmp(value,v)==0;
+  return value==v;
 }
 
 Range::Range(int mi){
@@ -126,7 +126,7 @@ ResultNode::ResultNode(const char*v){
     uassert(false,"Invalid result string",v);
 }
 
-bool GameNumberNode::match_game(Game*game){
+bool GameNumberNode::match_game(Game* /*game*/){
   return range->valid(CqlGameNumber());
 }
 

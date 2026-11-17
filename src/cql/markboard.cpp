@@ -6,7 +6,7 @@
 #include "markboard.h"
 #include "variable.h"
 
-MarkBoard * MarkBoard::globalMarkBoard=NULL;
+MarkBoard * MarkBoard::globalMarkBoard=nullptr;
 
 MarkBoard::MarkBoard(Game*game){
   initialize(game);
@@ -30,7 +30,7 @@ bool MarkBoard::myIsNullMove(simpleMoveT* sm){
 }
 
 void MarkBoard::print(){
-  printf("%s stacksize: %lu printing the markmap\n",
+  printf("%s stacksize: %zu printing the markmap\n",
 	 thisclass(),
 	 stack.size());
 
@@ -48,7 +48,7 @@ void MarkBoard::MoveForward(){
   pushstate();
   
   simpleMoveT * currentmove=game->GetCurrentMove();
-  uassert(currentmove!=NULL);
+  uassert(currentmove!=nullptr);
   squareT from=currentmove->from;
   squareT to=currentmove->to;
   bool isnull=myIsNullMove(currentmove);

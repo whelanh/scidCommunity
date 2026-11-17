@@ -5,19 +5,19 @@
 #include "node.h"
 // SquareVariable Stuff ////////
 
-SquareVariable* Variable::getSquareVariable(const char*nm){
-  SquareVariable* ret=NULL;   
+SquareVariable* Variable::getSquareVariable(std::string_view nm){
+  SquareVariable* ret=nullptr;
   Variable*v=find(nm);
   if(v) {
     ret=dynamic_cast<SquareVariable*>(v);
-    uassert(ret,"cannot make square variable from tag variable",nm);
+    uassert(ret,"cannot make square variable from tag variable",std::string(nm).c_str());
     return ret;
   }
   return createSquareVariable(nm);
 }
 
-SquareVariable* Variable::createSquareVariable(const char*nm){
-  uassert(nm,"invalid null variable name");
+SquareVariable* Variable::createSquareVariable(std::string_view nm){
+  uassert(!nm.empty(),"invalid null variable name");
   uassert(!find(nm),"internal variable");
   SquareVariable*s=new SquareVariable(nm);
   getVariables()->push_back(s);
@@ -25,7 +25,7 @@ SquareVariable* Variable::createSquareVariable(const char*nm){
 }
 
 void SquareVariable::bindSquare(squareT s){
-  uassert(!bound,"attempt to bind variable already bound: ",name);
+  uassert(!bound,"attempt to bind variable already bound: ",name.c_str());
   uassert(square_valid(s),"internal bad square argument to bindSquare");
   square=s;
   used=false;
@@ -34,7 +34,7 @@ void SquareVariable::bindSquare(squareT s){
 
 void SquareVariable::print(){
   //  if(1)printf("called print on variable\n");
-  printf("<%s %s used: %d ",thisclass(),name,used);
+  printf("<%s %s used: %d ",thisclass(),name.c_str(),used);
   if(bound){
     printf("square: ");
     square_print(square);
@@ -42,7 +42,7 @@ void SquareVariable::print(){
   else printf("unbound");
   printf(">");
 }
-  
+
 bool SquareVariable::getSquare(squareT*s){
   used=true;
   uassert(bound,"internal, getsquare");
@@ -51,7 +51,7 @@ bool SquareVariable::getSquare(squareT*s){
   return true;
 }
 
-SquareVariable::SquareVariable(const char*nm){
+SquareVariable::SquareVariable(std::string_view nm){
   name=nm; //not sure if necessary?
 }
 

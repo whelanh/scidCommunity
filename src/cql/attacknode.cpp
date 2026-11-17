@@ -66,7 +66,7 @@ void AttackNode::addkingcounts(const pieceT*board,squareT square){
   for (int i=0;i<8;++i) addnonsliding(fileoffsets[i],rankoffsets[i],board,square);
 }
 
-void AttackNode::addnonsliding(int fileoff,int rankoff, const pieceT*board, squareT square){
+void AttackNode::addnonsliding(int fileoff,int rankoff, const pieceT* /*board*/, squareT square){
   int file=square_Fyle(square)+fileoff;
   int rank=square_Rank(square)+rankoff;
   if (file<0||file>7||rank<0||rank>7) return;
@@ -96,7 +96,7 @@ vnode AttackNode::children(){
 bool AttackNode::match_count(Game*game,NumValue*value){
   uassert(isCountable()&&!isSet(), "Attempt to count an attack filter without a range");
   if(match_position(game)){
-    *value=(NumValue)(count);
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;
@@ -107,7 +107,7 @@ bool AttackNode::match_count(Game*game,NumValue*value){
 
 bool AttackNode::match_position(Game *game){ //This also MUST SET THE COUNTS
   const pieceT * board=game->GetCurrentPos()->GetBoard();
-  for (int i=0;i<64;++i) squarecounts[i]=0;
+  for (int& squarecount : squarecounts) squarecount = 0;
   SquareMask attackingsquares=attacking->getSquares(game);
   SquareMask attackedsquares=attacked->getSquares(game);
   for (int sq=0;sq<64;++sq)
@@ -133,10 +133,10 @@ SquareMask AttackNode::getSquares(Game*game){
 }
 
 bool AttackNode::isSet(){
-  return range==NULL;
+  return range==nullptr;
 }
 
 bool AttackNode::isCountable(){
-  return range!=NULL;
+  return range!=nullptr;
 }
 

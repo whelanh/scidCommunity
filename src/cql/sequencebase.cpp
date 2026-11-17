@@ -4,7 +4,7 @@
  */
 #include "node.h"
 void SequenceBase::print(){
-  printf("<%s at %p: %d constituents: ",thisclass(),this,nconstituents());
+  printf("<%s at %p: %d constituents: ",thisclass(),static_cast<const void*>(this),nconstituents());
   printVariationFlags();
   if(isSilent())printf("silent ");
   if (isSkip()) getSkipConstituent()->print();
@@ -34,7 +34,7 @@ vnode SequenceBase::children(){
   
 SequenceBase::SequenceBase(vector<SeqConstituent*>cs,Range*r,bool isskip,bool nestbanparam){
   range=r;
-  constituents=cs;
+  constituents=std::move(cs);
   nestBan=nestbanparam;
   for(auto c:constituents)uassert(c,"sbsb");
   if (isskip) {
@@ -54,17 +54,17 @@ SeqConstituent* SequenceBase::getConstituent (int offset)const{
 };
 
 int SequenceBase::nconstituents()const{
-  return (int)(constituents.size());
+  return static_cast<int>(constituents.size());
 }
 
 void SequenceBase::setOffsets(){
-  for (int i=0;i<constituents.size();++i)
-    constituents[i]->setOffsets(i);
+  for (std::size_t i=0;i<constituents.size();++i)
+    constituents[i]->setOffsets(static_cast<int>(i));
 }
 
 
 bool SequenceBase::match_position(Game*g){
-  uassert(game==NULL&&g,"fnmpg");
+  uassert(game==nullptr&&g,"fnmpg");
   if (nestBan&&nestSeenPosition(g))
     return false;
   game=g;
@@ -76,7 +76,7 @@ bool SequenceBase::match_position(Game*g){
   std::reverse(stack.begin(),stack.end());
   size_t len=stack.size();
   SeqRet ret= compute(stack);
-  uassert(len=stack.size(),"fnmp mismatch");
+  uassert(len==stack.size(),"fnmp mismatch");
   uassert(MarkBoard::identity(game)==me,"fnmp me");
   if(ret.isFalse()){exitMatch();return false;}
   count=ret.getLength();
@@ -89,7 +89,7 @@ bool SequenceBase::match_position(Game*g){
 
 void SequenceBase::exitMatch(){
   uassert(game,"sbem g");
-  game=NULL;
+  game=nullptr;
   if(isSkip()){
     uassert(theSkipColor!=NOCOLOR,"sbem s");
     theSkipColor=NOCOLOR;
@@ -97,7 +97,7 @@ void SequenceBase::exitMatch(){
 }
 
 SeqRet SequenceBase::compute(SeqStack &stack){
-  if(stack.empty())return SeqRet(true);
+  if(stack.empty())return {true};
   if(isSkip()&&skipCurrentPosition())
     return computeSkip(stack);
   size_t startlen=stack.size();
@@ -198,7 +198,7 @@ SeqRet SequenceBase::compute(VectorConstituent*vc,SeqStack&stack){
   size_t stacklen=stack.size();
   uassert(vc,"fncvc");
   vector<SeqConstituent*>v=vc->constituents;
-  int nconstituents=(int)(v.size());
+  int nconstituents=static_cast<int>(v.size());
   uassert(nconstituents,"fncvc");
   for(int i=nconstituents-1;i>=0;--i)
     stack.push_back(v.at(i));
@@ -213,10 +213,10 @@ SeqRet SequenceBase::compute(VectorConstituent*vc,SeqStack&stack){
 
 SeqRet SequenceBase::computeNull(SeqStack& stack){
   size_t startsize=stack.size();
-  if(stack.empty()) return SeqRet(true);
+  if(stack.empty()) return {true};
   SeqConstituent* top=stack.back();
   if (!top->matchesNull())
-    return SeqRet(false);
+    return {false};
   stack.pop_back();
   SeqRet ret=computeNull(stack);
   stack.push_back(top);
@@ -251,7 +251,7 @@ SeqRet SequenceBase::computeSkip(SeqStack &stack){
 
 HolderConstituent*SequenceBase::getSkipConstituent()const{
   colorT c=getSkipColor();
-  HolderConstituent* ret=NULL;
+  HolderConstituent* ret=nullptr;
   switch(c){
   case WHITE:ret=theWhiteHolder;break;
   case BLACK:ret=theBlackHolder;break;
@@ -262,7 +262,7 @@ HolderConstituent*SequenceBase::getSkipConstituent()const{
 }
 
 bool SequenceBase::isSkip()const{
-  return theWhiteHolder!=NULL;
+  return theWhiteHolder!=nullptr;
 }
 
 colorT SequenceBase::getSkipColor()const{
@@ -273,7 +273,7 @@ colorT SequenceBase::getSkipColor()const{
 }
 
 bool SequenceBase::skipColor(colorT c)const{
-  uassert(isSkip()&&c==WHITE||c==BLACK,"sbsc");
+  uassert(isSkip()&&(c==WHITE||c==BLACK),"sbsc");
   return getSkipColor()==c;
 }
 
@@ -290,7 +290,7 @@ void SequenceBase::setSkipColor(colorT c){
 }
 
 bool SequenceBase::skipCurrentPosition()const{
-  uassert(isSkip()&&game!=NULL);
+  uassert(isSkip()&&game!=nullptr);
   colorT tomove=game->GetCurrentPos()->GetToMove();
   uassert(tomove==WHITE||tomove==BLACK,"sbscp");
   return skipColor(tomove);
@@ -300,7 +300,7 @@ bool SequenceBase::skipCurrentPosition()const{
 bool SequenceBase::match_count(Game*game, NumValue*value){
   if (match_position(game)){
     uassert (count>=0,"match_count");
-    *value=(NumValue)(count);
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;

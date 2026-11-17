@@ -3,11 +3,11 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, vector<Node*>nodes){
+ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, const vector<Node*>& nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");
   variable=v;
   target=trgt;
-  uassert(nodes.size(),"Expected nonzero number of nodes");
+  uassert(!nodes.empty(),"Expected nonzero number of nodes");
   for(Node*np: nodes){
     uassert(np,"internal existsnode");
     MFilter * mf=dynamic_cast<MFilter*>(np);
@@ -26,13 +26,14 @@ void ExistsNode::print(){
     target->print();
     unindent();
   }
-  printf(" %lu filters: ",filters.size());
-    for(int i=0;i<filters.size();++i){
+  printf(" %zu filters: ",filters.size());
+  std::size_t i=0;
+  for(MFilter* filter:filters){
     printf("\n");
     indent();
     tab();
-    printf("<%d of %lu: ",i,filters.size());
-    filters[i]->print();
+    printf("<%zu of %zu: ",i++,filters.size());
+    filter->print();
     unindent();
   }
   printf(" %s> ",thisclass());
@@ -51,7 +52,7 @@ SquareMask ExistsNode::getSquares(Game*game){
       
     
 bool ExistsNode::match_filters(squareT square, Game* game){
-  uassert(square_valid(square)&&filters.size());
+  uassert(square_valid(square)&&!filters.empty());
   uassert(variable->isUnbound(),"ExistsNode: Attempting to match a square but am bound");
   variable->bindSquare(square);
   for(MFilter* filter:filters)

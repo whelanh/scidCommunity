@@ -31,10 +31,9 @@ SquareMask DirectionParameter::neighborhood(SquareMask mask){
   return m;
 }
 
-DirectionParameter::DirectionParameter(vector<Direction> ds,Range *r){
+DirectionParameter::DirectionParameter(vector<Direction> ds,Range *r)
+  : directions{std::move(ds)}, range{r}{
   uassert(r&&r->min>=-7&&r->max<=7,"dp invalid range");
-  directions=ds;
-  range=r;
 }
 
 

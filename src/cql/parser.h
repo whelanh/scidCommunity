@@ -9,6 +9,6 @@
 #include "tokenstream.h"
 
 CqlNode* parseFile(const char* filename);
-CqlNode* parseBuffer(char* buffer);
+CqlNode* parseBuffer(const char* buffer);
 void showTokens();
 

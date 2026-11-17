@@ -16,9 +16,10 @@ void CqlNode::do_match(MFilter*p,Game*game){
   if(p->match_position(game)){
     mc->increment();
     // If our first match is in a variation, set the ply to 1.
-    if (!CqlMatchCount++)
+    if (!CqlMatchCount++) {
       if (game->GetVarLevel()) CqlMatchPlyFirst = 1;
       else CqlMatchPlyFirst = game->GetCurrentPly();
+    }
     if(p->annotateFlag&&!isSilent())
       MarkBoard::gameAppendComment(game,"MATCH");
   }
@@ -48,10 +49,9 @@ bool CqlNode::match_game(Game*game){
     util::printgame(stdout,game);
   }
 #ifdef STANDALONE
-  char buffer[500];
   //MarkBoard::cleanFirstComment(game);
-  sprintf(buffer,"Game number %u",CqlGameNumber());
-  if(!isSilent())MarkBoard::gameAppendComment(game,buffer); 
+  const std::string comment="Game number "+std::to_string(CqlGameNumber());
+  if(!isSilent())MarkBoard::gameAppendComment(game,comment.c_str());
 #endif
   if(usemarks) MarkBoard::mark(game);
   SequenceBase::nestsClear();
@@ -64,8 +64,8 @@ bool CqlNode::match_game(Game*game){
       return false;
   CqlMatchCount = 0;
   do_match(filter,game);
-  int nmatches=(int)(mc->getValue());
-  uassert(nmatches==(int)(mc->getExtremalValue()));
+  int nmatches=static_cast<int>(mc->getValue());
+  uassert(nmatches==static_cast<int>(mc->getExtremalValue()));
   bool matched=false;
   if(matchCountRange)
     matched=matchCountRange->valid(nmatches);
@@ -78,20 +78,20 @@ bool CqlNode::match_game(Game*game){
   }
   return matched;
 }
-      
+
 void CqlNode::match(){
   Game * game=new Game;
   MFile*inputMFile=new MFile;
-  printf("CQL: reading PGN file: %s: \n",inputfile);
-  if(inputMFile->Open(inputfile,FMODE_ReadOnly)!=OK)
-    uassert(false,"Unable to open file: ",inputfile);
+  printf("CQL: reading PGN file: %s: \n",inputfile.c_str());
+  if(inputMFile->Open(inputfile.c_str(),FMODE_ReadOnly)!=OK)
+    uassert(false,"Unable to open file: ",inputfile.c_str());
   inputMFile->skipNonAscii();
   PgnParser pgnparser(inputMFile);
   currentGameNumber=0;
-  uassert(outputfile,"missing output file");
+  uassert(!outputfile.empty(),"missing output file");
   uassert(!outputstream,"unexpected outputstream");
-  outputstream=fopen(outputfile,"w");
-  uassert(outputstream,"CQL: could not open file for writing: ",outputfile);
+  outputstream=fopen(outputfile.c_str(),"w");
+  uassert(outputstream,"CQL: could not open file for writing: ",outputfile.c_str());
   int nmatches=0;
   vector<GameSortInfo>infos;
   while(pgnparser.ParseGame(game)!=ERROR_NotFound){
@@ -123,7 +123,7 @@ void CqlNode::match(){
   printf("\nCQL: wrote %d matching game%s to file: %s\n",
 	 nmatches,
 	 nmatches==1 ? "" : "s",
-	 outputfile);
+	 outputfile.c_str());
 }
 
 

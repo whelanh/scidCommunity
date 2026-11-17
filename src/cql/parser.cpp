@@ -13,7 +13,7 @@ CqlNode* parseFile(const char* filename){
   vector<Token*> tokens;
   bool ret=lexFile(filename,&tokens);
   if(CqlShowLex)
-    printf("Got return of: %d and ntokens: %lu\n",ret,tokens.size());
+    printf("Got return of: %d and ntokens: %zu\n",ret,tokens.size());
   Tokens * ts=new Tokens(tokens);
   CqlGlobalTokens=ts;
   if(CqlShowLex){
@@ -24,7 +24,7 @@ CqlNode* parseFile(const char* filename){
   uassert(!CqlParseRoot,"parser: expecting a null CqlParseRoot");
   CqlNode* n=ts->match_cqlnode();
   CqlParseRoot=n;
-  uassert(n!=NULL,"CQL: Unable to parse file: %s",filename);
+  uassert(n!=nullptr,"CQL: Unable to parse file: %s",filename);
   n->setChildVariations();
   n->setUseMarks();
   if(n->isSilent()) n->makeSilentRecursively();
@@ -36,13 +36,13 @@ CqlNode* parseFile(const char* filename){
 #endif
 
 #ifdef INTEGRATED
-CqlNode* parseBuffer(char* buffer){
+CqlNode* parseBuffer(const char* buffer){
   static bool pbDoOnce = true;
   if(CqlDebug)printf("Parser: lexing buffer:\n");
   vector<Token*> tokens;
-  bool ret=lexStream(NULL,buffer,&tokens);
+  bool ret=lexStream(nullptr,buffer,&tokens);
   if(CqlShowLex)
-    printf("Got return of: %d and ntokens: %lu\n",ret,tokens.size());
+    printf("Got return of: %d and ntokens: %zu\n",ret,tokens.size());
   Tokens * ts=new Tokens(tokens);
   CqlGlobalTokens=ts;
   if(CqlShowLex){
@@ -56,7 +56,7 @@ CqlNode* parseBuffer(char* buffer){
   uassert(!CqlParseRoot,"parser: expecting a null CqlParseRoot");
   CqlNode* n=ts->match_cqlnode();
   CqlParseRoot=n;
-  uassert(n!=NULL,"CQL: Unable to parse buffer");
+  uassert(n!=nullptr,"CQL: Unable to parse buffer");
   n->setChildVariations();
   n->setUseMarks();
   if(n->isSilent()) n->makeSilentRecursively();
@@ -79,7 +79,7 @@ void showTokens(){
 
 #ifdef INTEGRATED
 
-bool CqlParseBuffer(char *buffer) {
+bool CqlParseBuffer(const char *buffer) {
 
   parseBuffer(buffer);
 
@@ -92,7 +92,7 @@ void CqlReset() {
 
   //if (MarkBoard::globalMarkBoard) {
     //delete MarkBoard::globalMarkBoard;
-    //MarkBoard::globalMarkBoard=NULL;
+    //MarkBoard::globalMarkBoard=nullptr;
   //}
 
   Variable::clearAll();

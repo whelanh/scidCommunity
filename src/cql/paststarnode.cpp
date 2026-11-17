@@ -25,7 +25,7 @@ void PastStarNode::print(){
 bool PastStarNode::match_count(Game*game,NumValue*value){
   uassert(range,"If previous* is sorted, it requires an explicit range: missing range");
   if(match_position(game)){
-    *value=(NumValue)(getCount());
+    *value=static_cast<NumValue>(getCount());
     return true;
   }
   return false;
@@ -39,7 +39,7 @@ bool PastStarNode::match_position(Game*game){
   auto pid=MarkBoard::identity(game);
   vector<moveT*> ids;
   compute_counts(game,ids,0);
-  uassert(count==(int)(ids.size()));
+  uassert(count==static_cast<int>(ids.size()));
   uassert(pid==MarkBoard::identity(game));
   if(!range&&!count)return false;
   if(range&&!range->valid(count)) return false;
@@ -48,9 +48,8 @@ bool PastStarNode::match_position(Game*game){
     MarkBoard::gameToIdentity(ids[idindex],
 			      game,
 			      variation);
-    char buffer[100];
-    sprintf(buffer,"previous* %d of %d",idindex+1,count);
-    if(!isSilent())MarkBoard::gameAppendComment(game,buffer);
+    const std::string comment="previous* "+std::to_string(idindex+1)+" of "+std::to_string(count);
+    if(!isSilent())MarkBoard::gameAppendComment(game,comment.c_str());
   }
   MarkBoard::gameToIdentity(pid,game,variation);
   return true;

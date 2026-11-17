@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-ForallNode::ForallNode(SquareVariable*v,SetBase*t, vector<Node*>nodes){
+ForallNode::ForallNode(SquareVariable*v,SetBase*t, const vector<Node*>& nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");
   variable=v;
   target=t;
@@ -23,13 +23,14 @@ void ForallNode::print(){
     printf(" : ");
     target->print();
   }
-  printf(" %lu filters: ",filters.size());
-    for(int i=0;i<filters.size();++i){
+  printf(" %zu filters: ",filters.size());
+  std::size_t i=0;
+  for(MFilter* filter:filters){
     printf("\n");
     indent();
     tab();
-    printf("<%d of %lu: ",i,filters.size());
-    filters[i]->print();
+    printf("<%zu of %zu: ",i++,filters.size());
+    filter->print();
     unindent();
   }
   printf(" %s> ",thisclass());
