@@ -17,6 +17,7 @@ namespace eval ::woodpecker::eval {
     variable run {}
     # Results are keyed ex * KEY + ply, so one pass covers the whole set.
     variable KEY 1000
+    variable pending {}
 }
 
 # The review's map of one exercise: the line from its FEN.
@@ -181,7 +182,14 @@ proc ::woodpecker::eval::write {shallow} {
         set marks [marksFromResults [dict get $run exs] [dict get $run exList] [dict get $run deep] $shallow]
         set dir [dict get $run dir]
         set ver [::woodpecker::marksAppend $dir $marks]
-        ::woodpecker::set::writeMarks $dir $marks
+        # The NAGs go into the set's database, which means loading its games.
+        # During a training session the board belongs to the session: the
+        # write waits for it to end (the scores use marks.tsv, not the NAGs).
+        if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} {
+            lappend ::woodpecker::eval::pending [list $dir $marks]
+        } else {
+            ::woodpecker::set::writeMarks $dir $marks
+        }
         set one 0; set two 0; set moves 0
         dict for {ex e} $marks {
             foreach m [dict get $e marks] {
@@ -195,6 +203,17 @@ proc ::woodpecker::eval::write {shallow} {
         return
     }
     finish ok $summary
+}
+
+# Marks whose NAGs could not be written while a session was running.
+proc ::woodpecker::eval::flushPending {} {
+    variable pending
+    set todo $pending
+    set pending {}
+    foreach p $todo {
+        lassign $p dir marks
+        catch { ::woodpecker::set::writeMarks $dir $marks }
+    }
 }
 
 proc ::woodpecker::eval::cancel {} {

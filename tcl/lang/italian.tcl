@@ -264,6 +264,7 @@ menuText I ToolsCaptureBoard "Salva la posizione come immagine..." 13  {Salva la
 # Play menu
 menuText I Play "Gioca" 0
 menuText I LichessPuzzles "Puzzle di Lichess" 0 {Risolvi i puzzle di Lichess in modo interattivo}
+menuText I Woodpecker "Metodo del Picchio" 0 {Allenamento tattico a cicli: lo stesso set, ogni volta più veloce}
 
 # --- Correspondence Chess
 menuText I CCResign "Abbandona" 1 {Abbandona la partita (non tramite email)}
@@ -486,6 +487,127 @@ translate I LichessPuzzlesClock {Orologio}
 translate I LichessPuzzlesRated {Valutato}
 translate I LichessPuzzlesGame {Gioco}
 translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
+# Metodo del Picchio (tcl/tools/woodpecker_ui.tcl)
+translate I WoodpeckerTitle {Metodo del Picchio}
+translate I WoodpeckerColName {Set}
+translate I WoodpeckerColExercises {Esercizi}
+translate I WoodpeckerColCycle {Ciclo}
+translate I WoodpeckerColProgress {Ciclo attuale}
+translate I WoodpeckerColLast {Ultima sessione}
+translate I WoodpeckerColDays {Giorni}
+translate I WoodpeckerColTime {Tempo di soluzione}
+translate I WoodpeckerColResults {1°/2°/falliti}
+translate I WoodpeckerColPct {Punteggio}
+translate I WoodpeckerColDate {Data}
+translate I WoodpeckerColDuration {Durata}
+translate I WoodpeckerColPoints {Punti}
+translate I WoodpeckerNew {Nuovo set...}
+translate I WoodpeckerTrain {Allenati}
+translate I WoodpeckerEvaluate {Valuta...}
+translate I WoodpeckerStats {Statistiche}
+translate I WoodpeckerDelete {Elimina}
+translate I WoodpeckerContinue {Continua (Invio)}
+translate I WoodpeckerPause {Pausa}
+translate I WoodpeckerResume {Riprendi}
+translate I WoodpeckerEnd {Termina sessione}
+translate I WoodpeckerBack {Torna ai set}
+translate I WoodpeckerNoSets {Nessun set: premi Nuovo set per scaricare puzzle da Lichess o usare un libro in PGN.}
+translate I WoodpeckerUnrated {%d esercizi su %d non hanno i segni ! / !!: valuta il set per ottenere quei bonus (anche le sessioni passate vengono ricalcolate).}
+translate I WoodpeckerCycleOver {Ciclo %d completato. Riposo fino al %s, poi parte il ciclo successivo, con metà dei giorni.}
+translate I WoodpeckerCycleLine {Ciclo %d: %d/%d fatti, %d giorni previsti, scadenza %s.}
+translate I WoodpeckerQuotaLine {Oggi: %d esercizi su %d.}
+translate I WoodpeckerQuotaRaised {Sei un po' indietro: l'obiettivo di oggi è %d invece di %d.}
+translate I WoodpeckerDeadlineMoved {Dopo la pausa la scadenza è slittata di %d giorni, al %s; l'obiettivo giornaliero è %d.}
+translate I WoodpeckerOverStretch {Il ciclo ha raggiunto il doppio della durata prevista: la scadenza resta il %s e l'obiettivo giornaliero è %d.}
+translate I WoodpeckerDeleteAsk {Eliminare il set "%s" con il suo database e le statistiche?}
+translate I WoodpeckerNewTitle {Nuovo set del Picchio}
+translate I WoodpeckerName {Nome}
+translate I WoodpeckerFromLichess {Puzzle da Lichess}
+translate I WoodpeckerCount {Esercizi}
+translate I WoodpeckerDifficulty {Miscela di difficoltà (%)}
+translate I WoodpeckerDifficultyHelp {Relativa al tuo rating puzzle su Lichess (1500 senza token). Il set è ordinato dal più facile al più difficile. Nessun puzzle di un altro set viene ripetuto.}
+translate I WoodpeckerTheme {Tema}
+translate I WoodpeckerThemeMix {Misto (consigliato)}
+translate I WoodpeckerColor {Colore}
+translate I WoodpeckerColor_both {Entrambi}
+translate I WoodpeckerColor_white {Bianco}
+translate I WoodpeckerColor_black {Nero}
+translate I WoodpeckerToken {Token Lichess (facoltativo)}
+translate I WoodpeckerFromFile {Database PGN o Scid (ad es. un libro)}
+translate I WoodpeckerFileHelp {Ogni partita che parte da una posizione impostata diventa un esercizio: la linea principale è la soluzione, le varianti sono ignorate. I ! e !! dell'autore vengono conservati.}
+translate I WoodpeckerDays1 {Primo ciclo (giorni)}
+translate I WoodpeckerRestDays {Riposo tra i cicli (giorni)}
+translate I WoodpeckerDaysHelp {Ogni ciclo successivo ha metà dei giorni del precedente: l'obiettivo è dimezzare il tempo di soluzione a ogni ciclo.}
+translate I WoodpeckerCreate {Crea}
+translate I WoodpeckerBadNumber {Numero non valido: %s}
+translate I WoodpeckerNoDifficulty {Scegli almeno una difficoltà e un numero di esercizi.}
+translate I WoodpeckerDownloading {Scaricamento dei puzzle da Lichess...}
+translate I WoodpeckerBuilding {Creazione del database del set...}
+translate I WoodpeckerCreateFailed {Impossibile creare il set:
+%s}
+translate I WoodpeckerCreated {Set creato: %d esercizi.}
+translate I WoodpeckerFewer {Lichess ha fornito %d dei %d puzzle richiesti.}
+translate I WoodpeckerNoFile {Impossibile leggere %s}
+translate I WoodpeckerSkipped {%d partite saltate (nessuna posizione impostata, o nessuna mossa).}
+translate I WoodpeckerEvalRecommended {Valutarlo ora con la review? Caldamente consigliato: segna le mosse chiave con ! e !!, che danno punti bonus. Richiede circa un secondo per esercizio e si può fare anche più tardi.}
+translate I WoodpeckerLevel_easiest {Facilissimo}
+translate I WoodpeckerLevel_easier {Facile}
+translate I WoodpeckerLevel_normal {Normale}
+translate I WoodpeckerLevel_harder {Difficile}
+translate I WoodpeckerLevel_hardest {Difficilissimo}
+translate I WoodpeckerEvalBusy {Una valutazione è già in corso.}
+translate I WoodpeckerSomeAnnotated {Ci sono già annotazioni su %d esercizi su %d. Completare gli altri con la review, oppure sovrascrivere tutto con la review?}
+translate I WoodpeckerComplete {Completa con la review}
+translate I WoodpeckerOverwrite {Sovrascrivi con la review}
+translate I WoodpeckerAllAnnotated {Tutti i %d esercizi sono già annotati, quindi la review è facoltativa. Sovrascrivere i segni dell'autore con quelli della review?}
+translate I WoodpeckerKeep {Mantieni le annotazioni}
+translate I WoodpeckerEvaluating {Valutazione del set...}
+translate I WoodpeckerEvalPhase_deep {Review: ricerca delle soluzioni}
+translate I WoodpeckerEvalPhase_shallow {Review: quali mosse sono ovvie}
+translate I WoodpeckerEvalPhase_write {Scrittura dei segni}
+translate I WoodpeckerEvalDone {Valutazione completata: %d esercizi; %d mosse segnate ! e %d segnate !!, su %d mosse da trovare.}
+translate I WoodpeckerNoEngine {Nessun motore UCI configurato (Strumenti > Motori).}
+translate I WoodpeckerEvalAsk {Valuta %d esercizi con questo motore:}
+translate I WoodpeckerOtherMode {Un altro allenamento o una partita sta usando la scacchiera.}
+translate I WoodpeckerNoSlot {Nessuno spazio libero per un database della sessione: chiudi un database e riprova.
+(%s)}
+translate I WoodpeckerRestAsk {Il riposo finisce il %s. Iniziare comunque il ciclo %d?}
+translate I WoodpeckerUnratedShort {%d esercizi non sono valutati: lì conta solo la linea.}
+translate I WoodpeckerTodayBar {Oggi %d / %d}
+translate I WoodpeckerCycleBar {Ciclo %d: %d / %d, scadenza %s}
+translate I WoodpeckerStatsLine {Serie %d   Punti %s (%s)}
+translate I WoodpeckerPace {Ritmo %s s per esercizio, obiettivo %s s}
+translate I WoodpeckerPaceFirst {Ritmo %s s per esercizio}
+translate I WoodpeckerExercise {Esercizio %d/%d - %s%s}
+translate I WoodpeckerWhiteToMove {Muove il Bianco}
+translate I WoodpeckerBlackToMove {Muove il Nero}
+translate I WoodpeckerYourMove {Tocca a te.}
+translate I WoodpeckerWrong {Mossa sbagliata: ti resta un tentativo.}
+translate I WoodpeckerSolved {Risolto!}
+translate I WoodpeckerSolvedSecond {Risolto al secondo tentativo.}
+translate I WoodpeckerFailed {Fallito.}
+translate I WoodpeckerPoints {+%s su %s punti}
+translate I WoodpeckerNoMarks {(non valutato: ancora nessun bonus ! / !!)}
+translate I WoodpeckerQuotaDone {Obiettivo di oggi raggiunto! Continua, o termina la sessione.}
+translate I WoodpeckerSolutionShown {La soluzione è sulla scacchiera: scorrila, poi premi Invio.}
+translate I WoodpeckerPaused {In pausa.}
+translate I WoodpeckerAutoPaused {In pausa: nessuna mossa da due minuti. Il tempo trascorso lontano non conta.}
+translate I WoodpeckerSessionOver {Sessione terminata}
+translate I WoodpeckerCycleComplete {Ciclo %d completato!}
+translate I WoodpeckerSumDate {Data: %s}
+translate I WoodpeckerSumDuration {Durata: %s}
+translate I WoodpeckerSumExercises {Esercizi completati: %d}
+translate I WoodpeckerSumPoints {Punteggio: %s / %s punti (%s)}
+translate I WoodpeckerSumResults {Al primo tentativo %d, al secondo %d, falliti %d}
+translate I WoodpeckerSumAvg {Tempo medio per esercizio: %s s}
+translate I WoodpeckerSumQuota {Obiettivo di oggi: %d / %d}
+translate I WoodpeckerSumCompare {Rispetto al ciclo precedente: %d più veloci, %d più lenti, %d errori corretti, %d errori nuovi.}
+translate I WoodpeckerSumReview {Da rivedere: esercizi %s}
+translate I WoodpeckerCyclesTitle {Cicli}
+translate I WoodpeckerSessionsTitle {Sessioni}
+translate I WoodpeckerStatsNote {I punti usano i segni della valutazione %d. Le sessioni passate sono ricalcolate con gli stessi segni, così i cicli sono confrontabili.}
+translate I WoodpeckerNoData {Ancora nessun ciclo}
+translate I WoodpeckerChartLegend {barre: tempo di soluzione   tratteggio: obiettivo (metà del ciclo precedente)}
 
 # Board screenshot
 menuText I ToolsScreenshot "Schermata della scheda" 0 \

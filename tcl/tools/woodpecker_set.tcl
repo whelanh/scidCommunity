@@ -282,14 +282,24 @@ proc ::woodpecker::set::buildFromExercises {dir meta exercises} {
 # Create the set's Scid database from a PGN file; returns the number of games.
 proc ::woodpecker::set::importPgn {dir pgn} {
     set path [file join $dir set]
+    set prev [sc_base current]
     set b [sc_base create SCID5 $path]
     set err [catch {
         lassign [sc_base import $b $pgn] count errors
         set count [sc_base numGames $b]
     } msg]
     catch { sc_base close $b }
+    restoreBase $prev
     if {$err} { error $msg }
     return $count
+}
+
+# Creating or opening a database makes it the current one; put back the base
+# that was current before (the clipbase when that one is gone).
+proc ::woodpecker::set::restoreBase {prev} {
+    if {[catch { sc_base switch $prev }]} {
+        catch { sc_base switch [sc_info clipbase] }
+    }
 }
 
 proc ::woodpecker::set::basePath {dir} { return [file join $dir set] }
@@ -375,6 +385,7 @@ proc ::woodpecker::set::readGames {b} {
 # database but ignored by the trainer: the main line is the solution.
 # Returns {exercises annotated skipped}.
 proc ::woodpecker::set::buildFromFile {dir meta file} {
+    set prev [sc_base current]
     set ext [string tolower [file extension $file]]
     if {$ext in {.si5 .si4}} {
         set type [expr {$ext eq ".si4" ? "SCID4" : "SCID5"}]
@@ -389,6 +400,7 @@ proc ::woodpecker::set::buildFromFile {dir meta file} {
         sc_base close $dst
     } msg]
     catch { sc_base close $src }
+    restoreBase $prev
     if {$err} { error $msg }
     if {![dict size $rows]} { error "no exercise: no game starts from a set-up position" }
     ::woodpecker::writeExercises $dir $rows
@@ -419,8 +431,8 @@ proc ::woodpecker::set::markStatus {dir} {
 
 proc ::woodpecker::set::writeMarks {dir exMarks} {
     set exs [::woodpecker::readExercises $dir]
-    lassign [openBase $dir] b opened
     set prev [sc_base current]
+    lassign [openBase $dir] b opened
     sc_base switch $b
     set err [catch {
         dict for {ex e} $exMarks {
@@ -442,8 +454,8 @@ proc ::woodpecker::set::writeMarks {dir exMarks} {
             sc_game save $g
         }
     } msg]
-    sc_base switch $prev
     if {$opened} { catch { sc_base close $b } }
+    restoreBase $prev
     if {$err} { error $msg }
 }
 

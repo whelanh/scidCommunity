@@ -304,6 +304,16 @@ check "the PGN sets up the position" {[string first "\[FEN \"[dict get $ex fen]\
 check "the PGN starts with Black's move number" {[string first "29... Qxe2+ 30. Rf2 Qxe5 31. Qxe5 Bxe5 *" $game] >= 0}
 check "extra tags are written" {[string first {[PuzzleRating "1384"]} $game] >= 0}
 
+
+checkEq "the solution as text, with marks" \
+    [::woodpecker::lineText [dict get $ex fen] [dict get $ex solution] {"!" "" "!!"}] \
+    "29... Qxe2+! 30. Rf2 Qxe5 31. Qxe5 Bxe5!!"
+checkEq "the rest of a solution from a ply" \
+    [::woodpecker::lineText [dict get $ex fen] [dict get $ex solution] {} 2] "30... Qxe5 31. Qxe5 Bxe5"
+checkEq "the same move" [::woodpecker::sameMove e7e8Q e7e8q] 1
+checkEq "castling as king takes rook" [::woodpecker::sameMove e1h1 e1g1] 1
+checkEq "different moves" [::woodpecker::sameMove e2e4 e2e3] 0
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

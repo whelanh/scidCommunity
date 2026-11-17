@@ -859,3 +859,46 @@ proc ::woodpecker::exerciseRow {ex game pid rating fen solution lastMove} {
     return [dict create game $game puzzleId $pid rating $rating nmoves $n \
         fen $fen solution $solution lastMove $lastMove]
 }
+
+# The solution as numbered SAN with the solver's marks: "29... Qxe2+! 30. Rf2
+# Qxe5". `marks` has one entry per solver move ({} when unrated); `from` is the
+# first ply to include (0 = the whole line).
+proc ::woodpecker::lineText {fen solution marks {from 0}} {
+    set pos [::chessboard::fromFen $fen]
+    set out {}
+    set i 0
+    set first 1
+    foreach uci $solution {
+        set san [uciToSan $pos $uci]
+        if {$i % 2 == 0} {
+            set m [lindex $marks [expr {$i / 2}]]
+            if {$m ne "" && $m ne "-"} { append san $m }
+        }
+        if {$i >= $from} {
+            set num [dict get $pos full]
+            if {[dict get $pos side] eq "w"} {
+                lappend out "$num. $san"
+            } elseif {$first} {
+                lappend out "$num... $san"
+            } else {
+                lappend out $san
+            }
+            set first 0
+        }
+        set pos [::chessboard::makeMove $pos $uci]
+        incr i
+    }
+    return [join $out " "]
+}
+
+# Castling entered as king-takes-rook is the same move as the king's two-square
+# step; anything else compares as written (lower case promotion letter).
+proc ::woodpecker::sameMove {a b} {
+    set a [string tolower $a]
+    set b [string tolower $b]
+    if {$a eq $b} { return 1 }
+    set map {e1h1 e1g1 e1a1 e1c1 e8h8 e8g8 e8a8 e8c8}
+    if {[dict exists $map $a]} { set a [dict get $map $a] }
+    if {[dict exists $map $b]} { set b [dict get $map $b] }
+    return [expr {$a eq $b}]
+}
