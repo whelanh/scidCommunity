@@ -9208,6 +9208,8 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 //    it annotates the Game it is given. This driver therefore stays on one
 //    thread (unlike sc_search_moves), hands the engine a freshly decoded Game
 //    per game, and turns any engine error into a normal search error string.
+//    Games outside a query's :gamenumber range are the one thing it answers
+//    itself, skipping the decode the engine's own range check would waste.
 //
 //    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
 //    unchanged; the second is the short form):
@@ -9313,6 +9315,15 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // them from the count without saying so.
   size_t decodeFailures = 0;
 
+  // The game-number bounds of ":gamenumber", when the query has them. They can
+  // be answered from the parsed query before a game is decoded: the engine's
+  // own check in CqlMatchGame() runs only after a full decode, which is wasted
+  // work for every game the query is going to discard.
+  int firstQueryGame = 0;
+  int lastQueryGame = 0;
+  const bool limitsGames =
+      CqlQueryGameNumberRange(&firstQueryGame, &lastQueryGame);
+
   for (size_t ci = 0; ci < cand_total; ++ci) {
     if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
       cancelled = true;
@@ -9320,6 +9331,17 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     }
 
     const gamenumT gameNum = candidates[ci];
+    // Outside the query's game-number range: the engine would discard the game
+    // without matching it, so do not decode it. results[ci] stays 0, which the
+    // filter update below treats as a non-match (excluded for AND, not added
+    // for OR), exactly as the engine's own rejection would.
+    if (limitsGames) {
+      const long long queryGameNumber = static_cast<long long>(gameNum) + 1;
+      if (queryGameNumber < firstQueryGame ||
+          queryGameNumber > lastQueryGame)
+        continue;
+    }
+
     // The engine caches the legal moves of the game it is working on under that
     // game's number (see MarkBoard::getLegalMoves()), and :gamenumber and echo
     // annotations read it, so it has to be set before matching, not after.

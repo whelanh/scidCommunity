@@ -132,6 +132,16 @@ void CqlNode::match(){
 
 #ifdef INTEGRATED
 
+bool CqlQueryGameNumberRange(int *first, int *last) {
+  if (!CqlParseRoot || !CqlParseRoot->gamenumberrange)
+    return false;
+  if (first)
+    *first = CqlParseRoot->gamenumberrange->min;
+  if (last)
+    *last = CqlParseRoot->gamenumberrange->max;
+  return true;
+}
+
 bool CqlMatchGame(Game *game) {
   Range* gamenumberrange = CqlParseRoot->gamenumberrange;
   int currentGameNumber = CqlGameNumber();

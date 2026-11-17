@@ -132,6 +132,23 @@ enum class CqlMatchResult { Error = -1, NoMatch = 0, Match = 1 };
 CqlMatchResult CqlQueryMatchGame(Game *game, unsigned *firstPly,
                                  std::string *error);
 
+/**
+ * Reports the game-number bounds of the parsed query, when it restricts them
+ * with ":gamenumber". Both bounds are inclusive and 1-based, matching the
+ * numbers the engine tests in CqlMatchGame(), which are also what the search
+ * driver feeds to CqlSetGameNumber().
+ *
+ * The driver uses this to skip a candidate *before* decoding it: the engine
+ * would discard such a game anyway, and decoding it first is the expensive
+ * part when the query asks for a small part of a large database.
+ *
+ * @param first: set to the lowest game number the query admits.
+ * @param last:  set to the highest game number the query admits.
+ * @returns true when the query restricts game numbers, false otherwise (in
+ *          which case the outputs are left untouched).
+ */
+bool CqlQueryGameNumberRange(int *first, int *last);
+
 /// Releases the parsed query and resets the engine's global state, so the next
 /// CqlQueryParse() starts from a clean engine. Safe to call at any time and
 /// after a failed parse or match.
