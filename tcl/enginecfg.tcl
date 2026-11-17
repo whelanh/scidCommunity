@@ -825,7 +825,11 @@ proc ::enginecfg::updateNetClients {configFrame netclients} {
 #
 # The review's own rows in element 8 are reset with everything else: they are not
 # engine options, so a SetOptions for them would set nothing on the engine, but the
-# dialog's word "default" covers the whole panel the user is looking at.
+# dialog's word "default" covers the whole panel the user is looking at - the panel
+# that draws them. ::engineNoWin::initEngineOptions draws the engine's own rows only
+# and leaves the review's row in element 8 with no widget; resetting that one would
+# turn the Cloud pre-pass back on behind a switch the user cannot see, so a review
+# row the panel does not render is left where it is.
 proc ::enginecfg::onSubmitReset {id w} {
     upvar ::enginecfg::engConfig_$id engConfig_
     set options {}
@@ -835,8 +839,10 @@ proc ::enginecfg::onSubmitReset {id w} {
         lassign $option name value type default min max var_list internal
         if {! $internal && $value ne $default} {
             if {[::enginecfg::isReviewOption $name]} {
-                ::enginecfg::setOption $id $index $default
-                set reviewRows 1
+                if {[winfo exists $w.text.value$index]} {
+                    ::enginecfg::setOption $id $index $default
+                    set reviewRows 1
+                }
             } else {
                 lappend options [list $name $default]
             }
@@ -873,8 +879,12 @@ proc ::enginecfg::refreshReviewRows {id configFrame} {
     for {set i 0} {$i < [llength $options]} {incr i} {
         lassign [lindex $options $i] name value type default min max var_list internal
         if {$internal || $type in [list button save reset]} { continue }
+        # A review row without a widget is one this panel does not draw
+        # (::engineNoWin::initEngineOptions): it shows nothing for Reset to put
+        # back, so it is not one that offers the button either.
+        if {[::enginecfg::isReviewOption $name] && ![winfo exists $w.value$i]} { continue }
         if {$value ne $default} { set awayFromDefault 1 }
-        if {[::enginecfg::isReviewOption $name] && [winfo exists $w.value$i]} {
+        if {[::enginecfg::isReviewOption $name]} {
             ::update_switch_btn $w.value$i $value
         }
     }

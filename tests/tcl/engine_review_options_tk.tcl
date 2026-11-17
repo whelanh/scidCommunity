@@ -58,6 +58,14 @@ namespace eval ::engine {}
 proc ::engine::send {id msg args} {
     lappend ::sent [list $id $msg [lindex $args 0]]
 }
+# ::engineNoWin::initEngineOptions asks the engine for InfoConfig after it has built
+# the panel; the reply is what repaints the rows and settles the Reset button. The
+# answer is recorded here and delivered by hand, so the windowless section below can
+# show what the panel looks like at the moment the user could click Reset.
+set ::infoConfigAsked {}
+proc ::engine::replyInfoConfig {id} {
+    lappend ::infoConfigAsked $id
+}
 # The spinbox validator the real app loads from tcl/validate.tcl.
 namespace eval ::validate {}
 proc ::validate::integer {value {min ""} {max ""}} {
@@ -76,6 +84,7 @@ set ::scidVersion test
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl enginecfg.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl tools enginenowin.tcl]
 source [file join $root tcl tools game_review.tcl]
 
 # The window's fields are the engine window's business; the option merge and the
@@ -322,6 +331,75 @@ checkEq "ticking it back leaves element 8 at its default" \
     [lindex [set ::enginecfg::engConfig_r6] 8 1 1] true
 checkEq "so Reset is turned off again, by the row itself" \
     [list $offered [$wF.reset cget -state]] {normal disabled}
+
+puts "\nthe windowless panel"
+
+# ::engineNoWin::initEngineOptions is the options frame the new-engine dialog
+# (enginelist.tcl) and the engine setup in multicomp.tcl show. It draws
+# ::enginecfg::uciOptions - the engine's own rows - while element 8 carries the
+# review's row as well, so the row has no widget there. Reset and the Reset button
+# must leave it alone: a preset whose pre-pass was turned off in the engine window
+# is opened here too, and turning the switch back on behind a panel that does not
+# draw it would be a setting the user cannot see.
+#
+# The engine's own row is away from its default, so the reset has something to send
+# and the panel is repainted by the reply, the way it is in the app.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 \
+        {{Threads 8 integer 1 1 128 {} 0} {cloud_eval false check true {} {} {} 0}}]]
+set frameG .cfgG
+set wG [panel $frameG]
+::enginecfg::resetConfigOptions r7 $frameG [::enginecfg::get Stockfish]
+set ::infoConfigAsked {}
+::engineNoWin::initEngineOptions r7 $frameG {{Threads 8 integer 1 1 128 {} 0}}
+update idletasks
+checkEq "the handshake leaves the engine's row and the review's in element 8" \
+    [lmap e [lindex [set ::enginecfg::engConfig_r7] 8] {lindex $e 0}] {Threads cloud_eval}
+checkEq "the panel asks for the repaint that settles its rows" $::infoConfigAsked r7
+check "the engine's own row is drawn" [winfo exists $wG.value0]
+checkEq "and the review's row is not" \
+    [expr {[winfo exists $wG.value1] ? 1 : 0}] 0
+checkEq "so the panel carries no switch" \
+    [expr {[string first "Cloud pre-pass" [$wG get 1.0 end]] >= 0}] 0
+# The InfoConfig reply: the engine's rows repaint from it, and it is what settles the
+# Reset button in this panel.
+::enginecfg::updateOptionWidgets r7 $frameG \
+    [::enginecfg::uciOptions [lindex [set ::enginecfg::engConfig_r7] 8]] {}
+checkEq "with the engine's row away from its default, Reset is offered" \
+    [$wG.reset cget -state] normal
+set ::sent {}
+::enginecfg::onSubmitReset r7 $frameG
+update idletasks
+checkEq "the engine's row is reset as usual" [lindex $::sent 0 2] {{Threads 1}}
+checkEq "and the switch the panel does not draw keeps the preset's value" \
+    [lindex [set ::enginecfg::engConfig_r7] 8 1 1] false
+checkEq "so the preset still opts the pre-pass out" \
+    [dict get [::review::effective [lindex $::engines(list) 0]] cloud_eval] 0
+
+# The same panel for a preset with nothing visible away from its default: element 8
+# still holds the review's row away from its own default, and the button has to be
+# settled by the rows the panel draws. The scan is the one onSubmitReset runs after a
+# reset and the engine window's switch runs after a toggle.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 \
+        {{Threads 1 integer 1 1 128 {} 0} {cloud_eval false check true {} {} {} 0}}]]
+set frameH .cfgH
+set wH [panel $frameH]
+::enginecfg::resetConfigOptions r8 $frameH [::enginecfg::get Stockfish]
+::engineNoWin::initEngineOptions r8 $frameH {{Threads 1 integer 1 1 128 {} 0}}
+update idletasks
+::enginecfg::updateOptionWidgets r8 $frameH \
+    [::enginecfg::uciOptions [lindex [set ::enginecfg::engConfig_r8] 8]] {}
+checkEq "every row the panel draws is at its default, so Reset is off" \
+    [$wH.reset cget -state] disabled
+::enginecfg::refreshReviewRows r8 $frameH
+checkEq "and the undrawn review row does not turn it on" \
+    [$wH.reset cget -state] disabled
+# The guard is about rows without a widget, not about review rows as such: an engine
+# row away from its default still offers Reset.
+lset ::enginecfg::engConfig_r8 8 0 1 8
+::enginecfg::refreshReviewRows r8 $frameH
+checkEq "while a row the panel does draw still offers it" [$wH.reset cget -state] normal
 
 catch { file delete -force $::enginesFile }
 puts "\n$checks checks, $fails failures"
