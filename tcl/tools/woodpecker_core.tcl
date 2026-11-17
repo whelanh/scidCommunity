@@ -320,23 +320,29 @@ proc ::woodpecker::writeMeta {dir meta} {
     writeAtomic [file join $dir set.tsv] $out
 }
 
-# exercises.tsv: ex -> {game puzzleId rating nmoves}
+# exercises.tsv: ex -> {game puzzleId rating nmoves fen solution lastMove}
+# fen/solution/lastMove let a session run without opening the database.
 proc ::woodpecker::readExercises {dir} {
     set d [dict create]
     foreach row [readLines [file join $dir exercises.tsv]] {
-        lassign $row ex game pid rating nmoves
+        lassign $row ex game pid rating nmoves fen solution lastMove
         if {![string is integer -strict $ex]} { continue }
-        dict set d $ex [dict create game $game puzzleId $pid rating $rating nmoves $nmoves]
+        dict set d $ex [dict create game $game puzzleId $pid rating $rating nmoves $nmoves \
+            fen $fen solution $solution lastMove $lastMove]
     }
     return $d
 }
 
 proc ::woodpecker::writeExercises {dir exercises} {
-    set out "# ex\tgame\tpuzzleId\trating\tnmoves\n"
+    set out "# ex\tgame\tpuzzleId\trating\tnmoves\tfen\tsolution\tlastMove\n"
     foreach ex [lsort -integer [dict keys $exercises]] {
         set e [dict get $exercises $ex]
-        append out [join [list $ex [dict get $e game] [clean [dict get $e puzzleId]] \
-            [dict get $e rating] [dict get $e nmoves]] "\t"] "\n"
+        set row [list $ex [dict get $e game] [clean [dict get $e puzzleId]] \
+            [dict get $e rating] [dict get $e nmoves]]
+        foreach k {fen solution lastMove} {
+            lappend row [expr {[dict exists $e $k] ? [clean [dict get $e $k]] : ""}]
+        }
+        append out [join $row "\t"] "\n"
     }
     writeAtomic [file join $dir exercises.tsv] $out
 }
@@ -579,4 +585,277 @@ proc ::woodpecker::fmtDuration {ms} {
     if {$s >= 3600} { return [format "%dh %02dm" [expr {$s / 3600}] [expr {($s % 3600) / 60}]] }
     if {$s >= 60} { return [format "%dm %02ds" [expr {$s / 60}] [expr {$s % 60}]] }
     return "${s}s"
+}
+
+################################################################################
+# JSON (the Lichess replies): objects become dicts, arrays lists, true/false 1/0,
+# null "". Enough for the puzzle API; not a general-purpose validator.
+
+proc ::woodpecker::jsonParse {text} {
+    set i 0
+    set v [jsonValue $text i]
+    jsonSpace $text i
+    if {$i < [string length $text]} { error "trailing data in JSON at $i" }
+    return $v
+}
+
+proc ::woodpecker::jsonSpace {text iVar} {
+    upvar 1 $iVar i
+    while {$i < [string length $text] && [string is space [string index $text $i]]} { incr i }
+}
+
+proc ::woodpecker::jsonValue {text iVar} {
+    upvar 1 $iVar i
+    jsonSpace $text i
+    set c [string index $text $i]
+    switch -- $c {
+        "\{" {
+            incr i
+            set d [dict create]
+            jsonSpace $text i
+            if {[string index $text $i] eq "\}"} { incr i; return $d }
+            while 1 {
+                jsonSpace $text i
+                if {[string index $text $i] ne "\""} { error "JSON key expected at $i" }
+                set k [jsonString $text i]
+                jsonSpace $text i
+                if {[string index $text $i] ne ":"} { error "JSON ':' expected at $i" }
+                incr i
+                dict set d $k [jsonValue $text i]
+                jsonSpace $text i
+                set c [string index $text $i]
+                incr i
+                if {$c eq "\}"} { return $d }
+                if {$c ne ","} { error "JSON ',' or '\}' expected at [expr {$i - 1}]" }
+            }
+        }
+        "\[" {
+            incr i
+            set l {}
+            jsonSpace $text i
+            if {[string index $text $i] eq "\]"} { incr i; return $l }
+            while 1 {
+                lappend l [jsonValue $text i]
+                jsonSpace $text i
+                set c [string index $text $i]
+                incr i
+                if {$c eq "\]"} { return $l }
+                if {$c ne ","} { error "JSON ',' or '\]' expected at [expr {$i - 1}]" }
+            }
+        }
+        "\"" { return [jsonString $text i] }
+        "t" { if {[string range $text $i [expr {$i + 3}]] eq "true"} { incr i 4; return 1 } }
+        "f" { if {[string range $text $i [expr {$i + 4}]] eq "false"} { incr i 5; return 0 } }
+        "n" { if {[string range $text $i [expr {$i + 3}]] eq "null"} { incr i 4; return "" } }
+        default {
+            if {[regexp {\A-?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?} [string range $text $i [expr {$i + 40}]] num]} {
+                incr i [string length $num]
+                return $num
+            }
+        }
+    }
+    error "unexpected JSON at $i"
+}
+
+proc ::woodpecker::jsonString {text iVar} {
+    upvar 1 $iVar i
+    incr i
+    set out ""
+    set n [string length $text]
+    while {$i < $n} {
+        set c [string index $text $i]
+        if {$c eq "\""} { incr i; return $out }
+        if {$c eq "\\"} {
+            incr i
+            set e [string index $text $i]
+            switch -- $e {
+                n { append out "\n" }
+                t { append out "\t" }
+                r { append out "\r" }
+                b { append out "\b" }
+                f { append out "\f" }
+                u {
+                    set hex [string range $text [expr {$i + 1}] [expr {$i + 4}]]
+                    append out [format %c [scan $hex %x]]
+                    incr i 4
+                }
+                default { append out $e }
+            }
+            incr i
+            continue
+        }
+        append out $c
+        incr i
+    }
+    error "unterminated JSON string"
+}
+
+################################################################################
+# Moves: SAN <-> UCI on ::chessboard, and the start position of a Lichess puzzle.
+
+proc ::woodpecker::startFen {} {
+    return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+}
+
+proc ::woodpecker::sanToUci {pos san} {
+    set s [string map {+ "" # "" ! "" ? ""} $san]
+    set s [string map {0-0-0 O-O-O 0-0 O-O} $s]
+    set side [dict get $pos side]
+    set legal [::chessboard::legalMoves $pos]
+    if {$s eq "O-O" || $s eq "O-O-O"} {
+        set r [expr {$side eq "w" ? 1 : 8}]
+        set to [expr {$s eq "O-O" ? "g$r" : "c$r"}]
+        if {"e$r$to" in $legal} { return "e$r$to" }
+        error "illegal castling $san"
+    }
+    set promo ""
+    if {[regexp {^(.*?)=?([QRBNqrbn])$} $s -> rest p] && [regexp {[a-h][18]$} $rest]} {
+        set s $rest
+        set promo [string tolower $p]
+    }
+    set piece P
+    if {[string match {[KQRBN]*} $s]} { set piece [string index $s 0]; set s [string range $s 1 end] }
+    set s [string map {x "" - ""} $s]
+    set dest [string range $s end-1 end]
+    set dis [string range $s 0 end-2]
+    set board [dict get $pos board]
+    set hits {}
+    foreach m $legal {
+        if {[string range $m 2 3] ne $dest} continue
+        if {[string range $m 4 end] ne $promo} continue
+        set from [string range $m 0 1]
+        if {[string toupper [lindex $board [::chessboard::sqIndex $from]]] ne $piece} continue
+        set ok 1
+        foreach ch [split $dis ""] { if {[string first $ch $from] < 0} { set ok 0 } }
+        if {$ok} { lappend hits $m }
+    }
+    if {[llength $hits] != 1} { error "SAN '$san' does not name one legal move" }
+    return [lindex $hits 0]
+}
+
+proc ::woodpecker::uciToSan {pos uci} {
+    set legal [::chessboard::legalMoves $pos]
+    if {$uci ni $legal} { error "illegal move $uci" }
+    set board [dict get $pos board]
+    set from [::chessboard::sqIndex [string range $uci 0 1]]
+    set to [::chessboard::sqIndex [string range $uci 2 3]]
+    set piece [string toupper [lindex $board $from]]
+    set after [::chessboard::makeMove $pos $uci]
+    set suffix ""
+    if {[::chessboard::inCheck $after [dict get $after side]]} {
+        set suffix [expr {[llength [::chessboard::legalMoves $after]] ? "+" : "#"}]
+    }
+    if {$piece eq "K" && abs(($to % 8) - ($from % 8)) == 2} {
+        return "[expr {($to % 8) > ($from % 8) ? "O-O" : "O-O-O"}]$suffix"
+    }
+    set capture [expr {[::movelabels::captureVictim $pos $uci] ne ""}]
+    set dest [string range $uci 2 3]
+    if {$piece eq "P"} {
+        set san [expr {$capture ? "[string index $uci 0]x$dest" : $dest}]
+        if {[string length $uci] > 4} { append san "=[string toupper [string index $uci 4]]" }
+        return "$san$suffix"
+    }
+    # Disambiguation: other pieces of the same kind that can reach the square.
+    set others {}
+    foreach m $legal {
+        if {$m eq $uci || [string range $m 2 3] ne $dest} continue
+        set f [::chessboard::sqIndex [string range $m 0 1]]
+        if {[string toupper [lindex $board $f]] eq $piece} { lappend others [string range $m 0 1] }
+    }
+    set dis ""
+    if {[llength $others]} {
+        set file [string index $uci 0]
+        set rank [string index $uci 1]
+        set sameFile 0
+        set sameRank 0
+        foreach o $others {
+            if {[string index $o 0] eq $file} { set sameFile 1 }
+            if {[string index $o 1] eq $rank} { set sameRank 1 }
+        }
+        if {!$sameFile} { set dis $file } elseif {!$sameRank} { set dis $rank } else { set dis "$file$rank" }
+    }
+    return "$piece$dis[expr {$capture ? "x" : ""}]$dest$suffix"
+}
+
+# The position after the first `plies` SAN moves of a game from the start.
+# Returns {fen lastUci}: the FEN, and the UCI of the last move played.
+proc ::woodpecker::replaySans {sans plies} {
+    set pos [::chessboard::fromFen [startFen]]
+    set last ""
+    set i 0
+    foreach san $sans {
+        if {$i >= $plies} break
+        set last [sanToUci $pos $san]
+        set pos [::chessboard::makeMove $pos $last]
+        incr i
+    }
+    if {$i < $plies} { error "the game has only $i moves" }
+    return [list [::chessboard::toFen $pos] $last]
+}
+
+# One Lichess puzzle (a dict from the batch reply: {puzzle {...} game {...}}) as
+# the trainer's exercise: id rating plays themes fen lastMove solution gameId
+# white black. The batch reply has no FEN: the position is the game after
+# initialPly + 1 moves (the opponent's last move is part of the PGN).
+proc ::woodpecker::lichessExercise {entry} {
+    set p [dict get $entry puzzle]
+    set g [dict get $entry game]
+    set initial [dict get $p initialPly]
+    lassign [replaySans [dict get $g pgn] [expr {$initial + 1}]] fen last
+    set white ""; set black ""
+    if {[dict exists $g players]} {
+        foreach pl [dict get $g players] {
+            set nm [expr {[dict exists $pl name] ? [dict get $pl name] : "?"}]
+            if {[dict exists $pl color] && [dict get $pl color] eq "black"} { set black $nm } else { set white $nm }
+        }
+    }
+    return [dict create id [dict get $p id] rating [dict get $p rating] \
+        plays [expr {[dict exists $p plays] ? [dict get $p plays] : ""}] \
+        themes [expr {[dict exists $p themes] ? [dict get $p themes] : {}}] \
+        fen $fen lastMove $last solution [dict get $p solution] \
+        gameId [expr {[dict exists $g id] ? [dict get $g id] : ""}] white $white black $black]
+}
+
+# The side the trainee plays in a puzzle: the side to move in its FEN.
+proc ::woodpecker::fenSide {fen} { return [lindex [split $fen] 1] }
+
+# A PGN game for one exercise: the position to solve as FEN, the solution as the
+# main line. `tags` is a list of {name value} added after the seven roster tags.
+proc ::woodpecker::pgnGame {fen solution event round white black site tags} {
+    set pos [::chessboard::fromFen $fen]
+    set out ""
+    foreach {k v} [list Event $event Site $site Date "????.??.??" Round $round \
+            White $white Black $black Result "*"] {
+        append out "\[$k \"[string map {\\ \\\\ \" \\\"} $v]\"\]\n"
+    }
+    append out "\[SetUp \"1\"\]\n\[FEN \"$fen\"\]\n"
+    foreach t $tags {
+        lassign $t k v
+        append out "\[$k \"[string map {\\ \\\\ \" \\\"} $v]\"\]\n"
+    }
+    append out "\n"
+    set moves {}
+    set first 1
+    foreach uci $solution {
+        set num [dict get $pos full]
+        if {[dict get $pos side] eq "w"} {
+            lappend moves "$num."
+        } elseif {$first} {
+            lappend moves "$num..."
+        }
+        set first 0
+        lappend moves [uciToSan $pos $uci]
+        set pos [::chessboard::makeMove $pos $uci]
+    }
+    lappend moves "*"
+    append out [join $moves " "] "\n\n"
+    return $out
+}
+
+# Exercises: the extra columns a set keeps so a session never opens the
+# database: fen, solution (UCI, space separated), lastMove.
+proc ::woodpecker::exerciseRow {ex game pid rating fen solution lastMove} {
+    set n [expr {([llength $solution] + 1) / 2}]
+    return [dict create game $game puzzleId $pid rating $rating nmoves $n \
+        fen $fen solution $solution lastMove $lastMove]
 }

@@ -1,0 +1,436 @@
+### woodpecker_set.tcl: Woodpecker trainer - building a set.
+### SPDX-License-Identifier: GPL-2.0-or-later
+###
+### A set is a directory under <user dir>/woodpecker/ holding a Scid database
+### (set.si5 ...) with one game per exercise, and the files woodpecker_core.tcl
+### reads and writes. Two sources: Lichess puzzles (the batch API) and a PGN or
+### Scid database the user already has (a book converted to PGN).
+###
+### Uses sc_* commands and, for Lichess, curl or Tcl's http package. No Tk:
+### the GUI passes a progress callback and polls a cancel flag.
+
+namespace eval ::woodpecker::set {
+    variable UA "scidCommunity-woodpecker (https://github.com/whelanh/scidCommunity)"
+    # Lichess: one request at a time, and wait a minute after a 429.
+    variable PAUSE_MS 1000
+    variable RETRY_MS 60000
+    variable BATCH 50
+    variable cancel 0
+    # The difficulty levels the API knows, easiest first.
+    variable LEVELS {easiest easier normal harder hardest}
+}
+
+################################################################################
+# Directories
+
+proc ::woodpecker::set::rootDir {} {
+    set base [expr {[info exists ::scidUserDir] ? $::scidUserDir : [file join $::env(HOME) .scidCommunity]}]
+    set dir [file join $base woodpecker]
+    file mkdir $dir
+    return $dir
+}
+
+# Every set: a list of {dir meta}, newest first.
+proc ::woodpecker::set::all {} {
+    set out {}
+    foreach d [glob -nocomplain -types d -directory [rootDir] *] {
+        if {![file exists [file join $d set.tsv]]} { continue }
+        set meta [::woodpecker::readMeta $d]
+        lappend out [list $d $meta]
+    }
+    return [lsort -decreasing -command {apply {{a b} {
+        set ca [expr {[dict exists [lindex $a 1] created] ? [dict get [lindex $a 1] created] : ""}]
+        set cb [expr {[dict exists [lindex $b 1] created] ? [dict get [lindex $b 1] created] : ""}]
+        string compare $ca $cb
+    }}} $out]
+}
+
+# A directory name for a new set: letters, digits and dashes from the name,
+# made unique.
+proc ::woodpecker::set::newDir {name} {
+    set slug [string tolower [regsub -all {[^A-Za-z0-9]+} $name "-"]]
+    set slug [string trim $slug "-"]
+    if {$slug eq ""} { set slug set }
+    set dir [file join [rootDir] $slug]
+    set n 1
+    while {[file exists $dir]} { set dir [file join [rootDir] "$slug-[incr n]"] }
+    file mkdir $dir
+    return $dir
+}
+
+# The Lichess puzzle ids already in any set, so a new set never repeats one.
+proc ::woodpecker::set::usedIds {} {
+    set used [dict create]
+    foreach s [all] {
+        dict for {ex e} [::woodpecker::readExercises [lindex $s 0]] {
+            set id [dict get $e puzzleId]
+            if {$id ne ""} { dict set used $id 1 }
+        }
+    }
+    return $used
+}
+
+################################################################################
+# HTTP
+
+# GET a URL; returns {status body}. curl when available (an identifying
+# User-Agent, a bearer token), otherwise Tcl's http package with tls. The wait
+# keeps the event loop alive so the progress window stays responsive.
+proc ::woodpecker::set::httpGet {url {token ""}} {
+    variable UA
+    if {[auto_execok curl] ne ""} {
+        set cmd [list curl -sS --max-time 30 -A $UA -H "Accept: application/json" -w "\n%{http_code}"]
+        if {$token ne ""} { lappend cmd -H "Authorization: Bearer $token" }
+        lappend cmd $url
+        set f [open |[concat $cmd [list 2>@1]] r]
+        fconfigure $f -blocking 0 -encoding utf-8
+        set ::woodpecker::set::http($f) ""
+        fileevent $f readable [list ::woodpecker::set::httpRead $f]
+        vwait ::woodpecker::set::httpDone($f)
+        set data $::woodpecker::set::http($f)
+        unset ::woodpecker::set::http($f) ::woodpecker::set::httpDone($f)
+        set data [string trimright $data]
+        set nl [string last "\n" $data]
+        set status [string trim [string range $data [expr {$nl + 1}] end]]
+        if {![string is integer -strict $status]} { return [list 0 $data] }
+        return [list $status [string range $data 0 [expr {$nl - 1}]]]
+    }
+    package require http
+    catch {
+        package require tls
+        ::http::register https 443 [list ::tls::socket -autoservername 1]
+    }
+    set headers [list Accept application/json]
+    if {$token ne ""} { lappend headers Authorization "Bearer $token" }
+    ::http::config -useragent $UA
+    set tok [::http::geturl $url -timeout 30000 -headers $headers]
+    set status [::http::ncode $tok]
+    set body [::http::data $tok]
+    ::http::cleanup $tok
+    return [list $status $body]
+}
+
+proc ::woodpecker::set::httpRead {f} {
+    append ::woodpecker::set::http($f) [read $f]
+    if {[eof $f]} {
+        fconfigure $f -blocking 1
+        catch { close $f }
+        set ::woodpecker::set::httpDone($f) 1
+    }
+}
+
+# Wait `ms` without blocking the event loop; returns early when cancelled.
+proc ::woodpecker::set::pause {ms} {
+    variable cancel
+    set end [expr {[clock milliseconds] + $ms}]
+    while {!$cancel && [clock milliseconds] < $end} {
+        set ::woodpecker::set::tick 0
+        after 200 [list set ::woodpecker::set::tick 1]
+        vwait ::woodpecker::set::tick
+    }
+}
+
+################################################################################
+# Lichess
+
+# How many puzzles of each level: shares {level weight ...} turned into counts
+# that add up to n (largest remainders).
+proc ::woodpecker::set::levelCounts {n shares} {
+    set total 0.0
+    dict for {k w} $shares { set total [expr {$total + $w}] }
+    if {$total <= 0} { error "no difficulty chosen" }
+    set out [dict create]
+    set rest {}
+    set used 0
+    dict for {k w} $shares {
+        set exact [expr {$n * $w / $total}]
+        set c [expr {int(floor($exact))}]
+        dict set out $k $c
+        incr used $c
+        lappend rest [list $k [expr {$exact - $c}]]
+    }
+    foreach r [lsort -real -decreasing -index 1 $rest] {
+        if {$used >= $n} break
+        dict incr out [lindex $r 0]
+        incr used
+    }
+    return $out
+}
+
+# Download puzzles. `spec` keys: count, shares {level weight ...}, angle
+# ("mix" or a theme/opening key), color (both | white | black), token.
+# `progress` is called as {*}$progress done total message.
+# Returns the exercises (::woodpecker::lichessExercise dicts) sorted by rating,
+# easiest first, none of them already in another set.
+proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
+    variable BATCH
+    variable PAUSE_MS
+    variable RETRY_MS
+    variable cancel
+    set cancel 0
+    set n [dict get $spec count]
+    set angle [expr {[dict exists $spec angle] && [dict get $spec angle] ne "" ? [dict get $spec angle] : "mix"}]
+    set color [expr {[dict exists $spec color] ? [dict get $spec color] : "both"}]
+    set token [expr {[dict exists $spec token] ? [dict get $spec token] : ""}]
+    set want [levelCounts $n [dict get $spec shares]]
+    set seen [usedIds]
+    set got {}
+    set done 0
+    dict for {level target} $want {
+        if {$target <= 0} { continue }
+        set have 0
+        set tries 0
+        set maxTries [expr {int(ceil(double($target) / $BATCH)) * 4 + 2}]
+        while {$have < $target && $tries < $maxTries && !$cancel} {
+            incr tries
+            set url "https://lichess.org/api/puzzle/batch/[urlPart $angle]?nb=$BATCH&difficulty=$level"
+            if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
+            if {[catch { httpGet $url $token } res]} {
+                error "Lichess: $res"
+            }
+            lassign $res status body
+            if {$status == 429} {
+                if {$progress ne ""} { {*}$progress $done $n "lichess: 429, waiting 60 s" }
+                pause $RETRY_MS
+                continue
+            }
+            if {$status != 200} {
+                error "Lichess answered $status: [string range $body 0 200]"
+            }
+            set reply [::woodpecker::jsonParse $body]
+            set fresh 0
+            foreach entry [dict get $reply puzzles] {
+                if {$have >= $target} break
+                set id [dict get $entry puzzle id]
+                if {[dict exists $seen $id]} { continue }
+                dict set seen $id 1
+                if {[catch { ::woodpecker::lichessExercise $entry } ex]} { continue }
+                set side [::woodpecker::fenSide [dict get $ex fen]]
+                if {$color eq "white" && $side ne "w"} { continue }
+                if {$color eq "black" && $side ne "b"} { continue }
+                dict set ex level $level
+                lappend got $ex
+                incr have
+                incr done
+                incr fresh
+            }
+            if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
+            if {$have < $target} { pause $PAUSE_MS }
+        }
+    }
+    if {$cancel} { error cancelled }
+    return [lsort -integer -command {apply {{a b} {
+        expr {[dict get $a rating] - [dict get $b rating]}
+    }}} $got]
+}
+
+proc ::woodpecker::set::urlPart {s} {
+    return [string map {" " "%20" "/" "%2F" "?" "%3F" "&" "%26" "#" "%23"} $s]
+}
+
+################################################################################
+# Building the set's database
+
+# Write the exercises (lichessExercise-shaped dicts) as set.pgn, import it into a
+# new Scid database in `dir`, and write exercises.tsv and set.tsv.
+proc ::woodpecker::set::buildFromExercises {dir meta exercises} {
+    set pgn [file join $dir set.pgn]
+    set f [open $pgn w]
+    fconfigure $f -encoding utf-8
+    set rows [dict create]
+    set ex 0
+    foreach e $exercises {
+        incr ex
+        set tags [list [list PuzzleId [dict get $e id]] [list PuzzleRating [dict get $e rating]]]
+        if {[dict get $e plays] ne ""} { lappend tags [list PuzzlePlays [dict get $e plays]] }
+        lappend tags [list PuzzleThemes [join [dict get $e themes] " "]]
+        lappend tags [list LastMove [dict get $e lastMove]]
+        set site [expr {[dict get $e gameId] ne "" ? "https://lichess.org/[dict get $e gameId]" : "?"}]
+        puts -nonewline $f [::woodpecker::pgnGame [dict get $e fen] [dict get $e solution] \
+            [dict get $meta name] $ex [dict get $e white] [dict get $e black] $site $tags]
+        dict set rows $ex [::woodpecker::exerciseRow $ex $ex [dict get $e id] [dict get $e rating] \
+            [dict get $e fen] [dict get $e solution] [dict get $e lastMove]]
+    }
+    close $f
+    set imported [importPgn $dir $pgn]
+    if {$imported != $ex} { error "the set database has $imported games, expected $ex" }
+    ::woodpecker::writeExercises $dir $rows
+    ::woodpecker::writeMeta $dir $meta
+    return $ex
+}
+
+# Create the set's Scid database from a PGN file; returns the number of games.
+proc ::woodpecker::set::importPgn {dir pgn} {
+    set path [file join $dir set]
+    set b [sc_base create SCID5 $path]
+    set err [catch {
+        lassign [sc_base import $b $pgn] count errors
+        set count [sc_base numGames $b]
+    } msg]
+    catch { sc_base close $b }
+    if {$err} { error $msg }
+    return $count
+}
+
+proc ::woodpecker::set::basePath {dir} { return [file join $dir set] }
+
+# The id of the set's database, opening it when it is not open. Returns
+# {baseId openedHere}.
+proc ::woodpecker::set::openBase {dir} {
+    set want [file normalize [basePath $dir]]
+    foreach b [sc_base list] {
+        set fn ""
+        catch { set fn [file normalize [file rootname [sc_base filename $b]]] }
+        if {$fn eq $want} { return [list $b 0] }
+    }
+    return [list [sc_base open SCID5 [basePath $dir]] 1]
+}
+
+################################################################################
+# A set from a PGN or Scid database (a book)
+
+# The marks the author wrote on the solver's moves, from the current game and
+# its main line: "!" or "!!" per solver move, and whether any move mark at all
+# (! !! !? ?! ? ??) is there - an annotated exercise.
+proc ::woodpecker::set::authorMarks {plies} {
+    set marks {}
+    set annotated 0
+    for {set p 1} {$p <= $plies} {incr p 2} {
+        sc_move ply $p
+        set nags [string trim [sc_pos getNags]]
+        if {$nags eq "0"} { set nags "" }
+        set m ""
+        if {"!!" in $nags} { set m "!!" } elseif {"!" in $nags} { set m "!" }
+        foreach q {! !! !? ?! ? ??} { if {$q in $nags} { set annotated 1 } }
+        lappend marks $m
+    }
+    return [list $marks $annotated]
+}
+
+# The extra tags of the current game as a dict.
+proc ::woodpecker::set::extraTags {} {
+    set out [dict create]
+    foreach line [split [sc_game tags get Extra] "\n"] {
+        if {[regexp {^(\S+)\s+"(.*)"\s*$} $line -> k v]} { dict set out $k $v }
+    }
+    return $out
+}
+
+# Read every game of the open set base `b`: its start position, main line and
+# the author's marks. Games that do not start from a set-up position, or have
+# no moves, or contain a null move, are not exercises and are skipped.
+# Returns {rows authorMarks skipped}.
+proc ::woodpecker::set::readGames {b} {
+    set prev [sc_base current]
+    sc_base switch $b
+    set rows [dict create]
+    set marks [dict create]
+    set skipped 0
+    set ex 0
+    set n [sc_base numGames $b]
+    for {set g 1} {$g <= $n} {incr g} {
+        if {[catch { sc_game load $g }]} { incr skipped; continue }
+        set ml [sc_game UCI_mainLine]
+        set head [lindex $ml 0]
+        set moves [lrange $ml 1 end]
+        if {![regexp {^position fen (.+) moves$} $head -> fen] || ![llength $moves] \
+                || [lsearch -glob $moves "position*"] >= 0} {
+            incr skipped
+            continue
+        }
+        incr ex
+        set extra [extraTags]
+        set rating [expr {[dict exists $extra PuzzleRating] ? [dict get $extra PuzzleRating] : ""}]
+        set pid [expr {[dict exists $extra PuzzleId] ? [dict get $extra PuzzleId] : ""}]
+        set last [expr {[dict exists $extra LastMove] ? [dict get $extra LastMove] : ""}]
+        dict set rows $ex [::woodpecker::exerciseRow $ex $g $pid $rating $fen $moves $last]
+        lassign [authorMarks [llength $moves]] m annotated
+        if {$annotated} { dict set marks $ex [dict create marks $m source author] }
+    }
+    sc_base switch $prev
+    return [list $rows $marks $skipped]
+}
+
+# Build a set from a PGN (or .si5/.si4) file. Variations are kept in the
+# database but ignored by the trainer: the main line is the solution.
+# Returns {exercises annotated skipped}.
+proc ::woodpecker::set::buildFromFile {dir meta file} {
+    set ext [string tolower [file extension $file]]
+    if {$ext in {.si5 .si4}} {
+        set type [expr {$ext eq ".si4" ? "SCID4" : "SCID5"}]
+        set src [sc_base open $type [file rootname $file]]
+    } else {
+        set src [sc_base open PGN $file]
+    }
+    set err [catch {
+        set dst [sc_base create SCID5 [basePath $dir]]
+        sc_base copygames $src dbfilter $dst
+        lassign [readGames $dst] rows marks skipped
+        sc_base close $dst
+    } msg]
+    catch { sc_base close $src }
+    if {$err} { error $msg }
+    if {![dict size $rows]} { error "no exercise: no game starts from a set-up position" }
+    ::woodpecker::writeExercises $dir $rows
+    if {[dict size $marks]} { ::woodpecker::marksAppend $dir $marks }
+    dict set meta source file
+    dict set meta file $file
+    ::woodpecker::writeMeta $dir $meta
+    return [list [dict size $rows] [dict size $marks] $skipped]
+}
+
+# How many exercises carry marks, and from whom: {total annotated reviewed}.
+# `annotated` = the author's marks are the newest for the exercise.
+proc ::woodpecker::set::markStatus {dir} {
+    set exs [::woodpecker::readExercises $dir]
+    set marks [::woodpecker::readMarks $dir]
+    set table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]]
+    set author 0
+    set review 0
+    dict for {ex e} $table {
+        if {![dict exists $exs $ex]} { continue }
+        if {[dict get $e source] eq "author"} { incr author } else { incr review }
+    }
+    return [dict create total [dict size $exs] annotated $author reviewed $review]
+}
+
+################################################################################
+# Writing marks into the database, so a shown solution carries them
+
+proc ::woodpecker::set::writeMarks {dir exMarks} {
+    set exs [::woodpecker::readExercises $dir]
+    lassign [openBase $dir] b opened
+    set prev [sc_base current]
+    sc_base switch $b
+    set err [catch {
+        dict for {ex e} $exMarks {
+            if {![dict exists $exs $ex]} { continue }
+            set g [dict get $exs $ex game]
+            sc_game load $g
+            set p 1
+            foreach m [dict get $e marks] {
+                sc_move ply $p
+                set nags [string trim [sc_pos getNags]]
+                if {$nags eq "0"} { set nags "" }
+                set keep {}
+                foreach n $nags { if {$n ni {! !! !? ?! ? ??}} { lappend keep $n } }
+                sc_pos clearNags
+                foreach n $keep { sc_pos addNag $n }
+                if {$m ne ""} { sc_pos addNag $m }
+                incr p 2
+            }
+            sc_game save $g
+        }
+    } msg]
+    sc_base switch $prev
+    if {$opened} { catch { sc_base close $b } }
+    if {$err} { error $msg }
+}
+
+################################################################################
+# Creating a set: the meta every set carries
+
+proc ::woodpecker::set::newMeta {name source days1 restDays now} {
+    return [dict create name $name source $source created [clock format $now -format "%Y-%m-%d %H:%M:%S"] \
+        days1 $days1 restDays $restDays version 1]
+}

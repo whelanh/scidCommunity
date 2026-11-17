@@ -237,6 +237,73 @@ checkEq "durations: minutes" [::woodpecker::fmtDuration 750000] "12m 30s"
 checkEq "durations: seconds" [::woodpecker::fmtDuration 45000] "45s"
 checkEq "durations: nothing" [::woodpecker::fmtDuration ""] "-"
 
+
+# ---------------------------------------------------------- exercises file ----
+::woodpecker::writeExercises $tmp [dict create 1 [::woodpecker::exerciseRow 1 1 abc 1700 \
+    "6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1" {a1a8} g8h8]]
+set e [dict get [::woodpecker::readExercises $tmp] 1]
+checkEq "an exercise row keeps its FEN" [dict get $e fen] "6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1"
+checkEq "... its solution" [dict get $e solution] a1a8
+checkEq "... and the opponent's last move" [dict get $e lastMove] g8h8
+checkEq "one solver move" [dict get $e nmoves] 1
+
+# ------------------------------------------------------------------- JSON ----
+set j [::woodpecker::jsonParse {{"a": [1, -2.5, true, false, null], "s": "x\"y\\zé\n", "o": {}, "e": []}}]
+checkEq "JSON arrays and literals" [dict get $j a] {1 -2.5 1 0 {}}
+checkEq "JSON string escapes" [dict get $j s] "x\"y\\zé\n"
+checkEq "JSON empty object and array" [list [dict size [dict get $j o]] [llength [dict get $j e]]] {0 0}
+check "broken JSON is refused" {[catch {::woodpecker::jsonParse {{"a": [1, 2}}}]}
+check "trailing data is refused" {[catch {::woodpecker::jsonParse {{} x}}]}
+
+# ------------------------------------------------------ Lichess puzzle -> FEN ----
+# A real batch entry (puzzle Xv7EA, lichess.org/XMJDc53B), shortened to the
+# fields the trainer reads. Lichess shows it from 5r2/p2P2k1/4Qbp1/2p1B2p/8/P4P2/3qN1KP/5R2 b.
+set pgn {e4 g6 f4 Bg7 Nf3 d6 c3 Nc6 d4 Nf6 Bb5 O-O e5 dxe5 fxe5 Nd5 Bxc6 bxc6 O-O c5 c4 Nb4 d5 c6 a3 Na6 Bf4 cxd5 cxd5 Bb7 Nc3 e6 d6 f6 Qe2 fxe5 Bxe5 Bxf3 Rxf3 Rxf3 gxf3 Qg5+ Bg3 Bd4+ Kg2 Rf8 Qxa6 Qd2+ Ne2 Bxb2 Rf1 h5 d7 Bf6 Qxe6+ Kg7 Be5}
+set entry [::woodpecker::jsonParse [format {{"game":{"id":"XMJDc53B","players":[{"name":"W","color":"white"},{"name":"B","color":"black"}],"pgn":"%s"},"puzzle":{"id":"Xv7EA","rating":1384,"plays":3082,"solution":["d2e2","f1f2","e2e5","e6e5","f6e5"],"themes":["middlegame","advantage"],"initialPly":56}}} $pgn]]
+set ex [::woodpecker::lichessExercise $entry]
+checkEq "the puzzle position is the game after initialPly+1 moves" \
+    [lrange [split [dict get $ex fen]] 0 3] {5r2/p2P2k1/4Qbp1/2p1B2p/8/P4P2/3qN1KP/5R2 b - -}
+checkEq "the opponent's last move" [dict get $ex lastMove] g3e5
+checkEq "the trainee plays Black" [::woodpecker::fenSide [dict get $ex fen]] b
+checkEq "players" [list [dict get $ex white] [dict get $ex black]] {W B}
+checkEq "rating and themes" [list [dict get $ex rating] [dict get $ex themes]] {1384 {middlegame advantage}}
+
+# Every SAN of the game survives SAN -> UCI -> SAN, castling and checks included.
+set pos [::chessboard::fromFen [::woodpecker::startFen]]
+set back {}
+foreach san $pgn {
+    set uci [::woodpecker::sanToUci $pos $san]
+    lappend back [::woodpecker::uciToSan $pos $uci]
+    set pos [::chessboard::makeMove $pos $uci]
+}
+checkEq "SAN round trip over a whole game" $back $pgn
+
+set p [::chessboard::fromFen {r3k2r/8/8/3pP3/8/8/8/R3K2R w KQkq d6 0 1}]
+checkEq "kingside castling" [::woodpecker::uciToSan $p e1g1] O-O
+checkEq "queenside castling" [::woodpecker::uciToSan $p e1c1] O-O-O
+checkEq "en passant" [::woodpecker::uciToSan $p e5d6] exd6
+checkEq "a rook the king blocks is no rival" [::woodpecker::uciToSan $p a1d1] Rd1
+set p [::chessboard::fromFen {4k3/8/8/8/8/8/8/R5RK w - - 0 1}]
+checkEq "rooks on one rank need the file" [::woodpecker::uciToSan $p a1d1] Rad1
+checkEq "... and back" [::woodpecker::sanToUci $p Rad1] a1d1
+set p [::chessboard::fromFen {7k/4P3/8/8/8/8/8/K7 w - - 0 1}]
+checkEq "promotion with check" [::woodpecker::uciToSan $p e7e8q] e8=Q+
+checkEq "promotion back" [::woodpecker::sanToUci $p e8=Q+] e7e8q
+set p [::chessboard::fromFen {6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1}]
+checkEq "mate is #" [::woodpecker::uciToSan $p a1a8] Ra8#
+set p [::chessboard::fromFen {k7/8/8/8/1N3N2/8/8/K7 w - - 0 1}]
+checkEq "knights on one rank need the file" [::woodpecker::uciToSan $p b4d5] Nbd5
+set p [::chessboard::fromFen {k7/8/1N6/8/1N6/8/8/K7 w - - 0 1}]
+checkEq "knights on one file need the rank" [::woodpecker::uciToSan $p b6d5] N6d5
+check "an illegal move has no SAN" {[catch {::woodpecker::uciToSan $p a1a3}]}
+check "an ambiguous SAN is refused" {[catch {::woodpecker::sanToUci $p Nd5}]}
+
+set game [::woodpecker::pgnGame [dict get $ex fen] [dict get $ex solution] "My set" 7 W B \
+    "https://lichess.org/XMJDc53B" {{PuzzleId Xv7EA} {PuzzleRating 1384}}]
+check "the PGN sets up the position" {[string first "\[FEN \"[dict get $ex fen]\"\]" $game] >= 0}
+check "the PGN starts with Black's move number" {[string first "29... Qxe2+ 30. Rf2 Qxe5 31. Qxe5 Bxe5 *" $game] >= 0}
+check "extra tags are written" {[string first {[PuzzleRating "1384"]} $game] >= 0}
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]
