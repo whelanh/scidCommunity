@@ -158,6 +158,14 @@ proc ::wpgui::run {} {
     set want [expr {3.75 * 1466 / 1500.0 + 3.0 * 1597 / 1500.0}]
     check "session points" [expr {abs([dict get $st points] - $want) < 1e-6}] "[dict get $st points] vs $want"
 
+    ::woodpecker::ui::newDialog
+    wait 300
+    check "the new-set dialog opens" [winfo exists .woodpeckerNew]
+    checkEq "it proposes the Lichess source" $::woodpecker::ui::newCfg(source) lichess
+    check "it offers the five Lichess levels" [winfo exists .woodpeckerNew.f.lich.diff.shardest]
+    shot newset
+    destroy .woodpeckerNew
+
     ::woodpecker::ui::stats
     wait 300
     check "the statistics window opens" [winfo exists .woodpeckerStats]
