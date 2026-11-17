@@ -9043,13 +9043,12 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 
   std::vector<std::string> moves;
   {
-    int n_moves = 0;
+    Tcl_Size n_moves = 0;
     const char **m_argv = nullptr;
-    if (Tcl_SplitList(ti, argv[1], &n_moves, (CONST84 char ***)&m_argv) !=
-        TCL_OK)
+    if (Tcl_SplitList(ti, argv[1], &n_moves, &m_argv) != TCL_OK)
       return errorResult(ti, "Error splitting the move list.");
     moves.reserve(n_moves);
-    for (int i = 0; i < n_moves; ++i) {
+    for (Tcl_Size i = 0; i < n_moves; ++i) {
       if (*m_argv[i] != '\0')
         moves.emplace_back(m_argv[i]);
     }
