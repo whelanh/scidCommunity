@@ -2283,6 +2283,118 @@ proc ::board::_putCoordChar {img char color x y scale} {
   }
 }
 
+# Distance from a point to a line segment, used to draw a thick arrow shaft
+# into a photo image.
+#
+proc ::board::_segmentDistance {px py x0 y0 x1 y1} {
+  set dx [expr {$x1 - $x0}]
+  set dy [expr {$y1 - $y0}]
+  set len2 [expr {$dx * $dx + $dy * $dy}]
+  if {$len2 == 0} {
+    set ex [expr {$px - $x0}]
+    set ey [expr {$py - $y0}]
+    return [expr {sqrt($ex * $ex + $ey * $ey)}]
+  }
+  set t [expr {(($px - $x0) * $dx + ($py - $y0) * $dy) / double($len2)}]
+  if {$t < 0} { set t 0 } elseif {$t > 1} { set t 1 }
+  set ex [expr {$px - ($x0 + $t * $dx)}]
+  set ey [expr {$py - ($y0 + $t * $dy)}]
+  return [expr {sqrt($ex * $ex + $ey * $ey)}]
+}
+
+# Point-in-triangle test for the arrowhead.
+#
+proc ::board::_pointInTriangle {px py ax ay bx by cx cy} {
+  set d1 [expr {($px - $bx) * ($ay - $by) - ($ax - $bx) * ($py - $by)}]
+  set d2 [expr {($px - $cx) * ($by - $cy) - ($bx - $cx) * ($py - $cy)}]
+  set d3 [expr {($px - $ax) * ($cy - $ay) - ($cx - $ax) * ($py - $ay)}]
+  set neg [expr {($d1 < 0) || ($d2 < 0) || ($d3 < 0)}]
+  set pos [expr {($d1 > 0) || ($d2 > 0) || ($d3 > 0)}]
+  return [expr {!($neg && $pos)}]
+}
+
+# Draw a solid arrow into a photo image: a thick round-capped shaft and a
+# triangular head.  Tk photos have no line primitive, so each scanline is
+# filled with one put.
+#
+proc ::board::_drawArrowIntoPhoto {img width height x0 y0 x1 y1 thickness color} {
+  set dx [expr {$x1 - $x0}]
+  set dy [expr {$y1 - $y0}]
+  set len [expr {sqrt($dx * $dx + $dy * $dy)}]
+  if {$len <= 0} { return }
+  set ux [expr {$dx / $len}]
+  set uy [expr {$dy / $len}]
+  set head [expr {3.3 * $thickness}]
+  set half [expr {1.65 * $thickness}]
+  set r [expr {$thickness / 2.0}]
+
+  # Stop the shaft at the base of the head.  Its round cap then reaches into
+  # the head instead of poking out past the point.
+  set bx [expr {$x1 - $ux * $head}]
+  set by [expr {$y1 - $uy * $head}]
+
+  set minX [expr {int(floor(min($x0, $bx) - $r - 1))}]
+  set maxX [expr {int(ceil(max($x0, $bx) + $r + 1))}]
+  set minY [expr {int(floor(min($y0, $by) - $r - 1))}]
+  set maxY [expr {int(ceil(max($y0, $by) + $r + 1))}]
+  if {$minX < 0} { set minX 0 }
+  if {$minY < 0} { set minY 0 }
+  if {$maxX >= $width} { set maxX [expr {$width - 1}] }
+  if {$maxY >= $height} { set maxY [expr {$height - 1}] }
+
+  for {set y $minY} {$y <= $maxY} {incr y} {
+    set yc [expr {$y + 0.5}]
+    set lo -1
+    set hi -1
+    for {set x $minX} {$x <= $maxX} {incr x} {
+      if {[::board::_segmentDistance [expr {$x + 0.5}] $yc \
+              $x0 $y0 $bx $by] <= $r} {
+        if {$lo < 0} { set lo $x }
+        set hi $x
+      } elseif {$lo >= 0} {
+        break
+      }
+    }
+    if {$lo >= 0} {
+      $img put $color -to $lo $y [expr {$hi + 1}] [expr {$y + 1}]
+    }
+  }
+
+  set px [expr {-$uy}]
+  set py [expr {$ux}]
+  set ax [expr {$bx + $px * $half}]
+  set ay [expr {$by + $py * $half}]
+  set cx [expr {$bx - $px * $half}]
+  set cy [expr {$by - $py * $half}]
+
+  set minX [expr {int(floor(min($x1, min($ax, $cx))))}]
+  set maxX [expr {int(ceil(max($x1, max($ax, $cx))))}]
+  set minY [expr {int(floor(min($y1, min($ay, $cy))))}]
+  set maxY [expr {int(ceil(max($y1, max($ay, $cy))))}]
+  if {$minX < 0} { set minX 0 }
+  if {$minY < 0} { set minY 0 }
+  if {$maxX >= $width} { set maxX [expr {$width - 1}] }
+  if {$maxY >= $height} { set maxY [expr {$height - 1}] }
+
+  for {set y $minY} {$y <= $maxY} {incr y} {
+    set yc [expr {$y + 0.5}]
+    set lo -1
+    set hi -1
+    for {set x $minX} {$x <= $maxX} {incr x} {
+      if {[::board::_pointInTriangle [expr {$x + 0.5}] $yc \
+              $x1 $y1 $ax $ay $cx $cy]} {
+        if {$lo < 0} { set lo $x }
+        set hi $x
+      } elseif {$lo >= 0} {
+        break
+      }
+    }
+    if {$lo >= 0} {
+      $img put $color -to $lo $y [expr {$hi + 1}] [expr {$y + 1}]
+    }
+  }
+}
+
 # ::board::saveImage
 #   Saves the position shown by board $w as a PNG file.
 #
@@ -2350,6 +2462,12 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
       }
       set x [expr {$left + $border + $col * ($psize + $border)}]
       set y [expr {$top + $border + $row * ($psize + $border)}]
+      set sqCX($sq) [expr {$x + $psize / 2}]
+      set sqCY($sq) [expr {$y + $psize / 2}]
+      set sqL($sq) $x
+      set sqT($sq) $y
+      set sqR($sq) [expr {$x + $psize}]
+      set sqB($sq) [expr {$y + $psize}]
 
       # The board draws a filled rectangle first and a texture image over it.
       # In solid-colour mode that texture is transparent, so the fill is
@@ -2381,6 +2499,48 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
         }
         if {$col == 0} {
           lappend rankLabels [list [string index [::board::san $sq] 1] $row]
+        }
+      }
+    }
+
+    # The last-move arrow follows the Moves preference.  A board screenshot
+    # has no canvas to read the arrow from, so draw it into the photo with
+    # the same offset rules as ::board::mark::DrawArrowEx.
+    if {[info exists ::arrowLastMove] && $::arrowLastMove &&
+        ![catch {set moveUCI [sc_game info previousMoveUCI]}] &&
+        [string length [string trim $moveUCI]] >= 4} {
+      set moveUCI [string trim $moveUCI]
+      set from [::board::sq [string range $moveUCI 0 1]]
+      set to   [::board::sq [string range $moveUCI 2 3]]
+      if {$from >= 0 && $from <= 63 && $to >= 0 && $to <= 63} {
+        set dX [expr {$sqCX($to) - $sqCX($from)}]
+        set dY [expr {$sqCY($to) - $sqCY($from)}]
+        if {$dX != 0 || $dY != 0} {
+          if {abs($dX) > abs($dY)} {
+            set edge [expr {$dX > 0 ? $sqR($from) : $sqL($from)}]
+            set offX [expr {($edge - $sqCX($from)) * 0.1}]
+            set offY [expr {$offX * $dY / $dX}]
+          } else {
+            set edge [expr {$dY > 0 ? $sqB($from) : $sqT($from)}]
+            set offY [expr {($edge - $sqCY($from)) * 0.1}]
+            set offX [expr {$offY * $dX / $dY}]
+          }
+          set x0 [expr {$sqCX($from) + $offX}]
+          set y0 [expr {$sqCY($from) + $offY}]
+          set x1 [expr {$sqCX($to) - $offX}]
+          set y1 [expr {$sqCY($to) - $offY}]
+          if {[string index $board $from] ne "."} {
+            set x0 [expr {$sqCX($from) + $offX * 5}]
+            set y0 [expr {$sqCY($from) + $offY * 5}]
+          }
+          if {[string index $board $to] ne "."} {
+            set x1 [expr {$sqCX($to) - $offX * 5}]
+            set y1 [expr {$sqCY($to) - $offY * 5}]
+          }
+          set arrowColor [expr {[info exists ::highlightLastMoveColor] ?
+              $::highlightLastMoveColor : "grey"}]
+          ::board::_drawArrowIntoPhoto $img $width $height \
+              $x0 $y0 $x1 $y1 [expr {$psize * 0.1}] $arrowColor
         }
       }
     }

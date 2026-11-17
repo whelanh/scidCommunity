@@ -9,7 +9,7 @@
 # The image is composed from the board's own square and piece photos, so it
 # must work without TkImg (libtk-img).  The checks cover a valid PNG of the
 # expected size, solid-colour squares, both board orientations, the coordinate
-# labels, and the automatic position-N.png numbering.
+# labels, the last-move arrow, and the automatic position-N.png numbering.
 
 set fails 0
 set checks 0
@@ -38,10 +38,13 @@ set ::borderwidth 5
 set ::squareColor_lite "#ffffff"
 set ::squareColor_dark "#888888"
 set ::glossOfDanger 0
+set ::arrowLastMove 0
+set ::highlightLastMoveColor "#ff0000"
 set ::START "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr"
 proc tr {s} { return $s }
 proc ::applyThemeColor_background {args} {}
 proc sc_pos {args} { return $::START }
+proc sc_game {args} { return "e2e4" }
 
 source [file join $root tcl board.tcl]
 
@@ -144,6 +147,31 @@ check "coordinates can be turned off" \
     [expr {[image width $pngNo] == $boardSize}] \
     "got [image width $pngNo] want $boardSize"
 image delete $pngNo
+
+puts "\nthe last-move arrow"
+set ::arrowLastMove 1
+set fArrow [file join $dir "arrow.png"]
+::board::saveImage .b $fArrow
+set pngArrow [image create photo -file $fArrow]
+# e2 and e4 are both on the e-file, so the arrow is vertical and its shaft
+# crosses the midpoint between their centres.
+set e2x [expr {$margin + $border + 4 * ($psize + $border) + $psize / 2}]
+set e2y [expr {$margin + $poffset + $border + 6 * ($psize + $border) + $psize / 2}]
+set e4y [expr {$margin + $poffset + $border + 4 * ($psize + $border) + $psize / 2}]
+set midY [expr {($e2y + $e4y) / 2}]
+set arrowColours [rectColours $pngArrow [expr {$e2x - 3}] [expr {$midY - 3}] 6 6]
+check "the last-move arrow follows the preference" \
+    [expr {[lsearch -exact $arrowColours "255 0 0"] >= 0}] \
+    "colours=$arrowColours"
+# e4 is above e2, so the arrow points up and its tip is just below the e4
+# centre.  The shaft must stop at the head, not poke out above the point.
+set tipY [expr {int($e4y + 0.05 * $psize)}]
+set aboveColours [rectColours $pngArrow [expr {$e2x - 2}] [expr {$tipY - 8}] 5 6]
+check "the shaft does not extend past the arrow point" \
+    [expr {[lsearch -exact $aboveColours "255 0 0"] < 0}] \
+    "colours=$aboveColours"
+image delete $pngArrow
+set ::arrowLastMove 0
 
 puts "\nthe orientation"
 # Not flipped: e1 (square 4) is bottom-left; d1 (square 3) is empty.
