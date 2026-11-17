@@ -8,6 +8,12 @@
 Makefile
 Makefile.bak
 
+# Profile data from "make pgo" (see Makefile.conf): the counters are written
+# next to the objects, and the target removes them when it finishes.
+*.gcda
+*.gcno
+*.gcov
+
 *~
 *.swp
 *.swo
