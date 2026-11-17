@@ -410,8 +410,9 @@ proc ::reviewdriver::settle {token index ply} {
         # The providers' replies, if any: the best depth-bearing one among those
         # that answered - the deeper, and the first provider on a tie - held back
         # where the verdict needs alternatives the reply does not carry and there
-        # is a reply that does (see ::reviewcloud::choose; with neither, the one
-        # line decides the score and `great` is simply not available on the ply).
+        # is a reply that does (see ::reviewcloud::choose; with neither, no
+        # evaluation is adopted and the search's own lines are what this position
+        # keeps).
         set entry ""
         set bearer ""
         if {[::reviewdriver::cloudModule]} {

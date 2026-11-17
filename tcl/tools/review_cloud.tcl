@@ -27,7 +27,12 @@
 #   C = the adopted provider evaluation's depth
 #   L = the local engine's achieved depth
 #
-#   T = 0  a provider reply at C >= D  -> adopt it and skip the local search.
+#   T = 0  a reply at C >= D that can decide the position -> adopt it and skip the
+#          local search. A one-line reply decides it only alongside a
+#          candidate-bearing reply - Lichess's usable one, or the search's own
+#          lines once it has run - because `great` and `brilliant` read
+#          alternatives; without one the position is searched. See
+#          ::reviewcloud::choose.
 #          every reply under D          -> search locally (no caching, no waiting).
 #   T > 0  the local depth is unknowable until the search ends, so the providers
 #          are queried beside the search and the deeper evaluation wins when the
@@ -453,22 +458,60 @@ proc ::reviewcloud::bestOf {handle mpv} {
 # The lines a reply may be adopted with: all `mpv` of them when it carries that
 # many, otherwise the one line a one-line reply has.
 #
-# A one-line reply - ChessDB's by construction, and a cached one on a warm pass -
-# is adopted AS that one line: it is a complete evaluation of the position, not a
-# short candidate list, and the labels it may carry are the ones
-# ::reviewcloud::choose allows a one-line reply to decide.
+# A one-line reply - ChessDB's by construction - is adopted AS that one line, not
+# as a short candidate list, and only where ::reviewcloud::choose has already
+# settled the alternatives question. That proc returns a `single` entry on two
+# terms only: `mpv <= 1`, where nothing needs the alternatives, or after its guard
+# ran on a candidate-bearing reply or on the local search's own lines. With
+# neither it answers {"" ""} and this proc is never reached with a one-line entry.
+#
+# So the branch below is not a second door into the adoption decision, and it must
+# not become one: the harness pins the guarantee at its source (the "a one-line
+# reply is never chosen without a candidate-bearing reply" checks in
+# tests/tcl/review_cdb.tcl), so an edit that let a single entry through unguarded
+# would fail there rather than quietly adopt a one-line ladder here.
 #
 # A reply that carries alternatives and fewer than `mpv` of them is a different
-# answer rather than a shortcut, so it is not adopted at all: reading it as one
-# line would let a one-line ladder stand in for the alternatives a `great` or
-# `brilliant` verdict is decided against.
+# answer rather than a shortcut, so it is not adopted at all.
 proc ::reviewcloud::adoptable {entry mpv} {
     set lines [::reviewcloud::lines $entry $mpv]
     if {$lines ne ""} { return $lines }
     set single 0
     catch { set single [dict get $entry single] }
-    if {!$single} { return "" }
-    return [::reviewcloud::lines $entry 1]
+    if {$single} {
+        # The one-line case, explicitly - and reachable only through choose's
+        # guarantee above.
+        return [::reviewcloud::lines $entry 1]
+    }
+    return ""
+}
+
+# Whether a drop in this position could qualify for `great` or `brilliant`, read
+# off a candidate-bearing reply: the gap between the best and the second line
+# (::movelabels::GREAT_GAP, the ladder's own figure) or a best move that gives up
+# material while the game is still on, measured on the position's board.
+#
+# `lines` is a reply's MultiPV dict in ::reviewcloud::lines' shape, best line at
+# index 1; `fen` is the position the move is played from. Answers 0 when fewer
+# than two scores can be read - there is no gap to measure and no second line to
+# measure it against - and when the ladder is not in the tree (a harness that
+# drives the driver without move_labels.tcl).
+proc ::reviewcloud::qualifies {lines fen} {
+    set scores {}
+    foreach index [lsort -integer [dict keys $lines]] {
+        set cp [::reviewcloud::lineCp [dict get $lines $index]]
+        if {$cp eq ""} { continue }
+        lappend scores $cp
+    }
+    if {[llength $scores] < 2} { return 0 }
+    if {[llength [info commands ::movelabels::needsAlternatives]] == 0} {
+        return 0
+    }
+    set bestMove ""
+    if {[dict exists $lines 1]} {
+        set bestMove [lindex [lindex [dict get $lines 1] 3] 0]
+    }
+    return [::movelabels::needsAlternatives $scores $fen $bestMove]
 }
 
 # Which reply this position may be decided by: {entry bearer}.
@@ -476,24 +519,26 @@ proc ::reviewcloud::adoptable {entry mpv} {
 # A stored evaluation is used only where the verdict it feeds cannot need the
 # alternatives the reply does not carry. ChessDB answers with one depth-bearing
 # line and no candidate list (its other endpoints state no depth and are never
-# asked), so its deeper reply is adopted for the ordinary labels, the [%eval] and
-# the ESL. The two labels that read alternatives are treated differently, and
-# the difference is the whole of this proc:
+# asked), so its reply is adopted for the ordinary labels, the [%eval] and the
+# ESL - and whether it may decide the position at all depends on whether anything
+# else can settle the alternatives question, because `great` and `brilliant` are
+# read off `::review::mpv` lines and must stay awardable:
 #
-#   * where a CANDIDATE-BEARING reply exists - Lichess's usable reply, else the
-#     local search's own lines - the guard decides. If the drop would qualify for
-#     `great` (the gap to the second line) or `brilliant` (a sacrifice), the
-#     position is handed back to that reply, whose alternatives decide the label,
-#     and `sources` names it. Otherwise the one-line reply is adopted anyway.
-#   * where NEITHER exists (no bearer, no local lines) the one line decides the
-#     SCORE only. There is no second line, so `great` - the gap to a second line -
-#     is not available on that ply and is not awarded; `brilliant` still is,
-#     because its sacrifice test reads the line's own best move, which the reply
-#     carries. This is deliberate, not a silent skip: falling back to a local
-#     search here would throw the deeper stored evaluation away in exactly the
-#     case the second provider exists for (Lichess holds nothing, the pass has no
-#     time cap so it never searches), and would report a verdict the one line can
-#     support anyway.
+#   * `mpv <= 1` - the pass itself asked for one line, so there is no alternatives
+#     question and the reply is adopted as it stands.
+#   * `mpv > 1` and a CANDIDATE-BEARING reply exists - Lichess's usable reply,
+#     else the local search's own lines - the guard decides. If the drop would
+#     qualify for `great` (the gap to the second line) or `brilliant` (a
+#     sacrifice), the position is handed to that reply, whose alternatives decide
+#     the label, and `sources` names it. Otherwise the one-line reply is adopted.
+#   * `mpv > 1` and NEITHER exists - no usable Lichess reply (absent, in flight, a
+#     404, or shorter than `mpv`) and no local lines, which is a depth-only pass
+#     before it searches - the question cannot be answered, so NO evaluation is
+#     adopted: this answers {"" ""} and the caller searches the position locally,
+#     exactly as it did before the second provider existed. The reply stays in the
+#     cache for a later pass. Reading the one line as the verdict instead would
+#     forfeit `great` and `brilliant` on that ply; that is the trade the verdict
+#     ladder does not make, and it is the one vortex's finding was about.
 #
 # `fen` is the position being decided, `local` the search's own lines when there
 # are any - the guard needs both for brilliant's sacrifice test and for the
@@ -504,37 +549,34 @@ proc ::reviewcloud::choose {handle mpv fen {local {}}} {
     set single 0
     catch { set single [dict get $entry single] }
     if {!$single} { return [list $entry $bearer] }
-    # The reply chosen for this position is one line. Find who has the
+    # One line asked for: there is no alternatives question to answer.
+    if {![string is integer -strict $mpv] || $mpv <= 1} {
+        return [list $entry $bearer]
+    }
+    # The reply chosen for this position is one line, so find who carries the
     # alternatives: the candidate-bearing reply first, else the local search's
     # lines while it runs.
     set lines [::reviewcloud::lines $bearer $mpv]
-    if {$lines eq "" && [llength $local]} { set lines $local }
-    if {$lines eq ""} {
-        # Nothing carries the alternatives: no usable Lichess reply and no local
-        # lines to fall back on. The one line decides the score, and the labels a
-        # one-line ladder cannot reach are not awarded on this ply - `great` needs
-        # the gap to a second line, which this reply does not have. `brilliant` is
-        # still decided, from the reply's own best move. The adoption is the
-        # decision: no local-search fallback here (see this proc's comment).
+    if {$lines ne ""} {
+        if {[::reviewcloud::qualifies $lines $fen]} {
+            # A `great`- or `brilliant`-capable position: the reply that carries
+            # the alternatives decides it.
+            return [list $bearer $bearer]
+        }
         return [list $entry $bearer]
     }
-    # There is a candidate-bearing reply, so the guard decides.
-    set scores {}
-    set bestMove ""
-    foreach index [lsort -integer [dict keys $lines]] {
-        set cp [::reviewcloud::lineCp [dict get $lines $index]]
-        if {$cp eq ""} { continue }
-        lappend scores $cp
+    if {[llength $local]} {
+        if {[::reviewcloud::qualifies $local $fen]} {
+            # The alternatives the verdict needs are the search's own lines, so
+            # nothing from a provider decides this position.
+            return {"" ""}
+        }
+        return [list $entry $bearer]
     }
-    set bestMove [lindex [lindex [dict get $lines 1] 3] 0]
-    if {[llength $scores] >= 2 &&
-        [llength [info commands ::movelabels::needsAlternatives]] &&
-        [::movelabels::needsAlternatives $scores $fen $bestMove]} {
-        # A `great`- or `brilliant`-capable position: the reply that carries the
-        # alternatives decides it.
-        return [list $bearer $bearer]
-    }
-    return [list $entry $bearer]
+    # Neither: nothing carries the alternatives, so the one line cannot be
+    # adopted. See this proc's comment - the caller searches locally and the cache
+    # keeps the reply for a later pass.
+    return {"" ""}
 }
 
 # Forget a handle: the replies it still expects and the evaluations it holds.
