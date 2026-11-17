@@ -149,6 +149,14 @@ if(NOT MSVC)
   set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-Wno-write-strings;-Wno-char-subscripts;-Wno-parentheses;-Wno-sign-compare;-Wno-overloaded-virtual;-Wno-dangling-else;-frtti")
 endif()
 
+# MSVC: the same pre-C++11 code. The engine returns string literals as char*
+# (`char* thisclass(){return "SortValue";}` in sortvalue.h), which the
+# /Zc:strictStrings check that comes with /permissive- rejects with C2440 —
+# the MSVC equivalent of GCC's -Wwrite-strings above.
+if(MSVC)
+  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "/Zc:strictStrings-")
+endif()
+
 if(MSVC)
   add_executable(scidCommunity WIN32 ${SCID_SRC} resources/win/scid.rc resources/win/scid.manifest
     src/tkdnd/win/TkDND_OleDND.cpp src/tkdnd/win/OleDND.h)

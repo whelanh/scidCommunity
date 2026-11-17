@@ -28,7 +28,7 @@ existing moves, board, header, comments and material searches.
 
 ## Deliberate deviations
 
-Four files differ from r3777 on purpose. **Do not revert any of these when
+Five files differ from r3777 on purpose. **Do not revert any of these when
 re-syncing**; each one fixes a bug that only shows against scidCommunity's own
 callers.
 
@@ -38,6 +38,7 @@ callers.
 | 2 | `lexer.cpp` — `bgetc()` returns the byte **unsigned** | `char` is signed on x86-64, so a UTF-8 byte ≥ 0x80 came back negative and ended the token at the first accented character (a non-ASCII comment or player name truncated the query). |
 | 3 | `echomatchinfo.cpp` — relation id lists are built in a `std::string`, not a `char buffer[2000]` | An unchecked `sprintf()` per target overflowed the stack buffer for a source with a few hundred targets; a list too long for the engine's comment limit now ends with `...]` instead of overflowing. |
 | 4 | `nodematch.cpp` — `extension` is refused at parse time | The generator needs `MarkBoard::getLegalMoves()`, which this tree does not implement: it asserted, and the adapter turned that into a per-game runtime error, so the keyword could never match. |
+| 5 | `chesstypes.h` — `square_rank()`/`square_file()` are `static inline` | Upstream declares them `inline` with no internal linkage. GCC folds the inline copies and lets `src/polyglot/square.cpp`'s definitions win, but MSVC emits them from `chesstypes.obj` and fails the link with `LNK2005` against `polyglot.lib`. `static` keeps each translation unit self-contained. |
 
 Details on the two lexer deviations, both in `bgetc()`:
 
