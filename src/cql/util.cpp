@@ -7,7 +7,7 @@
 #include <cstring>
 #include <limits>
 
-static int indentlevel;
+static thread_local int indentlevel;
 
 void indent(){++indentlevel;};
 void tab(){

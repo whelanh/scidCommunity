@@ -3,7 +3,9 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-vector<Variable*>* Variable::theVariables;
+thread_local vector<Variable*>* Variable::theVariables;
+thread_local vector<TagVariable*> Variable::tagVariables;
+thread_local NumericVariable* Variable::matchCountCache=nullptr;
 
 vector<Variable*>* Variable::getVariables(){
   if(!theVariables)
@@ -20,7 +22,15 @@ void Variable::clearAll(){
     for(Variable* v:*theVariables)
       delete v;
     theVariables->clear();
+    // Free the container too: a worker thread parses its own query and then
+    // exits, and its thread-local pointer disappears without the vector it
+    // points to. Later queries recreate it through getVariables().
+    delete theVariables;
+    theVariables=nullptr;
   }
+  // These point into the registry just emptied, so they must not survive it.
+  tagVariables.clear();
+  matchCountCache=nullptr;
 }
 
 Variable* Variable::find(std::string_view nm){
@@ -31,9 +41,10 @@ Variable* Variable::find(std::string_view nm){
 }
 
 void Variable::unbindTags(){
-  for(Variable* v : *(getVariables())){
-    TagVariable* tv=dynamic_cast<TagVariable*>(v);
-    if(tv&&tv->bound){
+  // Only the tag variables can be bound at a position, and a query without one
+  // (the common case) does not walk the registry at all.
+  for(TagVariable* tv : tagVariables){
+    if(tv->bound){
       //     printf("variable: unbinding variable: ");
       //      tv->print();
       //      printf("\n");

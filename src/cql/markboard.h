@@ -37,7 +37,9 @@ class MarkBoard{
   void popstate();
   void pushstate();
     //class variables
-  static MarkBoard * globalMarkBoard;
+  // Per thread: it caches the marks of the game the calling thread is
+  // matching (see cqlglobals.h).
+  static thread_local MarkBoard * globalMarkBoard;
 
 
   //static methods

@@ -9202,12 +9202,20 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 // sc_search_cql:
 //    Searches the database with a Chess Query Language query.
 //
-//    The CQL engine imported from Scid vs. PC (src/cql/) is a global-state,
-//    single-threaded matcher: it keeps the parse tree and the "current game"
-//    in globals, it reports every syntax and runtime error with longjmp(), and
-//    it annotates the Game it is given. This driver therefore stays on one
-//    thread (unlike sc_search_moves), hands the engine a freshly decoded Game
-//    per game, and turns any engine error into a normal search error string.
+//    The CQL engine imported from Scid vs. PC (src/cql/) keeps the parse
+//    tree, the "current game" and its error longjmp() target in thread-local
+//    storage, and it reports every syntax and runtime error with longjmp().
+//    This driver parses the query once to validate it and to read the
+//    :gamenumber range, then splits the candidates across worker threads; each
+//    worker parses its own copy of the query (the engine cannot share a parse
+//    tree) and matches its own games, so a worker's bindings and marks cannot
+//    leak into another's. The main thread only polls progress and
+//    cancellation while they run, because reporting progress and processing
+//    the Stop button evaluate Tcl. Any engine error, wherever it happens,
+//    becomes a normal search error string. Games outside a query's
+//    :gamenumber range, and games its game-level tag filters reject, are the
+//    things it answers from the index entry, skipping a decode the engine
+//    would only throw away.
 //
 //    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
 //    unchanged; the second is the short form):
@@ -9216,6 +9224,13 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
                   int argc, const char **argv) {
   ASSERT(dbase != nullptr && filter != nullptr);
+
+  // The progress callback evaluates Tcl, and a script it runs could try to
+  // close the base (sc_base close, sc_clipbase clear) while the workers are
+  // still reading its index and game file. Marking it busy for the whole
+  // search makes those commands refuse, as they already do for the tree
+  // search's callback (see scidbaseT::scanGamePositions()).
+  BusyGuard busy(*dbase);
 
   const char *usageStr =
       "Usage: sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>\n"
@@ -9310,41 +9325,85 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // Games the search had to skip because their record does not decode. The
   // index entries with no record at all are collected in `unreadable` above;
   // both are reported, so a large database holding damaged games does not drop
-  // them from the count without saying so.
-  size_t decodeFailures = 0;
+  // them from the count without saying so. Atomic because the workers each
+  // count their own.
+  std::atomic<size_t> decodeFailures{0};
 
-  for (size_t ci = 0; ci < cand_total; ++ci) {
-    if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
-      cancelled = true;
-      break;
+  // The game-number bounds of ":gamenumber", when the query has them. They can
+  // be answered from the parsed query before a game is decoded: the engine's
+  // own check in CqlMatchGame() runs only after a full decode, which is wasted
+  // work for every game the query is going to discard.
+  int firstQueryGame = 0;
+  int lastQueryGame = 0;
+  const bool limitsGames =
+      CqlQueryGameNumberRange(&firstQueryGame, &lastQueryGame);
+  const NameBase *names = dbase->getNameBase();
+
+  // The engine's first error, claimed with an atomic exchange: every thread
+  // runs the same query, so the first failure is as good as any, and the
+  // message must be copied before the worker that hit it resets the engine.
+  std::atomic<bool> errorClaimed{false};
+  // Set when a worker fails or the search is cancelled: the other workers stop
+  // at their next game instead of finishing a search whose result is known to
+  // be discarded.
+  std::atomic<bool> stopWorkers{false};
+
+  auto claimError = [&](std::string &message) {
+    if (!errorClaimed.exchange(true))
+      cqlError = std::move(message);
+  };
+
+  // Match one candidate. Every calling thread must have parsed the query: the
+  // engine's parse tree, variables and mark state are per thread, so `game`
+  // and the engine state belong to the caller.
+  auto matchOne = [&](size_t ci, Game &game) {
+    const gamenumT gameNum = candidates[ci];
+
+    // Outside the query's game-number range: the engine would discard the game
+    // without matching it, so do not decode it. results[ci] stays 0, which the
+    // filter update below treats as a non-match (excluded for AND, not added
+    // for OR), exactly as the engine's own rejection would.
+    if (limitsGames) {
+      const long long queryGameNumber = static_cast<long long>(gameNum) + 1;
+      if (queryGameNumber < firstQueryGame ||
+          queryGameNumber > lastQueryGame)
+        return;
     }
 
-    const gamenumT gameNum = candidates[ci];
-    // The engine caches the legal moves of the game it is working on under that
+    // Game-level tag filters (result, players, event, site, year, Elo) are
+    // answered from the index entry, before the decode: the engine checks them
+    // first anyway, and their values are exactly the ones Game::Decode() would
+    // load from the index and the name base.
+    const IndexEntry *indexEntry = dbase->getIndexEntry(gameNum);
+    if (CqlQueryIndexRejectsGame(*indexEntry, *names))
+      return;
+
+    // The engine caches things about the game it is working on under that
     // game's number (see MarkBoard::getLegalMoves()), and :gamenumber and echo
     // annotations read it, so it has to be set before matching, not after.
     CqlSetGameNumber(gameNum + 1);
 
-    // A Game per game: its position, variation stack and comments start from
-    // the decoded game, so nothing can leak from the game before it.
-    Game game;
+    // Game::Decode() starts from Clear(), so reusing one Game per thread
+    // cannot leak a position, a comment or a variation from the game before.
     // A record that does not decode is skipped, not fatal: its filter slot is
     // left at 0 below (AND) or simply not added (OR), exactly as the other
     // searches handle a game whose record cannot be read.
-    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
-      ++decodeFailures;
-      continue;
+    if (dbase->getGame(*indexEntry, game) != OK) {
+      decodeFailures.fetch_add(1, std::memory_order_relaxed);
+      return;
     }
 
     unsigned firstPly = 0;
-    const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
+    std::string error;
+    const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &error);
     if (res == CqlMatchResult::Error) {
-      engineError = true;
       char where[80];
       snprintf(where, sizeof(where), "CQL error in game %u: ",
                static_cast<unsigned>(gameNum + 1));
-      cqlError.insert(0, where);
-      break;
+      error.insert(0, where);
+      claimError(error);
+      stopWorkers.store(true, std::memory_order_relaxed);
+      return;
     }
     if (res == CqlMatchResult::Match) {
       // The filter value is 1 + the ply of the first match, so the game list
@@ -9353,7 +9412,100 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
       const unsigned ply = (firstPly > 254 ? 254 : firstPly) + 1;
       results[ci] = static_cast<byte>(ply);
     }
+  };
+
+  // Up to 8 threads, and only when the shards are big enough to pay for
+  // parsing the query once per thread and for the thread setup: about 1024
+  // candidates each. A small search keeps the one-thread path below, which
+  // uses the parse already made above.
+  const unsigned hardware = std::thread::hardware_concurrency();
+  const unsigned maxThreads = std::max(1u, std::min(hardware, 8u));
+  const unsigned byWork = static_cast<unsigned>(
+      std::max<size_t>(1, (cand_total + 1023) / 1024));
+  const unsigned nThreads = std::min(maxThreads, byWork);
+
+  if (nThreads <= 1) {
+    Game game;
+    for (size_t ci = 0; ci < cand_total; ++ci) {
+      if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
+        cancelled = true;
+        break;
+      }
+      matchOne(ci, game);
+      if (stopWorkers.load(std::memory_order_relaxed))
+        break;
+    }
+  } else {
+    // Progress the workers have published so far. An atomic per game would
+    // bounce one cache line between the workers for the whole scan, so each
+    // worker adds its count in batches of 64.
+    std::atomic<size_t> processed{0};
+
+    auto worker = [&](size_t begin, size_t end) {
+      // The engine cannot share a parse tree between threads, so every worker
+      // parses its own: the tree, its variables and its mark cache are what
+      // matching mutates, and they are all thread-local.
+      std::string parseError;
+      if (!CqlQueryParse(queryText.c_str(), silentSwitch, &parseError)) {
+        claimError(parseError);
+        stopWorkers.store(true, std::memory_order_relaxed);
+        CqlQueryReset();
+        return;
+      }
+
+      Game game;
+      size_t localDone = 0;
+      for (size_t ci = begin; ci < end; ++ci) {
+        if (stopWorkers.load(std::memory_order_relaxed))
+          break;
+        matchOne(ci, game);
+        if (++localDone % 64 == 0)
+          processed.fetch_add(64, std::memory_order_relaxed);
+      }
+      processed.fetch_add(localDone % 64, std::memory_order_relaxed);
+      // Release this thread's parse tree and engine state, whatever happened:
+      // the thread exits after this call.
+      CqlQueryReset();
+    };
+
+    std::vector<std::future<void>> futures;
+    futures.reserve(nThreads);
+    const size_t chunkSize = (cand_total + nThreads - 1) / nThreads;
+    for (unsigned t = 0; t < nThreads; ++t) {
+      const size_t begin = t * chunkSize;
+      const size_t end = std::min(begin + chunkSize, cand_total);
+      if (begin >= cand_total)
+        break;
+      futures.push_back(std::async(std::launch::async, worker, begin, end));
+    }
+
+    // The progress bar and the Stop button it polls live on this thread, so
+    // keep it free: wait for the workers in 50 ms slices and report what they
+    // have done, never calling Tcl from a worker.
+    for (;;) {
+      bool allReady = true;
+      for (auto &future : futures) {
+        // Wait on the first unfinished future, then just poll the rest:
+        // waiting on each in turn would multiply the delay by the thread count.
+        const auto slice = allReady ? std::chrono::milliseconds(0)
+                                    : std::chrono::milliseconds(50);
+        if (future.wait_for(slice) != std::future_status::ready)
+          allReady = false;
+      }
+      if (!cancelled &&
+          !progress.report(processed.load(std::memory_order_relaxed),
+                           cand_total)) {
+        cancelled = true;
+        stopWorkers.store(true, std::memory_order_relaxed);
+      }
+      if (allReady)
+        break;
+    }
+    for (auto &future : futures)
+      future.get();
   }
+
+  engineError = errorClaimed.load(std::memory_order_relaxed);
 
   if (cancelled) {
     CqlQueryReset();
@@ -9407,7 +9559,8 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
           decimalPointChar, centisecs % 100);
   char skipped[24];
   snprintf(skipped, sizeof(skipped), "%lu",
-           static_cast<unsigned long>(missingRecords + decodeFailures));
+           static_cast<unsigned long>(missingRecords +
+                                      decodeFailures.load()));
   Tcl_ResetResult(ti);
   Tcl_Obj *const report = Tcl_NewListObj(0, nullptr);
   Tcl_ListObjAppendElement(ti, report, Tcl_NewStringObj(temp, -1));

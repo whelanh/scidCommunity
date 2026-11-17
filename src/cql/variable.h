@@ -25,7 +25,13 @@ class Variable{
   virtual const char* thisclass()=0;
   static Variable* find(std::string_view name);
   virtual bool getSquare(squareT*s)=0; // now that we have numerics this should be taken out
-  static vector<Variable*>* theVariables;
+  static thread_local vector<Variable*>* theVariables;
+  // The tag variables among theVariables, and the "matchcount" variable, both
+  // cached for the matcher's per-position loop: unbindTags() used to walk the
+  // whole registry with a dynamic_cast for every position, and
+  // matchCountVariable() used to find it by name. clearAll() invalidates both.
+  static thread_local vector<TagVariable*> tagVariables;
+  static thread_local NumericVariable* matchCountCache;
   static vector<Variable*>*getVariables();
   static void clearAll();
   static SquareVariable* createSquareVariable(std::string_view n);

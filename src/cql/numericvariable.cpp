@@ -98,9 +98,14 @@ void NumericVariable::reset(){
 }
 
 NumericVariable* Variable::matchCountVariable(){
-  NumericVariable* var=getNumericVariable("matchcount",true);
-  uassert(var&&var->isMax(),"matchcountvar");
-  return var;
+  // Called for every position the matcher visits, so the lookup by name (a
+  // string comparison against every registered variable) is done once.
+  if(!matchCountCache){
+    NumericVariable* var=getNumericVariable("matchcount",true);
+    uassert(var&&var->isMax(),"matchcountvar");
+    matchCountCache=var;
+  }
+  return matchCountCache;
 }
 
 void NumericVariable::increment(){

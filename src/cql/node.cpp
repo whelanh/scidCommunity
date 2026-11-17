@@ -3,8 +3,8 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-int Node::counter=0;     
-int Node::ndisabled=0;
+thread_local int Node::counter=0;     
+thread_local int Node::ndisabled=0;
 
 bool Node::isSet(){
   SetBase* set=dynamic_cast<SetBase*>(this);

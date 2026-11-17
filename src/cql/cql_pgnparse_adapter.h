@@ -40,6 +40,8 @@
 #include "error.h"  // errorT
 
 class Game;
+class IndexEntry;
+class NameBase;
 
 // ---------------------------------------------------------------------
 // Type compatibility for the imported engine.
@@ -131,6 +133,56 @@ enum class CqlMatchResult { Error = -1, NoMatch = 0, Match = 1 };
  */
 CqlMatchResult CqlQueryMatchGame(Game *game, unsigned *firstPly,
                                  std::string *error);
+
+/**
+ * Reports the game-number bounds of the parsed query, when it restricts them
+ * with ":gamenumber". Both bounds are inclusive and 1-based, matching the
+ * numbers the engine tests in CqlMatchGame(), which are also what the search
+ * driver feeds to CqlSetGameNumber().
+ *
+ * The driver uses this to skip a candidate *before* decoding it: the engine
+ * would discard such a game anyway, and decoding it first is the expensive
+ * part when the query asks for a small part of a large database.
+ *
+ * @param first: set to the lowest game number the query admits.
+ * @param last:  set to the highest game number the query admits.
+ * @returns true when the query restricts game numbers, false otherwise (in
+ *          which case the outputs are left untouched).
+ */
+bool CqlQueryGameNumberRange(int *first, int *last);
+
+/**
+ * Rebuilds the flattened list of game-level filters that can be answered from
+ * an index entry. CqlQueryParse() calls it; CqlQueryIndexRejectsGame() is only
+ * meaningful after it.
+ */
+void CqlQueryPrepareIndexFilters();
+
+/**
+ * Whether the query's game-level tag filters reject a game on the strength of
+ * its index entry alone, so the search driver can skip the decode.
+ *
+ * A CQL query can name tag filters in two places: in the cql() specification
+ * (":player", ":result", ...), which CqlNode keeps in its gamefilters, and in
+ * the filter body ("cql() player \"Kasparov\" ..."), where they become ordinary
+ * filter nodes. For a database game every value they read (result, date,
+ * white/black/event/site names, Elos) is exactly the one stored in the index
+ * entry and resolved through the name base - the same values Game::Decode()
+ * loads (see Game::LoadStandardTags()). The answer here is therefore exact,
+ * not a heuristic: true means the engine would certainly reject the game.
+ * Filters reached only through an "or", "not", "relation", ... are not used,
+ * because the position can match without them.
+ *
+ * Filters the index cannot answer are ignored, which only forgoes an
+ * optimisation. The :gamenumber range is not tested here; the driver checks it
+ * first with CqlQueryGameNumberRange().
+ *
+ * @param indexEntry: the game's index entry (result, date, names, Elos).
+ * @param names:      the database's name base, used to resolve name IDs.
+ * @returns true when the game cannot match.
+ */
+bool CqlQueryIndexRejectsGame(const IndexEntry &indexEntry,
+                              const NameBase &names);
 
 /// Releases the parsed query and resets the engine's global state, so the next
 /// CqlQueryParse() starts from a clean engine. Safe to call at any time and

@@ -37,7 +37,7 @@ CqlNode* parseFile(const char* filename){
 
 #ifdef INTEGRATED
 CqlNode* parseBuffer(const char* buffer){
-  static bool pbDoOnce = true;
+  static thread_local bool pbDoOnce = true;
   if(CqlDebug)printf("Parser: lexing buffer:\n");
   vector<Token*> tokens;
   bool ret=lexStream(nullptr,buffer,&tokens);

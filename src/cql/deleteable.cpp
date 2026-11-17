@@ -3,9 +3,9 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-std::set<Deleteable*>*Deleteable::deleteableConstructed;
-bool Deleteable::deleteableCleaningUp=false;
-std::size_t Deleteable::deleteableNDeleted=0;
+thread_local std::set<Deleteable*>*Deleteable::deleteableConstructed;
+thread_local bool Deleteable::deleteableCleaningUp=false;
+thread_local std::size_t Deleteable::deleteableNDeleted=0;
 
 Deleteable::Deleteable(){
   deleteableInitialize();
@@ -44,7 +44,10 @@ void Deleteable::deleteableCleanup(){
     delete d;
   }
   uassert(deleteableNDeleted==ninstances,"deleteableCleanup: ninstances mismatch");
-  if(1)printf("deleteableCleanup: deleted %d instances\n",static_cast<int>(ninstances));
+  // Debug aid only: a parallel search parses once per worker, so printing on
+  // every cleanup would add several lines to the console for every search.
+  if(CqlDebug)printf("deleteableCleanup: deleted %d instances\n",
+                     static_cast<int>(ninstances));
   delete deleteableConstructed;
   deleteableConstructed=nullptr;
   deleteableCleaningUp=false;

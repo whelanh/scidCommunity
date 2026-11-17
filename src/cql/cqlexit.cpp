@@ -17,8 +17,11 @@ void cql_exit(const char* message){
 #ifdef INTEGRATED
 #include <iostream>
 #include <csetjmp>
-const char* cqlErrMsg;
-std::jmp_buf jump_buffer;
+// Per thread, like everything else the engine keeps per query: cql_exit()
+// longjmp()s to the buffer the *calling* thread set, so a worker's error must
+// not jump into (or be reported through) another thread's frame.
+thread_local const char* cqlErrMsg;
+thread_local std::jmp_buf jump_buffer;
 void cql_exit(const char* message){
   cqlErrMsg = message;
   std::longjmp(jump_buffer, 1);

@@ -28,7 +28,10 @@
 //////////////////////////////////////////////////////////////////////
 
 namespace {
-unsigned cqlGameNumber = 0;
+/// Per thread: each thread matches its own games, so the game number the
+/// engine reads (for :gamenumber, echoes and its per-game caches) must not be
+/// shared (see cqlglobals.h). sc_search_cql() sets it per game in every thread.
+thread_local unsigned cqlGameNumber = 0;
 } // namespace
 
 unsigned CqlGameNumber() { return cqlGameNumber; }
@@ -161,13 +164,13 @@ errorT PgnParser::ParseGame(Game *game) {
 // another translation unit.
 //////////////////////////////////////////////////////////////////////
 
-extern std::jmp_buf jump_buffer;   // cqlexit.cpp
-extern const char* cqlErrMsg;      // cqlexit.h
-extern bool CqlSilent;             // cqlglobals.h
+extern thread_local std::jmp_buf jump_buffer;   // cqlexit.cpp
+extern thread_local const char* cqlErrMsg;      // cqlexit.h
+extern thread_local bool CqlSilent;             // cqlglobals.h
 bool CqlParseBuffer(const char *buffer); // parser.cpp
 void CqlReset();                   // parser.cpp
 bool CqlMatchGame(Game *game);     // cqlnodematch.cpp
-extern uint CqlMatchPlyFirst;      // cqlnodematch.cpp
+extern thread_local uint CqlMatchPlyFirst;      // cqlnodematch.cpp
 
 namespace {
 
@@ -211,6 +214,10 @@ bool CqlQueryParse(const char *query, bool silent, std::string *error) {
 
 	CqlParseBuffer(query);
 
+	// The parse tree is complete: flatten the game-level filters the search
+	// driver can answer from an index entry instead of decoding the game.
+	CqlQueryPrepareIndexFilters();
+
 	// A syntax error never reaches this point: it longjmp()s to the setjmp()
 	// above.
 	return true;
@@ -252,5 +259,6 @@ void CqlQueryReset() {
 		return; // the engine could not clean up; the next parse tries again
 
 	CqlReset();
+	CqlQueryPrepareIndexFilters(); // the parse tree is gone: forget its filters
 	CqlSetGameNumber(0);
 }

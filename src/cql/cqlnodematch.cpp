@@ -4,8 +4,18 @@
  */
 #include "node.h"
 
-int CqlMatchCount = 0;
-uint CqlMatchPlyFirst;
+#include <cstring>
+
+thread_local int CqlMatchCount = 0;
+thread_local uint CqlMatchPlyFirst;
+
+namespace {
+/// The identities on the path from the game's start to the position being
+/// matched, used to reject a cycle. One buffer per thread, grown and shrunk
+/// with the recursion instead of a vector per visited position: the matcher
+/// calls this for every position of every game.
+thread_local std::vector<moveT*> idStack;
+} // namespace
 
 void CqlNode::do_match(MFilter*p,Game*game){
   NumericVariable*mc=Variable::matchCountVariable();
@@ -26,24 +36,30 @@ void CqlNode::do_match(MFilter*p,Game*game){
   //  printf("cqlnode: unbinding tags at ply: %d\n",game->GetCurrentPly());
   Variable::unbindTags();
   int nchildren=MarkBoard::number_children(game,searchvariations);
-  vector<moveT*>ids;
-  ids.push_back(id);
+  const size_t idDepth=idStack.size();
+  idStack.push_back(id);
   for(int i=0;i<nchildren;++i){
     MarkBoard::move_to_child(game,i);
     auto childid=MarkBoard::identity(game);
-    for(auto oid:ids)
-      uassert(oid!=childid,"idcheck fail");
-    ids.push_back(childid);
+    for(size_t k=0;k<idStack.size();++k)
+      uassert(idStack[k]!=childid,"idcheck fail");
+    idStack.push_back(childid);
     do_match(p,game);
     MarkBoard::gameBackup(game);
     uassert(id==MarkBoard::identity(game),"movecheckfail");
   }
+  idStack.resize(idDepth);
   uassert(id==MarkBoard::identity(game),"movecheckfail2");
   uassert(mc->getValue()==mc->getExtremalValue());
 }
 
 bool CqlNode::match_game(Game*game){
   game->MoveToPly(0);
+  // The identity stack is per thread and outlives one game: a runtime error
+  // longjmps out of do_match, skipping its resize(), so the aborted game's
+  // entries would otherwise still be there when the next game is matched, and
+  // a reused move address would fail the cycle check spuriously.
+  idStack.clear();
   if(CqlDebug) {
     printf("\n\ncqlnode:match_game entered: %d\n", CqlGameNumber());
     util::printgame(stdout,game);
@@ -131,6 +147,115 @@ void CqlNode::match(){
 // of a header from this directory in tkscid.cpp descends into include-file-hell.
 
 #ifdef INTEGRATED
+
+bool CqlQueryGameNumberRange(int *first, int *last) {
+  if (!CqlParseRoot || !CqlParseRoot->gamenumberrange)
+    return false;
+  if (first)
+    *first = CqlParseRoot->gamenumberrange->min;
+  if (last)
+    *last = CqlParseRoot->gamenumberrange->max;
+  return true;
+}
+
+namespace {
+
+// The same test the nodes use: a null tag matches nothing.
+bool tagContains(const char *tag, const std::string &value) {
+  return tag && std::strstr(tag, value.c_str()) != nullptr;
+}
+
+// One game-level filter, answered from the index entry. This mirrors what the
+// node's match_game()/match_position() does with the decoded Game, whose tags
+// Game::LoadStandardTags() fills from the index entry and the name base.
+bool indexRejectsFilter(const GameFilter &gf, const IndexEntry &ie,
+                        const NameBase &names) {
+  if (auto *result = dynamic_cast<const ResultNode *>(&gf)) {
+    return result->result != RESULT_None && result->result != ie.GetResult();
+
+  } else if (auto *player = dynamic_cast<const PlayerNode *>(&gf)) {
+    const bool checkWhite = player->color == WHITE || player->color == NOCOLOR;
+    const bool checkBlack = player->color == BLACK || player->color == NOCOLOR;
+    const bool whiteMatches =
+        checkWhite &&
+        tagContains(names.GetName(NAME_PLAYER, ie.GetWhite()), player->name);
+    const bool blackMatches =
+        checkBlack &&
+        tagContains(names.GetName(NAME_PLAYER, ie.GetBlack()), player->name);
+    return !whiteMatches && !blackMatches;
+
+  } else if (auto *event = dynamic_cast<const EventNode *>(&gf)) {
+    return !tagContains(names.GetName(NAME_EVENT, ie.GetEvent()), event->name);
+
+  } else if (auto *site = dynamic_cast<const SiteNode *>(&gf)) {
+    return !tagContains(names.GetName(NAME_SITE, ie.GetSite()), site->name);
+
+  } else if (auto *year = dynamic_cast<const YearNode *>(&gf)) {
+    return !year->range->valid(static_cast<int>(date_GetYear(ie.GetDate())));
+
+  } else if (auto *elo = dynamic_cast<const EloNode *>(&gf)) {
+    const bool checkWhite = elo->color == WHITE || elo->color == NOCOLOR;
+    const bool checkBlack = elo->color == BLACK || elo->color == NOCOLOR;
+    return !((checkWhite && elo->range->valid(ie.GetWhiteElo())) ||
+             (checkBlack && elo->range->valid(ie.GetBlackElo())));
+  }
+
+  // GameNumberNode is answered by CqlQueryGameNumberRange() before this; any
+  // other filter is left for the decoded game.
+  return false;
+}
+
+// Collect game-level filters, but only where they are a conjunct the position
+// must satisfy. PositionNode is the engine's "all of these at once", so a
+// rejecting spec rejects the position; every other node (or, not, relation,
+// past, ...) can still match without it, so it is not descended into. The same
+// filters can appear in the cql() specification, which CqlNode keeps in
+// gamefilters instead.
+void collectIndexFilters(const Node *node,
+                         std::vector<const GameFilter *> &filters) {
+  if (!node)
+    return;
+  if (auto *position = dynamic_cast<const PositionNode *>(node)) {
+    for (const MFilter *spec : position->specs)
+      collectIndexFilters(spec, filters);
+    return;
+  }
+  if (auto *gf = dynamic_cast<const GameFilter *>(node))
+    filters.push_back(gf);
+}
+
+// The filters that can be answered from the index entry, flattened once per
+// parse: walking the tree and dynamic_casting for every game would put back a
+// cost on queries that do not even use a tag filter. Per thread, because it
+// points into that thread's parse tree.
+thread_local std::vector<const GameFilter *> indexFilters;
+
+} // namespace
+
+void CqlQueryPrepareIndexFilters() {
+  indexFilters.clear();
+  if (!CqlParseRoot)
+    return;
+  indexFilters.insert(indexFilters.end(),
+                      CqlParseRoot->gamefilters.begin(),
+                      CqlParseRoot->gamefilters.end());
+  // A game-level filter is always checked before any position is matched, so it
+  // can always reject a game. A positional one cannot when the query accepts a
+  // game with no matching position at all: ":matchcount 0 N" counts zero as a
+  // match, so a game whose positions all fail the filter is still a match, and
+  // rejecting it here would be a false negative. With no matchcount range the
+  // query requires a match (see match_game), so the filter is required.
+  const Range *countRange = CqlParseRoot->matchCountRange;
+  if (!countRange || countRange->min > 0)
+    collectIndexFilters(CqlParseRoot->filter, indexFilters);
+}
+
+bool CqlQueryIndexRejectsGame(const IndexEntry &ie, const NameBase &names) {
+  for (const GameFilter *gf : indexFilters)
+    if (indexRejectsFilter(*gf, ie, names))
+      return true;
+  return false;
+}
 
 bool CqlMatchGame(Game *game) {
   Range* gamenumberrange = CqlParseRoot->gamenumberrange;

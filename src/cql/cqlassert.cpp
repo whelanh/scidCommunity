@@ -19,11 +19,7 @@ void uassert(void *v,const char*s, const char*s2){
   uassert(v!=nullptr,s,s2);
 }
 
-
-void uassert(bool b){
-  if(!b)
-    cql_exit("assertion failure");
-}
+// uassert(bool) is inline in cqlassert.h.
 
 void uassert(bool b,const char*s){
   if (!b)
@@ -39,7 +35,7 @@ void uassert(bool b,const char*s1, const char*s2){
     // engineError(), inside its setjmp() handler) and nothing reads cqlErrMsg
     // after that copy, so the text only has to outlive the jump itself. It used
     // to be a new string per call, which leaked one message per rejected query.
-    static string ret;
+    static thread_local string ret;
     ret.assign("CQL error: ");
     ret += s1;
     ret += s2;
