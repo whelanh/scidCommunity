@@ -404,3 +404,143 @@ jobs:
       # this failing, which is the point of the page.
       - name: CQL help page examples
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/help_cql_examples.tcl
+
+  # Tcl 9.0: what current Ubuntu and Kubuntu install, and what broke v5.1.4.68.
+  # sc_search_moves handed Tcl_SplitList an int count behind a CONST84 cast; 9.0
+  # made the count a Tcl_Size and dropped CONST84, and the app did not compile.
+  # Every other job here installs 8.6, so nothing else in this file can see that
+  # class of break. This job builds 9.0 from the release tag, compiles the app
+  # against it, and then runs the whole suite - the other two jobs' own command
+  # lists, the boot smoke, and the binary harnesses - under 9.0.
+  tcl9:
+    name: Tcl 9.0
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # No runner image ships Tcl 9 yet, so it is built here. Xft, fontconfig
+      # and CUPS are what Tk links against; installing them keeps this Tk the
+      # same Tk that the link below is written for.
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends \
+            build-essential libx11-dev libxft-dev libfontconfig1-dev \
+            libcups2-dev xvfb
+
+      # Pinned to the tag: a job that followed a branch would go red on someone
+      # else's commit. Bump the tag when a new 9.0.x ships.
+      - name: Build Tcl and Tk 9.0
+        run: |
+          set -eux
+          TCL9="$RUNNER_TEMP/tcl9"
+          mkdir -p "$TCL9/src" && cd "$TCL9/src"
+          git clone -q --depth 1 -b core-9-0-4 https://github.com/tcltk/tcl.git tcl
+          git clone -q --depth 1 -b core-9-0-4 https://github.com/tcltk/tk.git tk
+          (
+            cd tcl/unix
+            ./configure --prefix="$TCL9/inst" --enable-shared=no
+            make -j"$(nproc)"
+            make install
+          )
+          # --disable-zipfs: a static Tk otherwise asks for a minizip rule that
+          # only the Tcl build defines, and stops with "No rule to make target".
+          (
+            cd tk/unix
+            ./configure --prefix="$TCL9/inst" --with-tcl="$TCL9/src/tcl/unix" \
+                        --enable-shared=no --disable-zipfs
+            make -j"$(nproc)"
+            make install
+          )
+
+      - name: Build and install against 9.0
+        # FindTCL would otherwise pair the 9.0 headers with the image's 8.6
+        # libraries: both have to be named. SCIDCOMMUNITY_VERSION because a
+        # shallow checkout has no tags for `git describe` (release.yml sets it).
+        env:
+          SCIDCOMMUNITY_VERSION: 5.1.4.0
+        run: |
+          set -eux
+          TCL9="$RUNNER_TEMP/tcl9"
+          # The Tcl and Tk archives are static and reference zlib (Tcl) and
+          # X11/Xft/fontconfig/cups (Tk). Those libraries must be linked AFTER
+          # the archives, but CMAKE_EXE_LINKER_FLAGS is placed before the
+          # objects - a static link then leaves the references unresolved.
+          # CMAKE_CXX_STANDARD_LIBRARIES is placed at the end, after
+          # target_link_libraries, which is where the Tcl/Tk archives sit.
+          cmake -S . -B build-tcl9 \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DCMAKE_INSTALL_PREFIX=/usr \
+                -DTCL_INCLUDE_PATH="$TCL9/inst/include" \
+                -DTK_INCLUDE_PATH="$TCL9/inst/include" \
+                -DTCL_LIBRARY="$TCL9/inst/lib/libtcl9.0.a" \
+                -DTK_LIBRARY="$TCL9/inst/lib/libtcl9tk9.0.a" \
+                -DCMAKE_CXX_STANDARD_LIBRARIES="-lcups -lXft -lfontconfig -lX11 -ldl -lz -lm -lpthread"
+          cmake --build build-tcl9 -j"$(nproc)"
+          DESTDIR="$PWD/AppDir" cmake --install build-tcl9
+
+      # Each list below is read out of the job that owns it, so a harness added
+      # above is covered here without a second list to keep in step - and an
+      # empty list fails rather than reading as a green run.
+      - name: Tcl harnesses under 9.0
+        run: |
+          set -u
+          TCL9="$RUNNER_TEMP/tcl9"
+          files=$(grep -oE 'run: tclsh tests/tcl/[a-z_0-9]+\.tcl' .github/workflows/tcl-tests.yml \
+                  | sed 's|run: tclsh ||')
+          test -n "$files"
+          fail=0
+          for f in $files; do
+            echo "::group::$f"
+            "$TCL9/inst/bin/tclsh9.0" "$f" \
+              || { echo "::error file=$f::fails under Tcl 9.0"; fail=1; }
+            echo "::endgroup::"
+          done
+          exit $fail
+
+      - name: Dialog harnesses under Tk 9.0
+        run: |
+          set -u
+          TCL9="$RUNNER_TEMP/tcl9"
+          # A 9.0 `make install` writes no lib/tcl9.0, so the binaries are
+          # pointed at the source library tree and at Tk's installed one.
+          export TCL_LIBRARY="$TCL9/src/tcl/library"
+          export TK_LIBRARY="$TCL9/inst/lib/tk9.0"
+          files=$(grep -oE 'run: xvfb-run -a wish tests/tcl/[a-z_0-9]+\.tcl' .github/workflows/tcl-tests.yml \
+                  | sed 's|run: xvfb-run -a wish ||')
+          test -n "$files"
+          fail=0
+          for f in $files; do
+            echo "::group::$f"
+            xvfb-run -a "$TCL9/inst/bin/wish9.0" "$f" \
+              || { echo "::error file=$f::fails under Tk 9.0"; fail=1; }
+            echo "::endgroup::"
+          done
+          exit $fail
+
+      # The built binary, not a harness: the C++ commands behind sc_* are what
+      # 9.0 changed, and only booting the thing exercises them through the new
+      # Tcl's own list and object handling.
+      - name: Boot and binary harnesses under 9.0
+        env:
+          STARTUP_SMOKE_SECONDS: 10
+        run: |
+          set -u
+          TCL9="$RUNNER_TEMP/tcl9"
+          export TCL_LIBRARY="$TCL9/src/tcl/library"
+          export TK_LIBRARY="$TCL9/inst/lib/tk9.0"
+          fail=0
+          xvfb-run -a tests/startup_smoke.sh "$PWD/AppDir/usr/bin/scidCommunity" \
+            || { echo "::error::the app does not boot on Tcl 9.0"; fail=1; }
+          files=$(grep -oE 'AppDir/usr/bin/scidCommunity" tests/tcl/[a-z_0-9]+\.tcl' \
+                    .github/workflows/tcl-tests.yml | sed 's|.*" ||')
+          test -n "$files"
+          for f in $files; do
+            echo "::group::$f"
+            xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" "$f" \
+              || { echo "::error file=$f::fails against a Tcl 9.0 build"; fail=1; }
+            echo "::endgroup::"
+          done
+          exit $fail
