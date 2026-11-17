@@ -17,7 +17,7 @@ PositionNode::PositionNode(vector<Node*> ss){
 }
 
 void PositionNode::print(){
-  printf("<%s at %p: %lu specs:",thisclass(),this,specs.size());
+  printf("<%s at %p: %zu specs:",thisclass(),static_cast<const void*>(this),specs.size());
   std::size_t i=0;
   for(MFilter* spec:specs){
     printf("\n");

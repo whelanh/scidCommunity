@@ -23,7 +23,7 @@ void ForallNode::print(){
     printf(" : ");
     target->print();
   }
-  printf(" %lu filters: ",filters.size());
+  printf(" %zu filters: ",filters.size());
   std::size_t i=0;
   for(MFilter* filter:filters){
     printf("\n");

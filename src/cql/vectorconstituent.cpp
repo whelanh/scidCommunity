@@ -25,7 +25,7 @@ void VectorConstituent::setOffsets(int i){
 
 void VectorConstituent::print(){
   printf("\n");tab();
-  printf("<%s %lu constituents: ",thisclass(),constituents.size());
+  printf("<%s %zu constituents: ",thisclass(),constituents.size());
   indent();
   for(std::size_t i=0;i<constituents.size();++i){
     printf("\n");

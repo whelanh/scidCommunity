@@ -132,29 +132,16 @@ list(APPEND SCID_SRC ${CQL_SRC})
 # The engine's #ifdef INTEGRATED branch is the library version (CqlMatchGame),
 # as opposed to the STANDALONE command line program.
 set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_DEFINITIONS INTEGRATED)
-# The engine is pre-C++11 code and trips several -Wall warnings: `char*
-# thisclass(){return "X";}` (-Wwrite-strings), int loop counters against
-# vector::size() (-Wsign-compare), a static print(moveT*) hiding Node::print()
-# (-Woverloaded-virtual), operator precedence (-Wparentheses) and a dangling
-# else (-Wdangling-else). scidvspc builds src/cql/ with -Wno-write-strings
-# -Wno-char-subscripts -Wno-parentheses -Wno-sign-compare (its Makefile.conf);
-# match that, add the two newer-GCC warnings, and leave the imported files
-# verbatim rather than modernising them.
+# The engine has been updated to C++20 style and compiles warning-free with the
+# same flags as the rest of the tree, so it needs no -Wno-* suppressions and no
+# relaxed MSVC string-literal check.
 #
 # -frtti: the engine dispatches on dynamic_cast<>() throughout. The release
 # packages pass -fno-rtti in CMAKE_CXX_FLAGS (see the ctg2obr() note above and
 # .github/workflows/release.yml), so re-enable RTTI for these files only; GCC
 # honours the last flag on the command line.
 if(NOT MSVC)
-  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-Wno-write-strings;-Wno-char-subscripts;-Wno-parentheses;-Wno-sign-compare;-Wno-overloaded-virtual;-Wno-dangling-else;-frtti")
-endif()
-
-# MSVC: the same pre-C++11 code. The engine returns string literals as char*
-# (`char* thisclass(){return "SortValue";}` in sortvalue.h), which the
-# /Zc:strictStrings check that comes with /permissive- rejects with C2440 —
-# the MSVC equivalent of GCC's -Wwrite-strings above.
-if(MSVC)
-  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "/Zc:strictStrings-")
+  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-frtti")
 endif()
 
 if(MSVC)

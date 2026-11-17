@@ -41,7 +41,7 @@ void SeqRet::print(){
     printf("id/off %d of %d: %p %d",
 	   i,
 	   getLength(),
-	   getId(i),
+	   static_cast<const void*>(getId(i)),
 	   getOffset(i));
   }
   unindent();

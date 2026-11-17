@@ -4,7 +4,7 @@
  */
 #include "node.h"
 void SequenceBase::print(){
-  printf("<%s at %p: %d constituents: ",thisclass(),this,nconstituents());
+  printf("<%s at %p: %d constituents: ",thisclass(),static_cast<const void*>(this),nconstituents());
   printVariationFlags();
   if(isSilent())printf("silent ");
   if (isSkip()) getSkipConstituent()->print();

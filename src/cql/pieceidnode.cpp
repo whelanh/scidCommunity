@@ -6,7 +6,7 @@
 void PieceIdNode::print(){
   printf("<%s variable: ",thisclass());
   variable->print();
-  printf(" %lu filters: ",filters.size());
+  printf(" %zu filters: ",filters.size());
   printf("\n");indent();tab();
   printf("PieceId Set: ");
   set->print();

@@ -16,12 +16,12 @@ EchoNode* Tokens::match_echonode(){
     {
       printf("\nmatch_echonode: filters:\n");
       for(auto f:filters){
-	printf("filter: %p: \n",f);
+	printf("filter: %p: \n",static_cast<const void*>(f));
 	f->print();
       }
       printf("\nmatch_echonode: specs:\n");
       for(auto s:specs){
-	printf("spec: %p: \n",s);
+	printf("spec: %p: \n",static_cast<const void*>(s));
 	s->print();
       }
       printf("\nmatch_echonode: got echonode of: \n");

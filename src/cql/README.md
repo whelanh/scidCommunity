@@ -28,9 +28,9 @@ existing moves, board, header, comments and material searches.
 
 ## Deliberate deviations
 
-Five files differ from r3777 on purpose. **Do not revert any of these when
-re-syncing**; each one fixes a bug that only shows against scidCommunity's own
-callers.
+Beyond the C++20 modernisation described below, five files differ from r3777
+on purpose. **Do not revert any of these when re-syncing**; each one fixes a
+bug that only shows against scidCommunity's own callers.
 
 | # | Where | Why |
 |---|---|---|
@@ -66,11 +66,46 @@ and the rest of the query was silently dropped. `bungetc()` now rewinds only a
 byte `bgetc()` actually consumed, for the same reason (`EOF` is reported for the
 NUL without advancing).
 
+## C++20 modernisation
+
+The whole engine is compiled as C++20 and is warning-free at `-Wall -Wextra`
+with GCC and Clang. It no longer needs the `-Wno-*` suppressions that the
+import originally carried, and **new ones must not be added**:
+
+- `Makefile.conf` / `Makefile` keep only `-frtti -DINTEGRATED` for `src/cql/`.
+- `CMakeLists.txt` keeps only `-frtti`; the MSVC `/Zc:strictStrings-` exception
+  is gone too.
+- `src/cql/scripts/check-warnings.sh` compiles every built translation unit and
+  fails on a warning, so an imported file that reintroduces an old idiom shows
+  up before it can be silenced.
+
+What changed, in terms of idioms rather than behaviour:
+
+- Tokens, variables and parse-tree nodes **own their text** (`std::string`)
+  instead of borrowing `const char*` from a lexer buffer that has already gone
+  away. The lexer returns `std::string`; constructors take `std::string_view`.
+- `nullptr` everywhere; `override` on overrides; `using` instead of `typedef`;
+  `std::size_t`, range-for and the container's own type for indices.
+- Comments and diagnostic strings are assembled with `std::string` instead of
+  `sprintf()` into fixed stack buffers.
+- C-style casts are `static_cast`; `SquareMask` is a `std::uint64_t` with
+  `const` accessors and `std::popcount()`.
+- Dead declarations and commented-out blocks from the import were removed.
+
+Two imported files are outside that check because the application does not
+build them: `cql.cpp` is the standalone command-line driver (it defines its own
+`main()`) and `origChanges.cpp` replaces members of Scid vs. PC's `Game`/`MFile`
+that this tree does not have. They are kept for provenance; `cql.cpp` does
+compile cleanly under `-DSTANDALONE`, `origChanges.cpp` cannot by design.
+
+This is deliberately **not** kept in sync with Scid vs. PC: the imported source
+is a starting point, not a code style to preserve.
+
 ## Files adapted to scidCommunity's API (23)
 
-The rest of the engine is upstream's, unchanged apart from the SPDX headers.
-These 23 files were adapted because scidCommunity's `Game`/`Position`/`MoveList`
-API differs from Scid vs. PC's: `isNullMove(sm)` becomes `sm->isNullMove()`,
+The file list below is the set that needed API adaptations; the whole tree also
+carries the C++20 changes above. These 23 files were adapted because
+scidCommunity's `Game`/`Position`/`MoveList` API differs from Scid vs. PC's: `isNullMove(sm)` becomes `sm->isNullMove()`,
 `pieceT*` board parameters become `const pieceT*`, `pos->IsStaleMate()` goes
 through `CqlIsStaleMate(pos)`, `game->GetNumber()` through `CqlGameNumber()`,
 `game->GetCurrentMoveCQL()` through `CqlCurrentMove(game)`, and
@@ -131,10 +166,12 @@ before rewriting the lineariser.
    it. That diff is all four deliberate deviations listed above - both
    `lexer.cpp` changes, the `echomatchinfo.cpp` buffer fix and the
    `nodematch.cpp` parse-time rejection of `extension` - plus the 23 API
-   adaptations in the next section. Re-applying only the `lexer.cpp` part
-   restores the stack-buffer overflow and lets `extension` reach the runtime
-   stub again, and both regressions look like engine behaviour rather than a
-   missing change.
+   adaptations, plus the C++20 modernisation of the whole tree. Re-applying
+   only the `lexer.cpp` part restores the stack-buffer overflow and lets
+   `extension` reach the runtime stub again, and both regressions look like
+   engine behaviour rather than a missing change.
 4. Re-add the SPDX headers.
-5. `cmake --build build` and run `tests/tcl/search_cql.tcl` and
-   `tests/tcl/search_cql_tk.tcl`.
+5. `src/cql/scripts/check-warnings.sh`, then `cmake --build build` and run
+   `tests/tcl/search_cql.tcl`, `tests/tcl/search_cql_tk.tcl`,
+   `tests/tcl/search_cql_unreadable.tcl` and
+   `tests/tcl/help_cql_examples.tcl`.

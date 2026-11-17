@@ -13,7 +13,7 @@ CqlNode* parseFile(const char* filename){
   vector<Token*> tokens;
   bool ret=lexFile(filename,&tokens);
   if(CqlShowLex)
-    printf("Got return of: %d and ntokens: %lu\n",ret,tokens.size());
+    printf("Got return of: %d and ntokens: %zu\n",ret,tokens.size());
   Tokens * ts=new Tokens(tokens);
   CqlGlobalTokens=ts;
   if(CqlShowLex){
@@ -36,13 +36,13 @@ CqlNode* parseFile(const char* filename){
 #endif
 
 #ifdef INTEGRATED
-CqlNode* parseBuffer(char* buffer){
+CqlNode* parseBuffer(const char* buffer){
   static bool pbDoOnce = true;
   if(CqlDebug)printf("Parser: lexing buffer:\n");
   vector<Token*> tokens;
   bool ret=lexStream(nullptr,buffer,&tokens);
   if(CqlShowLex)
-    printf("Got return of: %d and ntokens: %lu\n",ret,tokens.size());
+    printf("Got return of: %d and ntokens: %zu\n",ret,tokens.size());
   Tokens * ts=new Tokens(tokens);
   CqlGlobalTokens=ts;
   if(CqlShowLex){
@@ -79,7 +79,7 @@ void showTokens(){
 
 #ifdef INTEGRATED
 
-bool CqlParseBuffer(char *buffer) {
+bool CqlParseBuffer(const char *buffer) {
 
   parseBuffer(buffer);
 

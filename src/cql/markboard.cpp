@@ -30,7 +30,7 @@ bool MarkBoard::myIsNullMove(simpleMoveT* sm){
 }
 
 void MarkBoard::print(){
-  printf("%s stacksize: %lu printing the markmap\n",
+  printf("%s stacksize: %zu printing the markmap\n",
 	 thisclass(),
 	 stack.size());
 

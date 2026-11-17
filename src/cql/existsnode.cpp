@@ -26,7 +26,7 @@ void ExistsNode::print(){
     target->print();
     unindent();
   }
-  printf(" %lu filters: ",filters.size());
+  printf(" %zu filters: ",filters.size());
   std::size_t i=0;
   for(MFilter* filter:filters){
     printf("\n");

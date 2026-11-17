@@ -22,7 +22,7 @@ class Variable{
   bool isBound() const{return bound;}
   bool isUnbound()const {return !isBound();}
   virtual void print()=0;
-  virtual const char* thisclass()=0;;
+  virtual const char* thisclass()=0;
   static Variable* find(std::string_view name);
   virtual bool getSquare(squareT*s)=0; // now that we have numerics this should be taken out
   static vector<Variable*>* theVariables;

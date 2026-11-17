@@ -49,9 +49,9 @@ bool EchoMatchInfo::usesubstring()const{
 void EchoMatchInfo::print(){
   printf("<%s source: %p target: %p lca: %p gamenumber: %u targetnumber: %d substringlen: %d\n",
 	 thisclass(),
-	 source,
-	 target,
-	 lca,
+	 static_cast<const void*>(source),
+	 static_cast<const void*>(target),
+	 static_cast<const void*>(lca),
 	 gamenumber,
 	 targetnumber,
 	 substringlen());

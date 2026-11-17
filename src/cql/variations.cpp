@@ -26,7 +26,7 @@ void Node::setVariations(bool arg){
   for(Node* n:c){
     if(!n){
       printf("Internal error in node: %s\n",thisclass());
-      printf("Got a null child among nchildren of: %lu\n",c.size());
+      printf("Got a null child among nchildren of: %zu\n",c.size());
       printf("bad node is: ");
       this->print();
       uassert(false,"unexpected null child in setVariations");
