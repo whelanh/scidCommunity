@@ -9296,12 +9296,10 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   }
 
   // results[i] is the ply to display for candidates[i]: 0 = no match, the ply
-  // of the first matching move otherwise. A read failure is recorded
-  // separately: the filter value is a byte, so a match in a very long game is
-  // capped and must not be mistaken for an error.
+  // of the first matching move otherwise. The filter value is a byte, so a
+  // match in a very long game is capped and must not be mistaken for an error.
   const size_t cand_total = candidates.size();
   std::vector<byte> results(cand_total, 0);
-  bool readError = false;
   bool engineError = false;
   bool cancelled = false;
 
@@ -9320,10 +9318,11 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     // A Game per game: its position, variation stack and comments start from
     // the decoded game, so nothing can leak from the game before it.
     Game game;
-    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
-      readError = true;
+    // A record that does not decode is skipped, not fatal: its filter slot is
+    // left at 0 below (AND) or simply not added (OR), exactly as the other
+    // searches handle a game whose record cannot be read.
+    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK)
       continue;
-    }
 
     unsigned firstPly = 0;
     const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
@@ -9368,8 +9367,6 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     Tcl_AppendResult(ti, cqlError.c_str(), nullptr);
     return errorResult(ti, ERROR_BadArg, nullptr);
   }
-  if (readError)
-    return errorResult(ti, "Error reading game file.");
 
   // The search succeeded: only now is the filter changed. Nothing above this
   // line touched it, so a failed or cancelled search cannot leave the database
