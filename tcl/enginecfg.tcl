@@ -135,6 +135,20 @@ proc ::enginecfg::reviewOptionRow {name value} {
     return [list $name $value check true {} {} {} 0]
 }
 
+# A stored on/off value as the checkbutton's true/false.
+#
+# engines.dat is hand-editable, and the switch is documented as reading 0/1 as
+# well as the true/false the panel writes. A value neither spelling recognises
+# means the config says nothing usable, so the built-in default (on) is shown -
+# the same answer ::review::flagValue gives the pass.
+proc ::enginecfg::switchValue {value {default true}} {
+    switch -nocase -- [string trim $value] {
+        true  - yes - on  - 1 { return true }
+        false - no  - off - 0 { return false }
+    }
+    return $default
+}
+
 # The review option rows an option list carries, in a fixed order, with the
 # values it stores or the default for one it does not. `options` is element 8's
 # list, whatever shape its rows are in.
@@ -150,7 +164,9 @@ proc ::enginecfg::reviewOptions {options} {
     set out {}
     foreach name [dict keys $REVIEW_OPTIONS] {
         set value true
-        if {[dict exists $stored $name]} { set value [dict get $stored $name] }
+        if {[dict exists $stored $name]} {
+            set value [switchValue [dict get $stored $name]]
+        }
         lappend out [reviewOptionRow $name $value]
     }
     return $out

@@ -161,6 +161,20 @@ check "the switch's row says Cloud pre-pass" \
 checkEq "and the engine's own option label is unchanged" \
     [expr {[string first "Threads:" $text] >= 0}] 1
 
+puts "\na hand-edited on/off spelling"
+
+# engines.dat is hand-editable, so the switch reads 0/1 as well as the
+# true/false the panel writes. The row it draws must agree with the value the
+# pass resolves, or the panel shows off while the pre-pass runs.
+checkEq "1 reads as on" \
+    [lindex [::enginecfg::reviewOptions {{cloud_eval 1}}] 0 1] true
+checkEq "0 reads as off" \
+    [lindex [::enginecfg::reviewOptions {{cloud_eval 0}}] 0 1] false
+checkEq "the words are read too" \
+    [lindex [::enginecfg::reviewOptions {{cloud_eval off}}] 0 1] false
+checkEq "an unrecognised spelling shows the default" \
+    [lindex [::enginecfg::reviewOptions {{cloud_eval maybe}}] 0 1] true
+
 puts "\nticking the switch"
 
 set ::sent {}
