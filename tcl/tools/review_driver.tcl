@@ -209,6 +209,13 @@ proc ::reviewdriver::callback {token msg} {
         "InfoBestMove" {
             ::reviewdriver::next $token
         }
+        "InfoReady" {
+            # The engine was stopped: ::reviewdriver::cloudArrived sends StopGo
+            # when a cloud reply is deeper than the depth bound, and the engine
+            # layer answers that with InfoReady (it suppresses InfoBestMove on
+            # a stop). The search is over; settle the position and move on.
+            ::reviewdriver::next $token
+        }
         "InfoDisconnected" {
             # The process died mid-pass: its connection is already gone, and the
             # caller would otherwise wait forever for a pass nobody will finish.
