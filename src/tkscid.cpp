@@ -9208,8 +9208,9 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 //    it annotates the Game it is given. This driver therefore stays on one
 //    thread (unlike sc_search_moves), hands the engine a freshly decoded Game
 //    per game, and turns any engine error into a normal search error string.
-//    Games outside a query's :gamenumber range are the one thing it answers
-//    itself, skipping the decode the engine's own range check would waste.
+//    Games outside a query's :gamenumber range, and games its game-level tag
+//    filters reject, are the things it answers from the index entry, skipping
+//    a decode the engine would only throw away.
 //
 //    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
 //    unchanged; the second is the short form):
@@ -9323,6 +9324,7 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   int lastQueryGame = 0;
   const bool limitsGames =
       CqlQueryGameNumberRange(&firstQueryGame, &lastQueryGame);
+  const NameBase *names = dbase->getNameBase();
 
   for (size_t ci = 0; ci < cand_total; ++ci) {
     if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
@@ -9342,6 +9344,14 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
         continue;
     }
 
+    // Game-level tag filters (result, players, event, site, year, Elo) are
+    // answered from the index entry, before the decode: the engine checks them
+    // first anyway, and their values are exactly the ones Game::Decode() would
+    // load from the index and the name base.
+    const IndexEntry *indexEntry = dbase->getIndexEntry(gameNum);
+    if (CqlQueryIndexRejectsGame(*indexEntry, *names))
+      continue;
+
     // The engine caches the legal moves of the game it is working on under that
     // game's number (see MarkBoard::getLegalMoves()), and :gamenumber and echo
     // annotations read it, so it has to be set before matching, not after.
@@ -9353,7 +9363,7 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
     // A record that does not decode is skipped, not fatal: its filter slot is
     // left at 0 below (AND) or simply not added (OR), exactly as the other
     // searches handle a game whose record cannot be read.
-    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
+    if (dbase->getGame(*indexEntry, game) != OK) {
       ++decodeFailures;
       continue;
     }

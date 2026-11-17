@@ -211,6 +211,10 @@ bool CqlQueryParse(const char *query, bool silent, std::string *error) {
 
 	CqlParseBuffer(query);
 
+	// The parse tree is complete: flatten the game-level filters the search
+	// driver can answer from an index entry instead of decoding the game.
+	CqlQueryPrepareIndexFilters();
+
 	// A syntax error never reaches this point: it longjmp()s to the setjmp()
 	// above.
 	return true;
@@ -252,5 +256,6 @@ void CqlQueryReset() {
 		return; // the engine could not clean up; the next parse tries again
 
 	CqlReset();
+	CqlQueryPrepareIndexFilters(); // the parse tree is gone: forget its filters
 	CqlSetGameNumber(0);
 }
