@@ -105,10 +105,11 @@ is a starting point, not a code style to preserve.
 
 The file list below is the set that needed API adaptations; the whole tree also
 carries the C++20 changes above. These 23 files were adapted because
-scidCommunity's `Game`/`Position`/`MoveList` API differs from Scid vs. PC's: `isNullMove(sm)` becomes `sm->isNullMove()`,
-`pieceT*` board parameters become `const pieceT*`, `pos->IsStaleMate()` goes
-through `CqlIsStaleMate(pos)`, `game->GetNumber()` through `CqlGameNumber()`,
-`game->GetCurrentMoveCQL()` through `CqlCurrentMove(game)`, and
+scidCommunity's `Game`/`Position`/`MoveList` API differs from Scid vs. PC's:
+`isNullMove(sm)` becomes `sm->isNullMove()`, `pieceT*` board parameters become
+`const pieceT*`, `pos->IsStaleMate()` goes through `CqlIsStaleMate(pos)`,
+`game->GetNumber()` through `CqlGameNumber()`, `game->GetCurrentMoveCQL()`
+through `CqlCurrentMove(game)`, and
 `Game::WriteToPGN_CQL()` (which lives in Scid vs. PC's `origChanges.cpp`) is
 replaced by scidCommunity's `Game::WriteToPGN()`:
 
