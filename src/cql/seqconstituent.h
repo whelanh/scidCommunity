@@ -8,7 +8,7 @@ class SeqConstituent : public Node{
   void print() override=0;
   SeqConstituent* clone() override=0;
   virtual bool matchesNull()=0;
-  int getOffset(){return theOffset;}
+  int getOffset() const{return theOffset;}
   void setOffset(int);
   virtual void setOffsets(int)=0;
  private:

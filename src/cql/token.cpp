@@ -16,7 +16,7 @@ std::string Token::locationString() const {
          std::to_string(character) + "}";
 }
 
-void Token::printLocation() {
+void Token::printLocation() const {
   printf("%s", locationString().c_str());
 }
 

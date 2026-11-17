@@ -25,7 +25,7 @@ void FutureStarNode::print(){
 bool FutureStarNode::match_count(Game*game,NumValue*value){
   uassert(range,"If next* is sorted, it requires an explicit range: missing range");
   if(match_position(game)){
-    *value=(NumValue)(getCount());
+    *value=static_cast<NumValue>(getCount());
     return true;
   }
   return false;

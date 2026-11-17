@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-bool VariationFlags::getSearchVariations(){
+bool VariationFlags::getSearchVariations() const{
   uassert(theisset,"variations flags are not yet set on this node");
   return thesearchvariations;
 }
@@ -14,7 +14,7 @@ void VariationFlags::setSearchVariations(bool arg){
   theisset=true;
 }
 
-void VariationFlags::printVariationFlags(){
+void VariationFlags::printVariationFlags() const{
   if(theisset&&thesearchvariations)printf(" variations ");
 }
 

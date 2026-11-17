@@ -9,7 +9,7 @@ class EchoNode : public MFilter,public VariationFlags,public CommentFlags{
  public:
   vector<MFilter*>filters;
   vector<EchoSpec*> specs;
-  EchoNode(vector<Node*> filters, vector<EchoSpec*> specs);
+  EchoNode(const vector<Node*>& filters, const vector<EchoSpec*>& specs);
   bool match_position(Game*game) override;
   void print() override;
   CVV(EchoNode);

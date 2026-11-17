@@ -7,10 +7,10 @@ class VariationFlags{
  public:
   bool theisset{false};
   bool thesearchvariations{false};
-  bool getSearchVariations();
-  bool isVariationsSet(){return theisset;}
+  bool getSearchVariations() const;
+  bool isVariationsSet() const{return theisset;}
   void setSearchVariations(bool arg);
-  void printVariationFlags();
+  void printVariationFlags() const;
   virtual void setVariations(bool arg);
 };
 

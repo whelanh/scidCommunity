@@ -15,7 +15,7 @@ class Transform {
   virtual Node* transform(Node* n);
   virtual colorT transformColor(colorT color);
   virtual pieceT transformPiece(pieceT piece);
-  DirectionParameter transform(DirectionParameter);
+  DirectionParameter transform(const DirectionParameter&);
   virtual bool flipsColor(){return false;}
   Transform* transform(Transform*);
   Transform* compose(Transform*);

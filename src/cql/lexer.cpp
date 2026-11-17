@@ -337,13 +337,6 @@ Token* match_keyword(const char* input) {
   return new KeywordToken(input);
 }
 
-bool match_letterdigits(const char* input) {
-  uassert(input);
-  for (const char* current = input; *current; ++current)
-    if (!isalnum(static_cast<unsigned char>(*current))) return false;
-  return true;
-}
-
 Token* match_name(const char* input) {
   uassert(input);
   for (const char* current = input; *current; ++current) {
@@ -353,16 +346,6 @@ Token* match_name(const char* input) {
       return nullptr;
   }
   return new NameToken(input);
-}
-
-bool match_letterdigit(const char** inputp, char* /*ch*/) {
-  const char* current = *inputp;
-  uassert(current);
-  if (isalnum(static_cast<unsigned char>(current[0]))) {
-    *inputp = *inputp + 1;
-    return true;
-  }
-  return false;
 }
 
 Token* match_quotedstring(const char* v) {

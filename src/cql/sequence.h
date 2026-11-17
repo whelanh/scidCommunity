@@ -3,6 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
+#include <set>
 
 using SeqStack = vector<SeqConstituent*>;
 class SequenceBase : public MFilter, public Countable, public VariationFlags, public CommentFlags{ //abstract
@@ -49,13 +50,13 @@ class SequenceBase : public MFilter, public Countable, public VariationFlags, pu
 
   //nest members
  public:
-  static set<SequenceBase*>*nestGetSequenceFilters();
+  static std::set<SequenceBase*>* nestGetSequenceFilters();
   static void nestsClear(); // clear all positions that have been seen by all filters, called to start a game
   bool nestBan{false}; //whether this bans nesting
   void nestRegisterPosition(Game*game); //register current position as having matched
-  bool nestSeenPosition(Game*game); // query if this filter has seen current position
+  bool nestSeenPosition(Game*game) const; // query if this filter has seen current position
   void nestClearPositions(); //clear all positions that have been seen by this
-  set<moveT*> nestIds; // the positions that have been matched by part of the current filter
+  std::set<moveT*> nestIds; // the positions that have been matched by part of the current filter
 };
 
 class PastNode : public SequenceBase{

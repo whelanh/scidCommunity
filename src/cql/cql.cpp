@@ -48,7 +48,7 @@ int Cql_InitTcl(Tcl_Interp * ti) {
 }
 
 	
-void parseargs(int argc, char*argv[]){
+void parseargs(int argc, char** argv){
   int nextarg=0;
   if(argc==1){
     printhelp();

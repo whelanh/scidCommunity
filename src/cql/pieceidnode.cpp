@@ -23,7 +23,7 @@ void PieceIdNode::print(){
   printf(" %s> ",thisclass());
 }
 
-PieceIdNode::PieceIdNode(TagVariable*v, SetBase*s,vector<Node*>nodes){
+PieceIdNode::PieceIdNode(TagVariable*v, SetBase*s,const vector<Node*>& nodes){
   uassert(v,"pieceidnode internal v");
   variable=v;
   uassert(s,"pieceidnode internal s");

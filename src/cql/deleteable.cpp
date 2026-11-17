@@ -3,9 +3,9 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-set<Deleteable*>*Deleteable::deleteableConstructed;
+std::set<Deleteable*>*Deleteable::deleteableConstructed;
 bool Deleteable::deleteableCleaningUp=false;
-size_t Deleteable::deleteableNDeleted=0;
+std::size_t Deleteable::deleteableNDeleted=0;
 
 Deleteable::Deleteable(){
   deleteableInitialize();
@@ -38,7 +38,7 @@ void Deleteable::deleteableCleanup(){
   uassert(deleteableNDeleted==0,"deleteableCleanup: unexpectedly seen deletion");
   deleteableCleaningUp=true;
   deleteableInitialize();
-  size_t ninstances=deleteableConstructed->size();
+  const std::size_t ninstances=deleteableConstructed->size();
   for (auto d : *deleteableConstructed){
     uassert(d!=nullptr,"deleteableCleanup: unexpected null instance");
     delete d;
@@ -53,5 +53,5 @@ void Deleteable::deleteableCleanup(){
 
 void Deleteable::deleteableInitialize(){
   if (!deleteableConstructed)
-    deleteableConstructed=new set<Deleteable*>;
+    deleteableConstructed=new std::set<Deleteable*>;
 }

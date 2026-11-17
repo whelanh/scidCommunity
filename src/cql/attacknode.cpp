@@ -96,7 +96,7 @@ vnode AttackNode::children(){
 bool AttackNode::match_count(Game*game,NumValue*value){
   uassert(isCountable()&&!isSet(), "Attempt to count an attack filter without a range");
   if(match_position(game)){
-    *value=(NumValue)(count);
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;

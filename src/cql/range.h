@@ -12,7 +12,7 @@ class Range: public Deleteable{
   void print();
   Range(int m);
   Range(int mi,int ma);
-  bool valid(int i){return min<=i&&i<=max;}
+  bool valid(int i) const{return min<=i&&i<=max;}
 
 };
 

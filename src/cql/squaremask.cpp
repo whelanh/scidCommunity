@@ -36,13 +36,9 @@ void SquareMask::boardprint(Mask m){
   SquareMask(m).boardprint();
 }
 
-void SquareMask::printnl(){
+void SquareMask::printnl() const{
   print();
   printf("\n");
-}
-
-void mask_print(Mask m){
-  SquareMask(m).printnl();
 }
 
 int SquareMask::size() const{

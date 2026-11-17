@@ -7,7 +7,7 @@ vnode PositionNode::children(){
   return vnode{specs.begin(),specs.end()};
 }
 
-PositionNode::PositionNode(vector<Node*> ss){
+PositionNode::PositionNode(const vector<Node*>& ss){
   for(auto s: ss){
     uassert(s,"null input to positionnode");
     MFilter* mf=dynamic_cast<MFilter*>(s);

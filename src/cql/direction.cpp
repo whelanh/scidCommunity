@@ -3,15 +3,15 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "util.h"
-void Direction::print(){
+void Direction::print() const{
   printf("<%d,%d>",xoffset,yoffset);
 }
 
-squareT Direction::apply(squareT square){
+squareT Direction::apply(squareT square) const{
   return apply(square, 1);
 }
 
-squareT Direction::apply(squareT square, int times){
+squareT Direction::apply(squareT square, int times) const{
   uassert(times>=-7&&times<=7);
   uassert(square_valid(square));
   int x= square_file(square);
@@ -26,7 +26,7 @@ squareT Direction::apply(squareT square, int times){
   return 65;
 }
 
-bool Direction::reachable(squareT source, squareT target){
+bool Direction::reachable(squareT source, squareT target) const{
   uassert(square_valid(source)&&square_valid(target));
   int dx=square_file(target)-square_file(source);
   int dy=square_rank(target)-square_rank(source);
@@ -84,7 +84,7 @@ bool Direction::validOffset(int off){
   return off>=-1&&off<=1;
 }
 
-bool Direction::eq(const Direction & other){
+bool Direction::eq(const Direction & other) const{
   return xoffset==other.xoffset && yoffset==other.yoffset;
 }
 
@@ -97,7 +97,7 @@ vector<Direction>Direction::allDirections(){
   return ret;
 }
   
-bool Direction::isCompatible(pieceT piece){
+bool Direction::isCompatible(pieceT piece) const{
   pieceT newp=piece_Type(piece);
   if (newp==ROOK) return isOrthogonal();
   else if(newp==BISHOP) return isDiagonal();
@@ -105,11 +105,11 @@ bool Direction::isCompatible(pieceT piece){
   else return false;
 }
 
-bool Direction::isOrthogonal(){
+bool Direction::isOrthogonal() const{
   return xoffset==0||yoffset==0;
 }
 
-bool Direction::isDiagonal(){
+bool Direction::isDiagonal() const{
   return xoffset&&yoffset;
 }
   

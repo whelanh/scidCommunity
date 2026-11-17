@@ -4,7 +4,7 @@
  */
 #include "node.h"
 
-PastNode::PastNode(vector<SeqConstituent*>cs,Range*r,bool isskip, bool allownest):SequenceBase(cs,r,isskip,allownest){
+PastNode::PastNode(vector<SeqConstituent*>cs,Range*r,bool isskip, bool allownest):SequenceBase(std::move(cs),r,isskip,allownest){
 }
 
 SeqRet PastNode::compute(HolderConstituent*holder,SeqStack&stack){

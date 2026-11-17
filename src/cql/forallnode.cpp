@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-ForallNode::ForallNode(SquareVariable*v,SetBase*t, vector<Node*>nodes){
+ForallNode::ForallNode(SquareVariable*v,SetBase*t, const vector<Node*>& nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");
   variable=v;
   target=t;

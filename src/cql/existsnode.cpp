@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, vector<Node*>nodes){
+ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, const vector<Node*>& nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");
   variable=v;
   target=trgt;

@@ -4,7 +4,7 @@
  */
 #include "node.h"
 
-EchoNode::EchoNode(vector<Node*>fs, vector<EchoSpec*>ss){
+EchoNode::EchoNode(const vector<Node*>& fs, const vector<EchoSpec*>& ss){
   uassert(filters.empty());
   for(Node*n:fs){
     MFilter*m=dynamic_cast<MFilter*>(n);
@@ -100,7 +100,7 @@ void EchoNode::assignVariables(){
     NumericVariable*var=lcaspec->assignee;
     if(!var) continue;
     int len=lcaspec->getCount();
-    var->bindNumeric((NumValue)len);
+    var->bindNumeric(static_cast<NumValue>(len));
   }
 }
 

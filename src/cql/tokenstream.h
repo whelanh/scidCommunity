@@ -13,9 +13,9 @@ class Tokens : public Deleteable{
   void print();
   int bottom;
   vector<Token*>tokens;
-  bool eof();
+  bool eof() const;
   Token* current();
-  int save();
+  int save() const;
   void restore(int x);
   void forward();
   explicit Tokens(vector<Token*> ts);

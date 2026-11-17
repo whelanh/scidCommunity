@@ -24,7 +24,7 @@ bool EloNode::match_count(Game*game,NumValue*value){
     maxelo=std::max(maxelo,blackelo);
   }
   if(!matched)return false;
-  *value=(NumValue)maxelo;
+  *value=static_cast<NumValue>(maxelo);
   return true;
 }
 

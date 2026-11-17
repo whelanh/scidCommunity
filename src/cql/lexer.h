@@ -24,8 +24,6 @@ bool match_char(const char** input, char c);
 VariableToken* match_variable(const char** input);
 void match_variables(const char** input, vector<VariableToken*>* variablesp);
 VariableToken* match_variable(const char* input);
-bool match_letterdigit(const char** inputp, char* ch);
-bool match_letterdigits(const char* input);
 bool match_squarespecifier(const char** inputp,
                            vector<SquareToken*>* squaresp);
 SquareToken* match_square(const char** inputp);

@@ -25,7 +25,7 @@ void PastStarNode::print(){
 bool PastStarNode::match_count(Game*game,NumValue*value){
   uassert(range,"If previous* is sorted, it requires an explicit range: missing range");
   if(match_position(game)){
-    *value=(NumValue)(getCount());
+    *value=static_cast<NumValue>(getCount());
     return true;
   }
   return false;

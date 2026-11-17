@@ -5,7 +5,7 @@
 #include "node.h"
 #include "cql_pgnparse_adapter.h"
 #include "tokenstream.h"
-CqlNode::CqlNode(vector<Node*> features,Node*node){
+CqlNode::CqlNode(const vector<Node*>& features,Node*node){
 #ifdef STANDALONE
   uassert(features.size(),"null feature");
 #endif

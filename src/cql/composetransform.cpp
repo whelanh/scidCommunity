@@ -26,7 +26,7 @@ void ComposeTransform::print(){
   printf(">");
 }
 
-ComposeTransform::ComposeTransform(vector<Transform*>ts) :transforms{ts}{
+ComposeTransform::ComposeTransform(vector<Transform*>ts) :transforms{std::move(ts)}{
   for(auto t:transforms) uassert(t);
   uassert(transforms.size()>=2);
 }

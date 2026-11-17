@@ -20,7 +20,7 @@ void PowerNode::print(){
 
 bool PowerNode::match_count(Game*game,NumValue*value){
   if (match_position(game)){
-    *value=(NumValue)power;
+    *value=static_cast<NumValue>(power);
     return true;
   }
   return false;

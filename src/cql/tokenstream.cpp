@@ -17,7 +17,7 @@ void Tokens::print(){
   printf("\n");
 }
 
-bool Tokens::eof(){
+bool Tokens::eof() const{
   return static_cast<std::size_t>(bottom)==tokens.size();
 }
 
@@ -37,7 +37,7 @@ Tokens::Tokens(vector<Token*>ts) : tokens(std::move(ts)){
   bottom=0;
 }
 
-int Tokens::save(){
+int Tokens::save() const{
   return bottom;
 }
 

@@ -5,18 +5,17 @@
 #include "node.h"
 #include "gamesortinfo.h"
 
-GameSortInfo::GameSortInfo(string d, vector<SortValue> v){
-  values=v;
-  uassert(!d.empty(),"bad gamesortinfo constructor arg");
-  data=d;
+GameSortInfo::GameSortInfo(std::string d, vector<SortValue> v)
+  : data{std::move(d)}, values{std::move(v)}{
+  uassert(!data.empty(),"bad gamesortinfo constructor arg");
 }
 
-void GameSortInfo::print(){
+void GameSortInfo::print() const{
   output(stdout);
 }
 
 void GameSortInfo::output(FILE* os)const{
-  fprintf(os,"%s\n\n",data.data());
+  fprintf(os,"%s\n\n",data.c_str());
 }
 
 void GameSortInfo::output(FILE* os, const vector<GameSortInfo>& v){

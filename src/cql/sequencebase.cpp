@@ -34,7 +34,7 @@ vnode SequenceBase::children(){
   
 SequenceBase::SequenceBase(vector<SeqConstituent*>cs,Range*r,bool isskip,bool nestbanparam){
   range=r;
-  constituents=cs;
+  constituents=std::move(cs);
   nestBan=nestbanparam;
   for(auto c:constituents)uassert(c,"sbsb");
   if (isskip) {
@@ -300,7 +300,7 @@ bool SequenceBase::skipCurrentPosition()const{
 bool SequenceBase::match_count(Game*game, NumValue*value){
   if (match_position(game)){
     uassert (count>=0,"match_count");
-    *value=(NumValue)(count);
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;

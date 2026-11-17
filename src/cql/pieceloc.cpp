@@ -4,9 +4,9 @@
  */
 #include "node.h"
  
-PieceLoc::PieceLoc(vector<PieceToken*>pts,
-		   vector<SquareToken*>sts,
-		   vector<VariableToken*>vartokens){
+PieceLoc::PieceLoc(const vector<PieceToken*>& pts,
+		   const vector<SquareToken*>& sts,
+		   const vector<VariableToken*>& vartokens){
   vector<squareT> squares;
   uassert(!pts.empty()&&!sts.empty());
   for (PieceToken* pt : pts){
@@ -42,9 +42,6 @@ PieceLoc::PieceLoc(vector<PieceToken*>pts,
 }
     
 void PieceLoc::print(){
-  // if(1){
-  //   printf("print called on pieceloc %p with variables size: %lu\n",this,variables.size());
-  // }
   uassert(pieces.nonempty());
   if(pieces.size()>1)
     printf("[");
@@ -56,8 +53,6 @@ void PieceLoc::print(){
     printf("]");
   squaremask.print();
   for(Variable* v:variables){
-    //    printf("pl::print has got a variable at: %p\n",v);
-    //    printf("its class is: %s\n",v->thisclass());
     v->print();
   }
 }
@@ -107,7 +102,7 @@ vector<pieceT> PieceLoc::piecesFromChar(char c){
   return U;
 };
 
-bool PieceLoc::isPurePiece(){
+bool PieceLoc::isPurePiece() const{
   if (pieces.size()==0 ||
       !variables.empty()||
       squaremask.size()<64)

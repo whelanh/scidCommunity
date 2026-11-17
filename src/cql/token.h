@@ -24,7 +24,7 @@ class Token:public Deleteable {
   static void decrementLine(){--CurrentLine;uassert(CurrentLine>=1);}
   static void incrementChar(){++CurrentChar;}
   static void decrementChar(){--CurrentChar;uassert(CurrentChar>=0);}
-  void printLocation();
+  void printLocation() const;
   std::string locationString() const;
   virtual void print();
   virtual const char* thisclass(){return "UnknownToken";}

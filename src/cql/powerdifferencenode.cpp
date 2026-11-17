@@ -26,7 +26,7 @@ void PowerDifferenceNode::print(){
 
 bool PowerDifferenceNode::match_count(Game*game,NumValue*value){
   if (match_position(game)){
-    *value=(NumValue)powerdifference;
+    *value=static_cast<NumValue>(powerdifference);
     return true;
   }
   return false;

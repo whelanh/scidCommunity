@@ -4,7 +4,7 @@
  */
 #include "node.h"
 
-FutureNode::FutureNode(vector<SeqConstituent*>cs,Range*r,bool isskip,bool allownest):SequenceBase(cs,r,isskip,allownest){
+FutureNode::FutureNode(vector<SeqConstituent*>cs,Range*r,bool isskip,bool allownest):SequenceBase(std::move(cs),r,isskip,allownest){
 }
 
 SeqRet FutureNode::compute(HolderConstituent*holder,SeqStack&stack){

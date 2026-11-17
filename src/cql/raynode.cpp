@@ -43,14 +43,14 @@ RayNode::RayNode(vector<Direction>dirs,
 		 Range*r){
   uassert(!dirs.empty());
   uassert(sets.size()>=2);
-  directions=dirs;
   for(auto s:sets) uassert(s);
-  designators=sets;
+  directions=std::move(dirs);
+  designators=std::move(sets);
   for (std::size_t i=0;i<designators.size();++i)
     designatorMasks.emplace_back();
   uassert(designatorMasks.size()==designators.size());
   isAttack=isattack;
-  if(isAttack) uassert(dirs.size()==Direction::allDirections().size(),"raynode constructor internal");
+  if(isAttack) uassert(directions.size()==Direction::allDirections().size(),"raynode constructor internal");
   range=r;
 }
 
@@ -88,7 +88,7 @@ bool RayNode::match_position(Game * game){
 bool RayNode::match_count(Game*game, NumValue*value){
   uassert(range,"No range: must include a range when counting rays");
   if(match_position(game)){
-    *value=(NumValue)(count);
+    *value=static_cast<NumValue>(count);
     return true;
   }
   return false;

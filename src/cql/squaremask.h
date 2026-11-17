@@ -22,7 +22,7 @@ class SquareMask{
   void boardprint() const;
   static void boardprint(Mask m);
   const char* thisclass(){return "SquareMask";}
-  void printnl();
+  void printnl() const;
   int size() const;
   void clear(){mask=0;}
   bool empty() const{return mask==0;}

@@ -108,15 +108,15 @@ class PieceLoc:public SetBase{
   vector<Variable*> variables;
   //  bool piecemask[18];
   //  bool matchPieceSquare(pieceT piece,squareT square);
-  PieceLoc(vector<PieceToken*>piecetokens,
-	   vector<SquareToken*> squaretokens,
-	   vector<VariableToken*> variabletokens);
+  PieceLoc(const vector<PieceToken*>& piecetokens,
+	   const vector<SquareToken*>& squaretokens,
+	   const vector<VariableToken*>& variabletokens);
   static vector<pieceT>piecesFromChar(char c);
   void print() override;
   CVV(PieceLoc);
   vnode children() override{return vnode{};}
-  bool match_piece(pieceT piece);
-  bool isPurePiece();
+  bool match_piece(pieceT piece) const;
+  bool isPurePiece() const;
   Variable* getAsVariable();
   void transform_members(Transform *) override;
   bool hasEmptySquareMask() override;
@@ -252,7 +252,7 @@ class NotNode:public SetBase{
 class PositionNode: public MFilter{
  public:
   vector<MFilter*> specs;
-  PositionNode(vector<Node*>);
+  PositionNode(const vector<Node*>&);
   void print() override;
   bool variations{false};
   CVV(PositionNode);
@@ -382,7 +382,7 @@ class CountSquaresNode:public MFilter, public Countable{
  private:
   int count{0};
  public:
-  int getCount(){return count;}
+  int getCount() const{return count;}
   Range* range{nullptr};
   SetBase* set{nullptr};
   CVV(CountSquaresNode);
@@ -411,7 +411,7 @@ class AttackNode : public SetBase, public Countable{
   SetBase* attacked{nullptr};
   Range* range{nullptr};
   void print() override;
-  int getCount(){return count;}
+  int getCount() const{return count;}
   bool match_position(Game*game) override;
   SquareMask getSquares(Game*game) override;
   vnode children() override;
@@ -461,7 +461,7 @@ class ExistsNode: public SetBase{
   vnode children() override;
   SquareMask getSquares(Game*game) override;
   void print() override;
-  ExistsNode(SquareVariable*v, SetBase*target, vector<Node*> nodes);
+  ExistsNode(SquareVariable*v, SetBase*target, const vector<Node*>& nodes);
   void deepify() override{clonevec(filters);if(target)target=target->clone();}
 };
 
@@ -474,7 +474,7 @@ class ForallNode: public MFilter{
   CVV(ForallNode);
   vnode children() override;
   bool match_position(Game*game) override;
-  ForallNode(SquareVariable*v,SetBase*target,vector<Node*>nodes);
+  ForallNode(SquareVariable*v,SetBase*target,const vector<Node*>& nodes);
   void print() override;
   void deepify() override{if(target)target=target->clone();clonevec(filters);}
 };
@@ -595,7 +595,7 @@ class CqlNode : public Node,public VariationFlags, public CommentFlags{
   void print() override;
   CVV(CqlNode);
   vnode children() override;
-  CqlNode(vector<Node*> features,Node* node);
+  CqlNode(const vector<Node*>& features,Node* node);
   ~CqlNode() override = default;
   void run();
   void setUseMarks();
@@ -616,7 +616,7 @@ class FutureStarNode : public MFilter, public Countable, public VariationFlags, 
   Range* range{nullptr};
   CVV(FutureStarNode);
   void print() override;
-  int getCount(){return count;}
+  int getCount() const{return count;}
   bool match_count(Game*game, NumValue* value) override;
   vnode children() override{return vnode{filter};}
   void deepify() override{filter=filter->clone();}
@@ -634,7 +634,7 @@ class PastStarNode : public MFilter, public Countable, public CommentFlags{
   Range* range{nullptr};
   CVV(PastStarNode);
   void print() override;
-  int getCount(){return count;}
+  int getCount() const{return count;}
   bool match_count(Game*game, NumValue* value) override;
   vnode children() override{return vnode{filter};}
   void deepify() override{filter=filter->clone();}
@@ -651,7 +651,7 @@ class PieceIdNode : public SetBase{
   SquareMask getSquares(Game*game) override;
   CVV(PieceIdNode);
   void print() override;
-  PieceIdNode(TagVariable *v, SetBase* set,vector<Node*>fs);
+  PieceIdNode(TagVariable *v, SetBase* set,const vector<Node*>& fs);
   vnode children() override;
   void deepify() override{if(set)set=set->clone();clonevec(filters);}
 };
@@ -691,13 +691,13 @@ class TransformNode: public SetBase, public Countable{
   void expand() override;
   void deepify() override;
   void transform_in_place(Transform*t) override;
-  bool expanded();
+  bool expanded() const;
   SquareMask getSquares(Game*game) override;
   bool isSet() override;
   bool isCountable() override;
   CVV(TransformNode);
-  vector<Transform*> getTransforms(){return transforms;}
-  MFilter* getSource(){return filter;}
+  vector<Transform*> getTransforms() const{return transforms;}
+  MFilter* getSource() const{return filter;}
   bool match_position(Game*game) override;
   bool match_count(Game*game, NumValue*value) override;
 };

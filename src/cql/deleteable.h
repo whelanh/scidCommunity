@@ -3,9 +3,8 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
-#include <stdlib.h>
-#include<set>
-using std::set;
+#include <cstddef>
+#include <set>
 
 /*
 Abstract base class Deleteable. Keeps a list of all its instances and deletes them
@@ -31,7 +30,7 @@ class Deleteable{
 
  private:
   static void deleteableInitialize();
-  static set<Deleteable*>*deleteableConstructed;
+  static std::set<Deleteable*>*deleteableConstructed;
   static bool deleteableCleaningUp;
-  static size_t deleteableNDeleted;
+  static std::size_t deleteableNDeleted;
 };

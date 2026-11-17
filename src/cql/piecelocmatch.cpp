@@ -36,7 +36,7 @@ SquareMask PieceLoc::getPieceMask(Game*game){
   return lastmask;
 }
 
-bool PieceLoc::match_piece(pieceT piece){
+bool PieceLoc::match_piece(pieceT piece) const{
   //  uassert(piece_valid(piece));
   return pieces.member(piece);
 }

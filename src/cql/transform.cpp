@@ -16,7 +16,7 @@ Node* Transform::transform(Node*filter){
 }
 
   
-DirectionParameter Transform::transform(DirectionParameter directionparameter){
+DirectionParameter Transform::transform(const DirectionParameter& directionparameter){
   vector<Direction>v;
   for(auto d:directionparameter.directions)
     v.push_back(transform(d));
