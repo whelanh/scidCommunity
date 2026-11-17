@@ -467,11 +467,11 @@ translate I LichessPuzzlesViewSolution {Visualizza la soluzione}
 translate I LichessPuzzlesHintMsg {Guarda il pezzo su %s.}
 translate I LichessPuzzlesSolutionMsg {Soluzione:\n%s}
 translate I LichessPuzzlesDifficulty {Difficoltà:}
-translate I LichessPuzzlesDiffEasiest {Il più semplice}
-translate I LichessPuzzlesDiffEasiestThenNormal {Più semplice, quindi normale}
+translate I LichessPuzzlesDiffEasiest {Facilissimo}
+translate I LichessPuzzlesDiffEasier {Facile}
 translate I LichessPuzzlesDiffNormal {Normale}
-translate I LichessPuzzlesDiffNormalThenHardest {Normale, quindi più difficile}
-translate I LichessPuzzlesDiffHardest {Più difficile}
+translate I LichessPuzzlesDiffHarder {Difficile}
+translate I LichessPuzzlesDiffHardest {Difficilissimo}
 translate I LichessPuzzlesColor {Gioca come:}
 translate I LichessPuzzlesNextColor {Colore del puzzle successivo:}
 translate I LichessPuzzlesSideToMove {Lato da spostare}

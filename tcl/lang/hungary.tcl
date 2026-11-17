@@ -467,11 +467,11 @@ translate H LichessPuzzlesViewSolution {Megoldás megtekintése}
 translate H LichessPuzzlesHintMsg {Nézd meg a darabot a %s oldalon.}
 translate H LichessPuzzlesSolutionMsg {Megoldás:\n%s}
 translate H LichessPuzzlesDifficulty {Nehézség:}
-translate H LichessPuzzlesDiffEasiest {A legkönnyebb}
-translate H LichessPuzzlesDiffEasiestThenNormal {A legegyszerűbb, aztán a normális}
-translate H LichessPuzzlesDiffNormal {Normál}
-translate H LichessPuzzlesDiffNormalThenHardest {Normális, akkor a legnehezebb}
-translate H LichessPuzzlesDiffHardest {A legnehezebb}
+translate H LichessPuzzlesDiffEasiest {Nagyon könnyű}
+translate H LichessPuzzlesDiffEasier {Könnyű}
+translate H LichessPuzzlesDiffNormal {Közepes}
+translate H LichessPuzzlesDiffHarder {Nehéz}
+translate H LichessPuzzlesDiffHardest {Nagyon nehéz}
 translate H LichessPuzzlesColor {Játssz mint:}
 translate H LichessPuzzlesNextColor {Következő puzzle színe:}
 translate H LichessPuzzlesSideToMove {Oldalt a mozgáshoz}

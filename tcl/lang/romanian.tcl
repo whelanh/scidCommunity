@@ -500,10 +500,10 @@ translate L LichessPuzzlesViewSolution {Vizualizați soluția}
 translate L LichessPuzzlesHintMsg {Uită-te la piesa de pe %s.}
 translate L LichessPuzzlesSolutionMsg {Soluție:\n%s}
 translate L LichessPuzzlesDifficulty {Dificultate:}
-translate L LichessPuzzlesDiffEasiest {Cel mai usor}
-translate L LichessPuzzlesDiffEasiestThenNormal {Cel mai ușor, apoi normal}
+translate L LichessPuzzlesDiffEasiest {Cel mai ușor}
+translate L LichessPuzzlesDiffEasier {Mai ușor}
 translate L LichessPuzzlesDiffNormal {Normal}
-translate L LichessPuzzlesDiffNormalThenHardest {Normal, apoi cel mai greu}
+translate L LichessPuzzlesDiffHarder {Mai greu}
 translate L LichessPuzzlesDiffHardest {Cel mai greu}
 translate L LichessPuzzlesColor {Joacă ca:}
 translate L LichessPuzzlesNextColor {Următoarea culoare a puzzle-ului:}

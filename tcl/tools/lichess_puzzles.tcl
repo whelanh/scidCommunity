@@ -17,6 +17,22 @@ namespace eval ::lichess_puzzles {
     options.store ::lichess_puzzles::theme ""
 
     # -------------------------------------------------------
+    # The difficulties /api/puzzle/next and /api/puzzle/batch accept, easiest
+    # first: relative to the user's puzzle rating (1500 when anonymous). Any
+    # other value is served as "normal". The Difficulty menu offers exactly
+    # these, in this order, with the labels in diffLabelKeys.
+    # -------------------------------------------------------
+    variable difficultyValues [list easiest easier normal harder hardest]
+    variable diffLabelKeys [list \
+        LichessPuzzlesDiffEasiest LichessPuzzlesDiffEasier \
+        LichessPuzzlesDiffNormal \
+        LichessPuzzlesDiffHarder LichessPuzzlesDiffHardest]
+
+    # Lichess asks every client to identify itself.
+    # https://lichess.org/api#section/Introduction/User-Agent-header
+    variable userAgent "scidCommunity-lichess-puzzles"
+
+    # -------------------------------------------------------
     # Theme dict: display-name -> Lichess API angle key
     # Ordered as: game-phase first, then motifs, then mate
     # patterns, then length/master categories.
@@ -207,19 +223,14 @@ namespace eval ::lichess_puzzles {
 
         # Difficulty dropdown
         ttk::label $w.controls.difflbl -text [tr LichessPuzzlesDifficulty]
-        set diffs [list \
-            [tr LichessPuzzlesDiffEasiest] \
-            [tr LichessPuzzlesDiffEasiestThenNormal] \
-            [tr LichessPuzzlesDiffNormal] \
-            [tr LichessPuzzlesDiffNormalThenHardest] \
-            [tr LichessPuzzlesDiffHardest] \
-        ]
-        set diffVals [list easiest easiestThenNormal normal normalThenHardest hardest]
+        set diffs {}
+        foreach key $::lichess_puzzles::diffLabelKeys { lappend diffs [tr $key] }
         ttk::combobox $w.controls.diff -width 22 -state readonly \
             -values $diffs -textvariable ::lichess_puzzles::difficultyLabel
-        set idx [lsearch -exact $diffVals $::lichess_puzzles::difficulty]
-        if {$idx < 0} { set idx 2 }
-        $w.controls.diff current $idx
+        set ::lichess_puzzles::difficulty \
+            [::lichess_puzzles::normalizeDifficulty $::lichess_puzzles::difficulty]
+        $w.controls.diff current [lsearch -exact \
+            $::lichess_puzzles::difficultyValues $::lichess_puzzles::difficulty]
         bind $w.controls.diff <<ComboboxSelected>> ::lichess_puzzles::onDiffChange
         grid $w.controls.difflbl -row $row -column 0 -sticky w -padx {0 8} -pady 2
         grid $w.controls.diff    -row $row -column 1 -sticky w -pady 2
@@ -319,11 +330,91 @@ namespace eval ::lichess_puzzles {
     # onDiffChange -- sync difficulty value with combobox
     # -------------------------------------------------------
     proc onDiffChange {} {
-        set diffs [list easiest easiestThenNormal normal normalThenHardest hardest]
+        variable difficultyValues
         set idx [.lichessPuzzlesWin.controls.diff current]
-        if {$idx >= 0 && $idx < [llength $diffs]} {
-            set ::lichess_puzzles::difficulty [lindex $diffs $idx]
+        if {$idx >= 0 && $idx < [llength $difficultyValues]} {
+            set ::lichess_puzzles::difficulty [lindex $difficultyValues $idx]
         }
+    }
+
+    # -------------------------------------------------------
+    # normalizeDifficulty -- the API value to send for a stored one
+    #   Options saved before the menu matched the API hold
+    #   easiestThenNormal / normalThenHardest, which Lichess served as
+    #   "normal"; they become the neighbouring levels the labels promised.
+    #   Anything else unknown is "normal", as Lichess itself treats it.
+    # -------------------------------------------------------
+    proc normalizeDifficulty {value} {
+        variable difficultyValues
+        if {$value in $difficultyValues} { return $value }
+        switch -exact -- $value {
+            easiestThenNormal { return easier }
+            normalThenHardest { return harder }
+        }
+        return normal
+    }
+
+    # -------------------------------------------------------
+    # jitterOrder -- difficulties to try in turn for one puzzle
+    #   The requested level first, then the others nearest first
+    #   (the easier one before the harder one at equal distance).
+    # -------------------------------------------------------
+    proc jitterOrder {diff} {
+        variable difficultyValues
+        set diff [normalizeDifficulty $diff]
+        set at [lsearch -exact $difficultyValues $diff]
+        set n [llength $difficultyValues]
+        set order [list $diff]
+        for {set d 1} {$d < $n} {incr d} {
+            foreach i [list [expr {$at - $d}] [expr {$at + $d}]] {
+                if {$i >= 0 && $i < $n} { lappend order [lindex $difficultyValues $i] }
+            }
+        }
+        return $order
+    }
+
+    # -------------------------------------------------------
+    # nextUrl / batchUrl -- the two puzzle requests
+    #   An empty theme is the "mix" angle; an empty colour lets
+    #   Lichess choose.
+    # -------------------------------------------------------
+    proc nextUrl {diff theme color} {
+        set url "https://lichess.org/api/puzzle/next?difficulty=[normalizeDifficulty $diff]"
+        if {$theme ne ""} {
+            append url "&angle=[::lichess_puzzles::urlEncode $theme]"
+        }
+        if {$color ne ""} {
+            append url "&color=$color"
+        }
+        return $url
+    }
+
+    proc batchUrl {diff theme color nb} {
+        set angle mix
+        if {$theme ne ""} { set angle [::lichess_puzzles::urlEncode $theme] }
+        set url "https://lichess.org/api/puzzle/batch/$angle?difficulty=[normalizeDifficulty $diff]&nb=$nb"
+        if {$color ne ""} {
+            append url "&color=$color"
+        }
+        return $url
+    }
+
+    # -------------------------------------------------------
+    # puzzleColor -- the side the solver plays, from a puzzle object
+    #   Lichess's game.pgn stops after ply initialPly+1 (the opponent's
+    #   move that sets the puzzle), so an even initialPly leaves Black
+    #   to move. Empty when the puzzle carries no initialPly.
+    # -------------------------------------------------------
+    proc puzzleColor {puzzlePart} {
+        if {![regexp {"initialPly"\s*:\s*(\d+)} $puzzlePart -> ply]} { return "" }
+        return [expr {$ply % 2 == 0 ? "black" : "white"}]
+    }
+
+    # colorMatches -- a puzzle may be served for colour $want unless
+    # its own side is known and differs.
+    proc colorMatches {puzzlePart want} {
+        set have [puzzleColor $puzzlePart]
+        return [expr {$want eq "" || $have eq "" || $have eq $want}]
     }
 
     # -------------------------------------------------------
@@ -400,7 +491,7 @@ namespace eval ::lichess_puzzles {
         set colorIdx [$w.controls.color current]
         set reqColor [expr {$colorIdx == 1 ? "black" : "white"}]
         set reqTheme $::lichess_puzzles::theme
-        set reqDiff  $::lichess_puzzles::difficulty
+        set reqDiff  [::lichess_puzzles::normalizeDifficulty $::lichess_puzzles::difficulty]
 
         # Try to get a puzzle from the queue first
         set gotData 0
@@ -424,19 +515,11 @@ namespace eval ::lichess_puzzles {
             after idle [list ::lichess_puzzles::refillQueue $reqDiff $reqTheme $reqColor $token]
         }
 
-        # If no queued puzzle, fall back to individual jitter (difficulty only)
+        # If no queued puzzle, fall back to one puzzle at a time, moving to
+        # the neighbouring difficulties when a level only offers seen ones
         if {!$gotData} {
-            set jitterDiffs [list $reqDiff]
-            foreach alt {easiestThenNormal normalThenHardest hardest easiest} {
-                if {$alt ne $reqDiff} { lappend jitterDiffs $alt }
-            }
-            foreach diff $jitterDiffs {
-                set url "https://lichess.org/api/puzzle/next?"
-                append url "difficulty=$diff"
-                if {$reqTheme ne ""} {
-                    append url "&angle=[::lichess_puzzles::urlEncode $reqTheme]"
-                }
-                append url "&color=$reqColor"
+            foreach diff [::lichess_puzzles::jitterOrder $reqDiff] {
+                set url [::lichess_puzzles::nextUrl $diff $reqTheme $reqColor]
 
                 set tmpResult ""
                 if {[catch {set tmpResult [::lichess_puzzles::httpGet $url $token]}]} {
@@ -446,7 +529,8 @@ namespace eval ::lichess_puzzles {
                 set gp [::lichess_puzzles::extractJsonObject $tmpResult "game"]
                 set newId ""
                 if {$pp ne ""} { regexp {"id"\s*:\s*"([^"]*)"} $pp -> newId }
-                if {$newId ne "" && ![::lichess_puzzles::isSeen $newId]} {
+                if {$newId ne "" && ![::lichess_puzzles::isSeen $newId]
+                        && [::lichess_puzzles::colorMatches $pp $reqColor]} {
                     set puzzlePart $pp
                     set gamePart   $gp
                     set puzzleId   $newId
@@ -507,20 +591,19 @@ namespace eval ::lichess_puzzles {
 
     # -------------------------------------------------------
     # refillQueue  -- batch-fetch puzzles from Lichess
+    #   The API reference says the batch's color parameter only works
+    #   with nb=1; lila does apply it to larger batches (anonymous
+    #   batches are drawn for that colour, a user's are sampled and
+    #   filtered), so it is still sent, to spend fewer requests. What
+    #   gets queued is decided here from each puzzle's own initialPly,
+    #   so a server ignoring color costs requests, never the colour.
     # -------------------------------------------------------
     proc refillQueue {diff theme color token} {
         variable puzzleQueue
         if {[llength $puzzleQueue] >= 10} { return }
 
-        set anglePath "mix"
-        if {$theme ne ""} {
-            set anglePath $theme
-        }
-
-        set url "https://lichess.org/api/puzzle/batch/$anglePath?difficulty=$diff&nb=30"
-        if {$color ne ""} {
-            append url "&color=$color"
-        }
+        set diff [::lichess_puzzles::normalizeDifficulty $diff]
+        set url [::lichess_puzzles::batchUrl $diff $theme $color 30]
 
         set batchResult ""
         if {[catch {set batchResult [::lichess_puzzles::httpGet $url $token]}]} {
@@ -549,7 +632,8 @@ namespace eval ::lichess_puzzles {
                 set gp [::lichess_puzzles::extractJsonObject $entry "game"]
                 set eid ""
                 if {$pp ne ""} { regexp {"id"\s*:\s*"([^"]*)"} $pp -> eid }
-                if {$eid ne "" && ![::lichess_puzzles::isSeen $eid]} {
+                if {$eid ne "" && ![::lichess_puzzles::isSeen $eid]
+                        && [::lichess_puzzles::colorMatches $pp $color]} {
                     lappend puzzleQueue [list $pp $gp $eid $filterKey]
                 }
             }
@@ -1157,11 +1241,12 @@ namespace eval ::lichess_puzzles {
     # httpGet  -- cross-platform HTTP GET
     # -------------------------------------------------------
     proc httpGet {url {token ""}} {
+        variable userAgent
         set result ""
 
         # Use exec curl with explicit quoting (avoids shell & issues with pipe open)
         if {[auto_execok curl] ne ""} {
-            set args [list -s --max-time 15 -H "Accept: */*"]
+            set args [list -s --max-time 15 -A $userAgent -H "Accept: */*"]
             if {$token ne ""} {
                 lappend args -H "Authorization: Bearer $token"
             }
@@ -1182,8 +1267,15 @@ namespace eval ::lichess_puzzles {
             if {$token ne ""} {
                 lappend headers Authorization "Bearer $token"
             }
+            # The http package always writes its own -useragent and would
+            # send a User-Agent in -headers as a second one, so the package
+            # setting is swapped for this request and put back.
+            set savedAgent [::http::config -useragent]
+            ::http::config -useragent $userAgent
             set httpToken ""
-            if {![catch {set httpToken [::http::geturl $url -timeout 15000 -headers $headers]} httpErr]} {
+            set failed [catch {set httpToken [::http::geturl $url -timeout 15000 -headers $headers]} httpErr]
+            ::http::config -useragent $savedAgent
+            if {!$failed} {
                 set result [::http::data $httpToken]
                 ::http::cleanup $httpToken
                 return $result
@@ -1200,14 +1292,19 @@ namespace eval ::lichess_puzzles {
                 set psHeaders "-Headers @{'Accept'='*/*'}"
             }
             set ::env(LICHESS_PZ_URL) $url
+            set ::env(LICHESS_PZ_UA) $userAgent
+            # Windows PowerShell 5.1 refuses a User-Agent in -Headers;
+            # -UserAgent is the parameter that sets it.
             if {![catch {exec powershell -NoLogo -NoProfile -Command \
-                "(Invoke-WebRequest -Uri \$env:LICHESS_PZ_URL $psHeaders -TimeoutSec 15).Content"} result]} {
+                "(Invoke-WebRequest -Uri \$env:LICHESS_PZ_URL -UserAgent \$env:LICHESS_PZ_UA $psHeaders -TimeoutSec 15).Content"} result]} {
                 catch {unset ::env(LICHESS_PZ_TOKEN)}
                 catch {unset ::env(LICHESS_PZ_URL)}
+                catch {unset ::env(LICHESS_PZ_UA)}
                 return $result
             }
             catch {unset ::env(LICHESS_PZ_TOKEN)}
             catch {unset ::env(LICHESS_PZ_URL)}
+            catch {unset ::env(LICHESS_PZ_UA)}
         }
 
         error "Failed to query Lichess Puzzles"
@@ -1266,6 +1363,10 @@ namespace eval ::lichess_puzzles {
         }
         return $objs
     }
+
+    # options.dat is loaded before this file, so a value saved by an older
+    # version is already here: map it onto the five the API accepts.
+    set ::lichess_puzzles::difficulty [normalizeDifficulty $::lichess_puzzles::difficulty]
 
     # Initialize seen-IDs on source
     loadSeenIds

@@ -213,6 +213,13 @@ jobs:
       - name: Tree cancel clears a pending training move
         run: tclsh tests/tcl/tree_cancel_training.tcl
 
+      # Lichess Puzzles against a fake Lichess: each Difficulty entry sends
+      # its own value of the five the API accepts (old saved values mapped),
+      # only puzzles of the asked side are queued or shown, and all three
+      # transports (curl, Tcl http, PowerShell) send a User-Agent.
+      - name: Lichess puzzles requests
+        run: tclsh tests/tcl/lichess_puzzles.tcl
+
   tk-dialogs:
     name: dialogs under Tk
     runs-on: ubuntu-latest

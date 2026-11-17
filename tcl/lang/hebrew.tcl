@@ -460,11 +460,11 @@ translate V LichessPuzzlesViewSolution {צפה בפתרון}
 translate V LichessPuzzlesHintMsg {תסתכל על היצירה ב-%s.}
 translate V LichessPuzzlesSolutionMsg {פתרון:\n%s}
 translate V LichessPuzzlesDifficulty {קוֹשִׁי:}
-translate V LichessPuzzlesDiffEasiest {הכי קל}
-translate V LichessPuzzlesDiffEasiestThenNormal {הכי קל, אחר כך נורמלי}
-translate V LichessPuzzlesDiffNormal {נוֹרמָלִי}
-translate V LichessPuzzlesDiffNormalThenHardest {רגיל, ואז הכי קשה}
-translate V LichessPuzzlesDiffHardest {הכי קשה}
+translate V LichessPuzzlesDiffEasiest {קלה ביותר}
+translate V LichessPuzzlesDiffEasier {קלה מאוד}
+translate V LichessPuzzlesDiffNormal {רגילה}
+translate V LichessPuzzlesDiffHarder {קשה מאוד}
+translate V LichessPuzzlesDiffHardest {קשה ביותר}
 translate V LichessPuzzlesColor {שחק בתור:}
 translate V LichessPuzzlesNextColor {צבע הפאזל הבא:}
 translate V LichessPuzzlesSideToMove {צד לזוז}

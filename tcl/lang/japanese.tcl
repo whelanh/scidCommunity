@@ -500,11 +500,11 @@ translate A LichessPuzzlesViewSolution {ソリューションを見る}
 translate A LichessPuzzlesHintMsg {%s の作品を見てください。}
 translate A LichessPuzzlesSolutionMsg {解決策:\n%s}
 translate A LichessPuzzlesDifficulty {困難：}
-translate A LichessPuzzlesDiffEasiest {最も簡単な}
-translate A LichessPuzzlesDiffEasiestThenNormal {最も簡単、次に普通}
-translate A LichessPuzzlesDiffNormal {普通}
-translate A LichessPuzzlesDiffNormalThenHardest {普通、それから最も難しい}
-translate A LichessPuzzlesDiffHardest {最も難しい}
+translate A LichessPuzzlesDiffEasiest {非常に易しい}
+translate A LichessPuzzlesDiffEasier {易しい}
+translate A LichessPuzzlesDiffNormal {通常}
+translate A LichessPuzzlesDiffHarder {難しい}
+translate A LichessPuzzlesDiffHardest {非常に難しい}
 translate A LichessPuzzlesColor {としてプレイします:}
 translate A LichessPuzzlesNextColor {次のパズルの色:}
 translate A LichessPuzzlesSideToMove {移動する側}

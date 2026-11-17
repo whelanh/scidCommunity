@@ -468,11 +468,11 @@ translate B LichessPuzzlesViewSolution {Ver solução}
 translate B LichessPuzzlesHintMsg {Veja a peça em %s.}
 translate B LichessPuzzlesSolutionMsg {Solução:\n%s}
 translate B LichessPuzzlesDifficulty {Dificuldade:}
-translate B LichessPuzzlesDiffEasiest {Mais fácil}
-translate B LichessPuzzlesDiffEasiestThenNormal {Mais fácil, então normal}
+translate B LichessPuzzlesDiffEasiest {Muito fácil}
+translate B LichessPuzzlesDiffEasier {Fácil}
 translate B LichessPuzzlesDiffNormal {Normal}
-translate B LichessPuzzlesDiffNormalThenHardest {Normal, depois o mais difícil}
-translate B LichessPuzzlesDiffHardest {Mais difícil}
+translate B LichessPuzzlesDiffHarder {Difícil}
+translate B LichessPuzzlesDiffHardest {Muito difícil}
 translate B LichessPuzzlesColor {Jogue como:}
 translate B LichessPuzzlesNextColor {Próxima cor do quebra-cabeça:}
 translate B LichessPuzzlesSideToMove {Lado para mover}

@@ -499,9 +499,9 @@ translate U LichessPuzzlesHintMsg {Katso kappaletta %s.}
 translate U LichessPuzzlesSolutionMsg {Ratkaisu:\n%s}
 translate U LichessPuzzlesDifficulty {Vaikeusaste:}
 translate U LichessPuzzlesDiffEasiest {Helpoin}
-translate U LichessPuzzlesDiffEasiestThenNormal {Helpoin, sitten normaali}
-translate U LichessPuzzlesDiffNormal {Normaali}
-translate U LichessPuzzlesDiffNormalThenHardest {Normaalia, sitten vaikeinta}
+translate U LichessPuzzlesDiffEasier {Helpompi}
+translate U LichessPuzzlesDiffNormal {Keskitaso}
+translate U LichessPuzzlesDiffHarder {Vaikeampi}
 translate U LichessPuzzlesDiffHardest {Vaikein}
 translate U LichessPuzzlesColor {Pelaa nimellä:}
 translate U LichessPuzzlesNextColor {Seuraava palapelin väri:}

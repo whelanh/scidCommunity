@@ -466,11 +466,11 @@ translate R LichessPuzzlesViewSolution {Посмотреть решение}
 translate R LichessPuzzlesHintMsg {Посмотрите на фрагмент на %s.}
 translate R LichessPuzzlesSolutionMsg {Решение:\n%s}
 translate R LichessPuzzlesDifficulty {Сложность:}
-translate R LichessPuzzlesDiffEasiest {Самый простой}
-translate R LichessPuzzlesDiffEasiestThenNormal {Проще, потом нормально}
-translate R LichessPuzzlesDiffNormal {Нормальный}
-translate R LichessPuzzlesDiffNormalThenHardest {Обычное, затем самое сложное}
-translate R LichessPuzzlesDiffHardest {Самый трудный}
+translate R LichessPuzzlesDiffEasiest {Легчайший}
+translate R LichessPuzzlesDiffEasier {Лёгкий}
+translate R LichessPuzzlesDiffNormal {Средний}
+translate R LichessPuzzlesDiffHarder {Сложный}
+translate R LichessPuzzlesDiffHardest {Сложнейший}
 translate R LichessPuzzlesColor {Играть как:}
 translate R LichessPuzzlesNextColor {Следующий цвет головоломки:}
 translate R LichessPuzzlesSideToMove {Сторона для перемещения}

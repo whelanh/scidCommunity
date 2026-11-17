@@ -500,11 +500,11 @@ translate k LichessPuzzlesViewSolution {솔루션 보기}
 translate k LichessPuzzlesHintMsg {%s의 작품을 보세요.}
 translate k LichessPuzzlesSolutionMsg {해결책:\n%s}
 translate k LichessPuzzlesDifficulty {어려움:}
-translate k LichessPuzzlesDiffEasiest {가장 쉬운}
-translate k LichessPuzzlesDiffEasiestThenNormal {가장 쉬우며 그 다음은 보통}
-translate k LichessPuzzlesDiffNormal {정상}
-translate k LichessPuzzlesDiffNormalThenHardest {보통, 그 다음이 가장 어렵다}
-translate k LichessPuzzlesDiffHardest {가장 어렵다}
+translate k LichessPuzzlesDiffEasiest {매우 쉬움}
+translate k LichessPuzzlesDiffEasier {쉬움}
+translate k LichessPuzzlesDiffNormal {보통}
+translate k LichessPuzzlesDiffHarder {어려움}
+translate k LichessPuzzlesDiffHardest {매우 어려움}
 translate k LichessPuzzlesColor {다음과 같이 플레이하세요:}
 translate k LichessPuzzlesNextColor {다음 퍼즐 색상:}
 translate k LichessPuzzlesSideToMove {이동할 면}

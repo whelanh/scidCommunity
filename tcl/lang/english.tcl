@@ -500,9 +500,9 @@ translate E LichessPuzzlesHintMsg {Look at the piece on %s.}
 translate E LichessPuzzlesSolutionMsg {Solution:\n%s}
 translate E LichessPuzzlesDifficulty {Difficulty:}
 translate E LichessPuzzlesDiffEasiest {Easiest}
-translate E LichessPuzzlesDiffEasiestThenNormal {Easiest, then normal}
+translate E LichessPuzzlesDiffEasier {Easier}
 translate E LichessPuzzlesDiffNormal {Normal}
-translate E LichessPuzzlesDiffNormalThenHardest {Normal, then hardest}
+translate E LichessPuzzlesDiffHarder {Harder}
 translate E LichessPuzzlesDiffHardest {Hardest}
 translate E LichessPuzzlesColor {Play as:}
 translate E LichessPuzzlesNextColor {Next puzzle color:}

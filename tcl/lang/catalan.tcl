@@ -483,9 +483,9 @@ translate K LichessPuzzlesHintMsg {Mireu la peça a %s.}
 translate K LichessPuzzlesSolutionMsg {Solució:\n%s}
 translate K LichessPuzzlesDifficulty {Dificultat:}
 translate K LichessPuzzlesDiffEasiest {El més fàcil}
-translate K LichessPuzzlesDiffEasiestThenNormal {El més fàcil, després normal}
+translate K LichessPuzzlesDiffEasier {Més fàcil}
 translate K LichessPuzzlesDiffNormal {Normal}
-translate K LichessPuzzlesDiffNormalThenHardest {Normal, després més difícil}
+translate K LichessPuzzlesDiffHarder {Més difícil}
 translate K LichessPuzzlesDiffHardest {El més difícil}
 translate K LichessPuzzlesColor {Juga com:}
 translate K LichessPuzzlesNextColor {Color del trencaclosques següent:}

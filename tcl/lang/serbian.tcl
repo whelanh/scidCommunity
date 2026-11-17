@@ -585,11 +585,11 @@ translate Y LichessPuzzlesDifficulty {Difficulty:}
 # ====== TODO To be translated ======
 translate Y LichessPuzzlesDiffEasiest {Easiest}
 # ====== TODO To be translated ======
-translate Y LichessPuzzlesDiffEasiestThenNormal {Easiest, then normal}
+translate Y LichessPuzzlesDiffEasier {Easier}
 # ====== TODO To be translated ======
 translate Y LichessPuzzlesDiffNormal {Normal}
 # ====== TODO To be translated ======
-translate Y LichessPuzzlesDiffNormalThenHardest {Normal, then hardest}
+translate Y LichessPuzzlesDiffHarder {Harder}
 # ====== TODO To be translated ======
 translate Y LichessPuzzlesDiffHardest {Hardest}
 # ====== TODO To be translated ======
