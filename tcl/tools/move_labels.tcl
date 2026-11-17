@@ -340,18 +340,24 @@ proc ::movelabels::refine {label ctx} {
         if {$A(is_best) && [llength $A(candidates)] >= 2} {
             set top [lindex $A(candidates) 0]
             set second [lindex $A(candidates) 1]
+            # The free-capture exclusion is evidence, and a missing board is not
+            # evidence that the move did not take something free: an absent
+            # `fen_before` blocks the claim rather than passing it. The `played`
+            # half stays as it was - a move with no UCI string cannot be tested
+            # either.
             if {$top - $second >= $GREAT_GAP && $A(cp_after) >= -200 \
                 && $A(cp_after) >= $A(cp_before) - 20 \
-                && ($A(played) eq "" || $A(fen_before) eq "" \
-                    || ![isFreeCapture $A(fen_before) $A(played)])} {
+                && ($A(played) ne "" && $A(fen_before) ne "" \
+                    && ![isFreeCapture $A(fen_before) $A(played)])} {
                 return great
             }
         }
         # A rescue that turns a lost position into a playable one is the same
-        # kind of find.
+        # kind of find. It needs no candidates, so the board is the only thing
+        # that can test it, and it fails closed the same way.
         if {$A(is_best) && $A(cp_before) <= -150 && $A(cp_after) >= -50 \
-            && ($A(played) eq "" || $A(fen_before) eq "" \
-                || ![isFreeCapture $A(fen_before) $A(played)])} {
+            && ($A(played) ne "" && $A(fen_before) ne "" \
+                && ![isFreeCapture $A(fen_before) $A(played)])} {
             return great
         }
     }

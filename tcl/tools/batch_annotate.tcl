@@ -538,13 +538,16 @@ proc ::batch_annotate::read_engine {pipe} {
 # counted either - judge refuses it for the same reason.
 proc ::batch_annotate::unjudgedCount {map evals plan {bookEnd 0}} {
     set sides [::reviewdriver::sides $map]
+    # The pass's boards and book boundary, built once: this asks the writer's own
+    # question of every move, and each answer replays a position.
+    set ctx [::reviewdriver::refineContext $map $bookEnd]
     set n 0
     foreach ply $plan {
         if {[::review::playedMove $map $ply] eq ""} { continue }
         # The writer labels the book as theory, not as a move it failed to
         # judge; counting those plies would report every book line as unjudged.
         if {$bookEnd > 0 && $ply <= $bookEnd} { continue }
-        if {[::reviewdriver::judge $map $evals $sides $ply] eq ""} { incr n }
+        if {[::reviewdriver::judge $map $evals $sides $ply $ctx] eq ""} { incr n }
     }
     return $n
 }

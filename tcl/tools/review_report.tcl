@@ -480,7 +480,11 @@ proc ::reviewreport::collect {p results} {
     set mpv 3
     catch { set mpv [dict get $p mpv] }
     set sides [::reviewdriver::sides $map]
-    set verdicts [::reviewdriver::verdicts $map $results]
+    set verdicts [::reviewdriver::verdicts $map $results $bookEnd]
+    # The writer judges each move again for the figures the report quotes (`before`
+    # and `after`); the boards and the book boundary are the same ones the
+    # verdicts above were decided from, so they are built once here.
+    set ctx [::reviewdriver::refineContext $map $bookEnd]
     set corrections {}
     catch { set corrections [dict get $p corrections] }
     set moves {}
@@ -506,7 +510,7 @@ proc ::reviewreport::collect {p results} {
             continue
         }
         if {![dict exists $verdicts $ply]} { continue }
-        set v [::reviewdriver::judge $map $results $sides $ply]
+        set v [::reviewdriver::judge $map $results $sides $ply $ctx]
         if {$v eq ""} { continue }
         set label [dict get $v label]
         if {[dict exists $corrections $ply]} {

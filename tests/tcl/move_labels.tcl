@@ -203,6 +203,15 @@ proc rctx {args} {
     return $d
 }
 
+# The board a claim has to be tested on. `great` and `brilliant` both exclude a
+# move that simply takes what was left hanging, and that exclusion is a question
+# about the position before the move: without the board the question is
+# unanswerable, and an unanswerable question is not a pass. a1a2 is quiet, so it
+# is not a free capture - the board below is the evidence, not the move.
+set quietFen {4k3/8/8/8/8/8/8/R3K3 w - - 0 1}
+check "the great board's move is not a free capture" \
+    [expr {![::movelabels::isFreeCapture $quietFen a1a2]}]
+
 # One legal move is not a choice.
 checkEq "a forced move is forced, whatever it costs" \
     [::movelabels::refine blunder [rctx legal_moves 1 cp_loss 900]] forced
@@ -218,15 +227,30 @@ checkEq "the caller can override the book boundary" \
 # taken out of book can still be great, which the raw ply check prevented.
 checkEq "an early move taken out of book can be great" \
     [::movelabels::refine good [rctx ply 5 in_book 0 is_best 1 cp_before 0 cp_after -10 \
-        candidates {300 50}]] great
+        candidates {300 50} played a1a2 fen_before $quietFen]] great
 
 # The only move that keeps the game: a wide MultiPV gap.
 checkEq "the only move that holds is great" \
-    [::movelabels::refine good [rctx is_best 1 cp_before 0 cp_after -10 candidates {300 50}]] great
+    [::movelabels::refine good [rctx is_best 1 cp_before 0 cp_after -10 candidates {300 50} \
+        played a1a2 fen_before $quietFen]] great
 checkEq "a wide gap in a lost position is a forced retreat, not great" \
-    [::movelabels::refine good [rctx is_best 1 cp_before -400 cp_after -350 candidates {300 -350}]] good
+    [::movelabels::refine good [rctx is_best 1 cp_before -400 cp_after -350 candidates {300 -350} \
+        played a1a2 fen_before $quietFen]] good
 checkEq "a rescue from a lost position is great" \
-    [::movelabels::refine good [rctx is_best 1 cp_before -200 cp_after -50]] great
+    [::movelabels::refine good [rctx is_best 1 cp_before -200 cp_after -50 \
+        played a1a2 fen_before $quietFen]] great
+
+# A missing board is not evidence that the move did not simply take what was
+# left hanging, so it cannot stand as a pass: both routes to great fail closed,
+# and an unprovable claim falls through to the ladder rather than being made.
+# The rescue needs no candidates at all, which is why the caller's round-2 gate
+# (withhold `candidates` when the replay failed) left this one open.
+checkEq "a rescue with no board is best, not great" \
+    [::movelabels::refine best [rctx is_best 1 cp_before -400 cp_after -20 \
+        played e1e2]] best
+checkEq "the same rescue beside a board it did not take on is great" \
+    [::movelabels::refine best [rctx is_best 1 cp_before -400 cp_after -20 \
+        played a1a2 fen_before $quietFen]] great
 
 # ... but not when it simply takes what the opponent left hanging.
 set freeFen {4k2r/8/8/8/8/8/8/R3K2R w - - 0 1}
@@ -304,7 +328,8 @@ checkEq "a rescue that just takes a hanging piece is not great" \
     [::movelabels::refine good [rctx is_best 1 cp_before -200 cp_after -50 \
         fen_before $freeFen played h1h8]] good
 checkEq "the same rescue without the free capture is great" \
-    [::movelabels::refine good [rctx is_best 1 cp_before -200 cp_after -50]] great
+    [::movelabels::refine good [rctx is_best 1 cp_before -200 cp_after -50 \
+        played a1a2 fen_before $quietFen]] great
 # The board question has to be answerable in both helpers: a position the core
 # rejects used to leave the answer at 0 ("not a free capture") and let a wide
 # gap stand as great.

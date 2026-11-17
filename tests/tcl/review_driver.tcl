@@ -533,6 +533,325 @@ set fres [dict create \
 checkEq {[%eval] is White's point of view, not the ply's parity} \
     [dict get [::reviewdriver::verdicts $fmap $fres] 1] {best 60}
 
+puts "the refinement layer: forced, book, brilliant, great and miss"
+
+# What a move did, not only what it cost. These are ::movelabels::refine's labels,
+# and what this pins is the wiring: the context judge assembles from the map, the
+# results and the pass's own book boundary, and the fact that every figure it
+# cannot prove is left out rather than guessed.
+
+# One legal move is not a choice, however much it loses. Black here has only
+# Ka8-a7: the rook on b1 covers b8 and b7.
+set forceMap [::review::mainLineMap [list \
+    {position fen k7/8/8/8/8/8/8/1R5K b - - 0 1 moves} a8a7]]
+set forceRes [dict create \
+    0 [dict create 1 {20 0 cp {a8a7}}] \
+    1 [dict create 1 {20 500 cp {b1b2}}]]
+checkEq "a sole legal move is forced, not a blunder" \
+    [dict get [::reviewdriver::verdicts $forceMap $forceRes] 1] {forced 500}
+# With three legal moves the same loss is the move's own: nothing is forced.
+set looseMap [::review::mainLineMap [list \
+    {position fen k7/8/8/8/8/8/8/7K b - - 0 1 moves} a8b8]]
+set looseRes [dict create \
+    0 [dict create 1 {20 0 cp {a8a7}}] \
+    1 [dict create 1 {20 500 cp {h1g2}}]]
+checkEq "one of three legal moves is not forced" \
+    [dict get [::reviewdriver::verdicts $looseMap $looseRes] 1] {blunder 500}
+
+# The book is the review's own answer, and it is the book END: a pass that left
+# the book at ply 2 has its third move judged even though the ladder's own ply
+# window (12) would still call it theory. With no book at all the opening is
+# judged rather than labelled, because a caller with no book has no book.
+checkEq "a move inside the book is book, not a verdict" \
+    [dict get [::reviewdriver::verdicts $vmap $vres 2] 1] {book -40}
+checkEq "a move past the book end is judged, not called book" \
+    [dict get [::reviewdriver::verdicts $vmap $vres 2] 3] {excellent 120}
+checkEq "a blunder inside the book keeps its name" \
+    [dict get [::reviewdriver::verdicts $vmap $vres 2] 4] {blunder 800}
+
+# A sound sacrifice is brilliant: the piece comes back two or more, the engine
+# chose the move, and the line does not simply trade straight back. The sacrifice
+# is the one the label harness proves on the board (Nxe5, rook for knight).
+set sacFen {r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5}
+set sacMap [::review::mainLineMap [list "position fen $sacFen moves" f3e5]]
+set sacRes [dict create \
+    0 [dict create 1 {20 20 cp {f3e5 c6e5}}] \
+    1 [dict create 1 {20 -10 cp {c6e5}}]]
+checkEq "a sound sacrifice is brilliant" \
+    [dict get [::reviewdriver::verdicts $sacMap $sacRes] 1] {brilliant 10}
+# A line that takes the piece back at once is a trade, and the label is the
+# ladder's own (best): the sacrifice was never one.
+set tradeMap [::review::mainLineMap [list \
+    {position fen rnbqkbnr/ppp2ppp/8/3pp3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 4 moves} f3e5]]
+set tradeRes [dict create \
+    0 [dict create 1 {20 20 cp {f3e5 d5e4}}] \
+    1 [dict create 1 {20 -10 cp {d5e4 f3e5}}]]
+checkEq "a trade is not a sacrifice" \
+    [dict get [::reviewdriver::verdicts $tradeMap $tradeRes] 1] {best 10}
+
+# The only move that keeps the game: the gap between the best and the second line
+# is the claim, so it takes two lines to make it.
+set gapMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set gapRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -180 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+checkEq "the only move that keeps the game is great" \
+    [dict get [::reviewdriver::verdicts $gapMap $gapRes] 1] {great 20}
+# The same move with a one-line reply: the gap to a second line is unknown, so the
+# claim cannot be made. This is the ChessDB case, and nothing may invent the line.
+set oneMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set oneRes [dict create \
+    0 [dict create 1 {20 30 cp {e2e4 e7e5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+checkEq "a one-line reply cannot earn great" \
+    [dict get [::reviewdriver::verdicts $oneMap $oneRes] 1] {best 20}
+
+# A win given away is a miss, not a blunder: the move had the game and no longer
+# has it. d2d4 throws away +2.00 for +0.20.
+set missMap [::review::mainLineMap [list {position startpos moves} d2d4]]
+set missRes [dict create \
+    0 [dict create 1 {20 200 cp {e2e4 e7e5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+checkEq "a thrown-away win is a miss" \
+    [dict get [::reviewdriver::verdicts $missMap $missRes] 1] {miss 20}
+
+# The verifier still only ever moves a label down: a brilliant the second engine
+# withdrew is best, and refine cannot put it back.
+set corrected [dict merge $sacRes [dict create corrections [dict create 1 best]]]
+checkEq "a verifier's correction still only moves a refined label down" \
+    [dict get [::reviewdriver::verdicts $sacMap $corrected] 1] {best 10}
+
+puts "what the refinement is given, and what it is not given"
+
+# The boards are the map's own replay: the position before the move is the one the
+# engine searched, replayed from the spec, never read off the board on screen.
+checkEq "the boards are the map's own replay" \
+    [dict get [::reviewdriver::fens $vmap] 4] \
+    {r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3}
+checkEq "the one-position answer agrees with the walk" \
+    [::reviewdriver::fenAt $vmap 4] [dict get [::reviewdriver::fens $vmap] 4]
+# A null move's header restarts the walk: the map names the position after it, and
+# that position is what the next move is judged from.
+checkEq "a null move's header is a position of its own" \
+    [dict get [::reviewdriver::fens $nmap] 2] \
+    {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1}
+# A spec that cannot be replayed is no position at all, not an empty board.
+set badMap [::review::mainLineMap [list {position startpos moves} e2e4 zzzz]]
+checkEq "a spec that will not replay is not a position" \
+    [::reviewdriver::specPosition {position startpos moves e2e4 zzzz}] ""
+check "and it takes its successors with it" \
+    [expr {[dict exists [::reviewdriver::fens $badMap] 1]
+        && ![dict exists [::reviewdriver::fens $badMap] 2]}]
+
+set oneArgs [::reviewdriver::refineArgs $oneMap $oneRes [dict get $oneRes 0] \
+    [::reviewdriver::refineContext $oneMap 0] 1 e2e4 30 20 1]
+check "a one-line reply leaves the candidates out" \
+    [expr {![dict exists $oneArgs candidates]}]
+checkEq "the board, the move the move reached, and the count are there" \
+    [list [dict exists $oneArgs fen_before] [dict exists $oneArgs fen_after] \
+        [dict get $oneArgs legal_moves]] {1 1 20}
+checkEq "the book answer is the pass's, not the ply's" [dict get $oneArgs in_book] 0
+checkEq "the reached position's search is the sacrifice's line" \
+    [dict get $oneArgs pv_after_played] {e7e5 g1f3}
+# A move with no search of the position it reaches has no line to show: a -plies
+# pass' last move, a mate, a position the pass could not measure.
+set noSuccArgs [::reviewdriver::refineArgs $oneMap [dict remove $oneRes 1] \
+    [dict get $oneRes 0] [::reviewdriver::refineContext $oneMap 0] 1 e2e4 30 20 1]
+check "without that search there is no line" \
+    [expr {![dict exists $noSuccArgs pv_after_played]}]
+
+set twoArgs [::reviewdriver::refineArgs $gapMap $gapRes [dict get $gapRes 0] \
+    [::reviewdriver::refineContext $gapMap 0] 1 e2e4 30 20 1]
+checkEq "two lines are two candidates, best first" \
+    [dict get $twoArgs candidates] {30 -180}
+checkEq "and the reached position's line is the sacrifice's evidence" \
+    [dict get $twoArgs pv_after_played] {e7e5 g1f3}
+
+# A promotion is one move, not four. ::chessboard::legalMoves emits an entry per
+# promotion piece - a7a8q, a7a8r, a7a8b, a7a8n - so a position whose only legal move
+# is a promotion reported four moves, and the forced test (exactly one) never
+# fired: the only move in the position was labelled `best`. Counted by from-to
+# squares, four promotions of one pawn are the one choice a reader faces.
+# White: Ka1, Ra2, pawns a3 b2 h7; the rook and the two pawns are blocked, b1 is
+# covered by the bishop, and h7-h8 is the whole of White's game.
+set promoMap [::review::mainLineMap [list \
+    {position fen 8/7P/6b1/8/p7/Pp6/RP6/K7 w - - 0 1 moves} h7h8q]]
+set promoRes [dict create \
+    0 [dict create 1 {20 500 cp {h7h8q}}] \
+    1 [dict create 1 {20 0 cp {}}]]
+set promoVerdict [lindex [dict get [::reviewdriver::verdicts $promoMap $promoRes] 1] 0]
+checkEq "a promotion is the only legal move, and it is forced" $promoVerdict forced
+checkEq "so no mark is written for it" [::review::nagForLabel $promoVerdict] ""
+
+# The same promotion from the cheap path. A move that was not the engine's choice
+# is normally decided without a board when the engine's own lines named two root
+# moves, and that count is of *moves*: h7h8q and h7h8r are two promotions of one
+# pawn, so the reply proves nothing about the mover's choice. Counted as UCI
+# strings it read as two, the board was skipped, `legal_moves` was never set,
+# `refine` fell back to its default of 20 and the only move in the position was
+# called a blunder. Played is the rook promotion and slot 1 is the queen's, so the
+# mover is not on the engine's move and `$isBest || $distinct < 2` is the branch
+# under test - only counting the from-to squares reaches the board.
+set promoPickMap [::review::mainLineMap [list \
+    {position fen 8/7P/6b1/8/p7/Pp6/RP6/K7 w - - 0 1 moves} h7h8r]]
+set promoPickRes [dict create \
+    0 [dict create \
+        1 {20 500 cp {h7h8q}} \
+        2 {20 100 cp {h7h8r}}] \
+    1 [dict create 1 {20 0 cp {}}]]
+set promoPickArgs [::reviewdriver::refineArgs $promoPickMap $promoPickRes \
+    [dict get $promoPickRes 0] [::reviewdriver::refineContext $promoPickMap 0] \
+    1 h7h8r 500 100 0]
+checkEq "two promotions of one pawn are one root move, so the board is asked" \
+    [expr {[dict exists $promoPickArgs legal_moves] \
+        ? [dict get $promoPickArgs legal_moves] : ""}] 1
+checkEq "and the mover's only move is forced, not judged on its drop" \
+    [lindex [dict get [::reviewdriver::verdicts $promoPickMap $promoPickRes] 1] 0] forced
+
+# The gap `great` claims is the engine's first two ranked slots, and neither may be
+# a bound. `lowerbound`/`upperbound` is how far a search got before it stopped, not
+# a score: slot 1 +30, slot 2 `lowerbound 20`, slot 3 -300 used to skip the bound and
+# read the gap as 330, when the second-best line is *at least* 20 and the gap to it
+# is at most 10. Unknown, not small - so no candidates, and no `great`.
+set boundMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set boundRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 20 lowerbound {d2d4 d7d5}} \
+        3 {20 -300 cp {c2c4 c7c5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set boundArgs [::reviewdriver::refineArgs $boundMap $boundRes [dict get $boundRes 0] \
+    [::reviewdriver::refineContext $boundMap 0] 1 e2e4 30 30 1]
+check "a bound in slot 2 leaves the gap unknown, not wide" \
+    [expr {![dict exists $boundArgs candidates]}]
+checkEq "and the move is not great on a ceiling" \
+    [lindex [dict get [::reviewdriver::verdicts $boundMap $boundRes] 1] 0] best
+
+# Two searches are not one gap either. Each slot carries the depth it was reported
+# at, and a capped search can replace slot 1 with a newer, deeper line while slot 2
+# still holds an older one: pairing a depth-20 score with a depth-14 one measures
+# the difference between two searches, which is the evidence the cloud pre-pass
+# refuses to commit. Slot 2 has to share slot 1's depth, or the gap is unknown.
+set crossMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set crossRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {14 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set crossArgs [::reviewdriver::refineArgs $crossMap $crossRes [dict get $crossRes 0] \
+    [::reviewdriver::refineContext $crossMap 0] 1 e2e4 30 30 1]
+check "a second line from another search is not a second candidate" \
+    [expr {![dict exists $crossArgs candidates]}]
+checkEq "and no great is claimed across two searches" \
+    [lindex [dict get [::reviewdriver::verdicts $crossMap $crossRes] 1] 0] best
+# The control: two exact lines, both at slot 1's depth, a real gap. If this stops
+# being `great` the two rules above have disabled the feature rather than corrected
+# the evidence it runs on.
+set deepRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set deepArgs [::reviewdriver::refineArgs $crossMap $deepRes [dict get $deepRes 0] \
+    [::reviewdriver::refineContext $crossMap 0] 1 e2e4 30 30 1]
+checkEq "two exact lines at one depth are two candidates" \
+    [dict get $deepArgs candidates] {30 -300}
+checkEq "and the real gap still earns great" \
+    [lindex [dict get [::reviewdriver::verdicts $crossMap $deepRes] 1] 0] great
+
+# A gap is not a claim about a board nobody could build. `refine`'s `great` branch
+# skips its free-capture exclusion when `fen_before` is missing - it reads an
+# absence as "not a free capture" - and the caller used to hand it candidates from
+# the two scores alone, so a move the board could not replay was labelled great on
+# the gap, including a move that simply took what was left hanging. The replay
+# failing is the caller's evidence gap, so the caller withholds the claim: no
+# `fen_before`, no `candidates`. `position startpos moves zzzz` cannot be walked
+# past zzzz, so there is no board before the move at all.
+set noBoardMap [::review::mainLineMap [list {position startpos moves zzzz} e2e4]]
+set noBoardRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set noBoardArgs [::reviewdriver::refineArgs $noBoardMap $noBoardRes \
+    [dict get $noBoardRes 0] [::reviewdriver::refineContext $noBoardMap 0] \
+    1 e2e4 30 20 1]
+check "a replay that failed leaves the board out, so the gap is not a pair" \
+    [expr {![dict exists $noBoardArgs fen_before] && ![dict exists $noBoardArgs candidates]}]
+checkEq "and the move is best, not great on a board nobody can show" \
+    [lindex [dict get [::reviewdriver::verdicts $noBoardMap $noBoardRes] 1] 0] best
+# The positive control: the identical two lines, the identical gap, at a position
+# the board *can* replay. If this stops being great the gate has switched the
+# label off rather than made the caller prove the board behind it.
+set boardMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set boardArgs [::reviewdriver::refineArgs $boardMap $noBoardRes \
+    [dict get $noBoardRes 0] [::reviewdriver::refineContext $boardMap 0] \
+    1 e2e4 30 20 1]
+checkEq "the same gap beside a board the replay reached is still a pair" \
+    [dict get $boardArgs candidates] {30 -300}
+checkEq "and that move is still great" \
+    [lindex [dict get [::reviewdriver::verdicts $boardMap $noBoardRes] 1] 0] great
+
+# What refinement is told the move reached. The best line's own score at the root
+# is the *before* figure; with no search of the position after the move there is
+# no second figure at all, and passing the first one twice lets the gap branch
+# read `cp_after >= cp_before - 20` off a number compared with itself. The base
+# ladder still gets its pair (that is what `best` is made of); refinement, which
+# is a claim about what the move kept, gets nothing to claim from - so the base
+# label stands.
+set unmeasuredMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set unmeasuredRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}]]
+checkEq "a gap with no score for the reached position is best, not great" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $unmeasuredRes] 1] 0] best
+# The positive control: the same two lines, the same gap, and the reached
+# position actually searched. If this stops being great the rule has switched
+# the label off rather than made the caller prove the position behind it.
+set measuredRes [dict merge $unmeasuredRes [dict create 1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]]
+checkEq "and the same gap with a score after the move is great" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $measuredRes] 1] 0] great
+
+# `forced` and `book` are facts about the position before the move, not
+# judgements about the score it reached: they must survive a missing successor
+# score. White's king on a1 has exactly one legal move (a1b1), and the position
+# after it is not searched.
+set forcedMap [::review::mainLineMap \
+    [list {position fen 7k/8/8/8/8/8/6q1/K7 w - - 0 1} a1b1]]
+set forcedRes [dict create 0 [dict create 1 {20 30 cp {a1b1}}]]
+checkEq "a sole legal move with no successor score is still forced" \
+    [lindex [dict get [::reviewdriver::verdicts $forcedMap $forcedRes] 1] 0] forced
+# The same fixture with the successor searched is forced too: the label must
+# not depend on whether that score happened to arrive.
+set forcedMeasured [dict merge $forcedRes \
+    [dict create 1 [dict create 1 {20 -25 cp {h8g8}}]]]
+checkEq "and it is forced when the successor is searched as well" \
+    [lindex [dict get [::reviewdriver::verdicts $forcedMap $forcedMeasured] 1] 0] forced
+# Book is the other score-free label: a move inside the pass's book boundary
+# with no successor score reads as theory rather than as a judgement.
+checkEq "a book move with no successor score is still book" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $unmeasuredRes 5] 1] 0] book
+
+set badArgs [::reviewdriver::refineArgs $badMap [dict create] \
+    [dict create 1 {20 30 cp {e2e4 e7e5}}] \
+    [::reviewdriver::refineContext $badMap 0] 2 zzzz 30 20 0]
+check "a move the board cannot play has no move count" \
+    [expr {![dict exists $badArgs legal_moves]}]
+
+# What a reader sees. These five labels reach the writer for the first time here,
+# so the mark each one carries and the token it puts in the comment are pinned
+# with the wiring rather than left to the ladder's own harness.
+checkEq "a brilliant move is marked !!" [::review::nagForLabel brilliant] "!!"
+checkEq "a great move is marked !" [::review::nagForLabel great] "!"
+checkEq "a missed win is marked ?" [::review::nagForLabel miss] "?"
+checkEq "a forced move carries no mark" [::review::nagForLabel forced] ""
+checkEq "and a book move carries none either" [::review::nagForLabel book] ""
+check "and the verdict token names the label" \
+    [string match {*\[brilliant\]*} [::review::commentText brilliant 30]]
+
 puts "a pass over a game: search first, write after"
 
 # The sc_* layer, stubbed the way tests/tcl/game_review.tcl stubs it: what is

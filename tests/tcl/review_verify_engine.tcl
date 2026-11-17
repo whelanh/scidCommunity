@@ -268,7 +268,7 @@ reset
 set ::review::S [::review::reset]
 proc ::enginecfg::get {name} { return $::verifierCfg }
 rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
-proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+proc ::reviewdriver::verdicts {map results {bookEnd 0}} { return [dict create 2 {brilliant 0 1}] }
 set p [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 1 \
     verifier Komodo limits [dict create depth 28 movetime 900]]
 set ::wrote 0
@@ -300,7 +300,7 @@ reset
 set ::review::S [::review::reset]
 proc ::enginecfg::get {name} { return $::verifierCfg }
 rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
-proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+proc ::reviewdriver::verdicts {map results {bookEnd 0}} { return [dict create 2 {brilliant 0 1}] }
 set same [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
     engine [list Komodo /usr/bin/komodo {} {} 0 0 {} 1 {} {}] \
     verifier {Komodo copy} limits [dict create depth 20]]
@@ -330,7 +330,7 @@ set ::reviewverify::queue {}
 while {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} { pump }
 proc ::enginecfg::get {name} { return $::verifierCfg }
 rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
-proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+proc ::reviewdriver::verdicts {map results {bookEnd 0}} { return [dict create 2 {brilliant 0 1}] }
 set p [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
     verifier Komodo limits [dict create depth 20]]
 set ::writes {}
@@ -370,7 +370,7 @@ set ::reviewverify::queue {}
 while {[::reviewdriver::busy $::reviewdriver::ENGINE_ID]} { pump }
 proc ::enginecfg::get {name} { return $::verifierCfg }
 rename ::reviewdriver::verdicts ::reviewdriver_verdicts_real_
-proc ::reviewdriver::verdicts {map results} { return [dict create 2 {brilliant 0 1}] }
+proc ::reviewdriver::verdicts {map results {bookEnd 0}} { return [dict create 2 {brilliant 0 1}] }
 set p [dict create map $::map plan {1 2 3 4} plies 4 bookEnd 0 mpv 3 \
     verifier Komodo limits [dict create depth 20]]
 set ::writes {}
