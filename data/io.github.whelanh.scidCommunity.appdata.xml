@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.69" date="2026-11-17">
+      <description>
+        <p>CQL feature; Board Screenshot; Game Review refinements, etc.</p>
+      </description>
+    </release>
  <release version="5.1.4.68" date="2026-11-16">
       <description>
         <p>new move sequence search capability; elo calibrations</p>
