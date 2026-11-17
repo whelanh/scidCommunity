@@ -2232,7 +2232,7 @@ proc ::board::nextImageFile {dir {prefix "position"} {ext ".png"}} {
         && [regexp {^(.*)-([0-9]+)(\.[^.]*)$} $name -> p n e]
         && [string equal -nocase $p $prefix]
         && [string equal -nocase $e $ext]} {
-      set n [expr {$n + 0}]
+      set n [scan $n %d]
       if {$n > $max} { set max $n }
     }
   }
@@ -2450,15 +2450,16 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
 
     set fileLabels {}
     set rankLabels {}
-    for {set sq 0} {$sq < 64} {incr sq} {
-      # Square 0 is a1.  On screen a1 is bottom-left, unless the board is
-      # flipped, so the display column and row depend on the orientation.
+    # Draw from the top rank down, like ::board::update: a tall piece on a
+    # lower rank then overlaps the square above instead of being overwritten
+    # by it.
+    for {set d 0} {$d < 64} {incr d} {
+      set row [expr {$d / 8}]
+      set col [expr {$d % 8}]
       if {$::board::_flip($w)} {
-        set col [expr {7 - ($sq % 8)}]
-        set row [expr {$sq / 8}]
+        set sq [expr {$row * 8 + (7 - $col)}]
       } else {
-        set col [expr {$sq % 8}]
-        set row [expr {7 - $sq / 8}]
+        set sq [expr {(7 - $row) * 8 + $col}]
       }
       set x [expr {$left + $border + $col * ($psize + $border)}]
       set y [expr {$top + $border + $row * ($psize + $border)}]
@@ -2596,6 +2597,7 @@ proc ::board::saveImageDialog {w} {
       -filetypes $types \
       -defaultextension ".png"]
   if {$filename eq ""} { return }
+  set selected $filename
 
   # The dialog offers PNG only, but a typed name can still carry another
   # extension.  Replace a known image extension and append .png otherwise,
@@ -2607,6 +2609,15 @@ proc ::board::saveImageDialog {w} {
     } else {
       append filename ".png"
     }
+  }
+
+  # Tk confirms replacement of the name the user selected.  If normalization
+  # changed that name, confirm the destination that will actually be written.
+  if {$filename ne $selected && [file exists $filename]} {
+    set answer [tk_messageBox -parent . -type yesno -icon warning \
+        -default no -title [tr ScreenshotTitle] \
+        -message "[tr ScreenshotOverwrite]\n\n$filename"]
+    if {[string tolower $answer] ne "yes"} { return }
   }
 
   if {[catch {::board::saveImage $w $filename} err]} {

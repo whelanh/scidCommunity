@@ -524,6 +524,7 @@ menuText E ToolsScreenshot "Board Screenshot" 0 \
   {Save the current board position as a PNG image}
 translate E ScreenshotTitle {Board Screenshot}
 translate E ScreenshotFileType {PNG images}
+translate E ScreenshotOverwrite {A file with that name already exists. Overwrite it?}
 translate E ScreenshotError {The screenshot could not be saved.}
 translate E ScreenshotSaved {Board screenshot saved:}
 

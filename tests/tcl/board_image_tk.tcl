@@ -102,6 +102,13 @@ proc rectColours {img x y w h} {
     return [lsort -unique $colours]
 }
 
+proc readFile {path} {
+    set fh [open $path r]
+    set data [read $fh]
+    close $fh
+    return $data
+}
+
 puts "\nthe PNG itself"
 set f [file join $dir "notflipped.png"]
 check "saveImage returns the filename" [expr {[::board::saveImage .b $f] eq $f}]
@@ -197,7 +204,7 @@ file mkdir $ndir
 foreach n {1 2 4} {
     close [open [file join $ndir "position-$n.png"] w]
 }
-foreach name {other-99.png position-x.png position-10.PNG} {
+foreach name {other-99.png position-x.png position-10.PNG position-08.png} {
     close [open [file join $ndir $name] w]
 }
 check "the next free number is used" \
@@ -207,6 +214,19 @@ check "a different prefix is independent" \
     [expr {[file tail [::board::nextImageFile $ndir "diagram"]] eq "diagram-1.png"}]
 check "an empty directory starts at one" \
     [expr {[file tail [::board::nextImageFile [file join $dir "fresh"]]] eq "position-1.png"}]
+
+set odir [file join $dir "octal"]
+file mkdir $odir
+close [open [file join $odir "position-010.png"] w]
+check "a leading-zero suffix is decimal" \
+    [expr {[file tail [::board::nextImageFile $odir]] eq "position-11.png"}] \
+    "got [file tail [::board::nextImageFile $odir]]"
+set pdir [file join $dir "padded"]
+file mkdir $pdir
+close [open [file join $pdir "position-08.png"] w]
+check "an invalid-octal-looking suffix does not stop the dialog" \
+    [expr {[file tail [::board::nextImageFile $pdir]] eq "position-9.png"}] \
+    "got [file tail [::board::nextImageFile $pdir]]"
 
 puts "\nthe save dialog helper"
 set ::dialogDir [file join $dir "dialog"]
@@ -226,6 +246,28 @@ check "the dialog offers the next number" \
     "args=$::dialogArgs"
 check "the chosen directory is remembered" \
     [expr {$::initialDir(image) eq $::dialogDir}]
+
+# A typed extension is normalized before the file is written.  Tk confirmed
+# the typed name, not the normalized one, so the normalized destination needs
+# its own confirmation when it already exists.
+set existing [file join $::dialogDir "existing.png"]
+set fh [open $existing w]
+puts -nonewline $fh "old"
+close $fh
+proc tk_getSaveFile {args} { return [file join $::dialogDir "existing.jpg"] }
+set ::overwriteAsked 0
+proc tk_messageBox {args} { incr ::overwriteAsked; return "no" }
+set result [::board::saveImageDialog .b]
+check "an existing normalized destination is confirmed" \
+    [expr {$::overwriteAsked == 1}]
+check "cancelling the overwrite writes nothing" \
+    [expr {$result eq "" && [readFile $existing] eq "old"}] \
+    "result='$result' content='[readFile $existing]'"
+proc tk_messageBox {args} { return "yes" }
+set result [::board::saveImageDialog .b]
+check "confirming the overwrite saves the image" \
+    [expr {$result eq $existing && [file size $existing] > 10}] \
+    "result='$result' size='[file size $existing]'"
 
 proc tk_getSaveFile {args} { return "" }
 check "cancel saves nothing" [expr {[::board::saveImageDialog .b] eq ""}]
