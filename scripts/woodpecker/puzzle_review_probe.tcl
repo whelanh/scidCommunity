@@ -36,7 +36,9 @@ proc sfWait {token} {
 }
 sfSend uci; sfWait uciok
 sfSend "setoption name MultiPV value $mpv"
-sfSend "setoption name Threads value 3"
+set threads 3
+if {[info exists ::env(THREADS)]} { set threads $::env(THREADS) }
+sfSend "setoption name Threads value $threads"
 sfSend "setoption name Hash value 128"
 sfSend isready; sfWait readyok
 
@@ -63,6 +65,18 @@ proc search {spec} {
     return [list $lines $bestByDepth]
 }
 
+# The move a short, independent search prefers: what "obvious" means for the
+# Woodpecker profile's `!` (a move this search does not choose is not obvious).
+proc shallowBest {spec {d 3}} {
+    sfSend "setoption name MultiPV value 1"
+    sfSend "ucinewgame"
+    sfSend $spec
+    sfSend "go depth $d"
+    set best [lindex [sfWait bestmove] 1]
+    sfSend "setoption name MultiPV value $::mpv"
+    return $best
+}
+
 # first depth from which MultiPV-1 keeps choosing `move` to the end
 proc stableDepth {bestByDepth move} {
     set stable ""
@@ -78,7 +92,7 @@ proc stableDepth {bestByDepth move} {
 
 set in [open $inTsv r]
 set out [open $outTsv w]
-puts $out [join {id tier rating themes ply mover_index played engine_best is_best base_label nag refined refined_nag cp_before cp_after gap12 legal stable_depth hanging} "\t"]
+puts $out [join {id tier rating themes ply mover_index played engine_best is_best base_label nag refined refined_nag cp_before cp_after gap12 legal stable_depth hanging d3best sound_sac capture check} "\t"]
 set n 0
 while {[gets $in row] >= 0} {
     lassign [split $row "\t"] id tier rating initialPly solution themes pgn
@@ -138,9 +152,19 @@ while {[gets $in row] >= 0} {
         set hang ""
         catch { set hang [::chessboard::hangingMaterial $fb $fa [lindex [split $fb] 1]] }
         set sd [stableDepth [dict get $stab [expr {$p - 1}]] $played]
+        set d3 [shallowBest [dict get [dict get $map positions] [expr {$p - 1}]]]
+        # refine's sacrifice test without its +5 ceiling
+        set stm [lindex [split $fb] 1]
+        set sac 0
+        if {[dict get $v isBest] && $hang ne "" && $hang >= 2 && [llength $pvAfter] \
+            && ![::movelabels::isTrivialRecapture $stm $fb $pvAfter $fa]} { set sac 1 }
+        set posB [::chessboard::fromFen $fb]
+        set cap [expr {[::movelabels::captureVictim $posB $played] ne ""}]
+        set posA [::chessboard::fromFen $fa]
+        set chk [::chessboard::inCheck $posA [dict get $posA side]]
         puts $out [join [list $id $tier $rating $themes $p [expr {($p+1)/2}] $played $engineBest \
             [dict get $v isBest] $label [::review::nagForLabel $label] $refined [::review::nagForLabel $refined] \
-            $before $after $gap $legal $sd $hang] "\t"]
+            $before $after $gap $legal $sd $hang $d3 $sac $cap $chk] "\t"]
     }
     flush $out
     incr n

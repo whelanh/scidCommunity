@@ -49,6 +49,11 @@ jobs:
       - name: Move labels
         run: tclsh tests/tcl/move_labels.tcl
 
+      # Woodpecker trainer: scoring, two attempts, the puzzle marks, the cycle
+      # schedule (quota, moved deadline) and the record files.
+      - name: Woodpecker core
+        run: tclsh tests/tcl/woodpecker_core.tcl
+
       # Repetition presentation: off/banner/dialog must not change the count,
       # and the Finish Game and autoplay passes must stay silent.
       - name: Repetition alert
