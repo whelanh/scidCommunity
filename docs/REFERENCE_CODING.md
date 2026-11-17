@@ -1,9 +1,9 @@
 # Reference coding with XERJ
 
-This project has a local [XERJ](https://xerj.org) node with two searchable
-corpora: **this repository** and a set of **peer chess projects**, cloned and
-indexed so an agent can retrieve how a neighbouring project already solved a
-problem *before* writing code.
+This project has a local [XERJ](https://xerj.org) node with three searchable
+corpora: **this repository** and two **peer `scid` projects**, indexed so an
+agent can retrieve how a neighbouring project already solved a problem *before*
+writing code.
 
 The workflow (the measured "reference coding" loop):
 
@@ -19,9 +19,15 @@ The workflow (the measured "reference coding" loop):
 | --- | --- |
 | Endpoint | `http://localhost:9200` (Elasticsearch 8.x-compatible) |
 | Data dir | `~/xerj-data` (kept **outside** every indexed tree) |
-| Start | `nohup xerj --insecure --data-dir ~/xerj-data > ~/xerj-node.log 2>&1 & echo $! > ~/xerj-node.pid` |
-| Health | `curl -s localhost:9200/_cluster/health` |
-| Stop | `kill $(cat ~/xerj-node.pid)` — only a node you started; never `pkill xerj` |
+| Service | `xerj.service`, a systemd **user** unit at `~/.config/systemd/user/xerj.service` |
+| Start / stop | `systemctl --user start xerj` / `systemctl --user stop xerj` |
+| Health | `curl -s localhost:9200/_cluster/health` or `systemctl --user status xerj` |
+| Logs | `journalctl --user -u xerj -f` |
+
+The unit is `enabled` with lingering on (`loginctl enable-linger`), so it
+starts at boot whether or not you log in, and `Restart=on-failure` brings it
+back if it dies. There is no pid file to manage. Restart with
+`systemctl --user restart xerj`; the same `--data-dir` keeps every index.
 
 > **Embedding mode is fixed at ingest.** The node runs in the **default lexical
 > mode** (deterministic feature-hashing, BM25-style). This is the configuration
@@ -30,31 +36,40 @@ The workflow (the measured "reference coding" loop):
 
 ## The corpora
 
-**This project** — prefix `scid`, query `scid-*` (7 indices, ~28.5k records;
-179 C/C++/Tcl source files).
+**This project** — prefix `scid`, query `scid-*` (5 datasets, 30,858 records;
+340 code files, 234 of them with symbol tables). Code and prose share
+`scid-docs`; `scid-scripts-cb-mega`, `scid-data`,
+`scid-data-io-github-whelanh-scidco` and `scid-resources-svg` hold bulk
+data/XML. The dataset split is chosen by `autoindex` from content and can
+change between versions, so scope with prefix or `ax_format`, not with an
+index-name list.
 
 **References** — prefix `ref-<repo>`, query all with `ref-*` or one repo with
-`ref-<repo>-*`. Peers are cloned into `~/xerj-refs/` (shallow, pinned to the
-commit below); the Codeberg `scid` fork is indexed **in place** from
-`~/Downloads/scid`. State/journals live in `~/xerj-state/`.
+`ref-<repo>-*`. Both peers are indexed **in place** from the trees already on
+this machine (there is no `~/xerj-refs/` clone directory). Resume journals live
+in `~/xerj-state/<prefix>`.
 
-> **Index-name patterns take a trailing `*` only.** `ref-*` and `ref-pychess-*`
-> work; `ref-*-docs` matches nothing. To restrict a query to source files, use a
-> per-repo pattern (`ref-pychess-*`) or add a `{"term":{"ax_format":"code"}}`
-> filter.
+> **Index-name patterns take a trailing `*` only.** `ref-*` and
+> `ref-scidvspc-*` work; `ref-*-docs` matches nothing. A pattern also matches
+> longer prefixes — `ref-scid-*` would hit `ref-scid-codeberg-*` as well — so
+> keep peer prefixes that do not start one another.
 
-| Prefix | Upstream | Commit | Licence | Records | Why it is here |
+| Prefix | Upstream | Version | Licence | Records | Why it is here |
 | --- | --- | --- | --- | --- | --- |
-| `ref-stockfish` | official-stockfish/Stockfish | `5c4cef0` | GPL-3.0 | 1,469 | Canonical C++ engine: bitboards, `attacks.h`-style move generation, UCI protocol, search/eval, EPD |
-| `ref-scidvspc` | benini/scid (Scid vs. PC) | `fc26337` | GPL-2.0 | 10,054 | Closest sibling — a Tcl/Tk `scid` fork with the same `dbase`/`codec`/`movetree`/`polyglot` lineage |
-| `ref-scid-codeberg` | codeberg.org/scid/scid (branch `myscid`) | `be2908ea` | GPL-2.0 | 10,589 | The fork this project credits for the engine-vs-engine tournament feature and PGN viewer; same `scid` core, indexed in place from `~/Downloads/scid` |
-| `ref-chessx` | Isarhamster/chessx | `e734a07` | GPL-2.0 | 8,333 | Peer chess database GUI: PGN import/export, filters, database backends |
-| `ref-pychess` | niklasf/python-chess | `0c6bdac` | GPL-3.0 | 10,639 | Reference for PGN/SAN/FEN parsing, move legality, polyglot books, UCI/engine, Syzygy tablebases |
-| `ref-cutechess` | cutechess/cutechess | `5e84232` | GPL-3.0 | 9,396 | Engine-vs-engine tourneys, UCI/XBoard engine management, PGN game records |
+| `ref-scid-codeberg` | codeberg.org/scid/scid | `be2908ea` (2026-08-15) | GPL-2.0 | 10,133 | The fork this project credits for the engine-vs-engine tournament feature and PGN viewer; same `scid` core, indexed in place from `~/Downloads/scid` |
+| `ref-scidvspc` | benini/scid (Scid vs. PC) | plain source tree, no git metadata | GPL-2.0 | 70,718 | Closest sibling — a Tcl/Tk `scid` fork with the same `dbase`/`codec`/`movetree`/`polyglot` lineage, indexed in place from `~/Downloads/scidvspc-code` |
 
-All six peers are GNU GPL; this project is GPL too, so the licences are
-compatible. Still follow the reference-coding rule for GPL peers: **read the
-design and adapt it — do not paste code**, and record which file:line you used.
+Only these two peers are part of the dataset. The four other references this
+doc used to list are **not indexed**: Stockfish's source is on disk at
+`~/Downloads/Stockfish` but was deliberately left out; chessx and python-chess
+have no checkout; `~/GoogleDrive/cutechess-linux` is a compiled release, not
+source. A `ref-stockfish-*`, `ref-chessx-*`, `ref-pychess-*` or
+`ref-cutechess-*` query therefore returns no hits rather than an error.
+
+Both indexed peers are GNU GPL-2.0; this project is GPL too, so the licences
+are compatible. Still follow the reference-coding rule for GPL peers: **read
+the design and adapt it — do not paste code**, and record which file:line you
+used.
 
 ## Retrieving
 
@@ -70,41 +85,67 @@ curl -s 'http://localhost:9200/ref-*/_search' -H 'Content-Type: application/json
   "_source":["ax_path","title"],"fields":["_passage"],"size":5}'
 ```
 
-Scope it: replace `ref-*` with `ref-stockfish-*` (engine internals),
-`ref-pychess-*` (formats/protocol), `ref-scidvspc-*` or `ref-scid-codeberg-*`
-(the two sibling `scid` forks), `ref-chessx-*`, or `ref-cutechess-*`; use
-`scid-*` for this project's own code.
+Scope it: replace `ref-*` with `ref-scidvspc-*` or `ref-scid-codeberg-*` (the
+two sibling `scid` forks), or use `scid-*` for this project's own code. To
+restrict a hit set to source files add a `{"term":{"ax_format":"code"}}` filter
+(`ax_format` values here include `code`, `html`, `txt-lines`, `txt-prose`,
+`xml`, `yaml`).
 
 CLI and MCP shortcuts:
 
 ```sh
-xerj search "how the movetree encodes variations"   # ranked passages, definitions first
-xerj def "scidMove"                                 # go-to-definition: file:line + signature
+xerj search --prefix scid "how the movetree encodes variations"  # ranked passages, definitions first
+xerj def --prefix scid AddMove                                  # go-to-definition: file:line + signature
+xerj search --prefix ref-scidvspc "polyglot book probe"
 ```
 
-MCP tool `xerj_search` takes the same plain-string query. `xerj_map` returns each
-index's real field names/types — call it before writing query DSL.
+> **The default prefix is `ax`, and this node has no `ax-*` indices.** Omit
+> `--prefix` (or `index`) and the CLI errors with *no indices named ax-\** while
+> the MCP tools return **zero hits silently**. Always name the corpus.
+
+MCP tool `xerj_search` takes the same plain-string query plus `prefix`. `xerj_map`
+returns each index's real field names/types — call it before writing query DSL.
 
 ## Honest limits
 
 - **Lexical, not neural.** Query in the words the source would use; a paraphrase
   that shares no words will miss. (Neural is opt-in via `--embed-mode neural`,
   at the cost of re-indexing.)
-- **Definitions only.** Hits name the declaration site; there is no call graph,
-  no import graph, no cross-file reference resolution.
-- **Retrieval pays on unfamiliar code, not memorised libraries.** Stockfish's
-  `attacks`/`movegen` are widely known — for those, retrieval is often overhead.
-  It pays most on this project's own internals and on niche peer code.
-- **Server memory grows with documents indexed.** Index one corpus at a time and
-  watch `ps -o rss= -p $(cat ~/xerj-node.pid)`; restarting with the same
-  `--data-dir` keeps every index and releases heap.
+- **Definitions only, and C/C++ only.** Hits name the declaration site; there is
+  no call graph, no import graph, no cross-file reference resolution. Symbol
+  extraction covers `.c`, `.h` and `.cpp` — **Tcl is not AST-indexed**: the 280
+  `.tcl` files here (and most of Scid vs. PC's UI) land as `txt-lines`/`txt-prose`,
+  so lexical search finds them but `xerj def` cannot resolve a Tcl proc and may
+  return a same-named C++ symbol instead.
+- **Retrieval pays on unfamiliar code, not memorised libraries.** Widely known
+  engine internals (`attacks`, `movegen`) are often faster to recall than to
+  retrieve, and Stockfish is not indexed here anyway. Retrieval pays most on this
+  project's own internals and on the two sibling forks.
+- **Server memory grows with documents indexed.** The current corpora (~112k
+  documents, 267 MB on disk) hold about 2.6 GB resident, peaking near 3.9 GB
+  during an index run. Watch it with
+  `systemctl --user show xerj -p MemoryCurrent`; `systemctl --user restart xerj`
+  keeps every index and releases heap. Index one corpus at a time.
 
 ## Re-indexing / adding a peer
 
 ```sh
-git clone --depth 1 <url> ~/xerj-refs/<name>
-xerj autoindex ~/xerj-refs/<name> --prefix ref-<name> --state-dir ~/xerj-state/ref-<name> --progress plain
+# this repository (run from the repo root)
+xerj autoindex . --prefix scid --state-dir ~/xerj-state/scid --progress plain
+
+# one of the peers, indexed in place
+xerj autoindex ~/Downloads/scid --prefix ref-scid-codeberg \
+  --state-dir ~/xerj-state/ref-scid-codeberg --progress plain
 ```
 
-`autoindex` is idempotent (a re-run resumes and never duplicates). Exit code `3`
-means *completed with junk* and is a **success** (binary assets skipped).
+One prefix per folder. A re-run resumes and never duplicates; unchanged bytes
+are not rewritten, so re-index after a pull or branch switch. To add a new peer,
+clone it (anywhere with room), index it under `ref-<name>`, and add a row to the
+table above. To drop a corpus:
+
+```sh
+xerj autoindex remove --prefix <name> --root <folder> --yes
+```
+
+Exit code `3` means *completed with junk* and is a **success** (binary assets
+skipped, recorded as junk rather than fatal).
