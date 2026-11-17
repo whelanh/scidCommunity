@@ -64,7 +64,7 @@ class MarkBoard{
   static void gameSaveState(Game*game);
   static void gameRestoreState(Game*game);
   static void gameMoveToPly(Game*game, int ply); //ply must be 0
-  static void MoveIntoVariation(Game*game, int i);
+  static void MoveIntoVariation(Game*game, uint i);
   static void gameToIdentity(moveT*id, Game*game, bool variations);
   static bool gameSeekIdDescendants(moveT*id, Game*game, bool variations);
   static void gameAppendComment(Game*game, const char* comment);

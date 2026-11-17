@@ -6,14 +6,16 @@
 #include "cql.h"
 #include "markboard.h"
 #include "cqlglobals.h"
+#include <cstring>
 #include <map>
+#include <string>
 
 int  MarkBoard::number_children(Game*game, bool searchvariations){
   int nseen=0;
   bool currentatend=game->AtVarEnd();
   if (!currentatend)++nseen;
   if(searchvariations){
-    int numvars=game->GetNumVariations();
+    const uint numvars=game->GetNumVariations();
     // This code assumes that a variation will never be at its own varend.
     nseen+=numvars;
   }
@@ -50,8 +52,8 @@ void MarkBoard::move_to_child(Game*game, int child){
   }
   int variationnumber=child;
   if(hasmainline) variationnumber--;
-  uassert(variationnumber>=0 && variationnumber<game->GetNumVariations());
-  MoveIntoVariation(game,variationnumber);
+  uassert(variationnumber>=0 && static_cast<uint>(variationnumber)<game->GetNumVariations());
+  MoveIntoVariation(game,static_cast<uint>(variationnumber));
   gameForward(game);
 }
 
@@ -72,7 +74,7 @@ bool MarkBoard::atVarStart(Game*game){
   return game->AtVarStart();
 }
 
-void MarkBoard::MoveIntoVariation(Game*game, int i){
+void MarkBoard::MoveIntoVariation(Game*game, uint i){
   if(game->MoveIntoVariation(i))
     uassert(false,"Move Into Variation error");
 }
@@ -111,7 +113,7 @@ void MarkBoard::gameMoveToPly(Game*g, int ply){ //ply must be 0
 void MarkBoard::make_move(simpleMoveT*move,Game*game){
   if(move==game->GetCurrentMove())
     {gameForward(game);return;}
-  for(int varnumber=0;varnumber<game->GetNumVariations();++varnumber){
+  for(uint varnumber=0;varnumber<game->GetNumVariations();++varnumber){
     MoveIntoVariation(game,varnumber);
     if(move==game->GetCurrentMove()){
       gameForward(game);
@@ -176,39 +178,34 @@ bool MarkBoard::gameSeekIdDescendants(moveT*myid, Game*game, bool vars){
 
 void MarkBoard::gameAppendComment(Game*game, const char* comment){
   uassert(comment);
-  uassert(strlen(comment)<2000);
-  if(strlen(comment)==0)return;
-  char buffer[5000];
-  char*current=buffer;
-  current[0]=0;
-  const char * oldcomment=game->GetMoveComment();
+  const std::size_t commentlen=std::strlen(comment);
+  uassert(commentlen<2000);
+  if(commentlen==0)return;
+  std::string buffer;
+  const char* oldcomment=game->GetMoveComment();
   if(oldcomment){
-    if (strstr(oldcomment,comment)) return;
-    if(strlen(oldcomment)>500){
-      printf("\nIgnoring too long comment in game: %d\n",CqlGameNumber());
+    if (std::strstr(oldcomment,comment)) return;
+    if(std::strlen(oldcomment)>500){
+      printf("\nIgnoring too long comment in game: %u\n",CqlGameNumber());
       return;
     }
-    current+=sprintf(current,"%s",oldcomment);
-  }
-  if(current!=buffer){
-    uassert(*current==0);
+    buffer=oldcomment;
 #ifdef STANDALONE
-    current+=sprintf(current,"; ");
+    buffer+="; ";
 #endif
 #ifdef INTEGRATED
-    current+=sprintf(current," ");
- #endif
+    buffer+=" ";
+#endif
   }
-  uassert(*current==0);
-  sprintf(current,"%s",comment);
-  if(strlen(buffer)>500){
-    if(MarkBoard_gameAppendComment_lastignored!=CqlGameNumber()){
+  buffer+=comment;
+  if(buffer.size()>500){
+    if(MarkBoard_gameAppendComment_lastignored!=static_cast<int>(CqlGameNumber())){
       MarkBoard_gameAppendComment_lastignored=CqlGameNumber();
-      printf("\nNote: Truncating long comment in game: %d\n",MarkBoard_gameAppendComment_lastignored);
+      printf("\nNote: Truncating long comment in game: %u\n",MarkBoard_gameAppendComment_lastignored);
     }
     return;
   }
-  game->SetMoveComment(buffer);
+  game->SetMoveComment(buffer.c_str());
   // scidCommunity: scidvspc flagged the Game with SetAltered(true) so the
   // database driver would save it back. Our Game has no such flag; the
   // consumer of the match decides what to persist.
@@ -226,7 +223,7 @@ vector<simpleMoveT*> MarkBoard::getMoves(Game*game,bool searchvars){
   if(!atVarEnd(game))
     moves.push_back(getCurrentMove(game));
   if(!searchvars) return moves;
-  for(int varnum=0;varnum<game->GetNumVariations();++varnum){
+  for(uint varnum=0;varnum<game->GetNumVariations();++varnum){
     MoveIntoVariation(game,varnum);
     uassert(!atVarEnd(game),"get_moves end of var in var");
     moves.push_back(getCurrentMove(game));
@@ -246,7 +243,7 @@ vector<simpleMoveT*> MarkBoard::getLegalMoves(Game*game){
   // 'legal' is never set to true in match_movebase(). Either becoming reachable
   // again needs a real generator here; the body below is not one.
   uassert(false,"getLegalMoves is not implemented");
-  static int gamenumber=0;
+  static unsigned gamenumber=0;
   static std::map<moveT*,vector<simpleMoveT*>> legalmap;
   if(CqlGameNumber()!=gamenumber){
     gamenumber=CqlGameNumber();

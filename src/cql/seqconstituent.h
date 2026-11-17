@@ -5,8 +5,8 @@
 #pragma once
 class SeqConstituent : public Node{
  public:
-  virtual void print()=0;
-  virtual SeqConstituent* clone()=0;
+  void print() override=0;
+  SeqConstituent* clone() override=0;
   virtual bool matchesNull()=0;
   int getOffset(){return theOffset;}
   void setOffset(int);
@@ -22,11 +22,11 @@ class RepeatConstituent : public SeqConstituent{
   CVV(RepeatConstituent);
   int min= -1;
   int max= -1;
-  bool matchesNull();
-  void print();
-  vnode children(){return vnode{constituent};}
-  void deepify(){constituent=constituent->clone();}
-  void setOffsets(int i);
+  bool matchesNull() override;
+  void print() override;
+  vnode children() override{return vnode{constituent};}
+  void deepify() override{constituent=constituent->clone();}
+  void setOffsets(int i) override;
 };
 
 class StarConstituent : public SeqConstituent{
@@ -35,11 +35,11 @@ class StarConstituent : public SeqConstituent{
   //  StarConstituent(vector<SeqConstituent*>);
   StarConstituent(SeqConstituent*);
   CVV(StarConstituent);
-  bool matchesNull(){return true;}
-  void print();
-  vnode children(){return vnode{constituent};}
-  void deepify(){constituent=constituent->clone();}
-  void setOffsets(int i);
+  bool matchesNull() override{return true;}
+  void print() override;
+  vnode children() override{return vnode{constituent};}
+  void deepify() override{constituent=constituent->clone();}
+  void setOffsets(int i) override;
 };
 
 class HolderConstituent : public SeqConstituent{
@@ -47,23 +47,23 @@ class HolderConstituent : public SeqConstituent{
   HolderConstituent(MFilter*);
   MFilter*filter{nullptr};
   CVV(HolderConstituent);
-  void print();
-  vnode children(){return vnode{filter};}
-  void deepify(){filter=filter->clone();}
-  bool matchesNull();
-  void setOffsets(int i);
+  void print() override;
+  vnode children() override{return vnode{filter};}
+  void deepify() override{filter=filter->clone();}
+  bool matchesNull() override;
+  void setOffsets(int i) override;
 };
 
 class VectorConstituent : public SeqConstituent{
  public:
   vector<SeqConstituent*>constituents;
   VectorConstituent(vector<SeqConstituent*>& cs);
-  void print();
+  void print() override;
   CVV(VectorConstituent);
-  vnode children();
-  void deepify(){clonevec(constituents);}
-  bool matchesNull();
-  void setOffsets(int);
+  vnode children() override;
+  void deepify() override{clonevec(constituents);}
+  bool matchesNull() override;
+  void setOffsets(int) override;
 };
 
 class PlusConstituent : public SeqConstituent{
@@ -72,11 +72,11 @@ class PlusConstituent : public SeqConstituent{
   SeqConstituent* getConstituent();
   PlusConstituent(SeqConstituent*c);
   CVV(PlusConstituent);
-  vnode children(){return vnode{theStarConstituent};}
-  void deepify(){theStarConstituent=theStarConstituent->clone();}
-  bool matchesNull();
-  void print();
-  void setOffsets(int);
+  vnode children() override{return vnode{theStarConstituent};}
+  void deepify() override{theStarConstituent=theStarConstituent->clone();}
+  bool matchesNull() override;
+  void print() override;
+  void setOffsets(int) override;
  private:
   StarConstituent* theStarConstituent{nullptr};
 };
@@ -86,11 +86,11 @@ class OptionalConstituent : public SeqConstituent{
   OptionalConstituent(SeqConstituent*);
   SeqConstituent*constituent{nullptr};
   CVV(OptionalConstituent);
-  void print();
-  vnode children(){return vnode{constituent};}
-  void deepify(){constituent=constituent->clone();}
-  bool matchesNull();
-  void setOffsets(int);
+  void print() override;
+  vnode children() override{return vnode{constituent};}
+  void deepify() override{constituent=constituent->clone();}
+  bool matchesNull() override;
+  void setOffsets(int) override;
 };
 
 /* class SkipConstituent : public MFilter{ */

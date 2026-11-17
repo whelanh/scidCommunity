@@ -47,7 +47,7 @@ bool EchoMatchInfo::usesubstring()const{
 }
 
 void EchoMatchInfo::print(){
-  printf("<%s source: %p target: %p lca: %p gamenumber: %d targetnumber: %d substringlen: %d\n",
+  printf("<%s source: %p target: %p lca: %p gamenumber: %u targetnumber: %d substringlen: %d\n",
 	 thisclass(),
 	 source,
 	 target,
@@ -98,7 +98,7 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
   uassert(sources.size()&&targets.size());
 
   //Stage 2: Annotate the sources
-  for(int i=0;i<sources.size();++i){
+  for(std::size_t i=0;i<sources.size();++i){
     moveT* thissource=sources[i];
     vector<int>targetids;
     for(auto &emi:infos)
@@ -109,11 +109,11 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
       }
     uassert(targetids.size());
     MarkBoard::gameAppendComment(game,thissource,
-				 idList("SOURCE",i+1,targetids).c_str());
+				 idList("SOURCE",static_cast<int>(i)+1,targetids).c_str());
   }
 
   //Stage 3: Annotate the targets
-  for(int i=0;i<targets.size();++i){
+  for(std::size_t i=0;i<targets.size();++i){
     moveT* thistarget=targets[i];
     vector<int>sourceids;
     for(auto &emi:infos)
@@ -167,9 +167,9 @@ void EchoMatchInfo::annotatePath(Game*game, const vector<moveT*>&path,const char
   moveT*oldid=MarkBoard::identity(game);
   MarkBoard::gameToIdentity(path.at(0),game,true);
   char buffer[1000];
-  for(int pathi=start;pathi<path.size();++pathi){
+  for(std::size_t pathi=start;pathi<path.size();++pathi){
     MarkBoard::gameToIdentity(path.at(pathi),game,true);
-    sprintf(buffer,"%s: %d",message,pathi);
+    sprintf(buffer,"%s: %zu",message,pathi);
     MarkBoard::gameAppendComment(game,buffer);
   }
   MarkBoard::gameToIdentity(oldid,game,true);

@@ -58,8 +58,8 @@ int SequenceBase::nconstituents()const{
 }
 
 void SequenceBase::setOffsets(){
-  for (int i=0;i<constituents.size();++i)
-    constituents[i]->setOffsets(i);
+  for (std::size_t i=0;i<constituents.size();++i)
+    constituents[i]->setOffsets(static_cast<int>(i));
 }
 
 
@@ -76,7 +76,7 @@ bool SequenceBase::match_position(Game*g){
   std::reverse(stack.begin(),stack.end());
   size_t len=stack.size();
   SeqRet ret= compute(stack);
-  uassert(len=stack.size(),"fnmp mismatch");
+  uassert(len==stack.size(),"fnmp mismatch");
   uassert(MarkBoard::identity(game)==me,"fnmp me");
   if(ret.isFalse()){exitMatch();return false;}
   count=ret.getLength();
@@ -273,7 +273,7 @@ colorT SequenceBase::getSkipColor()const{
 }
 
 bool SequenceBase::skipColor(colorT c)const{
-  uassert(isSkip()&&c==WHITE||c==BLACK,"sbsc");
+  uassert(isSkip()&&(c==WHITE||c==BLACK),"sbsc");
   return getSkipColor()==c;
 }
 

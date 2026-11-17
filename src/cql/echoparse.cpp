@@ -34,7 +34,7 @@ EchoNode* Tokens::match_echonode(){
 vector<EchoSpec*> Tokens::match_echospecs(){
   vector<EchoSpec*>specs;
   EchoSpec*spec=nullptr;
-  while(spec=match_echospec())
+  while((spec=match_echospec())!=nullptr)
     specs.push_back(spec);
   return specs;
 }

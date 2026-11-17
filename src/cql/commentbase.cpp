@@ -15,7 +15,7 @@ CommentString::CommentString(const char*s):str(s){
   uassert(s&&strlen(s)<maxLen,"bad commentstring arg");
 }
 
-void CommentString::printBuffer(Game*g,char*buffer){
+void CommentString::printBuffer(Game* /*g*/,char*buffer){
   sprintf(buffer,"%s",str);
 }
 

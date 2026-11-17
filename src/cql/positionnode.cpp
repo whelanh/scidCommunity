@@ -18,12 +18,13 @@ PositionNode::PositionNode(vector<Node*> ss){
 
 void PositionNode::print(){
   printf("<%s at %p: %lu specs:",thisclass(),this,specs.size());
-  for(int i=0;i<specs.size();++i){
+  std::size_t i=0;
+  for(MFilter* spec:specs){
     printf("\n");
     indent();
     tab();
-    printf("<%d of %lu: ",i,specs.size());
-    specs[i]->print();
+    printf("<%zu of %zu: ",i++,specs.size());
+    spec->print();
     unindent();
   }
   printf(" %s> ",thisclass());

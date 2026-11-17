@@ -40,7 +40,7 @@ void EloNode::transform_members(Transform*t){
 }
 
 void RayNode::transform_members(Transform*t){
-  for(int i=0;i<directions.size();++i)
+  for(std::size_t i=0;i<directions.size();++i)
     directions[i]=t->transform(directions[i]);
 }
 

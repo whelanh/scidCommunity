@@ -3,6 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
+#include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -43,8 +44,8 @@ const char* filename_trim_extension(const char* name);
 class util{
  public:
   static char * copy(const char * buffer);
-  static bool positiveIntValue(char * s, int*val);
-  static bool signedIntValue(char * s, int*val);
+  static bool positiveIntValue(const char * s, int*val);
+  static bool signedIntValue(const char * s, int*val);
   static void printgame(FILE* stream,Game* game);
   static void my_dump_board(boardT board);
   static int squareShiftDirection(int sq, directionT direction);

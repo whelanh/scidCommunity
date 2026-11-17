@@ -10,12 +10,12 @@ class EchoNode : public MFilter,public VariationFlags,public CommentFlags{
   vector<MFilter*>filters;
   vector<EchoSpec*> specs;
   EchoNode(vector<Node*> filters, vector<EchoSpec*> specs);
-  bool match_position(Game*game);
-  void print();
+  bool match_position(Game*game) override;
+  void print() override;
   CVV(EchoNode);
-  vnode children();
+  vnode children() override;
   moveT* sourceIdentity{nullptr};
-  void deepify(){clonevec(filters);clonevec(specs);}
+  void deepify() override{clonevec(filters);clonevec(specs);}
   vector<EchoMatchInfo> matchinfos;
   void registerMatch();
   bool matched{false};

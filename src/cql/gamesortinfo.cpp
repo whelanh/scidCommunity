@@ -27,8 +27,8 @@ void GameSortInfo::output(FILE* os, const vector<GameSortInfo>& v){
 void GameSortInfo::sort(vector<GameSortInfo>& v){
   if(0){
     printf("\n\nGSI: got v presort of:\n");
-    for(int i=0;i<v.size();++i){
-      printf("sortinfo value %d is: \n",i);
+    for(std::size_t i=0;i<v.size();++i){
+      printf("sortinfo value %zu is: \n",i);
       for(auto &w : v[i].values){
 	printf("     ");
 	w.print();

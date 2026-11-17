@@ -21,15 +21,19 @@ bool EchoLongestSubstringSpec::match_lca(const vector<moveT*>&sourcepath,
   uassert(splen&&tplen&&sourcepath[0]==targetpath[0]);
   vector<int>spints=path_to_ints(sourcepath);
   vector<int>tpints=path_to_ints(targetpath);
-  uassert(spints.size()==splen-1);
-  uassert(tpints.size()==tplen-1);
+  uassert(spints.size()==static_cast<std::size_t>(splen-1));
+  uassert(tpints.size()==static_cast<std::size_t>(tplen-1));
   uassert(spints.size()&&tpints.size());
   int sstarti=-1,tstarti=-2;
   int mylen=longestCommonSubstring(spints,tpints,&sstarti,&tstarti);
   if(!mylen)return false;
-  uassert(mylen<=spints.size()&&mylen<=tpints.size()&&sstarti>=0&&tstarti>=0&&sstarti<spints.size()&&tstarti<tpints.size());
-  uassert(mylen+sstarti<=spints.size());
-  uassert(mylen+tstarti<=tpints.size());
+  uassert(sstarti>=0&&tstarti>=0);
+  const std::size_t umylen=static_cast<std::size_t>(mylen);
+  const std::size_t usstart=static_cast<std::size_t>(sstarti);
+  const std::size_t utstart=static_cast<std::size_t>(tstarti);
+  uassert(umylen<=spints.size()&&umylen<=tpints.size()&&usstart<spints.size()&&utstart<tpints.size());
+  uassert(umylen+usstart<=spints.size());
+  uassert(umylen+utstart<=tpints.size());
   for(int i=0;i<mylen;++i)
     uassert(spints.at(i+sstarti)==tpints.at(i+tstarti));
   if(!range->valid(mylen))return false;
@@ -54,7 +58,7 @@ vector<int> EchoLongestSubstringSpec::path_to_ints(const vector<moveT*>&path){
   for(int i=len-1;i>0;--i)
     ret.push_back(id_to_int(path.at(i)));
   std::reverse(ret.begin(),ret.end());
-  uassert(ret.size()==len-1);
+  uassert(ret.size()==static_cast<std::size_t>(len-1));
   return ret;
 }
 

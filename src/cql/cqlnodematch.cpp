@@ -16,9 +16,10 @@ void CqlNode::do_match(MFilter*p,Game*game){
   if(p->match_position(game)){
     mc->increment();
     // If our first match is in a variation, set the ply to 1.
-    if (!CqlMatchCount++)
+    if (!CqlMatchCount++) {
       if (game->GetVarLevel()) CqlMatchPlyFirst = 1;
       else CqlMatchPlyFirst = game->GetCurrentPly();
+    }
     if(p->annotateFlag&&!isSilent())
       MarkBoard::gameAppendComment(game,"MATCH");
   }

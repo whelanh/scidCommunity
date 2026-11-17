@@ -116,19 +116,20 @@ void CqlNode::print(){
   }
   if(!sortfields.empty()){
     printf(" sortfields:");
-    for(int i=0;i<sortfields.size();++i){
-      sortfields[i]->print();}
+    for(NumericVariable* field:sortfields)
+      field->print();
   }
   if(matchCountRange){
     printf("matchCountRange: ");
     matchCountRange->print();
   }
   indent();
-  for(int i=0;i<gamefilters.size();++i){
+  std::size_t i=0;
+  for(GameFilter* gamefilter:gamefilters){
     printf("\n");
     tab();
-    printf("GameFilter %d of %lu: ",i,gamefilters.size());
-    gamefilters[i]->print();
+    printf("GameFilter %zu of %zu: ",i++,gamefilters.size());
+    gamefilter->print();
   }
     
   printf("\n");tab();

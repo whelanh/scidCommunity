@@ -7,7 +7,7 @@
 class EchoMatchInfo{
  public:
   Game*game{nullptr};
-  int gamenumber{-1};
+  unsigned gamenumber{0};
   
   int targetnumber{0};
   moveT* source{nullptr};

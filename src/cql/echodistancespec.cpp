@@ -38,11 +38,11 @@ void EchoMaxDistanceSpec::computeCount(int sourced, int targetd){
   setCount(std::max(sourced,targetd));
 }
 
-void EchoSourceDistanceSpec::computeCount(int sourced,int targetd){
+void EchoSourceDistanceSpec::computeCount(int sourced,int /*targetd*/){
   setCount(sourced);
 }
 
-void EchoTargetDistanceSpec::computeCount(int sourced, int targetd){
+void EchoTargetDistanceSpec::computeCount(int /*sourced*/, int targetd){
   setCount(targetd);
 }
 

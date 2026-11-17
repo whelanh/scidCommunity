@@ -45,11 +45,11 @@ class SquareVariable:public Variable{
  
  public:
   bool isUsed()const {return used;}
-  bool isSquare() const {return true;}
-  void print();
-  const char*thisclass() {return "SquareVariable";}
+  bool isSquare() const override {return true;}
+  void print() override;
+  const char*thisclass() override {return "SquareVariable";}
   SquareVariable(const char*nm);
-  bool getSquare(squareT*s);
+  bool getSquare(squareT*s) override;
   void bindSquare(squareT s);
 };
 
@@ -57,11 +57,11 @@ class TagVariable:public Variable{
  private: markT tag{-1};
  private: squareT origin{65};
  public:
-  bool isTag() const {return true;}
-  void print();
-  const char*thisclass(){return "TagVariable";}
+  bool isTag() const override {return true;}
+  void print() override;
+  const char*thisclass() override{return "TagVariable";}
   TagVariable(const char* name);
-  bool getSquare(squareT*s);
+  bool getSquare(squareT*s) override;
   squareT getOrigin();
   void bindTag(int t);
 };
@@ -75,13 +75,13 @@ class NumericVariable:public Variable{
  public:
   void increment();
   NumValue extremeValue()const;
-  bool getSquare(squareT*s); //for compilation, calls a stub
+  bool getSquare(squareT*s) override; //for compilation, calls a stub
   NumericVariable(const char* nm, bool ismax);
-  bool isNumeric()const {return true;}
+  bool isNumeric()const override {return true;}
   bool isMax()const {return theIsMax;}
   bool isMin()const {return !isMax();}
-  void print();
-  const char* thisclass(){return "NumericVariable";}
+  void print() override;
+  const char* thisclass() override{return "NumericVariable";}
   NumValue getValue()const;
   virtual NumValue getExtremalValue();
   void clear();

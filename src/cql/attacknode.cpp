@@ -66,7 +66,7 @@ void AttackNode::addkingcounts(const pieceT*board,squareT square){
   for (int i=0;i<8;++i) addnonsliding(fileoffsets[i],rankoffsets[i],board,square);
 }
 
-void AttackNode::addnonsliding(int fileoff,int rankoff, const pieceT*board, squareT square){
+void AttackNode::addnonsliding(int fileoff,int rankoff, const pieceT* /*board*/, squareT square){
   int file=square_Fyle(square)+fileoff;
   int rank=square_Rank(square)+rankoff;
   if (file<0||file>7||rank<0||rank>7) return;

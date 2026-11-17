@@ -24,12 +24,13 @@ void ForallNode::print(){
     target->print();
   }
   printf(" %lu filters: ",filters.size());
-    for(int i=0;i<filters.size();++i){
+  std::size_t i=0;
+  for(MFilter* filter:filters){
     printf("\n");
     indent();
     tab();
-    printf("<%d of %lu: ",i,filters.size());
-    filters[i]->print();
+    printf("<%zu of %zu: ",i++,filters.size());
+    filter->print();
     unindent();
   }
   printf(" %s> ",thisclass());

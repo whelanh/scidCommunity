@@ -12,11 +12,11 @@ SeqRet FutureNode::computeLinearize(HolderConstituent* holder, SeqStack&stack){
   vector<simpleMoveT*>allmoves=MarkBoard::getMoves(game,getSearchVariations());
   auto me=MarkBoard::identity(game);
   int nchildren=MarkBoard::number_children(game,getSearchVariations());
-  uassert(allmoves.size()==nchildren,"moves/nchildren mismatch: computeLinearize");
+  uassert(allmoves.size()==static_cast<std::size_t>(nchildren),"moves/nchildren mismatch: computeLinearize");
   vector<MoveFutureNode*>movefutures=linearize(filter);
   for(auto movefuture : movefutures){
     uassert(movefuture->requiredMove==nullptr,"computeLinearize rM");
-    uassert(movefuture->requiredIndex=-1,"computeLinearize rI");
+    uassert(movefuture->requiredIndex==-1,"computeLinearize rI");
   }
   uassert(!movefutures.empty(),"unexpected emptymovefutures");
   SeqRet best(false);

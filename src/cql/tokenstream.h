@@ -18,11 +18,11 @@ class Tokens : public Deleteable{
   int save();
   void restore(int x);
   void forward();
-  Tokens(vector<Token*> ts);
+  explicit Tokens(vector<Token*> ts);
 
   Node* match_cqlfeature();
   StringToken* match_string();
-  StringToken* match_string(char*);
+  StringToken* match_string(const char*);
   CqlNode* match_cqlnode();
   PgnNode* match_pgnnode();
   OutputNode* match_outputnode();

@@ -27,10 +27,10 @@ void VectorConstituent::print(){
   printf("\n");tab();
   printf("<%s %lu constituents: ",thisclass(),constituents.size());
   indent();
-  for(int i=0;i<constituents.size();++i){
+  for(std::size_t i=0;i<constituents.size();++i){
     printf("\n");
     tab();
-    printf("%s %d of %lu: ",thisclass(),i,constituents.size());
+    printf("%s %zu of %zu: ",thisclass(),i,constituents.size());
     constituents[i]->print();
   }
   unindent();

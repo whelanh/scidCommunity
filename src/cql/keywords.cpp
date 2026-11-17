@@ -130,5 +130,5 @@ KeywordToken::KeywordToken(const char*x){
 }
 
 void KeywordToken::print(){
-  printf("<%s: %s %s>",thisclass(),locationString(), value);
+  printf("<%s: %s %s>",thisclass(),locationString().c_str(), value);
 }

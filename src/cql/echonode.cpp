@@ -18,22 +18,24 @@ EchoNode::EchoNode(vector<Node*>fs, vector<EchoSpec*>ss){
 }
 
 void EchoNode::print(){
-  printf("<%s NFilters: %lu NSpecs: %lu ",thisclass(),filters.size(),specs.size());
+  printf("<%s NFilters: %zu NSpecs: %zu ",thisclass(),filters.size(),specs.size());
   if(isSilent())printf("silent ");
-  for(int i=0;i<filters.size();++i){
+  std::size_t i=0;
+  for(MFilter* filter:filters){
     printf("\n");
     indent();
     tab();
-    printf("Filter <%d of %lu: ",i,filters.size());
-    filters[i]->print();
+    printf("Filter <%zu of %zu: ",i++,filters.size());
+    filter->print();
     unindent();
   }
-  for(int i=0;i<specs.size();++i){
+  i=0;
+  for(EchoSpec* spec:specs){
     printf("\n");
     indent();
     tab();
-    printf("Spec <%d of %lu: ",i,specs.size());
-    specs[i]->print();
+    printf("Spec <%zu of %zu: ",i++,specs.size());
+    spec->print();
     unindent();
   }
 };

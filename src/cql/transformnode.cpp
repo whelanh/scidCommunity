@@ -126,8 +126,8 @@ void TransformNode::deepify(){
 }
     
 bool TransformNode::expanded(){
-  uassert(!filter&&transformedFilters.size() ||
-	  filter&&transformedFilters.empty(),"TransformNode::expanded internal");
+  uassert((!filter&&!transformedFilters.empty()) ||
+	  (filter&&transformedFilters.empty()),"TransformNode::expanded internal");
   return filter==nullptr;
 }
 

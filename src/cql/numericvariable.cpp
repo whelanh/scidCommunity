@@ -24,7 +24,7 @@ NumericVariable* Variable::getNumericVariable(const char*nm,bool ismax){
   return createNumericVariable(nm,ismax);
 }
 
-bool  NumericVariable::getSquare(squareT*s){
+bool  NumericVariable::getSquare(squareT* /*s*/){
   uassert(false,"Cannot get the square of numeric variable",name);
   return false;
 }

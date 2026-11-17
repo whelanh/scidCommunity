@@ -46,7 +46,7 @@ RayNode::RayNode(vector<Direction>dirs,
   directions=dirs;
   for(auto s:sets) uassert(s);
   designators=sets;
-  for (int i=0;i<designators.size();++i)
+  for (std::size_t i=0;i<designators.size();++i)
     designatorMasks.push_back(SquareMask());
   uassert(designatorMasks.size()==designators.size());
   isAttack=isattack;
@@ -62,7 +62,7 @@ bool RayNode::match_position(Game * game){
   matchedSoFar.clear();
   uassert(designators.size()>1);
   uassert(designatorMasks.size()==designators.size());
-  for (int i=0;i<designators.size();++i){
+  for (std::size_t i=0;i<designators.size();++i){
     SetBase*designator=designators.at(i);
     uassert(designator);
     designatorMasks[i]=designator->getSquares(game);

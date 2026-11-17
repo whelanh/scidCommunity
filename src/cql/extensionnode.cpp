@@ -12,13 +12,13 @@ bool ExtensionNode::match_position(Game*game){
   char*current=buffer;
   vector<simpleMoveT*>moves=MarkBoard::getLegalMoves(game);
   current+=sprintf(current,"Nlegal: %d ",(int)(moves.size()));
-  for (int i=0;i<moves.size();++i){
+  for (std::size_t i=0;i<moves.size();++i){
     auto smt=moves[i];
     squareT fromsq=smt->from;
     squareT tosq=smt->to;
     char*fromname=square_to_string(fromsq);
     char*toname=square_to_string(tosq);
-    current+=sprintf(current,"%d: %s-%s; ",i,fromname,toname);
+    current+=sprintf(current,"%zu: %s-%s; ",i,fromname,toname);
   }
    MarkBoard::gameAppendComment(game,buffer);
    return true;

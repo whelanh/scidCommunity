@@ -32,7 +32,11 @@ class RepeatConstituent;
 class HolderConstituent;
 
 using vnode = vector<Node*>;
-#define CVV(name) const char * thisclass() {return #name;} name* clone() 
+// Every node reports its class name for debug output and clones itself; the
+// two functions come as a pair in nearly every subclass.
+#define CVV(name) \
+  const char* thisclass() override { return #name; } \
+  name* clone() override
 
 class Node : public Deleteable { //abstract
  public:
@@ -71,7 +75,7 @@ class MFilter : public Node { //abstract
  public:
   virtual bool match_position(Game*game)=0;
   virtual bool isGap(){return false;}
-  virtual MFilter* clone()=0;
+  MFilter* clone() override=0;
 };
 
 class Countable{
@@ -85,10 +89,10 @@ class Countable{
 class SetBase: public MFilter{ //abstract
  public:
   //  virtual bool match_square(squareT square, Game*game)=0;
-  virtual bool match_position(Game*game);
+  bool match_position(Game*game) override;
   virtual SquareMask getSquares(Game*game)=0;
-  virtual bool isSet(){return true;}
-  virtual SetBase* clone()=0;
+  bool isSet() override{return true;}
+  SetBase* clone() override=0;
 
 };
 
@@ -108,23 +112,23 @@ class PieceLoc:public SetBase{
 	   vector<SquareToken*> squaretokens,
 	   vector<VariableToken*> variabletokens);
   static vector<pieceT>piecesFromChar(char c);
-  void print();
+  void print() override;
   CVV(PieceLoc);
-  vnode children(){return vnode{};}
+  vnode children() override{return vnode{};}
   bool match_piece(pieceT piece);
   bool isPurePiece();
   Variable* getAsVariable();
-  void transform_members(Transform *);
-  bool hasEmptySquareMask();
-  SquareMask getSquares(Game*game);
+  void transform_members(Transform *) override;
+  bool hasEmptySquareMask() override;
+  SquareMask getSquares(Game*game) override;
   SquareMask getPieceMask(Game*game);
 };
 
 class GameFilter:public MFilter{ //abstract
  public:
   virtual bool match_game(Game*game)=0;
-  bool match_position(Game*game){return match_game(game);}
-  virtual GameFilter*clone()=0;
+  bool match_position(Game*game) override{return match_game(game);}
+  GameFilter*clone() override=0;
 };
 
 
@@ -133,8 +137,8 @@ class GameFilter:public MFilter{ //abstract
 ///////are TransformNode, VariationsNode
 class Childless : public Node{ //abstract
  public:
-  vnode children(){return vnode{};}
-  virtual Childless* clone()=0;
+  vnode children() override{return vnode{};}
+  Childless* clone() override=0;
 };
   
 class KeywordNode: public Childless{
@@ -142,7 +146,7 @@ class KeywordNode: public Childless{
   const char*value;
   KeywordNode(const char*v);
   CVV(KeywordNode);
-  void print();
+  void print() override;
   bool eq(const char*);
 };
 
@@ -161,100 +165,100 @@ class VariationsNode: public KeywordNode{
 
 class AnyNode:public SetBase{
  public:
-  SquareMask getSquares(Game*game){return SquareMask::all();}
-  bool match_position(Game*game){return true;}
-  vnode children(){return vnode{};}
+  SquareMask getSquares(Game* /*game*/) override{return SquareMask::all();}
+  bool match_position(Game* /*game*/) override{return true;}
+  vnode children() override{return vnode{};}
   CVV(AnyNode);
 };
 
 
 class SimpleNode:public MFilter { //no arg keywords corresponding to a filter, abstract
  public:
-  virtual SimpleNode*clone()=0;
-  vnode children(){return vnode{};}
+  SimpleNode*clone() override=0;
+  vnode children() override{return vnode{};}
 };
 
 class CheckNode:public SimpleNode{
   CVV(CheckNode);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
 };
 
 class StalemateNode:public SimpleNode{
   CVV(StalemateNode);
-  bool match_position(Game*);
+  bool match_position(Game*) override;
 };
 
 class MateNode:public SimpleNode{
   CVV(MateNode);
-  bool match_position(Game*);
+  bool match_position(Game*) override;
 };
 
 class ColorNode:public MFilter{
  public:
   CVV(ColorNode);
-  void print();
-  bool match_position(Game*);
+  void print() override;
+  bool match_position(Game*) override;
   colorT color;
   ColorNode(colorT c);
-  vnode children(){return vnode{};}
-  void transform_members(Transform*);
+  vnode children() override{return vnode{};}
+  void transform_members(Transform*) override;
 };
 
 
 class InitialNode:public SimpleNode{
   CVV(InitialNode);
-  bool match_position(Game*);
+  bool match_position(Game*) override;
 };
 
 class InVariationNode:public SimpleNode{
  public:
   CVV(InVariationNode);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
 };
 
 class BeginVariationNode:public SimpleNode{
  public:
   CVV(BeginVariationNode);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
 };
 
 
 class InMainlineNode:public SimpleNode{
  public:
   CVV(InMainlineNode);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
 };
 
 
 
 class TerminalNode:public SimpleNode{
   CVV(TerminalNode);
-  bool match_position(Game*);
+  bool match_position(Game*) override;
 };
 
 class NotNode:public SetBase{
  public:
   MFilter* filter{nullptr};
   CVV(NotNode);
-  vnode children(){return vnode{filter};}
-  void print();
+  vnode children() override{return vnode{filter};}
+  void print() override;
   NotNode(Node*np);
-  bool match_position(Game*);
-  void deepify(){filter=filter->clone();}
-  virtual bool isSet();
-  SquareMask getSquares(Game*);
+  bool match_position(Game*) override;
+  void deepify() override{filter=filter->clone();}
+  bool isSet() override;
+  SquareMask getSquares(Game*) override;
 };
 
 class PositionNode: public MFilter{
  public:
   vector<MFilter*> specs;
   PositionNode(vector<Node*>);
-  void print();
+  void print() override;
   bool variations{false};
   CVV(PositionNode);
-  vnode children();
-  bool match_position(Game*game);
-  void deepify(){clonevec(specs);}
+  vnode children() override;
+  bool match_position(Game*game) override;
+  void deepify() override{clonevec(specs);}
 };
 
 class MatchCountNode: public Node{
@@ -262,8 +266,8 @@ class MatchCountNode: public Node{
   Range*range{nullptr};
   MatchCountNode(Range*,bool);
   bool sort{false};
-  void print();
-  vnode children(){return vnode{};}
+  void print() override;
+  vnode children() override{return vnode{};}
   CVV(MatchCountNode);
 };
 
@@ -272,8 +276,8 @@ class PgnNode: public Node{
   PgnNode(const char*v){value=v;}
   const char* value;
   CVV(PgnNode);
-  void print();
-  vnode children(){return vnode{};}
+  void print() override;
+  vnode children() override{return vnode{};}
 };
 
 class OutputNode: public Node{
@@ -281,39 +285,39 @@ class OutputNode: public Node{
   OutputNode(const char*v){value=v;}
   const char* value;
   CVV(OutputNode);
-  void print();
-  vnode children(){return vnode{};}
+  void print() override;
+  vnode children() override{return vnode{};}
 };
 
 class ResultNode: public GameFilter{
  public:
   ResultNode(const char*v);
   resultT result{RESULT_None};
-  void transform_members(Transform*t);
+  void transform_members(Transform*t) override;
   CVV(ResultNode);
-  void print();
-  bool match_game(Game*game);
-  vnode children(){return vnode{};}
+  void print() override;
+  bool match_game(Game*game) override;
+  vnode children() override{return vnode{};}
 };
 
 class PlayerNode: public GameFilter{
  public:
   const char* name{nullptr};
   colorT color {NOCOLOR};
-  vnode children(){return vnode{};}
-  bool match_game(Game*game);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_game(Game*game) override;
+  void print() override;
   CVV(PlayerNode);
   PlayerNode(const char*,colorT);
-  void transform_members(Transform*);
+  void transform_members(Transform*) override;
 };
 
 class EventNode: public GameFilter{
  public:
   const char* name{nullptr};
-  vnode children(){return vnode{};}
-  bool match_game(Game*game);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_game(Game*game) override;
+  void print() override;
   CVV(EventNode);
   EventNode(const char*);
 };
@@ -321,9 +325,9 @@ class EventNode: public GameFilter{
 class SiteNode: public GameFilter{
  public:
   const char* name{nullptr};
-  vnode children(){return vnode{};}
-  bool match_game(Game*game);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_game(Game*game) override;
+  void print() override;
   CVV(SiteNode);
   SiteNode(const char*);
 };
@@ -333,23 +337,23 @@ class EloNode: public GameFilter,public Countable{
  public:
   Range*range{nullptr};
   colorT color {NOCOLOR};
-  vnode children(){return vnode{};}
-  bool match_game(Game*game);
-  bool match_count(Game*game, NumValue*value);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_game(Game*game) override;
+  bool match_count(Game*game, NumValue*value) override;
+  void print() override;
   CVV(EloNode);
   EloNode(Range*range,colorT);
-  void transform_members(Transform*);
+  void transform_members(Transform*) override;
 };
 
   
 class YearNode: public GameFilter, public Countable{
  public:
   Range*range{nullptr};
-  vnode children(){return vnode{};}
-  bool match_game(Game*game);
-  bool match_count(Game*game, NumValue*value);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_game(Game*game) override;
+  bool match_count(Game*game, NumValue*value) override;
+  void print() override;
   CVV(YearNode);
   YearNode(Range*range);
 };
@@ -359,19 +363,19 @@ class GameNumberNode: public GameFilter{
   Range * range{nullptr};
   CVV(GameNumberNode);
   GameNumberNode(Range* r);
-  vnode children(){return vnode{};};
-  bool match_game(Game*game);
-  void print();
+  vnode children() override{return vnode{};};
+  bool match_game(Game*game) override;
+  void print() override;
 };
 
 class OriginNode:public SetBase{
  public:
   OriginNode(TagVariable*);
   TagVariable*variable{nullptr};
-  SquareMask getSquares(Game*game);
+  SquareMask getSquares(Game*game) override;
   CVV(OriginNode);
-  vnode children(){return vnode{};}
-  void print();
+  vnode children() override{return vnode{};}
+  void print() override;
 };
 
 class CountSquaresNode:public MFilter, public Countable{
@@ -382,12 +386,12 @@ class CountSquaresNode:public MFilter, public Countable{
   Range* range{nullptr};
   SetBase* set{nullptr};
   CVV(CountSquaresNode);
-  bool match_count(Game*game, NumValue* value);
-  void print();
+  bool match_count(Game*game, NumValue* value) override;
+  void print() override;
   CountSquaresNode(SetBase* s,Range*r);
-  vnode children() {return vnode{set};}
-  virtual bool match_position(Game*game);
-  void deepify(){set=set->clone();}
+  vnode children() override {return vnode{set};}
+  bool match_position(Game*game) override;
+  void deepify() override{set=set->clone();}
 };
 
 
@@ -406,43 +410,43 @@ class AttackNode : public SetBase, public Countable{
   SetBase* attacking{nullptr};
   SetBase* attacked{nullptr};
   Range* range{nullptr};
-  void print();
+  void print() override;
   int getCount(){return count;}
-  bool match_position(Game*game);
-  SquareMask getSquares(Game*game);
-  vnode children();
+  bool match_position(Game*game) override;
+  SquareMask getSquares(Game*game) override;
+  vnode children() override;
   CVV(AttackNode);
   AttackNode(SetBase*s, SetBase*t, Range*r);
-  void deepify(){attacking=attacking->clone();attacked=attacked->clone();}
-  bool match_count(Game*game, NumValue* value);
-  virtual bool isSet();
-  virtual bool isCountable();
+  void deepify() override{attacking=attacking->clone();attacked=attacked->clone();}
+  bool match_count(Game*game, NumValue* value) override;
+  bool isSet() override;
+  bool isCountable() override;
 };
 
 class OrNode: public SetBase{
  public:
   MFilter* clause1{nullptr};
   MFilter* clause2{nullptr};
-  bool match_position(Game*g);
+  bool match_position(Game*g) override;
   OrNode(MFilter*c1, MFilter*c2);
-  vnode children(){return vnode{clause1,clause2};}
-  void print();
+  vnode children() override{return vnode{clause1,clause2};}
+  void print() override;
   CVV(OrNode);
-  void deepify(){clause1=clause1->clone();clause2=clause2->clone();}
-  SquareMask getSquares(Game*g);
-  bool isSet();
+  void deepify() override{clause1=clause1->clone();clause2=clause2->clone();}
+  SquareMask getSquares(Game*g) override;
+  bool isSet() override;
 };
 
 class OnNode: public SetBase{
  public:
   SetBase* clause1{nullptr};
   SetBase* clause2{nullptr};
-  SquareMask getSquares(Game*g);
+  SquareMask getSquares(Game*g) override;
   OnNode(SetBase* s1, SetBase* s2);
-  vnode children(){return vnode{clause1,clause2};}
-  void print();
+  vnode children() override{return vnode{clause1,clause2};}
+  void print() override;
   CVV(OnNode);
-  void deepify(){clause1=clause1->clone();clause2=clause2->clone();}
+  void deepify() override{clause1=clause1->clone();clause2=clause2->clone();}
 };
 
 
@@ -454,11 +458,11 @@ class ExistsNode: public SetBase{
   vector<MFilter*> filters;
   SetBase*target{nullptr};
   CVV(ExistsNode);
-  vnode children();
-  SquareMask getSquares(Game*game);
-  void print();
+  vnode children() override;
+  SquareMask getSquares(Game*game) override;
+  void print() override;
   ExistsNode(SquareVariable*v, SetBase*target, vector<Node*> nodes);
-  void deepify(){clonevec(filters);if(target)target=target->clone();}
+  void deepify() override{clonevec(filters);if(target)target=target->clone();}
 };
 
 
@@ -468,11 +472,11 @@ class ForallNode: public MFilter{
   SetBase*target{nullptr};
   vector<MFilter*>filters;
   CVV(ForallNode);
-  vnode children();
-  bool match_position(Game*game);
+  vnode children() override;
+  bool match_position(Game*game) override;
   ForallNode(SquareVariable*v,SetBase*target,vector<Node*>nodes);
-  void print();
-  void deepify(){if(target)target=target->clone();clonevec(filters);}
+  void print() override;
+  void deepify() override{if(target)target=target->clone();clonevec(filters);}
 };
 
 class RayNode: public SetBase, public Countable{
@@ -485,21 +489,21 @@ class RayNode: public SetBase, public Countable{
   vector<SetBase*> designators;
   vector<Direction>directions;
   bool isAttack{false};
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
   RayNode(vector<Direction>directions,
 	  vector<SetBase*> ds,
 	  bool isattack,
 	  Range*r);
   CVV(RayNode);
-  void print();
-  vnode children();
+  void print() override;
+  vnode children() override;
   Range*range{nullptr};
-  void deepify(){clonevec(designators);}
-  void transform_members(Transform*t);
- bool match_count(Game*game, NumValue* value);
- SquareMask getSquares(Game*game);
- bool isSet();
- bool isCountable();
+  void deepify() override{clonevec(designators);}
+  void transform_members(Transform*t) override;
+ bool match_count(Game*game, NumValue* value) override;
+ SquareMask getSquares(Game*game) override;
+ bool isSet() override;
+ bool isCountable() override;
 };
 
 
@@ -507,12 +511,12 @@ class AssignNode: public MFilter{
  public:
   NumericVariable* variable{nullptr};
   Countable* node{nullptr};
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
   CVV(AssignNode);
-  vnode children();
-  void print();
+  vnode children() override;
+  void print() override;
   AssignNode(NumericVariable*, Node*);
-  void deepify(){node=node->clone();}
+  void deepify() override{node=node->clone();}
 };
   
   
@@ -527,18 +531,18 @@ class MoveBase:public SetBase, public VariationFlags{
   bool secondaryMove{false};
   MoveBase(SetBase*from, SetBase* to, PieceLoc* promote,SetBase* enpassant,bool nullmove,bool mainline, bool variation);
   bool nullMove{false};
-  void print();
-  vnode children();
-  bool match_position(Game*game);
-  SquareMask getSquares(Game*game);
+  void print() override;
+  vnode children() override;
+  bool match_position(Game*game) override;
+  SquareMask getSquares(Game*game) override;
   bool match_move(simpleMoveT*move, Game* game);
-  void deepify(){if(from) from=from->clone();if(to)to=to->clone();if(promote)promote=promote->clone();if(enpassantsquare)enpassantsquare=enpassantsquare->clone();}
+  void deepify() override{if(from) from=from->clone();if(to)to=to->clone();if(promote)promote=promote->clone();if(enpassantsquare)enpassantsquare=enpassantsquare->clone();}
 };
   
 class MovePastNode:public MoveBase{
  public:
   CVV(MovePastNode);
-  vector<simpleMoveT*>getMoves(Game*game);
+  vector<simpleMoveT*>getMoves(Game*game) override;
   MovePastNode(SetBase*from, SetBase*to, PieceLoc* promote, SetBase* enpassant,bool nullmove,bool mainline, bool variation);
 };
 
@@ -546,7 +550,7 @@ class MoveFutureNode:public MoveBase{
  public:
   CVV(MoveFutureNode);
   MoveFutureNode(SetBase*from, SetBase*to, PieceLoc* promote, SetBase* enpassant,bool nullmove, bool mainline, bool variation);
-  vector<simpleMoveT*>getMoves(Game*game);
+  vector<simpleMoveT*>getMoves(Game*game) override;
   int requiredIndex=-1 ; // used by FutureNode: only examine this child
   simpleMoveT* requiredMove=nullptr; // used by Future Node
 };
@@ -555,7 +559,7 @@ class MoveLegalNode:public MoveBase{
  public:
   CVV(MoveLegalNode);
   MoveLegalNode(SetBase*from, SetBase*to, PieceLoc* promote, SetBase* enpassant,bool nullmove, bool mainline, bool variation);
-  vector<simpleMoveT*>getMoves(Game*game);
+  vector<simpleMoveT*>getMoves(Game*game) override;
 };
 
 class MoveNumberNode: public MFilter, public Countable {
@@ -563,10 +567,10 @@ class MoveNumberNode: public MFilter, public Countable {
   Range*range{nullptr};
   CVV(MoveNumberNode);
   MoveNumberNode(Range*r);
-  vnode children(){return vnode{};}
-  bool match_position(Game*game);
-  bool match_count(Game*game, NumValue*n);
-  void print();
+  vnode children() override{return vnode{};}
+  bool match_position(Game*game) override;
+  bool match_count(Game*game, NumValue*n) override;
+  void print() override;
 };
 
     
@@ -588,14 +592,14 @@ class CqlNode : public Node,public VariationFlags, public CommentFlags{
   void match();
   bool match_game(Game*game);
   void do_match(MFilter*p, Game*game);
-  void print();
+  void print() override;
   CVV(CqlNode);
-  vnode children();
+  vnode children() override;
   CqlNode(vector<Node*> features,Node* node);
-  virtual ~CqlNode() {}
+  ~CqlNode() override {}
   void run();
   void setUseMarks();
-  void deepify(){filter=filter->clone();clonevec(gamefilters);}
+  void deepify() override{filter=filter->clone();clonevec(gamefilters);}
   void setFirstComment(Game*game);
   void annotateEchoes(Game*game);
   GameSortInfo makeInfo(Game*game);
@@ -611,12 +615,12 @@ class FutureStarNode : public MFilter, public Countable, public VariationFlags, 
   MFilter* filter{nullptr};
   Range* range{nullptr};
   CVV(FutureStarNode);
-  void print();
+  void print() override;
   int getCount(){return count;}
-  bool match_count(Game*game, NumValue* value);
-  vnode children(){return vnode{filter};}
-  void deepify(){filter=filter->clone();}
-  bool match_position(Game*game);
+  bool match_count(Game*game, NumValue* value) override;
+  vnode children() override{return vnode{filter};}
+  void deepify() override{filter=filter->clone();}
+  bool match_position(Game*game) override;
   FutureStarNode(Node*,Range*, int maxdepth);
 };
 
@@ -629,12 +633,12 @@ class PastStarNode : public MFilter, public Countable, public CommentFlags{
   MFilter* filter{nullptr};
   Range* range{nullptr};
   CVV(PastStarNode);
-  void print();
+  void print() override;
   int getCount(){return count;}
-  bool match_count(Game*game, NumValue* value);
-  vnode children(){return vnode{filter};}
-  void deepify(){filter=filter->clone();}
-  bool match_position(Game*game);
+  bool match_count(Game*game, NumValue* value) override;
+  vnode children() override{return vnode{filter};}
+  void deepify() override{filter=filter->clone();}
+  bool match_position(Game*game) override;
   PastStarNode(Node*,Range*,int depth);
 };
 
@@ -644,12 +648,12 @@ class PieceIdNode : public SetBase{
   TagVariable*variable{nullptr};
   SetBase* set{nullptr};
   vector<MFilter*>filters;
-  SquareMask getSquares(Game*game);
+  SquareMask getSquares(Game*game) override;
   CVV(PieceIdNode);
-  void print();
+  void print() override;
   PieceIdNode(TagVariable *v, SetBase* set,vector<Node*>fs);
-  vnode children();
-  void deepify(){if(set)set=set->clone();clonevec(filters);}
+  vnode children() override;
+  void deepify() override{if(set)set=set->clone();clonevec(filters);}
 };
 
 
@@ -658,13 +662,13 @@ class VectorNode : public SetBase{
   DirectionParameter parameter;
   SetBase* source{nullptr};
   CVV(VectorNode);
-  void print();
-  vnode children();
-  bool match_position(Game*game);
-  SquareMask getSquares(Game*game);
+  void print() override;
+  vnode children() override;
+  bool match_position(Game*game) override;
+  SquareMask getSquares(Game*game) override;
   VectorNode(DirectionParameter dp,SetBase* source);
-  void deepify(){source=source->clone();}
-  void transform_members(Transform*);
+  void deepify() override{source=source->clone();}
+  void transform_members(Transform*) override;
  private:
   SquareMask neighborhoods[64];
   bool neighborhoodsvalid{false};
@@ -682,20 +686,20 @@ class TransformNode: public SetBase, public Countable{
   int count{0};
   Range*range{nullptr};
   vector<MFilter*> transformedFilters;
-  void print();
-  vnode children();
-  void expand();
-  void deepify();
-  void transform_in_place(Transform*t);
+  void print() override;
+  vnode children() override;
+  void expand() override;
+  void deepify() override;
+  void transform_in_place(Transform*t) override;
   bool expanded();
-  SquareMask getSquares(Game*game);
-  virtual bool isSet();
-  virtual bool isCountable();
+  SquareMask getSquares(Game*game) override;
+  bool isSet() override;
+  bool isCountable() override;
   CVV(TransformNode);
   vector<Transform*> getTransforms(){return transforms;}
   MFilter* getSource(){return filter;}
-  bool match_position(Game*game);
-  bool match_count(Game*game, NumValue*value);
+  bool match_position(Game*game) override;
+  bool match_count(Game*game, NumValue*value) override;
 };
 
 
@@ -703,21 +707,21 @@ class BetweenNode: public SetBase {
  public:
   SetBase* source{nullptr};
   SetBase* target{nullptr};
-  void print();
+  void print() override;
   //  bool match_square(squareT square, Game*game);
-  SquareMask getSquares(Game*game);
+  SquareMask getSquares(Game*game) override;
   CVV(BetweenNode);
-  void deepify(){source=source->clone();target=target->clone();}
-  vnode children(){return vnode{source,target};}
+  void deepify() override{source=source->clone();target=target->clone();}
+  vnode children() override{return vnode{source,target};}
   BetweenNode(SetBase*s,SetBase*t);
 };
 
 class ExtensionNode:public MFilter{
  public:
   CVV(ExtensionNode);
-  bool match_position(Game*game);
-  vnode children(){return vnode{};}
-  void print();
+  bool match_position(Game*game) override;
+  vnode children() override{return vnode{};}
+  void print() override;
   ExtensionNode(){};
 };
 
@@ -726,13 +730,13 @@ class PowerNode: public MFilter, public Countable {
   SetBase* set{nullptr};
   Range*range{nullptr};
   int power{-1000};
-  void print();
-  bool match_count(Game*game, NumValue*value);
+  void print() override;
+  bool match_count(Game*game, NumValue*value) override;
   CVV(PowerNode);
-  void deepify(){set=set->clone();}
-  vnode children(){return vnode{set};}
+  void deepify() override{set=set->clone();}
+  vnode children() override{return vnode{set};}
   PowerNode(SetBase*s,Range*r);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
   static int pieceValue(pieceT p);
 };
 
@@ -742,13 +746,13 @@ class PowerDifferenceNode: public MFilter, public Countable {
   PowerNode* power2{nullptr};
   Range*range{nullptr};
   int powerdifference{-1000};
-  void print();
-  bool match_count(Game*game, NumValue*value);
+  void print() override;
+  bool match_count(Game*game, NumValue*value) override;
   CVV(PowerDifferenceNode);
-  void deepify(){power1=power1->clone();power2=power2->clone();}
-  vnode children(){return vnode{power1,power2};}
+  void deepify() override{power1=power1->clone();power2=power2->clone();}
+  vnode children() override{return vnode{power1,power2};}
   PowerDifferenceNode(SetBase*,SetBase*,Range*);
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
   static int pieceValue(pieceT p);
 };
 
@@ -757,37 +761,37 @@ class MatchCommentNode: public MFilter{
   const char* value{nullptr};
   MatchCommentNode(const char* v);
   CVV(MatchCommentNode);
-  void print();
-  vnode children(){return vnode{};}
-  bool match_position(Game*game);
+  void print() override;
+  vnode children() override{return vnode{};}
+  bool match_position(Game*game) override;
 };
 
 class CommentBase: public MFilter{
  public:
-  bool match_position(Game*game);
+  bool match_position(Game*game) override;
   virtual void printBuffer(Game*g,char*buffer)=0;
   static const int maxLen=200;
 };
 
 class CommentString:public CommentBase{
  public:
-  void printBuffer(Game*g, char*buffer);
+  void printBuffer(Game*g, char*buffer) override;
   const char*str;
   CommentString(const char*s);
   CVV(CommentString);
-  vnode children(){return vnode{};}
-  void print();
+  vnode children() override{return vnode{};}
+  void print() override;
 };
 
 class CommentSet:public CommentBase{
  public:
   CommentSet(SetBase*);
-  void printBuffer(Game*g,char*buffer);
+  void printBuffer(Game*g,char*buffer) override;
   SetBase*set{nullptr};
   CVV(CommentSet);
-  void deepify(){set=set->clone();}
-  vnode children(){return vnode{set};}
-  void print();
+  void deepify() override{set=set->clone();}
+  vnode children() override{return vnode{set};}
+  void print() override;
 };
 
 

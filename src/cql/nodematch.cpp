@@ -2,6 +2,8 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
+#include <array>
+
 #include "node.h"
 #include "tokenstream.h"
 
@@ -307,12 +309,11 @@ VariationsNode* Tokens::match_variationsnode(){
 
 KeywordToken*Tokens::match_raykeyword(){
   int x=save();
-  char*keys[]={":ray",":rayorthogonal",":raydiagonal",":rayattack"};
-  size_t nkeys = sizeof(keys)/sizeof(char*);
+  constexpr std::array keys{":ray",":rayorthogonal",":raydiagonal",":rayattack"};
   KeywordToken *t=match_keyword();
   if(!t)return nullptr;
-  for(int i=0;i<nkeys;++i)
-    if(t->eq(keys[i]))return t;
+  for(const char* key:keys)
+    if(t->eq(key))return t;
   restore(x);
   return nullptr;
 }
@@ -466,15 +467,15 @@ ResultNode* Tokens::match_resultnode(){
   if(!match_keyword(":result"))
     return nullptr;
   StringToken*name=nullptr;
-  if(!name ) name=match_string("1-0");
+  if(!name) name=match_string("1-0");
   if(!name) name=match_string("0-1");
-  if(!name) name=match_string ("1/2-1/2");
+  if(!name) name=match_string("1/2-1/2");
   uassert(name,"expecting 1-0 or 0-1 or 1/2-1/2 following :result");
   return new ResultNode(name->value);
 }
 
 
-StringToken* Tokens::match_string(char* v){
+StringToken* Tokens::match_string(const char* v){
   uassert(v!=nullptr);
   int x=save();
   StringToken*n=match_string();

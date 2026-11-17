@@ -4,7 +4,7 @@
  */
 #include "node.h"
 
-squareT PiOver4Transform::transform(squareT s){
+squareT PiOver4Transform::transform(squareT /*s*/){
   uassert(false,"An attempt to transform a particular square by 45 degrees was made. The rotate45 filter cannnot be used on individual squares");
   return 0;
 }
