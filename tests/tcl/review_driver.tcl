@@ -815,6 +815,26 @@ set measuredRes [dict merge $unmeasuredRes [dict create 1 [dict create 1 {20 -20
 checkEq "and the same gap with a score after the move is great" \
     [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $measuredRes] 1] 0] great
 
+# `forced` and `book` are facts about the position before the move, not
+# judgements about the score it reached: they must survive a missing successor
+# score. White's king on a1 has exactly one legal move (a1b1), and the position
+# after it is not searched.
+set forcedMap [::review::mainLineMap \
+    [list {position fen 7k/8/8/8/8/8/6q1/K7 w - - 0 1} a1b1]]
+set forcedRes [dict create 0 [dict create 1 {20 30 cp {a1b1}}]]
+checkEq "a sole legal move with no successor score is still forced" \
+    [lindex [dict get [::reviewdriver::verdicts $forcedMap $forcedRes] 1] 0] forced
+# The same fixture with the successor searched is forced too: the label must
+# not depend on whether that score happened to arrive.
+set forcedMeasured [dict merge $forcedRes \
+    [dict create 1 [dict create 1 {20 -25 cp {h8g8}}]]]
+checkEq "and it is forced when the successor is searched as well" \
+    [lindex [dict get [::reviewdriver::verdicts $forcedMap $forcedMeasured] 1] 0] forced
+# Book is the other score-free label: a move inside the pass's book boundary
+# with no successor score reads as theory rather than as a judgement.
+checkEq "a book move with no successor score is still book" \
+    [lindex [dict get [::reviewdriver::verdicts $unmeasuredMap $unmeasuredRes 5] 1] 0] book
+
 set badArgs [::reviewdriver::refineArgs $badMap [dict create] \
     [dict create 1 {20 30 cp {e2e4 e7e5}}] \
     [::reviewdriver::refineContext $badMap 0] 2 zzzz 30 20 0]

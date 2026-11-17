@@ -1079,16 +1079,31 @@ proc ::reviewdriver::judge {map results sides ply {ctx ""}} {
     # let `cp_after >= cp_before - 20` be read off a number compared with itself,
     # and the move would be called `great` without evidence it kept anything.
     # The searched successor is the only real measurement there; with none, the
-    # refinement vocabulary has nothing to say about this move and the base label
-    # stands, with the evidence it was made from. A move the engine ranked below
-    # its best line already has its own measured figure (`judged`), which is a
-    # score of the position it reached, so nothing changes for it.
+    # score-based refinements have nothing to say and only the position facts
+    # (forced, book) are left to speak. A move the engine ranked below its best
+    # line already has its own measured figure (`judged`), which is a score of
+    # the position it reached, so nothing changes for it.
     set reached $judged
     if {$isBest} { set reached $successor }
-    if {$reached ne ""} {
-        set label [::movelabels::refine $label \
-            [::reviewdriver::refineArgs $map $results $lines $ctx $ply $played $cp1 $reached $isBest]]
+    # With no score for the position the move reached there is no second figure
+    # to compare, but `forced` and `book` are facts about the position before
+    # the move and need none. Hand `refine` those facts alone: the score pair,
+    # the candidate gap and the replay the sacrifice test reads are all
+    # withheld, so a judgement cannot be claimed from evidence that is absent.
+    set refineAfter $reached
+    if {$refineAfter eq ""} { set refineAfter $cp1 }
+    set refineFacts [::reviewdriver::refineArgs $map $results $lines $ctx $ply \
+        $played $cp1 $refineAfter $isBest]
+    if {$reached eq ""} {
+        set facts [dict create]
+        foreach k {is_best played legal_moves in_book} {
+            if {[dict exists $refineFacts $k]} {
+                dict set facts $k [dict get $refineFacts $k]
+            }
+        }
+        set refineFacts $facts
     }
+    set label [::movelabels::refine $label $refineFacts]
     # The second engine's verdict, when it withdrew this label: ::reviewdriver::
     # verified folds the verifier's corrections into the results, so every writer
     # that judges a move sees the same label the verifier agreed with. A
