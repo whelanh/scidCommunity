@@ -698,12 +698,29 @@ set body [cloudJson 24 $::WIDE]
 set ::httpBody $body
 set ::httpCode 200
 
+# Warm the packages the fallback loads, so the measurement below is of the
+# request returning to the event loop, not of a cold package load: on a loaded
+# CI runner the first `package require http` and `tls` can take longer than the
+# bound this check used to use, and the load is not the behaviour under test.
+catch {package require http}
+catch {package require tls}
+catch {::http::register https 443 ::tls::socket}
+
 unset -nocomplain ::httpReply
 set t0 [clock milliseconds]
 ::lichess_eval::cloudEvalAsync $probeFen standard 3 \
     {apply {{ok data err} {set ::httpReply [list $ok $data $err]}}}
 set elapsed [expr {[clock milliseconds] - $t0}]
-check "the caller is not held while the fallback request runs" [expr {$elapsed < 500}]
+# A blocking geturl cannot answer here at all: the loopback server is only
+# served from this event loop, so it sits in the 10 s timeout instead of merely
+# crossing the bound. Keep the bound loose enough for a loaded runner to still
+# distinguish that from a request that returned at once.
+check "the caller is not held while the fallback request runs" [expr {$elapsed < 2000}]
+# Timing-free form of the same property: no event-loop turn has run between the
+# call and here, so a request that returned without waiting cannot have applied
+# its reply yet, while one that blocked (and so had to pump the loop) will have.
+check "the reply is applied after the call, not during it" \
+    [expr {![info exists ::httpReply]}]
 checkEq "the fallback answers with the reply body" [waitFor ::httpReply 8000] \
     [list 1 $body ""]
 checkEq "and it really went over http" $::httpHits 1
