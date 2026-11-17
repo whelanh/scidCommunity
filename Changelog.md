@@ -13,10 +13,16 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
-## Unreleased
+## 5.1.4.69 — 17 November 2026
 
-- **Tools > Board Screenshot** saves the position on the board as a PNG file with coordinates and, when Show Arrow is enabled in Preferences > Moves, the last-move arrow. It names the file position-1.png, position-2.png and so on. It draws from the board's own pieces and squares, so it needs no extra image package and works on Windows, macOS and Linux.
-- Search > CQL... finds games by a query language: type a query such as `cql() [N]f3` — a white knight on f3 — and the game list is filtered to the games that contain it, with filters for check and mate, the side to move, moves and promotions, comments and headers, and piece counts, all explained on the help page beside the window. The query engine comes from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/) and keeps its GPL-2.0 licence. — thanks to @Triquetra.
+- **Tools > Board Screenshot** saves the position on the board as a PNG file with coordinates and, when Show Arrow is enabled in Preferences > Moves, the last-move arrow. It names the file position-1.png, position-2.png and so on. It draws from the board's own pieces and squares, so it needs no extra image package and works on Windows, macOS and Linux. — thanks to @whelanh ([#512](https://github.com/whelanh/scidCommunity/pull/512)).
+- CQL searches are several times faster on large databases, and a game whose record cannot be read is counted and skipped instead of ending the search. — thanks to @whelanh ([#513](https://github.com/whelanh/scidCommunity/pull/513)) and @Triquetra ([#508](https://github.com/whelanh/scidCommunity/pull/508)).
+- Search > CQL... finds games by a query language: type a query such as `cql() [N]f3` — a white knight on f3 — and the game list is filtered to the games that contain it, with filters for check and mate, the side to move, moves and promotions, comments and headers, and piece counts, all explained on the help page beside the window. The query engine comes from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/) and keeps its GPL-2.0 licence. — thanks to @Triquetra ([#502](https://github.com/whelanh/scidCommunity/pull/502)).
+- **Game Review** uses Lichess's stored evaluation where it is at least as deep as the search you asked for, so a review finishes sooner without getting weaker, and the Cloud pre-pass switch has moved from Review Settings into each engine configuration. — thanks to @Triquetra ([#498](https://github.com/whelanh/scidCommunity/pull/498), [#506](https://github.com/whelanh/scidCommunity/pull/506)).
+- **Game Review** now also says **Forced**, **Book**, **Brilliant**, **Great** and **Missed chance**, where before every move was one of six verdicts. — thanks to @Triquetra ([#505](https://github.com/whelanh/scidCommunity/pull/505)).
+- Computer tournaments write a standard `TimeControl`, count threefold repetition from the whole position and forfeit a move that takes far longer than its time. — thanks to @Triquetra ([#499](https://github.com/whelanh/scidCommunity/pull/499)).
+- The **PGN Window**'s Display menu gains **Center Current Move**, a draw or resign dialog no longer opens over a half-drawn board, the **Engine Window** comes to the front on Wayland when auto-raise is enabled, and **Book Tuning**'s Remove Move takes a move out of the list. — thanks to @Triquetra ([#499](https://github.com/whelanh/scidCommunity/pull/499)).
+- **Options > Chessboard > My Player Names** no longer hides its buttons when the display is scaled up. — thanks to @Triquetra ([#507](https://github.com/whelanh/scidCommunity/pull/507)).
 
 ## 5.1.4.68 — 16 November 2026
 
