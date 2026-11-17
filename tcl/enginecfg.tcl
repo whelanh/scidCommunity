@@ -178,6 +178,38 @@ proc ::enginecfg::uciOptions {options} {
     return $out
 }
 
+# Persist one review switch into the saved preset, leaving every other field of
+# the preset alone.
+#
+# The switch is the one option a window can change without the engine answering,
+# and two engine windows can hold the same preset (a fresh window starts the most
+# recently used engine). Saving a window's whole snapshot would let the older
+# window's close write its stale row back over the newer value, so a toggle
+# writes only its own row here and ::enginecfg::save carries the stored row
+# through a snapshot rather than taking the snapshot's value.
+proc ::enginecfg::saveReviewOption {engine option value {default true}} {
+    set pos [lsearch -exact -index 0 $::engines(list) $engine]
+    if {$pos < 0} {
+        return
+    }
+    set stored [lindex $::engines(list) $pos]
+    set rows {}
+    set found 0
+    foreach row [lindex $stored 8] {
+        if {[llength $row] > 1 && [string equal -nocase [lindex $row 0] $option]} {
+            set found 1
+            # A value at its default is left out, exactly as ::enginecfg::save
+            # leaves it out of element 8.
+            if {$value ne $default} { lappend rows [list $option $value] }
+        } else {
+            lappend rows $row
+        }
+    }
+    if {!$found && $value ne $default} { lappend rows [list $option $value] }
+    lset ::engines(list) $pos [lreplace $stored 8 8 $rows]
+    catch { ::enginecfg::write }
+}
+
 # Search a previous configuration with the same name and replace it.
 # Write the "Engine list" file if it is necessary or force_write is true.
 # Return the engine's name or "" (and does nothing) if the engine do not exists.
@@ -190,15 +222,27 @@ proc ::enginecfg::save {enginecfg {force_write false}} {
     # A record loaded from the file holds already-filtered {name value} pairs;
     # only the live widget form carries the type/default/... fields. The old
     # filter threw "expected boolean value" on a loaded pair.
-    lset enginecfg 8 [lmap elem [lindex $enginecfg 8] {
+    #
+    # A review switch is NOT taken from this snapshot: it is persisted by its own
+    # row (::enginecfg::saveReviewOption), and another window holding the same
+    # preset may have an older value. The stored row is carried through instead,
+    # so a stale window's close cannot revert it.
+    set storedReview {}
+    foreach row [::enginecfg::reviewOptions [lindex [lindex $::engines(list) $idx] 8]] {
+        lassign $row name value type default
+        if {$value ne $default} { lappend storedReview [list $name $value] }
+    }
+    lset enginecfg 8 [concat [lmap elem [lindex $enginecfg 8] {
         if {[llength $elem] == 2} {
+            if {[::enginecfg::isReviewOption [lindex $elem 0]]} { continue }
             set elem
         } else {
             lassign $elem name value type default min max var_list internal
             if {$internal || $value eq $default} { continue }
+            if {[::enginecfg::isReviewOption $name]} { continue }
             list $name $value
         }
-    }]
+    }] $storedReview]
     if {$force_write || [lindex $::engines(list) $idx] ne $enginecfg} {
         lset ::engines(list) $idx $enginecfg
         ::enginecfg::write
@@ -492,15 +536,18 @@ proc ::enginecfg::setOption {id idx value} {
     # written into element 8 here because no handshake reply will ever bring it
     # back, and then saved at once: there is no SetOptions reply to make the
     # frame's own save run, so a pass started from this window - and every reader
-    # of ::engines(list) - must see the value the switch shows. A config that
-    # cannot be saved (a new engine not in the list yet) keeps the live value,
-    # which ::enginewin::reviewRunState reads.
+    # of ::engines(list) - must see the value the switch shows. Only this one row
+    # is written to the preset, not the window's whole snapshot: a second window
+    # on the same preset may be holding an older value and must not revert it.
     if {[::enginecfg::isReviewOption $name]} {
         set row [lreplace [lindex [set ::enginecfg::engConfig_$id] 8 $idx] 1 1 $value]
         set ::enginecfg::engConfig_$id \
             [lreplace [set ::enginecfg::engConfig_$id] 8 8 \
                 [lreplace [lindex [set ::enginecfg::engConfig_$id] 8] $idx $idx $row]]
-        catch { ::enginecfg::save [set ::enginecfg::engConfig_$id] }
+        catch {
+            ::enginecfg::saveReviewOption [lindex [set ::enginecfg::engConfig_$id] 0] \
+                $name $value $default
+        }
         return true
     }
     ::engine::send $id SetOptions [list [list $name $value]]

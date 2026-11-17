@@ -194,6 +194,17 @@ check "and the file on disk carries it" \
     [expr {[string first "cloud_eval" [read [set fh [open $::enginesFile r]]]] >= 0}]
 close $fh
 
+# A second window on the same preset still holds the old (on) snapshot. Its save
+# on close must carry the preset's stored switch, not its own stale value - two
+# windows start the same preset by default (the most recently used engine), so
+# this is not a hand-made state.
+set stale [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 \
+    {{Threads 8 integer 1 1 128 {} 0} {MultiPV 3 spin 1 1 10 {} 0} \
+        {cloud_eval true check true {} {} {} 0}} {}]
+::enginecfg::save $stale
+checkEq "a stale window's save cannot turn the switch back on" \
+    [dict get [::review::engineDefaults [::enginecfg::get Stockfish]] cloud_eval] 0
+
 # Reopening: the saved config is what the next session reads, so the panel is
 # built again from it - a fresh handshake included, which is where a switch that
 # was not carried across would silently come back on.
@@ -243,6 +254,10 @@ checkEq "and the widget shows it" [::update_switch_btn $wB.value1] false
 $wB.value1 invoke
 checkEq "ticking it back on" \
     [lindex [set ::enginecfg::engConfig_r2] 8 1 1] true
+# On is the default, so the saved preset carries no row for it - a deliberate
+# on clears the off row rather than leaving it behind.
+checkEq "and the saved preset holds no off row now" \
+    [dict get [::review::engineDefaults [::enginecfg::get Browsing]] cloud_eval] ""
 checkEq "and the other config keeps its own answer" \
     [dict get [::review::effective [::enginecfg::get Verdict]] cloud_eval] 1
 
