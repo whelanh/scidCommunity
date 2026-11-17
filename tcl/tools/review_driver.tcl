@@ -726,6 +726,215 @@ proc ::reviewdriver::sides {map} {
     return $sides
 }
 
+# The position a driver spec stands for, as ::chessboard holds it, or "" when the
+# spec cannot be replayed.
+#
+# A map's `positions` is the shape ::engine::send Go takes - `position startpos
+# moves e2e4 ...` or `position fen <fen> moves ...` - so the board is built from
+# the spec itself and never from the game on screen: a pass runs with the reader
+# somewhere else, a line pass needs the variation's positions rather than the
+# main line's, and walking the board with sc_move would move the cursor the write
+# phase then has to put back. A spec this cannot follow (an unknown header, a
+# move that will not apply - a variant's drop, say) is a position with no board,
+# and every caller treats that as no evidence rather than as a board with no
+# pieces on it.
+proc ::reviewdriver::specPosition {spec} {
+    if {[llength [info commands ::chessboard::makeMove]] == 0} { return "" }
+    set words [regexp -all -inline {\S+} [string trim $spec]]
+    if {[lindex $words 0] ne "position"} { return "" }
+    set i 1
+    set pos ""
+    switch -- [lindex $words $i] {
+        startpos {
+            if {[catch {
+                set pos [::chessboard::fromFen \
+                    {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1}]
+            }]} {
+                return ""
+            }
+            incr i
+        }
+        fen {
+            set fields [lrange $words [expr {$i + 1}] [expr {$i + 6}]]
+            if {[llength $fields] < 4} { return "" }
+            if {[catch { set pos [::chessboard::fromFen [join $fields " "]] }]} {
+                return ""
+            }
+            incr i 7
+        }
+        default { return "" }
+    }
+    if {[lindex $words $i] eq "moves"} {
+        incr i
+        foreach move [lrange $words $i end] {
+            if {[catch { set pos [::chessboard::makeMove $pos $move] }]} {
+                return ""
+            }
+        }
+    }
+    return $pos
+}
+
+# The FEN of the position after `ply`, from the map's own position string.
+#
+# This is the one-position answer, for a caller that judges a move on its own
+# (Move Comment, a harness, a writer that reads one verdict). A pass hands the
+# whole map's boards in instead - see ::reviewdriver::fens - because replaying a
+# cumulative string once per ply replays the opening once per ply.
+proc ::reviewdriver::fenAt {map ply} {
+    if {![string is integer -strict $ply]} { return "" }
+    set spec ""
+    catch { set spec [dict get [dict get $map positions] $ply] }
+    if {[string trim $spec] eq ""} { return "" }
+    set fen ""
+    catch {
+        set pos [::reviewdriver::specPosition $spec]
+        if {$pos ne ""} { set fen [::chessboard::toFen $pos] }
+    }
+    return $fen
+}
+
+# ply -> the FEN of the position after that ply, for every ply the map can name.
+#
+# One forward walk, not one replay per ply: the strings are cumulative, so asking
+# fenAt for each ply of a 40-move game replays the opening forty times. A null
+# move's own header restarts the walk, because that is where the game restarts.
+# A position that will not replay is simply absent, and its successors with it
+# until the next header.
+proc ::reviewdriver::fens {map} {
+    set out [dict create]
+    set moves {}
+    set positions {}
+    set plies 0
+    catch { set moves [dict get $map moves] }
+    catch { set positions [dict get $map positions] }
+    catch { set plies [dict get $map plies] }
+    set pos ""
+    for {set ply 0} {$ply <= $plies} {incr ply} {
+        if {![dict exists $positions $ply]} {
+            set pos ""
+            continue
+        }
+        set move ""
+        if {$ply > 0} { catch { set move [dict get $moves $ply] } }
+        if {$ply == 0 || $move eq ""} {
+            set next ""
+            catch { set next [::reviewdriver::specPosition [dict get $positions $ply]] }
+            set pos $next
+        } elseif {$pos ne ""} {
+            if {[catch { set pos [::chessboard::makeMove $pos $move] }]} { set pos "" }
+        }
+        if {$pos ne ""} {
+            set fen ""
+            catch { set fen [::chessboard::toFen $pos] }
+            if {$fen ne ""} { dict set out $ply $fen }
+        }
+    }
+    return $out
+}
+
+# The pass's own context for ::movelabels::refine: the boards it reads and the
+# book boundary it decided.
+#
+# Built once per pass, not once per move: `fens` is a replay of the whole line,
+# and the whole point of the walk is that it happens once.
+#
+# `bookEnd` is this review's own book answer - the last ply it writes as Book -
+# rather than the ladder's ply window. The review walked a book file: a game that
+# leaves it at move 5 has its moves 6 to 12 judged, and calling those "book" when
+# the book itself says the game is out of it would be the pass contradicting its
+# own evidence. 0 is the pass that judged the opening - skip_book off, no book
+# selected, a named-ply pass - and then no move is theory.
+proc ::reviewdriver::refineContext {map {bookEnd 0}} {
+    if {![string is integer -strict $bookEnd] || $bookEnd < 0} { set bookEnd 0 }
+    return [dict create fens [::reviewdriver::fens $map] bookEnd $bookEnd]
+}
+
+# The context ::movelabels::refine reads for one move, from what judge already
+# holds plus the pass's `ctx`.
+#
+# `lines` is the results dict at the position before the move - MultiPV order,
+# one entry per slot the engine (or the adopted cloud reply) reported.
+#
+# Every key is left out when its evidence is missing, rather than filled with a
+# guess: no board means no `legal_moves` and no `fen_before`/`fen_after`, so
+# `forced` and the sacrifice test cannot fire on a position nobody can show; one
+# line means no `candidates`, so `great`'s gap cannot be claimed from an engine
+# that never named a second line; no search of the reached position means no
+# `pv_after_played`, so a sacrifice stays unproven.
+proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAfter isBest} {
+    set before [expr {$ply - 1}]
+    set bookEnd 0
+    if {[llength $ctx] && [dict exists $ctx bookEnd]} {
+        catch { set bookEnd [dict get $ctx bookEnd] }
+    }
+    # `in_book` is always the pass's own answer: the ladder's default would be the
+    # ply number, and this caller can say where the book actually ended.
+    set out [dict create is_best $isBest played $played ply $ply \
+        cp_before $cpBefore cp_after $cpAfter \
+        cp_loss [::movelabels::cpLoss $cpBefore $cpAfter] \
+        win_drop [::movelabels::winDrop $cpBefore $cpAfter] \
+        in_book [expr {$bookEnd > 0 && $ply <= $bookEnd}]]
+    set fenBefore ""
+    if {[llength $ctx] && [dict exists $ctx fens]} {
+        catch { set fenBefore [dict get [dict get $ctx fens] $before] }
+    }
+    if {$fenBefore eq ""} { set fenBefore [::reviewdriver::fenAt $map $before] }
+    # The board is needed for two things: how many moves the mover had (the forced
+    # test) and what the move did to the material (the free-capture exclusion and
+    # the sacrifice test). The first is a count the pass can often answer from
+    # evidence it already holds - two distinct root moves in the engine's own lines
+    # prove the mover had at least two legal moves - and the two material tests
+    # only ever read the board for the engine's own move. So a move that was not
+    # the engine's choice, at a position it gave two alternatives for, is decided
+    # without generating a single move.
+    set distinct {}
+    foreach idx [dict keys $lines] {
+        set pv [lindex [dict get $lines $idx] 3]
+        set first [lindex $pv 0]
+        if {$first ne ""} { lappend distinct $first }
+    }
+    set distinct [llength [lsort -unique $distinct]]
+    if {$fenBefore ne "" && ($isBest || $distinct < 2)} {
+        set legal ""
+        set fenAfter ""
+        catch {
+            set pos [::chessboard::fromFen $fenBefore]
+            set legal [llength [::chessboard::legalMoves $pos]]
+            set fenAfter [::chessboard::toFen [::chessboard::makeMove $pos $played]]
+        }
+        # A move the board refuses is not a move the board can measure: the pawn
+        # capture, the sacrifice and the count all come from this position.
+        if {$legal ne "" && $fenAfter ne ""} {
+            dict set out legal_moves $legal
+            dict set out fen_before $fenBefore
+            dict set out fen_after $fenAfter
+        }
+    }
+    # The alternatives at the position before the move, best first. A reply that
+    # carries one line has none: the gap to a second line is unknown, and that is
+    # exactly what the mpv rule protects. Sorted rather than trusted to arrive in
+    # order, so a slot the engine reported out of turn cannot widen the gap.
+    set scores {}
+    foreach idx [lsort -integer [dict keys $lines]] {
+        set cp [::reviewdriver::lineScore [dict get $lines $idx]]
+        if {$cp ne ""} { lappend scores $cp }
+    }
+    if {[llength $scores] >= 2} {
+        dict set out candidates [lsort -integer -decreasing $scores]
+    }
+    # The line the search of the reached position found: the evidence a sacrifice
+    # has to come back from.
+    if {[dict exists $results $ply]} {
+        set got [dict get $results $ply]
+        if {[dict exists $got 1]} {
+            set pv [lindex [dict get $got 1] 3]
+            if {[llength $pv]} { dict set out pv_after_played $pv }
+        }
+    }
+    return $out
+}
+
 # One move's verdict, as a dict: `label`, `eval_cp`, the two figures the label
 # ladder used (`before` = the best line's score at the position before the move,
 # `after` = what the ladder compared it with), and `isBest`.
@@ -735,7 +944,12 @@ proc ::reviewdriver::sides {map} {
 # and difficulty comments are written from the same drop the label came from -
 # and recomputing it elsewhere would be a second, drifting copy of this
 # reasoning. `before`/`after` are centipawns from the mover's point of view.
-proc ::reviewdriver::judge {map results sides ply} {
+#
+# `ctx` is the pass's own context (::reviewdriver::refineContext) when the caller
+# has one: the boards of every position, and the ply the book ended at. A caller
+# that passes none still gets a verdict - the one position is replayed on demand
+# and no move is called book, because a caller with no book has no book evidence.
+proc ::reviewdriver::judge {map results sides ply {ctx ""}} {
     set before [expr {$ply - 1}]
     if {![dict exists $results $before]} { return "" }
     set lines [dict get $results $before]
@@ -792,6 +1006,13 @@ proc ::reviewdriver::judge {map results sides ply} {
         set eval_cp [expr {$mover eq "b" ? -$shown : $shown}]
     }
     set label [::movelabels::label $cp1 $judged $isBest]
+    # The refinement layer: the ladder above reads one score pair, and these read
+    # what the move did as well - a reply with no choice, a book move, a sound
+    # sacrifice, the only move that keeps the game, a win thrown away. Every
+    # figure it needs is already here except the board and the book, which the
+    # pass handed in as `ctx`.
+    set label [::movelabels::refine $label \
+        [::reviewdriver::refineArgs $map $results $lines $ctx $ply $played $cp1 $judged $isBest]]
     # The second engine's verdict, when it withdrew this label: ::reviewdriver::
     # verified folds the verifier's corrections into the results, so every writer
     # that judges a move sees the same label the verifier agreed with. A
@@ -842,18 +1063,24 @@ proc ::reviewdriver::labelRank {label} {
 # not, the searched successor position `ply` answers instead, negated because its
 # side to move is the opponent.
 #
-# `label` is ::movelabels::label's, both figures from the mover's point of view.
+# `label` is ::movelabels::label's, refined by ::movelabels::refine: both figures
+# from the mover's point of view, and the move's own board and the pass's book
+# answer beside them.
 # `eval_cp` is White's-POV centipawns of the position AFTER the move - never the
 # best-line score - because that is what a [%eval] token means to the graph. When
 # there is no successor to compare against, eval_cp is "" and ::review::commentText
 # omits the token.
-proc ::reviewdriver::verdicts {map results} {
+#
+# `bookEnd` is the pass's book boundary, the last ply written as Book; it is the
+# in_book answer ::movelabels::refine is given (see ::reviewdriver::refineContext).
+proc ::reviewdriver::verdicts {map results {bookEnd 0}} {
     set out {}
     set sides [::reviewdriver::sides $map]
+    set ctx [::reviewdriver::refineContext $map $bookEnd]
     set plies 0
     catch { set plies [dict get $map plies] }
     for {set ply 1} {$ply <= $plies} {incr ply} {
-        set v [::reviewdriver::judge $map $results $sides $ply]
+        set v [::reviewdriver::judge $map $results $sides $ply $ctx]
         if {$v eq ""} { continue }
         dict set out $ply [list [dict get $v label] [dict get $v eval_cp]]
     }
@@ -1308,15 +1535,17 @@ proc ::reviewdriver::verifyWrite {p results write} {
     set jobs {}
     if {$name ne "" && [llength [info commands ::reviewverify::jobs]]} {
         set labels [dict create]
-        # The labels the pass decided, from the same results the writer will
-        # read: Brilliant and Great are the only labels a verifier has an opinion
-        # about, and the ladder is the only place those words come from.
-        catch {
-            set verdicts [::reviewdriver::verdicts [dict get $p map] $results]
-            dict for {ply v} $verdicts { dict set labels $ply [lindex $v 0] }
-        }
         set bookEnd 0
         catch { set bookEnd [dict get $p bookEnd] }
+        # The labels the pass decided, from the same results the writer will
+        # read: Brilliant and Great are the only labels a verifier has an opinion
+        # about, and the ladder is the only place those words come from. Judged
+        # with the pass's own book boundary, because a ply the writer calls Book
+        # is theory rather than a claim a second engine should confirm.
+        catch {
+            set verdicts [::reviewdriver::verdicts [dict get $p map] $results $bookEnd]
+            dict for {ply v} $verdicts { dict set labels $ply [lindex $v 0] }
+        }
         catch {
             set jobs [::reviewverify::jobs [dict get $p map] $results $labels $bookEnd]
         }
@@ -1569,7 +1798,7 @@ proc ::reviewdriver::writeResults {p results} {
     set errors {}
     set engineName ""
     catch { set engineName [lindex [dict get $p engine] 0] }
-    set verdicts [::reviewdriver::verdicts $map $results]
+    set verdicts [::reviewdriver::verdicts $map $results $bookEnd]
     set sides [::reviewdriver::sides $map]
     foreach ply [dict get $p plan] {
         if {$ply <= $bookEnd} {
