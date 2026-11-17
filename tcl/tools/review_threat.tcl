@@ -361,15 +361,16 @@ proc ::reviewthreat::search {enginecfg fen onDone {game ""}} {
     # reservation: a 110 GB transposition table is no more welcome here than in
     # Game Review.
     set opts {}
-    set presetOpts [lindex $enginecfg 8]
+    # The review's own switches in element 8 are settings for the review pass,
+    # not UCI options - the probe is one search, not a review, and the engine has
+    # never heard of them. ::engine::uciOptions is the filter every other
+    # SetOptions path uses; it reads ::enginecfg's REVIEW_OPTIONS registry rather
+    # than a name list here, so a new review switch is excluded by construction.
+    set presetOpts [::engine::uciOptions [lindex $enginecfg 8]]
     if {[llength $presetOpts]} {
         foreach pair $presetOpts {
             set name [lindex $pair 0]
             if {$name in {Threads Hash MultiPV}} { continue }
-            # The review's own switch in element 8 is a setting for the review
-            # pass, not a UCI option - the probe is one search, not a review, and
-            # the engine has never heard of it.
-            if {[lsearch -nocase -exact {cloud_eval} $name] >= 0} { continue }
             lappend opts $pair
         }
     }

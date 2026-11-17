@@ -121,6 +121,7 @@ set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl utils chessboard.tcl]
 source [file join $root tcl tools comment_facts.tcl]
 source [file join $root tcl tools engine_limits.tcl]
+source [file join $root tcl enginecfg.tcl]
 source [file join $root tcl enginecomm.tcl]
 source [file join $root tcl tools enginenowin.tcl]
 source [file join $root tcl tools review_prose.tcl]
@@ -239,7 +240,8 @@ set ::done 0
 set ::threatMove untouched
 set ::threatErr untouched
 set preset [list "Engine A" /bin/true {} {} 0 0 {} 1 \
-    [list [list Threads 64] [list Hash 110000] [list SyzygyPath /tmp]] {}]
+    [list [list Threads 64] [list Hash 110000] [list SyzygyPath /tmp] \
+        [list cloud_eval false]] {}]
 set err [::reviewthreat::search $preset \
     {rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1} \
     [list apply {{move e} {set ::threatMove $move ; set ::threatErr $e ; set ::done 1}}]]
@@ -269,6 +271,8 @@ check "and the review's hash budget" \
     [expr {[string first "Hash 512" $::lastOptions] >= 0}]
 check "the preset's non-resource options are kept" \
     [expr {[string first "SyzygyPath /tmp" $::lastOptions] >= 0}]
+check "and the review's own switch is not sent" \
+    [expr {[string first "cloud_eval" $::lastOptions] < 0}]
 check "the preset's full thread reservation is not sent" \
     [expr {[string first "Threads 64" $::lastOptions] < 0}]
 check "the preset's full hash reservation is not sent" \
