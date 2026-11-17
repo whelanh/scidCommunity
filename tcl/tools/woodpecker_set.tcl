@@ -15,6 +15,10 @@ namespace eval ::woodpecker::set {
     variable PAUSE_MS 1000
     variable RETRY_MS 60000
     variable BATCH 50
+    # A round of angles that brings nothing new waits WAIT_MS for Lichess to
+    # serve the next batch; after MAX_IDLE_ROUNDS such rounds the level stops.
+    variable WAIT_MS 20000
+    variable MAX_IDLE_ROUNDS 6
     variable cancel 0
     # The difficulty levels the API knows, easiest first.
     variable LEVELS {easiest easier normal harder hardest}
@@ -166,6 +170,8 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
     variable BATCH
     variable PAUSE_MS
     variable RETRY_MS
+    variable WAIT_MS
+    variable MAX_IDLE_ROUNDS
     variable cancel
     set cancel 0
     set n [dict get $spec count]
@@ -173,49 +179,63 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
     set color [expr {[dict exists $spec color] ? [dict get $spec color] : "both"}]
     set token [expr {[dict exists $spec token] ? [dict get $spec token] : ""}]
     set want [levelCounts $n [dict get $spec shares]]
+    # Without a token Lichess answers the same 50 puzzles for one angle and
+    # level for about a minute (measured 2026-11-17). "mix" is therefore
+    # rotated with the three game phases, which between them cover every
+    # puzzle; when a whole round brings nothing new the next minute is awaited.
+    set angles [expr {$angle eq "mix" ? {mix opening middlegame endgame} : [list $angle]}]
     set seen [usedIds]
     set got {}
     set done 0
     dict for {level target} $want {
         if {$target <= 0} { continue }
         set have 0
-        set tries 0
-        set maxTries [expr {int(ceil(double($target) / $BATCH)) * 4 + 2}]
-        while {$have < $target && $tries < $maxTries && !$cancel} {
-            incr tries
-            set url "https://lichess.org/api/puzzle/batch/[urlPart $angle]?nb=$BATCH&difficulty=$level"
-            if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
-            if {[catch { httpGet $url $token } res]} {
-                error "Lichess: $res"
+        set idle 0
+        while {$have < $target && $idle < $MAX_IDLE_ROUNDS && !$cancel} {
+            set roundFresh 0
+            foreach a $angles {
+                if {$have >= $target || $cancel} break
+                set url "https://lichess.org/api/puzzle/batch/[urlPart $a]?nb=$BATCH&difficulty=$level"
+                if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
+                if {[catch { httpGet $url $token } res]} {
+                    error "Lichess: $res"
+                }
+                lassign $res status body
+                if {$status == 429} {
+                    if {$progress ne ""} { {*}$progress $done $n "lichess: 429, waiting 60 s" }
+                    pause $RETRY_MS
+                    continue
+                }
+                if {$status != 200} {
+                    error "Lichess answered $status: [string range $body 0 200]"
+                }
+                set reply [::woodpecker::jsonParse $body]
+                foreach entry [dict get $reply puzzles] {
+                    if {$have >= $target} break
+                    set id [dict get $entry puzzle id]
+                    if {[dict exists $seen $id]} { continue }
+                    dict set seen $id 1
+                    if {[catch { ::woodpecker::lichessExercise $entry } ex]} { continue }
+                    set side [::woodpecker::fenSide [dict get $ex fen]]
+                    if {$color eq "white" && $side ne "w"} { continue }
+                    if {$color eq "black" && $side ne "b"} { continue }
+                    dict set ex level $level
+                    lappend got $ex
+                    incr have
+                    incr done
+                    incr roundFresh
+                }
+                if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
+                pause $PAUSE_MS
             }
-            lassign $res status body
-            if {$status == 429} {
-                if {$progress ne ""} { {*}$progress $done $n "lichess: 429, waiting 60 s" }
-                pause $RETRY_MS
-                continue
+            if {$have >= $target} break
+            if {$roundFresh == 0} {
+                incr idle
+                if {$progress ne ""} { {*}$progress $done $n "lichess: waiting for new puzzles" }
+                pause $WAIT_MS
+            } else {
+                set idle 0
             }
-            if {$status != 200} {
-                error "Lichess answered $status: [string range $body 0 200]"
-            }
-            set reply [::woodpecker::jsonParse $body]
-            set fresh 0
-            foreach entry [dict get $reply puzzles] {
-                if {$have >= $target} break
-                set id [dict get $entry puzzle id]
-                if {[dict exists $seen $id]} { continue }
-                dict set seen $id 1
-                if {[catch { ::woodpecker::lichessExercise $entry } ex]} { continue }
-                set side [::woodpecker::fenSide [dict get $ex fen]]
-                if {$color eq "white" && $side ne "w"} { continue }
-                if {$color eq "black" && $side ne "b"} { continue }
-                dict set ex level $level
-                lappend got $ex
-                incr have
-                incr done
-                incr fresh
-            }
-            if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
-            if {$have < $target} { pause $PAUSE_MS }
         }
     }
     if {$cancel} { error cancelled }
