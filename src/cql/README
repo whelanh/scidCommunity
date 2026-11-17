@@ -18,6 +18,10 @@ appreciated feature addition to the Scidvspc.
 
 ========================= From the original README:
 
+NOTE (scidCommunity): this is the upstream CQL distribution's README, kept for
+provenance. Two upstream files, cql.cpp and origChanges.cpp, are not part of
+this tree; see README.md for the integration notes.
+
 Version information is in the file version.cpp, or can be found by
 running pcql --help.
 

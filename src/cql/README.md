@@ -9,10 +9,14 @@ existing moves, board, header, comments and material searches.
 - **Source:** Scid vs. PC, `svn://svn.code.sf.net/p/scidvspc/code` at
   **r3777** (`src/cql/`).
 - **Mirror reference:** [github.com/tagatac/scidvspc](https://github.com/tagatac/scidvspc)
-  at `cb5309c2`. The mirror lags r3777 in two files only
-  (`gamesortinfo.cpp`, `origChanges.cpp`); both were refreshed from r3777, so
-  the imported tree matches r3777 rather than the mirror.
+  at `cb5309c2`; `gamesortinfo.cpp` was taken from r3777 because the mirror lags
+  there.
 - **Imported:** 2026-11-16.
+- **Not imported:** two upstream files are not part of this tree: `cql.cpp`
+  (the standalone command-line driver, with its own `main()`) and
+  `origChanges.cpp` (patches to Scid vs. PC's `Game`/`MFile` classes, which
+  scidCommunity does not have). Neither is needed by the integrated engine; see
+  below.
 - **Licence:** see `COPYING` in this directory. Every imported source carries
   an `SPDX-License-Identifier` header.
 
@@ -92,11 +96,11 @@ What changed, in terms of idioms rather than behaviour:
   `const` accessors and `std::popcount()`.
 - Dead declarations and commented-out blocks from the import were removed.
 
-Two imported files are outside that check because the application does not
-build them: `cql.cpp` is the standalone command-line driver (it defines its own
-`main()`) and `origChanges.cpp` replaces members of Scid vs. PC's `Game`/`MFile`
-that this tree does not have. They are kept for provenance; `cql.cpp` does
-compile cleanly under `-DSTANDALONE`, `origChanges.cpp` cannot by design.
+Every `.cpp` in this directory is part of the application build and is covered
+by that check; there are no excluded files. Upstream's `cql.cpp` and
+`origChanges.cpp` were not imported (see **Provenance**), so the directory holds
+only translation units scidCommunity actually compiles. Git history retains
+both files should the standalone driver ever be wanted.
 
 This is deliberately **not** kept in sync with Scid vs. PC: the imported source
 is a starting point, not a code style to preserve.
@@ -110,8 +114,8 @@ scidCommunity's `Game`/`Position`/`MoveList` API differs from Scid vs. PC's:
 `const pieceT*`, `pos->IsStaleMate()` goes through `CqlIsStaleMate(pos)`,
 `game->GetNumber()` through `CqlGameNumber()`, `game->GetCurrentMoveCQL()`
 through `CqlCurrentMove(game)`, and
-`Game::WriteToPGN_CQL()` (which lives in Scid vs. PC's `origChanges.cpp`) is
-replaced by scidCommunity's `Game::WriteToPGN()`:
+`Game::WriteToPGN_CQL()` (upstream's CQL-specific writer, not imported here)
+is replaced by scidCommunity's `Game::WriteToPGN()`:
 
 ```
 attacknode.cpp            echomatchinfo.cpp         node.h

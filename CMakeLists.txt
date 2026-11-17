@@ -119,15 +119,9 @@ endif()
 # scidCommunity
 file(GLOB SCID_SRC src/*.h src/*.cpp)
 
-# CQL (Chess Query Language) engine, imported verbatim from Scid vs. PC.
+# CQL (Chess Query Language) engine, imported from Scid vs. PC.
 # src/cql/ is a subdirectory, so the non-recursive glob above skips it.
 file(GLOB CQL_SRC src/cql/*.cpp)
-# cql.cpp is the standalone command line driver (it defines its own main()) and
-# origChanges.cpp patches scidvspc's Game/MFile classes, which we do not have;
-# src/cql/util.cpp uses our own Game::WritePGN() and cql_pgnparse_adapter.h.
-list(REMOVE_ITEM CQL_SRC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/cql/cql.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/cql/origChanges.cpp)
 list(APPEND SCID_SRC ${CQL_SRC})
 # The engine's #ifdef INTEGRATED branch is the library version (CqlMatchGame),
 # as opposed to the STANDALONE command line program.

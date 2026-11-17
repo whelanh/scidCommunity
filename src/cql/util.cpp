@@ -65,8 +65,8 @@ bool util::positiveIntValue(const char* s, int* val){
 
 
 string util::game_to_string(Game* game){
-  // scidCommunity: scidvspc's Game::WriteToPGN_CQL() (a CQL-specific variant
-  // living in scidvspc's origChanges.cpp) is replaced by our Game::WriteToPGN().
+  // scidCommunity: scidvspc's CQL-specific WriteToPGN_CQL() is replaced by our
+  // Game::WriteToPGN().
   std::pair<const char *, unsigned> pgn = game->WriteToPGN();
   uassert(pgn.first,"game_to_string internal");
   return {pgn.first, pgn.second};
