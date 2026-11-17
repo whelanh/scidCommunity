@@ -2051,6 +2051,22 @@ set ::fakeLoc 2
 set ::fakeLevel 0
 set ::events {}
 
+# The panel edits the live config, and ::engines(list) is written only when the
+# frame is destroyed: a switch turned now has to be the one the next pass reads.
+# The saved preset above says nothing about the pre-pass, so it resolves to on;
+# the live config below turns it off.
+set ::enginecfg::engConfig_1 \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval false}} {}]
+checkEq "a switch changed in the panel is what the pass reads" \
+    [dict get [::review::effective \
+        [dict get [::enginewin::reviewRunState 1] engine]] cloud_eval] 0
+# And the saved preset is the fallback when the window has no live config (it has
+# not connected yet, or it is pointed at another engine).
+unset -nocomplain ::enginecfg::engConfig_1
+checkEq "without a live config the saved preset answers" \
+    [dict get [::review::effective \
+        [dict get [::enginewin::reviewRunState 1] engine]] cloud_eval] 1
+
 checkEq "the first window's press starts the pass" \
     [::enginewin::reviewStart 1 [::enginewin::reviewRunState 1]] 1
 checkEq "and the window owns it" $::enginewin::reviewowner 1

@@ -1366,7 +1366,18 @@ proc ::enginewin::reviewRunState {id {plies ""} {depth ""} {source review} {line
     set name ""
     catch { set name $::enginewin_lastengine($id) }
     if {$name ne ""} {
-        catch { dict set state engine [::enginecfg::get $name] }
+        # The engine options panel edits the LIVE config; ::engines(list) is
+        # written only when the frame is destroyed (::enginecfg::autoSaveConfig).
+        # A switch or option the reader has just changed must be the one this
+        # pass reads, so the live config wins when the window has one for this
+        # engine; the saved preset is the fallback when it does not.
+        set engine ""
+        catch { set engine [set ::enginecfg::engConfig_$id] }
+        if {$engine eq "" || [lindex $engine 0] ne $name} {
+            set engine ""
+            catch { set engine [::enginecfg::get $name] }
+        }
+        if {$engine ne ""} { dict set state engine $engine }
         # The header's fields, composed here while the window still knows which
         # engine it is pointed at. The driver turns them into the one string the
         # popup draws, so a header can never name an engine the reader has since
