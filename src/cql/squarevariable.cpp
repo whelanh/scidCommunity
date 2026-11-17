@@ -6,7 +6,7 @@
 // SquareVariable Stuff ////////
 
 SquareVariable* Variable::getSquareVariable(std::string_view nm){
-  SquareVariable* ret=nullptr;   
+  SquareVariable* ret=nullptr;
   Variable*v=find(nm);
   if(v) {
     ret=dynamic_cast<SquareVariable*>(v);
@@ -42,7 +42,7 @@ void SquareVariable::print(){
   else printf("unbound");
   printf(">");
 }
-  
+
 bool SquareVariable::getSquare(squareT*s){
   used=true;
   uassert(bound,"internal, getsquare");

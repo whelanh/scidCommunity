@@ -10,7 +10,7 @@
 // }
 
 NumericVariable* Variable::getNumericVariable(std::string_view nm,bool ismax){
-  NumericVariable* ret=nullptr;   
+  NumericVariable* ret=nullptr;
   Variable*v=find(nm);
   if(v) {
     ret=dynamic_cast<NumericVariable*>(v);

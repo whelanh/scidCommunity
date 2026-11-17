@@ -49,7 +49,7 @@ void match_variables(const char** inputp,vector<VariableToken*>*varsp){
     *inputp=current;
   }
 }
-//piecespecifer= singlepiecespecifier |  compoundpiecespecifier 
+//piecespecifer= singlepiecespecifier |  compoundpiecespecifier
 bool match_piecespecifier(const char** inputp,vector<PieceToken*>*pieces){
   PieceToken*t=match_singlepiecespecifier(inputp);
   if(t) {
@@ -86,7 +86,7 @@ bool match_singlepiecespecifierplus(const char** inputp,vector<PieceToken*>*piec
   for(auto p: pieces) piecesp->push_back(p);
   return true;
 }
-  
+
 //compoundpiecespecifier = '[' singlepiecespecifier+ ']'
 bool match_compoundpiecespecifier(const char** inputp,vector<PieceToken*>*piecesp){
   vector<PieceToken*>pieces;
@@ -164,7 +164,7 @@ bool match_rank(const char** inputp,int * result){
   }
   return false;
 }
-  
+
 //simplesquarespecifer=files ranks
 SquareToken* match_simplesquarespecifier(const char** inputp){
   int minf=-1,maxf=-1,minr=-1,maxr=-1;
@@ -176,7 +176,7 @@ SquareToken* match_simplesquarespecifier(const char** inputp){
     }
   return nullptr;
 }
-	
+
 // blocksquarespecifier= bindingsquarespecifier  | simplesquarespecifier
 SquareToken* match_blocksquarespecifier(const char** inputp){
   return match_simplesquarespecifier(inputp);
@@ -210,7 +210,7 @@ bool match_commasquares(const char** input,vector<SquareToken*>*squaresp){
   *input=current;
   return true;
 }
-  
+
 
 //files=	filerange | file
 bool match_files(const char** inputp,int*min,int *max){
@@ -261,7 +261,7 @@ bool match_rankrange(const char** inputp,int*min,int*max){
   return true;
 }
 
-	 
+
 VariableToken* match_variable(const char** inputp){
   const char* current=*inputp;
   uassert(current);
@@ -273,7 +273,7 @@ VariableToken* match_variable(const char** inputp){
   *inputp=current;
   return new VariableToken(name);
 }
-  
+
 VariableToken* match_variable(const char* input){
   const char* current=input;
   VariableToken *t=match_variable(&current);

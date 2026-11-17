@@ -51,7 +51,7 @@ bool CqlNode::match_game(Game*game){
 #ifdef STANDALONE
   //MarkBoard::cleanFirstComment(game);
   const std::string comment="Game number "+std::to_string(CqlGameNumber());
-  if(!isSilent())MarkBoard::gameAppendComment(game,comment.c_str()); 
+  if(!isSilent())MarkBoard::gameAppendComment(game,comment.c_str());
 #endif
   if(usemarks) MarkBoard::mark(game);
   SequenceBase::nestsClear();
@@ -78,7 +78,7 @@ bool CqlNode::match_game(Game*game){
   }
   return matched;
 }
-      
+
 void CqlNode::match(){
   Game * game=new Game;
   MFile*inputMFile=new MFile;
