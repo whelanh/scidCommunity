@@ -25,7 +25,7 @@ void RayNode::print(){
   }
   printf("\n");
   indent();
-  int nds=(int)(designators.size());
+  int nds=static_cast<int>(designators.size());
   for(int i=0;i<nds;++i){
     tab();
     printf("Ray designator %d of %d: ",i,nds);
@@ -41,13 +41,13 @@ RayNode::RayNode(vector<Direction>dirs,
 		 vector<SetBase*> sets,
 		 bool isattack,
 		 Range*r){
-  uassert(dirs.size()>0);
+  uassert(!dirs.empty());
   uassert(sets.size()>=2);
   directions=dirs;
   for(auto s:sets) uassert(s);
   designators=sets;
   for (std::size_t i=0;i<designators.size();++i)
-    designatorMasks.push_back(SquareMask());
+    designatorMasks.emplace_back();
   uassert(designatorMasks.size()==designators.size());
   isAttack=isattack;
   if(isAttack) uassert(dirs.size()==Direction::allDirections().size(),"raynode constructor internal");
@@ -96,7 +96,7 @@ bool RayNode::match_count(Game*game, NumValue*value){
 
 bool RayNode::match_starting(squareT square, Direction direction, Game*game){
   uassert(square_valid(square));
-  int ndesignators=(int)(designators.size());
+  int ndesignators=static_cast<int>(designators.size());
   uassert(ndesignators>1,"internal match_starting");
   int current=square;
   int nmatched=0;
@@ -114,7 +114,7 @@ bool RayNode::match_starting(squareT square, Direction direction, Game*game){
       }
     }
     else {
-      pieceT piece=MarkBoard::piece_at_square((squareT)current,game);
+      pieceT piece=MarkBoard::piece_at_square(static_cast<squareT>(current),game);
       if(piece!=EMPTY)return false;
     }
   }

@@ -44,26 +44,26 @@ void Node::cloneverify(Node*s,Node*t){
   
   
 void KeywordNode::print(){
-  printf("%s: %s>",thisclass(),value);
+  printf("%s: %s>",thisclass(),value.c_str());
 }
 
 void PgnNode::print(){
-  printf("<%s: %s>",thisclass(),value);
+  printf("<%s: %s>",thisclass(),value.c_str());
 }
 
 void OutputNode::print(){
-  printf("<%s: %s>",thisclass(),value);
+  printf("<%s: %s>",thisclass(),value.c_str());
 }
 
-KeywordNode::KeywordNode(const char* v){
-  uassert(v&&strlen(v)>=1);
+KeywordNode::KeywordNode(std::string_view v){
+  uassert(!v.empty());
   uassert(KeywordToken::isReserved(v),"KeywordNode: internal");
   value=v;
 }
 
-bool KeywordNode::eq(const char*v){
+bool KeywordNode::eq(const char* v) const{
   if(!v) return false;
-  return strcmp(value,v)==0;
+  return value==v;
 }
 
 Range::Range(int mi){

@@ -7,8 +7,8 @@
 
 bool lexFile(const char* filename, vector<Token*>* tokens);
 bool lexStream(FILE* file, const char* buffer, vector<Token*>* tokens);
-const char* readstring(FILE* file);
-const char* readstring(const char* syntax);
+std::string readstring(FILE* file);
+std::string readstring(const char* syntax);
 Token* makeToken(const char* val);
 PieceDesignatorToken* match_piecedesignator(const char* input);
 bool match_piecespecifier(const char** inputp, vector<PieceToken*>* pieces);

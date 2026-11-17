@@ -37,7 +37,7 @@ bool FutureStarNode::match_position(Game*game){
   auto pid=MarkBoard::identity(game);
   vector<moveT*> ids;
   compute_counts(game,ids,0);
-  uassert(count==(int)(ids.size()));
+  uassert(count==static_cast<int>(ids.size()));
   uassert(pid==MarkBoard::identity(game));
   if(!range&&!count) return false;
   if(range&& !range->valid(count)) return false;
@@ -45,9 +45,8 @@ bool FutureStarNode::match_position(Game*game){
     MarkBoard::gameToIdentity(ids[idindex],
 			      game,
 			      getSearchVariations());
-    char buffer[100];
-    sprintf(buffer,"next* %d of %d",idindex+1,count);
-    if(!isSilent())MarkBoard::gameAppendComment(game,buffer);
+    const std::string comment="next* "+std::to_string(idindex+1)+" of "+std::to_string(count);
+    if(!isSilent())MarkBoard::gameAppendComment(game,comment.c_str());
   }
   MarkBoard::gameToIdentity(pid,game,getSearchVariations());
   return true;

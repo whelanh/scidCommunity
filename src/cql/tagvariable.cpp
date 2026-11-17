@@ -4,28 +4,28 @@
  */
 #include "node.h"
 
-TagVariable* Variable::createTagVariable(const char*nm){
-  uassert(nm,"invalid null var name in tag create");
+TagVariable* Variable::createTagVariable(std::string_view nm){
+  uassert(!nm.empty(),"invalid null var name in tag create");
   uassert(!find(nm),"internal variable tag");
   TagVariable*t=new TagVariable(nm);
   getVariables()->push_back(t);
   return t;
 }
 
-TagVariable* Variable::getTagVariable(const char*nm){
+TagVariable* Variable::getTagVariable(std::string_view nm){
   TagVariable * ret=nullptr;
   Variable *v=find(nm);
   if(v){
     ret=dynamic_cast<TagVariable*>(v);
-    uassert(ret,"expected ID but got already declared square variable: ",nm);
+    uassert(ret,"expected ID but got already declared square variable: ",std::string(nm).c_str());
     return ret;
   }
   return createTagVariable(nm);
 }
 
-TagVariable::TagVariable(const char*nm){
+TagVariable::TagVariable(std::string_view nm){
+  uassert(!nm.empty());
   name=nm;
-  uassert(nm);
 }
 
 bool TagVariable::getSquare(squareT*s){
@@ -56,7 +56,7 @@ squareT TagVariable::getOrigin(){
 
 void TagVariable::print(){
   //  if(1)printf("called print on variable\n");
-  printf("<%s %s ",thisclass(),name);
+  printf("<%s %s ",thisclass(),name.c_str());
   if(bound){
     printf("tag: %d",tag);
   }

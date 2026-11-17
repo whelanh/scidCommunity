@@ -9,7 +9,7 @@ OriginNode::OriginNode(TagVariable* v){
 }
 
 SquareMask OriginNode::getSquares(Game* /*game*/){
-  uassert(variable->isBound(),"Attempt to access unbound ID variable: ",variable->name);
+  uassert(variable->isBound(),"Attempt to access unbound ID variable: ",variable->name.c_str());
   squareT origin=variable->getOrigin();
   uassert(square_valid(origin),"originnode origin");
   SquareMask ret;

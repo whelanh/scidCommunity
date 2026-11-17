@@ -3,19 +3,18 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-MatchCommentNode::MatchCommentNode(const char* v){
-  uassert(v);
-  uassert(strlen(v)>0,"cannot match empty string");
+MatchCommentNode::MatchCommentNode(std::string_view v){
+  uassert(!v.empty(),"cannot match empty string");
   value=v;
 }
 
 void MatchCommentNode::print(){
-  printf("<%s %s>",thisclass(),value);
+  printf("<%s %s>",thisclass(),value.c_str());
 }
 
 bool MatchCommentNode::match_position(Game*game){
   const char * comment=game->GetMoveComment();
   if(!comment) return false;
-  return strstr(comment,value)!=nullptr;
+  return strstr(comment,value.c_str())!=nullptr;
 }
 

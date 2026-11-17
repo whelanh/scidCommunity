@@ -107,7 +107,7 @@ bool AttackNode::match_count(Game*game,NumValue*value){
 
 bool AttackNode::match_position(Game *game){ //This also MUST SET THE COUNTS
   const pieceT * board=game->GetCurrentPos()->GetBoard();
-  for (int i=0;i<64;++i) squarecounts[i]=0;
+  for (int& squarecount : squarecounts) squarecount = 0;
   SquareMask attackingsquares=attacking->getSquares(game);
   SquareMask attackedsquares=attacked->getSquares(game);
   for (int sq=0;sq<64;++sq)

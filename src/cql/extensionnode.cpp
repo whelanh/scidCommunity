@@ -7,47 +7,16 @@ void ExtensionNode::print(){
   printf("<%s>",thisclass());
 }
 
-bool ExtensionNode::match_position(Game*game){
-  char buffer[5000];
-  char*current=buffer;
-  vector<simpleMoveT*>moves=MarkBoard::getLegalMoves(game);
-  current+=sprintf(current,"Nlegal: %d ",(int)(moves.size()));
+bool ExtensionNode::match_position(Game* game){
+  const vector<simpleMoveT*> moves=MarkBoard::getLegalMoves(game);
+  std::string comment="Nlegal: "+std::to_string(moves.size())+" ";
   for (std::size_t i=0;i<moves.size();++i){
-    auto smt=moves[i];
-    squareT fromsq=smt->from;
-    squareT tosq=smt->to;
-    char*fromname=square_to_string(fromsq);
-    char*toname=square_to_string(tosq);
-    current+=sprintf(current,"%zu: %s-%s; ",i,fromname,toname);
+    const simpleMoveT* smt=moves[i];
+    comment+=std::to_string(i)+": "+square_to_string(smt->from)+"-"+
+             square_to_string(smt->to)+"; ";
   }
-   MarkBoard::gameAppendComment(game,buffer);
-   return true;
-}  
-    
-		   
+  MarkBoard::gameAppendComment(game,comment.c_str());
+  return true;
+}
 
-// bool ExtensionNode::match_position(Game*game){
-//   char buffer[1000];
-//   buffer[0]=0;
-//   if(game->GetCurrentPly()==0)
-//     sprintf(buffer,"STARTGAME");
-//   else{
-//     moveT* prev=game->CurrentMove->prev;
-//     if(!prev)
-//       sprintf(buffer,"nullptr");
-//     else if (prev->marker==START_MARKER)
-// 	sprintf(buffer,"STARTMARKER");
-//     else {
-//       simpleMoveT* smt= &(prev->moveData);
-//       squareT fromsq=smt->from;
-//       squareT tosq=smt->to;
-//       char*fromname=square_to_string(fromsq);
-//       char*toname=square_to_string(tosq);
-//       sprintf(buffer,"Prev: %s-%s",fromname,toname);
-//     }
-//   }
-//   MarkBoard::gameAppendComment(game,buffer);
-//   return true;
-// }
-      
   

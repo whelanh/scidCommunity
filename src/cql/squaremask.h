@@ -3,35 +3,39 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
-using Mask = unsigned long long;
+#include <cstdint>
+
+using Mask = std::uint64_t;
+
 class SquareMask{
  public:
   Mask mask{0};
-  SquareMask(Mask m){mask=m;}
-  SquareMask(int i); // must not be linked to
-  SquareMask(unsigned int i); // must not be linked to
-  static SquareMask fromSquare(squareT square){return SquareMask((Mask)1<<square);}
+  SquareMask(Mask m) : mask(m) {}
+  SquareMask(int) = delete; // must not be linked to
+  SquareMask(unsigned int) = delete; // must not be linked to
+  static SquareMask fromSquare(squareT square){
+    return {static_cast<Mask>(1) << square};
+  }
   SquareMask(const vector<squareT>&);
-  SquareMask(){}
-  void print();
-  void boardprint();
+  SquareMask() = default;
+  void print() const;
+  void boardprint() const;
   static void boardprint(Mask m);
   const char* thisclass(){return "SquareMask";}
   void printnl();
-  int size();
+  int size() const;
   void clear(){mask=0;}
-  bool empty(){return mask==0;}
+  bool empty() const{return mask==0;}
   static SquareMask all();
-  bool nonempty(){return !empty();}
-  bool full() {return (~mask)==0;}
-  bool member(int s){return (mask>>s)%2;}
-  void insert(int s){mask|=((Mask)1<<s);}
-  int rankCount(int rank);
-  vector<squareT> getSquares();
-  void operator|= (SquareMask o){mask|=o.mask;}
-  SquareMask operator|(SquareMask o){return SquareMask(mask|o.mask);}
-  void operator&= (SquareMask o){mask&=o.mask;}
-  SquareMask operator&(SquareMask o){return SquareMask(mask&o.mask);}
-  SquareMask operator~(){return SquareMask(~mask);}
+  bool nonempty() const{return !empty();}
+  bool full() const{return (~mask)==0;}
+  bool member(int s) const{return ((mask>>s)&1)!=0;}
+  void insert(int s){mask|=(static_cast<Mask>(1)<<s);}
+  int rankCount(int rank) const;
+  vector<squareT> getSquares() const;
+  void operator|=(const SquareMask& o){mask|=o.mask;}
+  SquareMask operator|(const SquareMask& o) const{return {mask|o.mask};}
+  void operator&=(const SquareMask& o){mask&=o.mask;}
+  SquareMask operator&(const SquareMask& o) const{return {mask&o.mask};}
+  SquareMask operator~() const{return {~mask};}
 };
-  

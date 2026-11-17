@@ -2,8 +2,11 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
+#include <bit>
+
 #include "util.h"
-void SquareMask::print(){
+
+void SquareMask::print() const{
   if(full())
     printf("<all>");
   else if(empty())
@@ -16,13 +19,12 @@ void SquareMask::print(){
   }
 }
 
-void SquareMask::boardprint(){
-  squareT s;
+void SquareMask::boardprint() const{
   for (int rank=7; rank>=0; rank--) {
     printf("%c: ",rank_to_char_cql(rank));
     for (int file=0; file<=7; file++) {
-      s = square_make(file,rank);
-      char c=member(s)?'1': rank%2==file%2 ? '+' : '-';
+      const squareT s = square_make(file,rank);
+      const char c=member(s)?'1': rank%2==file%2 ? '+' : '-';
       printf("%c",c);
     }
     printf ("\n");
@@ -43,44 +45,32 @@ void mask_print(Mask m){
   SquareMask(m).printnl();
 }
 
-int SquareMask::size(){
-  int s=0;
-  Mask tmp=mask;
-  while(tmp){
-    s+=tmp%2;
-    tmp=tmp>>1;
-  }
-  return s;
+int SquareMask::size() const{
+  return std::popcount(mask);
 }
 
-
-vector<squareT> SquareMask::getSquares(){
+vector<squareT> SquareMask::getSquares() const{
   vector<squareT> v;
   for(int i=0;i<64;++i)
-    if(member(i)) v.push_back(i);
+    if(member(i)) v.push_back(static_cast<squareT>(i));
   return v;
 }
 
 SquareMask::SquareMask(const vector<squareT>&squares){
-  mask=0;
   for(auto sq:squares)
-    mask |= ((Mask)1<<sq);
+    mask |= (static_cast<Mask>(1)<<sq);
 }
 
-int SquareMask::rankCount(int rank){
+int SquareMask::rankCount(int rank) const{
   uassert(rank_valid(rank));
   int count=0;
   for(int file=0;file<8;++file){
-    squareT square=square_make(file,rank);
+    const squareT square=square_make(file,rank);
     if (member(square))++count;
   }
   return count;
 }
 
 SquareMask SquareMask::all(){
-  Mask tmp=0;
-  tmp= ~tmp;
-  return SquareMask(tmp);
+  return {~static_cast<Mask>(0)};
 }
-  
-    

@@ -271,7 +271,7 @@ VariableToken* match_variable(const char** inputp){
   if(!match_alphanums(&current,name+1,sizeof(name)-2))
     return nullptr;
   *inputp=current;
-  return new VariableToken(util::copy(name));
+  return new VariableToken(name);
 }
   
 VariableToken* match_variable(const char* input){

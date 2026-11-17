@@ -54,7 +54,7 @@ SeqConstituent* SequenceBase::getConstituent (int offset)const{
 };
 
 int SequenceBase::nconstituents()const{
-  return (int)(constituents.size());
+  return static_cast<int>(constituents.size());
 }
 
 void SequenceBase::setOffsets(){
@@ -97,7 +97,7 @@ void SequenceBase::exitMatch(){
 }
 
 SeqRet SequenceBase::compute(SeqStack &stack){
-  if(stack.empty())return SeqRet(true);
+  if(stack.empty())return {true};
   if(isSkip()&&skipCurrentPosition())
     return computeSkip(stack);
   size_t startlen=stack.size();
@@ -198,7 +198,7 @@ SeqRet SequenceBase::compute(VectorConstituent*vc,SeqStack&stack){
   size_t stacklen=stack.size();
   uassert(vc,"fncvc");
   vector<SeqConstituent*>v=vc->constituents;
-  int nconstituents=(int)(v.size());
+  int nconstituents=static_cast<int>(v.size());
   uassert(nconstituents,"fncvc");
   for(int i=nconstituents-1;i>=0;--i)
     stack.push_back(v.at(i));
@@ -213,10 +213,10 @@ SeqRet SequenceBase::compute(VectorConstituent*vc,SeqStack&stack){
 
 SeqRet SequenceBase::computeNull(SeqStack& stack){
   size_t startsize=stack.size();
-  if(stack.empty()) return SeqRet(true);
+  if(stack.empty()) return {true};
   SeqConstituent* top=stack.back();
   if (!top->matchesNull())
-    return SeqRet(false);
+    return {false};
   stack.pop_back();
   SeqRet ret=computeNull(stack);
   stack.push_back(top);

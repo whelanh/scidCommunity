@@ -60,26 +60,26 @@ bool lexFile(const char* filename, vector<Token*>* tokens) {
 }
 
 bool lexStream(FILE* file, const char* buffer, vector<Token*>* tokens) {
-  const char* current = nullptr;
   rsIndex = 0;
   Token::incrementLine();
   for (;;) {
     // kludge alert
+    std::string current;
     if (file) current = readstring(file);
     else if (buffer) current = readstring(buffer);
     else uassert(false, "Could not find syntax");
 
-    if (current == nullptr) return true;
-    Token* token = makeToken(current);
+    if (current.empty()) return true;
+    Token* token = makeToken(current.c_str());
     if (!token) {
-      fprintf(stderr, "Unable to process string: %s\n", current);
+      fprintf(stderr, "Unable to process string: %s\n", current.c_str());
       uassert(false, "Syntax error");
     }
     tokens->push_back(token);
   }
 }
 
-const char* readstring(FILE* file) {
+std::string readstring(FILE* file) {
   char buffer[1000];
   int c;
   std::size_t nextchar = 0;
@@ -110,7 +110,7 @@ const char* readstring(FILE* file) {
         Token::incrementChar();
         if (c == '"') {
           buffer[nextchar++] = 0;
-          return util::copy(buffer);
+          return std::string(buffer);
         } // if c is the trailing quote
       } // end read the quote
     }// end beging the quote
@@ -130,7 +130,7 @@ const char* readstring(FILE* file) {
       break;
     }
   }
-  if (c < 0) return nullptr;
+  if (c < 0) return {};
   while ((c = fgetc(file)) >= 0) {
     if (c == '\n') Token::incrementLine();
     else
@@ -142,7 +142,7 @@ const char* readstring(FILE* file) {
       else
         Token::decrementChar();
       buffer[nextchar++] = 0;
-      return util::copy(buffer);
+      return std::string(buffer);
     }
     else if (nextchar > 500) {
       fprintf(stderr, "token too long: readstring");
@@ -151,12 +151,12 @@ const char* readstring(FILE* file) {
     else buffer[nextchar++] = static_cast<char>(c);
   }
   if (nextchar == 0)
-    return nullptr;
+    return {};
   buffer[nextchar++] = 0;
-  return util::copy(buffer);
+  return std::string(buffer);
 }
 
-const char* readstring(const char* syntax) {
+std::string readstring(const char* syntax) {
   char buffer[1000];
   int c;
   std::size_t nextchar = 0;
@@ -187,7 +187,7 @@ const char* readstring(const char* syntax) {
         Token::incrementChar();
         if (c == '"') {
           buffer[nextchar++] = 0;
-          return util::copy(buffer);
+          return std::string(buffer);
         } // if c is the trailing quote
       } // end read the quote
     }// end beging the quote
@@ -207,7 +207,7 @@ const char* readstring(const char* syntax) {
       break;
     }
   }
-  if (c < 0) return nullptr;
+  if (c < 0) return {};
   while ((c = bgetc(syntax)) >= 0) {
     if (c == '\n') Token::incrementLine();
     else
@@ -219,7 +219,7 @@ const char* readstring(const char* syntax) {
       else
         Token::decrementChar();
       buffer[nextchar++] = 0;
-      return util::copy(buffer);
+      return std::string(buffer);
     }
     else if (nextchar > 500) {
       uassert(false, "token too long: readstring");
@@ -227,9 +227,9 @@ const char* readstring(const char* syntax) {
     else buffer[nextchar++] = static_cast<char>(c);
   }
   if (nextchar == 0)
-    return nullptr;
+    return {};
   buffer[nextchar++] = 0;
-  return util::copy(buffer);
+  return std::string(buffer);
 }
 
 Token* makeToken(const char* val) {
@@ -371,6 +371,5 @@ Token* match_quotedstring(const char* v) {
   if (vlen <= 2) return nullptr;
   if (v[0] != '"' || v[vlen - 1] != '"') return nullptr;
   uassert(vlen < 500, "string token too long: 500 character limit");
-  const std::string result(v + 1, vlen - 2);
-  return new QuotedStringToken(util::copy(result.c_str()));
+  return new QuotedStringToken(std::string_view(v + 1, vlen - 2));
 }

@@ -199,7 +199,7 @@ void MarkBoard::gameAppendComment(Game*game, const char* comment){
   }
   buffer+=comment;
   if(buffer.size()>500){
-    if(MarkBoard_gameAppendComment_lastignored!=static_cast<int>(CqlGameNumber())){
+    if(MarkBoard_gameAppendComment_lastignored!=CqlGameNumber()){
       MarkBoard_gameAppendComment_lastignored=CqlGameNumber();
       printf("\nNote: Truncating long comment in game: %u\n",MarkBoard_gameAppendComment_lastignored);
     }
@@ -229,7 +229,7 @@ vector<simpleMoveT*> MarkBoard::getMoves(Game*game,bool searchvars){
     moves.push_back(getCurrentMove(game));
     uassert(!game->MoveExitVariation());
   }
-  int nm=(int)(moves.size());
+  int nm=static_cast<int>(moves.size());
   for(int i=0;i<nm;++i)
     for(int j=i+1;j<nm;++j)
       uassert(moves[i]!=moves[j],"get_moves internal");

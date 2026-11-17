@@ -44,7 +44,7 @@ void Deleteable::deleteableCleanup(){
     delete d;
   }
   uassert(deleteableNDeleted==ninstances,"deleteableCleanup: ninstances mismatch");
-  if(1)printf("deleteableCleanup: deleted %d instances\n",(int)ninstances);
+  if(1)printf("deleteableCleanup: deleted %d instances\n",static_cast<int>(ninstances));
   delete deleteableConstructed;
   deleteableConstructed=nullptr;
   deleteableCleaningUp=false;

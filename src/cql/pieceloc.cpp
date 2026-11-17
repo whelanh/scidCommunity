@@ -8,13 +8,13 @@ PieceLoc::PieceLoc(vector<PieceToken*>pts,
 		   vector<SquareToken*>sts,
 		   vector<VariableToken*>vartokens){
   vector<squareT> squares;
-  uassert(pts.size()&&sts.size());
+  uassert(!pts.empty()&&!sts.empty());
   for (PieceToken* pt : pts){
     uassert(pt);
     vector<pieceT> v=piecesFromChar(pt->value);
     for (pieceT p : v){
       uassert(piece_valid(p));
-      pieces.insert((squareT)p);
+      pieces.insert(static_cast<squareT>(p));
     }
   }
 
@@ -32,7 +32,7 @@ PieceLoc::PieceLoc(vector<PieceToken*>pts,
   squaremask=SquareMask(squares);
   for(VariableToken*vt: vartokens){
     uassert(vt,"internal pieceloc");
-    const char*name=vt->value;
+    const char*name=vt->value.c_str();
     uassert(name,"internal name pieceloc");
     Variable* v=Variable::find(name);
     if(!v) v=Variable::getSquareVariable(name);
@@ -49,8 +49,8 @@ void PieceLoc::print(){
   if(pieces.size()>1)
     printf("[");
   for(int p =0;p<64;++p) if(pieces.member(p)){
-      uassert(piece_valid((pieceT)p));
-      printf("%c", piece_to_char((pieceT)p));
+      uassert(piece_valid(static_cast<pieceT>(p)));
+      printf("%c", piece_to_char(static_cast<pieceT>(p)));
     }
   if(pieces.size()>1)
     printf("]");
@@ -109,7 +109,7 @@ vector<pieceT> PieceLoc::piecesFromChar(char c){
 
 bool PieceLoc::isPurePiece(){
   if (pieces.size()==0 ||
-      variables.size()>0||
+      !variables.empty()||
       squaremask.size()<64)
     return false;
   return true;

@@ -7,7 +7,7 @@ ExistsNode::ExistsNode(SquareVariable*v, SetBase*trgt, vector<Node*>nodes){
   uassert(v&&v->isUnbound(),"existsnode, internal");
   variable=v;
   target=trgt;
-  uassert(nodes.size(),"Expected nonzero number of nodes");
+  uassert(!nodes.empty(),"Expected nonzero number of nodes");
   for(Node*np: nodes){
     uassert(np,"internal existsnode");
     MFilter * mf=dynamic_cast<MFilter*>(np);
@@ -52,7 +52,7 @@ SquareMask ExistsNode::getSquares(Game*game){
       
     
 bool ExistsNode::match_filters(squareT square, Game* game){
-  uassert(square_valid(square)&&filters.size());
+  uassert(square_valid(square)&&!filters.empty());
   uassert(variable->isUnbound(),"ExistsNode: Attempting to match a square but am bound");
   variable->bindSquare(square);
   for(MFilter* filter:filters)

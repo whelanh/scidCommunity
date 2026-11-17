@@ -15,8 +15,8 @@ SeqRet FutureNode::compute(HolderConstituent*holder,SeqStack&stack){
   if (!CqlDoNotLinearize && !linearize(filter).empty())
     return computeLinearize(holder,stack);
   if(!filter->match_position(game))
-    return SeqRet(false);
-  if(stack.empty())return SeqRet(game,holder->getOffset());
+    return {false};
+  if(stack.empty())return {game,holder->getOffset()};
   auto me=MarkBoard::identity(game);
   int nchildren=MarkBoard::number_children(game,getSearchVariations());
   SeqRet best(false);
@@ -43,7 +43,6 @@ void FutureNode::notate(SeqRet& ret){
   moveT*me=MarkBoard::identity(game);
   moveT*previousid=nullptr;
   uassert(me==ret.getId(0),"notate bad back");
-  char buffer[1000];
   int positionsseen=0;
   int positionsexpected=len;
   if(isSkip()) positionsexpected=(len+1)/2;
@@ -59,8 +58,9 @@ void FutureNode::notate(SeqRet& ret){
     if(offset>=0){
       nestRegisterPosition(game);
       ++positionsseen;
-      sprintf(buffer,"NEXT %d (position %d of %d)",offset+1,positionsseen,positionsexpected);
-      MarkBoard::gameAppendComment(game,buffer);
+      const std::string comment="NEXT "+std::to_string(offset+1)+" (position "+
+        std::to_string(positionsseen)+" of "+std::to_string(positionsexpected)+")";
+      MarkBoard::gameAppendComment(game,comment.c_str());
     }
     previousid=thisid;
   }

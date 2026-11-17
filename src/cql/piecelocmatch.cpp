@@ -7,10 +7,10 @@
 SquareMask PieceLoc::getSquares(Game*game){
   SquareMask ret=SquareMask::all();
   for(Variable*v:variables){
-    uassert(v->isBound(),"Unexpected unbound variable: may be undeclared: ",v->name);
+    uassert(v->isBound(),"Unexpected unbound variable: may be undeclared: ",v->name.c_str());
     squareT s=65;
     bool b=v->getSquare(&s);
-    if(!b) return SquareMask();
+    if(!b) return {};
     uassert(square_valid(s));
     ret&=SquareMask::fromSquare(s);
   }

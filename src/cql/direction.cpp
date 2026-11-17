@@ -93,7 +93,7 @@ vector<Direction>Direction::allDirections(){
   for(int xo= -1;xo<=1;++xo)
     for(int yo= -1;yo<=1;++yo)
       if(validOffset(xo,yo))
-	ret.push_back(Direction(xo,yo));
+	ret.emplace_back(xo,yo);
   return ret;
 }
   

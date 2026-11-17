@@ -21,10 +21,9 @@ const char* filename_extension(const char* filename){
   return last;
 }
 
-const char* filename_stem(const char*name){
+std::string filename_stem(const char*name){
   const char* noprefix=filename_trim_path_prefix(name);
-  const char* noext=filename_trim_extension(noprefix);
-  return noext;
+  return filename_trim_extension(noprefix);
 }
 
 const char* filename_trim_path_prefix(const char*name){
@@ -44,18 +43,14 @@ const char* filename_trim_last(const char* name, char c){
   return name;
 }
 
-const char* filename_trim_extension(const char* name){
+std::string filename_trim_extension(const char* name){
   uassert(name,"bad arg to trim_ext");
-  const char* ext=filename_extension(name);
-  if(!ext)return name;
-  char buffer[200];
-  uassert(strlen(name)<sizeof(buffer)-5,"too long name trim");
-  sprintf(buffer,"%s",name);
-  char* last=strrchr(buffer,'.');
-  uassert(last,"internal trimext");
-  *last=0;
-  uassert(!filename_extension(buffer),"multiple . in filename not supported for name: ",name);
-  return util::copy(buffer);
+  std::string stem(name);
+  const std::size_t last=stem.find_last_of('.');
+  if(last==std::string::npos)return stem;
+  uassert(stem.find('.')==last,"multiple . in filename not supported for name: ",name);
+  stem.resize(last);
+  return stem;
 }
 
   

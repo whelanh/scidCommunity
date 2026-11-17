@@ -27,7 +27,7 @@ bool TransformNode::isSet(){
   if (range)return false;
   if(expanded()){
     uassert(filter==nullptr,"TransformNode:isSet i1");
-    uassert(transformedFilters.size(),"TransformNode:isSet i2");
+    uassert(!transformedFilters.empty(),"TransformNode:isSet i2");
     for (auto tf:transformedFilters) // We actually only need to check the 0'th element
       if(!tf->isSet()) return false;
     return true;

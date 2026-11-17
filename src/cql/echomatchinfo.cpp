@@ -30,7 +30,7 @@ EchoMatchInfo::EchoMatchInfo(EchoNode* node){
       substringsource=esubstring->matchedSourcePath;
       substringtarget=esubstring->matchedTargetPath;
     }
-    uassert(substringsource.size()&&substringtarget.size()&&
+    uassert(!substringsource.empty()&&!substringtarget.empty()&&
 	    substringsource.size()==substringtarget.size());
   }
 }
@@ -39,7 +39,7 @@ bool EchoMatchInfo::uselca()const{
 }
 
 int EchoMatchInfo::substringlen()const{
-  return (int)(substringsource.size());
+  return static_cast<int>(substringsource.size());
 }
 
 bool EchoMatchInfo::usesubstring()const{
@@ -95,7 +95,7 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
     myinsert(sources,emi.source);
     myinsert(targets,emi.target);
   }
-  uassert(sources.size()&&targets.size());
+  uassert(!sources.empty()&&!targets.empty());
 
   //Stage 2: Annotate the sources
   for(std::size_t i=0;i<sources.size();++i){
@@ -107,7 +107,7 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
 	uassert(targetid>=0);
 	myinsert(targetids,targetid);
       }
-    uassert(targetids.size());
+    uassert(!targetids.empty());
     MarkBoard::gameAppendComment(game,thissource,
 				 idList("SOURCE",static_cast<int>(i)+1,targetids).c_str());
   }
@@ -122,7 +122,7 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
 	uassert(sourceid>=0);
 	myinsert(sourceids,sourceid);
       }
-    uassert(sourceids.size());
+    uassert(!sourceids.empty());
     MarkBoard::gameAppendComment(game,thistarget,
 				 idList("TARGET",i+1,sourceids).c_str());
   }
@@ -140,9 +140,8 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
       int sourceid=myindex(sources,emi.source);
       int targetid=myindex(targets,emi.target);
       uassert(sourceid>=0&&targetid>=0);
-      char buffer[100];
-      sprintf(buffer,"[%d,%d]",sourceid+1,targetid+1);
-      MarkBoard::gameAppendComment(game,emi.lca,buffer);
+      const std::string pair="["+std::to_string(sourceid+1)+","+std::to_string(targetid+1)+"]";
+      MarkBoard::gameAppendComment(game,emi.lca,pair.c_str());
     }
       
   //Stage 5: Annotate the longest substring
@@ -154,7 +153,7 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
       sourcesubstring=emi.substringsource;
       targetsubstring=emi.substringtarget;
       maxsubstring=emi.substringlen();
-      uassert(maxsubstring==(int)(sourcesubstring.size())&&
+      uassert(maxsubstring==static_cast<int>(sourcesubstring.size())&&
 	      sourcesubstring.size()==targetsubstring.size());
     }
   if(maxsubstring>0){
@@ -166,11 +165,10 @@ void EchoMatchInfo::annotate(Game* game, const vector<EchoMatchInfo>& infos){
 void EchoMatchInfo::annotatePath(Game*game, const vector<moveT*>&path,const char * message,int start){
   moveT*oldid=MarkBoard::identity(game);
   MarkBoard::gameToIdentity(path.at(0),game,true);
-  char buffer[1000];
   for(std::size_t pathi=start;pathi<path.size();++pathi){
     MarkBoard::gameToIdentity(path.at(pathi),game,true);
-    sprintf(buffer,"%s: %zu",message,pathi);
-    MarkBoard::gameAppendComment(game,buffer);
+    const std::string comment=std::string(message)+": "+std::to_string(pathi);
+    MarkBoard::gameAppendComment(game,comment.c_str());
   }
   MarkBoard::gameToIdentity(oldid,game,true);
 }

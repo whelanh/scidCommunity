@@ -17,10 +17,10 @@ void cql_exit(const char* message){
 #ifdef INTEGRATED
 #include <iostream>
 #include <csetjmp>
-char *cqlErrMsg;
+const char* cqlErrMsg;
 std::jmp_buf jump_buffer;
 void cql_exit(const char* message){
-  cqlErrMsg = (char *)message;
+  cqlErrMsg = message;
   std::longjmp(jump_buffer, 1);
 }
 #endif

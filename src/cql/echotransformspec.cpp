@@ -4,7 +4,7 @@
  */
 #include "node.h"
 EchoTransformSpec::EchoTransformSpec(vector<Transform*>ts, EchoSpec*s){
-  uassert(ts.size()&&s);
+  uassert(!ts.empty()&&s);
   transforms=ts;
   spec=s;
 }

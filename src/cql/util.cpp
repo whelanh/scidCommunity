@@ -69,7 +69,7 @@ string util::game_to_string(Game* game){
   // living in scidvspc's origChanges.cpp) is replaced by our Game::WriteToPGN().
   std::pair<const char *, unsigned> pgn = game->WriteToPGN();
   uassert(pgn.first,"game_to_string internal");
-  return string(pgn.first, pgn.second);
+  return {pgn.first, pgn.second};
 }
 
 void util::printgame(FILE* stream, Game* game){

@@ -20,8 +20,8 @@ void Token::printLocation() {
   printf("%s", locationString().c_str());
 }
 
-StringToken::StringToken(const char* c) {
-  uassert(c);
+StringToken::StringToken(std::string_view c) {
+  uassert(!c.empty());
   value = c;
 }
 
@@ -53,9 +53,8 @@ bool SquareToken::isAllowed(int mif, int maf, int mir, int mar) {
          rank_valid(mar) && mif <= maf && mir <= mar;
 }
 
-bool StringToken::eq(const char* v) {
-  uassert(v != nullptr);
-  return strcmp(v, value) == 0;
+bool StringToken::eq(std::string_view v) const {
+  return v == value;
 }
 
 void OneToken::print() {
@@ -74,7 +73,7 @@ void SquareToken::print() {
 }
 
 void StringToken::print() {
-  printf("<%s %s %s>", thisclass(), locationString().c_str(), value);
+  printf("<%s %s %s>", thisclass(), locationString().c_str(), value.c_str());
 }
 
 void IntToken::print() {

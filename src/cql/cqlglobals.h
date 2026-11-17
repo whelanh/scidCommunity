@@ -28,7 +28,7 @@ extern const char* CqlPlayer; //only look for this player
 extern bool CqlDoNotLinearize; // whether to linearize move filters inside next filter
 
 /* Caches: static variables in methods*/
-extern  int MarkBoard_gameAppendComment_lastignored; //must be initialized to -1
+extern unsigned MarkBoard_gameAppendComment_lastignored; //sentinel: max unsigned
 extern int Tokens_match_optional_numericvariable_nextid; // the next valid id to use if no name specified by numeric
 extern Tokens* CqlGlobalTokens; //the list of tokens that have been read
 

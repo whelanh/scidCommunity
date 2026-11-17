@@ -162,7 +162,7 @@ errorT PgnParser::ParseGame(Game *game) {
 //////////////////////////////////////////////////////////////////////
 
 extern std::jmp_buf jump_buffer;   // cqlexit.cpp
-extern char *cqlErrMsg;            // cqlexit.h
+extern const char* cqlErrMsg;      // cqlexit.h
 extern bool CqlSilent;             // cqlglobals.h
 bool CqlParseBuffer(char *buffer); // parser.cpp
 void CqlReset();                   // parser.cpp
@@ -175,8 +175,8 @@ namespace {
 /// every path to longjmp() sets cqlErrMsg.
 std::string engineError() {
 	if (cqlErrMsg)
-		return std::string(cqlErrMsg);
-	return std::string("Error reported back from CQL engine");
+		return {cqlErrMsg};
+	return {"Error reported back from CQL engine"};
 }
 
 } // namespace

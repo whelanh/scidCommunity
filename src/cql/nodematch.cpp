@@ -3,6 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include <array>
+#include <string>
 
 #include "node.h"
 #include "tokenstream.h"
@@ -180,7 +181,7 @@ Node* Tokens::match_positionnode(){
   }
   if(!match_lbrace()) return nullptr;
   nodes=match_some_basicnodes();
-  if(nodes.size()==0)
+  if(nodes.empty())
     show_error("syntax error following a '{' : expected a filter");
   bool rp=match_rbrace();
   if(!rp)
@@ -234,7 +235,7 @@ vector<Direction> Tokens::match_raydirections(bool*isattack){
   while(true){
     StringToken *token=dynamic_cast<StringToken*>(current());
     if(!token) break;
-    vector<Direction> these=Direction::directionsFromString(token->value);
+    vector<Direction> these=Direction::directionsFromString(token->value.c_str());
     if(these.empty()) break;
     forward();
     for(auto d:these){
@@ -257,7 +258,7 @@ vector<directionT>Tokens::directionsFromRayKeyword(KeywordToken *k){
     return vector<directionT>{
       UP, DOWN, LEFT, RIGHT,
 	UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT};
-  uassert(false, "Unknown ray keyword: ", k->value);
+  uassert(false, "Unknown ray keyword: ", k->value.c_str());
   return vector<directionT>{};
 }
     
@@ -327,12 +328,12 @@ TransformNode* Tokens::match_transformnode(){
 }
 
 NumericVariable* Tokens::match_optionalnumericvariable(bool ismax){
-  const char*name=match_quotedstring();
+  const char* name=match_quotedstring();
+  std::string generated;
   if(!name){
-  int nextid=Tokens_match_optional_numericvariable_nextid++; // this is a global variable
-  char buffer[100];
-  sprintf(buffer,"CQL ID-%d",nextid);
-  name=util::copy(buffer);
+    generated="CQL ID-"+
+      std::to_string(Tokens_match_optional_numericvariable_nextid++); // this is a global variable
+    name=generated.c_str();
   }
   uassert(name,"internal monv");
   return Variable::getNumericVariable(name,ismax);
@@ -378,7 +379,7 @@ PgnNode* Tokens::match_pgnnode(){
   if(match_keyword("pgn")||match_keyword("input")){
     StringToken*name=match_string();
     if(!name)show_error("Missing filename in :pgn specification");
-    const char* filename= name->value;
+    const char* filename=name->value.c_str();
     if(CqlPgnFilename){
 #ifdef STANDALONE
       printf("Using command line argument pgn filename: %s\n",CqlPgnFilename);
@@ -399,7 +400,7 @@ OutputNode* Tokens::match_outputnode(){
   if(match_keyword(":output") || match_keyword(":out")){
     StringToken*name=match_string();
     if(!name)show_error("Missing filename in :output specification");
-    const char* filename=name->value;
+    const char* filename=name->value.c_str();
     uassert(filename);
     if(CqlOutputFilename){
       printf("Using command line argument for filename: %s\n",CqlOutputFilename);
@@ -471,7 +472,7 @@ ResultNode* Tokens::match_resultnode(){
   if(!name) name=match_string("0-1");
   if(!name) name=match_string("1/2-1/2");
   uassert(name,"expecting 1-0 or 0-1 or 1/2-1/2 following :result");
-  return new ResultNode(name->value);
+  return new ResultNode(name->value.c_str());
 }
 
 
@@ -746,7 +747,7 @@ SquareVariable*Tokens::match_squarevariable(){
   if(!t)return nullptr;
   VariableToken*vt=t->getAsVariableToken();
   if(!vt)return nullptr;
-  const char *name=vt->value;
+  const char *name=vt->value.c_str();
   uassert(vt);
   SquareVariable*sv=Variable::getSquareVariable(name);
   uassert(sv,"match_squarevariable, internal",name);
@@ -760,7 +761,7 @@ TagVariable*Tokens::match_tagvariable(){
   if(!t)return nullptr;
   VariableToken*vt=t->getAsVariableToken();
   if(!vt)return nullptr;
-  const char *name=vt->value;
+  const char *name=vt->value.c_str();
   uassert(vt);
   TagVariable*tv=Variable::getTagVariable(name);
   uassert(tv,"match_tagvariable, internal",name);
@@ -792,7 +793,7 @@ VectorNode* Tokens::match_vectornode(){
 vector<Direction>Tokens::match_direction(){
   StringToken*token=dynamic_cast<StringToken*>(current());
   if(!token)return vector<Direction>{};
-  const char* v=token->value;
+  const char* v=token->value.c_str();
   uassert(v,"internal match_directionparameter");
   vector<Direction> directions=Direction::directionsFromString(v);
   if(directions.empty()){
@@ -960,7 +961,7 @@ Node* Tokens::match_existsnode(){
   if(!target)
     show_error ("Missing 'in' following the variable name in 'square' expression");
   vector<Node*>nodes=match_some_basicnodes();
-  if(!nodes.size())
+  if(nodes.empty())
     show_error("expected a nonzero number of nodes to test in square filter");
   ExistsNode* existsnode=new ExistsNode(sv,target,nodes);
   if (!range) return existsnode;
@@ -977,7 +978,7 @@ Node* Tokens::match_pieceidnode(){
   if(!target)
     show_error("Expecting 'in', followed by a set, after  'piece' or 'piece' range");
   vector<Node*>nodes=match_some_basicnodes();
-  if(!nodes.size())
+  if(nodes.empty())
     show_error("expected a nonzero number of filters following 'in set'  in piece filter");
   PieceIdNode* pieceidnode=new PieceIdNode(tv,target,nodes);
   if (!range) return pieceidnode;
@@ -1006,7 +1007,7 @@ const char* Tokens::match_quotedstring(){
   QuotedStringToken*q=dynamic_cast<QuotedStringToken*>(current());
   if(!q) return nullptr;
   forward();
-  return q->value;
+  return q->value.c_str();
 }
 
 CommentBase* Tokens::match_commentbase(){

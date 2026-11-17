@@ -4,6 +4,7 @@
  */
 #pragma once
 #include <string>
+#include <string_view>
 
 #include "util.h"
 #include "deleteable.h"
@@ -96,23 +97,23 @@ class RBraceToken: public OneToken{
 
 class StringToken: public Token{
  public:
-  const char*value;
-  StringToken(const char*x);
+  std::string value;
+  explicit StringToken(std::string_view x);
   void print() override;
-  virtual bool eq(const char*v);
+  bool eq(std::string_view v) const;
   const char* thisclass() override{return "StringToken";}
-  int len() override{return strlen(value);}
+  int len() override{return static_cast<int>(value.size());}
 };
 
 class NameToken: public StringToken{
  public:
- NameToken(const char*x): StringToken(x){}
+  explicit NameToken(std::string_view x): StringToken(x){}
   const char* thisclass() override{return "NameToken";}
 };
 
 class QuotedStringToken: public StringToken{
  public:
- QuotedStringToken(const char* x):StringToken(x){}
+  explicit QuotedStringToken(std::string_view x):StringToken(x){}
   const char* thisclass() override{return "QuotedStringToken";}
 };
 
@@ -127,18 +128,18 @@ class IntToken: public Token{
 
 class KeywordToken:public Token{
  public:
-  const char*value;
- const char* thisclass() override{return "KeywordToken";}
- static bool isReserved(const char* s);
- bool eq(const char *v);
- KeywordToken(const char*v);
- void print() override;
- int len() override{return strlen(value);}
+  std::string value;
+  const char* thisclass() override{return "KeywordToken";}
+  static bool isReserved(std::string_view s);
+  bool eq(std::string_view v) const;
+  explicit KeywordToken(std::string_view v);
+  void print() override;
+  int len() override{return static_cast<int>(value.size());}
 };
 
 class VariableToken: public StringToken{
  public:
- VariableToken(const char*x): StringToken(x){}
+  explicit VariableToken(std::string_view x): StringToken(x){}
   const char* thisclass() override{return "VariableToken";}
 };
 

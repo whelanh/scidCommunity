@@ -14,8 +14,8 @@ EchoLongestSubstringSpec::EchoLongestSubstringSpec(Range*r,NumericVariable*v):ra
 bool EchoLongestSubstringSpec::match_lca(const vector<moveT*>&sourcepath,
 				    const vector<moveT*>&targetpath){
   clearCount();
-  int splen=(int)(sourcepath.size());
-  int tplen=(int)(targetpath.size());
+  int splen=static_cast<int>(sourcepath.size());
+  int tplen=static_cast<int>(targetpath.size());
   if(splen<2||tplen<2)return false; 
   uassert(sourcepath[1]!=targetpath[1]);
   uassert(splen&&tplen&&sourcepath[0]==targetpath[0]);
@@ -23,7 +23,7 @@ bool EchoLongestSubstringSpec::match_lca(const vector<moveT*>&sourcepath,
   vector<int>tpints=path_to_ints(targetpath);
   uassert(spints.size()==static_cast<std::size_t>(splen-1));
   uassert(tpints.size()==static_cast<std::size_t>(tplen-1));
-  uassert(spints.size()&&tpints.size());
+  uassert(!spints.empty()&&!tpints.empty());
   int sstarti=-1,tstarti=-2;
   int mylen=longestCommonSubstring(spints,tpints,&sstarti,&tstarti);
   if(!mylen)return false;
@@ -52,7 +52,7 @@ bool EchoLongestSubstringSpec::match_lca(const vector<moveT*>&sourcepath,
 }
 
 vector<int> EchoLongestSubstringSpec::path_to_ints(const vector<moveT*>&path){
-  int len=(int)(path.size());
+  int len=static_cast<int>(path.size());
   uassert(len>=2);
   vector<int>ret;
   for(int i=len-1;i>0;--i)
@@ -81,7 +81,7 @@ int EchoLongestSubstringSpec::id_to_int(moveT*posid){
   // key is injective for every legal move, and its largest value is
   // ((63*100+63)*100+13)*100+13 = 63,631,313 - the bound below is the next
   // round number above that, so the check can still fail.
-  int tmp=((to*100+from)*100+(int)piece)*100+(int)promote;
+  int tmp=((to*100+from)*100+static_cast<int>(piece))*100+static_cast<int>(promote);
   uassert(tmp>0&&tmp<64000000);
   return tmp;
 }

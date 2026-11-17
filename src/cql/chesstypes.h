@@ -24,7 +24,7 @@ char piece_to_char(pieceT);
 bool piece_valid(pieceT);
 static inline int square_rank(int s){return square_Rank(s);}
 static inline int square_file(int s){return square_Fyle(s);}
-char* square_to_string(squareT);
+std::string square_to_string(squareT);
 const char * direction_to_string(directionT);
 const char * result_to_string(resultT);
 bool mark_valid(markT mark);

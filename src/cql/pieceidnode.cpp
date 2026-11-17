@@ -40,7 +40,7 @@ PieceIdNode::PieceIdNode(TagVariable*v, SetBase*s,vector<Node*>nodes){
 SquareMask PieceIdNode::getSquares(Game*game){
   SquareMask ret;
   SquareMask setmask=set->getSquares(game);
-  uassert(variable->isUnbound(),"PieceID expected unbound variable", variable->name);
+  uassert(variable->isUnbound(),"PieceID expected unbound variable", variable->name.c_str());
   for(int square=0;square<64;++square)
     if(setmask.member(square)){
       int t=MarkBoard::getMark(square);

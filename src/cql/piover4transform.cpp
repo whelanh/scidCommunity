@@ -43,7 +43,7 @@ Direction PiOver4Transform::rotate45(Direction d){
     if (d.eq(directions[i]))
       return directions[(i+1)%8];
   uassert(false,"rotate45 internal loop");
-  return Direction(0,1);
+  return {0,1};
 }
 void PiOver4Transform::print(){
   printf("<%s times: %d>",thisclass(),times);

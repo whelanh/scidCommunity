@@ -47,7 +47,7 @@ void GameSortInfo::sort(vector<GameSortInfo>& v){
 
 bool operator<(const GameSortInfo& a, const GameSortInfo& b){
   uassert(!a.data.empty()&&!b.data.empty()&&a.values.size()==b.values.size(),"gamesortinfo < internal");
-  int len=(int)(a.values.size());
+  int len=static_cast<int>(a.values.size());
   for (int i=0;i<len;i++)
     if(b.values[i]<a.values[i]) return true;
     else if (a.values[i]<b.values[i]) return false;

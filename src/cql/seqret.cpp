@@ -65,8 +65,8 @@ void SeqRet::addParent(Game*game, int offset){
 }
 
 int SeqRet::getLength()const{
-  int len=(int)(ids.size());
-  uassert(len==(int)(offsets.size()));
+  int len=static_cast<int>(ids.size());
+  uassert(len==static_cast<int>(offsets.size()));
   uassert(len<10000,"Too long seqret");
   return len;
 }

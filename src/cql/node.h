@@ -143,11 +143,11 @@ class Childless : public Node{ //abstract
   
 class KeywordNode: public Childless{
  public:
-  const char*value;
-  KeywordNode(const char*v);
+  std::string value;
+  explicit KeywordNode(std::string_view v);
   CVV(KeywordNode);
   void print() override;
-  bool eq(const char*);
+  bool eq(const char*) const;
 };
 
 class SilentFeatureNode: public KeywordNode{
@@ -273,8 +273,8 @@ class MatchCountNode: public Node{
 
 class PgnNode: public Node{
  public:
-  PgnNode(const char*v){value=v;}
-  const char* value;
+  explicit PgnNode(std::string_view v){value=v;}
+  std::string value;
   CVV(PgnNode);
   void print() override;
   vnode children() override{return vnode{};}
@@ -282,8 +282,8 @@ class PgnNode: public Node{
 
 class OutputNode: public Node{
  public:
-  OutputNode(const char*v){value=v;}
-  const char* value;
+  explicit OutputNode(std::string_view v){value=v;}
+  std::string value;
   CVV(OutputNode);
   void print() override;
   vnode children() override{return vnode{};}
@@ -302,34 +302,34 @@ class ResultNode: public GameFilter{
 
 class PlayerNode: public GameFilter{
  public:
-  const char* name{nullptr};
+  std::string name;
   colorT color {NOCOLOR};
   vnode children() override{return vnode{};}
   bool match_game(Game*game) override;
   void print() override;
   CVV(PlayerNode);
-  PlayerNode(const char*,colorT);
+  PlayerNode(std::string_view,colorT);
   void transform_members(Transform*) override;
 };
 
 class EventNode: public GameFilter{
  public:
-  const char* name{nullptr};
+  std::string name;
   vnode children() override{return vnode{};}
   bool match_game(Game*game) override;
   void print() override;
   CVV(EventNode);
-  EventNode(const char*);
+  explicit EventNode(std::string_view);
 };
 
 class SiteNode: public GameFilter{
  public:
-  const char* name{nullptr};
+  std::string name;
   vnode children() override{return vnode{};}
   bool match_game(Game*game) override;
   void print() override;
   CVV(SiteNode);
-  SiteNode(const char*);
+  explicit SiteNode(std::string_view);
 };
 
 
@@ -582,8 +582,8 @@ class CqlNode : public Node,public VariationFlags, public CommentFlags{
   vector<NumericVariable*> sortfields;
   int currentGameNumber{0};
   bool usemarks{false};
-  const char* inputfile{nullptr};
-  const char* outputfile{nullptr};
+  std::string inputfile;
+  std::string outputfile;
   FILE*outputstream{nullptr};
   Range* nmatchesrange{nullptr};
   Range* gamenumberrange{nullptr};
@@ -596,14 +596,14 @@ class CqlNode : public Node,public VariationFlags, public CommentFlags{
   CVV(CqlNode);
   vnode children() override;
   CqlNode(vector<Node*> features,Node* node);
-  ~CqlNode() override {}
+  ~CqlNode() override = default;
   void run();
   void setUseMarks();
   void deepify() override{filter=filter->clone();clonevec(gamefilters);}
   void setFirstComment(Game*game);
   void annotateEchoes(Game*game);
   GameSortInfo makeInfo(Game*game);
-  static const char * outputFileFromCqlFile(const char* cqlfile);
+  static std::string outputFileFromCqlFile(const char* cqlfile);
 };
 
 class FutureStarNode : public MFilter, public Countable, public VariationFlags, public CommentFlags{
@@ -722,7 +722,7 @@ class ExtensionNode:public MFilter{
   bool match_position(Game*game) override;
   vnode children() override{return vnode{};}
   void print() override;
-  ExtensionNode(){};
+  ExtensionNode() = default;
 };
 
 class PowerNode: public MFilter, public Countable {
@@ -758,8 +758,8 @@ class PowerDifferenceNode: public MFilter, public Countable {
 
 class MatchCommentNode: public MFilter{
  public:
-  const char* value{nullptr};
-  MatchCommentNode(const char* v);
+  std::string value;
+  explicit MatchCommentNode(std::string_view v);
   CVV(MatchCommentNode);
   void print() override;
   vnode children() override{return vnode{};}
@@ -769,15 +769,15 @@ class MatchCommentNode: public MFilter{
 class CommentBase: public MFilter{
  public:
   bool match_position(Game*game) override;
-  virtual void printBuffer(Game*g,char*buffer)=0;
+  virtual std::string printBuffer(Game*g)=0;
   static const int maxLen=200;
 };
 
 class CommentString:public CommentBase{
  public:
-  void printBuffer(Game*g, char*buffer) override;
-  const char*str;
-  CommentString(const char*s);
+  std::string printBuffer(Game*g) override;
+  std::string str;
+  explicit CommentString(std::string_view s);
   CVV(CommentString);
   vnode children() override{return vnode{};}
   void print() override;
@@ -786,7 +786,7 @@ class CommentString:public CommentBase{
 class CommentSet:public CommentBase{
  public:
   CommentSet(SetBase*);
-  void printBuffer(Game*g,char*buffer) override;
+  std::string printBuffer(Game*g) override;
   SetBase*set{nullptr};
   CVV(CommentSet);
   void deepify() override{set=set->clone();}

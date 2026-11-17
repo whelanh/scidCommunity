@@ -36,10 +36,10 @@ void unindent();
 bool filename_is_pgn(const char*filename);
 bool filename_is_cql(const char* filename);
 const char* filename_extension(const char* filename);
-const char* filename_stem(const char*name);
+std::string filename_stem(const char*name);
 const char* filename_trim_path_prefix(const char*name);
 const char* filename_trim_last(const char* name, char c);
-const char* filename_trim_extension(const char* name);
+std::string filename_trim_extension(const char* name);
 
 class util{
  public:

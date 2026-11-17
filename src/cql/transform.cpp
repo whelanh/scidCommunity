@@ -20,7 +20,7 @@ DirectionParameter Transform::transform(DirectionParameter directionparameter){
   vector<Direction>v;
   for(auto d:directionparameter.directions)
     v.push_back(transform(d));
-  return DirectionParameter(v,directionparameter.range);
+  return {v,directionparameter.range};
 }
 
 

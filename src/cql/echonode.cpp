@@ -5,7 +5,7 @@
 #include "node.h"
 
 EchoNode::EchoNode(vector<Node*>fs, vector<EchoSpec*>ss){
-  uassert(filters.size()==0);
+  uassert(filters.empty());
   for(Node*n:fs){
     MFilter*m=dynamic_cast<MFilter*>(n);
     uassert(m,"Bad argument to echonode, expected MFilter");
@@ -60,7 +60,7 @@ void EchoNode::start_new_search(Game*g){
   uassert(!insearch);
   insearch=true;
   theGame=g;
-  if(matchinfos.size()&&matchinfos[0].gamenumber!=CqlGameNumber())
+  if(!matchinfos.empty()&&matchinfos[0].gamenumber!=CqlGameNumber())
     matchinfos.clear();
   sourceIdentity=MarkBoard::identity(g);
   for(auto spec:specs)
@@ -116,7 +116,7 @@ void EchoNode::end_search(){
 
 void EchoNode::registerMatch(){
   EchoMatchInfo info(this);
-  if(matchinfos.size())
+  if(!matchinfos.empty())
     uassert(matchinfos.back().gamenumber==CqlGameNumber());
   matchinfos.push_back(info);
 }
