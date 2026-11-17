@@ -131,6 +131,7 @@ menuText T SearchNegate "Filtreyi Reddet" 0 {Yalnızca hariç tutulan oyunları 
 menuText T SearchCurrent "Mevcut Yönetim Kurulu..." 0 {Geçerli pano konumunu arayın}
 menuText T SearchHeader "Başlık..." 0 {Başlık (oyuncu, etkinlik vb.) bilgilerine göre arama yapın}
 menuText T SearchMaterial "Malzeme/Desen..." 0 {Malzeme veya tahta desenlerini arayın}
+menuText T SearchMoves "Hareket ediyor..." 0 {Ana satırda bir dizi hamle arayın}
 menuText T SearchCQL "CQL..." 0 {Chess Query Language sorgusuyla ara}
 menuText T SearchComments "Yorumları Ara..." 0 {Oyunların yorumlarını mevcut filtrede arayın}
 menuText T SearchUsing "Arama Dosyası Kullanılıyor..." 0 {SearchOptions dosyasını kullanarak arama yapın}
@@ -482,6 +483,15 @@ translate T LichessPuzzlesRated {derecelendirildi}
 translate T LichessPuzzlesGame {Oyun}
 translate T LichessPuzzlesNoNew {Bu ayarlar için yeni bulmaca bulunamadı.\n\nTemayı, zorluğu veya bulmaca rengini değiştirmeyi deneyin.}
 
+# Board screenshot
+menuText T ToolsScreenshot "Pano Ekran Görüntüsü" 0 \
+  {Geçerli pano konumunu PNG görüntüsü olarak kaydedin}
+translate T ScreenshotTitle {Pano Ekran Görüntüsü}
+translate T ScreenshotFileType {PNG görüntüleri}
+translate T ScreenshotOverwrite {Bu isimde bir dosya zaten mevcut. Üzerine yazılsın mı?}
+translate T ScreenshotError {Ekran görüntüsü kaydedilemedi.}
+translate T ScreenshotSaved {Pano ekran görüntüsü kaydedildi:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -588,6 +598,9 @@ translate T Preview {Önizleme}
 translate T Revert {Geri al}
 translate T Rename {Yeniden isimlendirmek}
 translate T Save {Kaydetmek}
+translate T Presets {Ön ayarlar}
+translate T SavePreset {Arama ön ayarını kaydet}
+translate T PresetName {Ön ayar adı:}
 translate T Search {Aramak}
 translate T Stop {Durmak}
 translate T Store {Mağaza}
@@ -909,10 +922,12 @@ translate T PgnOptColumn "Sütun Stili (satır başına bir hareket)"
 translate T PgnOptSpace "Hareket Numaralarından Sonra Boşluk"
 translate T PgnOptStripMarks "Renkli Kare/Ok Kodlarını Çıkarın"
 translate T PgnOptBoldMainLine "Ana Satır Hareketleri için Kalın Metin Kullanın"
+translate T PgnOptCenter "Mevcut Hareketi Ortala"
 
 # Analysis window:
 translate T AddAllVariations {Tüm Varyasyonları Ekle}
 translate T AddMove {Taşıma Ekle}
+translate T RemoveMove {Taşımayı Kaldır}
 translate T Annotate {Açıklama ekle}
 translate T FinishGame {Oyunu bitir}
 translate T StartEngine {Motoru çalıştır}
@@ -1065,6 +1080,7 @@ menuText T PgnOptColumn "Sütun Stili (satır başına bir hareket)" 1
 menuText T PgnOptSpace "Hareket Numaralarından Sonra Boşluk" 1
 menuText T PgnOptStripMarks "Renkli Kare/Ok Kodlarını Çıkarın" 1
 menuText T PgnOptBoldMainLine "Ana Satır Hareketleri için Kalın Metin Kullanın" 4
+menuText T PgnOptCenter "Mevcut Hareketi Ortala" 7
 menuText T PgnColor "Renkler" 0
 menuText T PgnColorHeader "Başlık..." 0
 menuText T PgnColorAnno "Ek açıklamalar..." 0
@@ -1374,6 +1390,10 @@ translate T SearchBoardFiles {Dosyalar (aynı malzeme, tüm piyonlar aynı dosya
 translate T SearchBoardAny {Herhangi biri (her yerde aynı malzeme, piyonlar ve parçalar)}
 translate T SearchInRefDatabase {Referans veritabanında ara}
 translate T LookInVars {Varyasyonlara bakın}
+
+# Moves search:
+translate T MovesSearchHint {SAN sırayla hareket eder; e4 e5 Af3. "?" herhangi bir hareketle eşleşir.}
+translate T LastMoveIsMate {Son hamle dostum}
 
 # Material search:
 translate T MaterialSearch {Malzeme Arama}
@@ -2226,10 +2246,10 @@ translate T RtfImportError {RTF dosyası içe aktarılırken hata oluştu}
 translate T RtfNotScidFile {Bu dosya scidCommunity tarafından yorum formatıyla dışa aktarılmadı veya bozuk.}
 translate T RtfImportSuccess {Oyun başarıyla pano veritabanına aktarıldı.}
 translate T RtfImportSuccessMulti {%d oyun başarıyla pano veritabanına aktarıldı.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate T ReviewProgressTitle {İlerlemeyi gözden geçirin}
 translate T ReviewProgressIdle {Hiçbir inceleme yürütülmüyor}
 translate T ReviewProgressGameOf {oyun %s / %s}
@@ -2237,6 +2257,14 @@ translate T ReviewProgressEngineWindow {Motor camları %s}
 translate T ReviewProgressRapid {Hızlı açıklama ekleme}
 translate T FinishGameGameChanged {Oyunu Bitir çalışırken oyun değişti; hiçbir şey yazılmadı}
 translate T FinishGameAtEnd {Bitiş Oyunu ana çizginin sonundan başlar; ilk önce oyunun sonuna git}
+# CQL search:
+translate T CQLQuery {CQL sorgusu}
+translate T CQLQueryHint {CQL sorgusu, ör. cql() mate veya cql(:gamenumber 1 10) K. Ctrl+Enter arar.}
+translate T CQLQueryEmpty {Aramadan önce bir CQL sorgusu girin.}
+translate T CQLSearchFailed {CQL araması başarısız oldu:}
+translate T CQLUnreadableGames {%d oyun okunamadı}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2366,9 +2394,3 @@ set tips(T) {
     Seçenek menüsündeki ilgili giriş kontrol edilerek Windows yerleştirilebilir. Sekmeler bir not defterinden diğerine sürüklenip bırakılabilir ve sekme widget'ına sağ tıklanarak düzenlenebilir.
   }
 }
-# CQL search:
-translate T CQLQuery {CQL sorgusu}
-translate T CQLQueryHint {CQL sorgusu, ör. cql() mate veya cql(:gamenumber 1 10) K. Ctrl+Enter arar.}
-translate T CQLQueryEmpty {Aramadan önce bir CQL sorgusu girin.}
-translate T CQLSearchFailed {CQL araması başarısız oldu:}
-translate T CQLUnreadableGames {%d oyun okunamadı}

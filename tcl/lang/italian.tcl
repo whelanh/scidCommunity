@@ -134,6 +134,7 @@ menuText I SearchNegate "Inverti il filtro" 0 {Inverte il filtro per comprendere
 menuText I SearchCurrent "Posizione attuale..." 0 {Cerca la posizione attuale}
 menuText I SearchHeader "Intestazione..." 0 {Ricerca per intestazione (giocatore, evento, etc)}
 menuText I SearchMaterial "Materiale/schema..." 0 {Ricerca per materiale o schema posizionale}
+menuText I SearchMoves "Si muove..." 0 {Cerca una sequenza di mosse nella linea principale}
 menuText I SearchCQL "CQL..." 0 {Cerca con una query Chess Query Language}
 menuText I SearchComments "Cerca commenti..." 0 {Cerca i commenti dei giochi nel filtro corrente}
 menuText I SearchUsing "Uso del file di ricerca..." 0 {Ricerca mediante un file di opzioni}
@@ -486,6 +487,15 @@ translate I LichessPuzzlesRated {Valutato}
 translate I LichessPuzzlesGame {Gioco}
 translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
 
+# Board screenshot
+menuText I ToolsScreenshot "Schermata della scheda" 0 \
+  {Salva la posizione corrente del tabellone come immagine PNG}
+translate I ScreenshotTitle {Schermata della scheda}
+translate I ScreenshotFileType {Immagini PNG}
+translate I ScreenshotOverwrite {Esiste già un file con quel nome. Sovrascriverlo?}
+translate I ScreenshotError {Impossibile salvare lo screenshot.}
+translate I ScreenshotSaved {Screenshot della scheda salvata:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -592,6 +602,9 @@ translate I Preview {Anteprima}
 translate I Revert {Rovescia}
 translate I Rename {Rinominare}
 translate I Save {Salva}
+translate I Presets {Preimpostazioni}
+translate I SavePreset {Salva la preimpostazione di ricerca}
+translate I PresetName {Nome preimpostato:}
 translate I Search {Cerca}
 translate I Stop {Ferma}
 translate I Store {Memorizza}
@@ -916,10 +929,12 @@ translate I PgnOptColumn "Stile colonna (una mossa per riga)"
 translate I PgnOptSpace "Spazio dopo i numeri delle mosse"
 translate I PgnOptStripMarks "Eliminare i codici quadrati/frecce colorati"
 translate I PgnOptBoldMainLine "Usa il testo in grassetto per gli spostamenti della linea principale"
+translate I PgnOptCenter "Centro movimento corrente"
 
 # Analysis window:
 translate I AddAllVariations {Aggiungi tutte le varianti}
 translate I AddMove {Aggiungi una mossa}
+translate I RemoveMove {Rimuovi spostamento}
 translate I Annotate {Annota}
 translate I FinishGame {Termina la partita}
 translate I StartEngine {Avvia il motore}
@@ -1072,6 +1087,7 @@ menuText I PgnOptColumn "Stile della colonna (una mossa per riga)" 1
 menuText I PgnOptSpace "Spazio dopo i numeri delle mosse" 0
 menuText I PgnOptStripMarks "Elimina i codici colorati delle caselle/frecce" 0
 menuText I PgnOptBoldMainLine "Usa il grassetto per le mosse della linea principale" 0
+menuText I PgnOptCenter "Centro movimento corrente" 7
 menuText I PgnColor "Colori" 0
 menuText I PgnColorHeader "Intestazione..." 0
 menuText I PgnColorAnno "Annotazioni..." 0
@@ -1384,6 +1400,10 @@ translate I SearchBoardFiles {Colonne (stesso materiale, tutti i pedoni sulle st
 translate I SearchBoardAny {Dovunque (stesso materiale, pedoni e pezzi dovunque)}
 translate I SearchInRefDatabase { Cerca nel database }
 translate I LookInVars {Cerca nelle varianti}
+
+# Moves search:
+translate I MovesSearchHint {SAN si muove in ordine, ad es. e4 e5 Cf3. "?" corrisponde a qualsiasi singola mossa.}
+translate I LastMoveIsMate {L'ultima mossa è il compagno}
 
 # Material search:
 translate I MaterialSearch {Ricerca materiale}
@@ -2246,10 +2266,10 @@ translate I RtfImportError {Errore durante l'importazione del file RTF}
 translate I RtfNotScidFile {Questo file non è stato esportato da scidCommunity con la formattazione dei commenti oppure è danneggiato.}
 translate I RtfImportSuccess {Gioco importato correttamente nel database degli appunti.}
 translate I RtfImportSuccessMulti {%d giochi importati correttamente nel database degli appunti.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate I ReviewProgressTitle {Esaminare i progressi}
 translate I ReviewProgressIdle {Non è in corso alcuna revisione}
 translate I ReviewProgressGameOf {gioco %s di %s}
@@ -2257,6 +2277,14 @@ translate I ReviewProgressEngineWindow {Finestrini del motore %s}
 translate I ReviewProgressRapid {Annotazione rapida}
 translate I FinishGameGameChanged {il gioco è cambiato mentre era in esecuzione Finish Game; non è stato scritto nulla}
 translate I FinishGameAtEnd {Fine Il gioco inizia dalla fine della linea principale; vai prima alla fine del gioco}
+# CQL search:
+translate I CQLQuery {Query CQL}
+translate I CQLQueryHint {Query CQL, ad es. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Invio avvia la ricerca.}
+translate I CQLQueryEmpty {Inserire una query CQL prima di cercare.}
+translate I CQLSearchFailed {La ricerca CQL non è riuscita:}
+translate I CQLUnreadableGames {%d partite illeggibili}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2386,9 +2414,3 @@ set tips(I) {
     È possibile agganciare Windows controllando la voce pertinente nel menu delle opzioni. Le schede possono essere trascinate e rilasciate da un taccuino all'altro e disposte facendo clic con il pulsante destro del mouse sul widget della scheda.
   }
 }
-# CQL search:
-translate I CQLQuery {Query CQL}
-translate I CQLQueryHint {Query CQL, ad es. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Invio avvia la ricerca.}
-translate I CQLQueryEmpty {Inserire una query CQL prima di cercare.}
-translate I CQLSearchFailed {La ricerca CQL non è riuscita:}
-translate I CQLUnreadableGames {%d partite illeggibili}

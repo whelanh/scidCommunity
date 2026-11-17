@@ -127,6 +127,7 @@ menuText h SearchNegate "नकारात्मक फ़िल्टर" 0 {�
 menuText h SearchCurrent "वर्तमान बोर्ड..." 0 {वर्तमान बोर्ड स्थिति खोजें}
 menuText h SearchHeader "हेडर..." 0 {हेडर (खिलाड़ी, घटना, आदि) जानकारी द्वारा खोजें}
 menuText h SearchMaterial "सामग्री/पैटर्न..." 0 {सामग्री या बोर्ड पैटर्न खोजें}
+menuText h SearchMoves "चाल..." 0 {मुख्य लाइन में चालों का क्रम खोजें}
 menuText h SearchCQL "CQL..." 0 {Chess Query Language क्वेरी से खोजें}
 menuText h SearchComments "टिप्पणियाँ खोजें..." 0 {वर्तमान फ़िल्टर में गेम की टिप्पणियाँ खोजें}
 menuText h SearchUsing "खोज फ़ाइल का उपयोग करना..." 0 {SearchOptions फ़ाइल का उपयोग करके खोजें}
@@ -478,6 +479,15 @@ translate h LichessPuzzlesRated {रेटेड}
 translate h LichessPuzzlesGame {खेल}
 translate h LichessPuzzlesNoNew {इन सेटिंग्स के लिए कोई नई पहेली नहीं मिली।\n\nथीम, कठिनाई या पहेली का रंग बदलने का प्रयास करें।}
 
+# Board screenshot
+menuText h ToolsScreenshot "बोर्ड स्क्रीनशॉट" 0 \
+  {वर्तमान बोर्ड स्थिति को पीएनजी छवि के रूप में सहेजें}
+translate h ScreenshotTitle {बोर्ड स्क्रीनशॉट}
+translate h ScreenshotFileType {पीएनजी छवियाँ}
+translate h ScreenshotOverwrite {उस नाम की एक फ़ाइल पहले से मौजूद है. इसे अधिलेखित करें?}
+translate h ScreenshotError {स्क्रीनशॉट सहेजा नहीं जा सका.}
+translate h ScreenshotSaved {बोर्ड स्क्रीनशॉट सहेजा गया:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -584,6 +594,9 @@ translate h Preview {पूर्व दर्शन}
 translate h Revert {फिर लौट आना}
 translate h Rename {नाम बदलें}
 translate h Save {सहेजें}
+translate h Presets {प्रीसेट}
+translate h SavePreset {खोज प्रीसेट सहेजें}
+translate h PresetName {पूर्व निर्धारित नाम:}
 translate h Search {खोजें}
 translate h Stop {रुकें}
 translate h Store {सहेजें}
@@ -905,10 +918,12 @@ translate h PgnOptColumn "स्तंभ शैली (प्रति पं�
 translate h PgnOptSpace "चाल संख्या के बाद स्थान"
 translate h PgnOptStripMarks "रंगीन चौकोर/तीर कोड हटा दें"
 translate h PgnOptBoldMainLine "मेन लाइन मूव्स के लिए बोल्ड टेक्स्ट का उपयोग करें"
+translate h PgnOptCenter "केंद्र वर्तमान चाल"
 
 # Analysis window:
 translate h AddAllVariations {सभी विविधताएँ जोड़ें}
 translate h AddMove {स्थानांतरण जोड़ें}
+translate h RemoveMove {हटो हटाओ}
 translate h Annotate {एन्नोटेट}
 translate h FinishGame {खेल ख़त्म करो}
 translate h StartEngine {इंजन प्रारंभ करें}
@@ -1061,6 +1076,7 @@ menuText h PgnOptColumn "स्तंभ शैली (प्रति पंक
 menuText h PgnOptSpace "चाल संख्या के बाद स्थान" 1
 menuText h PgnOptStripMarks "रंगीन चौकोर/तीर कोड हटा दें" 1
 menuText h PgnOptBoldMainLine "मेन लाइन मूव्स के लिए बोल्ड टेक्स्ट का उपयोग करें" 4
+menuText h PgnOptCenter "केंद्र वर्तमान चाल" 7
 menuText h PgnColor "रंग" 0
 menuText h PgnColorHeader "हेडर..." 0
 menuText h PgnColorAnno "टिप्पणियाँ..." 0
@@ -1370,6 +1386,10 @@ translate h SearchBoardFiles {फ़ाइलें (एक ही सामग�
 translate h SearchBoardAny {कोई भी (समान सामग्री, प्यादे और टुकड़े कहीं भी)}
 translate h SearchInRefDatabase {संदर्भ डेटाबेस में खोजें}
 translate h LookInVars {विविधताओं में देखें}
+
+# Moves search:
+translate h MovesSearchHint {SAN क्रम में चलता है, उदा. e4 e5 Nf3. "?" किसी एक चाल से मेल खाता है।}
+translate h LastMoveIsMate {आखिरी चाल है दोस्त}
 
 # Material search:
 translate h MaterialSearch {सामग्री खोज}
@@ -2222,10 +2242,10 @@ translate h RtfImportError {आरटीएफ फ़ाइल आयात क�
 translate h RtfNotScidFile {यह फ़ाइल टिप्पणी स्वरूपण के साथ स्किडकम्युनिटी द्वारा निर्यात नहीं की गई थी, या दूषित है।}
 translate h RtfImportSuccess {गेम को क्लिपबोर्ड डेटाबेस में सफलतापूर्वक आयात किया गया।}
 translate h RtfImportSuccessMulti {%d गेम्स को क्लिपबोर्ड डेटाबेस में सफलतापूर्वक आयात किया गया।}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate h ReviewProgressTitle {प्रगति की समीक्षा करें}
 translate h ReviewProgressIdle {कोई समीक्षा नहीं चल रही है}
 translate h ReviewProgressGameOf {खेल %s का %s}
@@ -2233,6 +2253,14 @@ translate h ReviewProgressEngineWindow {इंजन खिड़कियाँ
 translate h ReviewProgressRapid {त्वरित व्याख्या}
 translate h FinishGameGameChanged {फ़िनिश गेम चलने के दौरान गेम बदल गया; कुछ भी नहीं लिखा गया}
 translate h FinishGameAtEnd {फ़िनिश गेम मुख्य पंक्ति के अंत से शुरू होता है; सबसे पहले खेल के अंत तक जाएँ}
+# CQL search:
+translate h CQLQuery {CQL क्वेरी}
+translate h CQLQueryHint {CQL क्वेरी, जैसे cql() mate या cql(:gamenumber 1 10) K। Ctrl+Enter खोजता है।}
+translate h CQLQueryEmpty {खोजने से पहले CQL क्वेरी दर्ज करें।}
+translate h CQLSearchFailed {CQL खोज विफल रही:}
+translate h CQLUnreadableGames {%d गेम पढ़े नहीं जा सके}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2362,9 +2390,3 @@ set tips(h) {
     विकल्प मेनू में संबंधित प्रविष्टि की जाँच करके विंडोज़ को डॉक किया जा सकता है। टैब को एक नोटबुक से दूसरे नोटबुक में खींचा और छोड़ा जा सकता है और टैब विजेट पर राइट क्लिक करके लेआउट किया जा सकता है।
   }
 }
-# CQL search:
-translate h CQLQuery {CQL क्वेरी}
-translate h CQLQueryHint {CQL क्वेरी, जैसे cql() mate या cql(:gamenumber 1 10) K। Ctrl+Enter खोजता है।}
-translate h CQLQueryEmpty {खोजने से पहले CQL क्वेरी दर्ज करें।}
-translate h CQLSearchFailed {CQL खोज विफल रही:}
-translate h CQLUnreadableGames {%d गेम पढ़े नहीं जा सके}

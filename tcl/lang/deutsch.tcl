@@ -156,6 +156,7 @@ menuText D SearchHeader "Partiedaten..." 0 \
   {Partiedaten (Spieler, Turnier etc.) suchen}
 menuText D SearchMaterial "Material/Muster..." 0 \
   {Nach Material- oder Stellungsmustern suchen}
+menuText D SearchMoves "Bewegt sich..." 0 {Suchen Sie nach einer Zugfolge in der Hauptlinie}
 menuText D SearchCQL "CQL..." 0 {Mit einer Chess-Query-Language-Abfrage suchen}
 menuText D SearchComments "Kommentare durchsuchen..." 0 {Durchsuchen Sie die Kommentare der Spiele im aktuellen Filter}
 menuText D SearchUsing "Mit Suchoptionsdatei..." 4 \
@@ -512,6 +513,15 @@ translate D LichessPuzzlesRated {Bewertet}
 translate D LichessPuzzlesGame {Spiel}
 translate D LichessPuzzlesNoNew {Für diese Einstellungen wurden keine neuen Rätsel gefunden.\n\nVersuchen Sie, das Thema, den Schwierigkeitsgrad oder die Rätselfarbe zu ändern.}
 
+# Board screenshot
+menuText D ToolsScreenshot "Board-Screenshot" 0 \
+  {Speichern Sie die aktuelle Platinenposition als PNG-Bild}
+translate D ScreenshotTitle {Board-Screenshot}
+translate D ScreenshotFileType {PNG-Bilder}
+translate D ScreenshotOverwrite {Eine Datei mit diesem Namen existiert bereits. Überschreiben?}
+translate D ScreenshotError {Der Screenshot konnte nicht gespeichert werden.}
+translate D ScreenshotSaved {Board-Screenshot gespeichert:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -618,6 +628,9 @@ translate D Preview {Vorschau} ;# Voransicht!? (KDE)
 translate D Revert {Umkehren}
 translate D Rename {Umbenennen}
 translate D Save {Speichern}
+translate D Presets {Voreinstellungen}
+translate D SavePreset {Suchvoreinstellung speichern}
+translate D PresetName {Name der Voreinstellung:}
 translate D Search {Suchen}
 translate D Stop {Halt}
 translate D Store {Speichern}
@@ -945,10 +958,12 @@ translate D PgnOptColumn "Spaltenstil (eine Bewegung pro Zeile)"
 translate D PgnOptSpace "Leerzeichen nach Zugnummern"
 translate D PgnOptStripMarks "Entfernen Sie farbige Quadrat-/Pfeilcodes"
 translate D PgnOptBoldMainLine "Verwenden Sie fetten Text für Hauptlinienbewegungen"
+translate D PgnOptCenter "Aktuellen Zug zentrieren"
 
 # Analysis window:
 translate D AddAllVariations {Alle Varianten hinzufügen}
 translate D AddMove {Zug hinzufügen}
+translate D RemoveMove {Verschieben entfernen}
 translate D Annotate {Autom. kommentieren}
 translate D FinishGame {Partie beenden}
 translate D StartEngine {Engine starten}
@@ -1101,6 +1116,7 @@ menuText D PgnOptColumn "Tabellarisch (ein Zug pro Zeile)" 0
 menuText D PgnOptSpace "Leerzeichen nach Zugnummer" 0
 menuText D PgnOptStripMarks "Farbfelder-/Pfeile-Zeichen entfernen" 27
 menuText D PgnOptBoldMainLine "Partiezüge in Fettdruck" 0
+menuText D PgnOptCenter "Aktuellen Zug zentrieren" 7
 menuText D PgnColor "Farben" 0
 menuText D PgnColorHeader "Vorspann..." 0
 menuText D PgnColorAnno "Anmerkungen..." 0
@@ -1423,6 +1439,10 @@ translate D SearchBoardFiles {Linien (gleiches Material, alle Bauern auf gleiche
 translate D SearchBoardAny {Material (gleiches Material, Bauern und Figuren beliebig)}
 translate D SearchInRefDatabase { In folgender Datenbank suchen }
 translate D LookInVars {Schaue in Varianten}
+
+# Moves search:
+translate D MovesSearchHint {SAN bewegt sich der Reihe nach, z.B. e4 e5 Sf3. „?“ passt zu jedem einzelnen Zug.}
+translate D LastMoveIsMate {Der letzte Zug ist Matt}
 
 # Material search:
 translate D MaterialSearch {Materialsuche}
@@ -2294,10 +2314,10 @@ translate D RtfImportError {Fehler beim Importieren der RTF-Datei}
 translate D RtfNotScidFile {Diese Datei wurde von scidCommunity nicht mit Kommentarformatierung exportiert oder ist beschädigt.}
 translate D RtfImportSuccess {Das Spiel wurde erfolgreich in die Zwischenablage-Datenbank importiert.}
 translate D RtfImportSuccessMulti {%d Spiele wurden erfolgreich in die Zwischenablage-Datenbank importiert.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate D ReviewProgressTitle {Überprüfen Sie den Fortschritt}
 translate D ReviewProgressIdle {Es läuft keine Rezension}
 translate D ReviewProgressGameOf {Spiel %s von %s}
@@ -2305,6 +2325,14 @@ translate D ReviewProgressEngineWindow {Motorfenster %s}
 translate D ReviewProgressRapid {Schnelles Kommentieren}
 translate D FinishGameGameChanged {das Spiel hat sich geändert, während „Spiel beenden“ lief; nichts wurde geschrieben}
 translate D FinishGameAtEnd {Das Finish-Spiel beginnt am Ende der Hauptlinie. Gehe zuerst bis zum Ende des Spiels}
+# CQL search:
+translate D CQLQuery {CQL-Abfrage}
+translate D CQLQueryHint {CQL-Abfrage, z. B. cql() mate oder cql(:gamenumber 1 10) K. Strg+Enter sucht.}
+translate D CQLQueryEmpty {Geben Sie vor der Suche eine CQL-Abfrage ein.}
+translate D CQLSearchFailed {Die CQL-Suche ist fehlgeschlagen:}
+translate D CQLUnreadableGames {%d Partie(n) konnten nicht gelesen werden}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2434,9 +2462,3 @@ set tips(D) {
     Fenster können angedockt werden, indem der entsprechende Eintrag im Optionsmenü aktiviert wird. Registerkarten können per Drag-and-Drop von einem Notizbuch in ein anderes gezogen und durch Klicken mit der rechten Maustaste auf das Registerkarten-Widget angeordnet werden.
   }
 }
-# CQL search:
-translate D CQLQuery {CQL-Abfrage}
-translate D CQLQueryHint {CQL-Abfrage, z. B. cql() mate oder cql(:gamenumber 1 10) K. Strg+Enter sucht.}
-translate D CQLQueryEmpty {Geben Sie vor der Suche eine CQL-Abfrage ein.}
-translate D CQLSearchFailed {Die CQL-Suche ist fehlgeschlagen:}
-translate D CQLUnreadableGames {%d Partie(n) konnten nicht gelesen werden}

@@ -519,6 +519,15 @@ translate E LichessPuzzlesRated {Rated}
 translate E LichessPuzzlesGame {Game}
 translate E LichessPuzzlesNoNew {No new puzzles found for these settings.\n\nTry changing the theme, difficulty, or puzzle color.}
 
+# Board screenshot
+menuText E ToolsScreenshot "Board Screenshot" 0 \
+  {Save the current board position as a PNG image}
+translate E ScreenshotTitle {Board Screenshot}
+translate E ScreenshotFileType {PNG images}
+translate E ScreenshotOverwrite {A file with that name already exists. Overwrite it?}
+translate E ScreenshotError {The screenshot could not be saved.}
+translate E ScreenshotSaved {Board screenshot saved:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -2287,6 +2296,17 @@ translate E RtfImportError {Error importing RTF file}
 translate E RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
 translate E RtfImportSuccess {Game imported into clipboard database successfully.}
 translate E RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
+
+# Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
+translate E ReviewProgressTitle {Review progress}
+translate E ReviewProgressIdle {No review is running}
+translate E ReviewProgressGameOf {game %s of %s}
+translate E ReviewProgressEngineWindow {Engine window %s}
+translate E ReviewProgressRapid {Rapid annotate}
+translate E FinishGameGameChanged {the game changed while Finish Game was running; nothing was written}
+translate E FinishGameAtEnd {Finish Game starts from the end of the main line; go to the end of the game first}
 # CQL search:
 translate E CQLQuery {CQL Query}
 translate E CQLQueryHint {CQL query, e.g. cql() mate or cql(:gamenumber 1 10) K. Ctrl+Enter searches.}
@@ -2295,12 +2315,3 @@ translate E CQLSearchFailed {The CQL search failed:}
 translate E CQLUnreadableGames {%d game(s) could not be read}
 }
 # end of english.tcl
-
-# Review progress pane (#422 item 3).
-translate E ReviewProgressTitle {Review progress}
-translate E ReviewProgressIdle {No review is running}
-translate E ReviewProgressGameOf {game %s of %s}
-translate E ReviewProgressEngineWindow {Engine window %s}
-translate E ReviewProgressRapid {Rapid annotate}
-translate E FinishGameGameChanged {the game changed while Finish Game was running; nothing was written}
-translate E FinishGameAtEnd {Finish Game starts from the end of the main line; go to the end of the game first}

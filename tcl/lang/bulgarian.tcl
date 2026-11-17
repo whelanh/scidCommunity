@@ -168,6 +168,7 @@ menuText g SearchNegate "Филтър за отхвърляне" 0 {Отхвър
 menuText g SearchCurrent "Настоящ борд..." 0 {Търсете текущата позиция на борда}
 menuText g SearchHeader "Заглавка..." 0 {Търсене по информация за заглавка (играч, събитие и т.н.).}
 menuText g SearchMaterial "Материал/модел..." 0 {Търсене на материали или шаблони на дъски}
+menuText g SearchMoves "движи се..." 0 {Търсете последователност от ходове в основната линия}
 menuText g SearchCQL "CQL..." 0 {Търсене със заявка Chess Query Language}
 menuText g SearchComments "Търсене на коментари..." 0 {Търсете коментарите на игрите в текущия филтър}
 menuText g SearchUsing "Използване на файл за търсене..." 0 {Търсете с помощта на SearchOptions файл}
@@ -519,6 +520,15 @@ translate g LichessPuzzlesRated {Оценен}
 translate g LichessPuzzlesGame {Игра}
 translate g LichessPuzzlesNoNew {Няма намерени нови пъзели за тези настройки.\n\nОпитайте да промените темата, трудността или цвета на пъзела.}
 
+# Board screenshot
+menuText g ToolsScreenshot "Екранна снимка на борда" 0 \
+  {Запазете текущата позиция на дъската като PNG изображение}
+translate g ScreenshotTitle {Екранна снимка на борда}
+translate g ScreenshotFileType {PNG изображения}
+translate g ScreenshotOverwrite {Файл с това име вече съществува. Да го презапиша?}
+translate g ScreenshotError {Екранната снимка не можа да бъде запазена.}
+translate g ScreenshotSaved {Екранната снимка на дъската е запазена:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +635,9 @@ translate g Preview {Преглед}
 translate g Revert {Връщане}
 translate g Rename {Преименуване}
 translate g Save {Запазване}
+translate g Presets {Предварителни настройки}
+translate g SavePreset {Запазване на предварително зададеното търсене}
+translate g PresetName {Предварително зададено име:}
 translate g Search {Търсене}
 translate g Stop {Спрете}
 translate g Store {Магазин}
@@ -946,10 +959,12 @@ translate g PgnOptColumn "Стил на колона (едно движение 
 translate g PgnOptSpace "Интервал след числата за преместване"
 translate g PgnOptStripMarks "Отстранете кодовете на цветни квадратчета/стрелки"
 translate g PgnOptBoldMainLine "Използвайте получер текст за ходове на основната линия"
+translate g PgnOptCenter "Централно текущо движение"
 
 # Analysis window:
 translate g AddAllVariations {Добавяне на всички варианти}
 translate g AddMove {Добавяне на движение}
+translate g RemoveMove {Премахване на Преместване}
 translate g Annotate {Анотирайте}
 translate g FinishGame {Завършете играта}
 translate g StartEngine {Стартирайте двигателя}
@@ -1102,6 +1117,7 @@ menuText g PgnOptColumn "Стил на колона (едно движение �
 menuText g PgnOptSpace "Интервал след числата за преместване" 1
 menuText g PgnOptStripMarks "Отстранете кодовете на цветни квадратчета/стрелки" 1
 menuText g PgnOptBoldMainLine "Използвайте получер текст за ходове на основната линия" 4
+menuText g PgnOptCenter "Централно текущо движение" 7
 menuText g PgnColor "Цветове" 0
 menuText g PgnColorHeader "Заглавка..." 0
 menuText g PgnColorAnno "анотации..." 0
@@ -1411,6 +1427,10 @@ translate g SearchBoardFiles {Файлове (еднакъв материал, �
 translate g SearchBoardAny {Всякакви (еднакъв материал, пешки и фигури навсякъде)}
 translate g SearchInRefDatabase {Търсене в справочна база данни}
 translate g LookInVars {Вижте във варианти}
+
+# Moves search:
+translate g MovesSearchHint {SAN се движи по ред, напр. e4 e5 Nf3. "?" съответства на всеки отделен ход.}
+translate g LastMoveIsMate {Последният ход е приятел}
 
 # Material search:
 translate g MaterialSearch {Търсене на материали}
@@ -2263,10 +2283,10 @@ translate g RtfImportError {Грешка при импортирането на 
 translate g RtfNotScidFile {Този файл не е експортиран от scidCommunity с форматиране на коментари или е повреден.}
 translate g RtfImportSuccess {Играта е импортирана успешно в базата данни на клипборда.}
 translate g RtfImportSuccessMulti {%d игри са импортирани успешно в базата данни на клипборда.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate g ReviewProgressTitle {Преглед на напредъка}
 translate g ReviewProgressIdle {Не се провежда преглед}
 translate g ReviewProgressGameOf {игра %s от %s}
@@ -2274,6 +2294,14 @@ translate g ReviewProgressEngineWindow {Стъкла на двигателя %s}
 translate g ReviewProgressRapid {Бързо анотиране}
 translate g FinishGameGameChanged {играта се промени, докато завърши играта; нищо не беше написано}
 translate g FinishGameAtEnd {Играта Finish започва от края на основната линия; първо отидете до края на играта}
+# CQL search:
+translate g CQLQuery {Заявка CQL}
+translate g CQLQueryHint {Заявка CQL, напр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter търси.}
+translate g CQLQueryEmpty {Въведете заявка CQL преди търсенето.}
+translate g CQLSearchFailed {Търсенето с CQL се провали:}
+translate g CQLUnreadableGames {%d партии не можаха да бъдат прочетени}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2403,9 +2431,3 @@ set tips(g) {
     Windows може да бъде закачен чрез отметка на съответния запис в менюто с опции. Разделите могат да се плъзгат и пускат от един бележник в друг и да се оформят чрез щракване с десен бутон върху приспособлението за раздели.
   }
 }
-# CQL search:
-translate g CQLQuery {Заявка CQL}
-translate g CQLQueryHint {Заявка CQL, напр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter търси.}
-translate g CQLQueryEmpty {Въведете заявка CQL преди търсенето.}
-translate g CQLSearchFailed {Търсенето с CQL се провали:}
-translate g CQLUnreadableGames {%d партии не можаха да бъдат прочетени}

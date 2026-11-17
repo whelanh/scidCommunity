@@ -137,6 +137,7 @@ menuText F SearchHeader "En-tête..." 0 \
   {Rechercher par l'information dans l'en-tête (joueur, tournoi, etc.)}
 menuText F SearchMaterial "Matériel ou motif..." 0 \
   {Rechercher un motif ou un matériel particulier sur l'échiquier}
+menuText F SearchMoves "Se déplace..." 0 {Rechercher une séquence de mouvements dans la ligne principale}
 menuText F SearchCQL "CQL..." 0 {Rechercher avec une requête Chess Query Language}
 menuText F SearchComments "Rechercher des commentaires..." 0 {Rechercher les commentaires des jeux dans le filtre actuel}
 menuText F SearchUsing "En utilisant un fichier d'options..." 3 \
@@ -494,6 +495,15 @@ translate F LichessPuzzlesRated {Noté}
 translate F LichessPuzzlesGame {Jeu}
 translate F LichessPuzzlesNoNew {Aucune nouvelle énigme trouvée pour ces paramètres.\n\nEssayez de modifier le thème, la difficulté ou la couleur de l'énigme.}
 
+# Board screenshot
+menuText F ToolsScreenshot "Capture d'écran du tableau" 0 \
+  {Enregistrer la position actuelle du tableau sous forme d'image PNG}
+translate F ScreenshotTitle {Capture d'écran du tableau}
+translate F ScreenshotFileType {Image PNG}
+translate F ScreenshotOverwrite {Un fichier portant ce nom existe déjà. L'écraser ?}
+translate F ScreenshotError {La capture d'écran n'a pas pu être enregistrée.}
+translate F ScreenshotSaved {Capture d'écran du tableau enregistrée :}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -600,6 +610,9 @@ translate F Preview {Prévisualiser}
 translate F Revert {Revenir}
 translate F Rename {Rebaptiser}
 translate F Save {Enregistrer}
+translate F Presets {Préréglages}
+translate F SavePreset {Enregistrer le préréglage de recherche}
+translate F PresetName {Nom du préréglage :}
 translate F Search {Rechercher}
 translate F Stop {Arrêter}
 translate F Store {Enregistrer}
@@ -918,10 +931,12 @@ translate F PgnOptColumn "Style de colonne (un mouvement par ligne)"
 translate F PgnOptSpace "Espace après le déplacement des numéros"
 translate F PgnOptStripMarks "Supprimez les codes de carrés/flèches colorés"
 translate F PgnOptBoldMainLine "Utiliser du texte en gras pour les déplacements de la ligne principale"
+translate F PgnOptCenter "Centrer le mouvement actuel"
 
 # Analysis window:
 translate F AddAllVariations {Ajouter toutes les variantes}
 translate F AddMove {Ajouter le coup}
+translate F RemoveMove {Supprimer le déplacement}
 translate F Annotate {Annotation}
 translate F FinishGame {Continuer la partie}
 translate F StartEngine {Démarrer le moteur}
@@ -1074,6 +1089,7 @@ menuText F PgnOptColumn "Style en colonne (un coup par ligne)" 1
 menuText F PgnOptSpace "Espace après numéro des coups" 0
 menuText F PgnOptStripMarks "Enlever les codes de flèches et de coloration de cases" 1
 menuText F PgnOptBoldMainLine "Mettre en gras les coups de la ligne principale" 4
+menuText F PgnOptCenter "Centrer le mouvement actuel" 7
 menuText F PgnColor "Couleur" 0
 menuText F PgnColorHeader "En-tête..." 0
 menuText F PgnColorAnno "Annotations..." 0
@@ -1390,6 +1406,10 @@ translate F SearchBoardFiles {Colonnes, même matériel avec tous les pions sur 
 translate F SearchBoardAny {Même matériel, les pions et pièces n'importe où.}
 translate F SearchInRefDatabase { Dans la base de référence }
 translate F LookInVars {Chercher dans les variantes}
+
+# Moves search:
+translate F MovesSearchHint {SAN se déplace dans l'ordre, par ex. e4 e5 Cf3. "?" correspond à n’importe quel mouvement.}
+translate F LastMoveIsMate {Le dernier mouvement est mon pote}
 
 # Material search:
 translate F MaterialSearch {Rechercher un matériel ou motif}
@@ -2250,10 +2270,10 @@ translate F RtfImportError {Erreur lors de l'importation du fichier RTF}
 translate F RtfNotScidFile {Ce fichier n'a pas été exporté par scidCommunity avec le formatage des commentaires, ou est corrompu.}
 translate F RtfImportSuccess {Jeu importé avec succès dans la base de données du presse-papiers.}
 translate F RtfImportSuccessMulti {%d jeux importés avec succès dans la base de données du presse-papiers.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate F ReviewProgressTitle {Examiner les progrès}
 translate F ReviewProgressIdle {Aucun examen n'est en cours}
 translate F ReviewProgressGameOf {jeu %s de %s}
@@ -2261,6 +2281,14 @@ translate F ReviewProgressEngineWindow {Fenêtres moteur %s}
 translate F ReviewProgressRapid {Annotation rapide}
 translate F FinishGameGameChanged {le jeu a changé pendant l'exécution de Finish Game ; rien n'a été écrit}
 translate F FinishGameAtEnd {Terminer Le jeu commence à la fin de la ligne principale ; va d'abord à la fin du jeu}
+# CQL search:
+translate F CQLQuery {Requête CQL}
+translate F CQLQueryHint {Requête CQL, par ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Entrée lance la recherche.}
+translate F CQLQueryEmpty {Saisissez une requête CQL avant de lancer la recherche.}
+translate F CQLSearchFailed {La recherche CQL a échoué :}
+translate F CQLUnreadableGames {%d partie(s) n'ont pas pu être lues}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2390,9 +2418,3 @@ set tips(F) {
     Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
   }
 }
-# CQL search:
-translate F CQLQuery {Requête CQL}
-translate F CQLQueryHint {Requête CQL, par ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Entrée lance la recherche.}
-translate F CQLQueryEmpty {Saisissez une requête CQL avant de lancer la recherche.}
-translate F CQLSearchFailed {La recherche CQL a échoué :}
-translate F CQLUnreadableGames {%d partie(s) n'ont pas pu être lues}

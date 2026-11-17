@@ -168,6 +168,7 @@ menuText k SearchNegate "낚시 분야" 0 {제외된 게임만을 포함하여 �
 menuText k SearchCurrent "현재 보드..." 0 {현재 보드 위치 검색}
 menuText k SearchHeader "헤더..." 0 {헤더(플레이어, 이벤트 등) 정보로 검색}
 menuText k SearchMaterial "있다/패턴..." 0 {재료 또는 보드 검색}
+menuText k SearchMoves "이동..." 0 {메인 라인에서 일련의 동작 검색}
 menuText k SearchCQL "CQL..." 0 {Chess Query Language 쿼리로 검색}
 menuText k SearchComments "댓글 검색..." 0 {현재 필터에서 게임의 댓글을 검색하세요.}
 menuText k SearchUsing "파일 검색 사용 중..." 0 {SearchOptions 파일을 사용하여 검색}
@@ -519,6 +520,15 @@ translate k LichessPuzzlesRated {정격}
 translate k LichessPuzzlesGame {게임}
 translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을 수 없습니다.\n\n테마, 난이도 또는 퍼즐 색상을 변경해 보세요.}
 
+# Board screenshot
+menuText k ToolsScreenshot "보드 스크린샷" 0 \
+  {현재 보드 위치를 PNG 이미지로 저장}
+translate k ScreenshotTitle {보드 스크린샷}
+translate k ScreenshotFileType {PNG 이미지}
+translate k ScreenshotOverwrite {해당 이름의 파일이 이미 존재합니다. 덮어쓰시겠습니까?}
+translate k ScreenshotError {스크린샷을 저장할 수 없습니다.}
+translate k ScreenshotSaved {보드 스크린샷이 저장되었습니다:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +635,9 @@ translate k Preview {미리보기}
 translate k Revert {되돌리기}
 translate k Rename {이름이}
 translate k Save {저장}
+translate k Presets {사전 설정}
+translate k SavePreset {검색 사전 설정 저장}
+translate k PresetName {사전 설정 이름:}
 translate k Search {찾다}
 translate k Stop {정지}
 translate k Store {저장}
@@ -946,10 +959,12 @@ translate k PgnOptColumn "열 스타일(한 줄에 한 번씩 이동)"
 translate k PgnOptSpace "이동 번호 뒤의 공백"
 translate k PgnOptStripMarks "컬러 사각형/화살표 코드 제거"
 translate k PgnOptBoldMainLine "메인 라인 이동에 굵은 텍스트 사용"
+translate k PgnOptCenter "중심 현재 이동"
 
 # Analysis window:
 translate k AddAllVariations {모든 변형}
 translate k AddMove {이동 추가}
+translate k RemoveMove {이동 제거}
 translate k Annotate {달기}
 translate k FinishGame {게임 종료}
 translate k StartEngine {엔진의 변화}
@@ -1102,6 +1117,7 @@ menuText k PgnOptColumn "열 스타일(한 라인에 한 쪽으로 이동)" 1
 menuText k PgnOptSpace "이동번호 뒤의 공백" 1
 menuText k PgnOptStripMarks "컬러 바코드/화살표 코드 제거" 1
 menuText k PgnOptBoldMainLine "메인 라인 이동에 대한 내용" 4
+menuText k PgnOptCenter "중심 현재 이동" 7
 menuText k PgnColor "그림 물감" 0
 menuText k PgnColorHeader "헤더..." 0
 menuText k PgnColorAnno "이해가 안가..." 0
@@ -1411,6 +1427,10 @@ translate k SearchBoardFiles {파일(동일한 자료, 동일한 파일의 모�
 translate k SearchBoardAny {모두(동일한 재질, 휴대폰 및 부품 어디에서나 가능)}
 translate k SearchInRefDatabase {참고자료 데이터베이스에서 검색}
 translate k LookInVars {다양한 변형 보기}
+
+# Moves search:
+translate k MovesSearchHint {SAN은 순서대로 이동합니다. e4 e5 Nf3. "?" 모든 단일 동작과 일치합니다.}
+translate k LastMoveIsMate {마지막 수는 메이트}
 
 # Material search:
 translate k MaterialSearch {자료검색}
@@ -2263,10 +2283,10 @@ translate k RtfImportError {RTF 파일을 가져오는 중 오류가 발생했�
 translate k RtfNotScidFile {이 파일은 scidCommunity에서 설명 형식으로 내보내지 않았거나 손상되었습니다.}
 translate k RtfImportSuccess {게임을 클립보드 데이터베이스로 성공적으로 가져왔습니다.}
 translate k RtfImportSuccessMulti {%d개의 게임을 클립보드 데이터베이스로 성공적으로 가져왔습니다.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate k ReviewProgressTitle {진행상황 검토}
 translate k ReviewProgressIdle {실행 중인 검토가 없습니다.}
 translate k ReviewProgressGameOf {게임 %s/%s}
@@ -2274,6 +2294,14 @@ translate k ReviewProgressEngineWindow {엔진 창 %s}
 translate k ReviewProgressRapid {신속한 주석 달기}
 translate k FinishGameGameChanged {Finish Game이 실행되는 동안 게임이 변경되었습니다. 아무것도 쓰여있지 않았어}
 translate k FinishGameAtEnd {마무리 게임은 메인 라인 끝에서 시작됩니다. 먼저 게임 끝으로 가세요}
+# CQL search:
+translate k CQLQuery {CQL 쿼리}
+translate k CQLQueryHint {CQL 쿼리(예: cql() mate, cql(:gamenumber 1 10) K). Ctrl+Enter로 검색합니다.}
+translate k CQLQueryEmpty {검색하기 전에 CQL 쿼리를 입력하십시오.}
+translate k CQLSearchFailed {CQL 검색에 실패했습니다:}
+translate k CQLUnreadableGames {%d개 게임을 읽을 수 없습니다}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2403,9 +2431,3 @@ set tips(k) {
     옵션 메뉴에서 해당 항목을 확인하여 Windows를 도킹할 수 있습니다. 탭은 한 노트북에서 다른 노트북으로 끌어서 놓을 수 있으며 탭 위젯을 마우스 오른쪽 버튼으로 클릭하여 배치할 수 있습니다.
   }
 }
-# CQL search:
-translate k CQLQuery {CQL 쿼리}
-translate k CQLQueryHint {CQL 쿼리(예: cql() mate, cql(:gamenumber 1 10) K). Ctrl+Enter로 검색합니다.}
-translate k CQLQueryEmpty {검색하기 전에 CQL 쿼리를 입력하십시오.}
-translate k CQLSearchFailed {CQL 검색에 실패했습니다:}
-translate k CQLUnreadableGames {%d개 게임을 읽을 수 없습니다}

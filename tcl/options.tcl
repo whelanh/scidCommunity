@@ -383,6 +383,7 @@ set initialDir(html) "."
 set initialDir(tex)  "."
 set initialDir(stm)  "."
 set initialDir(report) "."
+set initialDir(image) "."
 
 # Default PGN display options:
 set pgnStyle(Tags) 1

@@ -15,6 +15,7 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ## Unreleased
 
+- **Tools > Board Screenshot** saves the position on the board as a PNG file with coordinates and, when Show Arrow is enabled in Preferences > Moves, the last-move arrow. It names the file position-1.png, position-2.png and so on. It draws from the board's own pieces and squares, so it needs no extra image package and works on Windows, macOS and Linux.
 - Search > CQL... finds games by a query language: type a query such as `cql() [N]f3` — a white knight on f3 — and the game list is filtered to the games that contain it, with filters for check and mate, the side to move, moves and promotions, comments and headers, and piece counts, all explained on the help page beside the window. The query engine comes from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/) and keeps its GPL-2.0 licence. — thanks to @Triquetra.
 
 ## 5.1.4.68 — 16 November 2026

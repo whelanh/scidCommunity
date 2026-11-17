@@ -128,6 +128,7 @@ menuText Q SearchNegate "Скасувати фільтр" 0 {Відмініть 
 menuText Q SearchCurrent "Поточна рада..." 0 {Пошук поточної позиції дошки}
 menuText Q SearchHeader "Заголовок..." 0 {Пошук за інформацією заголовка (гравець, подія тощо).}
 menuText Q SearchMaterial "Матеріал/Візерунок..." 0 {Шукайте шаблони матеріалів або дощок}
+menuText Q SearchMoves "рухається..." 0 {Пошук послідовності ходів в основній лінії}
 menuText Q SearchCQL "CQL..." 0 {Пошук за допомогою запиту Chess Query Language}
 menuText Q SearchComments "Пошук коментарів..." 0 {Шукайте коментарі до ігор у поточному фільтрі}
 menuText Q SearchUsing "Використання файлу пошуку..." 0 {Шукайте за допомогою файлу SearchOptions}
@@ -479,6 +480,15 @@ translate Q LichessPuzzlesRated {Оцінений}
 translate Q LichessPuzzlesGame {Гра}
 translate Q LichessPuzzlesNoNew {Для цих налаштувань не знайдено нових головоломок.\n\nСпробуйте змінити тему, складність або колір головоломки.}
 
+# Board screenshot
+menuText Q ToolsScreenshot "Скріншот дошки" 0 \
+  {Збережіть поточне положення дошки як зображення PNG}
+translate Q ScreenshotTitle {Скріншот дошки}
+translate Q ScreenshotFileType {PNG зображення}
+translate Q ScreenshotOverwrite {Файл із такою назвою вже існує. Перезаписати?}
+translate Q ScreenshotError {Не вдалося зберегти знімок екрана.}
+translate Q ScreenshotSaved {Скріншот дошки збережено:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -585,6 +595,9 @@ translate Q Preview {Попередній перегляд}
 translate Q Revert {Повернути}
 translate Q Rename {Перейменувати}
 translate Q Save {Зберегти}
+translate Q Presets {Предустановки}
+translate Q SavePreset {Зберегти попередні налаштування пошуку}
+translate Q PresetName {Попередня назва:}
 translate Q Search {Пошук}
 translate Q Stop {Зупинити}
 translate Q Store {Зберегти}
@@ -906,10 +919,12 @@ translate Q PgnOptColumn "Стиль стовпця (один хід на ряд
 translate Q PgnOptSpace "Пробіл після чисел ходу"
 translate Q PgnOptStripMarks "Видаліть коди кольорових квадратів/стрілок"
 translate Q PgnOptBoldMainLine "Використовуйте жирний текст для переміщення основної лінії"
+translate Q PgnOptCenter "Поточний хід центру"
 
 # Analysis window:
 translate Q AddAllVariations {Додати всі варіації}
 translate Q AddMove {Додати переміщення}
+translate Q RemoveMove {Видалити Перемістити}
 translate Q Annotate {Анотуйте}
 translate Q FinishGame {Закінчити гру}
 translate Q StartEngine {Запустити двигун}
@@ -1062,6 +1077,7 @@ menuText Q PgnOptColumn "Стиль стовпця (один хід на ряд�
 menuText Q PgnOptSpace "Пробіл після чисел ходу" 1
 menuText Q PgnOptStripMarks "Видаліть коди кольорових квадратів/стрілок" 1
 menuText Q PgnOptBoldMainLine "Використовуйте жирний текст для переміщення основної лінії" 4
+menuText Q PgnOptCenter "Поточний хід центру" 7
 menuText Q PgnColor "Кольори" 0
 menuText Q PgnColorHeader "Заголовок..." 0
 menuText Q PgnColorAnno "Анотації..." 0
@@ -1371,6 +1387,10 @@ translate Q SearchBoardFiles {Файли (однаковий матеріал, �
 translate Q SearchBoardAny {Будь-який (однаковий матеріал, пішаки та фігури будь-де)}
 translate Q SearchInRefDatabase {Пошук у довідковій базі}
 translate Q LookInVars {Подивіться у варіаціях}
+
+# Moves search:
+translate Q MovesSearchHint {SAN рухається в порядку, напр. e4 e5 Nf3. "?" відповідає будь-якому окремому ходу.}
+translate Q LastMoveIsMate {Останній хід - мат}
 
 # Material search:
 translate Q MaterialSearch {Пошук матеріалу}
@@ -2223,10 +2243,10 @@ translate Q RtfImportError {Помилка імпортування файлу R
 translate Q RtfNotScidFile {Цей файл не було експортовано scidCommunity із форматуванням коментарів або він пошкоджений.}
 translate Q RtfImportSuccess {Гру успішно імпортовано в базу даних буфера обміну.}
 translate Q RtfImportSuccessMulti {%d ігор успішно імпортовано в базу даних буфера обміну.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate Q ReviewProgressTitle {Перегляньте прогрес}
 translate Q ReviewProgressIdle {Перегляд не виконується}
 translate Q ReviewProgressGameOf {гра %s з %s}
@@ -2234,6 +2254,14 @@ translate Q ReviewProgressEngineWindow {Склопідйомники двигу�
 translate Q ReviewProgressRapid {Швидке анотування}
 translate Q FinishGameGameChanged {гра змінилася під час роботи Finish Game; нічого не писали}
 translate Q FinishGameAtEnd {Фініш Гра починається з кінця основної лінії; йти до кінця гри першим}
+# CQL search:
+translate Q CQLQuery {Запит CQL}
+translate Q CQLQueryHint {Запит CQL, наприклад cql() mate або cql(:gamenumber 1 10) K. Ctrl+Enter запускає пошук.}
+translate Q CQLQueryEmpty {Введіть запит CQL перед пошуком.}
+translate Q CQLSearchFailed {Пошук CQL не вдався:}
+translate Q CQLUnreadableGames {не вдалося прочитати %d партій}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2363,9 +2391,3 @@ set tips(Q) {
     Windows можна пристикувати, позначивши відповідний запис у меню параметрів. Вкладки можна перетягувати з одного блокнота в інший і розміщувати, клацнувши правою кнопкою миші віджет вкладки.
   }
 }
-# CQL search:
-translate Q CQLQuery {Запит CQL}
-translate Q CQLQueryHint {Запит CQL, наприклад cql() mate або cql(:gamenumber 1 10) K. Ctrl+Enter запускає пошук.}
-translate Q CQLQueryEmpty {Введіть запит CQL перед пошуком.}
-translate Q CQLSearchFailed {Пошук CQL не вдався:}
-translate Q CQLUnreadableGames {не вдалося прочитати %d партій}

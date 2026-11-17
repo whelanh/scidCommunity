@@ -159,6 +159,7 @@ menuText G SearchNegate "Αναίρεση φίλτρου" 0 {Αναιρέστε 
 menuText G SearchCurrent "Τρέχουσα σκακιέρα..." 0 {Αναζητήστε την τρέχουσα θέση της σκακιέρας}
 menuText G SearchHeader "Κεφαλίδα..." 0 {Αναζήτηση βάσει των πληροφοριών κεφαλίδας (παίκτης, διοργάωνση, κλπ)}
 menuText G SearchMaterial "Υλικό/Διάταξη..." 0 {Αναζήτηση για υλικό ή διάταξη σκακιέρας}
+menuText G SearchMoves "Κινήσεις..." 0 {Αναζητήστε μια ακολουθία κινήσεων στην κύρια γραμμή}
 menuText G SearchCQL "CQL..." 0 {Αναζήτηση με ερώτημα Chess Query Language}
 menuText G SearchComments "Αναζήτηση σχολίων..." 0 {Αναζητήστε τα σχόλια των παιχνιδιών στο τρέχον φίλτρο}
 menuText G SearchUsing "Με χρήση αρχείου αναζήτησης..." 0 {Αναζήτηση με την χρήση ενός αρχείου SearchOptions}
@@ -510,6 +511,15 @@ translate G LichessPuzzlesRated {Βαθμολογήθηκε}
 translate G LichessPuzzlesGame {Παιχνίδι}
 translate G LichessPuzzlesNoNew {Δεν βρέθηκαν νέα παζλ για αυτές τις ρυθμίσεις.\n\nΔοκιμάστε να αλλάξετε το θέμα, τη δυσκολία ή το χρώμα του παζλ.}
 
+# Board screenshot
+menuText G ToolsScreenshot "Στιγμιότυπο οθόνης πίνακα" 0 \
+  {Αποθηκεύστε την τρέχουσα θέση του πίνακα ως εικόνα PNG}
+translate G ScreenshotTitle {Στιγμιότυπο οθόνης πίνακα}
+translate G ScreenshotFileType {εικόνες PNG}
+translate G ScreenshotOverwrite {Ένα αρχείο με αυτό το όνομα υπάρχει ήδη. Να το αντικαταστήσω;}
+translate G ScreenshotError {Δεν ήταν δυνατή η αποθήκευση του στιγμιότυπου οθόνης.}
+translate G ScreenshotSaved {Το στιγμιότυπο οθόνης πίνακα αποθηκεύτηκε:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -616,6 +626,9 @@ translate G Preview {Προεπισκόπηση}
 translate G Revert {Επαναφορά}
 translate G Rename {Μετονομασία}
 translate G Save {Αποθήκευση}
+translate G Presets {Προεπιλογές}
+translate G SavePreset {Αποθήκευση προκαθορισμένης αναζήτησης}
+translate G PresetName {Προκαθορισμένο όνομα:}
 translate G Search {Αναζήτηση}
 translate G Stop {Διακοπή}
 translate G Store {Αποθήκευση}
@@ -937,10 +950,12 @@ translate G PgnOptColumn "Στυλ στήλης (μία κίνηση ανά γρ
 translate G PgnOptSpace "Διάστημα μετά την κίνηση αριθμών"
 translate G PgnOptStripMarks "Αφαιρέστε τους έγχρωμους κωδικούς τετραγώνου/βέλους"
 translate G PgnOptBoldMainLine "Χρησιμοποιήστε Έντονο κείμενο για κινήσεις κύριας γραμμής"
+translate G PgnOptCenter "Κέντρο τρέχουσας μετακίνησης"
 
 # Analysis window:
 translate G AddAllVariations {Προσθήκη όλων των βαριαντών}
 translate G AddMove {Προσθήκκη κίνησης}
+translate G RemoveMove {Κατάργηση Μετακίνηση}
 translate G Annotate {Υπομνηματισμός}
 translate G FinishGame {Ολοκλήρωση παρτίδας}
 translate G StartEngine {Εκκίνηση μηχανής}
@@ -1093,6 +1108,7 @@ menuText G PgnOptColumn "Είδος στήλης (μια κίνηση ανά γ�
 menuText G PgnOptSpace "Διάστημα μετά τον αριθμό της κίνησης" 1
 menuText G PgnOptStripMarks "Απομάκρυνση έγχρωμων κωδικών τετραγώνων/βελών" 1
 menuText G PgnOptBoldMainLine "Χρήση έντονου κειμένου για τις κινήσεις κύριας γραμμής" 4
+menuText G PgnOptCenter "Κέντρο τρέχουσας μετακίνησης" 7
 menuText G PgnColor "Χρώματα" 0
 menuText G PgnColorHeader "Κεφαλίδα..." 0
 menuText G PgnColorAnno "Υπομνηματισμοί..." 0
@@ -1409,6 +1425,10 @@ translate G SearchBoardFiles {Γραμμή (ίδιο υλικό, όλα τα π�
 translate G SearchBoardAny {Οπουδήποτε (ίδιο υλικό, πιόνια και κομμάτια οπουδήποτε)}
 translate G SearchInRefDatabase {Αναζήτηση στην βάση αναφοράς}
 translate G LookInVars {Αναζήτηση στις βαριάντες}
+
+# Moves search:
+translate G MovesSearchHint {Το SAN κινείται με τη σειρά, π.χ. e4 e5 Nf3. "?" ταιριάζει με κάθε κίνηση.}
+translate G LastMoveIsMate {Η τελευταία κίνηση είναι φίλε}
 
 # Material search:
 translate G MaterialSearch {Αναζήτηση υλικού}
@@ -2271,10 +2291,10 @@ translate G RtfImportError {Σφάλμα κατά την εισαγωγή του
 translate G RtfNotScidFile {Αυτό το αρχείο δεν εξήχθη από το scidCommunity με μορφοποίηση σχολίου ή είναι κατεστραμμένο.}
 translate G RtfImportSuccess {Το παιχνίδι εισήχθη με επιτυχία στη βάση δεδομένων του προχείρου.}
 translate G RtfImportSuccessMulti {%d παιχνίδια εισήχθησαν με επιτυχία στη βάση δεδομένων του προχείρου.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate G ReviewProgressTitle {Ελέγξτε την πρόοδο}
 translate G ReviewProgressIdle {Δεν εκτελείται έλεγχος}
 translate G ReviewProgressGameOf {παιχνίδι %s από %s}
@@ -2282,6 +2302,14 @@ translate G ReviewProgressEngineWindow {Παράθυρα κινητήρα %s}
 translate G ReviewProgressRapid {Γρήγορος σχολιασμός}
 translate G FinishGameGameChanged {το παιχνίδι άλλαξε όσο εκτελούσε το Finish Game. δεν γράφτηκε τίποτα}
 translate G FinishGameAtEnd {Το Finish Game ξεκινά από το τέλος της κύριας γραμμής. πηγαίνετε πρώτα στο τέλος του παιχνιδιού}
+# CQL search:
+translate G CQLQuery {Ερώτημα CQL}
+translate G CQLQueryHint {Ερώτημα CQL, π.χ. cql() mate ή cql(:gamenumber 1 10) K. Το Ctrl+Enter εκτελεί την αναζήτηση.}
+translate G CQLQueryEmpty {Εισαγάγετε ένα ερώτημα CQL πριν από την αναζήτηση.}
+translate G CQLSearchFailed {Η αναζήτηση CQL απέτυχε:}
+translate G CQLUnreadableGames {%d παρτίδες δεν ήταν δυνατό να διαβαστούν}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2411,9 +2439,3 @@ set tips(G) {
     Τα Windows μπορούν να συνδεθούν ελέγχοντας τη σχετική καταχώρηση στο μενού επιλογών. Μπορείτε να σύρετε και να αποθέσετε τις καρτέλες από το ένα σημειωματάριο στο άλλο και να τις τοποθετήσετε κάνοντας δεξί κλικ στο γραφικό στοιχείο της καρτέλας.
   }
 }
-# CQL search:
-translate G CQLQuery {Ερώτημα CQL}
-translate G CQLQueryHint {Ερώτημα CQL, π.χ. cql() mate ή cql(:gamenumber 1 10) K. Το Ctrl+Enter εκτελεί την αναζήτηση.}
-translate G CQLQueryEmpty {Εισαγάγετε ένα ερώτημα CQL πριν από την αναζήτηση.}
-translate G CQLSearchFailed {Η αναζήτηση CQL απέτυχε:}
-translate G CQLUnreadableGames {%d παρτίδες δεν ήταν δυνατό να διαβαστούν}

@@ -281,6 +281,7 @@ $m  add command -label ToolsRapidAnnotate \
 # a connection of its own, and writes the answer into the current move's comment.
 # The label is the key, as above.
 $m  add command -label ToolsWhatThreat -command ::reviewthreat::ask
+$m  add command -label ToolsScreenshot -command {::board::saveImageDialog .main.board}
 $m add separator
 $m add checkbutton -label ToolsFilterGraph \
     -accelerator "Ctrl+Shift+G" -variable filterGraph -command tools::graphs::filter::Open

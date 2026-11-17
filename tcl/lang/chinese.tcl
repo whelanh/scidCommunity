@@ -108,6 +108,7 @@ menuText M SearchNegate "反转过滤器" 0 {反转过滤器，仅包含被排�
 menuText M SearchCurrent "当前局面..." 0 {搜索当前局面}
 menuText M SearchHeader "标头..." 0 {按标头（棋手、赛事等）搜索}
 menuText M SearchMaterial "子力/局面..." 0 {按子力或局面模式搜索}
+menuText M SearchMoves "动..." 0 {在主线中搜索一系列动作}
 menuText M SearchCQL "CQL..." 0 {使用 Chess Query Language 查询进行搜索}
 menuText M SearchComments "搜索评论..." 0 {搜索当前过滤器中游戏的评论}
 menuText M SearchUsing "使用搜索选项文件..." 0 {使用SearchOptions文件搜索}
@@ -455,6 +456,15 @@ translate M LichessPuzzlesRated {额定}
 translate M LichessPuzzlesGame {游戏}
 translate M LichessPuzzlesNoNew {没有找到适合这些设置的新谜题。\n\n尝试更改主题、难度或谜题颜色。}
 
+# Board screenshot
+menuText M ToolsScreenshot "棋盘截图" 0 \
+  {将当前棋盘位置保存为PNG图像}
+translate M ScreenshotTitle {棋盘截图}
+translate M ScreenshotFileType {PNG 图像}
+translate M ScreenshotOverwrite {具有该名称的文件已存在。覆盖它吗？}
+translate M ScreenshotError {无法保存屏幕截图。}
+translate M ScreenshotSaved {已保存的板截图：}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -561,6 +571,9 @@ translate M Preview {Preview}
 translate M Revert {Revert}
 translate M Rename {重命名}
 translate M Save {保存}
+translate M Presets {预设}
+translate M SavePreset {保存搜索预设}
+translate M PresetName {预设名称：}
 translate M Search {搜索}
 translate M Stop {停止}
 translate M Store {保存}
@@ -882,10 +895,12 @@ translate M PgnOptColumn "列样式（每行一次移动）"
 translate M PgnOptSpace "移动数字后的空格"
 translate M PgnOptStripMarks "去掉彩色方块/箭头代码"
 translate M PgnOptBoldMainLine "使用粗体文本进行主线移动"
+translate M PgnOptCenter "中心当前移动"
 
 # Analysis window:
 translate M AddAllVariations {Add All Variations}
 translate M AddMove {Add Move}
+translate M RemoveMove {移除移动}
 translate M Annotate {注释}
 translate M FinishGame {Finish game}
 translate M StartEngine {Start engine}
@@ -1038,6 +1053,7 @@ menuText M PgnOptColumn "Column Style (one move per line)" 1
 menuText M PgnOptSpace "Space after Move Numbers" 1
 menuText M PgnOptStripMarks "Strip out Colored Square/Arrow Codes" 1
 menuText M PgnOptBoldMainLine "Use Bold Text for Main Line Moves" 4
+menuText M PgnOptCenter "中心当前移动" 7
 menuText M PgnColor "颜色" 0
 menuText M PgnColorHeader "表头..." 0
 menuText M PgnColorAnno "注释..." 0
@@ -1347,6 +1363,10 @@ translate M SearchBoardFiles {文件（相同材质，所有 pawn 都在同一�
 translate M SearchBoardAny {任何（任何地方相同的材料、棋子和棋子）}
 translate M SearchInRefDatabase {在参考数据库中搜索}
 translate M LookInVars {看看变化}
+
+# Moves search:
+translate M MovesSearchHint {SAN 按顺序移动，例如e4 e5 Nf3。 “？”匹配任何单个动作。}
+translate M LastMoveIsMate {最后一步是伙伴}
 
 # Material search:
 translate M MaterialSearch {资料检索}
@@ -2199,10 +2219,10 @@ translate M RtfImportError {导入 RTF 文件时出错}
 translate M RtfNotScidFile {scidCommunity 未使用注释格式导出该文件，或者该文件已损坏。}
 translate M RtfImportSuccess {游戏已成功导入剪贴板数据库。}
 translate M RtfImportSuccessMulti {%d 个游戏已成功导入剪贴板数据库。}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate M ReviewProgressTitle {审查进度}
 translate M ReviewProgressIdle {没有审核正在运行}
 translate M ReviewProgressGameOf {%s 的游戏 %s}
@@ -2210,6 +2230,14 @@ translate M ReviewProgressEngineWindow {发动机窗 %s}
 translate M ReviewProgressRapid {快速注释}
 translate M FinishGameGameChanged {Finish Game 运行时游戏发生了变化；什么也没写}
 translate M FinishGameAtEnd {Finish Game从主线末端开始；先到游戏结束}
+# CQL search:
+translate M CQLQuery {CQL 查询}
+translate M CQLQueryHint {CQL 查询，例如 cql() mate 或 cql(:gamenumber 1 10) K。Ctrl+Enter 开始搜索。}
+translate M CQLQueryEmpty {搜索前请输入 CQL 查询。}
+translate M CQLSearchFailed {CQL 搜索失败：}
+translate M CQLUnreadableGames {%d 局棋无法读取}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2339,9 +2367,3 @@ set tips(M) {
     通过检查选项菜单中的相关条目可以停靠 Windows。可以将选项卡从一个笔记本拖放到另一个笔记本上，并通过右键单击选项卡小部件来布局。
   }
 }
-# CQL search:
-translate M CQLQuery {CQL 查询}
-translate M CQLQueryHint {CQL 查询，例如 cql() mate 或 cql(:gamenumber 1 10) K。Ctrl+Enter 开始搜索。}
-translate M CQLQueryEmpty {搜索前请输入 CQL 查询。}
-translate M CQLSearchFailed {CQL 搜索失败：}
-translate M CQLUnreadableGames {%d 局棋无法读取}

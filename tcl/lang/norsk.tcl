@@ -132,6 +132,7 @@ menuText O SearchNegate "Snu filter" 0 {Reverserer filteret til å kun inneholde
 menuText O SearchCurrent "Stilling..." 0 {Søk etter denne stillingen}
 menuText O SearchHeader "Header..." 0 {Søk etter Header (partier, turnering etc) informasjon}
 menuText O SearchMaterial "Kvalitet/stilling..." 0 {Søk på kvalitet eller stilling}
+menuText O SearchMoves "Beveger seg..." 0 {Søk etter en sekvens av trekk i hovedlinjen}
 menuText O SearchCQL "CQL..." 0 {Søk med en Chess Query Language-spørring}
 menuText O SearchComments "Søk i kommentarer..." 0 {Søk i kommentarene til spillene i gjeldende filter}
 menuText O SearchUsing "Bruk søkefil..." 0 {Søk vha lagrede søkevilkår}
@@ -488,6 +489,15 @@ translate O LichessPuzzlesRated {Vurdert}
 translate O LichessPuzzlesGame {Spill}
 translate O LichessPuzzlesNoNew {Fant ingen nye oppgaver for disse innstillingene.\n\nPrøv å endre tema, vanskelighetsgrad eller puslespillfarge.}
 
+# Board screenshot
+menuText O ToolsScreenshot "Skjermbilde av bord" 0 \
+  {Lagre gjeldende tavleposisjon som et PNG-bilde}
+translate O ScreenshotTitle {Skjermbilde av bord}
+translate O ScreenshotFileType {PNG-bilder}
+translate O ScreenshotOverwrite {En fil med det navnet finnes allerede. Vil du overskrive det?}
+translate O ScreenshotError {Skjermbildet kunne ikke lagres.}
+translate O ScreenshotSaved {Skjermbilde av tavlen lagret:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -594,6 +604,9 @@ translate O Preview {Forhåndsvis}
 translate O Revert {Gjør om}
 translate O Rename {Gi nytt navn}
 translate O Save {Lagre}
+translate O Presets {Forhåndsinnstillinger}
+translate O SavePreset {Lagre forhåndsinnstilling for søk}
+translate O PresetName {Forhåndsinnstilt navn:}
 translate O Search {Søk}
 translate O Stop {Stopp}
 translate O Store {Lagre}
@@ -915,10 +928,12 @@ translate O PgnOptColumn "Kolonnestil (ett trekk per linje)"
 translate O PgnOptSpace "Mellomrom etter flyttetall"
 translate O PgnOptStripMarks "Fjern fargede ruter/pilkoder"
 translate O PgnOptBoldMainLine "Bruk fet tekst for hovedlinjebevegelser"
+translate O PgnOptCenter "Senter gjeldende trekk"
 
 # Analysis window:
 translate O AddAllVariations {Legg til alle varianter}
 translate O AddMove {Legg til trekk}
+translate O RemoveMove {Fjern Move}
 translate O Annotate {Annoter}
 translate O FinishGame {Fullfør spillet}
 translate O StartEngine {Start motoren}
@@ -1071,6 +1086,7 @@ menuText O PgnOptColumn "Bruk kolonner (ett trekk per linje)" 0
 menuText O PgnOptSpace "Mellomrom etter trekknummer" 0
 menuText O PgnOptStripMarks "Fjern fargekoder" 0
 menuText O PgnOptBoldMainLine "Use Bold Text for Main Line Moves" 4 ;# ***
+menuText O PgnOptCenter "Senter gjeldende trekk" 7
 menuText O PgnColor "Farger" 0
 menuText O PgnColorHeader "Header..." 0
 menuText O PgnColorAnno "Annotasjoner..." 0
@@ -1387,6 +1403,10 @@ translate O SearchBoardFiles {Kolonner (samme kvalitet, alle bønder på samme k
 translate O SearchBoardAny {Alle (samme kvalitet, bønder og brikker hvor som helst)}
 translate O SearchInRefDatabase {Søk i basen}
 translate O LookInVars {Søk i variasjoner}
+
+# Moves search:
+translate O MovesSearchHint {SAN beveger seg i rekkefølge, f.eks. e4 e5 Nf3. "?" matcher ethvert enkelt trekk.}
+translate O LastMoveIsMate {Siste trekk er kompis}
 
 # Material search:
 translate O MaterialSearch {Kvalitetssøk}
@@ -2244,10 +2264,10 @@ translate O RtfImportError {Feil ved import av RTF-fil}
 translate O RtfNotScidFile {Denne filen ble ikke eksportert av scidCommunity med kommentarformatering, eller den er ødelagt.}
 translate O RtfImportSuccess {Spillet ble importert til utklippstavledatabasen.}
 translate O RtfImportSuccessMulti {%d spill ble importert til utklippstavledatabasen.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate O ReviewProgressTitle {Gjennomgå fremdriften}
 translate O ReviewProgressIdle {Ingen gjennomgang kjører}
 translate O ReviewProgressGameOf {spill %s av %s}
@@ -2255,6 +2275,14 @@ translate O ReviewProgressEngineWindow {Motorvinduer %s}
 translate O ReviewProgressRapid {Rask merknad}
 translate O FinishGameGameChanged {spillet endret seg mens Finish Game kjørte; ingenting ble skrevet}
 translate O FinishGameAtEnd {Fullfør Spillet starter fra slutten av hovedlinjen; gå til slutten av spillet først}
+# CQL search:
+translate O CQLQuery {CQL-spørring}
+translate O CQLQueryHint {CQL-spørring, f.eks. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter søker.}
+translate O CQLQueryEmpty {Skriv inn en CQL-spørring før du søker.}
+translate O CQLSearchFailed {CQL-søket mislyktes:}
+translate O CQLUnreadableGames {%d parti(er) kunne ikke leses}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2384,9 +2412,3 @@ set tips(O) {
     Windows kan dokkes ved å sjekke den aktuelle oppføringen i alternativmenyen. Faner kan dras og slippes fra en notatbok til en annen og legges ut ved å høyreklikke på fanemodulen.
   }
 }
-# CQL search:
-translate O CQLQuery {CQL-spørring}
-translate O CQLQueryHint {CQL-spørring, f.eks. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter søker.}
-translate O CQLQueryEmpty {Skriv inn en CQL-spørring før du søker.}
-translate O CQLSearchFailed {CQL-søket mislyktes:}
-translate O CQLUnreadableGames {%d parti(er) kunne ikke leses}

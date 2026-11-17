@@ -791,6 +791,10 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>Start Engine 2</menu>: Opens the second Engine Window.</li>
   <li><menu>What's the threat?</menu>: Asks the engine what the side to move is
   threatening - see <a ToolsWhatThreat>What's the Threat?</a>.</li>
+  <li><menu>Board Screenshot</menu>: Saves the position on the main board as
+  a PNG image with coordinates and, if Show Arrow is enabled in
+  Preferences &gt; Moves, the last-move arrow. The filename is numbered
+  automatically (position-1.png, position-2.png, ...).</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
   <li><menu>Absolute Filter Graph</menu>: Opens/closes the absolute filter graph window.</li>

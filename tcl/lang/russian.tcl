@@ -134,6 +134,7 @@ menuText R SearchNegate "Инвертировать фильтр" 0 {Обрат�
 menuText R SearchCurrent "Текущая позиция..." 0 {Поиск текущей позиции}
 menuText R SearchHeader "Заголовок..." 0 {Поиск по заголовку (игрок, турнир, и т. д.)}
 menuText R SearchMaterial "Материал/позиция..." 0 {Поиск по материалу или образцам позиции}
+menuText R SearchMoves "Движется..." 0 {Поиск последовательности ходов в основной линии}
 menuText R SearchCQL "CQL..." 0 {Поиск с помощью запроса Chess Query Language}
 menuText R SearchComments "Поиск комментариев..." 0 {Поиск комментариев к играм в текущем фильтре}
 menuText R SearchUsing "Использовать файл поиска..." 0 {Поиск с использованием файла с установками поиска}
@@ -485,6 +486,15 @@ translate R LichessPuzzlesRated {Рейтинг}
 translate R LichessPuzzlesGame {Игра}
 translate R LichessPuzzlesNoNew {Для этих настроек новых головоломок не найдено.\n\nПопробуйте изменить тему, сложность или цвет головоломки.}
 
+# Board screenshot
+menuText R ToolsScreenshot "Скриншот доски" 0 \
+  {Сохраните текущее положение доски в виде PNG-изображения.}
+translate R ScreenshotTitle {Скриншот доски}
+translate R ScreenshotFileType {PNG изображения}
+translate R ScreenshotOverwrite {Файл с таким именем уже существует. Перезаписать?}
+translate R ScreenshotError {Скриншот не удалось сохранить.}
+translate R ScreenshotSaved {Скриншот платы сохранен:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -591,6 +601,9 @@ translate R Preview {Предварительный просмотр}
 translate R Revert {Возвратиться}
 translate R Rename {Переименовать}
 translate R Save {Сохранить}
+translate R Presets {Пресеты}
+translate R SavePreset {Сохранить настройки поиска}
+translate R PresetName {Имя предустановки:}
 translate R Search {Поиск}
 translate R Stop {Стоп}
 translate R Store {Сохранить}
@@ -912,10 +925,12 @@ translate R PgnOptColumn "Стиль столбца (один ход на стр
 translate R PgnOptSpace "Пробел после номера хода"
 translate R PgnOptStripMarks "Удалите коды цветных квадратов/стрелок"
 translate R PgnOptBoldMainLine "Используйте жирный текст для перемещения по основной строке"
+translate R PgnOptCenter "Центр текущего перемещения"
 
 # Analysis window:
 translate R AddAllVariations {Добавить все варианты}
 translate R AddMove {Добавить ход}
+translate R RemoveMove {Удалить перемещение}
 translate R Annotate {Аннотация}
 translate R FinishGame {Завершить партию}
 translate R StartEngine {Запустить движок}
@@ -1068,6 +1083,7 @@ menuText R PgnOptColumn "В колонку (один ход на строку)" 
 menuText R PgnOptSpace "Пробел после номера хода" 0
 menuText R PgnOptStripMarks "Удалить коды цветных полей/стрелок" 0
 menuText R PgnOptBoldMainLine "Использовать жирный шрифт для ходов главного плана" 4
+menuText R PgnOptCenter "Центр текущего перемещения" 7
 menuText R PgnColor "Цвета" 0
 menuText R PgnColorHeader "Заголовок..." 0
 menuText R PgnColorAnno "Аннотация..." 0
@@ -1384,6 +1400,10 @@ translate R SearchBoardFiles {Ряды (тот же материал, все п�
 translate R SearchBoardAny {Любая (тот же материал, пешки и фигуры в любом месте)}
 translate R SearchInRefDatabase { Поиск в базе }
 translate R LookInVars {Посмотреть в вариантах}
+
+# Moves search:
+translate R MovesSearchHint {SAN перемещается по порядку, например. e4 e5 Кf3. "?" соответствует любому отдельному ходу.}
+translate R LastMoveIsMate {Последний ход - приятель}
 
 # Material search:
 translate R MaterialSearch {Поиск материала}
@@ -2246,10 +2266,10 @@ translate R RtfImportError {Ошибка импорта файла RTF.}
 translate R RtfNotScidFile {Этот файл не был экспортирован scidCommunity с форматированием комментариев или поврежден.}
 translate R RtfImportSuccess {Игра успешно импортирована в базу данных буфера обмена.}
 translate R RtfImportSuccessMulti {%d игр успешно импортированы в базу данных буфера обмена.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate R ReviewProgressTitle {Обзор прогресса}
 translate R ReviewProgressIdle {Ни одна проверка не активна}
 translate R ReviewProgressGameOf {игра %s из %s}
@@ -2257,6 +2277,14 @@ translate R ReviewProgressEngineWindow {Окна двигателя %s}
 translate R ReviewProgressRapid {Быстрое аннотирование}
 translate R FinishGameGameChanged {игра менялась во время работы «Завершить игру»; ничего не было написано}
 translate R FinishGameAtEnd {Финиш Игра начинается с конца основной линии; сначала зайди в конец игры}
+# CQL search:
+translate R CQLQuery {Запрос CQL}
+translate R CQLQueryHint {Запрос CQL, например cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter запускает поиск.}
+translate R CQLQueryEmpty {Введите запрос CQL перед поиском.}
+translate R CQLSearchFailed {Поиск CQL не удался:}
+translate R CQLUnreadableGames {%d партий не удалось прочитать}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2386,9 +2414,3 @@ set tips(R) {
     Windows можно закрепить, отметив соответствующий пункт в меню параметров. Вкладки можно перетаскивать из одного блокнота в другой и размещать их, щелкнув правой кнопкой мыши виджет вкладок.
   }
 }
-# CQL search:
-translate R CQLQuery {Запрос CQL}
-translate R CQLQueryHint {Запрос CQL, например cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter запускает поиск.}
-translate R CQLQueryEmpty {Введите запрос CQL перед поиском.}
-translate R CQLSearchFailed {Поиск CQL не удался:}
-translate R CQLUnreadableGames {%d партий не удалось прочитать}

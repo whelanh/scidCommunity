@@ -144,6 +144,7 @@ menuText N SearchHeader "Partijgegevens..." 5 \
   {Zoek op speciale informatie: speler, evenement enz.}
 menuText N SearchMaterial "Materiaal/Kenmerken..." 0 \
   {Zoek op patroon: bord, materiaal enz.}
+menuText N SearchMoves "Beweegt..." 0 {Zoek naar een reeks zetten in de hoofdlijn}
 menuText N SearchCQL "CQL..." 0 {Zoeken met een Chess Query Language-query}
 menuText N SearchComments "Zoek opmerkingen..." 0 {Zoek de commentaren van de games in het huidige filter}
 menuText N SearchUsing "Zoekopties" 0 \
@@ -507,6 +508,15 @@ translate N LichessPuzzlesRated {Beoordeeld}
 translate N LichessPuzzlesGame {Spel}
 translate N LichessPuzzlesNoNew {Er zijn geen nieuwe puzzels gevonden voor deze instellingen.\n\nProbeer het thema, de moeilijkheidsgraad of de puzzelkleur te wijzigen.}
 
+# Board screenshot
+menuText N ToolsScreenshot "Schermafbeelding van het bord" 0 \
+  {Sla de huidige bordpositie op als PNG-afbeelding}
+translate N ScreenshotTitle {Schermafbeelding van het bord}
+translate N ScreenshotFileType {PNG-afbeeldingen}
+translate N ScreenshotOverwrite {Er bestaat al een bestand met die naam. Overschrijven?}
+translate N ScreenshotError {De schermafbeelding kon niet worden opgeslagen.}
+translate N ScreenshotSaved {Bordscreenshot opgeslagen:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -613,6 +623,9 @@ translate N Preview {Proefbeeld}
 translate N Revert {Terugkeren}
 translate N Rename {Hernoemen}
 translate N Save {Bewaren}
+translate N Presets {Voorinstellingen}
+translate N SavePreset {Zoekvoorinstelling opslaan}
+translate N PresetName {Voorkeuzenaam:}
 translate N Search {Zoeken}
 translate N Stop {Stop}
 translate N Store {Opbergen}
@@ -935,10 +948,12 @@ translate N PgnOptColumn "Kolomstijl (één zet per regel)"
 translate N PgnOptSpace "Spatie na zetnummers"
 translate N PgnOptStripMarks "Verwijder de gekleurde vierkant-/pijlcodes"
 translate N PgnOptBoldMainLine "Gebruik vetgedrukte tekst voor hoofdlijnverplaatsingen"
+translate N PgnOptCenter "Centrum huidige beweging"
 
 # Analysis window:
 translate N AddAllVariations {Voeg alle varianten toe}
 translate N AddMove {Toevoegen zet}
+translate N RemoveMove {Verplaats verwijderen}
 translate N Annotate {Annotatie}
 translate N FinishGame {Beeindig de partij}
 translate N StartEngine {Start de engine}
@@ -1091,6 +1106,7 @@ menuText N PgnOptColumn "Kolom stijl (een zet per regel)" 0
 menuText N PgnOptSpace "Spatie na zetnummer" 0
 menuText N PgnOptStripMarks "Verwijder gekleurde vierkante haken codes" 1
 menuText N PgnOptBoldMainLine "Gebrui Dikke Tekst voo Hoofdvariant Zetten" 4 ;
+menuText N PgnOptCenter "Centrum huidige beweging" 7
 menuText N PgnColor "Kleuren" 0
 menuText N PgnColorHeader "Kop..." 0
 menuText N PgnColorAnno "Annotaties..." 0
@@ -1407,6 +1423,10 @@ translate N SearchBoardFiles {Lijnen (hetzelfde materiaal, alle pionnen op dezel
 translate N SearchBoardAny {Willekeurig (hetzelfde materiaal, pionnen en stukken willekeurig)}
 translate N SearchInRefDatabase { Zoek in database }
 translate N LookInVars {Zoek in varianten}
+
+# Moves search:
+translate N MovesSearchHint {SAN beweegt in volgorde, b.v. e4 e5 Nf3. "?" komt overeen met elke enkele zet.}
+translate N LastMoveIsMate {De laatste zet is mat}
 
 # Material search:
 translate N MaterialSearch {Zoeken Materiaal}
@@ -2269,10 +2289,10 @@ translate N RtfImportError {Fout bij het importeren van RTF-bestand}
 translate N RtfNotScidFile {Dit bestand is niet door scidCommunity geëxporteerd met commentaaropmaak, of is beschadigd.}
 translate N RtfImportSuccess {Spel is succesvol geïmporteerd in de klemborddatabase.}
 translate N RtfImportSuccessMulti {%d games zijn succesvol geïmporteerd in de klemborddatabase.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate N ReviewProgressTitle {Beoordeel de voortgang}
 translate N ReviewProgressIdle {Er is geen beoordeling actief}
 translate N ReviewProgressGameOf {spel %s van %s}
@@ -2280,6 +2300,14 @@ translate N ReviewProgressEngineWindow {Motorruiten %s}
 translate N ReviewProgressRapid {Snel annoteren}
 translate N FinishGameGameChanged {het spel veranderde terwijl Finish Game actief was; er werd niets geschreven}
 translate N FinishGameAtEnd {Finish Game begint vanaf het einde van de hoofdlijn; ga eerst naar het einde van het spel}
+# CQL search:
+translate N CQLQuery {CQL-query}
+translate N CQLQueryHint {CQL-query, bijv. cql() mate of cql(:gamenumber 1 10) K. Ctrl+Enter zoekt.}
+translate N CQLQueryEmpty {Voer een CQL-query in voordat u gaat zoeken.}
+translate N CQLSearchFailed {De CQL-zoekopdracht is mislukt:}
+translate N CQLUnreadableGames {%d partij(en) konden niet worden gelezen}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2409,9 +2437,3 @@ set tips(N) {
     Windows kan worden gedockt door het relevante item in het optiemenu aan te vinken. Tabbladen kunnen van het ene notitieboekje naar het andere worden gesleept en neergezet en worden opgemaakt door met de rechtermuisknop op de tabbladwidget te klikken.
   }
 }
-# CQL search:
-translate N CQLQuery {CQL-query}
-translate N CQLQueryHint {CQL-query, bijv. cql() mate of cql(:gamenumber 1 10) K. Ctrl+Enter zoekt.}
-translate N CQLQueryEmpty {Voer een CQL-query in voordat u gaat zoeken.}
-translate N CQLSearchFailed {De CQL-zoekopdracht is mislukt:}
-translate N CQLUnreadableGames {%d partij(en) konden niet worden gelezen}

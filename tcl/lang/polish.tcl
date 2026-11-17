@@ -167,6 +167,7 @@ menuText P SearchNegate "Odwróć filtr" 0 {Odwróć filtr, aby uwzględnić tyl
 menuText P SearchCurrent "Bieżąca pozycja..." 0 {Wyszukaj bieżącą pozycję na szachownicy}
 menuText P SearchHeader "Nagłówek..." 0 {Wyszukaj według informacji z nagłówka partii (gracz, turniej itp.)}
 menuText P SearchMaterial "Materiał/wzorce..." 0 {Wyszukaj według materiału lub układu figur na szachownicy}
+menuText P SearchMoves "Porusza się..." 0 {Wyszukaj sekwencję ruchów w linii głównej}
 menuText P SearchCQL "CQL..." 0 {Szukaj za pomocą zapytania Chess Query Language}
 menuText P SearchComments "Szukaj w komentarzach..." 0 {Przeszukaj komentarze w partiach bieżącego filtra}
 menuText P SearchUsing "Użyj pliku wyszukiwania..." 0 {Wyszukaj według ustawień z pliku SearchOptions}
@@ -518,6 +519,15 @@ translate P LichessPuzzlesRated {Rankingowe}
 translate P LichessPuzzlesGame {Partia}
 translate P LichessPuzzlesNoNew {Nie znaleziono nowych zadań dla tych ustawień.\n\nSpróbuj zmienić motyw, poziom trudności lub kolor figur.}
 
+# Board screenshot
+menuText P ToolsScreenshot "Zrzut ekranu tablicy" 0 \
+  {Zapisz bieżącą pozycję planszy jako obraz PNG}
+translate P ScreenshotTitle {Zrzut ekranu tablicy}
+translate P ScreenshotFileType {Obrazy PNG}
+translate P ScreenshotOverwrite {Plik o tej nazwie już istnieje. Nadpisać to?}
+translate P ScreenshotError {Nie udało się zapisać zrzutu ekranu.}
+translate P ScreenshotSaved {Zapisano zrzut ekranu tablicy:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -624,6 +634,9 @@ translate P Preview {Podgląd}
 translate P Revert {Przywróć}
 translate P Rename {Zmień nazwę}
 translate P Save {Zapisz}
+translate P Presets {Ustawienia wstępne}
+translate P SavePreset {Zapisz gotowe ustawienia wyszukiwania}
+translate P PresetName {Nazwa ustawienia:}
 translate P Search {Szukaj}
 translate P Stop {Zatrzymaj}
 translate P Store {Zapisz}
@@ -945,10 +958,12 @@ translate P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)"
 translate P PgnOptSpace "Spacja po nr posunięcia"
 translate P PgnOptStripMarks "Usuń kody kolorowych pól i strzałek"
 translate P PgnOptBoldMainLine "Pogrubiaj posunięcia wariantu głównego"
+translate P PgnOptCenter "Wyśrodkuj bieżący ruch"
 
 # Analysis window:
 translate P AddAllVariations {Dodaj wszystkie warianty}
 translate P AddMove {Dodaj posunięcie}
+translate P RemoveMove {Usuń Przenieś}
 translate P Annotate {Adnotuj}
 translate P FinishGame {Dokończ partię}
 translate P StartEngine {Start/Stop}
@@ -1101,6 +1116,7 @@ menuText P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)" 1
 menuText P PgnOptSpace "Spacja po nr posunięcia" 1
 menuText P PgnOptStripMarks "Usuń kody kolorowych pól i strzałek" 1
 menuText P PgnOptBoldMainLine "Pogrubiaj posunięcia wariantu głównego" 4
+menuText P PgnOptCenter "Wyśrodkuj bieżący ruch" 7
 menuText P PgnColor "Kolory" 0
 menuText P PgnColorHeader "Nagłówek..." 0
 menuText P PgnColorAnno "Adnotacje..." 0
@@ -1416,6 +1432,10 @@ translate P SearchBoardFiles {Kolumny (ten sam materiał, wszystkie piony na tyc
 translate P SearchBoardAny {Dowolna (ten sam materiał, piony i figury na dowolnych polach)}
 translate P SearchInRefDatabase {Szukaj w bazie referencyjnej}
 translate P LookInVars {Szukaj w wariantach}
+
+# Moves search:
+translate P MovesSearchHint {SAN porusza się po kolei, np. e4 e5 Sf3. „?” pasuje do dowolnego pojedynczego ruchu.}
+translate P LastMoveIsMate {Ostatni ruch to kolego}
 
 # Material search:
 translate P MaterialSearch {Wyszukiwanie wg materiału}
@@ -2276,10 +2296,10 @@ translate P RtfImportError {Błąd importu pliku RTF}
 translate P RtfNotScidFile {Ten plik nie został wyeksportowany przez scidCommunity z zachowaniem formatowania komentarzy lub jest uszkodzony.}
 translate P RtfImportSuccess {Pomyślnie zaimportowano partię do schowka.}
 translate P RtfImportSuccessMulti {Pomyślnie zaimportowano %d partii do schowka.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate P ReviewProgressTitle {Postęp analizy}
 translate P ReviewProgressIdle {Analiza nie jest uruchomiona}
 translate P ReviewProgressGameOf {partia %s z %s}
@@ -2287,6 +2307,14 @@ translate P ReviewProgressEngineWindow {Okno silnika %s}
 translate P ReviewProgressRapid {Szybka adnotacja}
 translate P FinishGameGameChanged {partia zmieniła się podczas działania funkcji „Zakończ partię”; nic nie zostało zapisane}
 translate P FinishGameAtEnd {Funkcja „Zakończ partię” rozpoczyna działanie od końca głównej linii. Najpierw przejdź na koniec partii}
+# CQL search:
+translate P CQLQuery {Zapytanie CQL}
+translate P CQLQueryHint {Zapytanie CQL, np. cql() mate lub cql(:gamenumber 1 10) K. Ctrl+Enter uruchamia wyszukiwanie.}
+translate P CQLQueryEmpty {Przed wyszukiwaniem wpisz zapytanie CQL.}
+translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
+translate P CQLUnreadableGames {%d partii nie dało się odczytać}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2510,9 +2538,3 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
-# CQL search:
-translate P CQLQuery {Zapytanie CQL}
-translate P CQLQueryHint {Zapytanie CQL, np. cql() mate lub cql(:gamenumber 1 10) K. Ctrl+Enter uruchamia wyszukiwanie.}
-translate P CQLQueryEmpty {Przed wyszukiwaniem wpisz zapytanie CQL.}
-translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
-translate P CQLUnreadableGames {%d partii nie dało się odczytać}

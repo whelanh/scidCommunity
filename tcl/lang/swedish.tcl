@@ -133,6 +133,7 @@ menuText W SearchNegate "Omvänt filter" 0 {Ta med partier som utesluts av filtr
 menuText W SearchCurrent "Aktuell position..." 8 {Sök partier med aktuell position på brädet}
 menuText W SearchHeader "I huvud..." 2 {Använd fast information (spelare, evenemang, plats, mm)}
 menuText W SearchMaterial "Material/ställning..." 0 {Sökning baserad på material eller ställning}
+menuText W SearchMoves "Rör sig..." 0 {Sök efter en sekvens av drag i huvudraden}
 menuText W SearchCQL "CQL..." 0 {Sök med en Chess Query Language-fråga}
 menuText W SearchComments "Sök kommentarer..." 0 {Sök igenom kommentarerna till spelen i det aktuella filtret}
 menuText W SearchUsing "Använd sökfil..." 10 {Använd en fil med lagrade sökvillkor}
@@ -489,6 +490,15 @@ translate W LichessPuzzlesRated {Betygsatt}
 translate W LichessPuzzlesGame {Spel}
 translate W LichessPuzzlesNoNew {Inga nya pussel hittades för dessa inställningar.\n\nFörsök att ändra tema, svårighetsgrad eller pusselfärg.}
 
+# Board screenshot
+menuText W ToolsScreenshot "Styrelsens skärmdump" 0 \
+  {Spara den aktuella brädpositionen som en PNG-bild}
+translate W ScreenshotTitle {Styrelsens skärmdump}
+translate W ScreenshotFileType {PNG-bilder}
+translate W ScreenshotOverwrite {En fil med det namnet finns redan. Vill du skriva över det?}
+translate W ScreenshotError {Det gick inte att spara skärmdumpen.}
+translate W ScreenshotSaved {Styrelsens skärmdump sparad:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -595,6 +605,9 @@ translate W Preview {Förhandsgranska}
 translate W Revert {Ångra inmatning}
 translate W Rename {Döpa om}
 translate W Save {Spara}
+translate W Presets {Förinställningar}
+translate W SavePreset {Spara sökförinställning}
+translate W PresetName {Förinställt namn:}
 translate W Search {Sök}
 translate W Stop {Stoppa}
 translate W Store {Spara}
@@ -916,10 +929,12 @@ translate W PgnOptColumn "Kolumnstil (ett drag per rad)"
 translate W PgnOptSpace "Mellanslag efter dragnummer"
 translate W PgnOptStripMarks "Ta bort färgade fyrkants-/pilkoder"
 translate W PgnOptBoldMainLine "Använd fet text för huvudlinjeförflyttningar"
+translate W PgnOptCenter "Centrera aktuellt drag"
 
 # Analysis window:
 translate W AddAllVariations {Lägg till alla variationer}
 translate W AddMove {Lägg till drag}
+translate W RemoveMove {Ta bort Move}
 translate W Annotate {Kommentera}
 translate W FinishGame {Avsluta parti}
 translate W StartEngine {Starta schackmotor}
@@ -1072,6 +1087,7 @@ menuText W PgnOptColumn "Spaltstil (ett drag per rad)" 1
 menuText W PgnOptSpace "Utrymme efter dragnummer" 1
 menuText W PgnOptStripMarks "Avlägsna koder för färgade fält och pilar" 1 
 menuText W PgnOptBoldMainLine "Använd Fet Text för Huvudvariationsdrag" 4
+menuText W PgnOptCenter "Centrera aktuellt drag" 7
 menuText W PgnColor "Färger" 0
 menuText W PgnColorHeader "Huvud..." 0
 menuText W PgnColorAnno "Noteringar..." 0
@@ -1388,6 +1404,10 @@ translate W SearchBoardFiles {Filer (samma material, alla bönder på samma file
 translate W SearchBoardAny {Obestämt (samma material, bönder och pjäser på valfria rutor)}
 translate W SearchInRefDatabase {Sök i databas}
 translate W LookInVars {Sök i variationer}
+
+# Moves search:
+translate W MovesSearchHint {SAN rör sig i ordning, t.ex. e4 e5 Nf3. "?" matchar varje enskilt drag.}
+translate W LastMoveIsMate {Sista draget är kompis}
 
 # Material search:
 translate W MaterialSearch {Materialsökning}
@@ -2250,10 +2270,10 @@ translate W RtfImportError {Fel vid import av RTF-fil}
 translate W RtfNotScidFile {Den här filen exporterades inte av scidCommunity med kommentarsformatering eller är skadad.}
 translate W RtfImportSuccess {Spelet har importerats till urklippsdatabasen.}
 translate W RtfImportSuccessMulti {%d spel har importerats till urklippsdatabasen.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate W ReviewProgressTitle {Granska framstegen}
 translate W ReviewProgressIdle {Ingen recension körs}
 translate W ReviewProgressGameOf {spel %s av %s}
@@ -2261,6 +2281,14 @@ translate W ReviewProgressEngineWindow {Motorfönster %s}
 translate W ReviewProgressRapid {Snabbkommentar}
 translate W FinishGameGameChanged {spelet ändrades medan Finish Game kördes; ingenting skrevs}
 translate W FinishGameAtEnd {Avsluta Spelet börjar från slutet av huvudlinjen; gå till slutet av spelet först}
+# CQL search:
+translate W CQLQuery {CQL-fråga}
+translate W CQLQueryHint {CQL-fråga, t.ex. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter söker.}
+translate W CQLQueryEmpty {Ange en CQL-fråga innan du söker.}
+translate W CQLSearchFailed {CQL-sökningen misslyckades:}
+translate W CQLUnreadableGames {%d parti(er) kunde inte läsas}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2390,9 +2418,3 @@ set tips(W) {
     Windows kan dockas genom att markera relevant post i alternativmenyn. Flikar kan dras och släppas från en anteckningsbok till en annan och läggas ut genom att högerklicka på flikwidgeten.
   }
 }
-# CQL search:
-translate W CQLQuery {CQL-fråga}
-translate W CQLQueryHint {CQL-fråga, t.ex. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter söker.}
-translate W CQLQueryEmpty {Ange en CQL-fråga innan du söker.}
-translate W CQLSearchFailed {CQL-sökningen misslyckades:}
-translate W CQLUnreadableGames {%d parti(er) kunde inte läsas}
