@@ -34,6 +34,13 @@ source [file join $root tcl tools comment_colors.tcl]
 proc verdict {text} { return [::commentcolors::wrapReview $text] }
 source [file join $root tcl tools game_review.tcl]
 source [file join $root tcl tools review_driver.tcl]
+# The cloud pre-pass and its two dependencies: review_cloud names a position's
+# FEN through ::chessboard and asks ::lichess_eval for the transport. Sourced so
+# the driver's cloud path (below) is exercised rather than stubbed away by
+# ::reviewdriver::cloudModule returning false.
+source [file join $root tcl utils chessboard.tcl]
+source [file join $root tcl tools lichess_eval.tcl]
+source [file join $root tcl tools review_cloud.tcl]
 
 # The engine layer, stubbed: the driver's job is which messages it sends and
 # what it does with the replies, not how a pipe to Stockfish works. The stub keeps
@@ -62,6 +69,15 @@ proc ::engine::close {id} {
     unset -nocomplain ::engconn(channel_$id)
     unset -nocomplain ::engconn(callback_$id)
     lappend ::closed $id
+}
+
+# The cloud transport, stubbed: deliver one depth-50 reply (deeper than the
+# review's 18) on the next idle, so the timed path's StopGo is exercised without
+# a network. Three lines so a MultiPV-3 pass can use them.
+proc ::lichess_eval::cloudEvalAsync {fen variant mpv callback} {
+    set json {{"depth":50,"pvs":[{"moves":"e2e4 e7e5","cp":20},{"moves":"d2d4 g8f6","cp":15},{"moves":"g1f3 d7d5","cp":10}]}}
+    after idle [list {*}$callback 1 $json ""]
+    return ""
 }
 
 # The board notification the write phase ends with. What it is called with decides
@@ -3084,6 +3100,28 @@ pump
 checkEq "the pass finished" [dict get [::reviewdriver::status] state] done
 checkEq "the run began exactly one job" [llength $::begins] 1
 checkEq "and finish cleared it" [::reviewprogress::job] ""
+
+puts "\na time-capped pass whose cloud reply is deeper stops the search and settles"
+# The cloud reply (depth 50) is deeper than the depth bound (18): cloudArrived
+# stops the local search. The engine layer answers a stop with InfoReady and
+# suppresses InfoBestMove, so the driver must treat InfoReady as the search
+# ending or the pass hangs on that position (the "Reviewing position 1 of N"
+# hang). The engine and cloud stubs above run the real StopGo -> InfoReady round
+# trip here.
+set ::sent {}
+set ::cprogress {}
+proc onCloudProgress {done total ply lines} { lappend ::cprogress [list $done $total] }
+set cpositions {{1 {position startpos}} {2 {position startpos moves e2e4}}}
+::reviewdriver::start $enginecfg $cpositions 3 {depth 18 movetime 900} onCloudProgress {} 1 standard
+feed InfoConfig {}
+checkEq "a timed pass searches beside the query" [lindex $::sent end] \
+    {send 20 Go {{position startpos} {{depth 18} {movetime 900}}}}
+pump
+checkEq "the deeper reply stops the search" [lindex $::sent end] {send 20 StopGo {}}
+feed InfoReady {}
+checkEq "the stopped position settles and the next one searches" [lindex $::sent end] \
+    {send 20 Go {{position startpos moves e2e4} {{depth 18} {movetime 900}}}}
+checkEq "one position was settled" $::cprogress {{1 2}}
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
