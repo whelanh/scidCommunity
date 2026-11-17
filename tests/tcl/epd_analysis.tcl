@@ -152,7 +152,9 @@ proc procText {path name} {
 }
 namespace eval epd {
     foreach name {normMove evalBestMove} {
-        eval [procText [file join $root tcl file epd.tcl] $name]
+        # $::root, not $root: Tcl 9 does not fall back to a global variable
+        # when a read inside a namespace finds nothing local.
+        eval [procText [file join $::root tcl file epd.tcl] $name]
     }
 }
 checkEq "a numbered SAN is normalised" [::epd::normMove "1...Qc7"] Qc7
