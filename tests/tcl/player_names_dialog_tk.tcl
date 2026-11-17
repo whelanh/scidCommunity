@@ -98,6 +98,13 @@ proc sc_game {args} { return "" }
 set ::myPlayerNames {Crandall, David}
 
 # ---------------------------------------------------------------- checks ------
+# The height a display allows: the dialog caps itself at the screen less a
+# margin, so on a short screen the window it opens at is not the height its
+# contents asked for.
+proc allowedHeight {w} {
+    return [expr {max(200, [winfo screenheight $w] - 60)}]
+}
+
 # A button is visible when its bottom edge is above the bottom edge of the
 # window it is in: pack leaves a slave that does not fit where it is, off the
 # window, rather than resizing the window to hold it.
@@ -114,6 +121,11 @@ proc buttonsInside {w} {
     return $out
 }
 
+proc descriptionInside {w} {
+    return [expr {[winfo rooty $w.desc] + [winfo height $w.desc]
+                  <= [winfo rooty $w] + [winfo height $w]}]
+}
+
 proc buildDialog {label} {
     editMyPlayerNames
     update
@@ -123,21 +135,23 @@ proc buildDialog {label} {
     if {![winfo exists $w]} { return "" }
     set inside [buttonsInside $w]
     check "every button is inside the window" [expr {[llength $inside] == 0}] $inside
+    # min(): a display shorter than the content is served the height it allows.
     check "the window is as tall as its contents ask for" \
-        [expr {[winfo height $w] >= [winfo reqheight $w]}] \
-        "height [winfo height $w] wants [winfo reqheight $w]"
-    check "the description is inside the window too" \
-        [expr {[winfo rooty $w.desc] + [winfo height $w.desc] <= [winfo rooty $w] + [winfo height $w]}] \
+        [expr {[winfo height $w] >= min([winfo reqheight $w], [allowedHeight $w])}] \
+        "height [winfo height $w] wants [winfo reqheight $w], display allows [allowedHeight $w]"
+    check "the description is inside the window too" [descriptionInside $w] \
         "desc bottom [expr {[winfo rooty $w.desc] + [winfo height $w.desc]}] window bottom [expr {[winfo rooty $w] + [winfo height $w]}]"
     return $w
 }
+
+puts "display: [winfo screenwidth .]x[winfo screenheight .]"
 
 # The size it opens with is the whole point: a user should not have to drag the
 # window before the buttons appear.
 set w [buildDialog "opening at the default font size"]
 if {$w ne ""} {
     check "it is not smaller than the size it always had" \
-        [expr {[winfo height $w] >= 440 && [winfo width $w] >= 560}] \
+        [expr {[winfo width $w] >= 560 && [winfo height $w] >= min(440, [allowedHeight $w])}] \
         "[winfo width $w]x[winfo height $w]"
 }
 
@@ -150,8 +164,7 @@ if {$w ne ""} {
     update
     set inside [buttonsInside $w]
     check "every button is still inside the window" [expr {[llength $inside] == 0}] $inside
-    check "the description is still inside the window" \
-        [expr {[winfo rooty $w.desc] + [winfo height $w.desc] <= [winfo rooty $w] + [winfo height $w]}] \
+    check "the description is still inside the window" [descriptionInside $w] \
         "desc bottom [expr {[winfo rooty $w.desc] + [winfo height $w.desc]}] window bottom [expr {[winfo rooty $w] + [winfo height $w]}]"
     destroy $w
 }
@@ -162,8 +175,46 @@ if {$w ne ""} {
 tk scaling 2.0
 set w [buildDialog "opening at 200% scaling"]
 if {$w ne ""} {
-    check "the window grew past the old fixed height" \
-        [expr {[winfo height $w] > 440}] "height [winfo height $w]"
+    check "the content really did grow past the old fixed height" \
+        [expr {[winfo reqheight $w] > 440}] "content [winfo reqheight $w]"
+    destroy $w
+}
+
+# The minimum has to hold the description and the button row even where the
+# display cannot hold the content. There the dialog opens clamped, and a minimum
+# derived from that clamped height sits below the description plus the row: the
+# drag that follows puts the buttons outside the window again - the bug this
+# sizing replaces. The description here is longer than any shipped catalogue at
+# this wrapping width (they are volunteer-edited and grow), because the minimum
+# must not depend on how long the text happens to be.
+puts "\n== a long description: the minimum still holds the row =="
+set ::tr(MyPlayerNamesDescription) {Enter a list of preferred player names below, one name per line. Wildcards (e.g. "?" for any single character, "*" for any sequence of characters) are permitted.
+Every time a game with a player in the list is loaded, the main window chessboard will be rotated if necessary to show the game from that players perspective.
+Geben Sie unten eine Liste der bevorzugten Spielernamen ein, ein Name pro Zeile. Platzhalterzeichen (z.B. "?" für ein beliebiges einzelnes Zeichen, "*" für jede beliebige Folge von Zeichen) sind erlaubt.
+Jedesmal, wenn ein Spiel mit einem aufgelisteten Spielernamen geladen wird, wird das Schachbrett im Hauptfenster erforderlichenfalls gedreht, um das Spiel aus der Sicht des betreffenden Spielers zu zeigen.}
+set w [buildDialog "a long description at 200% scaling"]
+if {$w ne ""} {
+    set descH [winfo reqheight $w.desc]
+    set barH [winfo reqheight $w.b]
+    set lineH [font metrics [$w.txtframe.text cget -font] -linespace]
+    lassign [wm minsize $w] minW minH
+    # Everything but the name list, plus the three lines of it the minimum keeps:
+    # what the dialog must not be able to go below, whatever the display allows.
+    set wanted [expr {$descH + $barH + 3 * $lineH - 8}]
+    check "the minimum covers the description, the row and three lines" \
+        [expr {$minH >= $wanted}] "minimum $minH, needs $wanted (description $descH, row $barH, line $lineH)"
+    # The size the dialog says it cannot go below, with no window manager to
+    # enforce it: what a user gets by dragging this far.
+    wm geometry $w "${minW}x${minH}"
+    update
+    set inside [buttonsInside $w]
+    check "at its minimum every button is still inside the window" \
+        [expr {[llength $inside] == 0}] $inside
+    check "and so is the description" [descriptionInside $w]
+    if {[winfo screenheight $w] - 60 > [winfo reqheight $w]} {
+        puts "  note  this display is taller than the content, so the clamp is not exercised here;"
+        puts "        run it under 'xvfb-run -s \"-screen 0 800x480x24\"' for the short-screen case"
+    }
     destroy $w
 }
 

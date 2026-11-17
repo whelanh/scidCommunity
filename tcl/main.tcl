@@ -843,17 +843,22 @@ proc editMyPlayerNames {} {
   update idletasks
   set barW [winfo reqwidth $w.b]
   set gw [expr {max(560, $barW + 12)}]
-  set gh [winfo reqheight $w]
+  set contentH [winfo reqheight $w]
+  set gh $contentH
   if {$gh < 440} { set gh 440 }
   set maxH [expr {max(200, [winfo screenheight $w] - 60)}]
   if {$gh > $maxH} { set gh $maxH }
 
   # Dragging the window smaller must not hide the description or the buttons
   # again, so the minimum is everything but the name list, plus three lines of
-  # it, and as wide as the button row.
+  # it, and as wide as the button row. It comes from the uncapped request: on a
+  # display too short for the content the two differ, and a minimum taken from
+  # the height the screen allowed would let a drag push the button row out again
+  # - the very bug this sizing replaces.
   set textReq [winfo reqheight $w.txtframe]
   set lineH [font metrics [$w.txtframe.text cget -font] -linespace]
-  wm minsize $w [expr {max(400, $barW)}] [expr {max(260, $gh - $textReq + 3 * $lineH)}]
+  wm minsize $w [expr {max(400, $barW)}] \
+      [expr {max(260, $contentH - $textReq + 3 * $lineH)}]
 
   set x [expr {([winfo screenwidth $w] - $gw) / 2}]
   set y [expr {([winfo screenheight $w] - $gh) / 2}]

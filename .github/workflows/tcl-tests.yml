@@ -232,6 +232,12 @@ jobs:
       - name: My Player Names dialog
         run: xvfb-run -a wish tests/tcl/player_names_dialog_tk.tcl
 
+      # The same harness on a display shorter than the dialog's own content. There
+      # the window opens clamped, and the minimum size is what keeps the button row
+      # inside once the window is dragged smaller.
+      - name: My Player Names dialog on a short display
+        run: xvfb-run -a -s "-screen 0 800x480x24" wish tests/tcl/player_names_dialog_tk.tcl
+
       # The Review Settings dialog: the tclsh harnesses decide what it stores,
       # but only building it shows that the proc holding the widgets compiles
       # and that the OK button is there to press.
