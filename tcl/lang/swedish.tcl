@@ -133,6 +133,7 @@ menuText W SearchNegate "Omvänt filter" 0 {Ta med partier som utesluts av filtr
 menuText W SearchCurrent "Aktuell position..." 8 {Sök partier med aktuell position på brädet}
 menuText W SearchHeader "I huvud..." 2 {Använd fast information (spelare, evenemang, plats, mm)}
 menuText W SearchMaterial "Material/ställning..." 0 {Sökning baserad på material eller ställning}
+menuText W SearchCQL "CQL..." 0 {Sök med en Chess Query Language-fråga}
 menuText W SearchComments "Sök kommentarer..." 0 {Sök igenom kommentarerna till spelen i det aktuella filtret}
 menuText W SearchUsing "Använd sökfil..." 10 {Använd en fil med lagrade sökvillkor}
 
@@ -2389,3 +2390,8 @@ set tips(W) {
     Windows kan dockas genom att markera relevant post i alternativmenyn. Flikar kan dras och släppas från en anteckningsbok till en annan och läggas ut genom att högerklicka på flikwidgeten.
   }
 }
+# CQL search:
+translate W CQLQuery {CQL-fråga}
+translate W CQLQueryHint {CQL-fråga, t.ex. cql() mate eller cql(:gamenumber 1 10) K. Ctrl+Enter söker.}
+translate W CQLQueryEmpty {Ange en CQL-fråga innan du söker.}
+translate W CQLSearchFailed {CQL-sökningen misslyckades:}

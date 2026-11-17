@@ -159,6 +159,7 @@ menuText G SearchNegate "Αναίρεση φίλτρου" 0 {Αναιρέστε 
 menuText G SearchCurrent "Τρέχουσα σκακιέρα..." 0 {Αναζητήστε την τρέχουσα θέση της σκακιέρας}
 menuText G SearchHeader "Κεφαλίδα..." 0 {Αναζήτηση βάσει των πληροφοριών κεφαλίδας (παίκτης, διοργάωνση, κλπ)}
 menuText G SearchMaterial "Υλικό/Διάταξη..." 0 {Αναζήτηση για υλικό ή διάταξη σκακιέρας}
+menuText G SearchCQL "CQL..." 0 {Αναζήτηση με ερώτημα Chess Query Language}
 menuText G SearchComments "Αναζήτηση σχολίων..." 0 {Αναζητήστε τα σχόλια των παιχνιδιών στο τρέχον φίλτρο}
 menuText G SearchUsing "Με χρήση αρχείου αναζήτησης..." 0 {Αναζήτηση με την χρήση ενός αρχείου SearchOptions}
 
@@ -2410,3 +2411,8 @@ set tips(G) {
     Τα Windows μπορούν να συνδεθούν ελέγχοντας τη σχετική καταχώρηση στο μενού επιλογών. Μπορείτε να σύρετε και να αποθέσετε τις καρτέλες από το ένα σημειωματάριο στο άλλο και να τις τοποθετήσετε κάνοντας δεξί κλικ στο γραφικό στοιχείο της καρτέλας.
   }
 }
+# CQL search:
+translate G CQLQuery {Ερώτημα CQL}
+translate G CQLQueryHint {Ερώτημα CQL, π.χ. cql() mate ή cql(:gamenumber 1 10) K. Το Ctrl+Enter εκτελεί την αναζήτηση.}
+translate G CQLQueryEmpty {Εισαγάγετε ένα ερώτημα CQL πριν από την αναζήτηση.}
+translate G CQLSearchFailed {Η αναζήτηση CQL απέτυχε:}

@@ -13,6 +13,10 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
+## Unreleased
+
+- Search > CQL... finds games by a query language: type a query such as `cql() [N]f3` — a white knight on f3 — and the game list is filtered to the games that contain it, with filters for check and mate, the side to move, moves and promotions, comments and headers, and piece counts, all explained on the help page beside the window. The query engine comes from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/) and keeps its GPL-2.0 licence. — thanks to @Triquetra.
+
 ## 5.1.4.68 — 16 November 2026
 
 - Search > Moves finds games by a sequence of moves: type the moves in order, paste a line of notation, put ? where you do not care which move was played, and filter on the side to move or on a last move that mates. — thanks to @Triquetra ([#497](https://github.com/whelanh/scidCommunity/pull/497)).

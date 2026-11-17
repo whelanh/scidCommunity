@@ -1,0 +1,89 @@
+[Event "Fool's mate"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "1"]
+[White "Alpha"]
+[Black "Beta"]
+[Result "0-1"]
+
+1. f3 e5 2. g4 Qh4# 0-1
+
+[Event "Scholar's mate"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "2"]
+[White "Gamma"]
+[Black "Delta"]
+[Result "1-0"]
+
+1. e4 e5 2. Bc4 Nc6 3. Qh5 Nf6 4. Qxf7# 1-0
+
+[Event "Ruy Lopez"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "3"]
+[White "Epsilon"]
+[Black "Zeta"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 {a Ruy Lopez note} (3. Bc4 Bc5) a6 1-0
+
+[Event "Queen's Gambit Declined"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "4"]
+[White "Eta"]
+[Black "Theta"]
+[Result "1/2-1/2"]
+
+1. d4 d5 2. c4 e6 1/2-1/2
+
+[Event "Early queen"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "5"]
+[White "Iota"]
+[Black "Kappa"]
+[Result "1-0"]
+
+1. e4 e5 2. Nf3 Qh4 3. Nxh4 1-0
+
+[Event "Caro-Kann"]
+[Site "?"]
+[Date "2026.01.01"]
+[Round "6"]
+[White "Lambda"]
+[Black "Mu"]
+[Result "*"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 Bc5 4. Bg2 O-O 5. Nf3 d6 *
+
+[Event "Underpromotion"]
+[Site "?"]
+[Date "2026.01.02"]
+[Round "7"]
+[White "Nu"]
+[Black "Xi"]
+[Result "1-0"]
+
+1. h4 g5 2. hxg5 h5 3. g6 h4 4. g7 h3 5. gxh8=R h2 6. Rxg8 1-0
+
+[Event "Queen promotion"]
+[Site "?"]
+[Date "2026.01.02"]
+[Round "8"]
+[White "Omicron"]
+[Black "Pi"]
+[Result "1-0"]
+
+1. a4 b5 2. axb5 a6 3. bxa6 Bb7 4. axb7 Nc6 5. bxa8=Q 1-0
+
+[Event "En passant"]
+[Site "?"]
+[Date "2026.01.02"]
+[Round "9"]
+[White "Rho"]
+[Black "Sigma"]
+[Result "1-0"]
+
+1. e4 a6 2. e5 d5 3. exd6 1-0

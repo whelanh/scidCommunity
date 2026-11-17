@@ -168,6 +168,7 @@ menuText A SearchNegate "ネゲートフィルター" 0 {フィルタを無効�
 menuText A SearchCurrent "現在のボード..." 0 {現在のボード位置を検索します}
 menuText A SearchHeader "ヘッダ..." 0 {ヘッダー（選手、イベントなど）情報から検索}
 menuText A SearchMaterial "素材・柄..." 0 {材質や基板パターンを探す}
+menuText A SearchCQL "CQL..." 0 {Chess Query Language クエリで検索}
 menuText A SearchComments "コメントを検索..." 0 {現在のフィルターでゲームのコメントを検索します}
 menuText A SearchUsing "ファイル検索を使用しています..." 0 {SearchOptions ファイルを使用して検索する}
 
@@ -2402,3 +2403,8 @@ set tips(A) {
     オプション メニューの該当するエントリをチェックすると、Windows をドッキングできます。タブは、あるノートブックから別のノートブックにドラッグ アンド ドロップでき、タブ ウィジェットを右クリックしてレイアウトできます。
   }
 }
+# CQL search:
+translate A CQLQuery {CQL クエリ}
+translate A CQLQueryHint {CQL クエリ（例: cql() mate、cql(:gamenumber 1 10) K）。Ctrl+Enter で検索します。}
+translate A CQLQueryEmpty {検索する前に CQL クエリを入力してください。}
+translate A CQLSearchFailed {CQL 検索に失敗しました:}

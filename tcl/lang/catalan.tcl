@@ -140,6 +140,7 @@ menuText K SearchHeader "Metadades..." 0 \
   {Cerca per les metadades de la capçalera (jugador, torneig, etc)}
 menuText K SearchMaterial "Material/Patró..." 0 \
   {Cerca posició per material o patró}
+menuText K SearchCQL "CQL..." 0 {Cerca amb una consulta Chess Query Language}
 menuText K SearchComments "Cerca comentaris..." 0 {Cerca els comentaris dels jocs al filtre actual}
 menuText K SearchUsing "Fer servir arxiu de recerca..." 0 \
   {Cerca fent servir un arxiu d'opcions de recerca}
@@ -2405,3 +2406,8 @@ set tips(K) {
     Windows es pot acoblar marcant l'entrada corresponent al menú d'opcions. Les pestanyes es poden arrossegar i deixar anar d'un quadern a un altre i disposar-les fent clic amb el botó dret al giny de la pestanya.
   }
 }
+# CQL search:
+translate K CQLQuery {Consulta CQL}
+translate K CQLQueryHint {Consulta CQL, p. ex. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Retorn cerca.}
+translate K CQLQueryEmpty {Introduïu una consulta CQL abans de cercar.}
+translate K CQLSearchFailed {La cerca CQL ha fallat:}

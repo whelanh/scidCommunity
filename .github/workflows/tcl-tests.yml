@@ -316,6 +316,12 @@ jobs:
       - name: Board animation and redraw
         run: xvfb-run -a wish tests/tcl/board_animation_tk.tcl
 
+      # The CQL search window: the box, the filter operation the button carries
+      # to sc_search cql, the empty-query dialog, a failed query reported rather
+      # than raised, and every catalogue carrying the window's strings.
+      - name: CQL search window
+        run: xvfb-run -a wish tests/tcl/search_cql_tk.tcl
+
   startup-smoke:
     name: startup with a clean profile
     runs-on: ubuntu-latest
@@ -386,3 +392,15 @@ jobs:
       # what the game list opens at, so the ply is checked through sc_game.
       - name: Move sequence search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_moves.tcl
+
+      # The binary's own CQL search through the window the Search menu opens:
+      # the query in the box, the filter operation, the result in the database
+      # filter, and the empty and rejected queries reported rather than raised.
+      - name: CQL search
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql.tcl
+
+      # Every query printed on the CQL help page, through the same engine: the
+      # page's samples cannot drift away from what the parser accepts without
+      # this failing, which is the point of the page.
+      - name: CQL help page examples
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/help_cql_examples.tcl

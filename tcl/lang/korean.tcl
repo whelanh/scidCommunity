@@ -168,6 +168,7 @@ menuText k SearchNegate "낚시 분야" 0 {제외된 게임만을 포함하여 �
 menuText k SearchCurrent "현재 보드..." 0 {현재 보드 위치 검색}
 menuText k SearchHeader "헤더..." 0 {헤더(플레이어, 이벤트 등) 정보로 검색}
 menuText k SearchMaterial "있다/패턴..." 0 {재료 또는 보드 검색}
+menuText k SearchCQL "CQL..." 0 {Chess Query Language 쿼리로 검색}
 menuText k SearchComments "댓글 검색..." 0 {현재 필터에서 게임의 댓글을 검색하세요.}
 menuText k SearchUsing "파일 검색 사용 중..." 0 {SearchOptions 파일을 사용하여 검색}
 
@@ -2402,3 +2403,8 @@ set tips(k) {
     옵션 메뉴에서 해당 항목을 확인하여 Windows를 도킹할 수 있습니다. 탭은 한 노트북에서 다른 노트북으로 끌어서 놓을 수 있으며 탭 위젯을 마우스 오른쪽 버튼으로 클릭하여 배치할 수 있습니다.
   }
 }
+# CQL search:
+translate k CQLQuery {CQL 쿼리}
+translate k CQLQueryHint {CQL 쿼리(예: cql() mate, cql(:gamenumber 1 10) K). Ctrl+Enter로 검색합니다.}
+translate k CQLQueryEmpty {검색하기 전에 CQL 쿼리를 입력하십시오.}
+translate k CQLSearchFailed {CQL 검색에 실패했습니다:}

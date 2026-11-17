@@ -108,6 +108,7 @@ menuText M SearchNegate "反转过滤器" 0 {反转过滤器，仅包含被排�
 menuText M SearchCurrent "当前局面..." 0 {搜索当前局面}
 menuText M SearchHeader "标头..." 0 {按标头（棋手、赛事等）搜索}
 menuText M SearchMaterial "子力/局面..." 0 {按子力或局面模式搜索}
+menuText M SearchCQL "CQL..." 0 {使用 Chess Query Language 查询进行搜索}
 menuText M SearchComments "搜索评论..." 0 {搜索当前过滤器中游戏的评论}
 menuText M SearchUsing "使用搜索选项文件..." 0 {使用SearchOptions文件搜索}
 
@@ -2338,3 +2339,8 @@ set tips(M) {
     通过检查选项菜单中的相关条目可以停靠 Windows。可以将选项卡从一个笔记本拖放到另一个笔记本上，并通过右键单击选项卡小部件来布局。
   }
 }
+# CQL search:
+translate M CQLQuery {CQL 查询}
+translate M CQLQueryHint {CQL 查询，例如 cql() mate 或 cql(:gamenumber 1 10) K。Ctrl+Enter 开始搜索。}
+translate M CQLQueryEmpty {搜索前请输入 CQL 查询。}
+translate M CQLSearchFailed {CQL 搜索失败：}

@@ -118,6 +118,33 @@ endif()
 
 # scidCommunity
 file(GLOB SCID_SRC src/*.h src/*.cpp)
+
+# CQL (Chess Query Language) engine, imported verbatim from Scid vs. PC.
+# src/cql/ is a subdirectory, so the non-recursive glob above skips it.
+file(GLOB CQL_SRC src/cql/*.cpp)
+# cql.cpp is the standalone command line driver (it defines its own main()) and
+# origChanges.cpp patches scidvspc's Game/MFile classes, which we do not have;
+# src/cql/util.cpp uses our own Game::WritePGN() and cql_pgnparse_adapter.h.
+list(REMOVE_ITEM CQL_SRC
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cql/cql.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/cql/origChanges.cpp)
+list(APPEND SCID_SRC ${CQL_SRC})
+# The engine's #ifdef INTEGRATED branch is the library version (CqlMatchGame),
+# as opposed to the STANDALONE command line program.
+set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_DEFINITIONS INTEGRATED)
+# The engine is pre-C++11 code: `char* thisclass(){return "X";}` alone produces
+# ~100 -Wwrite-strings warnings. scidvspc builds src/cql/ with
+# -Wno-write-strings for exactly this reason (its Makefile.conf); do the same
+# instead of editing the imported files.
+#
+# -frtti: the engine dispatches on dynamic_cast<>() throughout. The release
+# packages pass -fno-rtti in CMAKE_CXX_FLAGS (see the ctg2obr() note above and
+# .github/workflows/release.yml), so re-enable RTTI for these files only; GCC
+# honours the last flag on the command line.
+if(NOT MSVC)
+  set_source_files_properties(${CQL_SRC} PROPERTIES COMPILE_OPTIONS "-Wno-write-strings;-frtti")
+endif()
+
 if(MSVC)
   add_executable(scidCommunity WIN32 ${SCID_SRC} resources/win/scid.rc resources/win/scid.manifest
     src/tkdnd/win/TkDND_OleDND.cpp src/tkdnd/win/OleDND.h)
@@ -131,7 +158,7 @@ else()
   target_link_libraries(scidCommunity PRIVATE ${X11_LIBRARIES})
 endif()
 set_property(TARGET scidCommunity PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE True)
-target_include_directories(scidCommunity PRIVATE ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/external)
+target_include_directories(scidCommunity PRIVATE ${TCL_INCLUDE_PATH} ${TK_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/src/external ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(scidCommunity PRIVATE polyglot ${CMAKE_THREAD_LIBS_INIT} ${TCL_LIBRARY} ${TK_LIBRARY})
 
 option(SPELLCHKVALIDATE "Verify the integrity of spelling files" OFF)

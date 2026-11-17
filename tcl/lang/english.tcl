@@ -168,6 +168,7 @@ menuText E SearchCurrent "Current Board..." 0 {Search for the current board posi
 menuText E SearchHeader "Header..." 0 {Search by Header (player, event, etc) information}
 menuText E SearchMaterial "Material/Pattern..." 0 {Search for material or board patterns}
 menuText E SearchMoves "Moves..." 0 {Search for a sequence of moves in the main line}
+menuText E SearchCQL "CQL..." 0 {Search with a Chess Query Language query}
 menuText E SearchComments "Search Comments..." 0 {Search the comments of the games in the current filter}
 menuText E SearchUsing "Using Search File..." 0 {Search using a SearchOptions file}
 
@@ -2286,6 +2287,11 @@ translate E RtfImportError {Error importing RTF file}
 translate E RtfNotScidFile {This file was not exported by scidCommunity with comment formatting, or is corrupted.}
 translate E RtfImportSuccess {Game imported into clipboard database successfully.}
 translate E RtfImportSuccessMulti {%d games imported into clipboard database successfully.}
+# CQL search:
+translate E CQLQuery {CQL Query}
+translate E CQLQueryHint {CQL query, e.g. cql() mate or cql(:gamenumber 1 10) K. Ctrl+Enter searches.}
+translate E CQLQueryEmpty {Enter a CQL query before searching.}
+translate E CQLSearchFailed {The CQL search failed:}
 }
 # end of english.tcl
 

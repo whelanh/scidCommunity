@@ -131,6 +131,7 @@ menuText T SearchNegate "Filtreyi Reddet" 0 {Yalnızca hariç tutulan oyunları 
 menuText T SearchCurrent "Mevcut Yönetim Kurulu..." 0 {Geçerli pano konumunu arayın}
 menuText T SearchHeader "Başlık..." 0 {Başlık (oyuncu, etkinlik vb.) bilgilerine göre arama yapın}
 menuText T SearchMaterial "Malzeme/Desen..." 0 {Malzeme veya tahta desenlerini arayın}
+menuText T SearchCQL "CQL..." 0 {Chess Query Language sorgusuyla ara}
 menuText T SearchComments "Yorumları Ara..." 0 {Oyunların yorumlarını mevcut filtrede arayın}
 menuText T SearchUsing "Arama Dosyası Kullanılıyor..." 0 {SearchOptions dosyasını kullanarak arama yapın}
 
@@ -2365,3 +2366,8 @@ set tips(T) {
     Seçenek menüsündeki ilgili giriş kontrol edilerek Windows yerleştirilebilir. Sekmeler bir not defterinden diğerine sürüklenip bırakılabilir ve sekme widget'ına sağ tıklanarak düzenlenebilir.
   }
 }
+# CQL search:
+translate T CQLQuery {CQL sorgusu}
+translate T CQLQueryHint {CQL sorgusu, ör. cql() mate veya cql(:gamenumber 1 10) K. Ctrl+Enter arar.}
+translate T CQLQueryEmpty {Aramadan önce bir CQL sorgusu girin.}
+translate T CQLSearchFailed {CQL araması başarısız oldu:}

@@ -139,6 +139,7 @@ menuText Y SearchNegate "Invertuj filter" 0 {Invertuj filter da ukljui samo iskl
 menuText Y SearchCurrent "Tekua pozicija..." 0 {Pretrauj prema tekuoj poziciji na tabli}
 menuText Y SearchHeader "Zaglavlje..." 0 {Pretrauj prema informacijama iz zaglavlja (igra, turnir, itd)}
 menuText Y SearchMaterial "Materijal/Pozicije..." 0 {Pretrauj prema materijalu i poziciji}
+menuText Y SearchCQL "CQL..." 0 {Pretraga pomoću upita Chess Query Language}
 menuText Y SearchComments "Search Comments..." 0 {Search the comments of the games in the current filter}
 menuText Y SearchUsing "Pomou Search fajla..." 0 {Pretrauj pomou Search fajla}
 
@@ -3465,3 +3466,8 @@ translate Y ReviewProgressGameOf {game %s of %s}
 translate Y ReviewProgressEngineWindow {Engine window %s}
 translate Y ReviewProgressAnalysisPane {Analysis pane %s}
 translate Y ReviewProgressRapid {Rapid annotate}
+# CQL search:
+translate Y CQLQuery {CQL upit}
+translate Y CQLQueryHint {CQL upit, npr. cql() mate ili cql(:gamenumber 1 10) K. Ctrl+Enter pokreće pretragu.}
+translate Y CQLQueryEmpty {Unesite CQL upit pre pretrage.}
+translate Y CQLSearchFailed {CQL pretraga nije uspela:}

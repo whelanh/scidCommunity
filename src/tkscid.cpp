@@ -23,6 +23,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#include "cql/cql_pgnparse_adapter.h"
 #include "crosstab.h"
 #include "dbasepool.h"
 #include "dstring.h"
@@ -8729,8 +8730,8 @@ int sc_search_comments(Tcl_Interp *ti, scidBaseT *base, int argc,
 //    Search function interface.
 int sc_search(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
   static const char *options[] = {"board", "comments", "header", "material",
-                                  nullptr};
-  enum { OPT_BOARD, OPT_COMMENTS, OPT_HEADER, OPT_MATERIAL };
+                                  "cql", nullptr};
+  enum { OPT_BOARD, OPT_COMMENTS, OPT_HEADER, OPT_MATERIAL, OPT_CQL };
 
   int index = -1;
   if (argc > 1) {
@@ -8759,6 +8760,10 @@ int sc_search(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
 
   case OPT_MATERIAL:
     ret = sc_search_material(cd, ti, argc, argv);
+    break;
+
+  case OPT_CQL:
+    ret = sc_search_cql(ti, db, db->getFilter("dbfilter"), argc, argv);
     break;
 
   default:
@@ -9189,6 +9194,207 @@ int sc_search_moves(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
           static_cast<unsigned long>(filter->size()),
           static_cast<unsigned long>(startFilterCount), centisecs / 100,
           decimalPointChar, centisecs % 100);
+  Tcl_AppendResult(ti, temp, nullptr);
+  return TCL_OK;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// sc_search_cql:
+//    Searches the database with a Chess Query Language query.
+//
+//    The CQL engine imported from Scid vs. PC (src/cql/) is a global-state,
+//    single-threaded matcher: it keeps the parse tree and the "current game"
+//    in globals, it reports every syntax and runtime error with longjmp(), and
+//    it annotates the Game it is given. This driver therefore stays on one
+//    thread (unlike sc_search_moves), hands the engine a freshly decoded Game
+//    per game, and turns any engine error into a normal search error string.
+//
+//    Usage (the first form is Scid vs. PC's, so its Tcl search code ports
+//    unchanged; the second is the short form):
+//      sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>
+//      sc_search cql <cql>
+int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
+                  int argc, const char **argv) {
+  ASSERT(dbase != nullptr && filter != nullptr);
+
+  const char *usageStr =
+      "Usage: sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>\n"
+      "       sc_search cql <cql>";
+  if (argc != 3 && argc != 6)
+    return errorResult(ti, usageStr);
+
+  // argv[0] is "sc_search" and argv[1] is "cql".
+  filterOpT filterOp = FILTEROP_AND;
+  bool silentSwitch = true;
+  const char *query = argv[2];
+  if (argc == 6) {
+    filterOp = strGetFilterOp(argv[2]);
+    // argv[3] (stripSwitch) removes the "MATCH" markers a previous CQL run
+    // left in the games. Nothing is written back to the database here - the
+    // annotated Game is thrown away with the search - so there is nothing to
+    // strip and the switch is accepted but has no effect.
+    query = argv[5];
+    // argv[4] is Scid vs. PC's "Allow Comments" option, passed as a
+    // switch: "1" allows comments, so the engine runs non-silent. This
+    // is upstream's silentSwitch, with upstream's polarity.
+    silentSwitch = (argv[4][0] != '1');
+  }
+  if (query[0] == '\0')
+    return errorResult(ti, "The CQL query is empty.");
+
+  // Take a private copy of the query before anything evaluates Tcl code: the
+  // engine keeps a pointer to it for the whole parse (and every token copies
+  // from it), and creating the progress bar below runs Tcl.
+  const std::string queryText(query);
+
+  // Parse the query. A syntax error is a normal, reportable failure: the
+  // engine longjmp()s out of its own parser and the adapter catches it.
+  std::string cqlError;
+  if (!CqlQueryParse(queryText.c_str(), silentSwitch, &cqlError)) {
+    CqlQueryReset();
+    Tcl_ResetResult(ti);
+    Tcl_AppendResult(ti, cqlError.c_str(), nullptr);
+    return errorResult(ti, ERROR_BadArg, nullptr);
+  }
+
+  Progress progress = UI_CreateProgress(ti);
+  // Creating the progress bar evaluates "::progressCallBack init" and leaves
+  // the error in the interpreter result when there is no such Tcl command (a
+  // headless run, the test harnesses), so the result is cleared before this
+  // command writes its own message into it.
+  Tcl_ResetResult(ti);
+  Timer timer; // Start timing this search.
+  // A reset filter operation starts from every game, but the reset itself is
+  // deferred: nothing may touch the filter until the search has succeeded, so a
+  // query that fails a parse, fails at runtime or is cancelled leaves dbfilter
+  // exactly as it was (the window and the help page promise that, and the game
+  // list shows the filter).
+  const bool resetFilter = (filterOp == FILTEROP_RESET);
+  if (resetFilter)
+    filterOp = FILTEROP_AND;
+  const gamenumT totalGames = dbase->numGames();
+  const size_t startFilterCount =
+      resetFilter ? static_cast<size_t>(totalGames) : filter->size();
+
+  // Collect candidates, respecting the filterOp: AND searches the games in the
+  // filter, OR the games out of it. Games without a gamefile record are dropped
+  // from the filter when searching it, and never added to it; the drop is
+  // remembered rather than applied, for the same reason the results are.
+  std::vector<gamenumT> candidates;
+  std::vector<gamenumT> unreadable; // in the filter, but with no gamefile record
+  candidates.reserve(totalGames / 4);
+  for (gamenumT gn = 0; gn < totalGames; ++gn) {
+    const bool inFilter = resetFilter || (filter.get(gn) != 0);
+    if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+      if (filterOp == FILTEROP_AND && inFilter)
+        unreadable.push_back(gn);
+      continue;
+    }
+    if (filterOp == FILTEROP_AND ? !inFilter : inFilter)
+      continue;
+    candidates.push_back(gn);
+  }
+
+  // results[i] is the ply to display for candidates[i]: 0 = no match, the ply
+  // of the first matching move otherwise. A read failure is recorded
+  // separately: the filter value is a byte, so a match in a very long game is
+  // capped and must not be mistaken for an error.
+  const size_t cand_total = candidates.size();
+  std::vector<byte> results(cand_total, 0);
+  bool readError = false;
+  bool engineError = false;
+  bool cancelled = false;
+
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    if ((ci % 1024) == 0 && !progress.report(ci, cand_total)) {
+      cancelled = true;
+      break;
+    }
+
+    const gamenumT gameNum = candidates[ci];
+    // The engine caches the legal moves of the game it is working on under that
+    // game's number (see MarkBoard::getLegalMoves()), and :gamenumber and echo
+    // annotations read it, so it has to be set before matching, not after.
+    CqlSetGameNumber(gameNum + 1);
+
+    // A Game per game: its position, variation stack and comments start from
+    // the decoded game, so nothing can leak from the game before it.
+    Game game;
+    if (dbase->getGame(*dbase->getIndexEntry(gameNum), game) != OK) {
+      readError = true;
+      continue;
+    }
+
+    unsigned firstPly = 0;
+    const CqlMatchResult res = CqlQueryMatchGame(&game, &firstPly, &cqlError);
+    if (res == CqlMatchResult::Error) {
+      engineError = true;
+      char where[80];
+      snprintf(where, sizeof(where), "CQL error in game %u: ",
+               static_cast<unsigned>(gameNum + 1));
+      cqlError.insert(0, where);
+      break;
+    }
+    if (res == CqlMatchResult::Match) {
+      // The filter value is 1 + the ply of the first match, so the game list
+      // opens on the matched position, the same convention sc_search_moves
+      // uses for the position its move is played from.
+      const unsigned ply = (firstPly > 254 ? 254 : firstPly) + 1;
+      results[ci] = static_cast<byte>(ply);
+    }
+  }
+
+  if (cancelled) {
+    CqlQueryReset();
+    return UI_Result(ti, ERROR_UserCancel);
+  }
+
+  // The final report is the only one a search over fewer than 1024 candidates
+  // ever delivers, so with a small database this is where a queued Stop click
+  // is processed. It must cancel like the in-loop report does: reporting the
+  // search as done and then applying its results would change the filter
+  // despite the click.
+  if (!progress.report(1, 1)) {
+    CqlQueryReset();
+    return UI_Result(ti, ERROR_UserCancel);
+  }
+
+  // Release the parse tree and the engine's global state, whether or not the
+  // search completed.
+  CqlQueryReset();
+
+  if (engineError) {
+    Tcl_ResetResult(ti);
+    Tcl_AppendResult(ti, cqlError.c_str(), nullptr);
+    return errorResult(ti, ERROR_BadArg, nullptr);
+  }
+  if (readError)
+    return errorResult(ti, "Error reading game file.");
+
+  // The search succeeded: only now is the filter changed. Nothing above this
+  // line touched it, so a failed or cancelled search cannot leave the database
+  // filter holding a partial result while the game list still shows the old
+  // one.
+  if (resetFilter)
+    filter->includeAll();
+  for (const gamenumT gnum : unreadable)
+    filter.set(gnum, 0);
+  for (size_t ci = 0; ci < cand_total; ++ci) {
+    const byte ply = results[ci];
+    // For AND: keep the game at its match ply, or exclude it if it did not
+    // match. For OR: only add the games that matched.
+    if (filterOp == FILTEROP_AND || ply > 0)
+      filter.set(candidates[ci], ply);
+  }
+
+  // Print statistics and time for the search:
+  char temp[200];
+  const int centisecs = timer.CentiSecs();
+  sprintf(temp, "%lu / %lu  (%d%c%02d s)",
+          static_cast<unsigned long>(filter->size()),
+          static_cast<unsigned long>(startFilterCount), centisecs / 100,
+          decimalPointChar, centisecs % 100);
+  Tcl_ResetResult(ti);
   Tcl_AppendResult(ti, temp, nullptr);
   return TCL_OK;
 }

@@ -168,6 +168,7 @@ menuText J SearchNegate "Негати филтер" 0 {Негирајте фил
 menuText J SearchCurrent "Тренутни одбор..." 0 {Потражите тренутну позицију на табли}
 menuText J SearchHeader "Заглавље..." 0 {Претражите по информацијама заглавља (играч, догађај, итд.).}
 menuText J SearchMaterial "Материјал/Узорак..." 0 {Потражите узорке материјала или плоча}
+menuText J SearchCQL "CQL..." 0 {Претрага помоћу упита Chess Query Language}
 menuText J SearchComments "Претражи коментаре..." 0 {Претражите коментаре игара у тренутном филтеру}
 menuText J SearchUsing "Коришћење датотеке претраге..." 0 {Претражујте помоћу датотеке СеарцхОптионс}
 
@@ -2402,3 +2403,8 @@ set tips(J) {
     Виндовс се може усидрити тако што ћете проверити одговарајући унос у менију опција. Картице се могу превући и спустити из једне бележнице у другу и распоредити десним кликом на виџет картице.
   }
 }
+# CQL search:
+translate J CQLQuery {CQL упит}
+translate J CQLQueryHint {CQL упит, нпр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter покреће претрагу.}
+translate J CQLQueryEmpty {Унесите CQL упит пре претраге.}
+translate J CQLSearchFailed {CQL претрага није успела:}

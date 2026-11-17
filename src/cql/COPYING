@@ -1,0 +1,19 @@
+
+All source files in this directory are Copyright Lewis Stiller and Gady
+Costeff and except as specified all rights are reserved.  
+
+The source files are distributed under an implicit GNU License.
+
+Quoting Lewis Stiller from an e-mail exchange dated 10/01/2017: "CQL is
+covered under the GPL because it links to Shane Hudson's parser, which
+is GPL. So you're welcome to use CQL in a GPL application. If you want a
+less restrictive license for that parts of CQL not including his parser,
+I'd be happy to grant that too."
+
+Minor modifications were made to a few of the source files in the porting
+process, and may be attributed to Lionel Hampton, who makes no claim of
+Copyright to anything in this directory.
+
+A copy of the GPL may be found in the file COPYING in the root of the
+source tree.
+

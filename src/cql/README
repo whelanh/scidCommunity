@@ -1,0 +1,37 @@
+
+This directory contains the ported source for the integrated CQL search
+engine, as incorporated into the Scidvspc chess database application.
+In addition to the integrated engine, a ported stand-alone executable
+may be built from the same source.
+
+To make the standalone scql executable, which compiles against native
+headers and links with native objects, from the root of the source tree:
+    make scql
+
+For licensing details see the file COPYING in this directory.
+
+For documentaion of the porting process see the file PORT.
+
+Many thanks go to Stiller and Costeff for their innovative work on CQL.
+It was a landmark development in the world of chess and is a highly
+appreciated feature addition to the Scidvspc.
+
+========================= From the original README:
+
+Version information is in the file version.cpp, or can be found by
+running pcql --help.
+
+This distribution requires a C++ 11 compiler. It has been compiled with
+GNU g++ and with clang, as well as with Microsoft Visual C++.
+
+LICENSE
+ All the files in the subdirectory orig/ are by Shane Hudson and were
+ distributed under the GNU License version 2.
+
+ The file origChanges.cpp consists of minor modifications to those files.
+
+ All other files are Copyright Lewis Stiller and Gady Costeff and except
+ as specified all rights are reserved.
+
+ For documentation, see http://www.gadycosteff.com/cql
+
