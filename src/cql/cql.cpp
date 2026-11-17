@@ -56,7 +56,7 @@ void parseargs(int argc, char*argv[]){
   }
   while (++nextarg<argc){
     char*current=argv[nextarg];
-    if(current==NULL || strlen(current)==0) break;
+    if(current==nullptr || strlen(current)==0) break;
     else if (!strcmp(current,"-d") || !strcmp(current,"--debug"))
       CqlDebug=1;
     else if (!strcmp(current,"--parse")) {

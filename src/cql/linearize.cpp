@@ -15,7 +15,7 @@ SeqRet FutureNode::computeLinearize(HolderConstituent* holder, SeqStack&stack){
   uassert(allmoves.size()==nchildren,"moves/nchildren mismatch: computeLinearize");
   vector<MoveFutureNode*>movefutures=linearize(filter);
   for(auto movefuture : movefutures){
-    uassert(movefuture->requiredMove==NULL,"computeLinearize rM");
+    uassert(movefuture->requiredMove==nullptr,"computeLinearize rM");
     uassert(movefuture->requiredIndex=-1,"computeLinearize rI");
   }
   uassert(!movefutures.empty(),"unexpected emptymovefutures");
@@ -24,7 +24,7 @@ SeqRet FutureNode::computeLinearize(HolderConstituent* holder, SeqStack&stack){
     /* Set the moveIndex of all the MoveFutureNodes in the current filter*/
     simpleMoveT* currentmove=allmoves.at(childindex);
     for (auto movefuture: movefutures){
-      uassert(movefuture->requiredMove==NULL,"cLmfrbmn");
+      uassert(movefuture->requiredMove==nullptr,"cLmfrbmn");
       movefuture->requiredMove=currentmove;
       uassert(movefuture->requiredIndex== -1,"cLmfrI");
       movefuture->requiredIndex=childindex;
@@ -33,7 +33,7 @@ SeqRet FutureNode::computeLinearize(HolderConstituent* holder, SeqStack&stack){
     bool matchedcurrentfilter=filter->match_position(game);
     for (auto movefuture: movefutures){
       uassert(movefuture->requiredMove==currentmove,"cLmfrbmn2");
-      movefuture->requiredMove=NULL;
+      movefuture->requiredMove=nullptr;
       uassert(movefuture->requiredIndex== childindex,"cLmfrI2");
       movefuture->requiredIndex=-1;
   }
@@ -63,7 +63,7 @@ SeqRet FutureNode::computeLinearize(HolderConstituent* holder, SeqStack&stack){
 }
 
 vector<MoveFutureNode*> FutureNode::linearize(Node* filter){
-  uassert(filter!=NULL, "linearize null filter");
+  uassert(filter!=nullptr, "linearize null filter");
   vector<MoveFutureNode*> ret;
   MoveFutureNode* movefuturefilter=dynamic_cast<MoveFutureNode*>(filter);
   MovePastNode* movepastfilter=dynamic_cast<MovePastNode*>(filter);

@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #pragma once
-typedef unsigned long long Mask;
+using Mask = unsigned long long;
 class SquareMask{
  public:
   Mask mask{0};

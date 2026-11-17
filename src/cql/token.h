@@ -153,7 +153,7 @@ class PieceToken: public Token{
 
 class PieceDesignatorToken:public Token{
  public:
-  PieceLoc* pieceloc{NULL};
+  PieceLoc* pieceloc{nullptr};
   vector<PieceToken*>pieces;
   vector<SquareToken*> squares;
   vector<VariableToken*> variables;
@@ -163,7 +163,7 @@ class PieceDesignatorToken:public Token{
   virtual const char* thisclass(){return "PieceDesignatorToken";}
   int len(){return 1;}//inaccurate
   };
-typedef PieceDesignatorToken PDT;
+using PDT = PieceDesignatorToken;
 
 class SquareToken: public Token{
  public:

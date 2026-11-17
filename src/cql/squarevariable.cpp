@@ -6,7 +6,7 @@
 // SquareVariable Stuff ////////
 
 SquareVariable* Variable::getSquareVariable(const char*nm){
-  SquareVariable* ret=NULL;   
+  SquareVariable* ret=nullptr;   
   Variable*v=find(nm);
   if(v) {
     ret=dynamic_cast<SquareVariable*>(v);

@@ -4,11 +4,11 @@
  */
 #include "node.h"
 bool RayNode::isSet(){
-  return range==NULL;
+  return range==nullptr;
 }
 
 bool RayNode::isCountable(){
-  return range!=NULL;
+  return range!=nullptr;
 }
 
 void RayNode::print(){

@@ -31,7 +31,7 @@ class StarConstituent;
 class RepeatConstituent;
 class HolderConstituent;
 
-typedef vector<Node*> vnode;
+using vnode = vector<Node*>;
 #define CVV(name) const char * thisclass() {return #name;} name* clone() 
 
 class Node : public Deleteable { //abstract
@@ -234,7 +234,7 @@ class TerminalNode:public SimpleNode{
 
 class NotNode:public SetBase{
  public:
-  MFilter* filter{NULL};
+  MFilter* filter{nullptr};
   CVV(NotNode);
   vnode children(){return vnode{filter};}
   void print();
@@ -259,7 +259,7 @@ class PositionNode: public MFilter{
 
 class MatchCountNode: public Node{
  public:
-  Range*range{NULL};
+  Range*range{nullptr};
   MatchCountNode(Range*,bool);
   bool sort{false};
   void print();
@@ -298,7 +298,7 @@ class ResultNode: public GameFilter{
 
 class PlayerNode: public GameFilter{
  public:
-  const char* name{NULL};
+  const char* name{nullptr};
   colorT color {NOCOLOR};
   vnode children(){return vnode{};}
   bool match_game(Game*game);
@@ -310,7 +310,7 @@ class PlayerNode: public GameFilter{
 
 class EventNode: public GameFilter{
  public:
-  const char* name{NULL};
+  const char* name{nullptr};
   vnode children(){return vnode{};}
   bool match_game(Game*game);
   void print();
@@ -320,7 +320,7 @@ class EventNode: public GameFilter{
 
 class SiteNode: public GameFilter{
  public:
-  const char* name{NULL};
+  const char* name{nullptr};
   vnode children(){return vnode{};}
   bool match_game(Game*game);
   void print();
@@ -331,7 +331,7 @@ class SiteNode: public GameFilter{
 
 class EloNode: public GameFilter,public Countable{
  public:
-  Range*range{NULL};
+  Range*range{nullptr};
   colorT color {NOCOLOR};
   vnode children(){return vnode{};}
   bool match_game(Game*game);
@@ -345,7 +345,7 @@ class EloNode: public GameFilter,public Countable{
   
 class YearNode: public GameFilter, public Countable{
  public:
-  Range*range{NULL};
+  Range*range{nullptr};
   vnode children(){return vnode{};}
   bool match_game(Game*game);
   bool match_count(Game*game, NumValue*value);
@@ -356,7 +356,7 @@ class YearNode: public GameFilter, public Countable{
 
 class GameNumberNode: public GameFilter{
  public:
-  Range * range{NULL};
+  Range * range{nullptr};
   CVV(GameNumberNode);
   GameNumberNode(Range* r);
   vnode children(){return vnode{};};
@@ -367,7 +367,7 @@ class GameNumberNode: public GameFilter{
 class OriginNode:public SetBase{
  public:
   OriginNode(TagVariable*);
-  TagVariable*variable{NULL};
+  TagVariable*variable{nullptr};
   SquareMask getSquares(Game*game);
   CVV(OriginNode);
   vnode children(){return vnode{};}
@@ -379,8 +379,8 @@ class CountSquaresNode:public MFilter, public Countable{
   int count{0};
  public:
   int getCount(){return count;}
-  Range* range{NULL};
-  SetBase* set{NULL};
+  Range* range{nullptr};
+  SetBase* set{nullptr};
   CVV(CountSquaresNode);
   bool match_count(Game*game, NumValue* value);
   void print();
@@ -403,9 +403,9 @@ class AttackNode : public SetBase, public Countable{
   int squarecounts[64]; //tmp
 
  public:
-  SetBase* attacking{NULL};
-  SetBase* attacked{NULL};
-  Range* range{NULL};
+  SetBase* attacking{nullptr};
+  SetBase* attacked{nullptr};
+  Range* range{nullptr};
   void print();
   int getCount(){return count;}
   bool match_position(Game*game);
@@ -421,8 +421,8 @@ class AttackNode : public SetBase, public Countable{
 
 class OrNode: public SetBase{
  public:
-  MFilter* clause1{NULL};
-  MFilter* clause2{NULL};
+  MFilter* clause1{nullptr};
+  MFilter* clause2{nullptr};
   bool match_position(Game*g);
   OrNode(MFilter*c1, MFilter*c2);
   vnode children(){return vnode{clause1,clause2};}
@@ -435,8 +435,8 @@ class OrNode: public SetBase{
 
 class OnNode: public SetBase{
  public:
-  SetBase* clause1{NULL};
-  SetBase* clause2{NULL};
+  SetBase* clause1{nullptr};
+  SetBase* clause2{nullptr};
   SquareMask getSquares(Game*g);
   OnNode(SetBase* s1, SetBase* s2);
   vnode children(){return vnode{clause1,clause2};}
@@ -450,9 +450,9 @@ class ExistsNode: public SetBase{
  private:
   bool match_filters(squareT,Game*);
  public:
-  SquareVariable*variable{NULL};
+  SquareVariable*variable{nullptr};
   vector<MFilter*> filters;
-  SetBase*target{NULL};
+  SetBase*target{nullptr};
   CVV(ExistsNode);
   vnode children();
   SquareMask getSquares(Game*game);
@@ -464,8 +464,8 @@ class ExistsNode: public SetBase{
 
 class ForallNode: public MFilter{
  public:
-  SquareVariable*variable{NULL};
-  SetBase*target{NULL};
+  SquareVariable*variable{nullptr};
+  SetBase*target{nullptr};
   vector<MFilter*>filters;
   CVV(ForallNode);
   vnode children();
@@ -493,7 +493,7 @@ class RayNode: public SetBase, public Countable{
   CVV(RayNode);
   void print();
   vnode children();
-  Range*range{NULL};
+  Range*range{nullptr};
   void deepify(){clonevec(designators);}
   void transform_members(Transform*t);
  bool match_count(Game*game, NumValue* value);
@@ -505,8 +505,8 @@ class RayNode: public SetBase, public Countable{
 
 class AssignNode: public MFilter{
  public:
-  NumericVariable* variable{NULL};
-  Countable* node{NULL};
+  NumericVariable* variable{nullptr};
+  Countable* node{nullptr};
   bool match_position(Game*game);
   CVV(AssignNode);
   vnode children();
@@ -519,10 +519,10 @@ class AssignNode: public MFilter{
 class MoveBase:public SetBase, public VariationFlags{
  public:
   virtual vector<simpleMoveT*> getMoves(Game*game)=0;
-  SetBase* from{NULL};
-  SetBase* to{NULL};
-  PieceLoc* promote{NULL};
-  SetBase* enpassantsquare{NULL};
+  SetBase* from{nullptr};
+  SetBase* to{nullptr};
+  PieceLoc* promote{nullptr};
+  SetBase* enpassantsquare{nullptr};
   bool primaryMove{false};
   bool secondaryMove{false};
   MoveBase(SetBase*from, SetBase* to, PieceLoc* promote,SetBase* enpassant,bool nullmove,bool mainline, bool variation);
@@ -548,7 +548,7 @@ class MoveFutureNode:public MoveBase{
   MoveFutureNode(SetBase*from, SetBase*to, PieceLoc* promote, SetBase* enpassant,bool nullmove, bool mainline, bool variation);
   vector<simpleMoveT*>getMoves(Game*game);
   int requiredIndex=-1 ; // used by FutureNode: only examine this child
-  simpleMoveT* requiredMove=NULL; // used by Future Node
+  simpleMoveT* requiredMove=nullptr; // used by Future Node
 };
 
 class MoveLegalNode:public MoveBase{
@@ -560,7 +560,7 @@ class MoveLegalNode:public MoveBase{
 
 class MoveNumberNode: public MFilter, public Countable {
  public:
-  Range*range{NULL};
+  Range*range{nullptr};
   CVV(MoveNumberNode);
   MoveNumberNode(Range*r);
   vnode children(){return vnode{};}
@@ -573,17 +573,17 @@ class MoveNumberNode: public MFilter, public Countable {
 
 class CqlNode : public Node,public VariationFlags, public CommentFlags{
  public:
-  MFilter* filter{NULL};
+  MFilter* filter{nullptr};
   vector<GameFilter*> gamefilters;
   vector<NumericVariable*> sortfields;
   int currentGameNumber{0};
   bool usemarks{false};
-  const char* inputfile{NULL};
-  const char* outputfile{NULL};
-  FILE*outputstream{NULL};
-  Range* nmatchesrange{NULL};
-  Range* gamenumberrange{NULL};
-  Range* matchCountRange{NULL};
+  const char* inputfile{nullptr};
+  const char* outputfile{nullptr};
+  FILE*outputstream{nullptr};
+  Range* nmatchesrange{nullptr};
+  Range* gamenumberrange{nullptr};
+  Range* matchCountRange{nullptr};
   void setChildVariations(); //must be called after variationflags is set
   void match();
   bool match_game(Game*game);
@@ -608,8 +608,8 @@ class FutureStarNode : public MFilter, public Countable, public VariationFlags, 
   int depthMax{-1};
   void compute_counts(Game*game,vector<moveT*>&, int depth);
  public:
-  MFilter* filter{NULL};
-  Range* range{NULL};
+  MFilter* filter{nullptr};
+  Range* range{nullptr};
   CVV(FutureStarNode);
   void print();
   int getCount(){return count;}
@@ -626,8 +626,8 @@ class PastStarNode : public MFilter, public Countable, public CommentFlags{
   void compute_counts(Game*game,vector<moveT*>&,int depth);
   int depthMax{-1};
  public:
-  MFilter* filter{NULL};
-  Range* range{NULL};
+  MFilter* filter{nullptr};
+  Range* range{nullptr};
   CVV(PastStarNode);
   void print();
   int getCount(){return count;}
@@ -641,8 +641,8 @@ class PastStarNode : public MFilter, public Countable, public CommentFlags{
 
 class PieceIdNode : public SetBase{
  public:
-  TagVariable*variable{NULL};
-  SetBase* set{NULL};
+  TagVariable*variable{nullptr};
+  SetBase* set{nullptr};
   vector<MFilter*>filters;
   SquareMask getSquares(Game*game);
   CVV(PieceIdNode);
@@ -656,7 +656,7 @@ class PieceIdNode : public SetBase{
 class VectorNode : public SetBase{
  public:
   DirectionParameter parameter;
-  SetBase* source{NULL};
+  SetBase* source{nullptr};
   CVV(VectorNode);
   void print();
   vnode children();
@@ -678,9 +678,9 @@ class TransformNode: public SetBase, public Countable{
  public:
   vector<Transform*> transforms;
   static TransformNode* create(vector<Transform*>, Node*, Range*);
-  MFilter* filter{NULL};
+  MFilter* filter{nullptr};
   int count{0};
-  Range*range{NULL};
+  Range*range{nullptr};
   vector<MFilter*> transformedFilters;
   void print();
   vnode children();
@@ -701,8 +701,8 @@ class TransformNode: public SetBase, public Countable{
 
 class BetweenNode: public SetBase {
  public:
-  SetBase* source{NULL};
-  SetBase* target{NULL};
+  SetBase* source{nullptr};
+  SetBase* target{nullptr};
   void print();
   //  bool match_square(squareT square, Game*game);
   SquareMask getSquares(Game*game);
@@ -723,8 +723,8 @@ class ExtensionNode:public MFilter{
 
 class PowerNode: public MFilter, public Countable {
  public:
-  SetBase* set{NULL};
-  Range*range{NULL};
+  SetBase* set{nullptr};
+  Range*range{nullptr};
   int power{-1000};
   void print();
   bool match_count(Game*game, NumValue*value);
@@ -738,9 +738,9 @@ class PowerNode: public MFilter, public Countable {
 
 class PowerDifferenceNode: public MFilter, public Countable {
  public:
-  PowerNode* power1{NULL};
-  PowerNode* power2{NULL};
-  Range*range{NULL};
+  PowerNode* power1{nullptr};
+  PowerNode* power2{nullptr};
+  Range*range{nullptr};
   int powerdifference{-1000};
   void print();
   bool match_count(Game*game, NumValue*value);
@@ -754,7 +754,7 @@ class PowerDifferenceNode: public MFilter, public Countable {
 
 class MatchCommentNode: public MFilter{
  public:
-  const char* value{NULL};
+  const char* value{nullptr};
   MatchCommentNode(const char* v);
   CVV(MatchCommentNode);
   void print();
@@ -783,7 +783,7 @@ class CommentSet:public CommentBase{
  public:
   CommentSet(SetBase*);
   void printBuffer(Game*g,char*buffer);
-  SetBase*set{NULL};
+  SetBase*set{nullptr};
   CVV(CommentSet);
   void deepify(){set=set->clone();}
   vnode children(){return vnode{set};}

@@ -24,7 +24,7 @@ CqlNode* parseFile(const char* filename){
   uassert(!CqlParseRoot,"parser: expecting a null CqlParseRoot");
   CqlNode* n=ts->match_cqlnode();
   CqlParseRoot=n;
-  uassert(n!=NULL,"CQL: Unable to parse file: %s",filename);
+  uassert(n!=nullptr,"CQL: Unable to parse file: %s",filename);
   n->setChildVariations();
   n->setUseMarks();
   if(n->isSilent()) n->makeSilentRecursively();
@@ -40,7 +40,7 @@ CqlNode* parseBuffer(char* buffer){
   static bool pbDoOnce = true;
   if(CqlDebug)printf("Parser: lexing buffer:\n");
   vector<Token*> tokens;
-  bool ret=lexStream(NULL,buffer,&tokens);
+  bool ret=lexStream(nullptr,buffer,&tokens);
   if(CqlShowLex)
     printf("Got return of: %d and ntokens: %lu\n",ret,tokens.size());
   Tokens * ts=new Tokens(tokens);
@@ -56,7 +56,7 @@ CqlNode* parseBuffer(char* buffer){
   uassert(!CqlParseRoot,"parser: expecting a null CqlParseRoot");
   CqlNode* n=ts->match_cqlnode();
   CqlParseRoot=n;
-  uassert(n!=NULL,"CQL: Unable to parse buffer");
+  uassert(n!=nullptr,"CQL: Unable to parse buffer");
   n->setChildVariations();
   n->setUseMarks();
   if(n->isSilent()) n->makeSilentRecursively();
@@ -92,7 +92,7 @@ void CqlReset() {
 
   //if (MarkBoard::globalMarkBoard) {
     //delete MarkBoard::globalMarkBoard;
-    //MarkBoard::globalMarkBoard=NULL;
+    //MarkBoard::globalMarkBoard=nullptr;
   //}
 
   Variable::clearAll();

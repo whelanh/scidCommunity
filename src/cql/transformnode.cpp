@@ -8,7 +8,7 @@
 TransformNode* TransformNode::create(vector<Transform*> ts,Node*n,Range*r){
   uassert(n);
   TransformNode* nbasenode=dynamic_cast<TransformNode*>(n);
-  Range*subrange=NULL;
+  Range*subrange=nullptr;
   if(nbasenode)subrange=nbasenode->range;
   if(!r&&nbasenode&&!subrange){
     uassert(!nbasenode->expanded());
@@ -26,7 +26,7 @@ TransformNode* TransformNode::create(vector<Transform*> ts,Node*n,Range*r){
 bool TransformNode::isSet(){
   if (range)return false;
   if(expanded()){
-    uassert(filter==NULL,"TransformNode:isSet i1");
+    uassert(filter==nullptr,"TransformNode:isSet i1");
     uassert(transformedFilters.size(),"TransformNode:isSet i2");
     for (auto tf:transformedFilters) // We actually only need to check the 0'th element
       if(!tf->isSet()) return false;
@@ -37,7 +37,7 @@ bool TransformNode::isSet(){
 }
 
 bool TransformNode::isCountable(){
-  return range!=NULL;
+  return range!=nullptr;
 }
 
 SquareMask TransformNode::getSquares(Game*game){
@@ -64,7 +64,7 @@ void TransformNode::expand(){
   }
   for(auto transformedfilter : transformedFilters)
     transformedfilter->expand();
-  filter=NULL;
+  filter=nullptr;
 }
 
 
@@ -128,7 +128,7 @@ void TransformNode::deepify(){
 bool TransformNode::expanded(){
   uassert(!filter&&transformedFilters.size() ||
 	  filter&&transformedFilters.empty(),"TransformNode::expanded internal");
-  return filter==NULL;
+  return filter==nullptr;
 }
 
 TransformNode* TransformNode::clone(){

@@ -21,7 +21,7 @@ void unindent(){
   
 
 bool util::signedIntValue(char*s,int*val){
-  if (s==NULL||s[0]==0) return false;
+  if (s==nullptr||s[0]==0) return false;
   bool negate=false;
   char*next=s;
   if (next[0]=='-'){
@@ -124,7 +124,7 @@ bool util::directionDiagonal(directionT direction){
 }
 
 void util::printgame(Game*g){
-  if(!g){printf("NULL GAME\n");}
+  if(!g){printf("nullptr GAME\n");}
   my_dump_board(g->GetCurrentPos()->GetBoard());
 }
     

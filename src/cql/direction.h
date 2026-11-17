@@ -30,7 +30,7 @@ class Direction{
   
 class DirectionParameter {
  public: vector<Direction> directions;
-  Range*range {NULL};
+  Range*range {nullptr};
   const char* thisclass(){return "DirectionParameter";}
   void print();
   SquareMask neighborhood(squareT square);

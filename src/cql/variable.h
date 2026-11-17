@@ -6,12 +6,12 @@
 class SquareVariable;
 class TagVariable;
 class NumericVariable;
-typedef int NumValue;
+using NumValue = int;
 
 class Variable{
  public:
   virtual ~Variable(){}
-  const char*name{NULL};
+  const char*name{nullptr};
   bool eq(const char*name);
   bool bound{false};
   virtual bool isSquare()const {return false;}

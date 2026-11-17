@@ -8,15 +8,15 @@ using std::string;
 #include "cqlexit.h"
 
 void uassert(void* v){
-  uassert(v!=NULL);
+  uassert(v!=nullptr);
 }
 
 void uassert(void* v,const char*s){
-  uassert(v!=NULL,s);
+  uassert(v!=nullptr,s);
 }
 
 void uassert(void *v,const char*s, const char*s2){
-  uassert(v!=NULL,s,s2);
+  uassert(v!=nullptr,s,s2);
 }
 
 

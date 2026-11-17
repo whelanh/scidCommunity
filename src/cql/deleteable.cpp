@@ -40,13 +40,13 @@ void Deleteable::deleteableCleanup(){
   deleteableInitialize();
   size_t ninstances=deleteableConstructed->size();
   for (auto d : *deleteableConstructed){
-    uassert(d!=NULL,"deleteableCleanup: unexpected null instance");
+    uassert(d!=nullptr,"deleteableCleanup: unexpected null instance");
     delete d;
   }
   uassert(deleteableNDeleted==ninstances,"deleteableCleanup: ninstances mismatch");
   if(1)printf("deleteableCleanup: deleted %d instances\n",(int)ninstances);
   delete deleteableConstructed;
-  deleteableConstructed=NULL;
+  deleteableConstructed=nullptr;
   deleteableCleaningUp=false;
   deleteableNDeleted=0;
 }

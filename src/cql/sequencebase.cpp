@@ -64,7 +64,7 @@ void SequenceBase::setOffsets(){
 
 
 bool SequenceBase::match_position(Game*g){
-  uassert(game==NULL&&g,"fnmpg");
+  uassert(game==nullptr&&g,"fnmpg");
   if (nestBan&&nestSeenPosition(g))
     return false;
   game=g;
@@ -89,7 +89,7 @@ bool SequenceBase::match_position(Game*g){
 
 void SequenceBase::exitMatch(){
   uassert(game,"sbem g");
-  game=NULL;
+  game=nullptr;
   if(isSkip()){
     uassert(theSkipColor!=NOCOLOR,"sbem s");
     theSkipColor=NOCOLOR;
@@ -251,7 +251,7 @@ SeqRet SequenceBase::computeSkip(SeqStack &stack){
 
 HolderConstituent*SequenceBase::getSkipConstituent()const{
   colorT c=getSkipColor();
-  HolderConstituent* ret=NULL;
+  HolderConstituent* ret=nullptr;
   switch(c){
   case WHITE:ret=theWhiteHolder;break;
   case BLACK:ret=theBlackHolder;break;
@@ -262,7 +262,7 @@ HolderConstituent*SequenceBase::getSkipConstituent()const{
 }
 
 bool SequenceBase::isSkip()const{
-  return theWhiteHolder!=NULL;
+  return theWhiteHolder!=nullptr;
 }
 
 colorT SequenceBase::getSkipColor()const{
@@ -290,7 +290,7 @@ void SequenceBase::setSkipColor(colorT c){
 }
 
 bool SequenceBase::skipCurrentPosition()const{
-  uassert(isSkip()&&game!=NULL);
+  uassert(isSkip()&&game!=nullptr);
   colorT tomove=game->GetCurrentPos()->GetToMove();
   uassert(tomove==WHITE||tomove==BLACK,"sbscp");
   return skipColor(tomove);

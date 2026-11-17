@@ -271,6 +271,6 @@ vector<simpleMoveT*> MarkBoard::getLegalMoves(Game*game){
 void MarkBoard::restart(){
   if(globalMarkBoard){
     delete globalMarkBoard;
-    globalMarkBoard=NULL;
+    globalMarkBoard=nullptr;
   }
 }

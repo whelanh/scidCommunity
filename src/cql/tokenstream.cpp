@@ -20,7 +20,7 @@ bool Tokens::eof(){
 }
 
 Token* Tokens::current(){
-  if(eof())return NULL;
+  if(eof())return nullptr;
   return tokens[bottom];
 }
 
@@ -31,7 +31,7 @@ void Tokens::forward(){
 
 Tokens::Tokens(vector<Token*>ts){
   for(auto s:ts)
-    {uassert (s!=NULL);}
+    {uassert (s!=nullptr);}
   tokens=ts;
   bottom=0;
 }

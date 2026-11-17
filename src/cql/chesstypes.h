@@ -6,7 +6,7 @@
 #include "common.h"
 #include "game.h"
 #include "util.h"
-typedef int markT;
+using markT = int;
 
 inline bool color_valid(colorT c) {return c==WHITE || c==BLACK;}
 const char* color_string(colorT c);

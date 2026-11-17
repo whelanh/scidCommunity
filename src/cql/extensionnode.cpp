@@ -34,7 +34,7 @@ bool ExtensionNode::match_position(Game*game){
 //   else{
 //     moveT* prev=game->CurrentMove->prev;
 //     if(!prev)
-//       sprintf(buffer,"NULL");
+//       sprintf(buffer,"nullptr");
 //     else if (prev->marker==START_MARKER)
 // 	sprintf(buffer,"STARTMARKER");
 //     else {

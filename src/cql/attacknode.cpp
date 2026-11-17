@@ -133,10 +133,10 @@ SquareMask AttackNode::getSquares(Game*game){
 }
 
 bool AttackNode::isSet(){
-  return range==NULL;
+  return range==nullptr;
 }
 
 bool AttackNode::isCountable(){
-  return range!=NULL;
+  return range!=nullptr;
 }
 

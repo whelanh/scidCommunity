@@ -5,8 +5,8 @@
 #include "util.h"
 
 vector<Direction> Direction::directionsFromString(const char*s){
-  typedef Direction D;
-  typedef vector<Direction>V;
+  using D = Direction;
+  using V = vector<Direction>;
   D up(0,1);
   D down(0,-1);
   D left(-1,0);

@@ -27,7 +27,7 @@ Variable* Variable::find(const char*nm){
   for(Variable* v:*(getVariables()))
     if (v->eq(nm))
       return v;
-  return NULL;
+  return nullptr;
 }
 
 void Variable::unbindTags(){

@@ -7,7 +7,7 @@
 
 Node* Tokens::match_basicnode(){
   Node * node=match_basicnode_no_suffix();
-  if(!node) return NULL;
+  if(!node) return nullptr;
   OrNode*ornode=match_ornode(node);
   if(ornode) return ornode;
 
@@ -19,7 +19,7 @@ Node* Tokens::match_basicnode(){
 
 OrNode* Tokens::match_ornode(Node*prefix){
   uassert(prefix,"match_ornode internal");
-  if(!match_keyword("or"))return NULL;
+  if(!match_keyword("or"))return nullptr;
   Node*suffix=match_basicnode();
   if(!suffix)
     show_error("expecting a filter following 'or'");
@@ -31,7 +31,7 @@ OrNode* Tokens::match_ornode(Node*prefix){
 }
 
 OnNode* Tokens::match_onnode(Node*prefix){
-  if(!match_keyword("on"))return NULL;
+  if(!match_keyword("on"))return nullptr;
   uassert(prefix,"unexpected OnNode arg");
   SetBase* s1=dynamic_cast<SetBase*>(prefix);
   if(!s1||!s1->isSet())
@@ -46,7 +46,7 @@ OnNode* Tokens::match_onnode(Node*prefix){
 }
 
 Node* Tokens::match_basicnode_no_suffix(){
-  Node*n=NULL;
+  Node*n=nullptr;
   if(!n) n=match_simplenode();
   if(!n) n=match_compoundnode();
   return n;
@@ -54,7 +54,7 @@ Node* Tokens::match_basicnode_no_suffix(){
 
 
 Node* Tokens::match_compoundnode(){
-  Node*n=NULL;
+  Node*n=nullptr;
   if(!n) n=match_anynode();
   if(!n) n=match_attacknode();
   if(!n) n=match_betweennode();
@@ -91,7 +91,7 @@ Node* Tokens::match_compoundnode(){
   return n;
 }
 Node* Tokens::match_silent(){
-  if(!match_keyword("silent")) return NULL;
+  if(!match_keyword("silent")) return nullptr;
   Node* n = match_basicnode();
   if(!n)
     show_error("silent keyword must be followed by a filter to make silent (relation, next, next*, previous, previous*");
@@ -104,11 +104,11 @@ Node* Tokens::match_silent(){
 
 SilentFeatureNode* Tokens::match_silentfeature(){
   if (match_keyword("silent"))return new SilentFeatureNode();
-  return NULL;
+  return nullptr;
 }
 
 Node* Tokens::match_cqlfeature(){
-  Node*n=NULL;
+  Node*n=nullptr;
   if(!n)n=match_pgnnode();
   if(!n)n=match_resultnode();
   if(!n)n=match_gamenumbernode();
@@ -126,7 +126,7 @@ Node* Tokens::match_cqlfeature(){
 
 MoveNumberNode* Tokens::match_movenumbernode(){
   KeywordToken* k=match_keyword(":movenumber");
-  if(!k) return NULL;
+  if(!k) return nullptr;
   Range* r=match_range();
   if(!r) show_error(":movenumber expected range but got: ");
   return new MoveNumberNode(r);
@@ -139,7 +139,7 @@ GameNumberNode* Tokens::match_gamenumbernode(){
     if(r) return new GameNumberNode(r);
   }
   restore(x);
-  return NULL;
+  return nullptr;
 }
 
 CqlNode* Tokens::match_cqlnode(){
@@ -158,7 +158,7 @@ CqlNode* Tokens::match_cqlnode(){
     show_error("Expected one or more filters following CQL specification, got none");
   if(!eof())
     show_error("Extra text following the filters after the CQL specification, or unspecified syntax error");
-  Node*node=NULL;
+  Node*node=nullptr;
   if(nodes.size()>1)
     node=new PositionNode(nodes);
   else
@@ -174,9 +174,9 @@ Node* Tokens::match_positionnode(){
   int x=save();
   if (match_repeat_range()){
     restore(x);
-    return NULL;
+    return nullptr;
   }
-  if(!match_lbrace()) return NULL;
+  if(!match_lbrace()) return nullptr;
   nodes=match_some_basicnodes();
   if(nodes.size()==0)
     show_error("syntax error following a '{' : expected a filter");
@@ -191,13 +191,13 @@ Node* Tokens::match_positionnode(){
 
 
 NotNode* Tokens::match_notnode(){
-  if(!match_keyword(":not")) return NULL;
+  if(!match_keyword(":not")) return nullptr;
   Node*node=match_basicnode();
   return new NotNode(node);
 }
 
 RayNode* Tokens::match_raynode(){
-  if(!match_keyword("ray")) return NULL;
+  if(!match_keyword("ray")) return nullptr;
   bool isattack=false;
   Range* range=match_range();
   vector<Direction> directions=match_raydirections(&isattack);
@@ -261,7 +261,7 @@ vector<directionT>Tokens::directionsFromRayKeyword(KeywordToken *k){
     
 AttackNode* Tokens::match_attacknode(){
   bool keyword=(match_keyword(":attack")||match_keyword(":attacks"));
-  if(!keyword) return NULL;
+  if(!keyword) return nullptr;
   Range *r=match_range();
   if(!match_lparen())
     show_error("'attack' expects left paren before the attacker and the attacked specifictions");
@@ -296,13 +296,13 @@ Node* Tokens::match_simplenode(){
     return new InMainlineNode();
   if(match_keyword("terminal"))
     return new TerminalNode();
-  return NULL;
+  return nullptr;
 }
 
 VariationsNode* Tokens::match_variationsnode(){
   if(match_keyword(":variations"))
     return new VariationsNode();
-  return NULL;
+  return nullptr;
 }
 
 KeywordToken*Tokens::match_raykeyword(){
@@ -310,16 +310,16 @@ KeywordToken*Tokens::match_raykeyword(){
   char*keys[]={":ray",":rayorthogonal",":raydiagonal",":rayattack"};
   size_t nkeys = sizeof(keys)/sizeof(char*);
   KeywordToken *t=match_keyword();
-  if(!t)return NULL;
+  if(!t)return nullptr;
   for(int i=0;i<nkeys;++i)
     if(t->eq(keys[i]))return t;
   restore(x);
-  return NULL;
+  return nullptr;
 }
 
 
 TransformNode* Tokens::match_transformnode(){
-  TransformNode*t=NULL;
+  TransformNode*t=nullptr;
   if(!t) t=match_fliptransform();
   if(!t) t=match_shifttransform();
   return t;
@@ -338,7 +338,7 @@ NumericVariable* Tokens::match_optionalnumericvariable(bool ismax){
 }
 
 NumericVariable* Tokens::match_sortheader(){
-  if(!match_keyword("sort"))return NULL;
+  if(!match_keyword("sort"))return nullptr;
   bool ismax=true;
   if (match_keyword("max"))
     ismax=true;
@@ -351,7 +351,7 @@ NumericVariable* Tokens::match_sortheader(){
 
 Node* Tokens::match_sortbodynode(){
   NumericVariable* var=match_sortheader();
-  if(!var)return NULL;
+  if(!var)return nullptr;
   Node*node=match_basicnode();
   if(!node)
     show_error("'sort' must be followed by optional 'max' or 'min'; then by an optional quoted string; and last by countable filter. The countable filter is missing");
@@ -366,7 +366,7 @@ MatchCountNode* Tokens::match_matchcountnode(){
   if (match_keywords("sort","matchcount"))
     sort=true;
   else if(!match_keyword("matchcount"))
-    return NULL;
+    return nullptr;
   Range * range= match_range();
   if(!range)
     show_error("missing range, eg. '1 20', following 'matchcount' keyword");
@@ -391,7 +391,7 @@ PgnNode* Tokens::match_pgnnode(){
     }
     return new PgnNode(filename);
   }
-  return NULL;
+  return nullptr;
 }
 
 OutputNode* Tokens::match_outputnode(){
@@ -411,13 +411,13 @@ OutputNode* Tokens::match_outputnode(){
     }
     return new OutputNode(filename);
   }
-  return NULL;
+  return nullptr;
 }
 
 
 PlayerNode* Tokens::match_playernode(){
   if(!match_keyword("player"))
-    return NULL;
+    return nullptr;
   colorT color=match_color();
   const char* name=match_quotedstring();
   if(!name)
@@ -427,7 +427,7 @@ PlayerNode* Tokens::match_playernode(){
 
 EventNode* Tokens::match_eventnode(){
   if(!match_keyword("event"))
-    return NULL;
+    return nullptr;
   const char* name=match_quotedstring();
   if(!name)
     show_error("'event' must be followed by a quoted string");
@@ -436,7 +436,7 @@ EventNode* Tokens::match_eventnode(){
 
 SiteNode* Tokens::match_sitenode(){
   if(!match_keyword("site"))
-    return NULL;
+    return nullptr;
   const char* name=match_quotedstring();
   if(!name)
     show_error("'site' must be followed by a quoted string");
@@ -445,7 +445,7 @@ SiteNode* Tokens::match_sitenode(){
 
 EloNode* Tokens::match_elonode(){
   if(!match_keyword("elo"))
-    return NULL;
+    return nullptr;
   colorT color=match_color();
   Range*range=match_range();
   if(!range)
@@ -455,7 +455,7 @@ EloNode* Tokens::match_elonode(){
 
 YearNode* Tokens::match_yearnode(){
   if(!match_keyword("year"))
-    return NULL;
+    return nullptr;
   Range*range=match_range();
   if(!range)
     show_error("'year' must be followed by a range");
@@ -464,8 +464,8 @@ YearNode* Tokens::match_yearnode(){
 
 ResultNode* Tokens::match_resultnode(){
   if(!match_keyword(":result"))
-    return NULL;
-  StringToken*name=NULL;
+    return nullptr;
+  StringToken*name=nullptr;
   if(!name ) name=match_string("1-0");
   if(!name) name=match_string("0-1");
   if(!name) name=match_string ("1/2-1/2");
@@ -475,13 +475,13 @@ ResultNode* Tokens::match_resultnode(){
 
 
 StringToken* Tokens::match_string(char* v){
-  uassert(v!=NULL);
+  uassert(v!=nullptr);
   int x=save();
   StringToken*n=match_string();
   if(n && n->eq(v))
     return n;
   restore(x);
-  return NULL;
+  return nullptr;
 }
     
 StringToken*Tokens::match_string(){
@@ -512,7 +512,7 @@ vector<Node*> Tokens::match_some_basicnodes(){
 
 ForallNode*Tokens::match_forallnode(){
   if(!match_keywords("square", "all"))
-    return NULL;
+    return nullptr;
   SquareVariable*sv=match_squarevariable();
   uassert(sv,"Expecting a square variable in 'forall' keyword specification");
   SetBase* target=match_inexpr();
@@ -525,8 +525,8 @@ ForallNode*Tokens::match_forallnode(){
 
 KeywordToken* Tokens::match_keyword(const char *v){
   KeywordToken* t=dynamic_cast<KeywordToken*>(current());
-  if(!t)return NULL;
-  if( !t->eq(v)) return NULL;
+  if(!t)return nullptr;
+  if( !t->eq(v)) return nullptr;
   forward();
   return t;
 }
@@ -612,7 +612,7 @@ bool Tokens::match_rbrace(){
 PieceLoc* Tokens::match_pieceloc(){
   PieceDesignatorToken* t =
     dynamic_cast<PDT*>(current());
-  if(!t) return NULL;
+  if(!t) return nullptr;
   else
     forward();
   if(t->pieceloc) return t->pieceloc;
@@ -627,7 +627,7 @@ Range* Tokens::match_range(){
   Range* r=match_compoundrange();
   if(r) return r;
   IntToken*ip=match_int();
-  if(!ip) return NULL;
+  if(!ip) return nullptr;
   return new Range(ip->value);
 }
 
@@ -640,7 +640,7 @@ Range* Tokens::match_compoundrange(){
       return new Range(minp->value,maxp->value);
   }
   restore(x);
-  return NULL;
+  return nullptr;
 }
 
 IntToken* Tokens::match_int(){
@@ -655,17 +655,17 @@ MoveBase* Tokens::match_movebase(){
   past=match_keywords("move", "previous");
   if(!past)
     future=match_keyword("move");
-  if (!past&&!future)return NULL;
+  if (!past&&!future)return nullptr;
   uassert (past||future,"match_movebase internal pf");
 
   bool legal=false;
   bool nullmove=false;
   bool primaryMove=false;
   bool secondaryMove=false;
-  SetBase* from=NULL;
-  SetBase* to=NULL;
-  PieceLoc* promote=NULL;
-  SetBase* epcapture=NULL;
+  SetBase* from=nullptr;
+  SetBase* to=nullptr;
+  PieceLoc* promote=nullptr;
+  SetBase* epcapture=nullptr;
   while(true)
     if (match_keyword("null"))
       nullmove=true;
@@ -673,14 +673,14 @@ MoveBase* Tokens::match_movebase(){
       primaryMove=true;
     else if (match_keyword("secondary"))
       secondaryMove=true;
-    else if (from==NULL &&
-	     ((from=match_fromexp())!=NULL));
-    else if (to==NULL &&
-	     ((to=match_toexp())!=NULL));
-    else if (promote==NULL&&
-	     ((promote=match_promoteexp())!=NULL));
-    else if (epcapture==NULL&&
-	     ((epcapture=match_enpassantexp())!=NULL));
+    else if (from==nullptr &&
+	     ((from=match_fromexp())!=nullptr));
+    else if (to==nullptr &&
+	     ((to=match_toexp())!=nullptr));
+    else if (promote==nullptr&&
+	     ((promote=match_promoteexp())!=nullptr));
+    else if (epcapture==nullptr&&
+	     ((epcapture=match_enpassantexp())!=nullptr));
     else break;
   if (nullmove&&(from||to||promote||epcapture))
       show_error("cannot use null with 'from', 'to', 'promote', or 'enpassant'");
@@ -693,7 +693,7 @@ MoveBase* Tokens::match_movebase(){
   else if (legal)
     return new MoveLegalNode(from,to,promote,epcapture,nullmove,primaryMove,secondaryMove);
   else uassert(false,"match_movebase");
-  return NULL;
+  return nullptr;
 }
   
   
@@ -706,12 +706,12 @@ SetBase* Tokens::match_enpassantexp(){
       show_error("expecting a set specifier following 'enpassantsquare' in 'move'");
     return s;
   }
-  return NULL;
+  return nullptr;
 }
 
 SetBase* Tokens::match_fromexp(){
   if(!match_keyword("from"))
-    return NULL;
+    return nullptr;
   SetBase* s=match_set();
   if(!s)
     show_error("missing set specifier in move from");
@@ -720,7 +720,7 @@ SetBase* Tokens::match_fromexp(){
 
 SetBase* Tokens::match_toexp(){
   if(!match_keyword("to"))
-    return NULL;
+    return nullptr;
   SetBase* s=match_set();
   if(!s)
     show_error("missing set specifier in move to");
@@ -729,7 +729,7 @@ SetBase* Tokens::match_toexp(){
 
 PieceLoc* Tokens::match_promoteexp(){
   if(!match_keyword(":promote"))
-    return NULL;
+    return nullptr;
   PieceLoc* p=match_pieceloc();
   if(!p) show_error("missing set specifier in :move :promote");
   if(!p->isPurePiece())
@@ -742,9 +742,9 @@ PieceLoc* Tokens::match_promoteexp(){
 SquareVariable*Tokens::match_squarevariable(){
   PDT* t=
     dynamic_cast<PDT*>(current());
-  if(!t)return NULL;
+  if(!t)return nullptr;
   VariableToken*vt=t->getAsVariableToken();
-  if(!vt)return NULL;
+  if(!vt)return nullptr;
   const char *name=vt->value;
   uassert(vt);
   SquareVariable*sv=Variable::getSquareVariable(name);
@@ -756,9 +756,9 @@ SquareVariable*Tokens::match_squarevariable(){
 TagVariable*Tokens::match_tagvariable(){
   PDT* t=
     dynamic_cast<PDT*>(current());
-  if(!t)return NULL;
+  if(!t)return nullptr;
   VariableToken*vt=t->getAsVariableToken();
-  if(!vt)return NULL;
+  if(!vt)return nullptr;
   const char *name=vt->value;
   uassert(vt);
   TagVariable*tv=Variable::getTagVariable(name);
@@ -781,7 +781,7 @@ void Tokens::show_error(const char* message){
 
 VectorNode* Tokens::match_vectornode(){
   DirectionParameter*p=match_directionparameter();
-  if(!p)return NULL;
+  if(!p)return nullptr;
   SetBase*source=match_set();
   if(!source)
     show_error("expecting a set specifier following the direction parameter");
@@ -803,7 +803,7 @@ vector<Direction>Tokens::match_direction(){
   
 DirectionParameter* Tokens::match_directionparameter(){
   vector<Direction> directions=match_direction();
-  if(directions.empty())return NULL;
+  if(directions.empty())return nullptr;
   Range *range=match_range();
   if (!range) range= new Range(1,7);
   DirectionParameter*p=new DirectionParameter(directions,range);
@@ -812,7 +812,7 @@ DirectionParameter* Tokens::match_directionparameter(){
 
 FutureStarNode* Tokens::match_futurestarnode(){
   int depth=-1;
-  if(!match_keywordstar("next")) return NULL;
+  if(!match_keywordstar("next")) return nullptr;
   Range*range=match_range();
   if(match_keyword("depth")){
     Range*depthrange=match_range();
@@ -830,7 +830,7 @@ FutureStarNode* Tokens::match_futurestarnode(){
 
 PastStarNode* Tokens::match_paststarnode(){
   int depth=-1;
-  if(!match_keywordstar("previous")) return NULL;
+  if(!match_keywordstar("previous")) return nullptr;
   Range*range=match_range();
   if(match_keyword("depth")){
     Range*depthrange=match_range();
@@ -848,7 +848,7 @@ PastStarNode* Tokens::match_paststarnode(){
 
 
 CountSquaresNode* Tokens::match_countsquaresnode(){
-  if(!match_keyword("countsquares")) return NULL;
+  if(!match_keyword("countsquares")) return nullptr;
   Range*r=match_range();
   if(!r)
     show_error("The 'countsquares' keyword must be followed by a range");
@@ -861,17 +861,17 @@ CountSquaresNode* Tokens::match_countsquaresnode(){
 SetBase* Tokens::match_set(){
   int x=save();
   Node*n=match_basicnode();
-  if(!n)return NULL;
+  if(!n)return nullptr;
   SetBase*set=dynamic_cast<SetBase*>(n);
   if(!set||!set->isSet()){
     restore(x);
-    return NULL;}
+    return nullptr;}
   return set;
 }
 
 SetBase* Tokens::match_inexpr(){
   if(!match_keyword("in"))
-    return NULL;
+    return nullptr;
   SetBase*ret=match_set();
   if(!ret)
     show_error("Expecting a set expression following the 'in' keyword in 'square' expression");
@@ -880,7 +880,7 @@ SetBase* Tokens::match_inexpr(){
 
 BetweenNode* Tokens::match_betweennode(){
   if(!match_keyword("between"))
-    return NULL;
+    return nullptr;
   if(!match_lparen())
     show_error("arguments to 'between' should be enclosed in parens: missing '('");
   SetBase* source=match_set();
@@ -897,7 +897,7 @@ BetweenNode* Tokens::match_betweennode(){
 
 ExtensionNode* Tokens::match_extensionnode(){
   if(!match_keyword("extension"))
-    return NULL;
+    return nullptr;
   // The 'extension' generator runs MarkBoard::getLegalMoves(), which this tree
   // does not implement: it asserts, and the adapter turns that into a runtime
   // error for every game examined, so the keyword could never match anything.
@@ -911,12 +911,12 @@ AnyNode* Tokens::match_anynode(){
     show_error("The 'any' keyword has been replaced by the '.' character since version 5.2. Use '_' instead of '.' to denote an empty square");
   if(match_keyword("."))
     return new AnyNode();
-  return NULL;
+  return nullptr;
 }
 
 PowerNode* Tokens::match_powernode(){
   if(!match_keyword("power"))
-    return NULL;
+    return nullptr;
   Range*range=match_range();
   if(!range)
     show_error("Expected a range following 'power' ");
@@ -928,7 +928,7 @@ PowerNode* Tokens::match_powernode(){
 
 PowerDifferenceNode* Tokens::match_powerdifferencenode(){
   if(!match_keyword("powerdifference"))
-    return NULL;
+    return nullptr;
   Range*range=match_range();
   if(!range)
     show_error("Expected a range following 'powerdifference' ");
@@ -949,9 +949,9 @@ Node* Tokens::match_existsnode(){
   int x=save();
   if(match_keywords("square","all")){
     restore(x);
-    return NULL;}
+    return nullptr;}
   
-  if(!match_keyword("square")) return NULL;
+  if(!match_keyword("square")) return nullptr;
   Range*range=match_range();
   SquareVariable*sv=match_squarevariable();
   if(!sv) show_error("Expecting a square variable in 'square' keyword specification");
@@ -968,7 +968,7 @@ Node* Tokens::match_existsnode(){
 
 Node* Tokens::match_pieceidnode(){
   if(!match_keyword("piece"))
-    return NULL;
+    return nullptr;
   Range*range=match_range();
   TagVariable*tv=match_tagvariable();
   if(!tv) show_error("Expecting an id variable in 'piece' keyword specification");
@@ -985,7 +985,7 @@ Node* Tokens::match_pieceidnode(){
 
 OriginNode* Tokens::match_originnode(){
   if(!match_keyword("origin"))
-    return NULL;
+    return nullptr;
   TagVariable*tag=match_tagvariable();
   if(!tag)
     show_error("expected a piece id following 'origin'");
@@ -994,7 +994,7 @@ OriginNode* Tokens::match_originnode(){
 
 MatchCommentNode* Tokens::match_matchcommentnode(){
   if(!match_keyword("hascomment"))
-    return NULL;
+    return nullptr;
   const char * name=match_quotedstring();
   if(!name)
     show_error("Expected a quoted string folllowing 'hascomment'");
@@ -1003,13 +1003,13 @@ MatchCommentNode* Tokens::match_matchcommentnode(){
 
 const char* Tokens::match_quotedstring(){
   QuotedStringToken*q=dynamic_cast<QuotedStringToken*>(current());
-  if(!q) return NULL;
+  if(!q) return nullptr;
   forward();
   return q->value;
 }
 
 CommentBase* Tokens::match_commentbase(){
-  if(!match_keyword("comment"))return NULL;
+  if(!match_keyword("comment"))return nullptr;
   const char* s=match_quotedstring();
   if(s){
     if(strlen(s)>=CommentBase::maxLen)
@@ -1020,7 +1020,7 @@ CommentBase* Tokens::match_commentbase(){
   if(set)
     return new CommentSet(set);
   show_error("'comment' must be followed by either a quoted string or a set filter");
-  return NULL;
+  return nullptr;
 }
 
 colorT Tokens::match_color(){

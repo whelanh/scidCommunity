@@ -120,7 +120,7 @@ bool MoveBase::match_position(Game*game){
 }
 
 bool MoveBase::match_move(simpleMoveT* move, Game*game){
-  bool ispast=(dynamic_cast<MovePastNode*>(this)!=NULL);
+  bool ispast=(dynamic_cast<MovePastNode*>(this)!=nullptr);
   bool ret=true;
   auto me=MarkBoard::identity(game);
   bool movenull=MarkBoard::myIsNullMove(move);

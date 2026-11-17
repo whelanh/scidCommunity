@@ -41,7 +41,7 @@ void FutureNode::notate(SeqRet& ret){
   int len=ret.getLength();
   if(!len)return;
   moveT*me=MarkBoard::identity(game);
-  moveT*previousid=NULL;
+  moveT*previousid=nullptr;
   uassert(me==ret.getId(0),"notate bad back");
   char buffer[1000];
   int positionsseen=0;

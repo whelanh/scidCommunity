@@ -35,7 +35,7 @@ EchoMatchInfo::EchoMatchInfo(EchoNode* node){
   }
 }
 bool EchoMatchInfo::uselca()const{
-  return lca!=NULL;
+  return lca!=nullptr;
 }
 
 int EchoMatchInfo::substringlen()const{

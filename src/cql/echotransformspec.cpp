@@ -26,7 +26,7 @@ void EchoTransformSpec::print(){
 }
 
 bool EchoTransformSpec::match_target(){
-  matchedTransform=NULL;
+  matchedTransform=nullptr;
   for(Transform* t : transforms)
     if (spec->match_target(t)){
       matchedTransform=t;

@@ -6,17 +6,17 @@
 #include "node.h"
 class EchoMatchInfo{
  public:
-  Game*game{NULL};
+  Game*game{nullptr};
   int gamenumber{-1};
   
   int targetnumber{0};
-  moveT* source{NULL};
-  moveT* target{NULL};
-  moveT* lca{NULL};
+  moveT* source{nullptr};
+  moveT* target{nullptr};
+  moveT* lca{nullptr};
   bool uselca()const;
   vector<moveT*> substringsource;
   vector<moveT*> substringtarget;
-  Transform*transform{NULL};
+  Transform*transform{nullptr};
   int substringlen()const;
   bool usesubstring()const;
   static void annotate (Game*game, const vector<EchoMatchInfo>& infos);

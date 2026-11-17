@@ -4,7 +4,7 @@
  */
 #pragma once
 
-typedef vector<SeqConstituent*>SeqStack;
+using SeqStack = vector<SeqConstituent*>;
 class SequenceBase : public MFilter, public Countable, public VariationFlags, public CommentFlags{ //abstract
  public:
   bool match_position(Game*game);
@@ -32,19 +32,19 @@ class SequenceBase : public MFilter, public Countable, public VariationFlags, pu
   bool match_count(Game*game,NumValue*value);
   vector<SeqConstituent*> constituents;
   void print();
-  Range*range{NULL};
+  Range*range{nullptr};
   int count{-1};
   void deepify();
   SequenceBase(vector<SeqConstituent*> scs,Range*r, bool isskip,bool allownests);
   vnode children();
   int nconstituents()const;
   bool valid_constituent (int offset)const;
-  Game*game{NULL};
+  Game*game{nullptr};
   SeqConstituent* getConstituent (int offset)const;
   void setOffsets();
  private:
-  HolderConstituent* theWhiteHolder{NULL};
-  HolderConstituent* theBlackHolder{NULL};
+  HolderConstituent* theWhiteHolder{nullptr};
+  HolderConstituent* theBlackHolder{nullptr};
   colorT theSkipColor{NOCOLOR};
 
   //nest members

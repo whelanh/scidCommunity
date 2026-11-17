@@ -78,6 +78,6 @@ bool EchoLcaSpec::match_target(){
 
 void EchoLcaSpec::start_new_search(Game*g){
   EchoSpec::start_new_search(g);
-  theLca=NULL;
+  theLca=nullptr;
 }
 

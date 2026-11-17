@@ -38,7 +38,7 @@ PieceToken::PieceToken(char c){
 
 PieceToken* PieceToken::create(char c){
   if(isAllowed(c)) return new PieceToken(c);
-  return NULL;
+  return nullptr;
 }
 
 SquareToken::SquareToken(int mif, int maf, int mir, int mar){
@@ -59,7 +59,7 @@ bool SquareToken::isAllowed(int mif, int maf, int mir, int mar){
 }
 
 bool StringToken::eq(const char*v){
-  uassert(v!=NULL);
+  uassert(v!=nullptr);
   return strcmp(v,value)==0;
 }
 
@@ -117,13 +117,13 @@ void PieceDesignatorToken::print(){
 
 VariableToken* PieceDesignatorToken::getAsVariableToken(){
   if(pieces.size()!=1 || squares.size()!=1 || variables.size()!=1)
-    return NULL;
-  if(pieces[0]->value!='?')return NULL;
+    return nullptr;
+  if(pieces[0]->value!='?')return nullptr;
   SquareToken*s=squares[0];
   if(s->minfile!=0||
      s->maxfile!=7||
      s->minrank!=0||
-     s->maxrank!=7)return NULL;
+     s->maxrank!=7)return nullptr;
   return variables[0];
 }
   

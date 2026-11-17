@@ -127,7 +127,7 @@ Game::WritePGN_CQL (TextBuffer * tb, uint stopLocation)
                 tb->PrintString ("\n\\end{diagram}\n");
             } else if (IsHtmlFormat()) {
                 DString dstr;
-                StartPos->DumpHtmlBoard (&dstr, HtmlStyle, NULL);
+                StartPos->DumpHtmlBoard (&dstr, HtmlStyle, nullptr);
                 tb->PrintString (dstr.Data());
             } else {
                 char fenStr [256];
@@ -243,7 +243,7 @@ Game::WritePGN_CQL (TextBuffer * tb, uint stopLocation)
 }
 
 void Game::handleinitialcomment_CQL(TextBuffer * tb){
-  if(FirstMove->comment==NULL) return;
+  if(FirstMove->comment==nullptr) return;
   tb->PrintString("{");
   tb->PrintString(" ");
   tb->PrintString(FirstMove->comment);

@@ -6,8 +6,8 @@
 class EchoSpec:public Node{ //abstract
  public:
   bool insearch{false};
-  moveT* sourceIdentity{NULL};
-  Game*theGame{NULL};
+  moveT* sourceIdentity{nullptr};
+  Game*theGame{nullptr};
   virtual bool match_target()=0;
   virtual void start_new_search(Game*game);
   virtual void end_search();
@@ -22,10 +22,10 @@ class EchoSquareSpec:public EchoSpec{
   bool compareSourceTargetTransformed(squareT square, squareT transformedsquare);
   SquareMask sourcemask;
   pieceT sourceboard[64];
-  SetBase*sourceset{NULL};
-  SetBase*targetset{NULL};
-  Range*mismatchrange{NULL};
-  Range*matchrange{NULL};
+  SetBase*sourceset{nullptr};
+  SetBase*targetset{nullptr};
+  Range*mismatchrange{nullptr};
+  Range*matchrange{nullptr};
   CVV(EchoSquareSpec);
   vnode children(){return vnode{sourceset,targetset};}
   void deepify(){sourceset=sourceset->clone();targetset=targetset->clone();}
@@ -44,8 +44,8 @@ class EchoLcaSpec:public EchoSpec{//abstract
   static void print(moveT*);
   vnode children(){return vnode{};}
   virtual bool match_target();
-  moveT* theLca{NULL};
-  NumericVariable*assignee{NULL};
+  moveT* theLca{nullptr};
+  NumericVariable*assignee{nullptr};
   virtual bool match_lca(const vector<moveT*>&sourcepath, const vector<moveT*>&targetpath)=0;
   virtual int getCount();
   virtual void clearCount();
@@ -60,7 +60,7 @@ class EchoDistanceSpec:public EchoLcaSpec{//abstract
   bool match_distance(int sourcedistance, int targetdistance);
   virtual void computeCount(int sourcedistance, int targetdistance)=0;
   bool match_lca(const vector<moveT*>&sourcepath, const vector<moveT*>&targetpath);
-  Range* range{NULL};
+  Range* range{nullptr};
   void print();
   vnode children(){return vnode{};}
 };
@@ -92,7 +92,7 @@ class EchoTargetDistanceSpec:public EchoDistanceSpec{
   
 class EchoLongestSubstringSpec:public EchoLcaSpec{
  public:
-  Range*range{NULL};
+  Range*range{nullptr};
   bool seenmatch{false};
   vector<moveT*>matchedSourcePath;
   vector<moveT*>matchedTargetPath;
@@ -115,8 +115,8 @@ class EchoTransformSpec:public EchoSpec{
  public:
   EchoTransformSpec(vector<Transform*>,EchoSpec*);
   vector<Transform*> transforms;
-  EchoSpec* spec{NULL};
-  Transform* matchedTransform{NULL};
+  EchoSpec* spec{nullptr};
+  Transform* matchedTransform{nullptr};
   vnode children(){return vnode{spec};}
   void print();
   bool match_target();

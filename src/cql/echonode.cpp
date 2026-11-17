@@ -108,7 +108,7 @@ void EchoNode::end_search(){
     spec->end_search();
   uassert(sourceIdentity);
   MarkBoard::gameToIdentity(sourceIdentity,theGame,true);
-  sourceIdentity=NULL;
+  sourceIdentity=nullptr;
   insearch=false;
 }
 

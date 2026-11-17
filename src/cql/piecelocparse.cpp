@@ -27,8 +27,8 @@ PieceDesignatorToken* match_piecedesignator(char* input){
   }
   match_variables(&current,&variables);
   // printf("mpd: current after match_vs: %s and nvars: %lu\n",current,variables.size());
-  if(*current) return NULL; // expect end of string in a piece designator here
-  if(pieces.empty()&&squares.empty()&&variables.empty()) return NULL;
+  if(*current) return nullptr; // expect end of string in a piece designator here
+  if(pieces.empty()&&squares.empty()&&variables.empty()) return nullptr;
   if(pieces.empty()) pieces.push_back(new PieceToken('?'));
   if(squares.empty())squares.push_back(new SquareToken(0,7,0,7));
   // printf("mpd: calling pdt with sizes: pieces: %lu, squares: %lu, vars: %lu\n",
@@ -70,7 +70,7 @@ PieceToken* match_simplepiecespecifier(char**inputp){
   uassert(input);
   char c=input[0];
   PieceToken* st=PieceToken::create(c);
-  if(!st)return NULL;
+  if(!st)return nullptr;
   *inputp=*inputp + 1;
   return st;
 }
@@ -177,7 +177,7 @@ SquareToken* match_simplesquarespecifier(char**inputp){
       *inputp=current;
       return new SquareToken(minf,maxf,minr,maxr);
     }
-  return NULL;
+  return nullptr;
 }
 	
 // blocksquarespecifier= bindingsquarespecifier  | simplesquarespecifier
@@ -269,10 +269,10 @@ VariableToken* match_variable(char**inputp){
   char*current=*inputp;
   char*name=new char[42];
   uassert(current);
-  if(!match_char(&current,'$')) return NULL;
+  if(!match_char(&current,'$')) return nullptr;
   name[0]='$';
   if(!match_alphanums(&current,name+1,40))
-    return NULL;
+    return nullptr;
   *inputp=current;
   return new VariableToken(name);
 }
@@ -280,7 +280,7 @@ VariableToken* match_variable(char**inputp){
 VariableToken* match_variable(char*input){
   char*current=input;
   VariableToken *t=match_variable(&current);
-  if(t==NULL||*current) return NULL;
+  if(t==nullptr||*current) return nullptr;
   return t;
 }
 

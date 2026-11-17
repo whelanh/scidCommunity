@@ -14,13 +14,13 @@ class EchoNode : public MFilter,public VariationFlags,public CommentFlags{
   void print();
   CVV(EchoNode);
   vnode children();
-  moveT* sourceIdentity{NULL};
+  moveT* sourceIdentity{nullptr};
   void deepify(){clonevec(filters);clonevec(specs);}
   vector<EchoMatchInfo> matchinfos;
   void registerMatch();
   bool matched{false};
   int nfound{0};
-  Game*theGame{NULL};
+  Game*theGame{nullptr};
   void annotate(Game*game);
  private:
   bool insearch{false};

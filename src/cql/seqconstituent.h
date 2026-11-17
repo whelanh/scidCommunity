@@ -17,7 +17,7 @@ class SeqConstituent : public Node{
 
 class RepeatConstituent : public SeqConstituent{
  public:
-  SeqConstituent* constituent{NULL};
+  SeqConstituent* constituent{nullptr};
   RepeatConstituent(SeqConstituent*,int, int);
   CVV(RepeatConstituent);
   int min= -1;
@@ -31,7 +31,7 @@ class RepeatConstituent : public SeqConstituent{
 
 class StarConstituent : public SeqConstituent{
  public:
-  SeqConstituent*constituent{NULL};
+  SeqConstituent*constituent{nullptr};
   //  StarConstituent(vector<SeqConstituent*>);
   StarConstituent(SeqConstituent*);
   CVV(StarConstituent);
@@ -45,7 +45,7 @@ class StarConstituent : public SeqConstituent{
 class HolderConstituent : public SeqConstituent{
  public:
   HolderConstituent(MFilter*);
-  MFilter*filter{NULL};
+  MFilter*filter{nullptr};
   CVV(HolderConstituent);
   void print();
   vnode children(){return vnode{filter};}
@@ -78,13 +78,13 @@ class PlusConstituent : public SeqConstituent{
   void print();
   void setOffsets(int);
  private:
-  StarConstituent* theStarConstituent{NULL};
+  StarConstituent* theStarConstituent{nullptr};
 };
 
 class OptionalConstituent : public SeqConstituent{
  public:
   OptionalConstituent(SeqConstituent*);
-  SeqConstituent*constituent{NULL};
+  SeqConstituent*constituent{nullptr};
   CVV(OptionalConstituent);
   void print();
   vnode children(){return vnode{constituent};}

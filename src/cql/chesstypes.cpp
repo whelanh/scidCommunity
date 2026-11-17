@@ -15,7 +15,7 @@ const char * direction_to_string(directionT d){
   case DOWN_RIGHT: return "DR";
       };
   uassert(false, "unknown direction");
-  return NULL;
+  return nullptr;
 }
 
 const char* color_string(colorT c){
@@ -129,7 +129,7 @@ const char * result_to_string(resultT rc){
   case RESULT_None: return "No_Result";
   }
   uassert(false,"bad result");
-  return NULL;
+  return nullptr;
 }
 
 bool direction_valid(directionT d){

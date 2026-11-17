@@ -13,7 +13,7 @@ TagVariable* Variable::createTagVariable(const char*nm){
 }
 
 TagVariable* Variable::getTagVariable(const char*nm){
-  TagVariable * ret=NULL;
+  TagVariable * ret=nullptr;
   Variable *v=find(nm);
   if(v){
     ret=dynamic_cast<TagVariable*>(v);

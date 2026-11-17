@@ -16,6 +16,6 @@ void MatchCommentNode::print(){
 bool MatchCommentNode::match_position(Game*game){
   const char * comment=game->GetMoveComment();
   if(!comment) return false;
-  return strstr(comment,value)!=NULL;
+  return strstr(comment,value)!=nullptr;
 }
 

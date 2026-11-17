@@ -12,18 +12,18 @@
 
 bool lexFile(const char*filename, vector<Token*>*tokens){
   FILE * file=fopen(filename,"r");
-  if (file==NULL){
+  if (file==nullptr){
     fprintf(stderr,"Could not open file: %s\n",filename);
     exit(1);
   }
-  return lexStream(file,NULL,tokens);
+  return lexStream(file,nullptr,tokens);
   fclose(file);
   return true;
 }
 
 int rsIndex;
 bool lexStream(FILE*file, char*buffer, vector<Token*>*tokens){
-  char* current = NULL;
+  char* current = nullptr;
   rsIndex = 0;
   Token::incrementLine();
   while(true){
@@ -32,7 +32,7 @@ bool lexStream(FILE*file, char*buffer, vector<Token*>*tokens){
     else if (buffer) current=readstring(buffer);
     else uassert(false,"Could not find syntax");
 
-    if(current==NULL) return true;
+    if(current==nullptr) return true;
     Token* token=makeToken(current);
     if(!token){
       fprintf(stderr,"Unable to process string: %s\n",current);
@@ -91,7 +91,7 @@ char * readstring(FILE * file){
       break;
     }
   }
-  if (c<0) return NULL;
+  if (c<0) return nullptr;
   while((c=fgetc(file))>=0){
     if(c=='\n')Token::incrementLine();
     else
@@ -111,7 +111,7 @@ char * readstring(FILE * file){
     else buffer[nextchar++]=c;
   }
   if (nextchar==0)
-    return NULL;
+    return nullptr;
   buffer[nextchar++]=0;
   return util::copy(buffer);
 }
@@ -193,7 +193,7 @@ char * readstring(char * syntax){
       break;
     }
   }
-  if (c<0) return NULL;
+  if (c<0) return nullptr;
   while((c=bgetc(syntax))>=0){
     if(c=='\n')Token::incrementLine();
     else
@@ -212,7 +212,7 @@ char * readstring(char * syntax){
     else buffer[nextchar++]=c;
   }
   if (nextchar==0)
-    return NULL;
+    return nullptr;
   buffer[nextchar++]=0;
   return util::copy(buffer);
 }
@@ -221,7 +221,7 @@ Token* makeToken(char* val){
   char*current=val;
   uassert(current&&strlen(current),"makeToken bad arg");
   uassert(strlen(val)<100,"Max token size too large");
-  Token* t=NULL;
+  Token* t=nullptr;
   if(!t) t=match_LParen(current);
   if(!t) t=match_RParen(current);
   if(!t) t=match_LBrace(current);
@@ -234,7 +234,7 @@ Token* makeToken(char* val){
   if(!t) t=match_piecedesignator(current);
   if(!t) t=match_quotedstring(current);
   if(!t) t=match_name(current);
-  if (t==NULL){
+  if (t==nullptr){
     //If val has a '.' in it, then it is likely due to a wrong CQL version:
     uassert(current==val,"makeToken: logic");
     for(current=val;*current;++current)
@@ -242,7 +242,7 @@ Token* makeToken(char* val){
 		"A lexer error involving a token with a '.' in it was observed. The '.' means 'any' since version 5.2. Use '_' to denote an empty square: ",
 		val);
     uassert(false,"Lexer: Unknown or not understood sequence of characters: ",val);
-  } // if (t==NULL)
+  } // if (t==nullptr)
   uassert(t,"make_token: internal");
   return t;
 }
@@ -250,59 +250,59 @@ Token* makeToken(char* val){
 Token* match_Star(char*v){
   uassert(v,"match_Star internal");
   if (*v=='*') return new StarToken;
-  return NULL;
+  return nullptr;
 }
 Token* match_Plus(char*v){
   uassert(v);
   if (*v=='+') return new PlusToken;
-  return NULL;
+  return nullptr;
 }
 Token* match_QuestionMark(char*v){
   uassert(v);
   if (*v=='?') return new QuestionMarkToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_Bar(char*v){
   uassert(v);
   if (*v=='|') return new BarToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_LParen(char*v){
   uassert(v);
   if(*v=='(') return new LParenToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_RParen(char*v){
   uassert(v);
   if(*v==')') return new RParenToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_LBrace(char*v){
   uassert(v);
   if(*v=='{') return new LBraceToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_RBrace(char*v){
   uassert(v);
   if(*v=='}') return new RBraceToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_LessThan(char*v){
   uassert(v);
   if(*v=='<') return new LessThanToken;
-  return NULL;
+  return nullptr;
 }
 
 Token* match_GreaterThan(char*v){
   uassert(v);
   if(*v=='>') return new GreaterThanToken;
-  return NULL;
+  return nullptr;
 }
 
 
@@ -310,12 +310,12 @@ Token* match_int(char*val){
   int tokval=0;
   if(util::signedIntValue(val,&tokval))
     return new IntToken(tokval);
-  return NULL;
+  return nullptr;
 }
   
   
 Token* match_keyword(char*input){
-  if(!KeywordToken::isReserved(input))return NULL;
+  if(!KeywordToken::isReserved(input))return nullptr;
   return new KeywordToken(input);
 }
 
@@ -335,7 +335,7 @@ Token* match_name(char*input){
        c!='.'&&
        c!='/'&&
        c!='-'&&
-       c!='_')return NULL;
+       c!='_')return nullptr;
   return new NameToken(input);
 }
 
@@ -350,11 +350,11 @@ bool match_letterdigit(char**inputp,char * ch){
 }
   
 Token* match_quotedstring(char* v){
-  if (!v) return NULL;
+  if (!v) return nullptr;
   //  if(1)printf("match_quotedstring called on v: %s\n",v);
   int vlen=(int)(strlen(v));
-  if (vlen<=2)return NULL;
-  if(v[0]!='"'||v[vlen-1]!='"')return NULL;
+  if (vlen<=2)return nullptr;
+  if(v[0]!='"'||v[vlen-1]!='"')return nullptr;
   uassert(vlen<500,"string token too long: 500 character limit");
   char buffer[502];
   sprintf(buffer,"%s",v);

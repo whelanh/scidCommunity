@@ -8,7 +8,7 @@ TransformNode* Tokens::match_shifttransform(){
   KeywordToken *k=match_keyword("shift");
   if(!k)k=match_keyword("shiftvertical");
   if(!k)k=match_keyword("shifthorizontal");
-  if(!k) return NULL;
+  if(!k) return nullptr;
   Range*range=match_range();
   Node*node=match_basicnode();
   if(!node)
@@ -30,7 +30,7 @@ TransformNode* Tokens::match_shifttransform(){
   
     
 TransformNode* Tokens::match_fliptransform(){
-  KeywordToken *k=NULL;
+  KeywordToken *k=nullptr;
   if(!k) k=match_keyword("flip");
   if(!k) k=match_keyword("flipvertical");
   if(!k) k=match_keyword("fliphorizontal");
@@ -39,7 +39,7 @@ TransformNode* Tokens::match_fliptransform(){
   if(!k) k=match_keyword("rotate45");
   if(!k) k= match_keyword("flipdihedral");
   if(!k) k=match_keyword("dihedral");
-  if(!k) return NULL;
+  if(!k) return nullptr;
   Range*range=match_range();
   Node*node=match_basicnode();
   if(!node)
