@@ -294,17 +294,13 @@ checkEq "the base still knows who the damaged game was" \
 
 puts "\n== the search says how many games it could not read ==\n"
 # The report is the statistics line plus the count of games whose record could
-# not be read (the window words that count in the user's language). Only the
-# count is asserted here, and only when the search returns it: a build that
-# still returns the bare statistics string is not what this harness is about.
+# not be read (the window words that count in the user's language). The count is
+# asserted unconditionally: a result that carries only the statistics line is
+# the regression this harness exists for, so it must fail rather than be noted.
 search "cql() qh4"
 set report $::report
-if {[llength $report] == 2} {
-    checkEq "it reports the one game it could not read" [lindex $report 1] 1
-} else {
-    puts "  note the search returns only the statistics line ('$report');"
-    puts "  note the skipped-game count is not reported yet, so it is not asserted"
-}
+check "it reports the one game it could not read" \
+    [expr {[llength $report] == 2 && [lindex $report 1] == 1}] $report
 
 cleanup
 puts ""

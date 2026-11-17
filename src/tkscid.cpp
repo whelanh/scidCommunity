@@ -9282,10 +9282,15 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
   // remembered rather than applied, for the same reason the results are.
   std::vector<gamenumT> candidates;
   std::vector<gamenumT> unreadable; // in the filter, but with no gamefile record
+  // Index entries with no game record at all, in either scope. Counted apart
+  // from `unreadable`, which also drives the filter drop below and so only
+  // holds the games that were in the filter.
+  size_t missingRecords = 0;
   candidates.reserve(totalGames / 4);
   for (gamenumT gn = 0; gn < totalGames; ++gn) {
     const bool inFilter = resetFilter || (filter.get(gn) != 0);
     if (dbase->getIndexEntry(gn)->GetLength() == 0) {
+      ++missingRecords;
       if (filterOp == FILTEROP_AND && inFilter)
         unreadable.push_back(gn);
       continue;
@@ -9401,8 +9406,8 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
           static_cast<unsigned long>(startFilterCount), centisecs / 100,
           decimalPointChar, centisecs % 100);
   char skipped[24];
-  sprintf(skipped, "%lu",
-          static_cast<unsigned long>(unreadable.size() + decodeFailures));
+  snprintf(skipped, sizeof(skipped), "%lu",
+           static_cast<unsigned long>(missingRecords + decodeFailures));
   Tcl_ResetResult(ti);
   Tcl_Obj *const report = Tcl_NewListObj(0, nullptr);
   Tcl_ListObjAppendElement(ti, report, Tcl_NewStringObj(temp, -1));
