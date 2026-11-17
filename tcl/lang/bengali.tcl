@@ -127,6 +127,7 @@ menuText b SearchNegate "নেগেট ফিল্টার" 0 {শুধু�
 menuText b SearchCurrent "বর্তমান বোর্ড..." 0 {বর্তমান বোর্ড অবস্থানের জন্য অনুসন্ধান করুন}
 menuText b SearchHeader "হেডার..." 0 {হেডার (প্লেয়ার, ইভেন্ট, ইত্যাদি) তথ্য দ্বারা অনুসন্ধান করুন}
 menuText b SearchMaterial "উপাদান/প্যাটার্ন..." 0 {উপাদান বা বোর্ড নিদর্শন জন্য অনুসন্ধান}
+menuText b SearchMoves "চলে..." 0 {মূল লাইনে চলনের একটি ক্রম অনুসন্ধান করুন}
 menuText b SearchCQL "CQL..." 0 {Chess Query Language কোয়েরি দিয়ে অনুসন্ধান করুন}
 menuText b SearchComments "মন্তব্য অনুসন্ধান করুন..." 0 {বর্তমান ফিল্টারে গেমের মন্তব্য অনুসন্ধান করুন}
 menuText b SearchUsing "অনুসন্ধান ফাইল ব্যবহার করে..." 0 {একটি SearchOptions ফাইল ব্যবহার করে অনুসন্ধান করুন}
@@ -478,6 +479,14 @@ translate b LichessPuzzlesRated {রেট}
 translate b LichessPuzzlesGame {খেলা}
 translate b LichessPuzzlesNoNew {এই সেটিংসের জন্য কোনো নতুন ধাঁধা পাওয়া যায়নি।\n\nথিম, অসুবিধা বা ধাঁধার রঙ পরিবর্তন করার চেষ্টা করুন।}
 
+# Board screenshot
+menuText b ToolsScreenshot "বোর্ড স্ক্রিনশট" 0 \
+  {একটি PNG ইমেজ হিসাবে বর্তমান বোর্ড অবস্থান সংরক্ষণ করুন}
+translate b ScreenshotTitle {বোর্ড স্ক্রিনশট}
+translate b ScreenshotFileType {PNG ছবি}
+translate b ScreenshotError {স্ক্রিনশট সংরক্ষণ করা যায়নি.}
+translate b ScreenshotSaved {বোর্ড স্ক্রিনশট সংরক্ষিত:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -584,6 +593,9 @@ translate b Preview {পূর্বরূপ}
 translate b Revert {প্রত্যাবর্তন}
 translate b Rename {নাম পরিবর্তন করুন}
 translate b Save {সংরক্ষণ করুন}
+translate b Presets {প্রিসেট}
+translate b SavePreset {অনুসন্ধান প্রিসেট সংরক্ষণ করুন}
+translate b PresetName {পূর্বনির্ধারিত নাম:}
 translate b Search {অনুসন্ধান করুন}
 translate b Stop {থামো}
 translate b Store {দোকান}
@@ -905,10 +917,12 @@ translate b PgnOptColumn "কলাম শৈলী (প্রতি লাই�
 translate b PgnOptSpace "স্থানান্তর নম্বর পরে স্থান"
 translate b PgnOptStripMarks "রঙিন স্কোয়ার/তীর কোডগুলি বের করুন"
 translate b PgnOptBoldMainLine "মেইন লাইন মুভের জন্য বোল্ড টেক্সট ব্যবহার করুন"
+translate b PgnOptCenter "কেন্দ্র বর্তমান সরানো"
 
 # Analysis window:
 translate b AddAllVariations {সমস্ত বৈচিত্র যোগ করুন}
 translate b AddMove {সরান যোগ করুন}
+translate b RemoveMove {সরান সরান}
 translate b Annotate {টীকা}
 translate b FinishGame {খেলা শেষ করুন}
 translate b StartEngine {ইঞ্জিন চালু করুন}
@@ -1061,6 +1075,7 @@ menuText b PgnOptColumn "কলাম শৈলী (প্রতি লাইন
 menuText b PgnOptSpace "স্থানান্তর নম্বর পরে স্থান" 1
 menuText b PgnOptStripMarks "রঙিন স্কোয়ার/তীর কোডগুলি বের করুন" 1
 menuText b PgnOptBoldMainLine "মেইন লাইন মুভের জন্য বোল্ড টেক্সট ব্যবহার করুন" 4
+menuText b PgnOptCenter "কেন্দ্র বর্তমান সরানো" 7
 menuText b PgnColor "রং" 0
 menuText b PgnColorHeader "হেডার..." 0
 menuText b PgnColorAnno "টীকা..." 0
@@ -1370,6 +1385,10 @@ translate b SearchBoardFiles {ফাইল (একই উপাদান, এক
 translate b SearchBoardAny {যে কোন (একই উপাদান, প্যান এবং টুকরা যে কোন জায়গায়)}
 translate b SearchInRefDatabase {রেফারেন্স ডাটাবেস অনুসন্ধান করুন}
 translate b LookInVars {বৈচিত্র দেখুন}
+
+# Moves search:
+translate b MovesSearchHint {SAN ক্রমানুসারে চলে, যেমন e4 e5 Nf3. "?" যে কোনো একক পদক্ষেপের সাথে মেলে।}
+translate b LastMoveIsMate {শেষ চাল সাথী}
 
 # Material search:
 translate b MaterialSearch {উপাদান অনুসন্ধান}
@@ -2222,10 +2241,10 @@ translate b RtfImportError {RTF ফাইল আমদানিতে ত্র�
 translate b RtfNotScidFile {এই ফাইলটি মন্তব্য বিন্যাস সহ scidCommunity দ্বারা রপ্তানি করা হয়নি, বা দূষিত হয়েছে৷}
 translate b RtfImportSuccess {গেম সফলভাবে ক্লিপবোর্ড ডাটাবেসে আমদানি করা হয়েছে।}
 translate b RtfImportSuccessMulti {%d গেম সফলভাবে ক্লিপবোর্ড ডাটাবেসে আমদানি করা হয়েছে।}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate b ReviewProgressTitle {অগ্রগতি পর্যালোচনা করুন}
 translate b ReviewProgressIdle {কোনো পর্যালোচনা চলছে না}
 translate b ReviewProgressGameOf {খেলা %s এর %s}
@@ -2233,6 +2252,14 @@ translate b ReviewProgressEngineWindow {ইঞ্জিনের জানাল
 translate b ReviewProgressRapid {দ্রুত টীকা}
 translate b FinishGameGameChanged {ফিনিশ গেম চলাকালীন গেমটি পরিবর্তিত হয়েছে; কিছুই লেখা ছিল না}
 translate b FinishGameAtEnd {ফিনিশ গেমটি মূল লাইনের শেষ থেকে শুরু হয়; প্রথমে খেলার শেষে যান}
+# CQL search:
+translate b CQLQuery {CQL কোয়েরি}
+translate b CQLQueryHint {CQL কোয়েরি, যেমন cql() mate বা cql(:gamenumber 1 10) K। Ctrl+Enter অনুসন্ধান করে।}
+translate b CQLQueryEmpty {অনুসন্ধানের আগে একটি CQL কোয়েরি লিখুন।}
+translate b CQLSearchFailed {CQL অনুসন্ধান ব্যর্থ হয়েছে:}
+translate b CQLUnreadableGames {%d টি গেম পড়া যায়নি}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2362,9 +2389,3 @@ set tips(b) {
     বিকল্প মেনুতে প্রাসঙ্গিক এন্ট্রি চেক করে উইন্ডোজ ডক করা যেতে পারে। ট্যাবগুলিকে একটি নোটবুক থেকে অন্য নোটবুকে টেনে এনে ফেলে দেওয়া যেতে পারে এবং ট্যাব উইজেটে ডান ক্লিক করে বিন্যস্ত করা যেতে পারে।
   }
 }
-# CQL search:
-translate b CQLQuery {CQL কোয়েরি}
-translate b CQLQueryHint {CQL কোয়েরি, যেমন cql() mate বা cql(:gamenumber 1 10) K। Ctrl+Enter অনুসন্ধান করে।}
-translate b CQLQueryEmpty {অনুসন্ধানের আগে একটি CQL কোয়েরি লিখুন।}
-translate b CQLSearchFailed {CQL অনুসন্ধান ব্যর্থ হয়েছে:}
-translate b CQLUnreadableGames {%d টি গেম পড়া যায়নি}

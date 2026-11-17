@@ -130,6 +130,7 @@ menuText C SearchNegate "Negace filtru" 0 {Negace filtru -  vybrny budou pouze p
 menuText C SearchCurrent "Aktuln pozice..." 0 {Hledat aktuln pozici}
 menuText C SearchHeader "Hlavika..." 0 {Hledat podle hlaviky partie (hr, turnaj apod.)}
 menuText C SearchMaterial "Materil/Vzor..." 0 {Hledat podle materilu nebo podle vzoru}
+menuText C SearchMoves "Pohyby..." 0 {Vyhledejte sekvenci tahů v hlavní linii}
 menuText C SearchCQL "CQL..." 0 {Hledat pomocí dotazu Chess Query Language}
 menuText C SearchComments "Hledat komentáře..." 0 {Hledejte komentáře her v aktuálním filtru}
 menuText C SearchUsing "Hledat pomoc souboru voleb..." 14 {Hledat s pouitm voleb zapsanch v souboru}
@@ -482,6 +483,14 @@ translate C LichessPuzzlesRated {Hodnoceno}
 translate C LichessPuzzlesGame {Hra}
 translate C LichessPuzzlesNoNew {Pro tato nastavení nebyly nalezeny žádné nové hádanky.\n\nZkuste změnit téma, obtížnost nebo barvu hádanky.}
 
+# Board screenshot
+menuText C ToolsScreenshot "Snímek obrazovky desky" 0 \
+  {Uložte aktuální pozici desky jako obrázek PNG}
+translate C ScreenshotTitle {Snímek obrazovky desky}
+translate C ScreenshotFileType {obrázky PNG}
+translate C ScreenshotError {Snímek obrazovky se nepodařilo uložit.}
+translate C ScreenshotSaved {Snímek obrazovky desky uložen:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -588,6 +597,9 @@ translate C Preview {Nhled}
 translate C Revert {Vrtit se}
 translate C Rename {Přejmenovat}
 translate C Save {Uloit}
+translate C Presets {Předvolby}
+translate C SavePreset {Uložit předvolbu vyhledávání}
+translate C PresetName {Název předvolby:}
 translate C Search {Hledat}
 translate C Stop {Stop}
 translate C Store {Uschovat}
@@ -910,10 +922,12 @@ translate C PgnOptColumn "Styl sloupce (jeden tah na řádek)"
 translate C PgnOptSpace "Mezera za čísly přesunu"
 translate C PgnOptStripMarks "Odstraňte barevné kódy čtverců/šipek"
 translate C PgnOptBoldMainLine "Pro pohyby hlavní čáry použijte tučný text"
+translate C PgnOptCenter "Střed aktuálního pohybu"
 
 # Analysis window:
 translate C AddAllVariations {Pidat vechny varianty}
 translate C AddMove {Pidat tah}
+translate C RemoveMove {Odebrat Přesunout}
 translate C Annotate {Anotace}
 translate C FinishGame {Ukonit partii}
 translate C StartEngine {Spustit hern program}
@@ -1066,6 +1080,7 @@ menuText C PgnOptColumn "Sloupcov styl (jeden tah na dek)" 1
 menuText C PgnOptSpace "Mezera za slem tahu" 0
 menuText C PgnOptStripMarks "Odstranit kdy barevnch pol a ipek" 0
 menuText C PgnOptBoldMainLine "Pout tun text pro tahy hlavn varianty" 4
+menuText C PgnOptCenter "Střed aktuálního pohybu" 7
 menuText C PgnColor "Barvy" 0
 menuText C PgnColorHeader "Hlavika..." 0
 menuText C PgnColorAnno "Anotace..." 0
@@ -1382,6 +1397,10 @@ translate C SearchBoardFiles {Sloupce (tent materil, vichni pci na stejnch sloup
 translate C SearchBoardAny {Jakkoliv (tent materil, pci a figury kdekoliv)}
 translate C SearchInRefDatabase { Hledat v databzi }
 translate C LookInVars {Dvat se do variant}
+
+# Moves search:
+translate C MovesSearchHint {SAN se pohybuje v pořadí, např. e4 e5 Nf3. "?" odpovídá každému jednotlivému tahu.}
+translate C LastMoveIsMate {Poslední tah je kamaráde}
 
 # Material search:
 translate C MaterialSearch {Hledat materil}
@@ -2244,10 +2263,10 @@ translate C RtfImportError {Chyba při importu souboru RTF}
 translate C RtfNotScidFile {Tento soubor nebyl exportován scidCommunity s formátováním komentáře nebo je poškozen.}
 translate C RtfImportSuccess {Hra byla úspěšně importována do databáze schránky.}
 translate C RtfImportSuccessMulti {%d her bylo úspěšně importováno do databáze schránky.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate C ReviewProgressTitle {Zkontrolujte pokrok}
 translate C ReviewProgressIdle {Neprobíhá žádná recenze}
 translate C ReviewProgressGameOf {hra %s z %s}
@@ -2255,6 +2274,14 @@ translate C ReviewProgressEngineWindow {Okna motoru %s}
 translate C ReviewProgressRapid {Rychlá poznámka}
 translate C FinishGameGameChanged {během běhu Finish Game se hra změnila; nic nebylo napsáno}
 translate C FinishGameAtEnd {Finish Game začíná od konce hlavní řady; jděte nejprve na konec hry}
+# CQL search:
+translate C CQLQuery {Dotaz CQL}
+translate C CQLQueryHint {Dotaz CQL, např. cql() mate nebo cql(:gamenumber 1 10) K. Ctrl+Enter spustí hledání.}
+translate C CQLQueryEmpty {Před hledáním zadejte dotaz CQL.}
+translate C CQLSearchFailed {Hledání CQL selhalo:}
+translate C CQLUnreadableGames {%d partií nešlo načíst}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2384,9 +2411,3 @@ set tips(C) {
     Windows lze ukotvit zaškrtnutím příslušné položky v nabídce možností. Karty lze přetahovat a pouštět z jednoho poznámkového bloku do druhého a rozkládat kliknutím pravým tlačítkem na widget karet.
   }
 }
-# CQL search:
-translate C CQLQuery {Dotaz CQL}
-translate C CQLQueryHint {Dotaz CQL, např. cql() mate nebo cql(:gamenumber 1 10) K. Ctrl+Enter spustí hledání.}
-translate C CQLQueryEmpty {Před hledáním zadejte dotaz CQL.}
-translate C CQLSearchFailed {Hledání CQL selhalo:}
-translate C CQLUnreadableGames {%d partií nešlo načíst}

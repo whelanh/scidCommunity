@@ -131,6 +131,7 @@ menuText B SearchNegate "Inverter Filtragem" 0 {Inverte o critério de pesquisa 
 menuText B SearchCurrent "Posição Atual..." 0 {Pesquisa a posição atual do tabuleiro}
 menuText B SearchHeader "Cabeçalho..." 0 {Pesquisa por cabeçalho (jogador, evento, etc)}
 menuText B SearchMaterial "Material/Padrão..." 0 {Pesquisa por material ou padrão de posição}
+menuText B SearchMoves "Move-se..." 0 {Procure uma sequência de movimentos na linha principal}
 menuText B SearchCQL "CQL..." 0 {Pesquisar com uma consulta Chess Query Language}
 menuText B SearchComments "Pesquisar comentários..." 0 {Pesquise os comentários dos jogos no filtro atual}
 menuText B SearchUsing "Usar arquivo de opções de filtro..." 0 {Pesquisa usando arquivo com opções de filtro}
@@ -487,6 +488,14 @@ translate B LichessPuzzlesRated {Avaliado}
 translate B LichessPuzzlesGame {Jogo}
 translate B LichessPuzzlesNoNew {Não foram encontrados novos quebra-cabeças para essas configurações.\n\nTente alterar o tema, a dificuldade ou a cor do quebra-cabeça.}
 
+# Board screenshot
+menuText B ToolsScreenshot "Captura de tela do quadro" 0 \
+  {Salve a posição atual do tabuleiro como uma imagem PNG}
+translate B ScreenshotTitle {Captura de tela do quadro}
+translate B ScreenshotFileType {Imagens PNG}
+translate B ScreenshotError {A captura de tela não pôde ser salva.}
+translate B ScreenshotSaved {Captura de tela do quadro salva:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -593,6 +602,9 @@ translate B Preview {Visualização}
 translate B Revert {Reverter}
 translate B Rename {Renomear}
 translate B Save {Salvar}
+translate B Presets {Predefinições}
+translate B SavePreset {Salvar predefinição de pesquisa}
+translate B PresetName {Nome predefinido:}
 translate B Search {Pesquisar}
 translate B Stop {Parar}
 translate B Store {Guardar}
@@ -918,10 +930,12 @@ translate B PgnOptColumn "Estilo de coluna (um movimento por linha)"
 translate B PgnOptSpace "Espaço após mover números"
 translate B PgnOptStripMarks "Retire os códigos de quadrados/setas coloridos"
 translate B PgnOptBoldMainLine "Use texto em negrito para movimentos de linha principal"
+translate B PgnOptCenter "Centro do movimento atual"
 
 # Analysis window:
 translate B AddAllVariations {Adicionar todas as Variantes}
 translate B AddMove {Adicionar movimento}
+translate B RemoveMove {Remover movimento}
 translate B Annotate {Anotar}
 translate B FinishGame {Encerrar jogo}
 translate B StartEngine {Iniciar engine}
@@ -1074,6 +1088,7 @@ menuText B PgnOptColumn "Estilo Coluna (um movimento por linha)" 0
 menuText B PgnOptSpace "Espaço após o número do movimento" 0
 menuText B PgnOptStripMarks "Remover os códigos coloridos das casas/setas" 1 
 menuText B PgnOptBoldMainLine "Use negrito para movimentos da linha principal" 4 
+menuText B PgnOptCenter "Centro do movimento atual" 7
 menuText B PgnColor "Cores" 0
 menuText B PgnColorHeader "Cabeçalho..." 0
 menuText B PgnColorAnno "Anotações..." 0
@@ -1390,6 +1405,10 @@ translate B SearchBoardFiles {Colunas (mesmo material, todos os peões na mesma 
 translate B SearchBoardAny {Qualquer (mesmo material, peões e peças em qualquer posição)}
 translate B SearchInRefDatabase { Pesquisa na base }
 translate B LookInVars {Olhar nas variantes}
+
+# Moves search:
+translate B MovesSearchHint {SAN se move em ordem, por ex. e4 e5 Cf3. "?" corresponde a qualquer movimento único.}
+translate B LastMoveIsMate {O último movimento é companheiro}
 
 # Material search:
 translate B MaterialSearch {Pesquisa Material}
@@ -2252,10 +2271,10 @@ translate B RtfImportError {Erro ao importar arquivo RTF}
 translate B RtfNotScidFile {Este arquivo não foi exportado pelo scidCommunity com formatação de comentários ou está corrompido.}
 translate B RtfImportSuccess {Jogo importado para o banco de dados da área de transferência com sucesso.}
 translate B RtfImportSuccessMulti {%d jogos importados para o banco de dados da área de transferência com sucesso.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate B ReviewProgressTitle {Revise o progresso}
 translate B ReviewProgressIdle {Nenhuma revisão está sendo executada}
 translate B ReviewProgressGameOf {jogo %s de %s}
@@ -2263,6 +2282,14 @@ translate B ReviewProgressEngineWindow {Janelas do motor %s}
 translate B ReviewProgressRapid {Anotação rápida}
 translate B FinishGameGameChanged {o jogo mudou enquanto o Finish Game estava rodando; nada foi escrito}
 translate B FinishGameAtEnd {Terminar O jogo começa no final da linha principal; vá primeiro para o final do jogo}
+# CQL search:
+translate B CQLQuery {Consulta CQL}
+translate B CQLQueryHint {Consulta CQL, por ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Enter pesquisa.}
+translate B CQLQueryEmpty {Digite uma consulta CQL antes de pesquisar.}
+translate B CQLSearchFailed {A pesquisa CQL falhou:}
+translate B CQLUnreadableGames {%d partida(s) não puderam ser lidas}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2392,9 +2419,3 @@ set tips(B) {
     O Windows pode ser encaixado marcando a entrada relevante no menu de opções. As guias podem ser arrastadas e soltas de um bloco de notas para outro e dispostas clicando com o botão direito no widget da guia.
   }
 }
-# CQL search:
-translate B CQLQuery {Consulta CQL}
-translate B CQLQueryHint {Consulta CQL, por ex. cql() mate ou cql(:gamenumber 1 10) K. Ctrl+Enter pesquisa.}
-translate B CQLQueryEmpty {Digite uma consulta CQL antes de pesquisar.}
-translate B CQLSearchFailed {A pesquisa CQL falhou:}
-translate B CQLUnreadableGames {%d partida(s) não puderam ser lidas}

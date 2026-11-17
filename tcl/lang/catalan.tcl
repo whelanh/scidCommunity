@@ -140,6 +140,7 @@ menuText K SearchHeader "Metadades..." 0 \
   {Cerca per les metadades de la capçalera (jugador, torneig, etc)}
 menuText K SearchMaterial "Material/Patró..." 0 \
   {Cerca posició per material o patró}
+menuText K SearchMoves "Es mou..." 0 {Cerca una seqüència de moviments a la línia principal}
 menuText K SearchCQL "CQL..." 0 {Cerca amb una consulta Chess Query Language}
 menuText K SearchComments "Cerca comentaris..." 0 {Cerca els comentaris dels jocs al filtre actual}
 menuText K SearchUsing "Fer servir arxiu de recerca..." 0 \
@@ -501,6 +502,14 @@ translate K LichessPuzzlesRated {Valorat}
 translate K LichessPuzzlesGame {Joc}
 translate K LichessPuzzlesNoNew {No s'han trobat trencaclosques nous per a aquesta configuració.\n\nProva de canviar el tema, la dificultat o el color del trencaclosques.}
 
+# Board screenshot
+menuText K ToolsScreenshot "Captura de pantalla del tauler" 0 \
+  {Deseu la posició actual del tauler com a imatge PNG}
+translate K ScreenshotTitle {Captura de pantalla del tauler}
+translate K ScreenshotFileType {Imatges PNG}
+translate K ScreenshotError {No s'ha pogut desar la captura de pantalla.}
+translate K ScreenshotSaved {S'ha desat la captura de pantalla del tauler:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -607,6 +616,9 @@ translate K Preview {Vista prèvia}
 translate K Revert {Retrocedir}
 translate K Rename {Canvia el nom}
 translate K Save {Desar}
+translate K Presets {Presets}
+translate K SavePreset {Desa el valor predefinit de cerca}
+translate K PresetName {Nom predefinit:}
 translate K Search {Cercar}
 translate K Stop {Aturar}
 translate K Store {Enregistrar}
@@ -931,10 +943,12 @@ translate K PgnOptColumn "Estil de columna (un moviment per línia)"
 translate K PgnOptSpace "Espai després de Moure números"
 translate K PgnOptStripMarks "Elimina els codis quadrats/fletxes de colors"
 translate K PgnOptBoldMainLine "Utilitzeu text en negreta per als moviments de línia principal"
+translate K PgnOptCenter "Centre Moviment actual"
 
 # Analysis window:
 translate K AddAllVariations {Afegir totes les variants}
 translate K AddMove {Afegir jugada}
+translate K RemoveMove {Elimina el moviment}
 translate K Annotate {Anotar}
 translate K FinishGame {Finalitzar partida}
 translate K StartEngine {Iniciar motor}
@@ -1087,6 +1101,7 @@ menuText K PgnOptColumn "Estil de columna (un jugada per línia)" 1
 menuText K PgnOptSpace "Espai després del número del jugada" 0
 menuText K PgnOptStripMarks "Treure codis de color a cassella/fletxa" 3
 menuText K PgnOptBoldMainLine "Utilitzar text en negreta per les jugades principals" 4
+menuText K PgnOptCenter "Centre Moviment actual" 7
 menuText K PgnColor "Colors" 1
 menuText K PgnColorHeader "Encapçalament..." 0
 menuText K PgnColorAnno "Anotacions..." 0
@@ -1405,6 +1420,10 @@ translate K SearchBoardFiles {Columnes (igual material, tots els peons a les mat
 translate K SearchBoardAny {Qualsevol (igual material, peons i peces a qualsevol lloc)}
 translate K SearchInRefDatabase { Cerca a la base }
 translate K LookInVars {Mirar a les variants}
+
+# Moves search:
+translate K MovesSearchHint {SAN es mou en ordre, p. e4 e5 Nf3. "?" coincideix amb qualsevol moviment.}
+translate K LastMoveIsMate {L'últim moviment és company}
 
 # Material search:
 translate K MaterialSearch {Cerca per Material}
@@ -2266,10 +2285,10 @@ translate K RtfImportError {S'ha produït un error en importar el fitxer RTF}
 translate K RtfNotScidFile {ScidCommunity no ha exportat aquest fitxer amb format de comentari o està malmès.}
 translate K RtfImportSuccess {El joc s'ha importat correctament a la base de dades del porta-retalls.}
 translate K RtfImportSuccessMulti {%d jocs importats a la base de dades del porta-retalls correctament.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate K ReviewProgressTitle {Revisa el progrés}
 translate K ReviewProgressIdle {No s'està executant cap revisió}
 translate K ReviewProgressGameOf {joc %s de %s}
@@ -2277,6 +2296,14 @@ translate K ReviewProgressEngineWindow {Finestres del motor %s}
 translate K ReviewProgressRapid {Anotació ràpida}
 translate K FinishGameGameChanged {el joc va canviar mentre s'executava Finalitzar el joc; no s'havia escrit res}
 translate K FinishGameAtEnd {Finalitzar el joc comença des del final de la línia principal; anar primer al final del joc}
+# CQL search:
+translate K CQLQuery {Consulta CQL}
+translate K CQLQueryHint {Consulta CQL, p. ex. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Retorn cerca.}
+translate K CQLQueryEmpty {Introduïu una consulta CQL abans de cercar.}
+translate K CQLSearchFailed {La cerca CQL ha fallat:}
+translate K CQLUnreadableGames {%d partida/es no s'han pogut llegir}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2406,9 +2433,3 @@ set tips(K) {
     Windows es pot acoblar marcant l'entrada corresponent al menú d'opcions. Les pestanyes es poden arrossegar i deixar anar d'un quadern a un altre i disposar-les fent clic amb el botó dret al giny de la pestanya.
   }
 }
-# CQL search:
-translate K CQLQuery {Consulta CQL}
-translate K CQLQueryHint {Consulta CQL, p. ex. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Retorn cerca.}
-translate K CQLQueryEmpty {Introduïu una consulta CQL abans de cercar.}
-translate K CQLSearchFailed {La cerca CQL ha fallat:}
-translate K CQLUnreadableGames {%d partida/es no s'han pogut llegir}

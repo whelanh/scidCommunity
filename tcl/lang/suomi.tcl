@@ -166,6 +166,7 @@ menuText U SearchNegate "Käänteinen suodatin" 0 {Suodatin näyttää aiemmin p
 menuText U SearchCurrent "Nykyinen asema..." 0 {Etsi nykyistä asemaa tietokannasta}
 menuText U SearchHeader "Otsikko..." 0 {Etsi otsikkotiedon perusteella (pelaaja, tapahtuma jne.)}
 menuText U SearchMaterial "Materiaali/asema..." 0 {Etsi materiaalin tai aseman tunnusmerkkien perusteella}
+menuText U SearchMoves "Liikkuu..." 0 {Etsi siirtosarja päärivillä}
 menuText U SearchCQL "CQL..." 0 {Hae Chess Query Language -kyselyllä}
 menuText U SearchComments "Hae kommentteja..." 0 {Hae pelien kommentteja nykyisestä suodattimesta}
 menuText U SearchUsing "Haku tiedostolla..." 0 {Etsi käyttäen apuna erillistä hakutiedostoa}
@@ -517,6 +518,14 @@ translate U LichessPuzzlesRated {Arvioitu}
 translate U LichessPuzzlesGame {Peli}
 translate U LichessPuzzlesNoNew {Näille asetuksille ei löytynyt uusia pulmia.\n\nKokeile vaihtaa teemaa, vaikeusastetta tai pulman väriä.}
 
+# Board screenshot
+menuText U ToolsScreenshot "Board Screenshot" 0 \
+  {Tallenna nykyinen taulun sijainti PNG-kuvana}
+translate U ScreenshotTitle {Board Screenshot}
+translate U ScreenshotFileType {PNG-kuvat}
+translate U ScreenshotError {Kuvakaappausta ei voitu tallentaa.}
+translate U ScreenshotSaved {Taustakuva tallennettu:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -623,6 +632,9 @@ translate U Preview {Esikatselu}
 translate U Revert {Palauta}
 translate U Rename {Nimeä uudelleen}
 translate U Save {Tallenna}
+translate U Presets {Esiasetukset}
+translate U SavePreset {Tallenna haun esiasetus}
+translate U PresetName {Esiasetettu nimi:}
 translate U Search {Etsi}
 translate U Stop {Pysäytä}
 translate U Store {Talleta}
@@ -944,10 +956,12 @@ translate U PgnOptColumn "Sarakkeen tyyli (yksi liike riviä kohden)"
 translate U PgnOptSpace "Välilyönti numeroiden siirron jälkeen"
 translate U PgnOptStripMarks "Poista värilliset neliö-/nuolikoodit"
 translate U PgnOptBoldMainLine "Käytä lihavoitua tekstiä päärivin liikkeisiin"
+translate U PgnOptCenter "Keskitä nykyinen liike"
 
 # Analysis window:
 translate U AddAllVariations {Lisää kaikki muunnelmat}
 translate U AddMove {Lisää siirto}
+translate U RemoveMove {Poista Siirrä}
 translate U Annotate {Kommentoi}
 translate U FinishGame {Lopeta peli}
 translate U StartEngine {Käynnistä moottori}
@@ -1100,6 +1114,7 @@ menuText U PgnOptColumn "Sarakkeina (siirto per rivi)" 1
 menuText U PgnOptSpace "Välilyönti siirtonumeron jälkeen" 1
 menuText U PgnOptStripMarks "Poista väri-/nuolikoodit" 1
 menuText U PgnOptBoldMainLine "Lihavoi päämuunnelma" 2
+menuText U PgnOptCenter "Keskitä nykyinen liike" 7
 menuText U PgnColor "Värit" 2
 menuText U PgnColorHeader "Otsikko..." 0
 menuText U PgnColorAnno "Merkinnät..." 0
@@ -1416,6 +1431,10 @@ translate U SearchBoardFiles {Rivit (sama materiaali, sotilaat samoilla riveill�
 translate U SearchBoardAny {Kaikki (sama materiaali, sotilaat ja upseerit missä tahansa)}
 translate U SearchInRefDatabase { Etsi referenssikannasta }
 translate U LookInVars {Etsi myös muunnelmista}
+
+# Moves search:
+translate U MovesSearchHint {SAN liikkuu järjestyksessä, mm. e4 e5 nf3. "?" sopii mihin tahansa liikkeeseen.}
+translate U LastMoveIsMate {Viimeinen siirto on kaveri}
 
 # Material search:
 translate U MaterialSearch {Materiaalhaku}
@@ -2275,10 +2294,10 @@ translate U RtfImportError {Virhe RTF-tiedoston tuonnissa}
 translate U RtfNotScidFile {ScidCommunity ei ole vienyt tätä tiedostoa kommentin muotoilulla tai se on vioittunut.}
 translate U RtfImportSuccess {Peli tuotu leikepöydän tietokantaan onnistuneesti.}
 translate U RtfImportSuccessMulti {%d peliä tuotu leikepöydälle onnistuneesti.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate U ReviewProgressTitle {Tarkista edistyminen}
 translate U ReviewProgressIdle {Mikään tarkistus ei ole käynnissä}
 translate U ReviewProgressGameOf {peli %s / %s}
@@ -2286,6 +2305,14 @@ translate U ReviewProgressEngineWindow {Moottorin ikkunat %s}
 translate U ReviewProgressRapid {Nopea huomautus}
 translate U FinishGameGameChanged {peli muuttui Finish Gamen ollessa käynnissä; mitään ei kirjoitettu}
 translate U FinishGameAtEnd {Finish Peli alkaa päälinjan lopusta; mene ensin pelin loppuun}
+# CQL search:
+translate U CQLQuery {CQL-kysely}
+translate U CQLQueryHint {CQL-kysely, esim. cql() mate tai cql(:gamenumber 1 10) K. Ctrl+Enter hakee.}
+translate U CQLQueryEmpty {Anna CQL-kysely ennen hakua.}
+translate U CQLSearchFailed {CQL-haku epäonnistui:}
+translate U CQLUnreadableGames {%d peliä ei voitu lukea}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2415,9 +2442,3 @@ set tips(U) {
     Windows voidaan telakoida tarkistamalla vastaava merkintä asetusvalikosta. Välilehtiä voidaan vetää ja pudottaa yhdestä muistikirjasta toiseen ja asetella napsauttamalla hiiren kakkospainikkeella välilehtiwidgetiä.
   }
 }
-# CQL search:
-translate U CQLQuery {CQL-kysely}
-translate U CQLQueryHint {CQL-kysely, esim. cql() mate tai cql(:gamenumber 1 10) K. Ctrl+Enter hakee.}
-translate U CQLQueryEmpty {Anna CQL-kysely ennen hakua.}
-translate U CQLSearchFailed {CQL-haku epäonnistui:}
-translate U CQLUnreadableGames {%d peliä ei voitu lukea}

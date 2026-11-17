@@ -168,6 +168,7 @@ menuText L SearchNegate "Negați filtrul" 0 {Anulați filtrul pentru a include n
 menuText L SearchCurrent "Consiliul actual..." 0 {Căutați poziția curentă a consiliului}
 menuText L SearchHeader "Antet..." 0 {Căutați informații după antet (jucător, eveniment etc.).}
 menuText L SearchMaterial "Material/Model..." 0 {Căutați materiale sau modele de tablă}
+menuText L SearchMoves "Se misca..." 0 {Căutați o secvență de mișcări în linia principală}
 menuText L SearchCQL "CQL..." 0 {Căutați cu o interogare Chess Query Language}
 menuText L SearchComments "Căutați comentarii..." 0 {Căutați comentariile jocurilor în filtrul curent}
 menuText L SearchUsing "Se utilizează fișierul de căutare..." 0 {Căutați folosind un fișier SearchOptions}
@@ -519,6 +520,14 @@ translate L LichessPuzzlesRated {Evaluat}
 translate L LichessPuzzlesGame {Joc}
 translate L LichessPuzzlesNoNew {Nu s-au găsit puzzle-uri noi pentru aceste setări.\n\nÎncercați să schimbați tema, dificultatea sau culoarea puzzle-ului.}
 
+# Board screenshot
+menuText L ToolsScreenshot "Captură de ecran de la bord" 0 \
+  {Salvați poziția curentă a panoului ca imagine PNG}
+translate L ScreenshotTitle {Captură de ecran de la bord}
+translate L ScreenshotFileType {imagini PNG}
+translate L ScreenshotError {Captura de ecran nu a putut fi salvată.}
+translate L ScreenshotSaved {Captură de ecran pe tablă salvată:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +634,9 @@ translate L Preview {Previzualizare}
 translate L Revert {Reveni}
 translate L Rename {Redenumiți}
 translate L Save {Salva}
+translate L Presets {Presetări}
+translate L SavePreset {Salvați presetarea de căutare}
+translate L PresetName {Nume presetat:}
 translate L Search {Căutare}
 translate L Stop {Stop}
 translate L Store {Salvează}
@@ -946,10 +958,12 @@ translate L PgnOptColumn "Stil coloană (o mișcare pe linie)"
 translate L PgnOptSpace "Spațiu după Mutare numere"
 translate L PgnOptStripMarks "Scoateți codurile pătrate/săgeți colorate"
 translate L PgnOptBoldMainLine "Folosiți textul aldine pentru mutarea liniei principale"
+translate L PgnOptCenter "Centrare Mișcarea curentă"
 
 # Analysis window:
 translate L AddAllVariations {Adăugați toate variantele}
 translate L AddMove {Adăugați Mutare}
+translate L RemoveMove {Eliminați Mutare}
 translate L Annotate {Adnota}
 translate L FinishGame {Termină jocul}
 translate L StartEngine {Porniți motorul}
@@ -1102,6 +1116,7 @@ menuText L PgnOptColumn "Stil coloană (o mișcare pe linie)" 1
 menuText L PgnOptSpace "Spațiu după Mutare numere" 1
 menuText L PgnOptStripMarks "Scoateți codurile pătrate/săgeți colorate" 1
 menuText L PgnOptBoldMainLine "Folosiți textul aldine pentru mutarea liniei principale" 4
+menuText L PgnOptCenter "Centrare Mișcarea curentă" 7
 menuText L PgnColor "Culori" 0
 menuText L PgnColorHeader "Antet..." 0
 menuText L PgnColorAnno "Adnotări..." 0
@@ -1411,6 +1426,10 @@ translate L SearchBoardFiles {Fișiere (același material, toți pionii pe acele
 translate L SearchBoardAny {Oricare (același material, pioni și piese oriunde)}
 translate L SearchInRefDatabase {Căutați în baza de date de referință}
 translate L LookInVars {Uită-te în variații}
+
+# Moves search:
+translate L MovesSearchHint {SAN se mișcă în ordine, de ex. e4 e5 Nf3. "?" se potrivește cu orice mișcare.}
+translate L LastMoveIsMate {Ultima mutare este prietene}
 
 # Material search:
 translate L MaterialSearch {Căutarea materialelor}
@@ -2263,10 +2282,10 @@ translate L RtfImportError {Eroare la importarea fișierului RTF}
 translate L RtfNotScidFile {Acest fișier nu a fost exportat de scidCommunity cu formatarea comentariilor sau este corupt.}
 translate L RtfImportSuccess {Jocul a fost importat cu succes în baza de date clipboard.}
 translate L RtfImportSuccessMulti {%d jocuri importate în baza de date clipboard cu succes.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate L ReviewProgressTitle {Examinați progresul}
 translate L ReviewProgressIdle {Nu rulează nicio recenzie}
 translate L ReviewProgressGameOf {jocul %s din %s}
@@ -2274,6 +2293,14 @@ translate L ReviewProgressEngineWindow {Geamuri motor %s}
 translate L ReviewProgressRapid {Adnotare rapidă}
 translate L FinishGameGameChanged {jocul s-a schimbat în timp ce rula Finish Game; nu s-a scris nimic}
 translate L FinishGameAtEnd {Finish Game începe de la sfârșitul liniei principale; mergi mai întâi la sfârșitul jocului}
+# CQL search:
+translate L CQLQuery {Interogare CQL}
+translate L CQLQueryHint {Interogare CQL, de ex. cql() mate sau cql(:gamenumber 1 10) K. Ctrl+Enter caută.}
+translate L CQLQueryEmpty {Introduceți o interogare CQL înainte de a căuta.}
+translate L CQLSearchFailed {Căutarea CQL a eșuat:}
+translate L CQLUnreadableGames {%d partide nu au putut fi citite}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2403,9 +2430,3 @@ set tips(L) {
     Windows poate fi andocat prin verificarea intrării relevante din meniul de opțiuni. Filele pot fi trase și plasate dintr-un blocnotes în altul și așezate făcând clic dreapta pe widgetul file.
   }
 }
-# CQL search:
-translate L CQLQuery {Interogare CQL}
-translate L CQLQueryHint {Interogare CQL, de ex. cql() mate sau cql(:gamenumber 1 10) K. Ctrl+Enter caută.}
-translate L CQLQueryEmpty {Introduceți o interogare CQL înainte de a căuta.}
-translate L CQLSearchFailed {Căutarea CQL a eșuat:}
-translate L CQLUnreadableGames {%d partide nu au putut fi citite}

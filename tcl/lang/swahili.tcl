@@ -127,6 +127,7 @@ menuText Z SearchNegate "Punguza Kichujio" 0 {Punguza kichujio ili kujumuisha mi
 menuText Z SearchCurrent "Bodi ya Sasa..." 0 {Tafuta nafasi ya sasa ya bodi}
 menuText Z SearchHeader "Kijajuu..." 0 {Tafuta kwa Kichwa (mchezaji, tukio, nk) habari}
 menuText Z SearchMaterial "Nyenzo/Muundo..." 0 {Tafuta muundo wa nyenzo au ubao}
+menuText Z SearchMoves "Inasonga..." 0 {Tafuta mlolongo wa hatua katika mstari kuu}
 menuText Z SearchCQL "CQL..." 0 {Tafuta kwa hoja ya Chess Query Language}
 menuText Z SearchComments "Tafuta Maoni..." 0 {Tafuta maoni ya michezo kwenye kichujio cha sasa}
 menuText Z SearchUsing "Kwa kutumia Faili ya Utafutaji..." 0 {Tafuta kwa kutumia faili ya SearchOptions}
@@ -478,6 +479,14 @@ translate Z LichessPuzzlesRated {Imekadiriwa}
 translate Z LichessPuzzlesGame {Mchezo}
 translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangilio hii.\n\nJaribu kubadilisha mandhari, ugumu au rangi ya mafumbo.}
 
+# Board screenshot
+menuText Z ToolsScreenshot "Picha ya skrini ya Bodi" 0 \
+  {Hifadhi nafasi ya sasa ya ubao kama picha ya PNG}
+translate Z ScreenshotTitle {Picha ya skrini ya Bodi}
+translate Z ScreenshotFileType {Picha za PNG}
+translate Z ScreenshotError {Picha ya skrini haikuweza kuhifadhiwa.}
+translate Z ScreenshotSaved {Picha ya skrini ya ubao imehifadhiwa:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -584,6 +593,9 @@ translate Z Preview {Hakiki}
 translate Z Revert {Rudisha}
 translate Z Rename {Badilisha jina}
 translate Z Save {Hifadhi}
+translate Z Presets {Mipangilio mapema}
+translate Z SavePreset {Hifadhi usanidi wa utafutaji}
+translate Z PresetName {Jina lililowekwa mapema:}
 translate Z Search {Tafuta}
 translate Z Stop {Acha}
 translate Z Store {Hifadhi}
@@ -905,10 +917,12 @@ translate Z PgnOptColumn "Mtindo wa Safu wima (sogea moja kwa kila mstari)"
 translate Z PgnOptSpace "Nafasi baada ya Nambari za Kusonga"
 translate Z PgnOptStripMarks "Ondoa Misimbo ya Rangi ya Mraba/Arrow"
 translate Z PgnOptBoldMainLine "Tumia Maandishi Makali kwa Usogezaji Mstari Mkuu"
+translate Z PgnOptCenter "Hoja ya Sasa ya Kituo"
 
 # Analysis window:
 translate Z AddAllVariations {Ongeza Tofauti Zote}
 translate Z AddMove {Ongeza Hoja}
+translate Z RemoveMove {Ondoa Hoja}
 translate Z Annotate {Dokeza}
 translate Z FinishGame {Maliza mchezo}
 translate Z StartEngine {Anza injini}
@@ -1061,6 +1075,7 @@ menuText Z PgnOptColumn "Mtindo wa Safu wima (sogea moja kwa kila mstari)" 1
 menuText Z PgnOptSpace "Nafasi baada ya Nambari za Kusonga" 1
 menuText Z PgnOptStripMarks "Ondoa Misimbo ya Rangi ya Mraba/Arrow" 1
 menuText Z PgnOptBoldMainLine "Tumia Maandishi Makali kwa Usogezaji Mstari Mkuu" 4
+menuText Z PgnOptCenter "Hoja ya Sasa ya Kituo" 7
 menuText Z PgnColor "Rangi" 0
 menuText Z PgnColorHeader "Kijajuu..." 0
 menuText Z PgnColorAnno "Vidokezo..." 0
@@ -1370,6 +1385,10 @@ translate Z SearchBoardFiles {Faili (nyenzo sawa, pawns zote kwenye faili sawa)}
 translate Z SearchBoardAny {Yoyote (nyenzo sawa, pawns na vipande popote)}
 translate Z SearchInRefDatabase {Tafuta katika hifadhidata ya kumbukumbu}
 translate Z LookInVars {Angalia katika tofauti}
+
+# Moves search:
+translate Z MovesSearchHint {SAN husogea kwa mpangilio, k.m. e4 e5 Nf3. "?" inalingana na hoja yoyote.}
+translate Z LastMoveIsMate {Hatua ya mwisho ni mwenzio}
 
 # Material search:
 translate Z MaterialSearch {Utafutaji wa Nyenzo}
@@ -2222,10 +2241,10 @@ translate Z RtfImportError {Hitilafu katika kuleta faili ya RTF}
 translate Z RtfNotScidFile {Faili hii haikuhamishwa na scidCommunity yenye umbizo la maoni, au imeharibika.}
 translate Z RtfImportSuccess {Mchezo umeingizwa kwenye hifadhidata ya ubao wa kunakili.}
 translate Z RtfImportSuccessMulti {Michezo %d imeingizwa kwenye hifadhidata ya ubao wa kunakili.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate Z ReviewProgressTitle {Kagua maendeleo}
 translate Z ReviewProgressIdle {Hakuna ukaguzi unaoendeshwa}
 translate Z ReviewProgressGameOf {mchezo %s kati ya %s}
@@ -2233,6 +2252,14 @@ translate Z ReviewProgressEngineWindow {Dirisha la injini %s}
 translate Z ReviewProgressRapid {Maelezo ya haraka}
 translate Z FinishGameGameChanged {mchezo ulibadilika wakati Finish Game ikiendelea; hakuna kilichoandikwa}
 translate Z FinishGameAtEnd {Kumaliza Mchezo huanza kutoka mwisho wa mstari kuu; kwenda mwisho wa mchezo kwanza}
+# CQL search:
+translate Z CQLQuery {Hoja ya CQL}
+translate Z CQLQueryHint {Hoja ya CQL, k.m. cql() mate au cql(:gamenumber 1 10) K. Ctrl+Enter hutafuta.}
+translate Z CQLQueryEmpty {Weka hoja ya CQL kabla ya kutafuta.}
+translate Z CQLSearchFailed {Utafutaji wa CQL umeshindikana:}
+translate Z CQLUnreadableGames {michezo %d haikuweza kusomwa}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2362,9 +2389,3 @@ set tips(Z) {
     Windows inaweza kuunganishwa kwa kuangalia ingizo linalofaa kwenye menyu ya chaguo. Vichupo vinaweza kuburutwa na kudondoshwa kutoka daftari moja hadi nyingine na kuwekwa nje kwa kubofya kulia kwenye wijeti ya kichupo.
   }
 }
-# CQL search:
-translate Z CQLQuery {Hoja ya CQL}
-translate Z CQLQueryHint {Hoja ya CQL, k.m. cql() mate au cql(:gamenumber 1 10) K. Ctrl+Enter hutafuta.}
-translate Z CQLQueryEmpty {Weka hoja ya CQL kabla ya kutafuta.}
-translate Z CQLSearchFailed {Utafutaji wa CQL umeshindikana:}
-translate Z CQLUnreadableGames {michezo %d haikuweza kusomwa}

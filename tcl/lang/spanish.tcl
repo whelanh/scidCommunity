@@ -142,6 +142,7 @@ menuText S SearchHeader "Encabezamiento..." 0 \
   {Busca por información de encabezamiento (jugador, evento, etc.)}
 menuText S SearchMaterial "Material/Patrón..." 0 \
   {Busca por material o patrón del tablero}
+menuText S SearchMoves "Se mueve..." 0 {Buscar una secuencia de movimientos en la línea principal.}
 menuText S SearchCQL "CQL..." 0 {Buscar con una consulta de Chess Query Language}
 menuText S SearchComments "Buscar comentarios..." 0 {Busca los comentarios de los juegos en el filtro actual.}
 menuText S SearchUsing "Usar archivo de búsqueda..." 0 \
@@ -519,6 +520,14 @@ translate S LichessPuzzlesRated {Clasificado}
 translate S LichessPuzzlesGame {Juego}
 translate S LichessPuzzlesNoNew {No se encontraron nuevos rompecabezas para esta configuración.\n\nIntenta cambiar el tema, la dificultad o el color del rompecabezas.}
 
+# Board screenshot
+menuText S ToolsScreenshot "Captura de pantalla del tablero" 0 \
+  {Guarde la posición actual del tablero como una imagen PNG}
+translate S ScreenshotTitle {Captura de pantalla del tablero}
+translate S ScreenshotFileType {Imágenes PNG}
+translate S ScreenshotError {No se pudo guardar la captura de pantalla.}
+translate S ScreenshotSaved {Captura de pantalla del tablero guardada:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +634,9 @@ translate S Preview {Vista previa}
 translate S Revert {Retroceder}
 translate S Rename {Rebautizar}
 translate S Save {Guardar}
+translate S Presets {Preajustes}
+translate S SavePreset {Guardar búsqueda preestablecida}
+translate S PresetName {Nombre preestablecido:}
 translate S Search {Buscar}
 translate S Stop {Parar}
 translate S Store {Almacenar}
@@ -962,10 +974,12 @@ translate S PgnOptColumn "Estilo de columna (un movimiento por línea)"
 translate S PgnOptSpace "Espacio después de mover números"
 translate S PgnOptStripMarks "Elimina los códigos de cuadrados/flechas de colores"
 translate S PgnOptBoldMainLine "Utilice texto en negrita para los movimientos de la línea principal"
+translate S PgnOptCenter "Centrar movimiento actual"
 
 # Analysis window:
 translate S AddAllVariations {Añadir todas las variaciones}
 translate S AddMove {Añadir movimiento}
+translate S RemoveMove {Quitar Mover}
 translate S Annotate {Anotar}
 translate S FinishGame {Finalizar partida}
 translate S StartEngine {Empezar motor}
@@ -1118,6 +1132,7 @@ menuText S PgnOptColumn "Estilo de columna (un movimiento por línea)" 1
 menuText S PgnOptSpace "Espacio después del número del movimiento" 0
 menuText S PgnOptStripMarks "Quitar códigos de color en casilla/flecha" 3
 menuText S PgnOptBoldMainLine "Usar texto en negrita para las jugadas principales" 4
+menuText S PgnOptCenter "Centrar movimiento actual" 7
 menuText S PgnColor "Colores" 1
 menuText S PgnColorHeader "Encabezamiento..." 0
 menuText S PgnColorAnno "Anotaciones..." 0
@@ -1436,6 +1451,10 @@ translate S SearchBoardFiles {Columnas (igual material, todos los peones en las 
 translate S SearchBoardAny {Cualquiera (igual material, peones y piezas en cualquier parte)}
 translate S SearchInRefDatabase {Búsqueda en la base de referencia}
 translate S LookInVars {Mirar en variaciones}
+
+# Moves search:
+translate S MovesSearchHint {SAN se mueve en orden, p.e. e4 e5 Cf3. "?" coincide con cualquier movimiento.}
+translate S LastMoveIsMate {El último movimiento es amigo.}
 
 # Material search:
 translate S MaterialSearch {Búsqueda de material}
@@ -2297,10 +2316,10 @@ translate S RtfImportError {Error al importar el archivo RTF}
 translate S RtfNotScidFile {Este archivo no fue exportado por scidCommunity con formato de comentario o está dañado.}
 translate S RtfImportSuccess {El juego se importó correctamente a la base de datos del portapapeles.}
 translate S RtfImportSuccessMulti {%d juegos importados correctamente a la base de datos del portapapeles.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate S ReviewProgressTitle {Revisar el progreso}
 translate S ReviewProgressIdle {No se está ejecutando ninguna revisión}
 translate S ReviewProgressGameOf {juego %s de %s}
@@ -2308,6 +2327,14 @@ translate S ReviewProgressEngineWindow {Ventanas del motor %s}
 translate S ReviewProgressRapid {Anotación rápida}
 translate S FinishGameGameChanged {el juego cambió mientras se ejecutaba Finalizar juego; no se escribió nada}
 translate S FinishGameAtEnd {Finalizar el juego comienza desde el final de la línea principal; ve primero al final del juego}
+# CQL search:
+translate S CQLQuery {Consulta CQL}
+translate S CQLQueryHint {Consulta CQL, p. ej. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Intro busca.}
+translate S CQLQueryEmpty {Introduzca una consulta CQL antes de buscar.}
+translate S CQLSearchFailed {La búsqueda CQL ha fallado:}
+translate S CQLUnreadableGames {%d partida(s) no se pudieron leer}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2437,9 +2464,3 @@ set tips(S) {
     Windows se puede acoplar marcando la entrada correspondiente en el menú de opciones. Las pestañas se pueden arrastrar y soltar de un cuaderno a otro y diseñar haciendo clic derecho en el widget de pestaña.
   }
 }
-# CQL search:
-translate S CQLQuery {Consulta CQL}
-translate S CQLQueryHint {Consulta CQL, p. ej. cql() mate o cql(:gamenumber 1 10) K. Ctrl+Intro busca.}
-translate S CQLQueryEmpty {Introduzca una consulta CQL antes de buscar.}
-translate S CQLSearchFailed {La búsqueda CQL ha fallado:}
-translate S CQLUnreadableGames {%d partida(s) no se pudieron leer}

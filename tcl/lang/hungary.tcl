@@ -130,6 +130,7 @@ menuText H SearchNegate "Szûrõ negálása" 6 {Negálja a szûrõt, hogy csak a
 menuText H SearchCurrent "Aktuális állás..." 0 {A táblán lévõ állást keresi.}
 menuText H SearchHeader "Fejléc..." 0 {Keresés fejléc (játékos, esemény, stb.) alapján}
 menuText H SearchMaterial "Anyag/szerkezet..." 6 {Keresés anyag vagy állásszerkezet alapján}
+menuText H SearchMoves "Mozdul..." 0 {Keressen egy mozdulatsort a fő sorban}
 menuText H SearchCQL "CQL..." 0 {Keresés Chess Query Language lekérdezéssel}
 menuText H SearchComments "Keresés a megjegyzésekben..." 0 {Keresés a játékok megjegyzései között az aktuális szűrőben}
 menuText H SearchUsing "Keresõfájl használata..." 0 {Keresés SearchOptions fájl használatával}
@@ -486,6 +487,14 @@ translate H LichessPuzzlesRated {Névleges}
 translate H LichessPuzzlesGame {Játék}
 translate H LichessPuzzlesNoNew {Nem találhatók új rejtvények ezekhez a beállításokhoz.\n\nMódosítsa a témát, a nehézségi fokot vagy a rejtvény színét.}
 
+# Board screenshot
+menuText H ToolsScreenshot "Board Screenshot" 0 \
+  {Mentse el az aktuális táblapozíciót PNG-képként}
+translate H ScreenshotTitle {Board Screenshot}
+translate H ScreenshotFileType {PNG képek}
+translate H ScreenshotError {A képernyőképet nem sikerült elmenteni.}
+translate H ScreenshotSaved {A tábla képernyőképe mentve:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -592,6 +601,9 @@ translate H Preview {Elõnézet}
 translate H Revert {Elvet}
 translate H Rename {Átnevezés}
 translate H Save {Ment}
+translate H Presets {Előbeállítások}
+translate H SavePreset {Keresési előbeállítás mentése}
+translate H PresetName {Előre beállított név:}
 translate H Search {Keres}
 translate H Stop {Állj}
 translate H Store {Tárol}
@@ -913,10 +925,12 @@ translate H PgnOptColumn "Oszlopstílus (soronként egy mozdulat)"
 translate H PgnOptSpace "Szóköz a számok áthelyezése után"
 translate H PgnOptStripMarks "Távolítsa el a színes négyzet/nyíl kódokat"
 translate H PgnOptBoldMainLine "Használjon félkövér szöveget a fővonali mozgásokhoz"
+translate H PgnOptCenter "Aktuális mozgás középre"
 
 # Analysis window:
 translate H AddAllVariations {Add hozzá az összes változatot}
 translate H AddMove {Lépés beszúrása}
+translate H RemoveMove {Mozgatás eltávolítása}
 translate H Annotate {Lásd el értékelõ jelekkel}
 translate H FinishGame {Fejezd be a játszmát}
 translate H StartEngine {Indítsd el a motort}
@@ -1069,6 +1083,7 @@ menuText H PgnOptColumn "Oszlopok stílusa (soronként egy lépés)" 0
 menuText H PgnOptSpace "Szóköz a lépés sorszáma után" 3
 menuText H PgnOptStripMarks "Színes mezõk és nyilak kifejtése" 2
 menuText H PgnOptBoldMainLine "A fõváltozat lépései vastag betûvel" 21
+menuText H PgnOptCenter "Aktuális mozgás középre" 7
 menuText H PgnColor "Színek" 1
 menuText H PgnColorHeader "Fejléc..." 0
 menuText H PgnColorAnno "Értékelõ jelek..." 0
@@ -1385,6 +1400,10 @@ translate H SearchBoardFiles {Vonalak (azonos anyag, minden gyalog azonos vonalo
 translate H SearchBoardAny {Bármi (azonos anyag, gyalogok és figurák bárhol)}
 translate H SearchInRefDatabase {Keresés az alapban}
 translate H LookInVars {Változatokban is keres.}
+
+# Moves search:
+translate H MovesSearchHint {A SAN sorrendben mozog, pl. e4 e5 Nf3. "?" bármely mozdulattal megegyezik.}
+translate H LastMoveIsMate {Az utolsó lépés haver}
 
 # Material search:
 translate H MaterialSearch {Keresés anyagra}
@@ -2245,10 +2264,10 @@ translate H RtfImportError {Hiba az RTF-fájl importálásakor}
 translate H RtfNotScidFile {Ezt a fájlt a scidCommunity nem exportálta megjegyzésformázással, vagy sérült.}
 translate H RtfImportSuccess {A játék sikeresen importálva a vágólap adatbázisba.}
 translate H RtfImportSuccessMulti {%d játék sikeresen importálva a vágólap adatbázisba.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate H ReviewProgressTitle {Tekintse át a haladást}
 translate H ReviewProgressIdle {Egyetlen felülvizsgálat sem fut}
 translate H ReviewProgressGameOf {%s játék: %s}
@@ -2256,6 +2275,14 @@ translate H ReviewProgressEngineWindow {Motor ablakok %s}
 translate H ReviewProgressRapid {Gyors annotáció}
 translate H FinishGameGameChanged {a játék megváltozott, miközben a Finish Game futott; nem volt írva semmi}
 translate H FinishGameAtEnd {Befejezés A játék a fővonal végétől kezdődik; először menj a játék végére}
+# CQL search:
+translate H CQLQuery {CQL-lekérdezés}
+translate H CQLQueryHint {CQL-lekérdezés, pl. cql() mate vagy cql(:gamenumber 1 10) K. A Ctrl+Enter keres.}
+translate H CQLQueryEmpty {A keresés előtt adjon meg egy CQL-lekérdezést.}
+translate H CQLSearchFailed {A CQL-keresés sikertelen:}
+translate H CQLUnreadableGames {%d játszma nem olvasható}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2385,9 +2412,3 @@ set tips(H) {
     A Windows az opciómenü megfelelő bejegyzésének ellenőrzésével dokkolható. A lapok áthúzhatók egyik jegyzetfüzetből a másikba, és a fül widgetre való jobb kattintással elhelyezhetők.
   }
 }
-# CQL search:
-translate H CQLQuery {CQL-lekérdezés}
-translate H CQLQueryHint {CQL-lekérdezés, pl. cql() mate vagy cql(:gamenumber 1 10) K. A Ctrl+Enter keres.}
-translate H CQLQueryEmpty {A keresés előtt adjon meg egy CQL-lekérdezést.}
-translate H CQLSearchFailed {A CQL-keresés sikertelen:}
-translate H CQLUnreadableGames {%d játszma nem olvasható}

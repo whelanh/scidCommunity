@@ -128,6 +128,7 @@ menuText V SearchNegate "שלילת מסנן" 0 {שלל את המסנן כך ש�
 menuText V SearchCurrent "המועצה הנוכחית..." 0 {חפש את עמדת הדירקטוריון הנוכחית}
 menuText V SearchHeader "כּוֹתֶרֶת..." 0 {חפש לפי כותרת מידע (שחקן, אירוע וכו').}
 menuText V SearchMaterial "חומר/דפוס..." 0 {חפש חומר או דפוסי לוח}
+menuText V SearchMoves "מהלכים..." 0 {חפש רצף של מהלכים בשורה הראשית}
 menuText V SearchCQL "CQL..." 0 {חיפוש עם שאילתת Chess Query Language}
 menuText V SearchComments "חפש תגובות..." 0 {חפש את ההערות של המשחקים במסנן הנוכחי}
 menuText V SearchUsing "משתמש בקובץ חיפוש..." 0 {חפש באמצעות קובץ SearchOptions}
@@ -479,6 +480,14 @@ translate V LichessPuzzlesRated {מדורג}
 translate V LichessPuzzlesGame {מִשְׂחָק}
 translate V LichessPuzzlesNoNew {לא נמצאו פאזלים חדשים עבור ההגדרות האלה.\n\nנסה לשנות את הנושא, הקושי או צבע הפאזל.}
 
+# Board screenshot
+menuText V ToolsScreenshot "צילום מסך של לוח" 0 \
+  {שמור את מיקום הלוח הנוכחי כתמונת PNG}
+translate V ScreenshotTitle {צילום מסך של לוח}
+translate V ScreenshotFileType {תמונות PNG}
+translate V ScreenshotError {לא ניתן היה לשמור את צילום המסך.}
+translate V ScreenshotSaved {צילום מסך לוח נשמר:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -585,6 +594,9 @@ translate V Preview {תצוגה מקדימה}
 translate V Revert {לַחֲזוֹר}
 translate V Rename {שנה שם}
 translate V Save {לְהַצִיל}
+translate V Presets {הגדרות קבועות מראש}
+translate V SavePreset {שמור קביעת חיפוש מראש}
+translate V PresetName {שם מוגדר מראש:}
 translate V Search {לְחַפֵּשׂ}
 translate V Stop {לְהַפְסִיק}
 translate V Store {חנות}
@@ -906,10 +918,12 @@ translate V PgnOptColumn "סגנון עמודה (מהלך אחד בכל שורה
 translate V PgnOptSpace "רווח לאחר מספרי תנועה"
 translate V PgnOptStripMarks "הסר קודי ריבוע/חץ צבעוני"
 translate V PgnOptBoldMainLine "השתמש בטקסט מודגש עבור מהלכי קו ראשי"
+translate V PgnOptCenter "מרכז מהלך נוכחי"
 
 # Analysis window:
 translate V AddAllVariations {הוסף את כל הווריאציות}
 translate V AddMove {הוסף Move}
+translate V RemoveMove {הסר Move}
 translate V Annotate {הערה}
 translate V FinishGame {סיים משחק}
 translate V StartEngine {הפעל מנוע}
@@ -1062,6 +1076,7 @@ menuText V PgnOptColumn "סגנון עמודה (מהלך אחד בכל שורה)
 menuText V PgnOptSpace "רווח לאחר מספרי תנועה" 1
 menuText V PgnOptStripMarks "הסר קודי ריבוע/חץ צבעוני" 1
 menuText V PgnOptBoldMainLine "השתמש בטקסט מודגש עבור מהלכי קו ראשי" 4
+menuText V PgnOptCenter "מרכז מהלך נוכחי" 7
 menuText V PgnColor "צבעים" 0
 menuText V PgnColorHeader "כּוֹתֶרֶת..." 0
 menuText V PgnColorAnno "הערות..." 0
@@ -1371,6 +1386,10 @@ translate V SearchBoardFiles {קבצים (אותו חומר, כל המשכוני
 translate V SearchBoardAny {כל (אותו חומר, פיונים וחתיכות בכל מקום)}
 translate V SearchInRefDatabase {חיפוש במסד נתונים}
 translate V LookInVars {תסתכל בווריאציות}
+
+# Moves search:
+translate V MovesSearchHint {SAN נע לפי הסדר, למשל. e4 e5 Nf3. "?" מתאים לכל מהלך בודד.}
+translate V LastMoveIsMate {המהלך האחרון הוא בן זוג}
 
 # Material search:
 translate V MaterialSearch {חיפוש חומרים}
@@ -2223,10 +2242,10 @@ translate V RtfImportError {שגיאה בייבוא ​​קובץ RTF}
 translate V RtfNotScidFile {קובץ זה לא יצא על ידי scidCommunity עם עיצוב הערות, או שהוא פגום.}
 translate V RtfImportSuccess {המשחק יובא למסד הנתונים של הלוח בהצלחה.}
 translate V RtfImportSuccessMulti {%d משחקים יובאו למסד הנתונים של הלוח בהצלחה.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate V ReviewProgressTitle {סקור את ההתקדמות}
 translate V ReviewProgressIdle {שום ביקורת לא פועלת}
 translate V ReviewProgressGameOf {משחק %s מתוך %s}
@@ -2234,6 +2253,14 @@ translate V ReviewProgressEngineWindow {חלונות מנוע %s}
 translate V ReviewProgressRapid {הערה מהירה}
 translate V FinishGameGameChanged {המשחק השתנה בזמן שמשחק סיום רץ; שום דבר לא נכתב}
 translate V FinishGameAtEnd {משחק סיום מתחיל מסוף הקו הראשי; ללכת קודם לסוף המשחק}
+# CQL search:
+translate V CQLQuery {שאילתת CQL}
+translate V CQLQueryHint {שאילתת CQL, למשל cql() mate או cql(:gamenumber 1 10) K. Ctrl+Enter מפעיל חיפוש.}
+translate V CQLQueryEmpty {יש להזין שאילתת CQL לפני החיפוש.}
+translate V CQLSearchFailed {חיפוש CQL נכשל:}
+translate V CQLUnreadableGames {לא ניתן לקרוא %d משחקים}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2363,9 +2390,3 @@ set tips(V) {
     ניתן לעגן את Windows על ידי סימון הערך הרלוונטי בתפריט האפשרויות. ניתן לגרור ולשחרר כרטיסיות ממחברת אחת לאחרת ולפרוס אותן על ידי לחיצה ימנית על ווידג'ט הכרטיסיות.
   }
 }
-# CQL search:
-translate V CQLQuery {שאילתת CQL}
-translate V CQLQueryHint {שאילתת CQL, למשל cql() mate או cql(:gamenumber 1 10) K. Ctrl+Enter מפעיל חיפוש.}
-translate V CQLQueryEmpty {יש להזין שאילתת CQL לפני החיפוש.}
-translate V CQLSearchFailed {חיפוש CQL נכשל:}
-translate V CQLUnreadableGames {לא ניתן לקרוא %d משחקים}

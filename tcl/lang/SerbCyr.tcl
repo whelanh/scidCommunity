@@ -168,6 +168,7 @@ menuText J SearchNegate "Негати филтер" 0 {Негирајте фил
 menuText J SearchCurrent "Тренутни одбор..." 0 {Потражите тренутну позицију на табли}
 menuText J SearchHeader "Заглавље..." 0 {Претражите по информацијама заглавља (играч, догађај, итд.).}
 menuText J SearchMaterial "Материјал/Узорак..." 0 {Потражите узорке материјала или плоча}
+menuText J SearchMoves "Помера се..." 0 {Потражите низ потеза у главној линији}
 menuText J SearchCQL "CQL..." 0 {Претрага помоћу упита Chess Query Language}
 menuText J SearchComments "Претражи коментаре..." 0 {Претражите коментаре игара у тренутном филтеру}
 menuText J SearchUsing "Коришћење датотеке претраге..." 0 {Претражујте помоћу датотеке СеарцхОптионс}
@@ -519,6 +520,14 @@ translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
 translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
 
+# Board screenshot
+menuText J ToolsScreenshot "Снимак екрана плоче" 0 \
+  {Сачувајте тренутну позицију плоче као ПНГ слику}
+translate J ScreenshotTitle {Снимак екрана плоче}
+translate J ScreenshotFileType {ПНГ слике}
+translate J ScreenshotError {Није могуће сачувати снимак екрана.}
+translate J ScreenshotSaved {Снимак екрана је сачуван:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +634,9 @@ translate J Preview {Преглед}
 translate J Revert {Врати}
 translate J Rename {Преименуј}
 translate J Save {Сачувај}
+translate J Presets {Пресетс}
+translate J SavePreset {Сачувајте унапред подешену претрагу}
+translate J PresetName {Име унапред подешене:}
 translate J Search {Тражи}
 translate J Stop {Стани}
 translate J Store {Продавница}
@@ -946,10 +958,12 @@ translate J PgnOptColumn "Стил колоне (један потез по ре
 translate J PgnOptSpace "Размак после бројева померања"
 translate J PgnOptStripMarks "Скините обојене квадратне кодове/кодове са стрелицама"
 translate J PgnOptBoldMainLine "Користите подебљани текст за покрете главне линије"
+translate J PgnOptCenter "Центер Цуррент Мове"
 
 # Analysis window:
 translate J AddAllVariations {Додај све варијације}
 translate J AddMove {Адд Мове}
+translate J RemoveMove {Ремове Мове}
 translate J Annotate {Анотирајте}
 translate J FinishGame {Заврши игру}
 translate J StartEngine {Покрените мотор}
@@ -1102,6 +1116,7 @@ menuText J PgnOptColumn "Стил колоне (један потез по ре�
 menuText J PgnOptSpace "Размак после бројева померања" 1
 menuText J PgnOptStripMarks "Скините обојене квадратне кодове/кодове са стрелицама" 1
 menuText J PgnOptBoldMainLine "Користите подебљани текст за покрете главне линије" 4
+menuText J PgnOptCenter "Центер Цуррент Мове" 7
 menuText J PgnColor "Боје" 0
 menuText J PgnColorHeader "Заглавље..." 0
 menuText J PgnColorAnno "Напомене..." 0
@@ -1411,6 +1426,10 @@ translate J SearchBoardFiles {Фајлови (исти материјал, св�
 translate J SearchBoardAny {Било који (исти материјал, пешаци и комади било где)}
 translate J SearchInRefDatabase {Тражи у референтној бази података}
 translate J LookInVars {Гледајте у варијантама}
+
+# Moves search:
+translate J MovesSearchHint {САН се креће по реду, нпр. е4 е5 Нф3. "?" одговара било ком појединачном потезу.}
+translate J LastMoveIsMate {Последњи потез је друг}
 
 # Material search:
 translate J MaterialSearch {Претрага материјала}
@@ -2263,10 +2282,10 @@ translate J RtfImportError {Грешка при увозу РТФ датотек
 translate J RtfNotScidFile {Ову датотеку није извезла сцидЦоммунити са форматирањем коментара или је оштећена.}
 translate J RtfImportSuccess {Игра је успешно увезена у базу података међумеморије.}
 translate J RtfImportSuccessMulti {%д игре су успешно увезене у базу података међумеморије.}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate J ReviewProgressTitle {Прегледајте напредак}
 translate J ReviewProgressIdle {Нема прегледа}
 translate J ReviewProgressGameOf {игра %с од %с %s %s}
@@ -2274,6 +2293,14 @@ translate J ReviewProgressEngineWindow {Прозори мотора %s}
 translate J ReviewProgressRapid {Рапид аннотате}
 translate J FinishGameGameChanged {игра се променила док је Финисх Гаме била покренута; ништа није написано}
 translate J FinishGameAtEnd {Финисх Гаме почиње са краја главне линије; прво идите до краја игре}
+# CQL search:
+translate J CQLQuery {CQL упит}
+translate J CQLQueryHint {CQL упит, нпр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter покреће претрагу.}
+translate J CQLQueryEmpty {Унесите CQL упит пре претраге.}
+translate J CQLSearchFailed {CQL претрага није успела:}
+translate J CQLUnreadableGames {%d партија није могуће прочитати}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2403,9 +2430,3 @@ set tips(J) {
     Виндовс се може усидрити тако што ћете проверити одговарајући унос у менију опција. Картице се могу превући и спустити из једне бележнице у другу и распоредити десним кликом на виџет картице.
   }
 }
-# CQL search:
-translate J CQLQuery {CQL упит}
-translate J CQLQueryHint {CQL упит, нпр. cql() mate или cql(:gamenumber 1 10) K. Ctrl+Enter покреће претрагу.}
-translate J CQLQueryEmpty {Унесите CQL упит пре претраге.}
-translate J CQLSearchFailed {CQL претрага није успела:}
-translate J CQLUnreadableGames {%d партија није могуће прочитати}

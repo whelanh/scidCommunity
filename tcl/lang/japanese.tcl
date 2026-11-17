@@ -168,6 +168,7 @@ menuText A SearchNegate "ネゲートフィルター" 0 {フィルタを無効�
 menuText A SearchCurrent "現在のボード..." 0 {現在のボード位置を検索します}
 menuText A SearchHeader "ヘッダ..." 0 {ヘッダー（選手、イベントなど）情報から検索}
 menuText A SearchMaterial "素材・柄..." 0 {材質や基板パターンを探す}
+menuText A SearchMoves "移動..." 0 {メインライン内の一連の動きを検索する}
 menuText A SearchCQL "CQL..." 0 {Chess Query Language クエリで検索}
 menuText A SearchComments "コメントを検索..." 0 {現在のフィルターでゲームのコメントを検索します}
 menuText A SearchUsing "ファイル検索を使用しています..." 0 {SearchOptions ファイルを使用して検索する}
@@ -519,6 +520,14 @@ translate A LichessPuzzlesRated {評価済み}
 translate A LichessPuzzlesGame {ゲーム}
 translate A LichessPuzzlesNoNew {これらの設定では新しいパズルが見つかりません。\n\nテーマ、難易度、またはパズルの色を変更してみてください。}
 
+# Board screenshot
+menuText A ToolsScreenshot "ボードのスクリーンショット" 0 \
+  {現在のボード位置を PNG 画像として保存します}
+translate A ScreenshotTitle {ボードのスクリーンショット}
+translate A ScreenshotFileType {PNG画像}
+translate A ScreenshotError {スクリーンショットを保存できませんでした。}
+translate A ScreenshotSaved {ボードのスクリーンショットが保存されました:}
+
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
 # Designed by TBergh98 (https://github.com/TBergh98).
@@ -625,6 +634,9 @@ translate A Preview {プレビュー}
 translate A Revert {元に戻す}
 translate A Rename {名前の変更}
 translate A Save {保存}
+translate A Presets {プリセット}
+translate A SavePreset {検索プリセットの保存}
+translate A PresetName {プリセット名:}
 translate A Search {検索}
 translate A Stop {停止}
 translate A Store {保存}
@@ -946,10 +958,12 @@ translate A PgnOptColumn "列スタイル (1 行につき 1 回の移動)"
 translate A PgnOptSpace "移動番号の後のスペース"
 translate A PgnOptStripMarks "色付きの四角形/矢印コードを取り除く"
 translate A PgnOptBoldMainLine "主線の移動に太字のテキストを使用する"
+translate A PgnOptCenter "現在の移動を中心に"
 
 # Analysis window:
 translate A AddAllVariations {すべてのバリエーションを追加}
 translate A AddMove {移動の追加}
+translate A RemoveMove {削除移動}
 translate A Annotate {Annotate}
 translate A FinishGame {ゲームを終了する}
 translate A StartEngine {エンジンを始動する}
@@ -1102,6 +1116,7 @@ menuText A PgnOptColumn "列スタイル (1 行につき 1 回の移動)" 1
 menuText A PgnOptSpace "移動番号の後のスペース" 1
 menuText A PgnOptStripMarks "色付きの四角形/矢印コードを取り除く" 1
 menuText A PgnOptBoldMainLine "主線の移動に太字のテキストを使用する" 4
+menuText A PgnOptCenter "現在の移動を中心に" 7
 menuText A PgnColor "色" 0
 menuText A PgnColorHeader "ヘッダ..." 0
 menuText A PgnColorAnno "注釈..." 0
@@ -1411,6 +1426,10 @@ translate A SearchBoardFiles {ファイル (同じマテリアル、同じファ
 translate A SearchBoardAny {任意 (同じ素材、ポーン、駒はどこでも)}
 translate A SearchInRefDatabase {参照データベースで検索する}
 translate A LookInVars {バリエーションで見る}
+
+# Moves search:
+translate A MovesSearchHint {SAN は順番に移動します。 e4 e5 Nf3。 「？」あらゆる単一の動きに一致します。}
+translate A LastMoveIsMate {最後の動きは仲間です}
 
 # Material search:
 translate A MaterialSearch {素材検索}
@@ -2263,10 +2282,10 @@ translate A RtfImportError {RTF ファイルのインポートでエラーが発
 translate A RtfNotScidFile {このファイルは、scidCommunity によってコメント形式でエクスポートされていないか、破損しています。}
 translate A RtfImportSuccess {ゲームはクリップボード データベースに正常にインポートされました。}
 translate A RtfImportSuccessMulti {%d ゲームがクリップボード データベースに正常にインポートされました。}
-}
-# end of english.tcl
 
 # Review progress pane (#422 item 3).
+# Keep this block before the CQL entries: the language files carry it there,
+# and tcl/lang/propagatelang.tcl compares entry positions.
 translate A ReviewProgressTitle {進捗状況のレビュー}
 translate A ReviewProgressIdle {実行中のレビューはありません}
 translate A ReviewProgressGameOf {ゲーム %s/%s}
@@ -2274,6 +2293,14 @@ translate A ReviewProgressEngineWindow {エンジンの窓 %s}
 translate A ReviewProgressRapid {迅速な注釈付け}
 translate A FinishGameGameChanged {終了ゲームの実行中にゲームが変更されました。何も書かれていなかった}
 translate A FinishGameAtEnd {フィニッシュゲームはメインラインの最後尾から始まります。まずはゲームの最後まで行く}
+# CQL search:
+translate A CQLQuery {CQL クエリ}
+translate A CQLQueryHint {CQL クエリ（例: cql() mate、cql(:gamenumber 1 10) K）。Ctrl+Enter で検索します。}
+translate A CQLQueryEmpty {検索する前に CQL クエリを入力してください。}
+translate A CQLSearchFailed {CQL 検索に失敗しました:}
+translate A CQLUnreadableGames {%d 局を読み込めませんでした}
+}
+# end of english.tcl
 
 
 ############################################################
@@ -2403,9 +2430,3 @@ set tips(A) {
     オプション メニューの該当するエントリをチェックすると、Windows をドッキングできます。タブは、あるノートブックから別のノートブックにドラッグ アンド ドロップでき、タブ ウィジェットを右クリックしてレイアウトできます。
   }
 }
-# CQL search:
-translate A CQLQuery {CQL クエリ}
-translate A CQLQueryHint {CQL クエリ（例: cql() mate、cql(:gamenumber 1 10) K）。Ctrl+Enter で検索します。}
-translate A CQLQueryEmpty {検索する前に CQL クエリを入力してください。}
-translate A CQLSearchFailed {CQL 検索に失敗しました:}
-translate A CQLUnreadableGames {%d 局を読み込めませんでした}
