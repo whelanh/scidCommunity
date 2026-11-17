@@ -412,18 +412,28 @@ next rule.
 
 **A one-line reply decides a position only beside a candidate-bearing reply.** The
 ordinary labels, the `[%eval]` and the ESL the report uses take ChessDB's deeper
-score. `great` and `brilliant` are decided *against* `::review::mpv` alternatives,
-and `::movelabels::needsAlternatives` is the test for whether the drop could
-qualify for either: the gap to the second line (the ladder's own `GREAT_GAP`), or a
+score. The labels a review emits today are `::movelabels::label`'s six — `best`,
+`excellent`, `good`, `inaccuracy`, `mistake` and `blunder` — and
+`::reviewdriver::judge` (`review_driver.tcl:810`) calls nothing else, so no review
+shows a `great` or a `brilliant`. The vocabulary that adds `forced`, `book`,
+`brilliant`, `great` and `miss` is `::movelabels::refine` (`move_labels.tcl:296`),
+the port of Patzer's `refineClassification`: it is in the tree with its own tests,
+and it is **not wired into the live verdict path** — it, and `::movelabels::game`,
+have no production caller — so `::reviewverify`'s correction of `brilliant` and
+`great` (`review_verify.tcl:101`, `:138`) has nothing to correct yet.
+
+The rule below is therefore a property this pass keeps, not a badge it is deciding.
+`::movelabels::needsAlternatives` is the test for whether a drop *could* qualify for
+either refined label: the gap to the second line (the ladder's own `GREAT_GAP`), or a
 best move that gives up material while the game is still on, measured on the
 position's board. A single line can answer neither, so the reply that carries the
 alternatives decides who decides:
 
 - **Where one exists** — Lichess's reply when it is usable, otherwise the local
   search's own lines — the guard decides. A drop that would qualify hands the
-  position to that reply, whose alternatives decide the label, and `sources` names
-  whichever of them decided it; a drop that would not leaves ChessDB's deeper
-  reply in place for the score.
+  position to that reply, whose alternatives are the ones a refined verdict would be
+  read from, and `sources` names whichever of them decided it; a drop that would not
+  leaves ChessDB's deeper reply in place for the score.
 - **Where none exists** — no usable Lichess reply (absent, in flight, a 404, or
   shorter than `mpv`) and no local lines, which is a depth-only pass before it
   searches — the question cannot be answered, so **no evaluation is adopted**. The
@@ -436,8 +446,9 @@ That is the cost of the trade and it is real: in a depth-only pass where Lichess
 holds nothing for the position, ChessDB no longer saves the search. The second
 provider earns its place where both hold the position — ChessDB's deeper score
 with Lichess's alternatives beside it — and where the local search has already run
-and its own lines can answer the guard. Keeping `great` and `brilliant` awardable
-is the price, and it is the trade the verdict ladder makes.
+and its own lines can answer the guard. Keeping the alternatives answerable — and so
+keeping the refinement layer's decisions sound when it is wired in — is the price,
+and it is the trade this pass makes.
 
 **A cached one-line reply is not a shortcut either.** In a timed pass a cached reply
 settles the position through `::reviewcloud::deeper` — no `Go`, no `StopGo` — only
@@ -464,14 +475,17 @@ and the answers are held for the comparison; this is what makes `D > C > L`
 resolve to a provider — the time cap cut the local search below both.
 
 **In a depth-only pass a reply at `C >= D` that may decide the position settles it**
-without waiting for the other provider: nothing the other one can say is deeper
-than the depth the user asked for, and ChessDB is an order of magnitude slower, so
-waiting would be a three-second stall per position for no better answer. The case
-the second provider exists for is the other one — Lichess too shallow for the bound
-but carrying its alternatives, and ChessDB deep enough, which is what turns a local
-search into a lookup. Lichess holding *nothing* is no longer that case: with nothing
-to test the alternatives against, ChessDB's one line cannot decide the position and
-the search runs.
+without waiting for the other provider. `D` says when the pass may stop, not what a
+provider can say: each answers with whatever depth it holds, and ChessDB routinely
+answers 40–60, deeper than a bound of 20. So the first reply to reach `D` wins, and a
+deeper reply still in flight from the slower provider is discarded unwatched. That
+is a latency trade, not a quality guarantee — ChessDB answers in 1.3–2.2 s against
+Lichess's sub-second reply, so waiting per position would cost seconds apiece for a
+number the pass's own bound does not ask for. The case the second provider exists for
+is the other one — Lichess too shallow for the bound but carrying its alternatives,
+and ChessDB deep enough, which is what turns a local search into a lookup. Lichess
+holding *nothing* is no longer that case: with nothing to test the alternatives
+against, ChessDB's one line cannot decide the position and the search runs.
 
 **With `T > 0` and `D > 0`, a reply *deeper than* `D` stops the local search** — `D`
 caps that search, so nothing it can reach is past the reply. A reply equal to `D`
@@ -502,9 +516,10 @@ What a reply is turned into before any comparison:
 - **depth**: each provider's own primary-line depth, from the same response as
   its score and pv — two calls for one position can report different depths, so a
   reply is atomic — and positive: `depth > 0` or the reply is not an evaluation;
-- **lines**: Lichess's reply must carry at least `::review::mpv` lines, because
-  `great` and `brilliant` are decided against the alternatives and a MultiPV-1
-  reply is a different answer rather than a shortcut. ChessDB's reply is one line
+- **lines**: Lichess's reply must carry at least `::review::mpv` lines, because the
+  refinement layer — when it is wired in — decides `great` and `brilliant` against
+  the alternatives, and a MultiPV-1 reply is a different answer rather than a
+  shortcut. ChessDB's reply is one line
   by construction: it is scored for the evaluation, and where the verdict needs the
   alternatives they come from the candidate-bearing reply or from the local
   search's own lines; with neither, ChessDB's reply is not adopted at all and the

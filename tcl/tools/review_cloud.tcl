@@ -30,9 +30,9 @@
 #   T = 0  a reply at C >= D that can decide the position -> adopt it and skip the
 #          local search. A one-line reply decides it only alongside a
 #          candidate-bearing reply - Lichess's usable one, or the search's own
-#          lines once it has run - because `great` and `brilliant` read
-#          alternatives; without one the position is searched. See
-#          ::reviewcloud::choose.
+#          lines once it has run - because the refinement layer reads alternatives
+#          (::movelabels::refine, which nothing outside its own harness calls yet);
+#          without one the position is searched. See ::reviewcloud::choose.
 #          every reply under D          -> search locally (no caching, no waiting).
 #   T > 0  the local depth is unknowable until the search ends, so the providers
 #          are queried beside the search and the deeper evaluation wins when the
@@ -57,8 +57,10 @@
 # reply that has not landed when the local search completes is not waited for -
 # the local result is adopted and the run is not extended. In a depth-only pass
 # a reply that reaches the depth bound settles the position without waiting for
-# the other provider: nothing the other one can say is deeper than what the user
-# asked for.
+# the other provider: the bound says when the pass may stop, not what a provider
+# can say, so a deeper reply from the slower one can be discarded unwatched. That
+# is a latency trade - ChessDB answers in 1.3-2.2 s against Lichess's sub-second
+# reply, so waiting per position would cost seconds apiece.
 #
 # A transport failure ends that provider's part in the PASS that saw it, not the
 # session: ::reviewcloud::newPass clears every provider's latch when the driver
@@ -311,8 +313,9 @@ proc ::reviewcloud::depth {entry} {
 # The evaluation as the driver's own line dict - MultiPV index -> {depth score
 # type pv} - or "" when the reply cannot serve this pass.
 #
-# The lines the verdict needs are ::review::mpv of them: `great` and `brilliant`
-# are decided against the alternatives, so a MultiPV-1 reply is not a shortcut,
+# The lines a refined verdict would need are ::review::mpv of them: `great` and
+# `brilliant` are decided against the alternatives by ::movelabels::refine, which
+# is not wired into the live verdict path, so a MultiPV-1 reply is not a shortcut,
 # it is a different answer. A short reply is therefore no reply.
 proc ::reviewcloud::lines {entry mpv} {
     if {$entry eq ""} { return "" }
@@ -486,8 +489,10 @@ proc ::reviewcloud::adoptable {entry mpv} {
     return ""
 }
 
-# Whether a drop in this position could qualify for `great` or `brilliant`, read
-# off a candidate-bearing reply: the gap between the best and the second line
+# Whether a drop in this position could qualify for `great` or `brilliant` once
+# ::movelabels::refine is wired in - the live verdict path emits neither label
+# today, so this is the refinement layer's question and not one a review asks -
+# read off a candidate-bearing reply: the gap between the best and the second line
 # (::movelabels::GREAT_GAP, the ladder's own figure) or a best move that gives up
 # material while the game is still on, measured on the position's board.
 #
@@ -522,7 +527,7 @@ proc ::reviewcloud::qualifies {lines fen} {
 # asked), so its reply is adopted for the ordinary labels, the [%eval] and the
 # ESL - and whether it may decide the position at all depends on whether anything
 # else can settle the alternatives question, because `great` and `brilliant` are
-# read off `::review::mpv` lines and must stay awardable:
+# read off `::review::mpv` lines by the refinement layer:
 #
 #   * `mpv <= 1` - the pass itself asked for one line, so there is no alternatives
 #     question and the reply is adopted as it stands.
@@ -537,8 +542,13 @@ proc ::reviewcloud::qualifies {lines fen} {
 #     adopted: this answers {"" ""} and the caller searches the position locally,
 #     exactly as it did before the second provider existed. The reply stays in the
 #     cache for a later pass. Reading the one line as the verdict instead would
-#     forfeit `great` and `brilliant` on that ply; that is the trade the verdict
-#     ladder does not make, and it is the one vortex's finding was about.
+#     leave the refinement layer nothing to read the refined labels off on that
+#     ply; that is the trade this rule does not make.
+#
+# `::movelabels::refine` has no production caller, so no review emits `great` or
+# `brilliant` yet: what the guard keeps is the alternatives answerable, so that a
+# wired-in refinement layer's decisions are sound rather than guessed - nothing
+# here is awardable today.
 #
 # `fen` is the position being decided, `local` the search's own lines when there
 # are any - the guard needs both for brilliant's sacrifice test and for the
