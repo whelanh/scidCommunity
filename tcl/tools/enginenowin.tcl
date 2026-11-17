@@ -28,10 +28,18 @@ proc ::engineNoWin::initEngine { id engine callback {options ""} } {
     # A caller with its own budget (the review pass's one-shot engines) supplies
     # the options it may use. Everyone else keeps the preset's own. The review's
     # rows in element 8 are not UCI options and are never sent.
+    #
+    # Filter before the emptiness test: a preset whose only stored row is the
+    # review switch filters down to nothing, and a SetOptions with an empty list
+    # reaches ::uci::sendOptions without its data argument.
+    set send {}
     if { $options ne "" } {
-        ::engine::send $id SetOptions [::engine::uciOptions $options]
+        set send [::engine::uciOptions $options]
     } elseif { $presetOptions ne "" } {
-        ::engine::send $id SetOptions [::engine::uciOptions $presetOptions]
+        set send [::engine::uciOptions $presetOptions]
+    }
+    if { [llength $send] } {
+        ::engine::send $id SetOptions $send
     }
     return 1
 }

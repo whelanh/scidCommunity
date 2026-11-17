@@ -490,12 +490,17 @@ proc ::enginecfg::setOption {id idx value} {
     # The review's own switches are stored in the config and go no further: the
     # engine has no such option, so there is nothing to set on it. The value is
     # written into element 8 here because no handshake reply will ever bring it
-    # back - ::enginecfg::save is what persists it.
+    # back, and then saved at once: there is no SetOptions reply to make the
+    # frame's own save run, so a pass started from this window - and every reader
+    # of ::engines(list) - must see the value the switch shows. A config that
+    # cannot be saved (a new engine not in the list yet) keeps the live value,
+    # which ::enginewin::reviewRunState reads.
     if {[::enginecfg::isReviewOption $name]} {
         set row [lreplace [lindex [set ::enginecfg::engConfig_$id] 8 $idx] 1 1 $value]
         set ::enginecfg::engConfig_$id \
             [lreplace [set ::enginecfg::engConfig_$id] 8 8 \
                 [lreplace [lindex [set ::enginecfg::engConfig_$id] 8] $idx $idx $row]]
+        catch { ::enginecfg::save [set ::enginecfg::engConfig_$id] }
         return true
     }
     ::engine::send $id SetOptions [list [list $name $value]]

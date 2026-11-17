@@ -58,6 +58,11 @@ namespace eval ::engine {}
 proc ::engine::send {id msg args} {
     lappend ::sent [list $id $msg [lindex $args 0]]
 }
+# The real wrapper is in enginecomm.tcl, which this panel harness does not load;
+# the filter itself belongs to ::enginecfg and is what the checks read.
+proc ::engine::uciOptions {options} {
+    return [::enginecfg::uciOptions $options]
+}
 # ::engineNoWin::initEngineOptions asks the engine for InfoConfig after it has built
 # the panel; the reply is what repaints the rows and settles the Reset button. The
 # answer is recorded here and delivered by hand, so the windowless section below can
@@ -161,6 +166,11 @@ update idletasks
 checkEq "the switch reads off" [::update_switch_btn $w.value2] false
 checkEq "and the config carries it" \
     [lindex [set ::enginecfg::engConfig_r1] 8 2 1] false
+# No engine reply will make the frame save later, so the toggle is written to the
+# saved preset at once: a pass started from this window reads it through
+# ::enginecfg::get.
+checkEq "and the saved preset carries it at once" \
+    [dict get [::review::engineDefaults [::enginecfg::get Stockfish]] cloud_eval] 0
 checkEq "nothing was sent to the engine for it" $::sent {}
 # The engine's own options are still sent, on the other hand, and the review's
 # row is not a UCI option: ::enginecfg::uciOptions is what every SetOptions is
@@ -406,6 +416,23 @@ checkEq "and the undrawn review row does not turn it on" \
 lset ::enginecfg::engConfig_r8 8 0 1 8
 ::enginecfg::refreshReviewRows r8 $frameH
 checkEq "while a row the panel does draw still offers it" [$wH.reset cget -state] normal
+
+puts "\na preset whose only stored row is the review switch"
+
+# Filtering happens before the emptiness test. This preset keeps no engine
+# options (they all sit at their defaults), so element 8 is only the review row;
+# sending it would be a SetOptions with an empty list, which reaches
+# ::uci::sendOptions without its data argument. Nothing must be sent at all.
+set ::engines(list) [list \
+    [list Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval false}} {}]]
+# The two calls ::engineNoWin::initEngine makes before it sends: this harness has
+# no enginecomm, so their absence is not what is under test.
+proc ::engine::setLogCmd {id args} {}
+proc ::engine::connect {args} { return 1 }
+set ::sent {}
+::engineNoWin::initEngine noopts Stockfish {}
+checkEq "nothing is sent rather than an empty SetOptions" $::sent {}
+unset -nocomplain ::enginecfg::engConfig_noopts
 
 catch { file delete -force $::enginesFile }
 puts "\n$checks checks, $fails failures"

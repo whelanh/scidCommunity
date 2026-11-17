@@ -2967,11 +2967,15 @@ proc ::enginewin::connectEngine {id enginename} {
         ERROR::MessageBox
     }
 
+    # The review's own row in element 8 (the cloud pre-pass switch) is not a
+    # UCI option and is never sent: a setoption for a name the engine does not
+    # advertise is ignored at best and a lie in the engine's log at worst. Filter
+    # BEFORE the emptiness check: a preset whose only stored row is that switch
+    # filters down to nothing, and a SetOptions with an empty list reaches
+    # ::uci::sendOptions without its data argument.
+    set options [::engine::uciOptions $options]
     if {[llength $options]} {
-        # The review's own row in element 8 (the cloud pre-pass switch) is not a
-        # UCI option and is never sent: a setoption for a name the engine does not
-        # advertise is ignored at best and a lie in the engine's log at worst.
-        ::engine::send $id SetOptions [::engine::uciOptions $options]
+        ::engine::send $id SetOptions $options
     }
     # Send a NewGame message to receive InfoReady when the engine completes the initialization.
     ::engine::send $id NewGame [list {}]
