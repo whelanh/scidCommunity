@@ -65,7 +65,11 @@ int EchoLongestSubstringSpec::id_to_int(moveT*posid){
   pieceT promote=EMPTY;
   //  colorT color=65; Not certain how to handle color, whether encoded in piecetype or not
   getprev(posid,&piece, &from, &to, &promote);
-  uassert(piece_valid(piece)&&square_valid(from)&&square_valid(to)&&to!=from);
+  // A null move has from == to with a king as the moving piece; it is a
+  // distinct move identity and must be encoded, not rejected. The key below is
+  // still injective for it: from == to only happens for a null move, so its
+  // (to*100+from) cannot collide with a real move's.
+  uassert(piece_valid(piece)&&square_valid(from)&&square_valid(to));
   // The promotion piece is part of the move's identity: a7a8=Q and a7a8=N share
   // from, to and the moving pawn, so without it the two moves encode the same
   // and a longest-substring relation counts different move sequences as one.

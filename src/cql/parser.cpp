@@ -95,6 +95,7 @@ void CqlReset() {
     //MarkBoard::globalMarkBoard=NULL;
   //}
 
+  Variable::clearAll();
   cql_initialize();
 
 }

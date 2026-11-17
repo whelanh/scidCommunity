@@ -10,6 +10,7 @@ typedef int NumValue;
 
 class Variable{
  public:
+  virtual ~Variable(){}
   const char*name{NULL};
   bool eq(const char*name);
   bool bound{false};
@@ -24,6 +25,7 @@ class Variable{
   virtual bool getSquare(squareT*s)=0; // now that we have numerics this should be taken out
   static vector<Variable*>* theVariables;
   static vector<Variable*>*getVariables();
+  static void clearAll();
   static SquareVariable* createSquareVariable(const char*n);
   static TagVariable* createTagVariable(const char*n);
   static NumericVariable* createNumericVariable(const char*n,bool ismax);

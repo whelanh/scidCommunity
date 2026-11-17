@@ -26,6 +26,12 @@ for exec in $EXECS ; do
 done
 
 diff ${OUT_DIR}/*.log | grep CQL:
+grep_status=$?
 
+# grep exits 0 only when it found (and printed) a differing game flag; the
+# script's purpose is to flag a disagreement, so a found difference is failure.
+if [ $grep_status -eq 0 ]; then
+  exit 1
+fi
 exit 0
 
