@@ -569,6 +569,19 @@ proc ::engine::replyInfoConfig {id} {
         [list $::engconn(protocol_$id) $::engconn(netclients_$id) $::engconn(options_$id)]]
 }
 
+# The option pairs that belong to the ENGINE.
+#
+# An engine configuration's option list (element 8) also carries the review pass's
+# own switches, which are not UCI options: the engine has never advertised them. A
+# setoption for one is ignored at best and noise in the engine's log at worst, so
+# every SetOptions is filtered here rather than at each caller. The filtering
+# itself belongs to ::enginecfg, which owns element 8; a harness that drives this
+# file without that module gets the list unchanged.
+proc ::engine::uciOptions {options} {
+    if {[llength [info commands ::enginecfg::uciOptions]] == 0} { return $options }
+    return [::enginecfg::uciOptions $options]
+}
+
 # Helper functions used by ::uci and ::xboard
 # Return the type of the option
 proc ::engine::updateOption {id name value} {

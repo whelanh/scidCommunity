@@ -1114,7 +1114,7 @@ namespace eval sergame {
   proc sendOptions {n options} {
     set id [::sergame::connId $n]
     if {![::engine::connected $id]} { return 0 }
-    catch { ::engine::send $id SetOptions $options }
+    catch { ::engine::send $id SetOptions [::engine::uciOptions $options] }
     return 1
   }
 

@@ -145,7 +145,65 @@ checkEq "and one below both keeps its hash" \
     [dict get [::review::effective $modest] hash] 128
 ::review::reset
 
-puts "where the depth comes from"
+puts "\nthe pre-pass switch is the engine's"
+
+# The switch lives in element 8 beside Threads and MultiPV: whether the pre-pass
+# is worth waiting for is a property of the config, not of the user. "" is "this
+# config says nothing", which is what every engines.dat written before it moved
+# there carries.
+set plain {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {}}
+checkEq "a config that says nothing says nothing" \
+    [dict get [::review::engineDefaults $plain] cloud_eval] {}
+set swcfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval false}}}
+checkEq "the switch reads back off" \
+    [dict get [::review::engineDefaults $swcfg] cloud_eval] 0
+set oncfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval true}}}
+checkEq "and on when the config says so" \
+    [dict get [::review::engineDefaults $oncfg] cloud_eval] 1
+# 0/1 is the other spelling a hand-edited engines.dat may carry; anything else is
+# an absent value rather than an error.
+set zerocfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval 0}}}
+checkEq "0 is the same answer as false" \
+    [dict get [::review::engineDefaults $zerocfg] cloud_eval] 0
+set oddcfg {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval maybe}}}
+checkEq "a value that is not a switch is not one" \
+    [dict get [::review::engineDefaults $oddcfg] cloud_eval] ""
+
+# Config over the built-in default: an engine that says nothing keeps the
+# pre-pass on, and an engine that says off is off.
+::review::reset
+checkEq "a config that says nothing keeps the pre-pass on" \
+    [dict get [::review::effective $plain] cloud_eval] 1
+checkEq "a config off is off" \
+    [dict get [::review::effective $swcfg] cloud_eval] 0
+checkEq "and a config on is on" \
+    [dict get [::review::effective $oncfg] cloud_eval] 1
+
+# The upgrade: the row was a global setting, so an options file from an older
+# version still carries ::reviewopt(cloud_eval) and still lists it for autosave.
+# The saved value is DROPPED - the per-config switch governs and defaults to on -
+# and taking the option out of ::autosave_opt is what stops the next options write
+# from saving it again. A config that says nothing is not disabled by it.
+#
+# The read of the options file is ::review::saved (the first session read), so
+# that is the call this is asserted through, not ::review::reset.
+set ::reviewopt(cloud_eval) 0
+lappend ::autosave_opt ::reviewopt(cloud_eval)
+set ::review::S [dict create]
+set loaded [::review::saved]
+checkEq "a saved global off does not disable a config that says nothing" \
+    [dict get [::review::effective $plain] cloud_eval] 1
+checkEq "and the retired value is not in the settings any more" \
+    [dict exists $loaded cloud_eval] 0
+checkEq "nor listed for the options file" \
+    [lsearch -exact $::autosave_opt ::reviewopt(cloud_eval)] -1
+checkEq "and the variable itself is gone" [info exists ::reviewopt(cloud_eval)] 0
+checkEq "so the setter refuses the retired name" \
+    [::review::setValue cloud_eval 0] "unknown setting: cloud_eval"
+unset -nocomplain ::reviewopt(cloud_eval)
+::review::reset
+
+puts "\nwhere the depth comes from"
 set ::engines(list) [list \
     [list Plain /x {} {} 0 0 {} 1 {} {}] \
     [list Deep /x {} {} 0 0 {} 1 {} [dict create depth 30 movetime 900]] \
@@ -1232,6 +1290,44 @@ check "and its comment carries the score the pass measured" \
     [expr {[string first {%eval -0.20} [lindex $comments 0]] >= 0}]
 checkEq "and the pass asks for no game report" \
     [dict get [lindex $::reportCalls 0] report] 0
+
+# The pre-pass switch reaches the pass the same way: ::reviewdriver::run reads
+# ::review::effective's answer from the config it was handed, once, at the start.
+# run() answers "" rather than its token, so the job array is where the pass it
+# started is read.
+proc runningToken {} {
+    set best -1
+    set out ""
+    foreach t [array names ::reviewdriver::job] {
+        if {![regexp {^pass(\d+)$} $t -> n]} { continue }
+        if {$n > $best} { set best $n ; set out $t }
+    }
+    return $out
+}
+
+puts "\nthe pre-pass switch reaches the pass"
+
+::review::reset
+set ::events {}
+set ::sent {}
+set noprepass {Stockfish /usr/bin/stockfish {} {} 0 0 {} 1 {{cloud_eval false}}}
+checkEq "a run on a config that turns the pre-pass off starts" \
+    [::reviewdriver::run $noprepass -plies {1}] ""
+set token [runningToken]
+checkEq "and the pass runs with the pre-pass off" \
+    [dict get $::reviewdriver::job($token) cloud] 0
+::reviewdriver::cancel
+pump
+# A config that says nothing runs with it on, which is the built-in default.
+set ::sent {}
+::review::reset
+checkEq "a run on a config that says nothing starts" \
+    [::reviewdriver::run $runcfg -plies {1}] ""
+set token [runningToken]
+checkEq "and runs with the pre-pass on" \
+    [dict get $::reviewdriver::job($token) cloud] 1
+::reviewdriver::cancel
+pump
 
 # The depth is the caller's answer too: a comment has to be the one a review
 # would have written, so the window searches at the review's depth, and a

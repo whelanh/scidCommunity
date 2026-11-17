@@ -231,6 +231,12 @@ jobs:
       - name: Review Settings dialog
         run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl
 
+      # The cloud pre-pass switch as engine configuration: the engine options
+      # panel draws it, ::enginecfg::save writes it into engines.dat, a second
+      # handshake keeps it, and ::review::engineDefaults reads it back.
+      - name: Engine review pre-pass options
+        run: xvfb-run -a wish tests/tcl/engine_review_options_tk.tcl
+
       # The Comment Window's own colour: the Format menu's entry, the saved
       # ::pgnColor(Comment), and the editor following it.
       - name: Comment default colour

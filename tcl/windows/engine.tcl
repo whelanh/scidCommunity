@@ -1686,7 +1686,7 @@ proc ::enginewin::reviewSettings {id} {
     set row 0
     foreach key [::reviewui::settingKeys] {
         set value [::review::get $key]
-        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach cloud_eval} $key] >= 0} {
+        if {[lsearch -exact {move_comment_wait diagram opening_errors tactical_exercises coach} $key] >= 0} {
             # On/off settings are a checkbox, not a number box holding 0 or 1: a
             # spinbox beside "Coach prose" offers "2", which the setter refuses.
             set ::enginewin::reviewsetting($id,$key) $value
@@ -2957,7 +2957,10 @@ proc ::enginewin::connectEngine {id enginename} {
     }
 
     if {[llength $options]} {
-        ::engine::send $id SetOptions $options
+        # The review's own row in element 8 (the cloud pre-pass switch) is not a
+        # UCI option and is never sent: a setoption for a name the engine does not
+        # advertise is ignored at best and a lie in the engine's log at worst.
+        ::engine::send $id SetOptions [::engine::uciOptions $options]
     }
     # Send a NewGame message to receive InfoReady when the engine completes the initialization.
     ::engine::send $id NewGame [list {}]

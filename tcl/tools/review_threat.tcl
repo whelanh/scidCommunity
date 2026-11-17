@@ -366,6 +366,10 @@ proc ::reviewthreat::search {enginecfg fen onDone {game ""}} {
         foreach pair $presetOpts {
             set name [lindex $pair 0]
             if {$name in {Threads Hash MultiPV}} { continue }
+            # The review's own switch in element 8 is a setting for the review
+            # pass, not a UCI option - the probe is one search, not a review, and
+            # the engine has never heard of it.
+            if {[lsearch -nocase -exact {cloud_eval} $name] >= 0} { continue }
             lappend opts $pair
         }
     }

@@ -118,20 +118,27 @@ checkEq "and it is the window the button names" $w .engineWin1.reviewSettings
 # the buttons were not, because the body stopped compiling mid-proc.
 check "the OK button exists" [winfo exists $w.b.ok]
 check "the Cancel button exists" [winfo exists $w.b.cancel]
-foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram         opening_errors opening_window tactical_exercises coach cloud_eval} {
+foreach key {mpv depth movetime var_lines var_cp move_comment_wait diagram         opening_errors opening_window tactical_exercises coach} {
     check "the $key row is there" [winfo exists $w.f.v$key]
 }
 # An on/off setting is a checkbox, not a number box that holds 0 or 1: the value
 # a user edits here is a switch, and a spinbox beside "Coach prose" offers "2".
-foreach key {move_comment_wait diagram opening_errors tactical_exercises coach cloud_eval} {
+foreach key {move_comment_wait diagram opening_errors tactical_exercises coach} {
     checkEq "the $key row is a checkbox" [winfo class $w.f.v$key] TCheckbutton
 }
+# The cloud pre-pass switch is NOT here any more: it belongs to the engine
+# configuration, beside Threads and MultiPV, so a browsing preset and a verdict
+# preset can answer differently. A row left behind would edit a setting the pass
+# no longer reads.
+check "the cloud_eval row is gone" [expr {![winfo exists $w.f.vcloud_eval]}] \
+    "a retired setting must not have a row"
+checkEq "and the defaults carry no cloud pre-pass" \
+    [dict exists [::review::defaults] cloud_eval] 0
+checkEq "nor does the dialog's label map" \
+    [dict exists $::reviewui::SETTING_LABELS cloud_eval] 0
 checkEq "a number row is still a number box" [winfo class $w.f.vdepth] TSpinbox
 checkEq "the coach row opens on the stored switch" \
     $::enginewin::reviewsetting(1,coach) 0
-# The cloud pre-pass is on unless the user turned it off, and the row says so.
-checkEq "the cloud pre-pass row opens on" \
-    $::enginewin::reviewsetting(1,cloud_eval) 1
 
 # The coach's provider, key and model are the Game Comment settings dialog; the
 # way there belongs beside the switch rather than behind a menu the user has to
