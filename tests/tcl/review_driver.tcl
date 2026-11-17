@@ -669,6 +669,73 @@ checkEq "two lines are two candidates, best first" \
 checkEq "and the reached position's line is the sacrifice's evidence" \
     [dict get $twoArgs pv_after_played] {e7e5 g1f3}
 
+# A promotion is one move, not four. ::chessboard::legalMoves emits an entry per
+# promotion piece - a7a8q, a7a8r, a7a8b, a7a8n - so a position whose only legal move
+# is a promotion reported four moves, and the forced test (exactly one) never
+# fired: the only move in the position was labelled `best`. Counted by from-to
+# squares, four promotions of one pawn are the one choice a reader faces.
+# White: Ka1, Ra2, pawns a3 b2 h7; the rook and the two pawns are blocked, b1 is
+# covered by the bishop, and h7-h8 is the whole of White's game.
+set promoMap [::review::mainLineMap [list \
+    {position fen 8/7P/6b1/8/p7/Pp6/RP6/K7 w - - 0 1 moves} h7h8q]]
+set promoRes [dict create \
+    0 [dict create 1 {20 500 cp {h7h8q}}] \
+    1 [dict create 1 {20 0 cp {}}]]
+set promoVerdict [lindex [dict get [::reviewdriver::verdicts $promoMap $promoRes] 1] 0]
+checkEq "a promotion is the only legal move, and it is forced" $promoVerdict forced
+checkEq "so no mark is written for it" [::review::nagForLabel $promoVerdict] ""
+
+# The gap `great` claims is the engine's first two ranked slots, and neither may be
+# a bound. `lowerbound`/`upperbound` is how far a search got before it stopped, not
+# a score: slot 1 +30, slot 2 `lowerbound 20`, slot 3 -300 used to skip the bound and
+# read the gap as 330, when the second-best line is *at least* 20 and the gap to it
+# is at most 10. Unknown, not small - so no candidates, and no `great`.
+set boundMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set boundRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 20 lowerbound {d2d4 d7d5}} \
+        3 {20 -300 cp {c2c4 c7c5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set boundArgs [::reviewdriver::refineArgs $boundMap $boundRes [dict get $boundRes 0] \
+    [::reviewdriver::refineContext $boundMap 0] 1 e2e4 30 30 1]
+check "a bound in slot 2 leaves the gap unknown, not wide" \
+    [expr {![dict exists $boundArgs candidates]}]
+checkEq "and the move is not great on a ceiling" \
+    [lindex [dict get [::reviewdriver::verdicts $boundMap $boundRes] 1] 0] best
+
+# Two searches are not one gap either. Each slot carries the depth it was reported
+# at, and a capped search can replace slot 1 with a newer, deeper line while slot 2
+# still holds an older one: pairing a depth-20 score with a depth-14 one measures
+# the difference between two searches, which is the evidence the cloud pre-pass
+# refuses to commit. Slot 2 has to share slot 1's depth, or the gap is unknown.
+set crossMap [::review::mainLineMap [list {position startpos moves} e2e4]]
+set crossRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {14 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set crossArgs [::reviewdriver::refineArgs $crossMap $crossRes [dict get $crossRes 0] \
+    [::reviewdriver::refineContext $crossMap 0] 1 e2e4 30 30 1]
+check "a second line from another search is not a second candidate" \
+    [expr {![dict exists $crossArgs candidates]}]
+checkEq "and no great is claimed across two searches" \
+    [lindex [dict get [::reviewdriver::verdicts $crossMap $crossRes] 1] 0] best
+# The control: two exact lines, both at slot 1's depth, a real gap. If this stops
+# being `great` the two rules above have disabled the feature rather than corrected
+# the evidence it runs on.
+set deepRes [dict create \
+    0 [dict create \
+        1 {20 30 cp {e2e4 e7e5}} \
+        2 {20 -300 cp {d2d4 d7d5}}] \
+    1 [dict create 1 {20 -20 cp {e7e5 g1f3}}]]
+set deepArgs [::reviewdriver::refineArgs $crossMap $deepRes [dict get $deepRes 0] \
+    [::reviewdriver::refineContext $crossMap 0] 1 e2e4 30 30 1]
+checkEq "two exact lines at one depth are two candidates" \
+    [dict get $deepArgs candidates] {30 -300}
+checkEq "and the real gap still earns great" \
+    [lindex [dict get [::reviewdriver::verdicts $crossMap $deepRes] 1] 0] great
+
 set badArgs [::reviewdriver::refineArgs $badMap [dict create] \
     [dict create 1 {20 30 cp {e2e4 e7e5}}] \
     [::reviewdriver::refineContext $badMap 0] 2 zzzz 30 20 0]

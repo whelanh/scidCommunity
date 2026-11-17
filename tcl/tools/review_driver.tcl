@@ -850,6 +850,23 @@ proc ::reviewdriver::refineContext {map {bookEnd 0}} {
     return [dict create fens [::reviewdriver::fens $map] bookEnd $bookEnd]
 }
 
+# How many *moves* a position offers, as ::movelabels::refine's forced test means
+# it.
+#
+# ::chessboard::legalMoves is pseudoMoves filtered for check, and pseudoMoves emits
+# one entry per promotion piece (a7a8q a7a8r a7a8b a7a8n). Counted by entries, a
+# position whose only legal move is a promotion reported four, so the forced test -
+# exactly one - never fired and the only move in the position was labelled `best`.
+# Two promotions of the same pawn are one choice, which is what the test asks: the
+# from-to squares are the count.
+proc ::reviewdriver::moveCount {position} {
+    set fromto {}
+    foreach uci [::chessboard::legalMoves $position] {
+        lappend fromto [string range $uci 0 3]
+    }
+    return [llength [lsort -unique $fromto]]
+}
+
 # The context ::movelabels::refine reads for one move, from what judge already
 # holds plus the pass's `ctx`.
 #
@@ -860,7 +877,8 @@ proc ::reviewdriver::refineContext {map {bookEnd 0}} {
 # guess: no board means no `legal_moves` and no `fen_before`/`fen_after`, so
 # `forced` and the sacrifice test cannot fire on a position nobody can show; one
 # line means no `candidates`, so `great`'s gap cannot be claimed from an engine
-# that never named a second line; no search of the reached position means no
+# that never named a second line - and neither is a slot-2 bound, or a slot-2 line
+# from a different search, a second line; no search of the reached position means no
 # `pv_after_played`, so a sacrifice stays unproven.
 proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAfter isBest} {
     set before [expr {$ply - 1}]
@@ -900,7 +918,9 @@ proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAft
         set fenAfter ""
         catch {
             set pos [::chessboard::fromFen $fenBefore]
-            set legal [llength [::chessboard::legalMoves $pos]]
+            # A promotion is one move, not the four the board's move list spells
+            # out (see ::reviewdriver::moveCount).
+            set legal [::reviewdriver::moveCount $pos]
             set fenAfter [::chessboard::toFen [::chessboard::makeMove $pos $played]]
         }
         # A move the board refuses is not a move the board can measure: the pawn
@@ -913,15 +933,44 @@ proc ::reviewdriver::refineArgs {map results lines ctx ply played cpBefore cpAft
     }
     # The alternatives at the position before the move, best first. A reply that
     # carries one line has none: the gap to a second line is unknown, and that is
-    # exactly what the mpv rule protects. Sorted rather than trusted to arrive in
-    # order, so a slot the engine reported out of turn cannot widen the gap.
-    set scores {}
-    foreach idx [lsort -integer [dict keys $lines]] {
-        set cp [::reviewdriver::lineScore [dict get $lines $idx]]
-        if {$cp ne ""} { lappend scores $cp }
+    # exactly what the mpv rule protects.
+    #
+    # The gap is the engine's own first two ranked slots, and both have to be
+    # measurements from the same search.
+    #
+    # A bound is not a score. `lowerbound`/`upperbound` is how far a search had got
+    # when it stopped, which ::reviewdriver::lineScore refuses; skipping the bound
+    # and taking the next exact line instead read a gap of 330 where the truth was
+    # at most 10 - slot 2 said the second-best line was *at least* 20, so the gap to
+    # it is a ceiling, not a measurement. There is no fallback to a later slot: a
+    # gap to a bound is unknown rather than small.
+    #
+    # Nor is a gap across two searches a gap. Each slot carries the depth it was
+    # reported at, and a capped search can replace slot 1 with a newer, deeper line
+    # while slot 2 still holds an older one; pairing them would measure two
+    # searches, the evidence the cloud pre-pass refuses to commit to. So slot 2 must
+    # share slot 1's depth, or there are no candidates and no claim.
+    set cands {}
+    set slot1 {}
+    catch { set slot1 [dict get $lines 1] }
+    if {[llength $slot1] >= 4 && [::reviewdriver::exactScore [lindex $slot1 2]]} {
+        set depth1 [lindex $slot1 0]
+        set topScore [::reviewdriver::lineScore $slot1]
+        set slot2 {}
+        catch { set slot2 [dict get $lines 2] }
+        if {$topScore ne "" && [llength $slot2] >= 4 \
+            && [::reviewdriver::exactScore [lindex $slot2 2]] \
+            && [string is integer -strict $depth1] \
+            && [string is integer -strict [lindex $slot2 0]] \
+            && [lindex $slot2 0] == $depth1} {
+            set secondScore [::reviewdriver::lineScore $slot2]
+            if {$secondScore ne ""} { set cands [list $topScore $secondScore] }
+        }
     }
-    if {[llength $scores] >= 2} {
-        dict set out candidates [lsort -integer -decreasing $scores]
+    # Sorted rather than trusted to arrive in order, so a slot the engine reported
+    # out of turn cannot widen the gap.
+    if {[llength $cands] >= 2} {
+        dict set out candidates [lsort -integer -decreasing $cands]
     }
     # The line the search of the reached position found: the evidence a sacrifice
     # has to come back from.
