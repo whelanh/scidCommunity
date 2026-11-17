@@ -52,8 +52,13 @@ void cqlglobals_initialize(){
  CqlPlayer=nullptr;
  MarkBoard_gameAppendComment_lastignored=std::numeric_limits<unsigned>::max();
  Tokens_match_optional_numericvariable_nextid=0; // the next valid id to use if no name specified by numeric
- CqlGlobalTokens=nullptr; //the list of tokens that have been read
- CqlParseRoot=nullptr; //The most recently read CQL parse tree;
+ // Owned by the engine (see SequenceBase::nestGetSequenceFilters()), and rebuilt
+ // on demand by the next query: free it with the rest of the per-query state
+ // instead of only dropping the pointer. The nodes it points into are freed by
+ // Deleteable::deleteableCleanup() in cql_initialize().
+ delete CqlAllSequences;
+ CqlGlobalTokens=nullptr; //the list of tokens that have been read; freed by Deleteable
+ CqlParseRoot=nullptr; //The most recently read CQL parse tree; freed by Deleteable
  CqlAllSequences=nullptr; //All of the sequences, used by SequenceBase::getSequenceDescendants()
  CqlDoNotLinearize=false;
 }

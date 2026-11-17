@@ -22,6 +22,11 @@ void Variable::clearAll(){
     for(Variable* v:*theVariables)
       delete v;
     theVariables->clear();
+    // Free the container too: a worker thread parses its own query and then
+    // exits, and its thread-local pointer disappears without the vector it
+    // points to. Later queries recreate it through getVariables().
+    delete theVariables;
+    theVariables=nullptr;
   }
   // These point into the registry just emptied, so they must not survive it.
   tagVariables.clear();

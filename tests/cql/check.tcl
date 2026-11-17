@@ -94,6 +94,19 @@ check "a rejecting branch after 'or' does not reject the game" \
 check "a rejecting branch before 'or' does not reject the game" \
     [run {cql() player "NoSuch" or mate}] 1
 
+# ":matchcount 0 N" accepts a game with no matching position, so a positional
+# tag filter must not reject such a game from the index entry: every game is a
+# match when no position satisfies the filter, and only the player's own game
+# is excluded below because it has matches of its own.
+check "matchcount 0 0 accepts games with no match" \
+    [run {cql(:matchcount 0 0) player "NoSuch"}] $games
+check "matchcount 0 0 excludes the game that does match" \
+    [run {cql(:matchcount 0 0) player "Alpha"}] [expr {$games - 1}]
+# With a minimum of one the filter is required again, and the pre-filter still
+# has to agree with the decoded answer.
+check "matchcount 1 1000 keeps the pre-filter" \
+    [run {cql(:matchcount 1 1000) player "Alpha"}] 1
+
 puts "\n== parallel workers (a base big enough to split) ==\n"
 # sc_search cql splits the candidates across threads once there are enough of
 # them, and each worker parses its own copy of the query. Repeating this PGN
@@ -104,7 +117,10 @@ set copies 600
 set in [open $pgn r]
 set game [read $in]
 close $in
-set out [file tempfile bigPgn cqlcheck.pgn]
+# See bench.tcl: the name comes from the variable, not from what `file
+# tempfile` returns, which is not portable across Tcl builds.
+file tempfile bigPgn cqlcheck.pgn
+set out [open $bigPgn w]
 for {set i 0} {$i < $copies} {incr i} {
     puts -nonewline $out $game
 }

@@ -9225,6 +9225,13 @@ int sc_search_cql(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
                   int argc, const char **argv) {
   ASSERT(dbase != nullptr && filter != nullptr);
 
+  // The progress callback evaluates Tcl, and a script it runs could try to
+  // close the base (sc_base close, sc_clipbase clear) while the workers are
+  // still reading its index and game file. Marking it busy for the whole
+  // search makes those commands refuse, as they already do for the tree
+  // search's callback (see scidbaseT::scanGamePositions()).
+  BusyGuard busy(*dbase);
+
   const char *usageStr =
       "Usage: sc_search cql <filterOp> <stripSwitch> <silentSwitch> <cql>\n"
       "       sc_search cql <cql>";

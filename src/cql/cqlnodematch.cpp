@@ -55,6 +55,11 @@ void CqlNode::do_match(MFilter*p,Game*game){
 
 bool CqlNode::match_game(Game*game){
   game->MoveToPly(0);
+  // The identity stack is per thread and outlives one game: a runtime error
+  // longjmps out of do_match, skipping its resize(), so the aborted game's
+  // entries would otherwise still be there when the next game is matched, and
+  // a reused move address would fail the cycle check spuriously.
+  idStack.clear();
   if(CqlDebug) {
     printf("\n\ncqlnode:match_game entered: %d\n", CqlGameNumber());
     util::printgame(stdout,game);
@@ -234,7 +239,15 @@ void CqlQueryPrepareIndexFilters() {
   indexFilters.insert(indexFilters.end(),
                       CqlParseRoot->gamefilters.begin(),
                       CqlParseRoot->gamefilters.end());
-  collectIndexFilters(CqlParseRoot->filter, indexFilters);
+  // A game-level filter is always checked before any position is matched, so it
+  // can always reject a game. A positional one cannot when the query accepts a
+  // game with no matching position at all: ":matchcount 0 N" counts zero as a
+  // match, so a game whose positions all fail the filter is still a match, and
+  // rejecting it here would be a false negative. With no matchcount range the
+  // query requires a match (see match_game), so the filter is required.
+  const Range *countRange = CqlParseRoot->matchCountRange;
+  if (!countRange || countRange->min > 0)
+    collectIndexFilters(CqlParseRoot->filter, indexFilters);
 }
 
 bool CqlQueryIndexRejectsGame(const IndexEntry &ie, const NameBase &names) {

@@ -20,6 +20,9 @@ set pgn [expr {
 }]
 set wantGames [expr {[llength $argv] > 1 ? [lindex $argv 1] : 100000}]
 set rangeEnd [expr {[llength $argv] > 2 ? [lindex $argv 2] : 1000}]
+if {$wantGames < 1} {
+    error "bench.tcl: the game count must be at least 1"
+}
 
 set in [open $pgn r]
 set game [read $in]
@@ -28,8 +31,11 @@ set perCopy [regexp -all -line {^\[Event } $game]
 if {$perCopy < 1} { set perCopy 1 }
 set copies [expr {($wantGames + $perCopy - 1) / $perCopy}]
 
-# file tempfile creates the file in the system temporary directory.
-set out [file tempfile bigPgn cqlbench.pgn]
+# file tempfile creates the file in the system temporary directory. Its return
+# value is not portable (Tcl's documentation says it is empty when the name
+# variable is given), so open the name it produced rather than what it returned.
+file tempfile bigPgn cqlbench.pgn
+set out [open $bigPgn w]
 for {set i 0} {$i < $copies} {incr i} {
     puts -nonewline $out $game
 }
