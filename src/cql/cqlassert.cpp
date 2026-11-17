@@ -19,11 +19,7 @@ void uassert(void *v,const char*s, const char*s2){
   uassert(v!=nullptr,s,s2);
 }
 
-
-void uassert(bool b){
-  if(!b)
-    cql_exit("assertion failure");
-}
+// uassert(bool) is inline in cqlassert.h.
 
 void uassert(bool b,const char*s){
   if (!b)

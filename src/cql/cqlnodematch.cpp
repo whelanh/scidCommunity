@@ -9,6 +9,14 @@
 thread_local int CqlMatchCount = 0;
 thread_local uint CqlMatchPlyFirst;
 
+namespace {
+/// The identities on the path from the game's start to the position being
+/// matched, used to reject a cycle. One buffer per thread, grown and shrunk
+/// with the recursion instead of a vector per visited position: the matcher
+/// calls this for every position of every game.
+thread_local std::vector<moveT*> idStack;
+} // namespace
+
 void CqlNode::do_match(MFilter*p,Game*game){
   NumericVariable*mc=Variable::matchCountVariable();
   bool searchvariations=getSearchVariations();
@@ -28,18 +36,19 @@ void CqlNode::do_match(MFilter*p,Game*game){
   //  printf("cqlnode: unbinding tags at ply: %d\n",game->GetCurrentPly());
   Variable::unbindTags();
   int nchildren=MarkBoard::number_children(game,searchvariations);
-  vector<moveT*>ids;
-  ids.push_back(id);
+  const size_t idDepth=idStack.size();
+  idStack.push_back(id);
   for(int i=0;i<nchildren;++i){
     MarkBoard::move_to_child(game,i);
     auto childid=MarkBoard::identity(game);
-    for(auto oid:ids)
-      uassert(oid!=childid,"idcheck fail");
-    ids.push_back(childid);
+    for(size_t k=0;k<idStack.size();++k)
+      uassert(idStack[k]!=childid,"idcheck fail");
+    idStack.push_back(childid);
     do_match(p,game);
     MarkBoard::gameBackup(game);
     uassert(id==MarkBoard::identity(game),"movecheckfail");
   }
+  idStack.resize(idDepth);
   uassert(id==MarkBoard::identity(game),"movecheckfail2");
   uassert(mc->getValue()==mc->getExtremalValue());
 }

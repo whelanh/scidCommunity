@@ -9,6 +9,7 @@ TagVariable* Variable::createTagVariable(std::string_view nm){
   uassert(!find(nm),"internal variable tag");
   TagVariable*t=new TagVariable(nm);
   getVariables()->push_back(t);
+  tagVariables.push_back(t);
   return t;
 }
 
