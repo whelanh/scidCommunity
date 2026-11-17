@@ -322,6 +322,11 @@ checkEq "a click stores the value in element 8" \
 checkEq "and the engine is told nothing" $::sent {}
 checkEq "with a row away from its default, Reset is offered" \
     [$wF.reset cget -state] normal
+# The label is bold while the row is away from its default, the same way the
+# engine's own rows are painted: nothing else repaints a review row, because no
+# InfoConfig reply comes for it.
+check "and its label is marked as changed" \
+    [expr {[llength [$wF tag ranges header]] > 0}]
 set offered [$wF.reset cget -state]
 # Ticking the same row back is the panel returning to its defaults: there is
 # nothing left for Reset to do, and no reply will come to say so.
@@ -331,6 +336,7 @@ checkEq "ticking it back leaves element 8 at its default" \
     [lindex [set ::enginecfg::engConfig_r6] 8 1 1] true
 checkEq "so Reset is turned off again, by the row itself" \
     [list $offered [$wF.reset cget -state]] {normal disabled}
+checkEq "and the mark on its label goes with it" [$wF tag ranges header] {}
 
 puts "\nthe windowless panel"
 

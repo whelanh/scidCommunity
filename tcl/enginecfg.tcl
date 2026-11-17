@@ -886,6 +886,15 @@ proc ::enginecfg::refreshReviewRows {id configFrame} {
         if {$value ne $default} { set awayFromDefault 1 }
         if {[::enginecfg::isReviewOption $name]} {
             ::update_switch_btn $w.value$i $value
+            # The label is bold while the row is away from its default, exactly
+            # as ::enginecfg::updateOptionWidgets paints an engine row. No
+            # InfoConfig reply comes for a review row to do it, so the repaint
+            # that settles the switch settles the mark too.
+            if {$value eq $default} {
+                $w tag remove header "$w.value$i linestart" $w.value$i
+            } else {
+                $w tag add header "$w.value$i linestart" $w.value$i
+            }
         }
     }
     if {[winfo exists $w.reset]} {
