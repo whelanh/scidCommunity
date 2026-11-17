@@ -15,8 +15,9 @@
 namespace {
 
 /// Cursor into the in-memory query text, shared by the bgetc()/bungetc() pair
-/// used by readstring(const char*).
-std::size_t rsIndex;
+/// used by readstring(const char*). Per thread: every thread lexes its own
+/// copy of the query text (see cqlglobals.h).
+thread_local std::size_t rsIndex;
 
 /// Reads one byte of the in-memory query. The cursor must stay *on* the
 /// terminating NUL: readstring() returns a token as soon as it runs into the

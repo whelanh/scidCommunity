@@ -92,6 +92,40 @@ check "a rejecting branch after 'or' does not reject the game" \
 check "a rejecting branch before 'or' does not reject the game" \
     [run {cql() player "NoSuch" or mate}] 1
 
+puts "\n== parallel workers (a base big enough to split) ==\n"
+# sc_search cql splits the candidates across threads once there are enough of
+# them, and each worker parses its own copy of the query. Repeating this PGN
+# gives a base large enough to take that path; every count must be the serial
+# one scaled by the number of copies.
+set small $id
+set copies 600
+set in [open $pgn r]
+set game [read $in]
+close $in
+set out [file tempfile bigPgn cqlcheck.pgn]
+for {set i 0} {$i < $copies} {incr i} {
+    puts -nonewline $out $game
+}
+close $out
+set id [sc_base create MEMORY cql_check_parallel]
+sc_base switch $id
+sc_base import $id $bigPgn
+file delete $bigPgn
+set games [sc_base numGames $id]
+puts "base: $games games from $copies copies"
+check "a plain designator matches every game" [run {cql() K}] $games
+check "mate in every copy" [run {cql() mate}] $copies
+check "player in every copy" [run {cql() player "Eta" mate}] $copies
+check "player that is nobody" [run {cql() player "NoSuch" mate}] 0
+check "result 0-1 in every copy" \
+    [run {cql() :result 0-1 K}] [expr {2 * $copies}]
+check "a :gamenumber range in the middle" \
+    [run {cql(:gamenumber 1000 1010) K}] 11
+check "a :gamenumber range at the end" \
+    [run "cql(:gamenumber [expr {$games - 5}] $games) mate"] 1
+set id $small
+sc_base switch $id
+
 puts "\n== filter operations ==\n"
 check "two games to start from" [run {cql(:gamenumber 1 2) K}] 2
 check "and: no intersection" [run {cql() :result 1/2-1/2 mate} and] 0

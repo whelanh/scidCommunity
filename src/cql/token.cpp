@@ -8,8 +8,8 @@
 
 #include "node.h"
 
-int Token::CurrentLine{0};
-int Token::CurrentChar{0};
+thread_local int Token::CurrentLine{0};
+thread_local int Token::CurrentChar{0};
 
 std::string Token::locationString() const {
   return "{Line " + std::to_string(line) + ", Character " +

@@ -6,30 +6,31 @@
 
 #include "cqlglobals.h"
 
-bool CqlDebug=false;
-bool CqlParseOnly=false;
-bool CqlShowParse=false;
-bool CqlShowLex=false;
+// One copy per thread: each thread parses the query and matches its own games.
+thread_local bool CqlDebug=false;
+thread_local bool CqlParseOnly=false;
+thread_local bool CqlShowParse=false;
+thread_local bool CqlShowLex=false;
 
-const char* CqlFilename=nullptr;
+thread_local const char* CqlFilename=nullptr;
 #ifdef STANDALONE
-const char* CqlPgnFilename=nullptr;
-const char* CqlOutputFilename=nullptr;
+thread_local const char* CqlPgnFilename=nullptr;
+thread_local const char* CqlOutputFilename=nullptr;
 #endif
 #ifdef INTEGRATED
-const char* CqlPgnFilename="fileInNull.pgn";
-const char* CqlOutputFilename="fileOutNull.pgn";
+thread_local const char* CqlPgnFilename="fileInNull.pgn";
+thread_local const char* CqlOutputFilename="fileOutNull.pgn";
 #endif
-bool CqlSilent=false;
-Range* CqlGameNumberRange=nullptr;
-Range* CqlYearRange=nullptr;
-const char* CqlPlayer=nullptr;
-unsigned MarkBoard_gameAppendComment_lastignored=std::numeric_limits<unsigned>::max();
-int Tokens_match_optional_numericvariable_nextid=0; // the next valid id to use if no name specified by numeric
-Tokens* CqlGlobalTokens=nullptr; //the list of tokens that have been read
-CqlNode* CqlParseRoot=nullptr; //The most recently read CQL parse tree;
-std::set<SequenceBase*>* CqlAllSequences=nullptr; //All of the sequences, used by Nest::getSequenceDescendants
-bool CqlDoNotLinearize=false;
+thread_local bool CqlSilent=false;
+thread_local Range* CqlGameNumberRange=nullptr;
+thread_local Range* CqlYearRange=nullptr;
+thread_local const char* CqlPlayer=nullptr;
+thread_local unsigned MarkBoard_gameAppendComment_lastignored=std::numeric_limits<unsigned>::max();
+thread_local int Tokens_match_optional_numericvariable_nextid=0; // the next valid id to use if no name specified by numeric
+thread_local Tokens* CqlGlobalTokens=nullptr; //the list of tokens that have been read
+thread_local CqlNode* CqlParseRoot=nullptr; //The most recently read CQL parse tree;
+thread_local std::set<SequenceBase*>* CqlAllSequences=nullptr; //All of the sequences, used by Nest::getSequenceDescendants
+thread_local bool CqlDoNotLinearize=false;
 
 void cqlglobals_initialize(){
  CqlDebug=false;

@@ -3,7 +3,7 @@
  * Original authors: scidvspc (https://sourceforge.net/projects/scidvspc/)
  */
 #include "node.h"
-vector<Variable*>* Variable::theVariables;
+thread_local vector<Variable*>* Variable::theVariables;
 
 vector<Variable*>* Variable::getVariables(){
   if(!theVariables)

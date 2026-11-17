@@ -6,7 +6,7 @@
 #include "markboard.h"
 #include "variable.h"
 
-MarkBoard * MarkBoard::globalMarkBoard=nullptr;
+thread_local MarkBoard * MarkBoard::globalMarkBoard=nullptr;
 
 MarkBoard::MarkBoard(Game*game){
   initialize(game);

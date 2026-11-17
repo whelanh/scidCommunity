@@ -25,7 +25,7 @@ class Variable{
   virtual const char* thisclass()=0;
   static Variable* find(std::string_view name);
   virtual bool getSquare(squareT*s)=0; // now that we have numerics this should be taken out
-  static vector<Variable*>* theVariables;
+  static thread_local vector<Variable*>* theVariables;
   static vector<Variable*>*getVariables();
   static void clearAll();
   static SquareVariable* createSquareVariable(std::string_view n);

@@ -14,8 +14,8 @@ class PieceToken;
 
 class Token:public Deleteable {
  public:
-  static int CurrentLine;
-  static int CurrentChar;
+  static thread_local int CurrentLine;
+  static thread_local int CurrentChar;
   int line{CurrentLine};
   int character{CurrentChar};
   virtual int len()=0;

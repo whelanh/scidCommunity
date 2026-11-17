@@ -6,8 +6,8 @@
 
 #include <cstring>
 
-int CqlMatchCount = 0;
-uint CqlMatchPlyFirst;
+thread_local int CqlMatchCount = 0;
+thread_local uint CqlMatchPlyFirst;
 
 void CqlNode::do_match(MFilter*p,Game*game){
   NumericVariable*mc=Variable::matchCountVariable();
@@ -212,8 +212,9 @@ void collectIndexFilters(const Node *node,
 
 // The filters that can be answered from the index entry, flattened once per
 // parse: walking the tree and dynamic_casting for every game would put back a
-// cost on queries that do not even use a tag filter.
-std::vector<const GameFilter *> indexFilters;
+// cost on queries that do not even use a tag filter. Per thread, because it
+// points into that thread's parse tree.
+thread_local std::vector<const GameFilter *> indexFilters;
 
 } // namespace
 

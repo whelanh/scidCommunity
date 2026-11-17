@@ -40,7 +40,7 @@ using vnode = vector<Node*>;
 
 class Node : public Deleteable { //abstract
  public:
-  static int ndisabled;
+  static thread_local int ndisabled;
   bool disabled{false};
   void disable();
   bool annotateFlag{false};
@@ -49,7 +49,7 @@ class Node : public Deleteable { //abstract
   virtual vnode children()=0;
   vnode descendants();
   void alldescendants(vnode*);
-  static int counter;
+  static thread_local int counter;
   Node(){++counter;}
   virtual void setVariations(bool arg);
   virtual void deepify(){};

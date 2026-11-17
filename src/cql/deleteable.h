@@ -30,7 +30,9 @@ class Deleteable{
 
  private:
   static void deleteableInitialize();
-  static std::set<Deleteable*>*deleteableConstructed;
-  static bool deleteableCleaningUp;
-  static std::size_t deleteableNDeleted;
+  // Per thread: each thread parses its own query and frees its own nodes, so
+  // one thread's cleanup must never touch another thread's registry.
+  static thread_local std::set<Deleteable*>*deleteableConstructed;
+  static thread_local bool deleteableCleaningUp;
+  static thread_local std::size_t deleteableNDeleted;
 };

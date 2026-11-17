@@ -13,8 +13,9 @@ application executes on a bare interpreter: no Tk, no display, no X server.
 and checks the filter each query leaves behind. It covers the position filters,
 `:gamenumber`, the index-backed tag pre-filter (player, result, event, site,
 year, Elo, in both the `cql(:player ...)` and `cql() player ...` forms), the
-"or" safety case, and the AND/OR/RESET filter operations. It prints
-`deleteableCleanup` lines from the engine's own cleanup; those are expected.
+"or" safety case, the AND/OR/RESET filter operations, and then a second base of
+3000 games (the PGN repeated 600 times) so the searches take the multi-threaded
+path and the workers' counts can be checked.
 
 `bench.tcl` repeats a PGN until it has at least the requested number of games,
 imports it into a MEMORY base and times a few queries:
@@ -26,7 +27,9 @@ imports it into a MEMORY base and times a few queries:
 The defaults are that PGN, 100000 games and a `:gamenumber` range ending at
 1000. A synthetic base has short games, so it understates the cost of decoding
 a real one; it is for comparing before/after on the same base, not for
-predicting absolute times on a 4.5M game database.
+predicting absolute times on a 4.5M game database. A base this size also takes
+the multi-threaded search path, so it times the worker split as well as the
+per-game work.
 
 The Tk harness `tests/tcl/search_cql.tcl` remains the end-to-end gate (window,
 menu, progress bar, dialogs). It needs a working display — CI runs it under

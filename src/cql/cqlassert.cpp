@@ -39,7 +39,7 @@ void uassert(bool b,const char*s1, const char*s2){
     // engineError(), inside its setjmp() handler) and nothing reads cqlErrMsg
     // after that copy, so the text only has to outlive the jump itself. It used
     // to be a new string per call, which leaked one message per rejected query.
-    static string ret;
+    static thread_local string ret;
     ret.assign("CQL error: ");
     ret += s1;
     ret += s2;

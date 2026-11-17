@@ -243,8 +243,8 @@ vector<simpleMoveT*> MarkBoard::getLegalMoves(Game*game){
   // 'legal' is never set to true in match_movebase(). Either becoming reachable
   // again needs a real generator here; the body below is not one.
   uassert(false,"getLegalMoves is not implemented");
-  static unsigned gamenumber=0;
-  static std::map<moveT*,vector<simpleMoveT*>> legalmap;
+  static thread_local unsigned gamenumber=0;
+  static thread_local std::map<moveT*,vector<simpleMoveT*>> legalmap;
   if(CqlGameNumber()!=gamenumber){
     gamenumber=CqlGameNumber();
     legalmap.clear();

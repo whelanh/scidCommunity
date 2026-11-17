@@ -6,5 +6,5 @@
 void cql_exit();
 void cql_exit(const char* message);
 
-extern const char* cqlErrMsg;
+extern thread_local const char* cqlErrMsg;
 
