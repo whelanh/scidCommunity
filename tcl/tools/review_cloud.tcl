@@ -856,9 +856,11 @@ proc ::reviewcloud::reply {handle provider state entry} {
         return
     }
     # A depth-only pass: a reply at the depth bound settles the position without
-    # waiting for a provider that has not answered - nothing it can say is
-    # deeper than the depth the user asked for. The driver decides which of the
-    # replies it may use (::reviewcloud::best), so nothing is taken here.
+    # waiting for a provider that has not answered. The bound is when the pass may
+    # stop, not what a provider can say: a deeper reply still in flight is
+    # discarded unwatched, which is the latency trade this pass makes. The driver
+    # decides which of the replies it may use (::reviewcloud::best), so nothing is
+    # taken here.
     lassign [::reviewcloud::choose $handle [dict get $req mpv] \
         [dict get $req fen]] best bearer
     if {$best ne "" &&
