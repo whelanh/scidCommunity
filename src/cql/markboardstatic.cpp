@@ -183,7 +183,7 @@ void MarkBoard::gameAppendComment(Game*game, const char* comment){
   if(commentlen==0)return;
   std::string buffer;
   const char* oldcomment=game->GetMoveComment();
-  if(oldcomment){
+  if(oldcomment && *oldcomment){
     if (std::strstr(oldcomment,comment)) return;
     if(std::strlen(oldcomment)>500){
       printf("\nIgnoring too long comment in game: %u\n",CqlGameNumber());

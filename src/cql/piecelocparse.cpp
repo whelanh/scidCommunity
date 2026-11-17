@@ -31,8 +31,8 @@ PieceDesignatorToken* match_piecedesignator(const char* input){
   if(!seeninitialsquare){
     match_piecespecifier(&current,&pieces);
     match_squarespecifier(&current,&squares); //a failed match is taken as an empty string
-    match_variables(&current,&variables);
   }
+  match_variables(&current,&variables);
   if(*current) return nullptr; // expect end of string in a piece designator here
   if(pieces.empty()&&squares.empty()&&variables.empty()) return nullptr;
   if(pieces.empty()) pieces.push_back(new PieceToken('?'));

@@ -74,7 +74,9 @@ NUL without advancing).
 
 The whole engine is compiled as C++20 and is warning-free at `-Wall -Wextra`
 with GCC and Clang. It no longer needs the `-Wno-*` suppressions that the
-import originally carried, and **new ones must not be added**:
+import originally carried, and **new CQL-specific ones must not be added**
+(the tree-wide `-Wno-deprecated-declarations` that predates CQL still applies
+everywhere):
 
 - `Makefile.conf` / `Makefile` keep only `-frtti -DINTEGRATED` for `src/cql/`.
 - `CMakeLists.txt` keeps only `-frtti`; the MSVC `/Zc:strictStrings-` exception
