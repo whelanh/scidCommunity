@@ -13,16 +13,15 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
-## Unreleased
+## 5.1.4.70 — 18 November 2026
 
-- **Tools > Board Screenshot** now draws what the board shows. The arrows, circles, disks, coloured squares and letters saved in the position's comment are included while Show Colored Squares and Arrows is on, and the annotation symbol, evaluation symbol and end-of-game result badges are included when those are checked in Preferences > Moves, as the last-move arrow already was. It still draws everything from the board's own pieces and squares, so no extra image package is needed.
-- **Show evaluation symbols** in Preferences > Moves now shows the evaluation badges (+-, =, +=, ...) on the board and in the screenshot. A PGN stores those NAGs as numbers ($18 and the like) rather than as written-out symbols, and the badge code only understood the symbols.
+- **Tools > Board Screenshot** now draws what the board shows. The arrows, circles, disks, coloured squares and letters saved in the position's comment are included while Show Colored Squares and Arrows is on, and the annotation symbol, evaluation symbol and end-of-game result badges are included when those are checked in Preferences > Moves, as the last-move arrow already was. It still draws everything from the board's own pieces and squares, so no extra image package is needed. — thanks to @whelanh ([#518](https://github.com/whelanh/scidCommunity/pull/518)).
+- A CQL search no longer stops at a game whose variation holds only a comment. — thanks to @whelanh ([#515](https://github.com/whelanh/scidCommunity/pull/515)).
 
 ## 5.1.4.69 — 17 November 2026
 
 - **Tools > Board Screenshot** saves the position on the board as a PNG file with coordinates and, when Show Arrow is enabled in Preferences > Moves, the last-move arrow. It names the file position-1.png, position-2.png and so on. It draws from the board's own pieces and squares, so it needs no extra image package and works on Windows, macOS and Linux. — thanks to @whelanh ([#512](https://github.com/whelanh/scidCommunity/pull/512)).
 - CQL searches are several times faster on large databases, and a game whose record cannot be read is counted and skipped instead of ending the search. — thanks to @whelanh ([#513](https://github.com/whelanh/scidCommunity/pull/513)) and @Triquetra ([#508](https://github.com/whelanh/scidCommunity/pull/508)).
-- A CQL search no longer stops at a game whose variation holds only a comment. — thanks to @whelanh ([#515](https://github.com/whelanh/scidCommunity/pull/515)).
 - Search > CQL... finds games by a query language: type a query such as `cql() [N]f3` — a white knight on f3 — and the game list is filtered to the games that contain it, with filters for check and mate, the side to move, moves and promotions, comments and headers, and piece counts, all explained on the help page beside the window. The query engine comes from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/) and keeps its GPL-2.0 licence. — thanks to @Triquetra ([#502](https://github.com/whelanh/scidCommunity/pull/502)).
 - **Game Review** uses Lichess's stored evaluation where it is at least as deep as the search you asked for, so a review finishes sooner without getting weaker, and the Cloud pre-pass switch has moved from Review Settings into each engine configuration. — thanks to @Triquetra ([#498](https://github.com/whelanh/scidCommunity/pull/498), [#506](https://github.com/whelanh/scidCommunity/pull/506)).
 - **Game Review** now also says **Forced**, **Book**, **Brilliant**, **Great** and **Missed chance**, where before every move was one of six verdicts. — thanks to @Triquetra ([#505](https://github.com/whelanh/scidCommunity/pull/505)).
