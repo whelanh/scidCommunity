@@ -151,5 +151,36 @@ check "two games again" [run {cql(:gamenumber 1 2) K}] 2
 check "or: union" [run {cql() mate} or] 3
 check "reset starts again" [run {cql() mate} reset] 1
 
+puts "\n== a variation with no moves ==\n"
+# PGN allows a variation that holds only a comment, and scid stores it as an
+# empty variation. Walking into it left the matcher with no move to make, and
+# the search ended at that game with "gameforward fail". The side line beside
+# it must keep working, with the empty one before or after it.
+file tempfile emptyVarPgn cqlcheck-emptyvar.pgn
+set ch [open $emptyVarPgn w]
+puts $ch {[Event "Empty variation"]
+[Site "?"]
+[Date "2026.11.17"]
+[Round "1"]
+[White "A"]
+[Black "B"]
+[Result "1-0"]
+
+1. e4 ( {a note with no moves} ) (1. f3 e5 2. g4 Qh4#) e5 2. Nf3 *
+}
+close $ch
+set emptyVarId [sc_base create MEMORY cql_check_emptyvar]
+sc_base switch $emptyVarId
+sc_base import $emptyVarId $emptyVarPgn
+file delete $emptyVarPgn
+set id $emptyVarId
+check "a comment-only variation does not abort the search" \
+    [run {cql(:variations) K}] 1
+check "a mate beside it is still found in the side line" \
+    [run {cql(:variations) mate}] 1
+check "the main line alone does not have that mate" [run {cql() mate}] 0
+sc_base switch $small
+set id $small
+
 puts "\n[expr {$fails ? "FAILED $fails" : "all checks passed"}]"
 exit [expr {$fails ? 1 : 0}]

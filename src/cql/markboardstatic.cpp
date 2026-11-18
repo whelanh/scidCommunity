@@ -10,14 +10,48 @@
 #include <map>
 #include <string>
 
+namespace {
+
+// A PGN variation may hold no moves at all - "( {a note} )" - which scid keeps
+// as an empty variation: entering it leaves the cursor on its end marker.
+// There is no position in it to match, so the matcher must not walk in: it
+// would call MoveForward() on that end marker and fail with "gameforward fail".
+// The only way to tell is to enter the variation, which leaves the position
+// exactly as it was.
+bool variationIsEmpty(Game *game, uint varNumber) {
+  if (game->MoveIntoVariation(varNumber) != OK)
+    return true;
+  const bool empty = game->AtVarEnd();
+  game->MoveExitVariation();
+  return empty;
+}
+
+// The variation number of the nth non-empty variation, counting from zero, or
+// -1 when there are fewer. Empty variations are skipped so that the child
+// indexes number_children() reports still line up.
+int nthNonEmptyVariation(Game *game, int n) {
+  const uint numvars = game->GetNumVariations();
+  for (uint v = 0; v < numvars; ++v) {
+    if (variationIsEmpty(game, v))
+      continue;
+    if (n-- == 0)
+      return static_cast<int>(v);
+  }
+  return -1;
+}
+
+} // namespace
+
 int  MarkBoard::number_children(Game*game, bool searchvariations){
   int nseen=0;
   bool currentatend=game->AtVarEnd();
   if (!currentatend)++nseen;
   if(searchvariations){
     const uint numvars=game->GetNumVariations();
-    // This code assumes that a variation will never be at its own varend.
-    nseen+=numvars;
+    // An empty variation is not a child: it holds no position to match.
+    for (uint v = 0; v < numvars; ++v)
+      if (!variationIsEmpty(game, v))
+        ++nseen;
   }
   return nseen;
 }
@@ -52,7 +86,8 @@ void MarkBoard::move_to_child(Game*game, int child){
   }
   int variationnumber=child;
   if(hasmainline) variationnumber--;
-  uassert(variationnumber>=0 && static_cast<uint>(variationnumber)<game->GetNumVariations());
+  variationnumber=nthNonEmptyVariation(game,variationnumber);
+  uassert(variationnumber>=0,"move_to_child: no such non-empty variation");
   MoveIntoVariation(game,static_cast<uint>(variationnumber));
   gameForward(game);
 }
