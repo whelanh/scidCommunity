@@ -688,15 +688,26 @@ jobs:
     runs-on: windows-latest          # wingetcreate is Windows-only
     permissions:
       contents: read                 # the PAT does the cross-repo work
+    env:
+      # Job-level so the step's `if` can test it (secrets are not available to
+      # job-level conditionals). Passed in the environment, not as --token, so it
+      # stays out of the log.
+      WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
     steps:
       - name: Submit to winget-pkgs
+        # Without a token, wingetcreate does not fail: `--submit` calls
+        # LoadGitHubClient(true), which falls back to the device-code OAuth flow.
+        # That flow cannot complete on a runner, and GetTokenAsync re-arms a new
+        # device code when the old one expires instead of returning, so the step
+        # would run until the job's 360-minute timeout. Skip it instead. A token
+        # that is present but expired still fails fast, so this only covers empty.
+        if: env.WINGET_CREATE_GITHUB_TOKEN != ''
+        # Bound the damage if wingetcreate ever hangs some other way.
+        timeout-minutes: 15
         # A registry outage, or a previous version still in review, must not turn a
         # good release red: the assets are already published by the time this runs.
         continue-on-error: true
         shell: pwsh
-        env:
-          # Passed in the environment, not as --token, so it stays out of the log.
-          WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
         run: |
           $ver = '${{ inputs.version }}'
           if ($ver -eq '') { $ver = '${{ github.ref_name }}' }
