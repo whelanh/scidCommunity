@@ -394,7 +394,11 @@ set helpText(Hints) {<h1>scidCommunity Hints</h1>
   <p>
   You can hide the next move by pressing the <b>right</b> mouse button in the
   game information area, and selecting <b>Hide next move</b> from the
-  menu that appears.
+  menu that appears. While it is on, neither the next move nor the
+  variations at the current position are shown there, so the position can be
+  trained without the rest of the game being given away. To see which moves
+  are possible, open the <term>Variation</term> window: it lists the moves to
+  choose between, but not the moves that follow them.
   </p>
   
   <h4>How can I see the ECO opening code for the current position?</h4>
@@ -1365,7 +1369,11 @@ set helpText(Annotating) {<h1>Annotating games</h1>
   automatically every time a move with a variation is found while
   navigating through the game using the cursor keys. In the variation
   window one can enter the variation by selecting it with the up/down
-  cursor keys and hitting enter or clicking on it with the mouse. This
+  cursor keys and hitting enter or clicking on it with the mouse. Each
+  line of the window shows the move the line starts with and the moves
+  that follow it; while <b>Hide next move</b> is on in the game
+  information area, only that first move is shown, so choosing between
+  the variations does not give the continuation away. This
   allows for navigation through the game with the cursor keys only.
   To leave a variation, you can use the "<b>z</b>" shortcut key. At
   the beginning of the variation, the up arrow can be used
@@ -2246,7 +2254,11 @@ set helpText(PGN) {<h1>The <a PGN>PGN</a> window</h1>
   automatically every time a move with a variation is found while
   navigating through the game using the cursor keys. In the variation
   window one can enter the variation by selecting it with the up/down
-  cursor keys and hitting enter or clicking on it with the mouse. This
+  cursor keys and hitting enter or clicking on it with the mouse. Each
+  line of the window shows the move the line starts with and the moves
+  that follow it; while <b>Hide next move</b> is on in the game
+  information area, only that first move is shown, so choosing between
+  the variations does not give the continuation away. This
   allows for navigation through the game with the cursor keys only.
   Clicking on a move with middle mouse button will display a small
   board. Clicking on right mouse button will popup a contextual menu.
