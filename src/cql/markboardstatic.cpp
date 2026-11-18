@@ -10,14 +10,44 @@
 #include <map>
 #include <string>
 
+namespace {
+
+// A PGN variation may hold no moves at all - "( {a note} )" - which scid keeps
+// as an empty variation: its start marker is followed straight by its end
+// marker. There is no position in it to match, and MoveForward() from that end
+// marker fails, so nothing may walk into it.
+//
+// Variations hang off a node as a chain: node->varChild is the start marker of
+// the first, and that start marker's varChild is the next. Reading the marker
+// is enough to tell, so this costs no navigation and leaves the position alone.
+bool emptyVariation(const moveT *start) { return start->next->endMarker(); }
+
+// The variation number of the nth non-empty variation, counting from zero, or
+// -1 when there are fewer. number_children() walks the same chain the same way,
+// so a child index means the same thing to both.
+int nthNonEmptyVariation(const moveT *node, uint numvars, int n) {
+  const moveT *start = node->varChild;
+  for (uint v = 0; v < numvars && start; ++v, start = start->varChild) {
+    if (emptyVariation(start))
+      continue;
+    if (n-- == 0)
+      return static_cast<int>(v);
+  }
+  return -1;
+}
+
+} // namespace
+
 int  MarkBoard::number_children(Game*game, bool searchvariations){
   int nseen=0;
   bool currentatend=game->AtVarEnd();
   if (!currentatend)++nseen;
   if(searchvariations){
     const uint numvars=game->GetNumVariations();
-    // This code assumes that a variation will never be at its own varend.
-    nseen+=numvars;
+    const moveT *start=identity(game)->varChild;
+    for (uint v = 0; v < numvars && start; ++v, start = start->varChild)
+      if (!emptyVariation(start))
+        ++nseen;
   }
   return nseen;
 }
@@ -50,9 +80,10 @@ void MarkBoard::move_to_child(Game*game, int child){
     gameForward(game);
     return;
   }
-  int variationnumber=child;
-  if(hasmainline) variationnumber--;
-  uassert(variationnumber>=0 && static_cast<uint>(variationnumber)<game->GetNumVariations());
+  int variationnumber=child - (hasmainline ? 1 : 0);
+  variationnumber=nthNonEmptyVariation(identity(game),game->GetNumVariations(),
+                                       variationnumber);
+  uassert(variationnumber>=0,"move_to_child: no such non-empty variation");
   MoveIntoVariation(game,static_cast<uint>(variationnumber));
   gameForward(game);
 }
@@ -223,9 +254,13 @@ vector<simpleMoveT*> MarkBoard::getMoves(Game*game,bool searchvars){
   if(!atVarEnd(game))
     moves.push_back(getCurrentMove(game));
   if(!searchvars) return moves;
-  for(uint varnum=0;varnum<game->GetNumVariations();++varnum){
+  const uint numvars=game->GetNumVariations();
+  const moveT *start=identity(game)->varChild;
+  for(uint varnum=0;varnum<numvars&&start;++varnum,start=start->varChild){
+    // An empty variation holds no move to report, and entering it would leave
+    // the cursor on its end marker (see emptyVariation()).
+    if(emptyVariation(start)) continue;
     MoveIntoVariation(game,varnum);
-    uassert(!atVarEnd(game),"get_moves end of var in var");
     moves.push_back(getCurrentMove(game));
     uassert(!game->MoveExitVariation());
   }
