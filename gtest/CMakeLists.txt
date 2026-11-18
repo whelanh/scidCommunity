@@ -13,7 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with Scid. If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 3.2)
+# CMake 4 removed compatibility with minima below 3.5, so this floor has to stay
+# at or above that and in step with the top-level CMakeLists.txt.
+cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20 CACHE STRING "")
 
 # googletest
