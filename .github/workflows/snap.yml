@@ -16,11 +16,16 @@ permissions:
 
 jobs:
   build:
-    # Must match base: core26 in snap/snapcraft.yaml. snapcraft refuses a
-    # destructive-mode build when the host series differs from the base.
-    # Pinned rather than ubuntu-latest so the host cannot drift out from
-    # under the base again.
-    runs-on: ubuntu-26.04
+    # Must match base: core24 in snap/snapcraft.yaml. snapcraft refuses a
+    # destructive-mode build when the host series differs from the base, and
+    # ubuntu-latest now resolves to 26.04. Pinned rather than ubuntu-latest so
+    # the host cannot drift out from under the base again.
+    #
+    # Do not move to core26/ubuntu-26.04 yet: snapcraft 9.2.1 is still built
+    # on core24, and its bundled apt cannot resolve stage-packages against a
+    # 26.04 archive (amd64v3 indexes). See canonical/snapcraft#6533 and
+    # canonical/craft-parts#1796.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

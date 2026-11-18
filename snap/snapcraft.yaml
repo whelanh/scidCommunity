@@ -1,5 +1,5 @@
 name: scidcommunity
-base: core26
+base: core24
 version: git
 platforms:
   amd64:
