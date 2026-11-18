@@ -43,12 +43,16 @@ set ::search::cqlTextWidget ""
 #     (::search::start_ and ::search::do_search_) does not apply. The Search
 #     buttons run ::search::cqlRun_ instead.
 #
-#   Defaults clears the query box and puts the filter operation back to reset,
-#   as the other search windows do.
+#   Defaults clears the building blocks and the query box and puts the filter
+#   operation back to reset, as the other search windows do.
 proc ::search::cql {{ref_base ""} {ref_filter "dbfilter"}} {
 	::search::Open $ref_base $ref_filter SearchCQL ::search::cqlCreateFrame
 
 	set w .wnd_SearchCQL
+
+	# The window is always built fresh, so it starts with no blocks ticked and
+	# an empty query even if the last window was closed with a query in it.
+	::search::cqlKitReset
 
 	# See the comment above: the query runs against the current database.
 	grid remove $w.refdb
@@ -78,8 +82,14 @@ proc ::search::cql {{ref_base ""} {ref_filter "dbfilter"}} {
 #   how the last query ended. Returns the command ::search::Open evaluates for
 #   the window's options.
 proc ::search::cqlCreateFrame {w} {
+	grid columnconfigure $w 0 -weight 1
+
+	# The building blocks write the query into the box below. They are the
+	# window's main control surface, so they sit above it.
+	::search::cqlKitFrame $w
+
 	ttk::labelframe $w.query -text [::tr CQLQuery]
-	grid $w.query -sticky news -pady 6
+	grid $w.query -row 1 -column 0 -sticky news -pady 6
 	grid columnconfigure $w.query 0 -weight 1
 	grid rowconfigure $w.query 0 -weight 1
 
@@ -100,6 +110,7 @@ proc ::search::cqlCreateFrame {w} {
 		-pady "0 4"
 
 	set ::search::cqlTextWidget $w.query.text
+	bind $w.query.text <<Modified>> {::search::cqlKitSay; %W edit modified 0}
 	return "::search::cqlOptions"
 }
 
@@ -109,10 +120,7 @@ proc ::search::cqlCreateFrame {w} {
 #   reset: an empty query box.
 proc ::search::cqlOptions {{cmd ""}} {
 	if {$cmd eq "reset"} {
-		if {$::search::cqlTextWidget ne ""
-				&& [winfo exists $::search::cqlTextWidget]} {
-			$::search::cqlTextWidget delete 1.0 end
-		}
+		::search::cqlKitReset
 		return
 	}
 	return [list [list cql [::search::cqlQuery]]]
