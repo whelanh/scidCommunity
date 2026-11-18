@@ -341,6 +341,7 @@ array set ::search::cqlKitLabel {
     CQLAnd {AND}
     CQLWhiteOnly {White only}
     CQLOwnQuery {Own CQL query}
+    CQLReplaced {- your query was replaced; Control-Z restores it}
 }
 
 # Starting values for the blocks that have a choice. Names not listed here use
@@ -361,6 +362,9 @@ set ::search::cqlKitText {}
 set ::search::cqlKitLast {}
 set ::search::cqlKitSaid {}
 set ::search::cqlKitNotebook {}
+# Set while the kit rewrites its own move-range variables, so the trace on them
+# (::search::cqlKitMoved) does not take a reset for a user edit.
+set ::search::cqlKitQuiet 0
 
 # ::search::cqlKitLabel
 #   The English label for a block, group or tab key.
@@ -409,6 +413,7 @@ proc ::search::cqlKitChoices {name values} {
 #   Puts every block back to its starting state. Called when the kit is loaded
 #   and whenever the window opens, so a new window starts with no blocks ticked.
 proc ::search::cqlKitInit {} {
+	set ::search::cqlKitQuiet 1
 	array unset ::search::cqlKit
 	array unset ::search::cqlKitValue
 	array unset ::search::cqlKitNames
@@ -436,6 +441,7 @@ proc ::search::cqlKitInit {} {
 	set ::search::cqlKitText {}
 	set ::search::cqlKitLast {}
 	set ::search::cqlKitSaid {}
+	set ::search::cqlKitQuiet 0
 }
 
 # ::search::cqlKitPieceLetter
@@ -577,13 +583,23 @@ proc ::search::cqlKitSay {} {
 #   Replaces the query in the box with the one the ticked blocks describe. An
 #   empty set of blocks removes the query the blocks wrote last, but leaves a
 #   query the user typed.
+#
+#   A hand-typed query is replaced too, because the blocks are the window's
+#   builder and an arbitrary query cannot be merged into one: the engine has a
+#   single cql() wrapper, and taking a user's query apart to re-wrap it would
+#   guess at what it means. Scid vs. PC replaces it the same way. The
+#   replacement is one undo step and the explanation line says so, so it is
+#   never silent.
 proc ::search::cqlKitWrite {} {
 	lassign [::search::cqlKitBuild] query text
 	set t $::search::cqlTextWidget
+	set shown ""
+	if {$t ne "" && [winfo exists $t]} {
+		set shown [string trim [$t get 1.0 end]]
+	}
 
 	if {$query eq ""} {
-		if {$t ne "" && [winfo exists $t]
-				&& [string trim [$t get 1.0 end]] eq $::search::cqlKitLast} {
+		if {$t ne "" && [winfo exists $t] && $shown eq $::search::cqlKitLast} {
 			$t delete 1.0 end
 		}
 		set ::search::cqlKitLast {}
@@ -593,7 +609,13 @@ proc ::search::cqlKitWrite {} {
 		return
 	}
 
-	if {$t ne "" && [winfo exists $t]} {
+	# Text the blocks did not write is about to go. Say so below the query.
+	set replaced [expr {$shown ne "" && $shown ne $::search::cqlKitLast}]
+
+	# Writing the same text again would only add an undo step and move the
+	# box's insertion cursor, which the blocks must not do to a query that
+	# already says what they describe.
+	if {$t ne "" && [winfo exists $t] && $shown ne $query} {
 		# One undo step, so Control-z brings back the old text.
 		$t configure -autoseparators 0
 		$t edit separator
@@ -605,7 +627,29 @@ proc ::search::cqlKitWrite {} {
 	set ::search::cqlKitLast $query
 	set ::search::cqlKitText $text
 	set ::search::cqlKitSaid $text
+	if {$replaced} {
+		append ::search::cqlKitSaid " [::search::cqlKitLabel CQLReplaced]"
+	}
 	::search::cqlKitUpdateTabs
+}
+
+# ::search::cqlKitMoved
+#   A trace on the move-range variables. A value that changed means the user is
+#   building a query, so tick Moves and rewrite it. The kit's own edits (a
+#   reset, Clear all) are suppressed with cqlKitQuiet.
+#
+#   This is a variable trace rather than a <KeyRelease> binding, which is what
+#   Scid vs. PC uses: <KeyRelease> fires when the cursor is merely moved
+#   (ticking Moves and rewriting the query for nothing), and a middle-click
+#   paste changes the value without firing it at all.
+proc ::search::cqlKitMoved {args} {
+	if {$::search::cqlKitQuiet} {
+		return
+	}
+	if {$::search::cqlKitFrom ne "" || $::search::cqlKitTo ne ""} {
+		set ::search::cqlKitMoves 1
+	}
+	::search::cqlKitWrite
 }
 
 # ::search::cqlKitSpin
@@ -620,12 +664,14 @@ proc ::search::cqlKitSpin {name} {
 #   The "Clear all" button: untick every block and forget the move range, but
 #   leave a query the user typed himself alone.
 proc ::search::cqlKitClear {} {
+	set ::search::cqlKitQuiet 1
 	foreach name [array names ::search::cqlKit] {
 		set ::search::cqlKit($name) 0
 	}
 	set ::search::cqlKitMoves 0
 	set ::search::cqlKitFrom {}
 	set ::search::cqlKitTo {}
+	set ::search::cqlKitQuiet 0
 	::search::cqlKitWrite
 }
 
@@ -731,15 +777,15 @@ proc ::search::cqlKitFrame {f} {
 	pack $f.kit.opts.from $f.kit.opts.dash $f.kit.opts.to -side left
 	pack $f.kit.opts.clear -side right
 
-	# Typing a move number ticks Moves.
-	set typed {
-		if {$::search::cqlKitFrom ne {} || $::search::cqlKitTo ne {}} {
-			set ::search::cqlKitMoves 1
+	# A move number ticks Moves: see ::search::cqlKitMoved. One trace per
+	# window would be enough, but registering it only when it is missing
+	# keeps a rebuilt window from stacking traces.
+	foreach var {::search::cqlKitFrom ::search::cqlKitTo} {
+		if {[lsearch -exact [trace info variable $var] \
+				"write ::search::cqlKitMoved"] < 0} {
+			trace add variable $var write ::search::cqlKitMoved
 		}
-		::search::cqlKitWrite
 	}
-	bind $f.kit.opts.from <KeyRelease> $typed
-	bind $f.kit.opts.to <KeyRelease> $typed
 
 	ttk::label $f.kit.say -textvariable ::search::cqlKitSaid -anchor w \
 		-justify left -wraplength 700

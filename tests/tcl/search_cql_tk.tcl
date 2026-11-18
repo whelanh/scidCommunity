@@ -195,6 +195,25 @@ check "the explanation mentions the range" \
     [expr {[string first "Moves 10-20" $::search::cqlKitSaid] >= 0}] \
     $::search::cqlKitSaid
 
+# The range is driven by a variable trace, not by a key binding: a value that
+# changes ticks Moves and rewrites the query on its own, and rewriting a query
+# that is already there must leave the box alone (Scid vs. PC's <KeyRelease>
+# binding did neither).
+::search::cqlKitReset
+set ::search::cqlKitFrom 30
+checkEq "a move number ticks Moves by itself" $::search::cqlKitMoves 1
+check "and the open-ended range is in the query" \
+    [expr {[string first "movenumber 30 1000" [$w.options.query.text get 1.0 end-1c]] >= 0}] \
+    [$w.options.query.text get 1.0 end-1c]
+set ::search::cqlKitTo 40
+check "the end of the range follows" \
+    [expr {[string first "movenumber 30 40" [$w.options.query.text get 1.0 end-1c]] >= 0}] \
+    [$w.options.query.text get 1.0 end-1c]
+$w.options.query.text mark set insert 1.0
+::search::cqlKitWrite
+checkEq "writing the same query again leaves the cursor alone" \
+    [$w.options.query.text index insert] 1.0
+
 puts "\n== a typed query is not silently discarded ==\n"
 $w.options.query.text delete 1.0 end
 $w.options.query.text insert 1.0 "cql() K"
@@ -206,6 +225,21 @@ checkEq "Clear all leaves a typed query alone" \
     [$w.options.query.text get 1.0 end-1c] "cql() K"
 checkEq "Clear all unticks the blocks" $::search::cqlKit(PassedPawn) 0
 checkEq "Clear all forgets the range" $::search::cqlKitMoves 0
+
+# A block does replace a hand-typed query: the engine has one cql() wrapper,
+# and the builder cannot merge an arbitrary query into it. It must say so, and
+# the replacement must be recoverable.
+set ::search::cqlKit(Checkmate) 1
+::search::cqlKitWrite
+check "a block replaces a typed query" \
+    [expr {[$w.options.query.text get 1.0 end-1c] ne "cql() K"}]
+check "the explanation says the old query is recoverable" \
+    [expr {[string first "Control-Z" $::search::cqlKitSaid] >= 0}] \
+    $::search::cqlKitSaid
+$w.options.query.text edit undo
+checkEq "Control-Z brings the typed query back" \
+    [$w.options.query.text get 1.0 end-1c] "cql() K"
+
 $w.buttons.reset_values invoke
 checkEq "Defaults clears a typed query too" \
     [$w.options.query.text get 1.0 end-1c] ""
