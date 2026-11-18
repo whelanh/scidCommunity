@@ -38,8 +38,12 @@ jobs:
       - name: Generate coverage report
         run: |
           cd build
-          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,negative,gcov
-          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch,negative,gcov
+          # lcov 2.x fails on categories it considers errors unless they are
+          # ignored. Each new gcov version shifts line attribution and adds one
+          # ("inconsistent" arrived with GCC 15), so this list is expected to grow
+          # with the runner image rather than being a fixed set.
+          lcov --capture --directory . --output-file coverage.info --ignore-errors mismatch,negative,gcov,inconsistent
+          lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info --ignore-errors mismatch,negative,gcov,inconsistent
 
       - name: Upload to Codecov
         uses: codecov/codecov-action@v7
