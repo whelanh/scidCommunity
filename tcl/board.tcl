@@ -2009,16 +2009,48 @@ proc ::board::drawText {w sq text color args {shadow ""} } {
   #}
 }
 
+# ::board::_nagDisplay
+#   The display symbol for one token of the NAG list.  sc_pos getNags returns
+#   the suffix annotations (?, !?, ...) as symbols and every other NAG as
+#   $<number>, because a plain PGN may only spell those six, so the numbers
+#   have to be decoded before a badge can be chosen.
+#
+proc ::board::_nagDisplay {token} {
+  if {![regexp {^\$([0-9]+)$} $token -> nag]} { return $token }
+  switch -- $nag {
+    1 { return "!" }
+    2 { return "?" }
+    3 { return "!!" }
+    4 { return "??" }
+    5 { return "!?" }
+    6 { return "?!" }
+    10 { return "=" }
+    14 { return "+=" }
+    15 { return "=+" }
+    16 { return "+/-" }
+    17 { return "-/+" }
+    18 { return "+-" }
+    19 { return "-+" }
+    20 { return "+--" }
+    21 { return "--+" }
+  }
+  return $token
+}
+
 # ::board::_lastMoveAnnotationBadge
 #   The move-quality badge (e.g. !, ?, !?) the last-move NAG $nag asks for, as
 #   {symbol fillColour}, or the empty string when it has none.  The badge goes
 #   in the upper right corner of the destination square.
 #
 proc ::board::_lastMoveAnnotationBadge {nag} {
-  if {![regexp {[!?]+} $nag sym]} { return "" }
-  # Green for a good move, red for a mistake.
-  set color [expr {[string index $sym 0] eq "!" ? "#30c030" : "#ff3030"}]
-  return [list $sym $color]
+  foreach token [split $nag] {
+    set sym [::board::_nagDisplay $token]
+    if {![regexp {^[!?]+$} $sym]} { continue }
+    # Green for a good move, red for a mistake.
+    set color [expr {[string index $sym 0] eq "!" ? "#30c030" : "#ff3030"}]
+    return [list $sym $color]
+  }
+  return ""
 }
 
 # ::board::_lastMoveEvaluationBadge
@@ -2027,14 +2059,18 @@ proc ::board::_lastMoveAnnotationBadge {nag} {
 #   in the upper left corner of the destination square.
 #
 proc ::board::_lastMoveEvaluationBadge {nag} {
-  if {![regexp {[\+=-][\+\-/=]+} $nag sym]} { return "" }
-  # Green shades for a white advantage, blue for equality, red for Black.
-  switch -- [string index $sym 0] {
-    "+" { set color "#207020" }
-    "-" { set color "#c02020" }
-    default { set color "#206080" }
+  foreach token [split $nag] {
+    set sym [::board::_nagDisplay $token]
+    if {![regexp {^[\+=-][\+\-/=]*$} $sym]} { continue }
+    # Green shades for a white advantage, blue for equality, red for Black.
+    switch -- [string index $sym 0] {
+      "+" { set color "#207020" }
+      "-" { set color "#c02020" }
+      default { set color "#206080" }
+    }
+    return [list $sym $color]
   }
-  return [list $sym $color]
+  return ""
 }
 
 # ::board::_resultBadges

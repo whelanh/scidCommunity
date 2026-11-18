@@ -297,6 +297,18 @@ foreach c {! ? + - = / # 0 1 2 3 4 5 6 7 8 9} {
     check "the badge font has '$c'" [expr {[llength [::board::_glyph $c]] == 7}]
 }
 
+# sc_pos getNags gives only the six suffix annotations as symbols; the
+# evaluation NAGs arrive as $<number>, which a plain PGN requires.
+check "a numeric annotation NAG is read" \
+    [expr {[lindex [::board::_lastMoveAnnotationBadge {$6}] 0] eq "?!"}]
+check "a numeric evaluation NAG is read" \
+    [expr {[lindex [::board::_lastMoveEvaluationBadge {?! $18}] 0] eq "+-"}]
+check "a numeric equality NAG is read" \
+    [expr {[lindex [::board::_lastMoveEvaluationBadge {$10}] 0] eq "="}]
+check "no NAGs draw no badge" \
+    [expr {[::board::_lastMoveAnnotationBadge 0] eq "" &&
+           [::board::_lastMoveEvaluationBadge 0] eq ""}]
+
 # e2-e4 is the last move, its NAG carries both badge kinds, and e4's top
 # corners are where the board puts them.
 set ::NAG "!? +-"
