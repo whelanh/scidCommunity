@@ -5,13 +5,22 @@ on:
     tags:
       - '*'
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the built snap to the stable channel
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Must match base: core26 in snap/snapcraft.yaml. snapcraft refuses a
+    # destructive-mode build when the host series differs from the base.
+    # Pinned rather than ubuntu-latest so the host cannot drift out from
+    # under the base again.
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -58,7 +67,7 @@ jobs:
           path: ${{ steps.build.outputs.snap }}
 
       - name: Publish to Snapcraft Store
-        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        if: startsWith(github.ref, 'refs/tags/') || inputs.publish
         uses: snapcore/action-publish@v1
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
