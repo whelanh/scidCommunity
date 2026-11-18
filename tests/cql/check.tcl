@@ -179,6 +179,13 @@ check "a comment-only variation does not abort the search" \
 check "a mate beside it is still found in the side line" \
     [run {cql(:variations) mate}] 1
 check "the main line alone does not have that mate" [run {cql() mate}] 0
+# Move queries list the moves at each position, variations included: that walk
+# reached the same end marker and failed with "get_moves end of var in var".
+check "a move query lists the moves beside it" \
+    [run {cql(:variations) move to f3}] 1
+check "a move only in the side line needs :variations" \
+    [run {cql(:variations) move to g4}] 1
+check "and the main line alone does not have it" [run {cql() move to g4}] 0
 sc_base switch $small
 set id $small
 
