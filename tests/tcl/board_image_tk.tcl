@@ -292,6 +292,52 @@ check "Show Marks off leaves the square plain" \
 ::board::showMarks .b 1
 image delete $pngM $pngH
 
+# Compare exports with the same visible canvas result. This catches stale
+# pixels left behind by marks that DrawText removes.
+proc markPixels {marks {size 80}} {
+    set ::board::_mark(.b) $marks
+    ::board::saveImage .b [file join $::dir regression.png] $size 0
+    set img [image create photo -file [file join $::dir regression.png]]
+    set pixels [$img data]
+    image delete $img
+    return $pixels
+}
+set textMark {text 27 X cyan}
+foreach shape {circle disk square tux} {
+    check "text replaces an earlier $shape" \
+        {[markPixels [list [list $shape 27 {} red] $textMark]] eq
+         [markPixels [list $textMark]]}
+    check "a later $shape preserves earlier text" \
+        {[markPixels [list $textMark [list $shape 27 {} red]]] ne
+         [markPixels [list [list $shape 27 {} red]]]}
+}
+check "later text replaces earlier text" \
+    {[markPixels [list {text 27 A red} $textMark]] eq [markPixels [list $textMark]]}
+check "text preserves arrows" \
+    {[markPixels [list {arrow 27 35 red} $textMark]] ne [markPixels [list $textMark]]}
+check "invalid full color preserves a previous valid fill" \
+    {[markPixels {{full 27 {} blue} {full 27 {} invalid-color}}] eq
+     [markPixels {{full 27 {} blue}}]}
+check "invalid full color alone uses the normal square" \
+    {[markPixels {{full 27 {} invalid-color}}] eq [markPixels {}]}
+check "a color name containing spaces is one pixel color" \
+    {[markPixels {{full 27 {} {light blue}}}] eq
+     [markPixels {{full 27 {} #add8e6}}]}
+
+# Composite the same source photo independently over a plain export.
+foreach size {30 40 80} len {16 32 32} {
+    markPixels {} $size
+    set expected [image create photo -file [file join $dir regression.png]]
+    set offset [expr {[image height $::board::letterToPiece(K)$size] - $size}]
+    lassign [sqOrigin 27 $size $border $offset 0] x y
+    $expected copy tux${len}x${len} -compositingrule overlay -to \
+        [expr {$x + ($size - $len) / 2}] [expr {$y + ($size - $len) / 2}]
+    check "tux uses the centered ${len}px photo at size $size" \
+        {[markPixels {{tux 27 {} red}} $size] eq [$expected data]}
+    image delete $expected
+}
+::board::setmarks .b {}
+
 puts "\nthe annotation and evaluation badges"
 foreach c {! ? + - = / # 0 1 2 3 4 5 6 7 8 9} {
     check "the badge font has '$c'" [expr {[llength [::board::_glyph $c]] == 7}]
@@ -308,6 +354,37 @@ check "a numeric equality NAG is read" \
 check "no NAGs draw no badge" \
     [expr {[::board::_lastMoveAnnotationBadge 0] eq "" &&
            [::board::_lastMoveEvaluationBadge 0] eq ""}]
+
+foreach nag {{$15} {$17} {$19} {$21}} {
+    check "$nag has the Black advantage color" \
+        {[lindex [::board::_lastMoveEvaluationBadge $nag] 1] eq "#c02020"}
+}
+foreach nag {{$14} {$16} {$18} {$20}} {
+    check "$nag keeps the White advantage color" \
+        {[lindex [::board::_lastMoveEvaluationBadge $nag] 1] eq "#207020"}
+}
+check "plain equality keeps the blue color" \
+    {[lindex [::board::_lastMoveEvaluationBadge {$10}] 1] eq "#206080"}
+
+# Every glyph pixel must have badge fill beneath it. Render the fill alone
+# as a mask, then compare all glyph pixels, including the small +/- case.
+foreach radius {8 16 32} {
+    foreach symbol {+/- -/+ =+ += !? ½} {
+        set badge [image create photo -width 100 -height 100]
+        set mask [image create photo -width 100 -height 100]
+        ::board::_putBadge $badge 50 50 $radius 4 $symbol red white nw 0 100 0
+        ::board::_putBadge $mask 50 50 $radius 4 $symbol red red nw 0 100 0
+        set contained 1
+        for {set y 0} {$y < 100} {incr y} {
+            for {set x 0} {$x < 100} {incr x} {
+                if {[$badge get $x $y] eq "255 255 255" &&
+                    [$mask transparency get $x $y]} { set contained 0 }
+            }
+        }
+        check "$symbol strokes stay in the disk at radius $radius" {$contained}
+        image delete $badge $mask
+    }
+}
 
 # e2-e4 is the last move, its NAG carries both badge kinds, and e4's top
 # corners are where the board puts them.

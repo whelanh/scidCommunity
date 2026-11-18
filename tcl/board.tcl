@@ -2063,9 +2063,9 @@ proc ::board::_lastMoveEvaluationBadge {nag} {
     set sym [::board::_nagDisplay $token]
     if {![regexp {^[\+=-][\+\-/=]*$} $sym]} { continue }
     # Green shades for a white advantage, blue for equality, red for Black.
-    switch -- [string index $sym 0] {
-      "+" { set color "#207020" }
-      "-" { set color "#c02020" }
+    switch -glob -- $sym {
+      "+*" { set color "#207020" }
+      "-*" - "=+" { set color "#c02020" }
       default { set color "#206080" }
     }
     return [list $sym $color]
@@ -2689,20 +2689,22 @@ proc ::board::_putSquareArrow {img width height geom board from to thickness col
 #
 proc ::board::_putBadge {img x y size scale text fill textColor corner \
     boardLeft boardRight boardTop} {
+  # Fit the actual 5x7 glyph bounds inside an inscribed rectangle. At
+  # scale one, enlarge the disk if necessary (e.g. +/- on 80px squares).
+  set shown [string map [list "\u00BD" "1/2"] $text]
+  set glyphWidth [expr {max(1, 6 * [string length $shown] - 1)}]
+  set fit [expr {int(sqrt(2) * ($size - 1) / max($glyphWidth, 7))}]
+  set scale [expr {max(1, min($scale, $fit))}]
+  set halfW [expr {$glyphWidth * $scale / 2.0 + 0.5}]
+  set halfH [expr {7 * $scale / 2.0 + 0.5}]
+  set size [expr {max($size, ceil(hypot($halfW, $halfH)) + 1)}]
+
   if {$corner eq "ne"} {
     if {$x + $size > $boardRight} { set x [expr {$x - $size}] }
   } else {
     if {$x - $size < $boardLeft} { set x [expr {$x + $size}] }
   }
   if {$y - $size < $boardTop} { set y [expr {$y + $size}] }
-
-  # A multi-character badge such as +/-, or the 1/2 of a drawn game, has to
-  # shrink to sit inside the round badge.
-  set shown [string map [list "\u00BD" "1/2"] $text]
-  if {[string length $shown] > 1} {
-    set fit [expr {int(1.2 * 2 * $size / (6.0 * [string length $shown]))}]
-    if {$fit < $scale} { set scale [expr {max(1, $fit)}] }
-  }
 
   ::board::_putDisk $img $x $y $size $fill
   ::board::_putGlyphText $img $text $textColor $x $y $scale
@@ -2783,7 +2785,8 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
     if {$showMarks} {
       foreach mark $marks {
         lassign $mark type sq1 sq2 color
-        if {$type eq "full" && $color ne "" && $sq1 >= 0 && $sq1 <= 63} {
+        if {$type eq "full" && $color ne "" && $sq1 >= 0 && $sq1 <= 63 &&
+            [::board::isValidColor $color]} {
           set fullColor($sq1) $color
         }
       }
@@ -2822,7 +2825,7 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
         set color $fullColor($sq)
         set textured 0
       }
-      $img put $color -to $x $y [expr {$x + $psize}] [expr {$y + $psize}]
+      $img put [list [list $color]] -to $x $y [expr {$x + $psize}] [expr {$y + $psize}]
 
       if {$textured} {
         set square bgd$psize
@@ -2859,7 +2862,23 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
     # the image draws them in the same order.  "full" marks were painted
     # with their square above.
     if {$showMarks} {
+      # DrawText deletes text$square and mark$square before drawing. Resolve
+      # those deletions before painting pixels; arrows have a separate tag,
+      # and full marks change the square fill rather than adding an item.
+      set visibleMarks {}
       foreach mark $marks {
+        lassign $mark type from to color
+        if {$type eq "text" && $from >= 0 && $from <= 63} {
+          set visibleMarks [lmap prior $visibleMarks {
+            lassign $prior priorType priorFrom
+            if {$priorFrom == $from &&
+                $priorType in {text circle disk square tux}} { continue }
+            set prior
+          }]
+        }
+        lappend visibleMarks $mark
+      }
+      foreach mark $visibleMarks {
         lassign $mark type from to color
         if {$from < 0 || $from > 63} { continue }
         # A malformed mark, such as one with an unknown colour name, is
@@ -2882,6 +2901,18 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
                   [expr {$sqR($from) - $inset}] [expr {$sqB($from) - $inset}] \
                   [expr {$psize * 0.94 * 0.25}] [expr {max(2, $psize * 0.06)}] \
                   $color
+            }
+            tux {
+              # DrawTux chooses the largest available photo fitting the square.
+              foreach len {32 16} {
+                if {$len <= $psize &&
+                    [info exists ::board::mark::tux${len}x${len}]} {
+                  $img copy tux${len}x${len} -compositingrule overlay -to \
+                      [expr {$sqCX($from) - $len / 2}] \
+                      [expr {$sqCY($from) - $len / 2}]
+                  break
+                }
+              }
             }
             text {
               ::board::_putGlyphText $img [string index $to 0] $color \
