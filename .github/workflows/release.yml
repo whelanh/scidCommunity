@@ -255,14 +255,29 @@ jobs:
       - name: Install NSIS
         run: choco install nsis -y --no-progress
 
-      - name: Build NSIS installer
+      - name: Build NSIS installers
         shell: powershell
         run: |
           $verRaw = "$env:SCIDCOMMUNITY_VERSION" -replace '-.*$',''
           $parts = $verRaw.Split('.')
           while ($parts.Length -lt 4) { $parts += '0' }
           $fileVer = ($parts | Select-Object -First 4) -join '.'
-          & "${env:ProgramFiles(x86)}\NSIS\makensis.exe" "-DVERSION=$fileVer" "-DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION" "-DSRCDIR=${{ github.workspace }}\install" "packaging\windows\scidCommunity.nsi"
+          $makensis = "${env:ProgramFiles(x86)}\NSIS\makensis.exe"
+          $common = @(
+            "-DVERSION=$fileVer"
+            "-DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION"
+            "-DSRCDIR=${{ github.workspace }}\install"
+            "packaging\windows\scidCommunity.nsi"
+          )
+          # Mixed mode: all-users for administrators, per-user otherwise. Requests elevation,
+          # so it cannot install unattended on an account that is an administrator.
+          & $makensis @common
+          if ($LASTEXITCODE -ne 0) { throw "makensis (mixed mode) failed with exit code $LASTEXITCODE" }
+          # Per-user only: requests no elevation at all and installs under %LOCALAPPDATA%\Programs.
+          # winget uses this one for --scope user, where an elevation prompt would fail the
+          # package's unattended installation test.
+          & $makensis @common "-DMULTIUSER_EXECUTIONLEVEL=Standard" "-DSETUP_SUFFIX=-per-user"
+          if ($LASTEXITCODE -ne 0) { throw "makensis (per-user) failed with exit code $LASTEXITCODE" }
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
@@ -274,7 +289,8 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: scidCommunity-windows-installer
-          path: packaging/windows/scidCommunity-*-windows-x64-setup.exe
+          # Both variants: the mixed-mode setup.exe and the per-user one.
+          path: packaging/windows/scidCommunity-*-windows-x64-setup*.exe
 
   build-linux-deb:
     runs-on: ubuntu-latest
@@ -656,6 +672,65 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-winget:
+    # Keep the Windows Package Manager listing current: one manifest version per
+    # release, opened as a pull request against microsoft/winget-pkgs.
+    #
+    # This has to be a job in this workflow rather than a workflow of its own on
+    # `release: published`. The release above is created with secrets.GITHUB_TOKEN,
+    # and GitHub does not start new workflow runs for events created by that token,
+    # so a separate workflow would never fire.
+    needs: [create-release]
+    if: |
+      (startsWith(github.ref, 'refs/tags/') || (github.event_name == 'workflow_dispatch' && inputs.create_release))
+      && vars.WINGET_SUBMIT != 'off'
+    runs-on: windows-latest          # wingetcreate is Windows-only
+    permissions:
+      contents: read                 # the PAT does the cross-repo work
+    env:
+      # Job-level so the step's `if` can test it (secrets are not available to
+      # job-level conditionals). Passed in the environment, not as --token, so it
+      # stays out of the log.
+      WINGET_CREATE_GITHUB_TOKEN: ${{ secrets.WINGET_TOKEN }}
+    steps:
+      - name: Submit to winget-pkgs
+        # Without a token, wingetcreate does not fail: `--submit` calls
+        # LoadGitHubClient(true), which falls back to the device-code OAuth flow.
+        # That flow cannot complete on a runner, and GetTokenAsync re-arms a new
+        # device code when the old one expires instead of returning, so the step
+        # would run until the job's 360-minute timeout. Skip it instead. A token
+        # that is present but expired still fails fast, so this only covers empty.
+        if: env.WINGET_CREATE_GITHUB_TOKEN != ''
+        # Bound the damage if wingetcreate ever hangs some other way.
+        timeout-minutes: 15
+        # A registry outage, or a previous version still in review, must not turn a
+        # good release red: the assets are already published by the time this runs.
+        continue-on-error: true
+        shell: pwsh
+        env:
+          # Untrusted input reaches PowerShell through the environment, never as
+          # interpolated source: this step holds a cross-repo token, so a quote in
+          # a dispatch input must not be able to become a statement.
+          WINGET_VERSION: ${{ inputs.version }}
+        run: |
+          # GITHUB_REF_NAME and GITHUB_REPOSITORY come from the runner, so the tag
+          # name and the repository name are not interpolated either.
+          $ver = $env:WINGET_VERSION
+          if ([string]::IsNullOrEmpty($ver)) { $ver = $env:GITHUB_REF_NAME }
+          $ver = $ver.Trim().TrimStart('v')
+          if ($ver -notmatch '^\d+(\.\d+){1,3}$') {
+            throw "Not a release version: '$ver'"
+          }
+
+          $base = "https://github.com/$env:GITHUB_REPOSITORY/releases/download/v$ver/scidCommunity-$ver-windows-x64-setup"
+          curl.exe -JLO https://aka.ms/wingetcreate/latest
+          # The manifest carries two installer nodes, told apart by scope, so each URL
+          # is matched to its node by the override suffix.
+          .\wingetcreate.exe update whelanh.scidCommunity `
+            --version $ver `
+            --urls "$base.exe|x64|machine" "$base-per-user.exe|x64|user" `
+            --submit
 
   attach-macos:
     # Attaches the macOS zip to the release once the macOS build actually
