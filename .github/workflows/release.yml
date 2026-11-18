@@ -263,21 +263,39 @@ jobs:
           while ($parts.Length -lt 4) { $parts += '0' }
           $fileVer = ($parts | Select-Object -First 4) -join '.'
           $makensis = "${env:ProgramFiles(x86)}\NSIS\makensis.exe"
-          $common = @(
+          $script = "packaging\windows\scidCommunity.nsi"
+          # Define flags must come BEFORE the script path. makensis ignores them after it
+          # and silently rebuilds the default variant into the same output file, which is
+          # how v5.1.4.70 shipped without the per-user installer and still reported success.
+          $defines = @(
             "-DVERSION=$fileVer"
             "-DDISPLAY_VERSION=$env:SCIDCOMMUNITY_VERSION"
             "-DSRCDIR=${{ github.workspace }}\install"
-            "packaging\windows\scidCommunity.nsi"
           )
           # Mixed mode: all-users for administrators, per-user otherwise. Requests elevation,
           # so it cannot install unattended on an account that is an administrator.
-          & $makensis @common
+          & $makensis @defines $script
           if ($LASTEXITCODE -ne 0) { throw "makensis (mixed mode) failed with exit code $LASTEXITCODE" }
           # Per-user only: requests no elevation at all and installs under %LOCALAPPDATA%\Programs.
           # winget uses this one for --scope user, where an elevation prompt would fail the
           # package's unattended installation test.
-          & $makensis @common "-DMULTIUSER_EXECUTIONLEVEL=Standard" "-DSETUP_SUFFIX=-per-user"
+          & $makensis @defines "-DMULTIUSER_EXECUTIONLEVEL=Standard" "-DSETUP_SUFFIX=-per-user" $script
           if ($LASTEXITCODE -ne 0) { throw "makensis (per-user) failed with exit code $LASTEXITCODE" }
+
+          # Both files must exist, and each must request the execution level its name implies:
+          # the failure above produced a wrong installer rather than an error, so assert it.
+          $dir = "packaging\windows"
+          $variants = @(
+            @{ File = "$dir\scidCommunity-$env:SCIDCOMMUNITY_VERSION-windows-x64-setup.exe";          Level = "highestAvailable" },
+            @{ File = "$dir\scidCommunity-$env:SCIDCOMMUNITY_VERSION-windows-x64-setup-per-user.exe"; Level = "asInvoker" }
+          )
+          foreach ($variant in $variants) {
+            if (-not (Test-Path $variant.File)) { throw "missing $($variant.File)" }
+            $pattern = 'requestedExecutionLevel level="' + $variant.Level + '"'
+            if (-not (Select-String -Path $variant.File -Pattern $pattern -SimpleMatch -Quiet -Encoding Ascii)) {
+              throw "$($variant.File) does not request $($variant.Level)"
+            }
+          }
 
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v7
@@ -731,6 +749,14 @@ jobs:
             --version $ver `
             --urls "$base.exe|x64|machine" "$base-per-user.exe|x64|user" `
             --submit
+          if ($LASTEXITCODE -ne 0) {
+            # continue-on-error keeps the release green, which otherwise makes a failed
+            # submission invisible: `update` cannot create a package, so until the first
+            # manifest is merged in microsoft/winget-pkgs this always fails. Say so on the
+            # run page instead of only in the step log.
+            Write-Host "::warning title=winget submission failed::wingetcreate exited $LASTEXITCODE for $ver"
+            Add-Content $env:GITHUB_STEP_SUMMARY "winget submission for $ver failed: wingetcreate exited $LASTEXITCODE. ``update`` only works once the package exists in microsoft/winget-pkgs; see #501."
+          }
 
   attach-macos:
     # Attaches the macOS zip to the release once the macOS build actually
