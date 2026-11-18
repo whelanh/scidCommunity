@@ -7,6 +7,10 @@
 ; VERSION:         4-part numeric version used for the file version resource
 ; DISPLAY_VERSION: user-visible version, used in the filename and uninstall entry
 ; SRCDIR:          directory containing the packaged layout (bin/, engines/, lib/, share/, sounds/)
+; MULTIUSER_EXECUTIONLEVEL: Highest (default, mixed mode: all-users for admins, per-user
+;                  otherwise) or Standard (per-user only, never requests elevation). Standard
+;                  is what the winget package installs for --scope user.
+; SETUP_SUFFIX:    appended to the installer filename, e.g. -per-user
 
 Unicode True
 
@@ -19,11 +23,18 @@ Unicode True
 !ifndef SRCDIR
   !define SRCDIR "install"
 !endif
+!ifndef SETUP_SUFFIX
+  !define SETUP_SUFFIX ""
+!endif
 
 !define UNINSTKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\scidCommunity"
 
 ; --- Multi-user (all-users install for admins, per-user for standard users, selectable on the mode page) ---
-!define MULTIUSER_EXECUTIONLEVEL Highest
+; Overridable from the command line: -DMULTIUSER_EXECUTIONLEVEL=Standard builds the per-user
+; installer, which requests no elevation at all and always writes to the current user's profile.
+!ifndef MULTIUSER_EXECUTIONLEVEL
+  !define MULTIUSER_EXECUTIONLEVEL Highest
+!endif
 !define MULTIUSER_MUI
 !define MULTIUSER_USE_PROGRAMFILES64
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
@@ -39,7 +50,7 @@ Unicode True
 SetCompressor /SOLID lzma
 
 Name "scidCommunity ${DISPLAY_VERSION}"
-OutFile "scidCommunity-${DISPLAY_VERSION}-windows-x64-setup.exe"
+OutFile "scidCommunity-${DISPLAY_VERSION}-windows-x64-setup${SETUP_SUFFIX}.exe"
 
 !define MUI_ICON "..\..\resources\win\scid.ico"
 !define MUI_UNICON "..\..\resources\win\scid.ico"
@@ -47,7 +58,10 @@ OutFile "scidCommunity-${DISPLAY_VERSION}-windows-x64-setup.exe"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\bin\scidCommunity.exe"
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MULTIUSER_PAGE_INSTALLMODE
+; A per-user-only build has exactly one install mode, so the mode page would only mislead.
+!if "${MULTIUSER_EXECUTIONLEVEL}" != "Standard"
+  !insertmacro MULTIUSER_PAGE_INSTALLMODE
+!endif
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_INSTFILES
