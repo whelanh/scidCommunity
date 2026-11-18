@@ -1127,6 +1127,7 @@ windows/switcher.tcl
 windows/pgnviewer.tcl
 search/search.tcl
 search/board.tcl
+search/cql_kit.tcl
 search/cql.tcl
 search/header.tcl
 search/material.tcl

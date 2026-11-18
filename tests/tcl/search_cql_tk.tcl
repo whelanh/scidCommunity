@@ -97,6 +97,7 @@ proc tk_messageBox {args} {
 
 set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl search board.tcl]
+source [file join $root tcl search cql_kit.tcl]
 source [file join $root tcl search cql.tcl]
 
 # --------------------------------------------------------------------- tests --
@@ -114,6 +115,102 @@ check "the query box takes several lines" \
     [expr {[$w.options.query.text cget -height] > 1}]
 check "the query box remembers what was typed" \
     [expr {[$w.options.query.text cget -undo] eq "1"}]
+
+puts "\n== the building blocks are there ==\n"
+set nb $w.options.kit.nb
+check "the kit frame is there" [winfo exists $w.options.kit]
+check "the notebook is there" [winfo exists $nb]
+checkEq "six tabs" [llength [$nb tabs]] 6
+checkEq "the first tab is named" [$nb tab 0 -text] "Mates & tactics"
+checkEq "the last tab is named" [$nb tab 5 -text] "Game"
+
+# Every block in the list must have a widget. Counting by class catches a block
+# that was dropped while the tabs were being laid out, which no single path
+# check would.
+proc countClass {w class} {
+    set n 0
+    foreach c [winfo children $w] {
+        if {[winfo class $c] eq $class} { incr n }
+        incr n [countClass $c $class]
+    }
+    return $n
+}
+checkEq "one checkbutton per block" [countClass $nb TCheckbutton] 105
+checkEq "one spinbox per block with values" [countClass $nb TSpinbox] 24
+checkEq "the Mate by block has its values" \
+    [lrange [$nb.p0.g0.c3.v cget -values] 0 4] \
+    {Knight Queen Rook Bishop Pawn}
+
+puts "\n== clicking blocks writes a query ==\n"
+$w.buttons.reset_values invoke
+set ::search::cqlKit(Checkmate) 1
+::search::cqlKitWrite
+checkEq "one block is a complete query" \
+    [$w.options.query.text get 1.0 end-1c] \
+    "cql() flipcolor { {btm mate} }"
+checkEq "the tab counts its blocks" [$nb tab 0 -text] "Mates & tactics (1)"
+checkEq "the explanation names it" $::search::cqlKitSaid \
+    "Searching for: Checkmate (Both colours)"
+
+set ::search::cqlKit(PawnFork) 1
+::search::cqlKitWrite
+check "another block is ANDed in" \
+    [expr {[string first "Pawn fork" $::search::cqlKitSaid] > 0}] \
+    $::search::cqlKitSaid
+checkEq "the AND is spelled out" \
+    [regexp {Checkmate AND Pawn fork} $::search::cqlKitSaid] 1
+
+set ::search::cqlKitBoth 0
+::search::cqlKitWrite
+set q [$w.options.query.text get 1.0 end-1c]
+check "White only drops flipcolor" [string match "cql() {*" $q]
+check "both blocks are in the query" \
+    [expr {[string first "{btm mate}" $q] >= 0
+        && [string first "Pawn fork" $::search::cqlKitSaid] >= 0}] $q
+check "the explanation says White only" \
+    [expr {[string first "White only" $::search::cqlKitSaid] > 0}]
+
+puts "\n== values and a move range join the query ==\n"
+::search::cqlKitReset
+set ::search::cqlKit(PassedPawn) 1
+::search::cqlKitWrite
+check "the chosen rank is substituted" \
+    [expr {[string first "Pd6 not p\[c7-8,d7-8,e7-8\]" [$w.options.query.text get 1.0 end-1c]] >= 0}] \
+    [$w.options.query.text get 1.0 end-1c]
+set ::search::cqlKitValue(PassedPawn) 7
+::search::cqlKitSpin PassedPawn
+checkEq "changing a value ticks its block" $::search::cqlKit(PassedPawn) 1
+check "the new rank is substituted too" \
+    [expr {[string first "Pd7 not p\[c8-8,d8-8,e8-8\]" [$w.options.query.text get 1.0 end-1c]] >= 0}] \
+    [$w.options.query.text get 1.0 end-1c]
+
+set ::search::cqlKitMoves 1
+set ::search::cqlKitFrom 10
+set ::search::cqlKitTo 20
+::search::cqlKitWrite
+check "the move range is a condition" \
+    [expr {[string first "movenumber 10 20" [$w.options.query.text get 1.0 end-1c]] >= 0}] \
+    [$w.options.query.text get 1.0 end-1c]
+check "the explanation mentions the range" \
+    [expr {[string first "Moves 10-20" $::search::cqlKitSaid] >= 0}] \
+    $::search::cqlKitSaid
+
+puts "\n== a typed query is not silently discarded ==\n"
+$w.options.query.text delete 1.0 end
+$w.options.query.text insert 1.0 "cql() K"
+::search::cqlKitSay
+checkEq "a typed query is named as the user's own" \
+    $::search::cqlKitSaid "Own CQL query"
+$w.options.kit.opts.clear invoke
+checkEq "Clear all leaves a typed query alone" \
+    [$w.options.query.text get 1.0 end-1c] "cql() K"
+checkEq "Clear all unticks the blocks" $::search::cqlKit(PassedPawn) 0
+checkEq "Clear all forgets the range" $::search::cqlKitMoves 0
+$w.buttons.reset_values invoke
+checkEq "Defaults clears a typed query too" \
+    [$w.options.query.text get 1.0 end-1c] ""
+checkEq "Defaults restores white and both colours" $::search::cqlKitBoth 1
+checkEq "Defaults restores a block's value" $::search::cqlKitValue(PassedPawn) 6
 
 puts "\n== the controls that do not apply are not shown ==\n"
 check "no database chooser" \

@@ -446,6 +446,12 @@ jobs:
       - name: CQL search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql.tcl
 
+      # Every query the CQL building blocks can write, for every value in every
+      # spinbox, through the real engine. A block that writes a query the
+      # parser rejects would otherwise only be found by a user clicking it.
+      - name: CQL building blocks
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_cql_kit.tcl
+
       # The CQL search over a base holding a game whose .sg4 record cannot be
       # decoded: the search must skip that game and still fill the filter,
       # which is the path 6e7b52ca fixed for a 4.45M-game database with one bad
