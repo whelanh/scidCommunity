@@ -2009,6 +2009,98 @@ proc ::board::drawText {w sq text color args {shadow ""} } {
   #}
 }
 
+# ::board::_nagDisplay
+#   The display symbol for one token of the NAG list.  sc_pos getNags returns
+#   the suffix annotations (?, !?, ...) as symbols and every other NAG as
+#   $<number>, because a plain PGN may only spell those six, so the numbers
+#   have to be decoded before a badge can be chosen.
+#
+proc ::board::_nagDisplay {token} {
+  if {![regexp {^\$([0-9]+)$} $token -> nag]} { return $token }
+  switch -- $nag {
+    1 { return "!" }
+    2 { return "?" }
+    3 { return "!!" }
+    4 { return "??" }
+    5 { return "!?" }
+    6 { return "?!" }
+    10 { return "=" }
+    14 { return "+=" }
+    15 { return "=+" }
+    16 { return "+/-" }
+    17 { return "-/+" }
+    18 { return "+-" }
+    19 { return "-+" }
+    20 { return "+--" }
+    21 { return "--+" }
+  }
+  return $token
+}
+
+# ::board::_lastMoveAnnotationBadge
+#   The move-quality badge (e.g. !, ?, !?) the last-move NAG $nag asks for, as
+#   {symbol fillColour}, or the empty string when it has none.  The badge goes
+#   in the upper right corner of the destination square.
+#
+proc ::board::_lastMoveAnnotationBadge {nag} {
+  foreach token [split $nag] {
+    set sym [::board::_nagDisplay $token]
+    if {![regexp {^[!?]+$} $sym]} { continue }
+    # Green for a good move, red for a mistake.
+    set color [expr {[string index $sym 0] eq "!" ? "#30c030" : "#ff3030"}]
+    return [list $sym $color]
+  }
+  return ""
+}
+
+# ::board::_lastMoveEvaluationBadge
+#   The evaluation badge (e.g. +=, +/-, =) the last-move NAG $nag asks for, as
+#   {symbol fillColour}, or the empty string when it has none.  The badge goes
+#   in the upper left corner of the destination square.
+#
+proc ::board::_lastMoveEvaluationBadge {nag} {
+  foreach token [split $nag] {
+    set sym [::board::_nagDisplay $token]
+    if {![regexp {^[\+=-][\+\-/=]*$} $sym]} { continue }
+    # Green shades for a white advantage, blue for equality, red for Black.
+    switch -glob -- $sym {
+      "+*" { set color "#207020" }
+      "-*" - "=+" { set color "#c02020" }
+      default { set color "#206080" }
+    }
+    return [list $sym $color]
+  }
+  return ""
+}
+
+# ::board::_resultBadges
+#   The game result (0, 1, ½ or #) shown beside each king once a game is over,
+#   as a list of {square text fillColour textColour}.  Empty while the game is
+#   still in progress.
+#
+proc ::board::_resultBadges {board} {
+  set isMate [sc_pos isMate]
+  if {![sc_pos isAt end] && !$isMate} { return {} }
+  set res [sc_game tag get Result]
+  if {$res eq "*" && !$isMate} { return {} }
+  if {$isMate} { set res "M" }
+  switch -- $res {
+    0 { set t1 0; set t2 1 }
+    1 { set t1 1; set t2 0 }
+    = { set t1 "\u00BD"; set t2 "\u00BD" }
+    M { if {[string index $board 65] eq "w"} {
+          set t1 "#"; set t2 1
+        } else {
+          set t2 "#"; set t1 1
+        }
+      }
+    default { return {} }
+  }
+  return [list \
+      [list [string first "K" $board] $t1 "#d0d0d0" "#303030"] \
+      [list [string first "k" $board] $t2 "#303030" "#d0d0d0"]]
+}
+
 # Highlight last move played by drawing a rectangle around the two squares and/or an arrow
 proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
   $w.bd delete highlightLastMove
@@ -2024,54 +2116,25 @@ proc  ::board::lastMoveHighlight {w moveuci {nag ""}} {
         ::board::mark::DrawArrow $w.bd $square1 $square2 $::highlightLastMoveColor
     }
     if { $::highlightLastMoveNag || $::highlightLastMoveEval } {
-        set fullNag $nag
-        # Extract move-quality annotation symbol ([!?]+) for upper-right badge
-        set annotSym ""
-        if { [regexp {[!?]+} $fullNag annotSym] } {
-            # Pick color: green for !, red for ?
-            set annotColor [expr {[string index $annotSym 0] eq "!" ? "#30c030" : "#ff3030"}]
-            if { $::highlightLastMoveNag } {
+        if { $::highlightLastMoveNag } {
+            lassign [::board::_lastMoveAnnotationBadge $nag] annotSym annotColor
+            if { $annotSym ne "" } {
                 ::board::mark::DrawNag $w $square2 $annotSym $annotColor
             }
         }
-        # Extract evaluation symbol (e.g. +=, +/-, +-, +--,  =, -/+, -+, --)  for upper-left badge
-        set evalSym ""
-        if { [regexp {[\+=-][\+\-/=]+} $fullNag evalSym] } {
-            # Color: shades of green for white advantage, blue for equality, red for black advantage
-            set fc [string index $evalSym 0]
-            if { $fc eq "+" } {
-                set evalColor "#207020"
-            } elseif { $fc eq "-" } {
-                set evalColor "#c02020"
-            } else {
-                set evalColor "#206080"
-            }
-            if { $::highlightLastMoveEval } {
+        if { $::highlightLastMoveEval } {
+            lassign [::board::_lastMoveEvaluationBadge $nag] evalSym evalColor
+            if { $evalSym ne "" } {
                 ::board::mark::DrawEvalNag $w $square2 $evalSym $evalColor
             }
         }
     }
     # Show game result indicator next to the Kings (0, 1, ½, or #)
     if { $::highlightLastMoveNag } {
-      set isMate [sc_pos isMate]
-      if {[sc_pos isAt end] || $isMate} {
-        set res [sc_game tag get Result]
-        if { $res ne "*" || $isMate } {
-          if { $isMate } { set res "M" }
-          switch $res {
-            0 { set t1 0; set t2 1 }
-            1 { set t1 1; set t2 0 }
-            = { set t1 "\u00BD"; set t2 "\u00BD" }
-            M { if { [string index $::board::_data($w) 65] eq "w" } {
-                    set t1 "#"; set t2 1
-                } else {
-                    set t2 "#"; set t1 1
-                }
-              }
-            default { return }
-          }
-          ::board::mark::DrawNag $w [string first "K" $::board::_data($w)] $t1 "#d0d0d0" "#303030"
-          ::board::mark::DrawNag $w [string first "k" $::board::_data($w)] $t2 "#303030" "#d0d0d0"
+      foreach badge [::board::_resultBadges $::board::_data($w)] {
+        lassign $badge square text fill textColor
+        if { $square >= 0 && $square <= 63 } {
+          ::board::mark::DrawNag $w $square $text $fill $textColor
         }
       }
     }
@@ -2239,11 +2302,12 @@ proc ::board::nextImageFile {dir {prefix "position"} {ext ".png"}} {
   return [file join $dir "$prefix-[expr {$max + 1}]$ext"]
 }
 
-# Glyphs for the coordinate labels.  Tk's photo images have no text
-# primitive, and TkImg is exactly the dependency this feature avoids, so the
-# few characters needed are drawn from a 5x7 bitmap.
+# Glyphs for the coordinate labels, the annotation and evaluation badges and
+# the character of a text mark.  Tk's photo images have no text primitive, and
+# TkImg is exactly the dependency this feature avoids, so every character is
+# drawn from a 5x7 bitmap: seven rows of five bits, top row first.
 #
-proc ::board::_coordGlyph {c} {
+proc ::board::_glyph {c} {
   switch -- $c {
     a { return {00000 01110 00001 01111 10001 10001 01111} }
     b { return {10000 10000 11110 10001 10001 10001 11110} }
@@ -2253,6 +2317,51 @@ proc ::board::_coordGlyph {c} {
     f { return {00110 01001 01000 11100 01000 01000 01000} }
     g { return {00000 01111 10001 10001 01111 00001 01110} }
     h { return {10000 10000 10110 11001 10001 10001 10001} }
+    i { return {00100 00000 01100 00100 00100 00100 01110} }
+    j { return {00010 00000 00110 00010 00010 10010 01100} }
+    k { return {10000 10000 10010 10100 11000 10100 10010} }
+    l { return {01100 00100 00100 00100 00100 00100 01110} }
+    m { return {00000 00000 11010 10101 10101 10101 10101} }
+    n { return {00000 00000 10110 11001 10001 10001 10001} }
+    o { return {00000 00000 01110 10001 10001 10001 01110} }
+    p { return {00000 00000 11110 10001 10001 11110 10000} }
+    q { return {00000 00000 01111 10001 10001 01111 00001} }
+    r { return {00000 00000 10110 11001 10000 10000 10000} }
+    s { return {00000 00000 01111 10000 01110 00001 11110} }
+    t { return {01000 01000 11100 01000 01000 01001 00110} }
+    u { return {00000 00000 10001 10001 10001 10011 01101} }
+    v { return {00000 00000 10001 10001 10001 01010 00100} }
+    w { return {00000 00000 10001 10101 10101 10101 01010} }
+    x { return {00000 00000 10001 01010 00100 01010 10001} }
+    y { return {00000 00000 10001 10001 01111 00001 01110} }
+    z { return {00000 00000 11111 00010 00100 01000 11111} }
+    A { return {01110 10001 10001 11111 10001 10001 10001} }
+    B { return {11110 10001 10001 11110 10001 10001 11110} }
+    C { return {01110 10001 10000 10000 10000 10001 01110} }
+    D { return {11100 10010 10001 10001 10001 10010 11100} }
+    E { return {11111 10000 10000 11110 10000 10000 11111} }
+    F { return {11111 10000 10000 11110 10000 10000 10000} }
+    G { return {01110 10001 10000 10111 10001 10001 01111} }
+    H { return {10001 10001 10001 11111 10001 10001 10001} }
+    I { return {01110 00100 00100 00100 00100 00100 01110} }
+    J { return {00111 00010 00010 00010 00010 10010 01100} }
+    K { return {10001 10010 10100 11000 10100 10010 10001} }
+    L { return {10000 10000 10000 10000 10000 10000 11111} }
+    M { return {10001 11011 10101 10101 10001 10001 10001} }
+    N { return {10001 11001 10101 10011 10001 10001 10001} }
+    O { return {01110 10001 10001 10001 10001 10001 01110} }
+    P { return {11110 10001 10001 11110 10000 10000 10000} }
+    Q { return {01110 10001 10001 10001 10101 10010 01101} }
+    R { return {11110 10001 10001 11110 10100 10010 10001} }
+    S { return {01111 10000 10000 01110 00001 00001 11110} }
+    T { return {11111 00100 00100 00100 00100 00100 00100} }
+    U { return {10001 10001 10001 10001 10001 10001 01110} }
+    V { return {10001 10001 10001 10001 10001 01010 00100} }
+    W { return {10001 10001 10001 10101 10101 11011 10001} }
+    X { return {10001 10001 01010 00100 01010 10001 10001} }
+    Y { return {10001 10001 01010 00100 00100 00100 00100} }
+    Z { return {11111 00001 00010 00100 01000 10000 11111} }
+    0 { return {01110 10001 10011 10101 11001 10001 01110} }
     1 { return {00100 01100 00100 00100 00100 00100 01110} }
     2 { return {01110 10001 00001 00010 00100 01000 11111} }
     3 { return {11111 00010 00100 00010 00001 10001 01110} }
@@ -2261,25 +2370,160 @@ proc ::board::_coordGlyph {c} {
     6 { return {00110 01000 10000 11110 10001 10001 01110} }
     7 { return {11111 00001 00010 00100 01000 01000 01000} }
     8 { return {01110 10001 10001 01110 10001 10001 01110} }
+    9 { return {01110 10001 10001 01111 00001 00010 01100} }
+    ! { return {00100 00100 00100 00100 00100 00000 00100} }
+    ? { return {01110 10001 00001 00010 00100 00000 00100} }
+    + { return {00000 00100 00100 11111 00100 00100 00000} }
+    - { return {00000 00000 00000 11111 00000 00000 00000} }
+    = { return {00000 00000 11111 00000 11111 00000 00000} }
+    / { return {00001 00010 00010 00100 01000 01000 10000} }
+    # { return {01010 01010 11111 01010 11111 01010 01010} }
   }
   return {}
 }
 
-# Draw one coordinate character into a photo image.
+# Draw one glyph into a photo image.  The glyph is positioned by its top-left
+# corner and each bit becomes a $scale-by-$scale block.
 #
-proc ::board::_putCoordChar {img char color x y scale} {
+proc ::board::_putGlyph {img char color x y scale} {
   set row 0
-  foreach line [::board::_coordGlyph $char] {
+  foreach line [::board::_glyph $char] {
     set col 0
     foreach bit [split $line ""] {
       if {$bit eq "1"} {
         set x1 [expr {$x + $col * $scale}]
         set y1 [expr {$y + $row * $scale}]
-        $img put $color -to $x1 $y1 [expr {$x1 + $scale}] [expr {$y1 + $scale}]
+        ::board::_putRect $img $color $x1 $y1 \
+            [expr {$x1 + $scale}] [expr {$y1 + $scale}]
       }
       incr col
     }
     incr row
+  }
+}
+
+# Draw a short string into a photo image, centred on $cx/$cy.
+#
+# A half, as used by the game-result badge, is drawn as 1/2 rather than a
+# single character: the bitmap font has no room for one.
+#
+proc ::board::_putGlyphText {img text color cx cy scale} {
+  set text [string map [list "\u00BD" "1/2"] $text]
+  set len [string length $text]
+  if {$len == 0} { return }
+  set x0 [expr {round($cx - (6 * $len - 1) * $scale / 2.0)}]
+  set y0 [expr {round($cy - 7 * $scale / 2.0)}]
+  set i 0
+  foreach char [split $text ""] {
+    ::board::_putGlyph $img $char $color \
+        [expr {$x0 + 6 * $scale * $i}] $y0 $scale
+    incr i
+  }
+}
+
+# Fill a rectangle in a photo image, clipped to the image.  Coordinates are
+# rounded outwards so a shape never loses a row or column at its edge.
+#
+proc ::board::_putRect {img color x0 y0 x1 y1} {
+  set x0 [expr {max(0, int(floor($x0)))}]
+  set y0 [expr {max(0, int(floor($y0)))}]
+  set x1 [expr {min([image width $img], int(ceil($x1)))}]
+  set y1 [expr {min([image height $img], int(ceil($y1)))}]
+  if {$x0 >= $x1 || $y0 >= $y1} { return }
+  $img put $color -to $x0 $y0 $x1 $y1
+}
+
+# Fill a circle in a photo image, one horizontal span per row.
+#
+proc ::board::_putDisk {img cx cy radius color} {
+  for {set y [expr {int(floor($cy - $radius))}]} \
+      {$y <= [expr {int(ceil($cy + $radius))}]} {incr y} {
+    set dy [expr {$y + 0.5 - $cy}]
+    set half2 [expr {$radius * $radius - $dy * $dy}]
+    if {$half2 <= 0} { continue }
+    set half [expr {sqrt($half2)}]
+    ::board::_putRect $img $color [expr {$cx - $half}] $y \
+        [expr {$cx + $half}] [expr {$y + 1}]
+  }
+}
+
+# Draw a circle outline of the given stroke width, one or two spans per row.
+#
+proc ::board::_putRing {img cx cy radius thickness color} {
+  set outer [expr {$radius + $thickness / 2.0}]
+  set inner [expr {$radius - $thickness / 2.0}]
+  for {set y [expr {int(floor($cy - $outer))}]} \
+      {$y <= [expr {int(ceil($cy + $outer))}]} {incr y} {
+    set dy [expr {$y + 0.5 - $cy}]
+    set outer2 [expr {$outer * $outer - $dy * $dy}]
+    if {$outer2 <= 0} { continue }
+    set xo [expr {sqrt($outer2)}]
+    set inner2 [expr {$inner * $inner - $dy * $dy}]
+    if {$inner2 > 0} {
+      set xi [expr {sqrt($inner2)}]
+      ::board::_putRect $img $color [expr {$cx - $xo}] $y \
+          [expr {$cx - $xi}] [expr {$y + 1}]
+      ::board::_putRect $img $color [expr {$cx + $xi}] $y \
+          [expr {$cx + $xo}] [expr {$y + 1}]
+    } else {
+      ::board::_putRect $img $color [expr {$cx - $xo}] $y \
+          [expr {$cx + $xo}] [expr {$y + 1}]
+    }
+  }
+}
+
+# Draw the outline of the rounded square the board uses for a square mark:
+# four straight edges and four quarter-circle corners.
+#
+proc ::board::_putRoundRect {img x0 y0 x1 y1 radius thickness color} {
+  set half [expr {$thickness / 2.0}]
+  set radius [expr {min($radius, ($x1 - $x0) / 2.0, ($y1 - $y0) / 2.0)}]
+
+  # Straight edges, inset by the corner radius.
+  ::board::_putRect $img $color [expr {$x0 + $radius}] [expr {$y0 - $half}] \
+      [expr {$x1 - $radius}] [expr {$y0 + $half}]
+  ::board::_putRect $img $color [expr {$x0 + $radius}] [expr {$y1 - $half}] \
+      [expr {$x1 - $radius}] [expr {$y1 + $half}]
+  ::board::_putRect $img $color [expr {$x0 - $half}] [expr {$y0 + $radius}] \
+      [expr {$x0 + $half}] [expr {$y1 - $radius}]
+  ::board::_putRect $img $color [expr {$x1 - $half}] [expr {$y0 + $radius}] \
+      [expr {$x1 + $half}] [expr {$y1 - $radius}]
+
+  # Corners: a ring around each corner point, kept to its quadrant.
+  foreach {cx cy sx sy} [list \
+      [expr {$x0 + $radius}] [expr {$y0 + $radius}] -1 -1 \
+      [expr {$x1 - $radius}] [expr {$y0 + $radius}]  1 -1 \
+      [expr {$x0 + $radius}] [expr {$y1 - $radius}] -1  1 \
+      [expr {$x1 - $radius}] [expr {$y1 - $radius}]  1  1] {
+    set outer [expr {$radius + $half}]
+    set inner [expr {$radius - $half}]
+    for {set y [expr {int(floor($cy - $outer))}]} \
+        {$y <= [expr {int(ceil($cy + $outer))}]} {incr y} {
+      set dy [expr {$y + 0.5 - $cy}]
+      if {$dy * $sy < 0} { continue }
+      set outer2 [expr {$outer * $outer - $dy * $dy}]
+      if {$outer2 <= 0} { continue }
+      set xo [expr {sqrt($outer2)}]
+      set inner2 [expr {$inner * $inner - $dy * $dy}]
+      if {$inner2 > 0} {
+        set xi [expr {sqrt($inner2)}]
+        if {$sx < 0} {
+          ::board::_putRect $img $color [expr {$cx - $xo}] $y \
+              [expr {$cx - $xi}] [expr {$y + 1}]
+        } else {
+          ::board::_putRect $img $color [expr {$cx + $xi}] $y \
+              [expr {$cx + $xo}] [expr {$y + 1}]
+        }
+      } else {
+        if {$sx < 0} {
+          ::board::_putRect $img $color [expr {$cx - $xo}] $y \
+              $cx [expr {$y + 1}]
+        } else {
+          ::board::_putRect $img $color $cx $y \
+              [expr {$cx + $xo}] [expr {$y + 1}]
+        }
+      }
+    }
   }
 }
 
@@ -2395,6 +2639,77 @@ proc ::board::_drawArrowIntoPhoto {img width height x0 y0 x1 y1 thickness color}
   }
 }
 
+# Draw an arrow between two squares of a board image.  The shaft starts and
+# ends inside the squares, with the same offsets as
+# ::board::mark::DrawArrowEx: ten percent of the way across an empty square,
+# and half of that for a square holding a piece, so the arrow does not cover
+# it.
+#
+proc ::board::_putSquareArrow {img width height geom board from to thickness color} {
+  lassign [dict get $geom $from] l0 t0 r0 b0
+  lassign [dict get $geom $to] l1 t1 r1 b1
+  set x0 [expr {($l0 + $r0) / 2.0}]
+  set y0 [expr {($t0 + $b0) / 2.0}]
+  set x1 [expr {($l1 + $r1) / 2.0}]
+  set y1 [expr {($t1 + $b1) / 2.0}]
+
+  set dX [expr {$x1 - $x0}]
+  set dY [expr {$y1 - $y0}]
+  if {$dX == 0 && $dY == 0} { return }
+  if {abs($dX) > abs($dY)} {
+    set edge [expr {$dX > 0 ? $r0 : $l0}]
+    set offX [expr {($edge - $x0) * 0.1}]
+    set offY [expr {$offX * $dY / $dX}]
+  } else {
+    set edge [expr {$dY > 0 ? $b0 : $t0}]
+    set offY [expr {($edge - $y0) * 0.1}]
+    set offX [expr {$offY * $dX / $dY}]
+  }
+
+  set sx [expr {$x0 + $offX}]
+  set sy [expr {$y0 + $offY}]
+  set ex [expr {$x1 - $offX}]
+  set ey [expr {$y1 - $offY}]
+  if {[string index $board $from] ne "."} {
+    set sx [expr {$x0 + $offX * 5}]
+    set sy [expr {$y0 + $offY * 5}]
+  }
+  if {[string index $board $to] ne "."} {
+    set ex [expr {$x1 - $offX * 5}]
+    set ey [expr {$y1 - $offY * 5}]
+  }
+  ::board::_drawArrowIntoPhoto $img $width $height \
+      $sx $sy $ex $ey $thickness $color
+}
+
+# Draw one of the round badges the board places on a square corner into a
+# photo image: $corner is "ne" for the annotation badge (upper right) or "nw"
+# for the evaluation badge (upper left).  A badge that would hang over the
+# board's edge is nudged inside, like ::board::mark::DrawNag.
+#
+proc ::board::_putBadge {img x y size scale text fill textColor corner \
+    boardLeft boardRight boardTop} {
+  # Fit the actual 5x7 glyph bounds inside an inscribed rectangle. At
+  # scale one, enlarge the disk if necessary (e.g. +/- on 80px squares).
+  set shown [string map [list "\u00BD" "1/2"] $text]
+  set glyphWidth [expr {max(1, 6 * [string length $shown] - 1)}]
+  set fit [expr {int(sqrt(2) * ($size - 1) / max($glyphWidth, 7))}]
+  set scale [expr {max(1, min($scale, $fit))}]
+  set halfW [expr {$glyphWidth * $scale / 2.0 + 0.5}]
+  set halfH [expr {7 * $scale / 2.0 + 0.5}]
+  set size [expr {max($size, ceil(hypot($halfW, $halfH)) + 1)}]
+
+  if {$corner eq "ne"} {
+    if {$x + $size > $boardRight} { set x [expr {$x - $size}] }
+  } else {
+    if {$x - $size < $boardLeft} { set x [expr {$x + $size}] }
+  }
+  if {$y - $size < $boardTop} { set y [expr {$y + $size}] }
+
+  ::board::_putDisk $img $x $y $size $fill
+  ::board::_putGlyphText $img $text $textColor $x $y $scale
+}
+
 # ::board::saveImage
 #   Saves the position shown by board $w as a PNG file.
 #
@@ -2405,6 +2720,12 @@ proc ::board::_drawArrowIntoPhoto {img width height x0 y0 x1 y1 thickness color}
 #
 #   $psize overrides the exported square size; 0 picks a printable default.
 #   $coords adds the file and rank labels in a margin around the board.
+#
+#   What the board shows is drawn too, so the image matches the screen: the
+#   arrows and coloured squares in the position's comment (while Show Marks is
+#   on), and, following the Moves preferences, the last-move arrow, the
+#   annotation and evaluation badges and the result beside the kings.
+#
 #   Returns $filename.
 #
 proc ::board::saveImage {w filename {psize 0} {coords 1}} {
@@ -2448,6 +2769,30 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
     # squares.  The labels use the dark colour of the same scheme.
     $img put $::squareColor_lite -to 0 0 $width $height
 
+    # The board shows the marks recorded in the position's comment (%cal,
+    # %csl and the Scid draw commands) only while Show Marks is on, so the
+    # image follows the same switch.
+    set showMarks [expr {(![info exists ::board::_showMarks($w)] ||
+        $::board::_showMarks($w)) &&
+        (![info exists ::board::_hideMarks($w)] || !$::board::_hideMarks($w))}]
+    set marks [expr {[info exists ::board::_mark($w)] ?
+        $::board::_mark($w) : {}}]
+
+    # A "full" mark paints its square instead of the square texture, like
+    # ::board::colorSquare.  Collect the colour each square ends up with;
+    # the last mark on a square wins, as it does on the board.
+    array set fullColor {}
+    if {$showMarks} {
+      foreach mark $marks {
+        lassign $mark type sq1 sq2 color
+        if {$type eq "full" && $color ne "" && $sq1 >= 0 && $sq1 <= 63 &&
+            [::board::isValidColor $color]} {
+          set fullColor($sq1) $color
+        }
+      }
+    }
+
+    set sqGeom [dict create]
     set fileLabels {}
     set rankLabels {}
     # Draw from the top rank down, like ::board::update: a tall piece on a
@@ -2469,16 +2814,24 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
       set sqT($sq) $y
       set sqR($sq) [expr {$x + $psize}]
       set sqB($sq) [expr {$y + $psize}]
+      dict set sqGeom $sq [list $x $y [expr {$x + $psize}] [expr {$y + $psize}]]
 
       # The board draws a filled rectangle first and a texture image over it.
       # In solid-colour mode that texture is transparent, so the fill is
       # what shows and has to be in the image too.
       set color [::board::defaultColor $sq]
-      $img put $color -to $x $y [expr {$x + $psize}] [expr {$y + $psize}]
+      set textured 1
+      if {[info exists fullColor($sq)]} {
+        set color $fullColor($sq)
+        set textured 0
+      }
+      $img put [list [list $color]] -to $x $y [expr {$x + $psize}] [expr {$y + $psize}]
 
-      set square bgd$psize
-      if {($sq + $sq / 8) % 2} { set square bgl$psize }
-      $img copy $square -compositingrule overlay -to $x $y
+      if {$textured} {
+        set square bgd$psize
+        if {($sq + $sq / 8) % 2} { set square bgl$psize }
+        $img copy $square -compositingrule overlay -to $x $y
+      }
 
       set piece [string index $board $sq]
       if {$piece ne "." && $piece ne ""} {
@@ -2504,44 +2857,137 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
       }
     }
 
-    # The last-move arrow follows the Moves preference.  A board screenshot
-    # has no canvas to read the arrow from, so draw it into the photo with
-    # the same offset rules as ::board::mark::DrawArrowEx.
-    if {[info exists ::arrowLastMove] && $::arrowLastMove &&
-        ![catch {set moveUCI [sc_game info previousMoveUCI]}] &&
-        [string length [string trim $moveUCI]] >= 4} {
-      set moveUCI [string trim $moveUCI]
+    # Arrows and shapes drawn with the board's marking tools are stored in
+    # the position's comment and shown by ::board::update in list order, so
+    # the image draws them in the same order.  "full" marks were painted
+    # with their square above.
+    if {$showMarks} {
+      # DrawText deletes text$square and mark$square before drawing. Resolve
+      # those deletions before painting pixels; arrows have a separate tag,
+      # and full marks change the square fill rather than adding an item.
+      set visibleMarks {}
+      foreach mark $marks {
+        lassign $mark type from to color
+        if {$type eq "text" && $from >= 0 && $from <= 63} {
+          set visibleMarks [lmap prior $visibleMarks {
+            lassign $prior priorType priorFrom
+            if {$priorFrom == $from &&
+                $priorType in {text circle disk square tux}} { continue }
+            set prior
+          }]
+        }
+        lappend visibleMarks $mark
+      }
+      foreach mark $visibleMarks {
+        lassign $mark type from to color
+        if {$from < 0 || $from > 63} { continue }
+        # A malformed mark, such as one with an unknown colour name, is
+        # skipped rather than losing the whole screenshot; ::board::update
+        # skips it on the board for the same reason.
+        catch {
+          switch -- $type {
+            circle {
+              ::board::_putRing $img $sqCX($from) $sqCY($from) \
+                  [expr {$psize * 0.94 / 2.0}] [expr {$psize * 0.06}] $color
+            }
+            disk {
+              ::board::_putDisk $img $sqCX($from) $sqCY($from) \
+                  [expr {$psize * 0.6 / 2.0}] $color
+            }
+            square {
+              set inset [expr {$psize * (1.0 - 0.94) / 2.0}]
+              ::board::_putRoundRect $img \
+                  [expr {$sqL($from) + $inset}] [expr {$sqT($from) + $inset}] \
+                  [expr {$sqR($from) - $inset}] [expr {$sqB($from) - $inset}] \
+                  [expr {$psize * 0.94 * 0.25}] [expr {max(2, $psize * 0.06)}] \
+                  $color
+            }
+            tux {
+              # DrawTux chooses the largest available photo fitting the square.
+              foreach len {32 16} {
+                if {$len <= $psize &&
+                    [info exists ::board::mark::tux${len}x${len}]} {
+                  $img copy tux${len}x${len} -compositingrule overlay -to \
+                      [expr {$sqCX($from) - $len / 2}] \
+                      [expr {$sqCY($from) - $len / 2}]
+                  break
+                }
+              }
+            }
+            text {
+              ::board::_putGlyphText $img [string index $to 0] $color \
+                  $sqCX($from) $sqCY($from) \
+                  [expr {max(1, round($psize * 0.8 * 0.7 / 7.0))}]
+            }
+            arrow {
+              if {$to >= 0 && $to <= 63} {
+                ::board::_putSquareArrow $img $width $height $sqGeom $board \
+                    $from $to [expr {$psize * 0.1}] $color
+              }
+            }
+          }
+        }
+      }
+    }
+
+    # The last move's arrow and badges follow the Moves preferences, like the
+    # board.  A screenshot has no canvas to read them from, so they are drawn
+    # into the photo.
+    set moveUCI ""
+    catch {set moveUCI [string trim [sc_game info previousMoveUCI]]}
+    if {[string length $moveUCI] >= 4} {
       set from [::board::sq [string range $moveUCI 0 1]]
       set to   [::board::sq [string range $moveUCI 2 3]]
-      if {$from >= 0 && $from <= 63 && $to >= 0 && $to <= 63} {
-        set dX [expr {$sqCX($to) - $sqCX($from)}]
-        set dY [expr {$sqCY($to) - $sqCY($from)}]
-        if {$dX != 0 || $dY != 0} {
-          if {abs($dX) > abs($dY)} {
-            set edge [expr {$dX > 0 ? $sqR($from) : $sqL($from)}]
-            set offX [expr {($edge - $sqCX($from)) * 0.1}]
-            set offY [expr {$offX * $dY / $dX}]
-          } else {
-            set edge [expr {$dY > 0 ? $sqB($from) : $sqT($from)}]
-            set offY [expr {($edge - $sqCY($from)) * 0.1}]
-            set offX [expr {$offY * $dX / $dY}]
+    } else {
+      set from -1
+      set to -1
+    }
+
+    if {$from >= 0 && $from <= 63 && $to >= 0 && $to <= 63} {
+      set markColor [expr {[info exists ::highlightLastMoveColor] ?
+          $::highlightLastMoveColor : "grey"}]
+
+      if {[info exists ::arrowLastMove] && $::arrowLastMove} {
+        ::board::_putSquareArrow $img $width $height $sqGeom $board \
+            $from $to [expr {$psize * 0.1}] $markColor
+      }
+
+      # The annotation and evaluation badges, and the final result beside the
+      # kings, are part of the last-move display.
+      set showNag [expr {[info exists ::highlightLastMoveNag] &&
+          $::highlightLastMoveNag}]
+      set showEval [expr {[info exists ::highlightLastMoveEval] &&
+          $::highlightLastMoveEval}]
+      if {$showNag || $showEval} {
+        set nag ""
+        catch {set nag [sc_pos getNags]}
+        set badgeSize [expr {$psize / 5.0}]
+        set badgeScale [expr {max(1, round($badgeSize / 7.0))}]
+        # ::board::mark::DrawNag clamps a badge against the canvas edges, not
+        # the visible board, so the image clamps it in the same places.
+        set badgeRight [expr {$left + 8 * $psize}]
+
+        if {$showNag} {
+          lassign [::board::_lastMoveAnnotationBadge $nag] sym fill
+          if {$sym ne ""} {
+            ::board::_putBadge $img $sqR($to) $sqT($to) $badgeSize \
+                $badgeScale $sym $fill white ne $left $badgeRight $top
           }
-          set x0 [expr {$sqCX($from) + $offX}]
-          set y0 [expr {$sqCY($from) + $offY}]
-          set x1 [expr {$sqCX($to) - $offX}]
-          set y1 [expr {$sqCY($to) - $offY}]
-          if {[string index $board $from] ne "."} {
-            set x0 [expr {$sqCX($from) + $offX * 5}]
-            set y0 [expr {$sqCY($from) + $offY * 5}]
+        }
+        if {$showEval} {
+          lassign [::board::_lastMoveEvaluationBadge $nag] sym fill
+          if {$sym ne ""} {
+            ::board::_putBadge $img $sqL($to) $sqT($to) $badgeSize \
+                $badgeScale $sym $fill white nw $left $badgeRight $top
           }
-          if {[string index $board $to] ne "."} {
-            set x1 [expr {$sqCX($to) - $offX * 5}]
-            set y1 [expr {$sqCY($to) - $offY * 5}]
+        }
+        if {$showNag} {
+          foreach badge [::board::_resultBadges $board] {
+            lassign $badge sq sym fill textColor
+            if {$sq < 0 || $sq > 63} { continue }
+            ::board::_putBadge $img $sqR($sq) $sqT($sq) $badgeSize \
+                $badgeScale $sym $fill $textColor ne $left $badgeRight $top
           }
-          set arrowColor [expr {[info exists ::highlightLastMoveColor] ?
-              $::highlightLastMoveColor : "grey"}]
-          ::board::_drawArrowIntoPhoto $img $width $height \
-              $x0 $y0 $x1 $y1 [expr {$psize * 0.1}] $arrowColor
         }
       }
     }
@@ -2553,14 +2999,14 @@ proc ::board::saveImage {w filename {psize 0} {coords 1}} {
         lassign $item ch col
         set x [expr {$left + $border + $col * ($psize + $border) +
                      ($psize - $glyphW) / 2}]
-        ::board::_putCoordChar $img $ch $labelColor $x $fileY $scale
+        ::board::_putGlyph $img $ch $labelColor $x $fileY $scale
       }
       set rankX [expr {($margin - $glyphW) / 2}]
       foreach item $rankLabels {
         lassign $item ch row
         set y [expr {$top + $border + $row * ($psize + $border) +
                      ($psize - $glyphH) / 2}]
-        ::board::_putCoordChar $img $ch $labelColor $rankX $y $scale
+        ::board::_putGlyph $img $ch $labelColor $rankX $y $scale
       }
     }
 

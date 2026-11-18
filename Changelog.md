@@ -13,6 +13,11 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
+## Unreleased
+
+- **Tools > Board Screenshot** now draws what the board shows. The arrows, circles, disks, coloured squares and letters saved in the position's comment are included while Show Colored Squares and Arrows is on, and the annotation symbol, evaluation symbol and end-of-game result badges are included when those are checked in Preferences > Moves, as the last-move arrow already was. It still draws everything from the board's own pieces and squares, so no extra image package is needed.
+- **Show evaluation symbols** in Preferences > Moves now shows the evaluation badges (+-, =, +=, ...) on the board and in the screenshot. A PGN stores those NAGs as numbers ($18 and the like) rather than as written-out symbols, and the badge code only understood the symbols.
+
 ## 5.1.4.69 — 17 November 2026
 
 - **Tools > Board Screenshot** saves the position on the board as a PNG file with coordinates and, when Show Arrow is enabled in Preferences > Moves, the last-move arrow. It names the file position-1.png, position-2.png and so on. It draws from the board's own pieces and squares, so it needs no extra image package and works on Windows, macOS and Linux. — thanks to @whelanh ([#512](https://github.com/whelanh/scidCommunity/pull/512)).

@@ -424,6 +424,13 @@ jobs:
       - name: Move sequence search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_moves.tcl
 
+      # The board screenshot again, against the binary's own game commands: the
+      # marks must come out of a real comment and the badges out of the real
+      # NAGs, which a plain PGN gives as $18 rather than +-. The wish harness
+      # stubs both, so it cannot see that difference.
+      - name: Board screenshot from real game data
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/board_image_scid.tcl
+
       # sc_search cql itself, headless: a script argument runs the binary with
       # no window and no menus, so this finishes in well under a second. It
       # still needs a display, because the binary initialises Tk, hence

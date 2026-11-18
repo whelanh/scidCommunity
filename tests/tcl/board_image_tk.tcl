@@ -9,7 +9,9 @@
 # The image is composed from the board's own square and piece photos, so it
 # must work without TkImg (libtk-img).  The checks cover a valid PNG of the
 # expected size, solid-colour squares, both board orientations, the coordinate
-# labels, the last-move arrow, and the automatic position-N.png numbering.
+# labels, the last-move arrow, the marks from the position's comment, the
+# annotation and evaluation badges, and the automatic position-N.png
+# numbering.
 
 set fails 0
 set checks 0
@@ -40,11 +42,31 @@ set ::squareColor_dark "#888888"
 set ::glossOfDanger 0
 set ::arrowLastMove 0
 set ::highlightLastMoveColor "#ff0000"
+set ::highlightLastMoveNag 0
+set ::highlightLastMoveEval 0
 set ::START "RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr"
+set ::NAG ""
+set ::MATE 0
+set ::ATEND 0
+set ::RESULT "*"
+set ::MOVEUCI "e2e4"
+set ::BOARD $::START
 proc tr {s} { return $s }
 proc ::applyThemeColor_background {args} {}
-proc sc_pos {args} { return $::START }
-proc sc_game {args} { return "e2e4" }
+proc sc_pos {args} {
+    switch -- [lindex $args 0] {
+        getNags { return $::NAG }
+        isMate  { return $::MATE }
+        isAt    { return $::ATEND }
+        attacks { return {} }
+    }
+    return $::BOARD
+}
+proc sc_game {args} {
+    if {[lindex $args 0] eq "tag"} { return $::RESULT }
+    if {[lindex $args 1] eq "previousMoveUCI"} { return $::MOVEUCI }
+    return ""
+}
 
 source [file join $root tcl board.tcl]
 
@@ -179,6 +201,288 @@ check "the shaft does not extend past the arrow point" \
     "colours=$aboveColours"
 image delete $pngArrow
 set ::arrowLastMove 0
+
+# Top-left corner of a square in the exported image, for the unflipped board.
+proc sqOrigin {sq psize border poffset margin} {
+    set col [expr {$sq % 8}]
+    set row [expr {7 - $sq / 8}]
+    return [list [expr {$margin + $border + $col * ($psize + $border)}] \
+                 [expr {$margin + $poffset + $border + $row * ($psize + $border)}]]
+}
+
+puts "\nthe marks recorded in the comment"
+::board::setmarks .b {
+    [%csl Rd4] [%draw full,e5,blue] [%cal Yb1b8] [%draw disk,f2,green]
+    [%draw square,c3,orange] [%draw circle,f7,cyan] [%draw X,d5,cyan]
+    [%draw arrow,a3,a7,red]
+}
+::board::showMarks .b 1
+set fMarks [file join $dir "marks.png"]
+::board::saveImage .b $fMarks
+set pngM [image create photo -file $fMarks]
+
+# A full mark paints the whole square, and the square texture is not laid
+# over it.
+lassign [sqOrigin 36 $psize $border $poffset $margin] x y
+set fill [rectColours $pngM [expr {$x + 4}] [expr {$y + 4}] \
+    [expr {$psize - 8}] [expr {$psize - 8}]]
+check "a full-square mark paints its square" \
+    [expr {[llength $fill] == 1 && [lindex $fill 0] eq "0 0 255"}] \
+    "colours=$fill"
+
+# A %csl square is the rounded outline the board draws, inset from the edge.
+lassign [sqOrigin 27 $psize $border $poffset $margin] x y
+set inset [expr {int($psize * 0.03)}]
+set cols [rectColours $pngM [expr {$x + $inset - 2}] [expr {$y + $psize / 4}] \
+    5 [expr {$psize / 2}]]
+check "a csl square rings its square" \
+    [expr {[lsearch -exact $cols "255 0 0"] >= 0}] "colours=$cols"
+
+# A %cal arrow runs from the middle of one square to the other.
+lassign [sqOrigin 1 $psize $border $poffset $margin] ax ay
+lassign [sqOrigin 57 $psize $border $poffset $margin] hx hy
+set midX [expr {$ax + $psize / 2}]
+set midY [expr {($ay + $hy) / 2 + $psize / 2}]
+set cols [rectColours $pngM [expr {$midX - 3}] [expr {$midY - 3}] 6 6]
+check "a csl arrow is drawn" \
+    [expr {[lsearch -exact $cols "255 255 0"] >= 0}] "colours=$cols"
+
+lassign [sqOrigin 13 $psize $border $poffset $margin] x y
+set cols [rectColours $pngM [expr {$x + $psize / 2 - 3}] \
+    [expr {$y + $psize / 2 - 3}] 6 6]
+check "a disk fills its square" \
+    [expr {[lsearch -exact $cols "0 128 0"] >= 0}] "colours=$cols"
+
+lassign [sqOrigin 53 $psize $border $poffset $margin] x y
+set cols [rectColours $pngM [expr {$x + $psize / 2 - 2}] \
+    [expr {$y + $psize / 2 - int($psize * 0.47)}] 5 5]
+check "a circle rings its square" \
+    [expr {[lsearch -exact $cols "0 255 255"] >= 0}] "colours=$cols"
+
+lassign [sqOrigin 18 $psize $border $poffset $margin] x y
+set cols [rectColours $pngM [expr {$x + $inset - 2}] [expr {$y + $psize / 4}] \
+    5 [expr {$psize / 2}]]
+check "a square mark rings its square" \
+    [expr {[lsearch -exact $cols "255 165 0"] >= 0}] "colours=$cols"
+
+# A text mark is the single character the comment names.
+lassign [sqOrigin 35 $psize $border $poffset $margin] x y
+set cols [rectColours $pngM [expr {$x + $psize / 4}] [expr {$y + $psize / 4}] \
+    [expr {$psize / 2}] [expr {$psize / 2}]]
+check "a text mark draws its character" \
+    [expr {[lsearch -exact $cols "0 255 255"] >= 0}] "colours=$cols"
+
+# The old [%draw arrow,from,to,color] syntax is an arrow too.
+lassign [sqOrigin 16 $psize $border $poffset $margin] ax ay
+lassign [sqOrigin 48 $psize $border $poffset $margin] hx hy
+set midX [expr {$ax + $psize / 2}]
+set midY [expr {($ay + $hy) / 2 + $psize / 2}]
+set cols [rectColours $pngM [expr {$midX - 3}] [expr {$midY - 3}] 6 6]
+check "a draw arrow is drawn with the arrow colour" \
+    [expr {[lsearch -exact $cols "255 0 0"] >= 0}] "colours=$cols"
+
+# Show Marks off hides all of them, as it does on the board.
+::board::showMarks .b 0
+set fHidden [file join $dir "marks-hidden.png"]
+::board::saveImage .b $fHidden
+set pngH [image create photo -file $fHidden]
+lassign [sqOrigin 36 $psize $border $poffset $margin] x y
+check "Show Marks off leaves the square plain" \
+    [expr {[lsearch -exact [rectColours $pngH $x $y $psize $psize] "0 0 255"] < 0}]
+::board::showMarks .b 1
+image delete $pngM $pngH
+
+# Compare exports with the same visible canvas result. This catches stale
+# pixels left behind by marks that DrawText removes.
+proc markPixels {marks {size 80}} {
+    set ::board::_mark(.b) $marks
+    ::board::saveImage .b [file join $::dir regression.png] $size 0
+    set img [image create photo -file [file join $::dir regression.png]]
+    set pixels [$img data]
+    image delete $img
+    return $pixels
+}
+set textMark {text 27 X cyan}
+foreach shape {circle disk square tux} {
+    check "text replaces an earlier $shape" \
+        {[markPixels [list [list $shape 27 {} red] $textMark]] eq
+         [markPixels [list $textMark]]}
+    check "a later $shape preserves earlier text" \
+        {[markPixels [list $textMark [list $shape 27 {} red]]] ne
+         [markPixels [list [list $shape 27 {} red]]]}
+}
+check "later text replaces earlier text" \
+    {[markPixels [list {text 27 A red} $textMark]] eq [markPixels [list $textMark]]}
+check "text preserves arrows" \
+    {[markPixels [list {arrow 27 35 red} $textMark]] ne [markPixels [list $textMark]]}
+check "invalid full color preserves a previous valid fill" \
+    {[markPixels {{full 27 {} blue} {full 27 {} invalid-color}}] eq
+     [markPixels {{full 27 {} blue}}]}
+check "invalid full color alone uses the normal square" \
+    {[markPixels {{full 27 {} invalid-color}}] eq [markPixels {}]}
+check "a color name containing spaces is one pixel color" \
+    {[markPixels {{full 27 {} {light blue}}}] eq
+     [markPixels {{full 27 {} #add8e6}}]}
+
+# Composite the same source photo independently over a plain export.
+foreach size {30 40 80} len {16 32 32} {
+    markPixels {} $size
+    set expected [image create photo -file [file join $dir regression.png]]
+    set offset [expr {[image height $::board::letterToPiece(K)$size] - $size}]
+    lassign [sqOrigin 27 $size $border $offset 0] x y
+    $expected copy tux${len}x${len} -compositingrule overlay -to \
+        [expr {$x + ($size - $len) / 2}] [expr {$y + ($size - $len) / 2}]
+    check "tux uses the centered ${len}px photo at size $size" \
+        {[markPixels {{tux 27 {} red}} $size] eq [$expected data]}
+    image delete $expected
+}
+::board::setmarks .b {}
+
+puts "\nthe annotation and evaluation badges"
+foreach c {! ? + - = / # 0 1 2 3 4 5 6 7 8 9} {
+    check "the badge font has '$c'" [expr {[llength [::board::_glyph $c]] == 7}]
+}
+
+# sc_pos getNags gives only the six suffix annotations as symbols; the
+# evaluation NAGs arrive as $<number>, which a plain PGN requires.
+check "a numeric annotation NAG is read" \
+    [expr {[lindex [::board::_lastMoveAnnotationBadge {$6}] 0] eq "?!"}]
+check "a numeric evaluation NAG is read" \
+    [expr {[lindex [::board::_lastMoveEvaluationBadge {?! $18}] 0] eq "+-"}]
+check "a numeric equality NAG is read" \
+    [expr {[lindex [::board::_lastMoveEvaluationBadge {$10}] 0] eq "="}]
+check "no NAGs draw no badge" \
+    [expr {[::board::_lastMoveAnnotationBadge 0] eq "" &&
+           [::board::_lastMoveEvaluationBadge 0] eq ""}]
+
+foreach nag {{$15} {$17} {$19} {$21}} {
+    check "$nag has the Black advantage color" \
+        {[lindex [::board::_lastMoveEvaluationBadge $nag] 1] eq "#c02020"}
+}
+foreach nag {{$14} {$16} {$18} {$20}} {
+    check "$nag keeps the White advantage color" \
+        {[lindex [::board::_lastMoveEvaluationBadge $nag] 1] eq "#207020"}
+}
+check "plain equality keeps the blue color" \
+    {[lindex [::board::_lastMoveEvaluationBadge {$10}] 1] eq "#206080"}
+
+# Every glyph pixel must have badge fill beneath it. Render the fill alone
+# as a mask, then compare all glyph pixels, including the small +/- case.
+foreach radius {8 16 32} {
+    foreach symbol {+/- -/+ =+ += !? ½} {
+        set badge [image create photo -width 100 -height 100]
+        set mask [image create photo -width 100 -height 100]
+        ::board::_putBadge $badge 50 50 $radius 4 $symbol red white nw 0 100 0
+        ::board::_putBadge $mask 50 50 $radius 4 $symbol red red nw 0 100 0
+        set contained 1
+        for {set y 0} {$y < 100} {incr y} {
+            for {set x 0} {$x < 100} {incr x} {
+                if {[$badge get $x $y] eq "255 255 255" &&
+                    [$mask transparency get $x $y]} { set contained 0 }
+            }
+        }
+        check "$symbol strokes stay in the disk at radius $radius" {$contained}
+        image delete $badge $mask
+    }
+}
+
+# e2-e4 is the last move, its NAG carries both badge kinds, and e4's top
+# corners are where the board puts them.
+set ::NAG "!? +-"
+set ::MOVEUCI "e2e4"
+set ::highlightLastMoveNag 1
+set ::highlightLastMoveEval 1
+set fBadge [file join $dir "badges.png"]
+::board::saveImage .b $fBadge
+set pngB [image create photo -file $fBadge]
+lassign [sqOrigin 28 $psize $border $poffset $margin] x y
+set annotation [rectColours $pngB [expr {$x + $psize - 20}] \
+    [expr {$y - 20}] 40 40]
+check "the annotation badge is at the top right" \
+    [expr {[lsearch -exact $annotation "48 192 48"] >= 0}] "colours=$annotation"
+set evaluation [rectColours $pngB [expr {$x - 20}] [expr {$y - 20}] 40 40]
+check "the evaluation badge is at the top left" \
+    [expr {[lsearch -exact $evaluation "32 112 32"] >= 0}] "colours=$evaluation"
+
+set ::highlightLastMoveNag 0
+set fEval [file join $dir "eval-only.png"]
+::board::saveImage .b $fEval
+set pngE [image create photo -file $fEval]
+set annotation [rectColours $pngE [expr {$x + $psize - 20}] [expr {$y - 20}] 40 40]
+check "the annotation badge follows its preference" \
+    [expr {[lsearch -exact $annotation "48 192 48"] < 0}] "colours=$annotation"
+set evaluation [rectColours $pngE [expr {$x - 20}] [expr {$y - 20}] 40 40]
+check "the evaluation badge stays on" \
+    [expr {[lsearch -exact $evaluation "32 112 32"] >= 0}] "colours=$evaluation"
+
+# A badge on the top rank is pushed down into the board.
+set ::highlightLastMoveNag 1
+set ::MOVEUCI "g7h8"
+set ::NAG "?!"
+set fEdge [file join $dir "edge-badge.png"]
+::board::saveImage .b $fEdge
+set pngEdge [image create photo -file $fEdge]
+lassign [sqOrigin 63 $psize $border $poffset $margin] x y
+set badge [rectColours $pngEdge [expr {$x + $psize - 15}] \
+    [expr {$y + $psize / 5 - 15}] 30 30]
+check "a badge on the top rank moves down" \
+    [expr {[lsearch -exact $badge "255 48 48"] >= 0}] "colours=$badge"
+image delete $pngB $pngE $pngEdge
+
+puts "\nthe game result beside the kings"
+set resBoard [string repeat . 64]
+set resBoard [string replace $resBoard 4 4 K]
+set resBoard [string replace $resBoard 60 60 k]
+set ::BOARD "$resBoard w"
+::board::update .b "$resBoard w" 0
+set ::MATE 1
+set ::RESULT "1-0"
+set ::NAG ""
+set ::MOVEUCI "e2e4"
+set fResult [file join $dir "result.png"]
+::board::saveImage .b $fResult
+set pngR [image create photo -file $fResult]
+lassign [sqOrigin 4 $psize $border $poffset $margin] x y
+set white [rectColours $pngR [expr {$x + $psize - 25}] [expr {$y - 25}] 50 50]
+check "the winner's badge is beside its king" \
+    [expr {[lsearch -exact $white "208 208 208"] >= 0}] "colours=$white"
+set glyph [rectColours $pngR [expr {$x + $psize - 8}] [expr {$y - 8}] 16 16]
+check "the winner's badge carries a symbol" \
+    [expr {[lsearch -exact $glyph "48 48 48"] >= 0}] "colours=$glyph"
+lassign [sqOrigin 60 $psize $border $poffset $margin] x y
+set black [rectColours $pngR [expr {$x + $psize - 25}] \
+    [expr {$y - 25 + $psize / 5}] 50 50]
+check "the loser's badge is beside its king" \
+    [expr {[lsearch -exact $black "48 48 48"] >= 0}] "colours=$black"
+set glyph [rectColours $pngR [expr {$x + $psize - 8}] \
+    [expr {$y + $psize / 5 - 8}] 16 16]
+check "the loser's badge carries a symbol" \
+    [expr {[lsearch -exact $glyph "208 208 208"] >= 0}] "colours=$glyph"
+
+# A drawn game shows a half beside each king, drawn as 1/2 because the
+# bitmap font has no half glyph.
+set ::MATE 0
+set ::ATEND 1
+set ::RESULT "="
+set fDraw [file join $dir "draw.png"]
+::board::saveImage .b $fDraw
+set pngD [image create photo -file $fDraw]
+lassign [sqOrigin 4 $psize $border $poffset $margin] x y
+set glyph [rectColours $pngD [expr {$x + $psize - 12}] [expr {$y - 12}] 24 24]
+check "a drawn game draws its half" \
+    [expr {[lsearch -exact $glyph "48 48 48"] >= 0}] "colours=$glyph"
+image delete $pngR $pngD
+set ::ATEND 0
+
+# Leave the board as the following checks expect it.
+set ::MATE 0
+set ::RESULT "*"
+set ::NAG ""
+set ::MOVEUCI "e2e4"
+set ::highlightLastMoveNag 0
+set ::highlightLastMoveEval 0
+::board::setmarks .b {}
+::board::update .b $board 0
 
 puts "\nthe orientation"
 # Not flipped: e1 (square 4) is bottom-left; d1 (square 3) is empty.
