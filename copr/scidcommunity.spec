@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 1fe4d882ce9d7cb51784769a811c994befcdac49
+%global commit a400bcb171832cf370dab4fbb888c46ab9465c9a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.69
+Version:        5.1.4.70
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Wed Nov 18, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-70
+- "Board Screenshot includes user drawn arrows, squares; CQL fix for variations"
 * Tue Nov 17, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-69
 - "CQL search; Board Screenshot; Game Review refinements, etc."
 * Mon Nov 16, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-68

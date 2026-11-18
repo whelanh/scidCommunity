@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.70" date="2026-11-18">
+      <description>
+        <p>Board Screenshot includes user drawn arrows, highlights; CQL fix for variations</p>
+      </description>
+    </release>
  <release version="5.1.4.69" date="2026-11-17">
       <description>
         <p>CQL feature; Board Screenshot; Game Review refinements, etc.</p>
