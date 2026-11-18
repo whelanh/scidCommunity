@@ -792,8 +792,12 @@ set helpText(Menus) {<h1>scidCommunity menus</h1>
   <li><menu>What's the threat?</menu>: Asks the engine what the side to move is
   threatening - see <a ToolsWhatThreat>What's the Threat?</a>.</li>
   <li><menu>Board Screenshot</menu>: Saves the position on the main board as
-  a PNG image with coordinates and, if Show Arrow is enabled in
-  Preferences &gt; Moves, the last-move arrow. The filename is numbered
+  a PNG image with coordinates. The arrows and coloured squares stored in the
+  position's comment are drawn too while
+  <menu>Show Colored Squares and Arrows</menu> is on, and so are, when checked
+  in Preferences &gt; Moves, the last-move arrow,
+  the annotation symbol (!, ?) and evaluation symbol (+-, =, ...) badges and,
+  at the end of a game, the result beside the kings. The filename is numbered
   automatically (position-1.png, position-2.png, ...).</li>
   <br>
   <li><menu>Filter Graph</menu>: Opens/closes the <a Graphs Filter>filter graph</a> window.</li>
