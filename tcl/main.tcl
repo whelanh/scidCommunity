@@ -675,6 +675,12 @@ proc showVars {} {
     # No need to display an empty menu
     if {$numVars == 0} { return }
 
+    # "Hide Next Move" (the game info menu) is the training switch: the moves
+    # still to be played are the answer. The window must keep saying which
+    # alternatives exist, but a line's continuation gives that answer away, so
+    # only the move to choose between is listed while it is on.
+    set training $::gameInfo(hideNextMove)
+
     set prev_focus [focus]
     set w .variations
     destroy $w
@@ -699,7 +705,12 @@ proc showVars {} {
     if {$move == ""} {
         set move "($::tr(empty))"
     } else  {
-        $w.lbVar insert {} end -id $j -values [list "0: [getNextMoves 5]"]
+        if {$training} {
+            set str "0: $move \u2026"
+        } else {
+            set str "0: [getNextMoves 5]"
+        }
+        $w.lbVar insert {} end -id $j -values [list $str]
         incr j
     }
 
@@ -710,9 +721,13 @@ proc showVars {} {
         if {$move == ""} {
             set move "($::tr(empty))"
         } else  {
-            sc_var moveInto $i
-            append move [getNextMoves 5]
-            sc_var exit
+            if {$training} {
+                append move " \u2026"
+            } else {
+                sc_var moveInto $i
+                append move [getNextMoves 5]
+                sc_var exit
+            }
         }
         set str "[expr {$i + 1}]: $move"
         $w.lbVar insert {} end -id $j -values [list "$str"]
