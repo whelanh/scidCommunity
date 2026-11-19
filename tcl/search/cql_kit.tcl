@@ -1,12 +1,12 @@
 # Copyright (C) 2026 David Crandall
 # Copyright (C) 2026 scidCommunity contributors
+# SPDX-License-Identifier: GPL-2.0-or-later
 #
 # This file is part of Scid (Shane's Chess Information Database).
 #
 # Scid is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# the Free Software Foundation.
 #
 # Scid is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -15,6 +15,10 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Scid.  If not, see <http://www.gnu.org/licenses/>.
+#
+# The building blocks - the tabs, block names, their queries and their value
+# ranges - are ported from Scid vs. PC's tcl/search/board.tcl. The engine they
+# write for came from the same place: see src/cql/README.md.
 
 namespace eval ::search {}
 

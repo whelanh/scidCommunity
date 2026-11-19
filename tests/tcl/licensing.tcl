@@ -10,7 +10,8 @@
 # other projects and the licence each one is under. A promise nobody checks is
 # a comment, so this harness reads the document and holds the tree to it:
 # every file the tables name exists, every adapted file carries an SPDX line,
-# and every file this project ships in the review layer has one too.
+# every file imported from Scid vs. PC still carries one, and every file this
+# project ships in the review layer has one too.
 #
 # Nothing here is a legal opinion. It is the mechanical half: a renamed or
 # deleted file, or a header stripped in a merge, fails here rather than in a
@@ -63,9 +64,11 @@ check "the tables name at least one file" [expr {[llength $named] > 0}]
 
 puts "== every adapted file carries the licence it is claimed under =="
 
-# The two files that reproduce Patzer's MIT code say so in their own header; a
-# file that lost its header in a merge is the failure this catches.
-foreach rel {tcl/tools/comment_facts.tcl tcl/tools/move_labels.tcl} {
+# The two files that reproduce Patzer's MIT code say so in their own header, and
+# the CQL building blocks say where they were ported from; a file that lost its
+# header in a merge is the failure this catches.
+foreach rel {tcl/tools/comment_facts.tcl tcl/tools/move_labels.tcl \
+                 tcl/search/cql_kit.tcl} {
     set path [file join $root $rel]
     if {![file exists $path]} { continue }
     set fh [open $path r]
@@ -78,6 +81,28 @@ foreach rel {tcl/tools/comment_facts.tcl tcl/tools/move_labels.tcl} {
             [expr {[string match {*MIT*} $head] || [string match {*Permission is hereby granted*} $head]}]
     }
 }
+
+puts "== the imported CQL engine keeps its headers =="
+
+# src/cql/ is another project's code: the notices table claims every file in it
+# carries an SPDX identifier, so the claim is checked rather than trusted. The
+# whole file list is taken from the tree, so an imported file that arrives
+# without a header fails here.
+set cqlFiles [lsort [concat \
+    [glob -nocomplain [file join $root src cql *.cpp]] \
+    [glob -nocomplain [file join $root src cql *.h]]]]
+check "src/cql holds the engine's files" [expr {[llength $cqlFiles] > 0}]
+set unlabelled {}
+foreach path $cqlFiles {
+    set fh [open $path r]
+    set head [read $fh 4096]
+    close $fh
+    if {![string match {*SPDX-License-Identifier*} $head]} {
+        lappend unlabelled [file tail $path]
+    }
+}
+check "every src/cql file carries an SPDX identifier" \
+    [expr {[llength $unlabelled] == 0}] "without one: $unlabelled"
 
 puts "== the review layer's own files are labelled =="
 

@@ -55,6 +55,15 @@ because its move table comes from jja (Copyright 2023 Ali Polatel,
 GPL-3.0-or-later). A scidCommunity binary that includes it is therefore
 distributed under the GPL version 3.
 
+The CQL engine in src/cql/ is imported from Scid vs. PC
+(https://sourceforge.net/projects/scidvspc/), GPL-2.0-or-later. CQL is
+Copyright Lewis Stiller and Gady Costeff, with adaptations in the
+Scid vs. PC port by Lionel Hampton and others. Its own notice, and the
+terms it is distributed under, are in src/cql/COPYING; its provenance and
+the changes made for scidCommunity are in src/cql/README.md. The CQL
+building blocks in tcl/search/cql_kit.tcl are ported from Scid vs. PC's
+tcl/search/board.tcl.
+
 The only files in scidCommunity NOT distributed under the GPL (since 
 they have a different author and copyright, but they are freely 
 distributable) are a Tcl package for sending email using SMTP 

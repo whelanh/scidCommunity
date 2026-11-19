@@ -1,8 +1,8 @@
 # Third-party notices
 
 scidCommunity is free software under the GNU General Public License, version 2
-or later (`COPYING`). Parts of the Game Review layer are adapted from other
-free-software projects; this page records which parts and under which licence.
+or later (`COPYING`). Parts of it are adapted from other free-software projects;
+this page records which parts and under which licence.
 
 ## Patzer — MIT
 
@@ -76,6 +76,23 @@ the pass's own queue), gates on the book, reads the Great gap from
 `::movelabels::GREAT_GAP` instead of a copied 200 cp, and leaves the label alone
 when the second engine has no usable answer. The prototype is a design reference
 and not a merge candidate (#404).
+
+## CQL engine — GPL-2.0-or-later
+
+`src/cql/` is the CQL (Chess Query Language) engine of Lewis Stiller and Gady
+Costeff, imported from Scid vs. PC (r3777) and modernised for C++20 here. CQL is
+GPL, as its own notice states, so adapting it into this tree adds no new licence
+condition; it is recorded here because its copyright holders are not this
+project's:
+
+| File | Adapted from |
+| --- | --- |
+| `src/cql/README.md` | provenance of the whole directory: the source revision, what was not imported, the deviations made here, and the re-sync recipe |
+| `src/cql/COPYING` | CQL's own notice, reproduced verbatim (Stiller and Costeff; Lionel Hampton's porting changes) |
+| `tcl/search/cql_kit.tcl` | the CQL window's building blocks - the tabs, the block names, their queries and their value ranges - from Scid vs. PC's `tcl/search/board.tcl` |
+
+Every file in `src/cql/` carries `SPDX-License-Identifier: GPL-2.0-or-later`,
+and every imported file names Scid vs. PC as its origin.
 
 ## Other references
 
