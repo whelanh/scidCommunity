@@ -81,7 +81,7 @@ In each set folder:
 log.tsv is the only file that cannot be recreated: back it up with the set.
 
 The folder can be moved (Options > Resources), e.g. into a folder your cloud
-service synchronises. The Lichess token is never stored here: it stays in
+service synchronises. The Lichess token never moves with it: it stays in
 Scid's own user folder.
 }
 }

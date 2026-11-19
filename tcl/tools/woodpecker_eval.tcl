@@ -5,7 +5,7 @@
 ###   1. every position of every solution, MultiPV 3, depth 12 - the review's
 ###      verdict per move (::reviewdriver::judge). On puzzles depth 12 gives the
 ###      same labels as the review's default 18 at a twelfth of the time
-###      (docs/woodpecker-plan.md 3.3);
+###      (docs/woodpecker-adr.md, Decision 3);
 ###   2. the position before each solver move, MultiPV 1, depth 3 - what a short
 ###      search plays, for the "not the obvious move" test.
 ### The marks (::woodpecker::markFor) become a new marks version and are written

@@ -3,7 +3,7 @@
 ###
 ### Pure Tcl: no Tk and no sc_* commands, so the same code runs in the
 ### application and in tests/tcl/woodpecker_core.tcl. Time is always passed
-### in, never read here. Plan: docs/woodpecker-plan.md.
+### in, never read here. Design: docs/woodpecker-adr.md.
 ###
 ### Vocabulary
 ###   set        a fixed, ordered list of exercises (a Scid database + files)
@@ -16,7 +16,7 @@
 ###
 ### Files in a set directory (tab separated, read as data, never executed)
 ###   set.tsv        key <tab> value
-###   exercises.tsv  ex game puzzleId rating nmoves
+###   exercises.tsv  ex game puzzleId rating nmoves fen solution lastMove
 ###   marks.tsv      ver ex marks source        (marks: "-" "!" "!!" joined by spaces)
 ###   log.tsv        X ts cycle session ex result found ms
 ###                  S ts cycle session start dur_ms
@@ -43,7 +43,7 @@ namespace eval ::woodpecker {
 }
 
 ################################################################################
-# Scoring (plan 6.1)
+# Scoring (docs/woodpecker-adr.md, Decision 4)
 
 # How much a puzzle's points are worth: its Lichess rating over 1500, clamped.
 # A set without ratings (a book) weighs every exercise 1.
@@ -95,7 +95,7 @@ proc ::woodpecker::score {marks found result {weight 1.0}} {
 }
 
 ################################################################################
-# Attempts (plan 8): two per exercise, the exercise's state as a dict.
+# Attempts (Decision 7): two per exercise, the exercise's state as a dict.
 
 proc ::woodpecker::exStart {n} {
     return [dict create n $n idx 0 errors 0 found [lrepeat $n 0] result ""]
@@ -127,7 +127,7 @@ proc ::woodpecker::exAnswer {state correct} {
 proc ::woodpecker::foundString {state} { return [join [dict get $state found] ""] }
 
 ################################################################################
-# Marks for puzzles (plan 6.2): the Woodpecker profile of the review.
+# Marks for puzzles (Decision 3): the Woodpecker profile of the review.
 #
 # Only the solution's own moves are marked, and only when the engine agrees
 # with them (label best, excellent or great). `ctx` keys:
@@ -211,7 +211,7 @@ proc ::woodpecker::ymd {day} {
 proc ::woodpecker::today {now} { return [clock format $now -format "%Y-%m-%d"] }
 
 ################################################################################
-# Schedule (plan 9)
+# Schedule (Decision 6)
 
 # Planned days of cycle k: the first cycle's days halved at every cycle, at
 # least one day (Tikkanen halved each cycle's time, p. 7).

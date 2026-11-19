@@ -3,12 +3,12 @@
 ###
 ### Play > Woodpecker Method. One window with three pages: the sets, the
 ### session panel and the session summary; a dialog to create a set, one to
-### evaluate it, and a statistics window. Plan: docs/woodpecker-plan.md.
+### evaluate it, and a statistics window. Design: docs/woodpecker-adr.md.
 ###
 ### A session takes the whole main window (the "focus layout"): the user's
 ### layout is saved, every window is closed but the board and this panel, and
 ### the layout comes back when the trainee leaves the session. Inside the
-### session Repertoire Recall's rules apply: no pop-up inside an exercise,
+### session these rules apply: no pop-up inside an exercise,
 ### feedback that never blocks, the reply without a click, the important things
 ### (result, attempts, clock) readable from the corner of the eye.
 
@@ -100,7 +100,7 @@ proc ::woodpecker::ui::roundRect {c x0 y0 x1 y1 r args} {
     return [$c create polygon $pts -smooth 1 {*}$args]
 }
 
-# A card of the session panel (as in Repertoire Recall): a heading in small
+# A card of the session panel: a heading in small
 # capitals, the figure and what it means. Texts: txt(<name>.now|unit|sub).
 proc ::woodpecker::ui::cardNew {f name head} {
     set v ::woodpecker::ui
