@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.72" date="2026-11-19">
+      <description>
+        <p>CQL tabbed query builder; database load speed ups</p>
+      </description>
+    </release>
  <release version="5.1.4.71" date="2026-11-18">
       <description>
         <p>Variations Window shows 1 ply if Hide Next Move is on</p>
