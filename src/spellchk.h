@@ -396,7 +396,8 @@ private:
 
 	/// Serialize the parsed data to @e cacheFile (best effort: failures are
 	/// ignored, the file can always be rebuilt).
-	void writeCache(const char* cacheFile, uint64_t srcSize, uint64_t srcTime) const;
+	void writeCache(const char* cacheFile, const char* sourceFile,
+	                uint64_t srcSize, uint64_t srcTime) const;
 
 	std::string normalizeAndTransform(const nameT& nt, const char* s) const { 
 		std::string res;
