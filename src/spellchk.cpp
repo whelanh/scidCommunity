@@ -31,6 +31,10 @@
 #include <system_error>
 #include <vector>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 
 namespace {
 
@@ -829,10 +833,22 @@ void SpellChecker::writeCache(const char* cacheFile, uint64_t srcSize,
 		return;
 	}
 
+	// Atomically replace any previous cache. POSIX rename() replaces an
+	// existing destination, the Windows CRT rename() does not: use
+	// MoveFileEx with MOVEFILE_REPLACE_EXISTING there (as EpdBook does).
+#ifdef _WIN32
+	if (!MoveFileExW(pathFromUtf8(tmp).c_str(),
+	                 pathFromUtf8(cacheFile).c_str(),
+	                 MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH)) {
+		std::error_code ec;
+		std::filesystem::remove(pathFromUtf8(tmp), ec);
+	}
+#else
 	std::error_code ec;
 	std::filesystem::rename(pathFromUtf8(tmp), pathFromUtf8(cacheFile), ec);
 	if (ec)
 		std::filesystem::remove(pathFromUtf8(tmp), ec);
+#endif
 }
 
 
