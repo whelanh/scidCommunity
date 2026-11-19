@@ -884,14 +884,16 @@ void SpellChecker::writeCache(const char* cacheFile, const char* sourceFile,
 	// polyglot/book.cpp, which does the same for its derived file).
 	{
 		std::error_code ecMode;
-		const auto perms =
+		const auto srcPerms =
 		    std::filesystem::status(pathFromUtf8(sourceFile), ecMode).permissions();
-		if (!ecMode && perms != std::filesystem::perms::unknown) {
-			std::filesystem::permissions(pathFromUtf8(tmp), perms,
-			                             std::filesystem::perm_options::replace,
-			                             ecMode);
+		if (!ecMode && srcPerms != std::filesystem::perms::unknown) {
+			// Only the ordinary mode bits: the cache must not inherit
+			// setuid, setgid or sticky bits from the source.
+			std::filesystem::permissions(
+			    pathFromUtf8(tmp), srcPerms & std::filesystem::perms::all,
+			    std::filesystem::perm_options::replace, ecMode);
 		}
-		if (ecMode || perms == std::filesystem::perms::unknown) {
+		if (ecMode || srcPerms == std::filesystem::perms::unknown) {
 			std::error_code ecRemove;
 			std::filesystem::remove(pathFromUtf8(tmp), ecRemove);
 			return;
