@@ -392,7 +392,8 @@ private:
 	/// Load a cache file written by writeCache().
 	/// Returns false if the cache is missing, stale or corrupt: the caller
 	/// must then parse the source file.
-	bool readCache(const char* cacheFile, uint64_t srcSize, uint64_t srcTime);
+	bool readCache(const char* cacheFile, const char* sourceFile,
+	               uint64_t srcSize, uint64_t srcTime);
 
 	/// Serialize the parsed data to @e cacheFile (best effort: failures are
 	/// ignored, the file can always be rebuilt).

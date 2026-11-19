@@ -27,6 +27,7 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
+#include <limits>
 #include <memory>
 #include <string>
 #include <system_error>
@@ -522,7 +523,7 @@ errorT SpellChecker::read(const char* filename, const Progress& progress)
 	// SpellChkValidate and its report.
 	{
 		const std::string cacheFile = cachePathFor(filename);
-		if (readCache(cacheFile.c_str(), srcSize, srcTime))
+		if (readCache(cacheFile.c_str(), filename, srcSize, srcTime))
 			return OK;
 	}
 #endif
@@ -545,8 +546,8 @@ errorT SpellChecker::read(const char* filename, const Progress& progress)
  * cache is missing, stale, corrupt or of an unknown version, in which case
  * the object is left untouched.
  */
-bool SpellChecker::readCache(const char* cacheFile, uint64_t srcSize,
-                             uint64_t srcTime)
+bool SpellChecker::readCache(const char* cacheFile, const char* sourceFile,
+                             uint64_t srcSize, uint64_t srcTime)
 {
 	const auto cachePath = pathFromUtf8(cacheFile);
 	std::error_code ec;
@@ -570,6 +571,10 @@ bool SpellChecker::readCache(const char* cacheFile, uint64_t srcSize,
 
 	const uint64_t blobBytes = r.u64();
 	if (!r.ok() || blobBytes == 0 || blobBytes > cacheSize)
+		return false;
+	// The writer never stores more than UINT32_MAX bytes, and the buffer must
+	// fit in size_t even on a 32-bit build.
+	if (blobBytes > std::numeric_limits<size_t>::max())
 		return false;
 	if (r.u32() != NUM_NAME_TYPES)
 		return false;
@@ -713,6 +718,20 @@ bool SpellChecker::readCache(const char* cacheFile, uint64_t srcSize,
 	if (!r.atEnd())
 		return false;
 
+	// The source may have been replaced while the cache was being read: only
+	// use it if it still describes the file that is on disk now.
+	{
+		const auto sourcePath = pathFromUtf8(sourceFile);
+		std::error_code ecNow;
+		const uint64_t nowSize = std::filesystem::file_size(sourcePath, ecNow);
+		const uint64_t nowTime = static_cast<uint64_t>(
+		    std::filesystem::last_write_time(sourcePath, ecNow)
+		        .time_since_epoch()
+		        .count());
+		if (ecNow || nowSize != srcSize || nowTime != srcTime)
+			return false;
+	}
+
 	// Everything has been read and validated.  Build everything that can fail
 	// in local objects first and move it in at the end, so that a failed load
 	// leaves the checker empty and the source file can be parsed.
@@ -806,6 +825,11 @@ void SpellChecker::writeCache(const char* cacheFile, const char* sourceFile,
 	                                           .time_since_epoch()
 	                                           .count());
 #ifdef _WIN32
+	// The file inherits the access control entries of the directory it is
+	// created in.  An explicit per-file ACL set on the .ssp is not carried
+	// over, exactly as for the book staging file in polyglot/book.cpp: the
+	// program never sets per-file ACLs itself, and copying a security
+	// descriptor would need Windows-only code that cannot be exercised here.
 	FILE* f = fopenUtf8(tmp.c_str(), "wb");
 #else
 	// Create the file private from the start: it holds the same personal
