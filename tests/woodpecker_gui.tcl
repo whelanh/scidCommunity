@@ -89,7 +89,22 @@ proc ::wpgui::run {} {
     wait 300
     check "the window opens on the sets" [winfo ismapped .woodpeckerWin.home]
     ::woodpecker::ui::selectSet $dir
-    check "today's plan is shown" [string match "*0/3*" $::woodpecker::ui::txt(info)] $::woodpecker::ui::txt(info)
+    check "today's plan is shown" [expr {$::woodpecker::ui::txt(hCycle.now) eq "0" && [string trim $::woodpecker::ui::txt(hCycle.unit)] eq "/ 3"}] \
+        "$::woodpecker::ui::txt(hCycle.now)$::woodpecker::ui::txt(hCycle.unit)"
+    # A pane too short for the page: the sets stay reachable by a scrollbar.
+    set cv .woodpeckerWin.homeWrap.cv
+    set big [$cv cget -height]
+    pack propagate .woodpeckerWin.homeWrap 0
+    $cv configure -height 120
+    pack configure $cv -expand 0 -fill x
+    update
+    ::woodpecker::ui::homeFit .woodpeckerWin.homeWrap
+    check "a short window gets a scrollbar" [winfo ismapped .woodpeckerWin.homeWrap.vs]
+    pack configure $cv -expand 1 -fill both
+    pack propagate .woodpeckerWin.homeWrap 1
+    $cv configure -height $big
+    update
+    ::woodpecker::ui::homeFit .woodpeckerWin.homeWrap
     # A game is open in the clipbase: the session must leave it as it was.
     sc_base switch $::clipbase_db
     sc_game new

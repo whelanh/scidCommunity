@@ -649,6 +649,8 @@ translate E WoodpeckerExit {Leave the session}
 translate E WoodpeckerMore {More exercises}
 translate E WoodpeckerToday {Today}
 translate E WoodpeckerCycleShort {Cycle %d}
+translate E WoodpeckerDaysPlanned {%d days planned}
+translate E WoodpeckerExercisesShort {exercises}
 translate E WoodpeckerDeadline {deadline %s}
 translate E WoodpeckerWrongHead {Not that one}
 translate E WoodpeckerHidden {The solution will appear here.}

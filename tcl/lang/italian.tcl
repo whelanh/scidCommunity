@@ -617,6 +617,8 @@ translate I WoodpeckerExit {Esci dalla sessione}
 translate I WoodpeckerMore {Altri esercizi}
 translate I WoodpeckerToday {Oggi}
 translate I WoodpeckerCycleShort {Ciclo %d}
+translate I WoodpeckerDaysPlanned {%d giorni previsti}
+translate I WoodpeckerExercisesShort {esercizi}
 translate I WoodpeckerDeadline {scadenza %s}
 translate I WoodpeckerWrongHead {Non è questa}
 translate I WoodpeckerHidden {La soluzione comparirà qui.}

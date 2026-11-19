@@ -222,14 +222,24 @@ proc ::woodpecker::ui::build {} {
     ttk::treeview $h.sets -columns {name ex cycle progress last} -show headings -height 7 \
         -selectmode browse -yscrollcommand [list $h.sb set]
     ttk::scrollbar $h.sb -command [list $h.sets yview]
-    foreach {c tag width} {name WoodpeckerColName 200 ex WoodpeckerColExercises 80 \
-            cycle WoodpeckerColCycle 60 progress WoodpeckerColProgress 110 last WoodpeckerColLast 110} {
+    foreach {c tag width} {name WoodpeckerColName 150 ex WoodpeckerColExercises 70 \
+            cycle WoodpeckerColCycle 50 progress WoodpeckerColProgress 75 last WoodpeckerColLast 90} {
         $h.sets heading $c -text [tr $tag]
         $h.sets column $c -width $width -stretch [expr {$c eq "name"}] -anchor [expr {$c eq "name" ? "w" : "center"}]
     }
     bind $h.sets <<TreeviewSelect>> ${v}::selected
     bind $h.sets <Double-1> ${v}::train
-    ttk::label $h.info -textvariable ${v}::txt(info) -wraplength 520 -justify left -font woodpeckerText
+    # The plan of the selected set as three cards, like the session panel; the
+    # label under them is only for what needs a sentence (a rest, a moved deadline).
+    ttk::frame $h.cards
+    foreach {k tag} {hCycle WoodpeckerSumCycle hToday WoodpeckerSumQuota hDeadline WoodpeckerCardDeadline} {
+        cardNew $h.cards $k [tr $tag]
+        $h.cards.$k.v.unit configure -font woodpeckerHead -foreground [color fg]
+    }
+    pack $h.cards.hCycle $h.cards.hToday $h.cards.hDeadline -side left -fill both -expand 1 -padx {0 6}
+    pack configure $h.cards.hDeadline -padx 0
+    ttk::label $h.info -textvariable ${v}::txt(info) -wraplength 420 -justify left \
+        -font woodpeckerSmall -foreground [color muted]
     ttk::frame $h.b
     ttk::button $h.b.train -image tb_play -text [tr WoodpeckerTrain] -compound left -command ${v}::train
     ttk::button $h.b.new -text [tr WoodpeckerNew] -command ${v}::newDialog
@@ -242,11 +252,13 @@ proc ::woodpecker::ui::build {} {
     grid $h.sub -row 1 -column 0 -columnspan 2 -sticky w -pady {0 8}
     grid $h.sets -row 2 -column 0 -sticky nsew
     grid $h.sb -row 2 -column 1 -sticky ns
-    grid $h.info -row 3 -column 0 -columnspan 2 -sticky w -pady 10
-    grid $h.b -row 4 -column 0 -columnspan 2 -sticky ew
+    grid $h.cards -row 3 -column 0 -columnspan 2 -sticky ew -pady {10 0}
+    grid $h.info -row 4 -column 0 -columnspan 2 -sticky w -pady {6 10}
+    grid $h.b -row 5 -column 0 -columnspan 2 -sticky ew
     grid rowconfigure $h 2 -weight 1
     grid columnconfigure $h 0 -weight 1
 
+    homeScroll
     buildSession
     buildSummary
 
@@ -409,8 +421,41 @@ proc ::woodpecker::ui::buildSummary {} {
 
 proc ::woodpecker::ui::showPage {page} {
     variable w
-    foreach p {home sess sum} { catch { pack forget $w.$p } }
-    pack $w.$page -fill both -expand 1
+    foreach p {homeWrap sess sum} { catch { pack forget $w.$p } }
+    pack $w.[expr {$page eq "home" ? "homeWrap" : $page}] -fill both -expand 1
+}
+
+# The sets page in a scrolled canvas: a window too small for all of it keeps
+# the list of sets reachable through a scrollbar instead of squeezing it away.
+proc ::woodpecker::ui::homeScroll {} {
+    variable w
+    set f [ttk::frame $w.homeWrap]
+    canvas $f.cv -highlightthickness 0 -background [color bg] -yscrollcommand [list $f.vs set]
+    ttk::scrollbar $f.vs -command [list $f.cv yview]
+    pack $f.cv -side left -fill both -expand 1
+    $f.cv create window 0 0 -window $w.home -anchor nw -tags in
+    raise $w.home
+    set fit [list ::woodpecker::ui::homeFit $f]
+    bind $f.cv <Configure> $fit
+    bind $w.home <Configure> $fit
+    bind $f.cv <MouseWheel> {%W yview scroll [expr {%D < 0 ? 3 : -3}] units}
+}
+
+proc ::woodpecker::ui::homeFit {f} {
+    variable w
+    if {![winfo exists $f.cv] || ![winfo exists $w.home]} { return }
+    set cw [winfo width $f.cv]
+    set ch [winfo height $f.cv]
+    set rh [winfo reqheight $w.home]
+    set h [expr {max($rh, $ch)}]
+    $f.cv itemconfigure in -width $cw -height $h
+    $f.cv configure -scrollregion [list 0 0 $cw $h]
+    if {$rh > $ch} {
+        if {![winfo ismapped $f.vs]} { pack $f.vs -side right -fill y -before $f.cv }
+    } else {
+        pack forget $f.vs
+        $f.cv yview moveto 0
+    }
 }
 
 # The window is gone. During a relayout that is the layout's doing; otherwise
@@ -556,15 +601,29 @@ proc ::woodpecker::ui::current {} {
 proc ::woodpecker::ui::selected {} {
     variable txt
     set dir [current]
-    if {$dir eq ""} { set txt(info) [tr WoodpeckerNoSets]; return }
+    foreach k {hCycle hToday hDeadline} { foreach x {now unit sub} { set txt($k.$x) "" } }
+    if {$dir eq ""} {
+        foreach k {hCycle hToday hDeadline} { set txt($k.now) "–" }
+        set txt(info) [tr WoodpeckerNoSets]
+        return
+    }
     set info [dayPlan $dir]
-    set lines [dict get $info lines]
+    set notes [dict get $info notes]
     set st [::woodpecker::set::markStatus $dir]
     set marked [expr {[dict get $st annotated] + [dict get $st reviewed]}]
     if {$marked < [dict get $st total]} {
-        lappend lines [T WoodpeckerUnrated [expr {[dict get $st total] - $marked}] [dict get $st total]]
+        lappend notes [T WoodpeckerUnrated [expr {[dict get $st total] - $marked}] [dict get $st total]]
     }
-    set txt(info) [join $lines "\n"]
+    set txt(hCycle.now) [dict get $info done]
+    set txt(hCycle.unit) " / [dict get $info n]"
+    set txt(hCycle.sub) "[T WoodpeckerCycleShort [dict get $info cycle]] · [T WoodpeckerDaysPlanned [dict get $info days]]"
+    set txt(hToday.now) [dict get $info doneToday]
+    set txt(hToday.unit) " / [dict get $info quota]"
+    set txt(hToday.sub) [tr WoodpeckerExercisesShort]
+    set txt(hDeadline.now) [expr {[dict get $info status] eq "done" ? "✓" : [dict get $info daysLeft]}]
+    set txt(hDeadline.unit) [expr {[dict get $info status] eq "done" ? "" : " [tr WoodpeckerDaysLeft]"}]
+    set txt(hDeadline.sub) [clock format [clock scan [dict get $info deadline] -format %Y-%m-%d] -format "%d %b %Y"]
+    set txt(info) [join $notes "\n"]
 }
 
 # Today's plan for a set: {cycle next n quota doneToday start deadline status
@@ -580,12 +639,14 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
     set restDays [expr {[dict exists $meta restDays] ? [dict get $meta restDays] : 1}]
     set cycle [dict get $pr cycle]
     set lines {}
+    set notes {}
     set rest ""
     if {[dict get $pr complete]} {
         set rest [::woodpecker::nextCycleDay [dict get $pr end] $restDays]
         set cycle [expr {$cycle + 1}]
         set pr [dict create cycle $cycle next 1 done 0 doneBefore 0 complete 0 start "" end ""]
         lappend lines [T WoodpeckerCycleOver [expr {$cycle - 1}] $rest]
+        lappend notes [lindex $lines end]
     }
     set start [expr {[dict get $pr start] ne "" ? [dict get $pr start] : $today}]
     if {$rest ne "" && $today < $rest} { set start $rest }
@@ -599,8 +660,10 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
         deadline_moved { lappend lines [T WoodpeckerDeadlineMoved [dict get $plan slip] [dict get $plan deadline] [dict get $plan quota]] }
         over_stretch { lappend lines [T WoodpeckerOverStretch [dict get $plan deadline] [dict get $plan quota]] }
     }
+    lappend notes {*}[lrange $lines [expr {[llength $notes] + 2}] end]
     return [dict merge $plan [dict create cycle $cycle next [dict get $pr next] n $n \
-        doneToday $doneToday start $start rest $rest lines $lines meta $meta]]
+        doneToday $doneToday start $start rest $rest lines $lines notes $notes meta $meta \
+        done [dict get $pr done] days $days]]
 }
 
 proc ::woodpecker::ui::deleteSet {} {
