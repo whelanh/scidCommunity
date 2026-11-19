@@ -130,7 +130,7 @@ proc ::woodpecker::foundString {state} { return [join [dict get $state found] ""
 # Marks for puzzles (plan 6.2): the Woodpecker profile of the review.
 #
 # Only the solution's own moves are marked, and only when the engine agrees
-# with them (label best or excellent). `ctx` keys:
+# with them (label best, excellent or great). `ctx` keys:
 #   label      ::reviewdriver::judge's label for the move
 #   isBest     the move is the engine's first choice
 #   hanging    ::chessboard::hangingMaterial of the move (points left en prise)
@@ -148,7 +148,8 @@ proc ::woodpecker::foundString {state} { return [join [dict get $state found] ""
 proc ::woodpecker::markFor {ctx} {
     variable P
     set label [dict get $ctx label]
-    if {$label ni {best excellent}} { return "" }
+    # great: the review gives it to an only move when it can see the second line
+    if {$label ni {best excellent great}} { return "" }
     set hanging [expr {[dict exists $ctx hanging] ? [dict get $ctx hanging] : 0}]
     if {$hanging eq ""} { set hanging 0 }
     if {[dict get $ctx isBest] && $hanging >= $P(sacPoints) \
