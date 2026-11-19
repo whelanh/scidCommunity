@@ -25,8 +25,8 @@ The method itself is simple; following it from a book is not. The trainee has
 to keep a record sheet on paper (date, time spent, solved, failed, per cycle),
 turn to the back of the book after every exercise to check the solution, work
 out how many exercises a day keep the cycle on schedule, and use the one set of
-exercises the book provides. All of that is bookkeeping a program can do, and
-the bookkeeping is what makes people give up after the first cycle.
+exercises the book provides. All of that is bookkeeping a program can do, so
+the trainer takes it over.
 
 What the book establishes (from the publicly available excerpt: *Woodpecker
 History*, pp. 6–8, *General Introduction*, pp. 10–12):
