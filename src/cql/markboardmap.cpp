@@ -60,6 +60,34 @@ void MarkBoardMap::make_null_move(squareT fromsquare, squareT tosquare, const pi
 }
   
 			
+void MarkBoardMap::make_castle(squareT kingfrom, squareT kingto,
+			       squareT rookfrom, squareT rookto){
+  // Castling moves two pieces at once. It cannot be spotted from the squares
+  // alone: in Chess960 (or any FEN start) the king does not have to begin on
+  // the e-file, and either piece can end up on the square the other left, so
+  // the caller passes the four real squares (Position::castleRookSq() knows
+  // them). Copy both marks aside, empty both origin squares, then place them,
+  // which makes the overlapping-square cases work.
+  uassert(square_valid(kingfrom)&&square_valid(kingto)&&
+	  square_valid(rookfrom)&&square_valid(rookto),
+	  "make_castle bad square");
+  uassert(kingfrom!=rookfrom,"make_castle king and rook on same square");
+  markT kingmark=squares_to_marks[kingfrom];
+  markT rookmark=squares_to_marks[rookfrom];
+  uassert(mark_valid(kingmark),"make_castle bad king mark");
+  uassert(mark_valid(rookmark),"make_castle bad rook mark");
+  uassert(kingto!=rookto,"make_castle king and rook to same square");
+
+  squares_to_marks[kingfrom]=-1;
+  squares_to_marks[rookfrom]=-1;
+  uassert(squares_to_marks[kingto]<0,"make_castle occupied king target");
+  uassert(squares_to_marks[rookto]<0,"make_castle occupied rook target");
+  squares_to_marks[kingto]=kingmark;
+  marks_to_squares[kingmark]=kingto;
+  squares_to_marks[rookto]=rookmark;
+  marks_to_squares[rookmark]=rookto;
+}
+
 void MarkBoardMap::make_move(squareT fromsquare,
 			     squareT tosquare,
 			     const pieceT*board,
@@ -86,28 +114,6 @@ void MarkBoardMap::make_move(squareT fromsquare,
     uassert(mark_valid(capturedpawn));
     marks_to_squares[capturedpawn]=65;
     squares_to_marks[capturedsquare]=-1;
-  }
-  else if (ptype==KING && square_Fyle(fromsquare)==E_FYLE&&
-	   (square_Fyle(tosquare)==C_FYLE||square_Fyle(tosquare)==G_FYLE)){
-    int rookfromsquare,rooktosquare;
-
-    if(square_Fyle(tosquare)==C_FYLE){
-      rookfromsquare=tosquare-2;
-      rooktosquare=tosquare+1;
-    }
-    else{
-      rookfromsquare=tosquare+1;
-      rooktosquare=tosquare-1;
-    }
-    uassert(rookfromsquare!=rooktosquare&&
-	    square_valid(rookfromsquare)&&
-	    square_valid(rooktosquare),
-	    "mark makemove bad rook");
-    markT rookfrommark=squares_to_marks[rookfromsquare];
-    uassert(mark_valid(rookfrommark));
-    squares_to_marks[rooktosquare]=rookfrommark;
-    squares_to_marks[rookfromsquare]=-1;
-    marks_to_squares[rookfrommark]=rooktosquare;
   }
 	  //handle the general case
   markT capturedmark=squares_to_marks[tosquare];

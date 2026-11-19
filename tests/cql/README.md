@@ -20,7 +20,9 @@ and checks the filter each query leaves behind. It covers the position filters,
 year, Elo, in both the `cql(:player ...)` and `cql() player ...` forms), the
 "or" safety case, the AND/OR/RESET filter operations, and then a second base of
 3000 games (the PGN repeated 600 times) so the searches take the multi-threaded
-path and the workers' counts can be checked.
+path and the workers' counts can be checked. Two small bases of its own cover a
+variation that holds no moves, and castling from a Chess960 FEN start, where
+the king and rook can castle onto each other's squares.
 
 `bench.tcl` repeats a PGN until it has at least the requested number of games,
 imports it into a MEMORY base and times a few queries:
