@@ -165,6 +165,7 @@ private:
 	void th_join();
 	void th_sort();
 	void th_sort_range(gamenumT* first, gamenumT* last, int depth);
+	void th_heap_sort_range(gamenumT* first, gamenumT* last);
 };
 
 #endif

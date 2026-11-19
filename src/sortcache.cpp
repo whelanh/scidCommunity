@@ -70,6 +70,43 @@ void SortCache::th_sort() {
 }
 
 /**
+ * Heap sort [first, last) with the key cache comparator.
+ *
+ * Used as introsort's fallback when the pivot choices degenerate; it checks
+ * th_interrupt_ between the steps, so a cancelled sort still stops quickly.
+ */
+void SortCache::th_heap_sort_range(gamenumT* first, gamenumT* last) {
+	const ptrdiff_t n = last - first;
+	if (n < 2)
+		return;
+	CmpLess comp(this);
+	const ptrdiff_t lastNode = n - 1;
+	for (ptrdiff_t node = (lastNode - 1) / 2; node >= 0; --node) {
+		if (th_interrupt_)
+			return;
+		for (ptrdiff_t toSift = node;;) {
+			const ptrdiff_t leftChild = 2 * toSift + 1;
+			const ptrdiff_t rightChild = 2 * toSift + 2;
+			if (leftChild > lastNode)
+				break;
+			const ptrdiff_t maxChild = (rightChild <= lastNode &&
+			                            comp(first[leftChild], first[rightChild]))
+			                               ? rightChild
+			                               : leftChild;
+			if (!comp(first[toSift], first[maxChild]))
+				break;
+			std::swap(first[toSift], first[maxChild]);
+			toSift = maxChild;
+		}
+	}
+	for (ptrdiff_t i = n; i > 0; --i) {
+		if (th_interrupt_)
+			return;
+		std::pop_heap(first, first + i, comp);
+	}
+}
+
+/**
  * Sort [first, last) with quicksort over the key cache.
  *
  * The recursion checks th_interrupt_ before every partition, so a cancelled
@@ -83,7 +120,9 @@ void SortCache::th_sort_range(gamenumT* first, gamenumT* last, int depth) {
 		if (th_interrupt_)
 			return;
 		if (depth <= 0) {
-			std::sort(first, last, comp);
+			// Introsort's safety net for a pathological pivot sequence: a
+			// heap sort, which can be abandoned between two steps.
+			th_heap_sort_range(first, last);
 			return;
 		}
 		// Median of three at the front, then three-way-less partition.
