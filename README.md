@@ -16,9 +16,7 @@ While it maintains compatibility with the original Scid database formats, **scid
 - Also thanks to [Tommaso Bergamasco](https://github.com/TBergh98), scidCommunity can now read ChessBase-style opening books. Load a CTG book converted to the open OpenBook Rich (`.obr`) format and the **Book Window** shows games, frequency, score, ratings, performance and the author's coloured moves for every move, as ChessBase does. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/465) For users who would like to convert a CTG book file to an `.obr` file, there is a new item in the *Tools* menu called *Convert CTG to OBR...* authored by TBergh98 that will do this for you. HIARCS offers some [free CTG opening books](https://www.hiarcs.com/chess-opening-book-free.html) if you want to experiment with this.
 - Based on a [user request](https://github.com/whelanh/scidCommunity/discussions/441), users have more choices for move sounds. Sounds include those provided by Lichess.
 - Thanks to the significant original work done by [David Crandall](https://github.com/Triquetra), scidCommunity has a new *Game Review* feature in the **Engine Window**.  The annotation and review it provides is a major improvement over the old cp-drop based approach.  Users should read the [Discussion](https://github.com/whelanh/scidCommunity/discussions/442) for detailed information.
-- A user requested the ability to search for a specific word in any game comments in a database (including comments in variations). This has now been implemented and is available under the **Search** menu. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/358)
-- Ctrl + Shift + A from an **Engine Window** instantly adds all the scores and annotations that were already generated from the score graph to the PGN.  Ctrl + Z undoes the same action. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/357)
-- The **marker palette** colour and type are now remembered across restarts instead of reverting to green.
+
 
 
 <details>
@@ -26,6 +24,9 @@ While it maintains compatibility with the original Scid database formats, **scid
 
 <br>
 
+- A user requested the ability to search for a specific word in any game comments in a database (including comments in variations). This has now been implemented and is available under the **Search** menu. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/358)
+- Ctrl + Shift + A from an **Engine Window** instantly adds all the scores and annotations that were already generated from the score graph to the PGN.  Ctrl + Z undoes the same action. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/357)
+- The **marker palette** colour and type are now remembered across restarts instead of reverting to green.
 - Lichess-style hot keys have been implemented that allow users to quickly change arrow colors and square marker colors on the chessboard. This was an excellent user suggestion. [See Discussions](https://github.com/whelanh/scidCommunity/discussions/312) In the same spirit, pressing the **spacebar** now plays the engine's best move (the first line when MultiPV is active) in the **Engine** and **Analysis** windows, and on the main board when an engine is running.
 - "Color picker" buttons have been added to **Options/Preferences/Chessboard** Light and Dark Squares so users can easily replicate chessboard colors they find on-line or in other programs. This user-requested feature is described in  [Discussions/Announcements](https://github.com/whelanh/scidCommunity/discussions/304)
 - A [user requested](https://github.com/whelanh/scidCommunity/discussions/283) the ability to change comment colors, font, size etc. This is now possible with a new *Format* button in the **Comment Editor** window. Along with that, users can now export formatted PGNs to .rtf files (and import them as well).
@@ -166,13 +167,13 @@ with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 
 - **[Hugh Whelan](https://github.com/whelanh)** — maintainer
 - **[Venkat Krishnamurthy](https://github.com/kayvee42)** — focuses on the macOS version (build, packaging and platform fixes) and redesigned the PGN Window buttons
-- **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature in progress.  He has also added other new features and taken the lead on simplifying scidCommunity to use one engine mode protocol. In doing so, he has cleaned up a significant amount of obsolete and/or inconsistent code.
+- **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature.  He has also added other new features like CQL search, and he has taken the lead on simplifying scidCommunity to use one engine mode protocol. Along the way he has cleaned up a significant amount of obsolete and/or inconsistent code.
 - **[Tommaso Bergamasco](https://github.com/TBergh98)** — designed the Lichess study publishing feature, the OpenBook Rich (.obr) opening-book reader, and the CTG to .obr converter. He has also contributed to Tree View loading speedups.
 
 
 ### Acknowledgements
 
-Thanks to [Uwe Klimmek](https://codeberg.org/scid/scid) for the [scid](https://codeberg.org/scid/scid) source code from his fork which is responsible for the enhanced look of the buttons below the Chessboard, the engine settings dialog, and PGN Viewer.  Thanks also to [@steveannus](https://github.com/steveannus) and the *Scid vs. PC* codebase for features adopted like *My Player Names* and the ability to view multiple books in the **Book Window**.
+Thanks to [Uwe Klimmek](https://codeberg.org/scid/scid) for the [scid](https://codeberg.org/scid/scid) source code from his fork which is responsible for the enhanced look of the buttons below the Chessboard, the engine settings dialog, and PGN Viewer.  Thanks also to [@steveannus](https://github.com/steveannus) and the *Scid vs. PC* codebase for features adopted like *My Player Names*, the ability to view multiple books in the **Book Window** and the CQL search code.
 
 
 

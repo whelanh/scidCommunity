@@ -13,6 +13,14 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
+## Unreleased
+
+- **Search > CQL...** gains the tabbed query builder from [Scid vs. PC](https://sourceforge.net/projects/scidvspc/): over a hundred ready-made blocks on six tabs — Mates & tactics, Pawns, Pawn structures, Pieces, Endings & material and Game. Tick a block and the query is written into the box for you. A query you typed yourself is replaced when a block is ticked, and Control-Z brings it back.The blocks are ported from *Scid vs. PC*. The window's help page explains the blocks and the rest of the options. — thanks to @whelanh ([#522](https://github.com/whelanh/scidCommunity/pull/522)).
+
+## 5.1.4.71 - 18 November 2026
+
+- **Hide Next Move** invoked in the Game Information window now not only hides the next move in that window, it won't show the next move in the **Variations Window** pop up window (visibility of that window is a preference in *Options/Preferences/Moves*). Before the **Variations Window** did show it which defeated the training purpose of *Hide Next Move*. - thanks to @whelanh ([#521](https://github.com/whelanh/scidCommunity/pull/521)).
+
 ## 5.1.4.70 — 18 November 2026
 
 - **Tools > Board Screenshot** now draws what the board shows. The arrows, circles, disks, coloured squares and letters saved in the position's comment are included while Show Colored Squares and Arrows is on, and the annotation symbol, evaluation symbol and end-of-game result badges are included when those are checked in Preferences > Moves, as the last-move arrow already was. It still draws everything from the board's own pieces and squares, so no extra image package is needed. — thanks to @whelanh ([#518](https://github.com/whelanh/scidCommunity/pull/518)).

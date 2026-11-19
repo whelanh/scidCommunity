@@ -1055,8 +1055,9 @@ set helpText(Searches) {<h1>Searches in scidCommunity</h1>
   </ul>
   <p>
   A fifth way, for patterns the four above cannot express, is the
-  <a CQL><b>Chess Query Language (CQL)</b></a>: you type the position or move to
-  look for as a query in the CQL window (<b>Search &gt; CQL...</b>).
+  <a CQL><b>Chess Query Language (CQL)</b></a>: build a query from its
+  ready-made blocks, or type the position or move to look for, in the CQL
+  window (<b>Search &gt; CQL...</b>).
   </p>
   <p>
   In addition to these, there is also an automatic search mode called the
@@ -5938,9 +5939,45 @@ set helpText(CQL) {<h1>Chess Query Language (CQL)</h1>
   <p>
   The Chess Query Language (CQL) describes a board pattern or a move and finds
   the games in which it occurs. Where the other searches ask you to fill in a
-  form, a CQL query is text: choose <b>Search &gt; CQL...</b>, type the query in
-  the box and press <b>Ctrl+Enter</b> (or click Search). The games the query
-  matches become the filter the game list shows.
+  form, a CQL query is text: choose <b>Search &gt; CQL...</b>, build the query
+  from the blocks or type it in the box, and press <b>Ctrl+Enter</b> (or click
+  Search). The games the query matches become the filter the game list shows.
+  </p>
+
+  <h3>Building a Query from the Blocks</h3>
+  <p>
+  You do not have to know the language to use it. Above the query box are tabs
+  of ready-made blocks, ported from Scid vs. PC: <b>Mates & tactics</b>,
+  <b>Pawns</b>, <b>Pawn structures</b>, <b>Pieces</b>,
+  <b>Endings & material</b> and <b>Game</b>. Tick <b>Smothered mate</b>,
+  <b>Knight fork</b>, <b>Isolated pawn on file</b>, <b>Maroczy bind</b>,
+  <b>Rook v pawns</b> or <b>Material up by</b> and the query is written into
+  the box for you. Where a block has a choice, the spin box beside it picks the
+  file, rank, piece, material or rating it applies to. Ticking
+  <b>Promotion</b>, for instance, writes
+  <term>cql() flipcolor { {move promote [QRBN]} }</term>
+  and the line under the blocks reads "Searching for: Promotion (Both
+  colours)". The number after a tab's name counts the blocks ticked on it.
+  </p>
+  <p>
+  <b>Both colours</b>, ticked when the window opens, wraps the blocks in
+  <b>flipcolor</b>, which searches the same pattern with the board and the
+  colours turned round, so <b>Back rank mate</b> finds Black mating as well as
+  White. Clear it to find White's version only. <b>Moves</b> with a range in
+  the two boxes beside it limits the search to those move numbers and needs no
+  block; leave one end empty and the other is taken as the start or the end of
+  the game.
+  </p>
+  <p>
+  Ticking a block replaces what is in the box, because a query you typed
+  cannot be merged into one the blocks write. The line under the blocks says
+  when that has happened, and <b>Ctrl+Z</b> in the box brings your query back.
+  Typing in the box yourself changes the line to "Own CQL query", and the next
+  block you tick replaces what you wrote. <b>Clear all</b> unticks every block
+  and forgets the move range but leaves a query you typed; <b>Defaults</b>
+  clears the blocks and the box and puts every choice back as it started, and
+  the window opens the same way. The block names stay in English in every
+  language.
   </p>
 
   <h3>How a Query is Written</h3>
