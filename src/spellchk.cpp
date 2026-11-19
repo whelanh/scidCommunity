@@ -22,8 +22,176 @@
 #include "filebuf.h"
 #include "misc.h"
 
+#include <chrono>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
+#include <string>
+#include <system_error>
+#include <vector>
+
 
 namespace {
+
+/*
+ * On-disk cache of a parsed spelling file.
+ *
+ * Parsing a large .ssp file (a FIDE rating list with tens of millions of
+ * ratings takes about a second, and the in-memory result is several hundred
+ * megabytes) is repeated at every start. The cache stores the parsed data in
+ * a compact binary form that can be loaded with a few sequential reads.
+ *
+ * The cache is validated against the size and the last-write time of the
+ * source file: if the .ssp file changes, the cache is stale and is rebuilt.
+ * Every failure (missing file, read-only directory, truncated cache, older
+ * version) silently falls back to parsing the source.
+ */
+constexpr uint32_t SPELL_CACHE_MAGIC = 0x43505353; // "SSPC"
+constexpr uint32_t SPELL_CACHE_VERSION = 1;
+constexpr uint32_t SPELL_CACHE_NULL_OFFSET = 0xFFFFFFFFu;
+constexpr uint32_t SPELL_CACHE_MAX_ITEMS = 64u * 1024 * 1024;
+
+/// Little-endian writer for the cache file.
+class CacheWriter {
+	FILE* f_;
+	bool ok_;
+
+public:
+	explicit CacheWriter(FILE* f) : f_(f), ok_(true) {}
+	bool ok() const { return ok_; }
+
+	void bytes(const void* p, size_t n) {
+		if (ok_ && n != 0 && std::fwrite(p, 1, n, f_) != n)
+			ok_ = false;
+	}
+	void u16(uint32_t v) {
+		unsigned char b[2] = {static_cast<unsigned char>(v),
+		                      static_cast<unsigned char>(v >> 8)};
+		bytes(b, sizeof b);
+	}
+	void u32(uint64_t v) {
+		unsigned char b[4] = {static_cast<unsigned char>(v),
+		                      static_cast<unsigned char>(v >> 8),
+		                      static_cast<unsigned char>(v >> 16),
+		                      static_cast<unsigned char>(v >> 24)};
+		bytes(b, sizeof b);
+	}
+	void u64(uint64_t v) {
+		unsigned char b[8];
+		for (int i = 0; i < 8; ++i)
+			b[i] = static_cast<unsigned char>(v >> (8 * i));
+		bytes(b, sizeof b);
+	}
+	void str(const char* s) {
+		const size_t n = s ? std::strlen(s) : 0;
+		if (n > 0xFFFF) {
+			ok_ = false;
+			return;
+		}
+		u16(static_cast<uint32_t>(n));
+		bytes(s, n);
+	}
+	void varint(uint64_t v) {
+		unsigned char b[10];
+		size_t n = 0;
+		while (v >= 0x80) {
+			b[n++] = static_cast<unsigned char>(v | 0x80);
+			v >>= 7;
+		}
+		b[n++] = static_cast<unsigned char>(v);
+		bytes(b, n);
+	}
+};
+
+/// Little-endian reader for the cache file.
+class CacheReader {
+	FILE* f_;
+	uint64_t remaining_;
+	bool ok_;
+
+public:
+	explicit CacheReader(FILE* f, uint64_t size)
+	    : f_(f), remaining_(size), ok_(true) {}
+	bool ok() const { return ok_; }
+	bool atEnd() const { return ok_ && remaining_ == 0; }
+	uint64_t remaining() const { return remaining_; }
+
+	void bytes(void* dst, size_t n) {
+		if (!ok_)
+			return;
+		if (n > remaining_ || std::fread(dst, 1, n, f_) != n) {
+			ok_ = false;
+			return;
+		}
+		remaining_ -= n;
+	}
+	uint8_t u8() {
+		unsigned char b = 0;
+		bytes(&b, sizeof b);
+		return b;
+	}
+	uint16_t u16() {
+		unsigned char b[2] = {};
+		bytes(b, sizeof b);
+		return static_cast<uint16_t>(b[0] | (b[1] << 8));
+	}
+	uint32_t u32() {
+		unsigned char b[4] = {};
+		bytes(b, sizeof b);
+		return static_cast<uint32_t>(b[0]) | (static_cast<uint32_t>(b[1]) << 8) |
+		       (static_cast<uint32_t>(b[2]) << 16) |
+		       (static_cast<uint32_t>(b[3]) << 24);
+	}
+	uint64_t u64() {
+		unsigned char b[8] = {};
+		bytes(b, sizeof b);
+		uint64_t v = 0;
+		for (int i = 7; i >= 0; --i)
+			v = (v << 8) | b[i];
+		return v;
+	}
+	bool str(std::string& out) {
+		const uint16_t n = u16();
+		if (!ok_ || n > remaining_) {
+			ok_ = false;
+			return false;
+		}
+		out.resize(n);
+		if (n != 0)
+			bytes(out.data(), n);
+		return ok_;
+	}
+	uint64_t varint() {
+		uint64_t v = 0;
+		int shift = 0;
+		while (ok_) {
+			const uint8_t b = u8();
+			if (!ok_)
+				break;
+			v |= static_cast<uint64_t>(b & 0x7F) << shift;
+			if ((b & 0x80) == 0)
+				return v;
+			shift += 7;
+			if (shift > 63) {
+				ok_ = false;
+				return 0;
+			}
+		}
+		return 0;
+	}
+};
+
+/// Inverse of the zigzag encoding used for the elo deltas.
+inline int32_t unzigzag(uint64_t v) {
+	return static_cast<int32_t>(v >> 1) ^ -static_cast<int32_t>(v & 1);
+}
+
+/// Absolute path of the cache file that belongs to @e filename.
+std::string cachePathFor(const char* filename) {
+	return std::string(filename) + ".sspc";
+}
+
 
 enum InfoType {
 	SPELL_SECTIONSTART,
@@ -245,7 +413,7 @@ private:
  * and the only valid operation is to destroy the object.
  * If SPELLCHKVALIDATE is defined, it also creates a @filename.validate log.
  */
-errorT SpellChecker::read(const char* filename, const Progress& progress)
+errorT SpellChecker::readSpellFile(const char* filename, const Progress& progress)
 {
 	ASSERT(filename != nullptr);
 	ASSERT(staticStrings_ == nullptr);
@@ -320,10 +488,358 @@ errorT SpellChecker::read(const char* filename, const Progress& progress)
 	return OK;
 }
 
+/**
+ * SpellChecker::read() - Read a "spelling" file, using the cache if possible.
+ *
+ * The parsed data is cached in a file that sits next to the source (see
+ * SpellChecker::writeCache()). The cache is used only when the source file
+ * has not changed; otherwise the source is parsed and the cache is rebuilt.
+ */
+errorT SpellChecker::read(const char* filename, const Progress& progress)
+{
+	ASSERT(filename != nullptr);
+	ASSERT(staticStrings_ == nullptr);
+
+	const auto srcPath = pathFromUtf8(filename);
+	std::error_code ec;
+	const uint64_t srcSize = std::filesystem::file_size(srcPath, ec);
+	if (ec) return ERROR_FileOpen;
+	const uint64_t srcTime = static_cast<uint64_t>(
+	    std::filesystem::last_write_time(srcPath, ec).time_since_epoch().count());
+	if (ec) return ERROR_FileOpen;
+
+	const std::string cacheFile = cachePathFor(filename);
+	if (readCache(cacheFile.c_str(), srcSize, srcTime))
+		return OK;
+
+	errorT err = readSpellFile(filename, progress);
+	if (err != OK)
+		return err;
+
+	writeCache(cacheFile.c_str(), srcSize, srcTime);
+	return OK;
+}
+
+/**
+ * SpellChecker::readCache() - Load the parsed data from a cache file.
+ *
+ * @returns true if the object has been filled from the cache; false if the
+ * cache is missing, stale, corrupt or of an unknown version, in which case
+ * the object is left untouched.
+ */
+bool SpellChecker::readCache(const char* cacheFile, uint64_t srcSize,
+                             uint64_t srcTime)
+{
+	const auto cachePath = pathFromUtf8(cacheFile);
+	std::error_code ec;
+	const uint64_t cacheSize = std::filesystem::file_size(cachePath, ec);
+	if (ec || cacheSize < 32)
+		return false;
+
+	FILE* f = fopenUtf8(cacheFile, "rb");
+	if (f == nullptr)
+		return false;
+	struct Closer {
+		FILE* f;
+		~Closer() { std::fclose(f); }
+	} closer{f};
+
+	CacheReader r(f, cacheSize);
+	if (r.u32() != SPELL_CACHE_MAGIC || r.u32() != SPELL_CACHE_VERSION)
+		return false;
+	if (r.u64() != srcSize || r.u64() != srcTime)
+		return false;
+
+	const uint64_t blobBytes = r.u64();
+	if (!r.ok() || blobBytes == 0 || blobBytes > cacheSize)
+		return false;
+	if (r.u32() != NUM_NAME_TYPES)
+		return false;
+	const uint32_t nPlayers = r.u32();
+	const uint32_t nElo = r.u32();
+	if (!r.ok() || nPlayers > SPELL_CACHE_MAX_ITEMS || nElo > SPELL_CACHE_MAX_ITEMS)
+		return false;
+	// Every player and every elo entry occupies at least a few bytes: reject
+	// counts that cannot possibly fit in the file before allocating for them.
+	if (nPlayers > cacheSize / 8 || nElo > cacheSize / 8)
+		return false;
+
+	std::vector<char> blob(static_cast<size_t>(blobBytes));
+	r.bytes(blob.data(), blob.size());
+	if (!r.ok() || blob.back() != '\0')
+		return false;
+
+	const auto validOffset = [&blob](uint32_t off) {
+		return off < blob.size();
+	};
+
+	// Name tables: one offset into the string blob per name.
+	std::vector<uint32_t> nameOff[NUM_NAME_TYPES];
+	std::vector<uint32_t> nameCount(NUM_NAME_TYPES);
+	for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+		nameCount[t] = r.u32();
+		if (!r.ok() || nameCount[t] > SPELL_CACHE_MAX_ITEMS ||
+		    nameCount[t] > r.remaining() / 4)
+			return false;
+		nameOff[t].resize(nameCount[t]);
+		for (auto& off : nameOff[t]) {
+			off = r.u32();
+			if (!r.ok() || !validOffset(off))
+				return false;
+		}
+	}
+
+	// Lookup index: alias -> name id (sorted, as produced by readSpellFile()).
+	std::vector<std::vector<SpellChecker::Idx>> idx(NUM_NAME_TYPES);
+	for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+		const uint32_t n = r.u32();
+		if (!r.ok() || n > SPELL_CACHE_MAX_ITEMS || n > r.remaining() / 6)
+			return false;
+		idx[t].reserve(n);
+		for (uint32_t i = 0; i < n; ++i) {
+			const uint32_t id = r.u32();
+			std::string alias;
+			if (!r.str(alias) || id >= nameCount[t])
+				return false;
+			idx[t].emplace_back(std::move(alias), static_cast<int32_t>(id));
+		}
+	}
+
+	// Characters ignored when matching names, and the general corrections.
+	std::string excludeChars[NUM_NAME_TYPES];
+	NameNormalizer general[NUM_NAME_TYPES];
+	for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+		if (!r.str(excludeChars[t]))
+			return false;
+		auto& rules = general[t];
+		auto readRules = [&](std::vector<std::pair<std::string, std::string>>& dst) {
+			const uint32_t n = r.u32();
+			if (!r.ok() || n > 0xFFFF)
+				return false;
+			dst.reserve(n);
+			for (uint32_t i = 0; i < n; ++i) {
+				std::string from, to;
+				if (!r.str(from) || !r.str(to))
+					return false;
+				dst.emplace_back(std::move(from), std::move(to));
+			}
+			return true;
+		};
+		if (!readRules(rules.prefix_) || !readRules(rules.infix_) ||
+		    !readRules(rules.suffix_))
+			return false;
+	}
+
+	// Player information: comment (or none) and biographies.
+	std::vector<uint32_t> commentOff(nPlayers, SPELL_CACHE_NULL_OFFSET);
+	std::vector<std::vector<uint32_t>> bioOff(nPlayers);
+	for (uint32_t i = 0; i < nPlayers; ++i) {
+		uint32_t off = r.u32();
+		const uint32_t nBio = r.u32();
+		if (!r.ok() || nBio > SPELL_CACHE_MAX_ITEMS || nBio > r.remaining() / 4)
+			return false;
+		if (off != SPELL_CACHE_NULL_OFFSET) {
+			if (!validOffset(off))
+				return false;
+			commentOff[i] = off;
+		}
+		bioOff[i].resize(nBio);
+		for (auto& bo : bioOff[i]) {
+			bo = r.u32();
+			if (!r.ok() || !validOffset(bo))
+				return false;
+		}
+	}
+
+	// Elo ratings, delta encoded (see writeCache()).
+	std::vector<PlayerElo> eloVec(nElo);
+	if (r.u32() != nElo)
+		return false;
+	for (uint32_t i = 0; i < nElo; ++i) {
+		const uint32_t n = r.u32();
+		if (!r.ok() || n > SPELL_CACHE_MAX_ITEMS || n > r.remaining() / 2)
+			return false;
+		eloVec[i].elo_.reserve(n);
+		int32_t year = 0;
+		int32_t elo = 0;
+		for (uint32_t k = 0; k < n; ++k) {
+			year += unzigzag(r.varint());
+			elo += unzigzag(r.varint());
+			if (!r.ok())
+				return false;
+			eloVec[i].elo_.emplace_back(static_cast<uint16_t>(year),
+			                            static_cast<eloT>(elo));
+		}
+	}
+	if (!r.atEnd())
+		return false;
+
+	// Everything has been read and validated: build the object.
+	char* strings = static_cast<char*>(std::malloc(blob.size()));
+	if (strings == nullptr)
+		return false;
+	std::memcpy(strings, blob.data(), blob.size());
+	staticStrings_ = strings;
+
+	for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+		names_[t].resize(nameCount[t]);
+		for (size_t i = 0; i < nameCount[t]; ++i)
+			names_[t][i] = strings + nameOff[t][i];
+		idx_[t] = std::move(idx[t]);
+		excludeChars_[t] = std::move(excludeChars[t]);
+		general_[t] = std::move(general[t]);
+	}
+
+	pInfo_.reserve(nPlayers);
+	for (uint32_t i = 0; i < nPlayers; ++i) {
+		const char* comment = (commentOff[i] == SPELL_CACHE_NULL_OFFSET)
+		                          ? nullptr
+		                          : strings + commentOff[i];
+		pInfo_.push_back(PlayerInfo(comment));
+		pInfo_.back().bio_.reserve(bioOff[i].size());
+		for (uint32_t off : bioOff[i])
+			pInfo_.back().bio_.push_back(strings + off);
+	}
+
+	pElo_ = std::move(eloVec);
+
+	return true;
+}
+
+/**
+ * SpellChecker::writeCache() - Store the parsed data into a cache file.
+ *
+ * Best effort: every error is ignored, the cache can always be rebuilt by
+ * parsing the source file. The file is written under a temporary name and
+ * renamed into place, so a concurrent reader never sees a partial file.
+ */
+void SpellChecker::writeCache(const char* cacheFile, uint64_t srcSize,
+                              uint64_t srcTime) const
+{
+	// A file of names only is parsed in a fraction of a second and its cache
+	// would be about as large as the source: not worth writing.
+	uint64_t nEloEntries = 0;
+	for (const auto& pe : pElo_)
+		nEloEntries += pe.elo_.size();
+	if (nEloEntries == 0 && srcSize < (64ull << 20))
+		return;
+
+	// Build the string blob and remember where every string starts.
+	std::vector<char> blob;
+	std::vector<uint32_t> nameOff[NUM_NAME_TYPES];
+	std::vector<uint32_t> commentOff(pInfo_.size(), SPELL_CACHE_NULL_OFFSET);
+	std::vector<std::vector<uint32_t>> bioOff(pInfo_.size());
+	const auto addString = [&blob](const char* s) {
+		const uint32_t off = static_cast<uint32_t>(blob.size());
+		const size_t n = std::strlen(s);
+		blob.insert(blob.end(), s, s + n + 1);
+		return off;
+	};
+	for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+		nameOff[t].reserve(names_[t].size());
+		for (const char* s : names_[t])
+			nameOff[t].push_back(addString(s));
+	}
+	for (size_t i = 0; i < pInfo_.size(); ++i) {
+		if (pInfo_[i].comment_ != nullptr)
+			commentOff[i] = addString(pInfo_[i].comment_);
+		bioOff[i].reserve(pInfo_[i].bio_.size());
+		for (const char* s : pInfo_[i].bio_)
+			bioOff[i].push_back(addString(s));
+	}
+	if (blob.empty() || blob.size() > 0xFFFFFFFFull)
+		return;
+
+	const std::string tmp = std::string(cacheFile) + ".tmp" +
+	                        std::to_string(std::chrono::steady_clock::now()
+	                                           .time_since_epoch()
+	                                           .count());
+	FILE* f = fopenUtf8(tmp.c_str(), "wb");
+	if (f == nullptr)
+		return;
+
+	{
+		CacheWriter w(f);
+		w.u32(SPELL_CACHE_MAGIC);
+		w.u32(SPELL_CACHE_VERSION);
+		w.u64(srcSize);
+		w.u64(srcTime);
+		w.u64(blob.size());
+		w.u32(NUM_NAME_TYPES);
+		w.u32(static_cast<uint32_t>(pInfo_.size()));
+		w.u32(static_cast<uint32_t>(pElo_.size()));
+		w.bytes(blob.data(), blob.size());
+
+		for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+			w.u32(names_[t].size());
+			for (uint32_t off : nameOff[t])
+				w.u32(off);
+		}
+		for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+			w.u32(idx_[t].size());
+			for (const auto& e : idx_[t]) {
+				w.u32(static_cast<uint32_t>(e.idx));
+				w.str(e.alias.c_str());
+			}
+		}
+		for (nameT t = 0; t < NUM_NAME_TYPES; ++t) {
+			w.str(excludeChars_[t].c_str());
+			for (const auto* rules : {&general_[t].prefix_, &general_[t].infix_,
+			                          &general_[t].suffix_}) {
+				w.u32(rules->size());
+				for (const auto& r : *rules) {
+					w.str(r.first.c_str());
+					w.str(r.second.c_str());
+				}
+			}
+		}
+		for (size_t i = 0; i < pInfo_.size(); ++i) {
+			w.u32(commentOff[i]);
+			w.u32(static_cast<uint32_t>(bioOff[i].size()));
+			for (uint32_t off : bioOff[i])
+				w.u32(off);
+		}
+		w.u32(static_cast<uint32_t>(pElo_.size()));
+		for (const auto& pe : pElo_) {
+			w.u32(static_cast<uint32_t>(pe.elo_.size()));
+			int32_t prevYear = 0;
+			int32_t prevElo = 0;
+			const auto zigzag = [](int32_t v) {
+				return (static_cast<uint32_t>(v) << 1) ^
+				       static_cast<uint32_t>(v < 0 ? -1 : 0);
+			};
+			for (const auto& e : pe.elo_) {
+				w.varint(zigzag(static_cast<int32_t>(e.first) - prevYear));
+				w.varint(zigzag(static_cast<int32_t>(e.second) - prevElo));
+				prevYear = e.first;
+				prevElo = e.second;
+			}
+		}
+
+		if (!w.ok()) {
+			std::fclose(f);
+			std::error_code ec2;
+			std::filesystem::remove(pathFromUtf8(tmp), ec2);
+			return;
+		}
+	}
+	if (std::fclose(f) != 0) {
+		std::error_code ec;
+		std::filesystem::remove(pathFromUtf8(tmp), ec);
+		return;
+	}
+
+	std::error_code ec;
+	std::filesystem::rename(pathFromUtf8(tmp), pathFromUtf8(cacheFile), ec);
+	if (ec)
+		std::filesystem::remove(pathFromUtf8(tmp), ec);
+}
+
 
 //////////////////////////////////////////////////////////////////////
 //
 //  FILE:       spellchk.cpp
+//
 //              SpellChecker class methods
 //
 //  Part of:    Scid (Shane's Chess Information Database)
