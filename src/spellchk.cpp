@@ -813,8 +813,10 @@ void SpellChecker::writeCache(const char* cacheFile, const char* sourceFile,
 	// before it is published. O_EXCL also refuses a pre-existing file.
 	const int fd = ::open(tmp.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0600);
 	FILE* f = (fd >= 0) ? ::fdopen(fd, "wb") : nullptr;
-	if (fd >= 0 && f == nullptr)
+	if (fd >= 0 && f == nullptr) {
 		::close(fd);
+		::unlink(tmp.c_str());
+	}
 #endif
 	if (f == nullptr)
 		return;
