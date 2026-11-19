@@ -31,6 +31,7 @@
 #include <cstring>
 #include <numeric>
 #include <thread>
+#include <cmath>
 
 /**
  * Blocks the current thread until the thread @e th_ finishes its execution.
@@ -51,21 +52,66 @@ void SortCache::th_join() {
  */
 void SortCache::th_sort() {
 	gamenumT* begin = fullMap_;
-	gamenumT* end = begin + nGames_;
-	std::iota(begin, end, 0);
+	const size_t n = nGames_;
+	std::iota(begin, begin + n, 0);
 
-	CmpLess comp(this);
-	std::sort(begin, end, comp);
+	// The comparator is constant for the whole run: std::sort, std::partition
+	// and friends require a strict weak ordering for the duration of the
+	// call, so the sort is cancelled between two steps instead (see
+	// th_sort_range()).
+	int depth = 2 * static_cast<int>(std::log2(std::max<size_t>(n, 2)));
+	th_sort_range(begin, begin + n, depth);
 
-	// The comparator stops ordering as soon as th_interrupt_ is set, so a
-	// partial result must not be published.
 	if (th_interrupt_)
 		return;
 
-	ASSERT(std::is_sorted(begin, end, comp));
+	ASSERT(std::is_sorted(begin, begin + n, CmpLess(this)));
 	this->valid_fullMap_ = true;
 }
 
+/**
+ * Sort [first, last) with quicksort over the key cache.
+ *
+ * The recursion checks th_interrupt_ before every partition, so a cancelled
+ * sort stops within one partition without ever changing the comparator's
+ * answers. A depth limit falls back to std::sort on the remaining range,
+ * which bounds the worst case.
+ */
+void SortCache::th_sort_range(gamenumT* first, gamenumT* last, int depth) {
+	CmpLess comp(this);
+	while (last - first > 24) {
+		if (th_interrupt_)
+			return;
+		if (depth <= 0) {
+			std::sort(first, last, comp);
+			return;
+		}
+		// Median of three at the front, then three-way-less partition.
+		gamenumT* mid = first + (last - first) / 2;
+		if (comp(*mid, *first))
+			std::iter_swap(mid, first);
+		if (comp(*(last - 1), *first))
+			std::iter_swap(last - 1, first);
+		if (comp(*(last - 1), *mid))
+			std::iter_swap(last - 1, mid);
+		std::iter_swap(first, mid);
+
+		gamenumT* cut = std::partition(first + 1, last, [&](gamenumT g) {
+			return comp(g, *first);
+		});
+		std::iter_swap(first, cut - 1);
+		--depth;
+		// Sort the smaller part recursively, keep looping on the larger one.
+		if (cut - 1 - first < last - cut) {
+			th_sort_range(first, cut - 1, depth);
+			first = cut;
+		} else {
+			th_sort_range(cut, last, depth);
+			last = cut - 1;
+		}
+	}
+	std::sort(first, last, comp);
+}
 
 SortCache::SortCache(const Index* idx, const NameBase* nbase)
     : nGames_(0), valid_fullMap_(false), th_interrupt_(false),
@@ -272,11 +318,6 @@ void SortCache::sortAsynchronously() {
  */
 bool SortCache::CmpLess::operator()(gamenumT g1, gamenumT g2) const {
 	ASSERT(g1 < sc_->nGames_ && g2 < sc_->nGames_);
-
-	// Return false for every comparison once the sort has been cancelled:
-	// this is a valid (degenerate) ordering, so std::sort still terminates.
-	if (sc_->th_interrupt_)
-		return false;
 
 	if (sc_->key_[g1] != sc_->key_[g2])
 		return sc_->key_[g1] < sc_->key_[g2];
