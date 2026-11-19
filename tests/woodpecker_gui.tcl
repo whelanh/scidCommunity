@@ -152,10 +152,24 @@ proc ::wpgui::run {} {
     check "and can be stepped through" [expr {[::woodpecker::ui::callback moveForward] == 1}]
     ::move::Forward
     wait 100
+    check "the arrow moves the highlight on the card" [expr {[llength [.woodpeckerWin.sess.card.t tag ranges cur]] == 2 && [.woodpeckerWin.sess.card.t tag nextrange cur 1.0 end] eq [.woodpeckerWin.sess.card.t tag nextrange ply[sc_pos location] 1.0 end]}]
     checkEq "the first solution move carries its !!" [string trim [sc_pos getNags]] "!!"
     ::woodpecker::ui::gotoPly 3
     wait 100
     checkEq "a click on the card shows that move's position" [sc_pos location] 3
+    # A real click on a move of the card, then the arrow: the click must not
+    # leave the focus where the arrows are not bound.
+    set t .woodpeckerWin.sess.card.t
+    set bb [$t bbox [lindex [$t tag ranges ply2] 0]]
+    set cx [expr {[lindex $bb 0] + 3}]; set cy [expr {[lindex $bb 1] + 3}]
+    event generate $t <Motion> -x $cx -y $cy
+    event generate $t <ButtonPress-1> -x $cx -y $cy
+    event generate $t <ButtonRelease-1> -x $cx -y $cy
+    wait 100
+    checkEq "a real click on a card move shows it" [sc_pos location] 2
+    event generate [focus] <Key-Left>
+    wait 100
+    checkEq "and the arrow still steps back after it" [sc_pos location] 1
     shot solution
     ::woodpecker::ui::keyContinue
     wait 300

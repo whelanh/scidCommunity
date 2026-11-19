@@ -346,6 +346,11 @@ proc ::woodpecker::ui::buildSession {} {
     pack $p.cards -side top -fill x -pady {4 0}
     pack $p.strip -side top -fill x -pady {10 0}
     pack $p.notice -side top -anchor w -pady {6 0}
+    # The arrow keys are bound on ".", which this window's widgets do not reach:
+    # a click anywhere on the panel (the card's moves included, which take the
+    # focus) gives it back to the board, so the arrows keep working.
+    bind WoodpeckerPanel <ButtonRelease-1> {+focus .main}
+    ::addBindtagToTree $p WoodpeckerPanel
 }
 
 proc ::woodpecker::ui::buildSummary {} {
@@ -1597,9 +1602,17 @@ proc ::woodpecker::ui::gotoPly {ply} {
     if {!$run(on) || $run(wait) ne "solution"} { return }
     catch { sc_move ply $ply }
     ::notify::PosChanged -pgn
+    markCur
+}
+
+# Highlight on the card the move the board is at, whoever moved it (click or arrows).
+proc ::woodpecker::ui::markCur {} {
+    variable run
+    if {!$run(on) || $run(wait) ne "solution"} { return }
     set t [cardText]
+    if {$t eq "" || ![winfo exists $t]} { return }
     $t tag remove cur 1.0 end
-    foreach {a b} [$t tag ranges ply$ply] { $t tag add cur $a $b }
+    foreach {a b} [$t tag ranges ply[sc_pos location]] { $t tag add cur $a $b }
 }
 
 ################################################################################
@@ -1662,6 +1675,7 @@ proc ::woodpecker::ui::showSolution {} {
     sc_move ply [expr {2 * $idx}]
     ::notify::PosChanged -pgn
     set run(wait) solution
+    markCur
     status [tr WoodpeckerSolutionShown] 1
 }
 
@@ -1849,7 +1863,9 @@ proc ::woodpecker::ui::callback {cmd args} {
         stop { finish; return 0 }
         moveBack - moveForward - moveStart - moveEnd - moveExitVar {
             # The solution of a failed exercise can be stepped through.
-            return [expr {$run(on) && $run(wait) eq "solution"}]
+            set ok [expr {$run(on) && $run(wait) eq "solution"}]
+            if {$ok} { after idle ::woodpecker::ui::markCur }
+            return $ok
         }
     }
     return 0
