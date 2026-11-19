@@ -51,6 +51,8 @@
  * "II champ 3rd II 3rd (Italy) (Italy)" --> "2. champ 3. II 3. (Italy) ITA"
  */
 class NameNormalizer {
+	friend class SpellChecker;
+
 	typedef std::vector< std::pair<std::string,std::string> > Cont;
 	Cont prefix_;
 	Cont infix_ ;
@@ -141,6 +143,8 @@ private:
  * %Elo YEAR:ELO_1PERIOD,ELO_2PERIOD,ELO_3PERIOD,... YEAR:ELO_1PERIOD,...
  */
 class PlayerElo {
+	friend class SpellChecker;
+
 	std::vector< std::pair<uint16_t, eloT> > elo_;
 
 public:
@@ -381,6 +385,20 @@ private:
 	SpellChecker& operator=(const SpellChecker&);
 
 	errorT read(const char* filename, const Progress& progress);
+
+	/// Parse the spelling file line by line.
+	errorT readSpellFile(const char* filename, const Progress& progress);
+
+	/// Load a cache file written by writeCache().
+	/// Returns false if the cache is missing, stale or corrupt: the caller
+	/// must then parse the source file.
+	bool readCache(const char* cacheFile, const char* sourceFile,
+	               uint64_t srcSize, uint64_t srcTime);
+
+	/// Serialize the parsed data to @e cacheFile (best effort: failures are
+	/// ignored, the file can always be rebuilt).
+	void writeCache(const char* cacheFile, const char* sourceFile,
+	                uint64_t srcSize, uint64_t srcTime) const;
 
 	std::string normalizeAndTransform(const nameT& nt, const char* s) const { 
 		std::string res;

@@ -149,7 +149,8 @@ TEST_F(Test_SortCache, select_sortedPosition) {
     auto it = std::find_if(vIndex.begin(), vIndex.end(),
                            [id](auto &rec) { return id == rec[0]; });
     size_t pos = distance(vIndex.begin(), it);
-    EXPECT_EQ(pos, dbase.sortedPosition(crit, flt, id));
+    EXPECT_EQ(pos, dbase.sortedPosition(crit, flt, id))
+        << "Criteria: " << crit;
   };
 
   std::vector<std::string> testCrit(30);

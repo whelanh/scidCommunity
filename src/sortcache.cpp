@@ -31,6 +31,7 @@
 #include <cstring>
 #include <numeric>
 #include <thread>
+#include <cmath>
 
 /**
  * Blocks the current thread until the thread @e th_ finishes its execution.
@@ -50,60 +51,115 @@ void SortCache::th_join() {
  * SortCache object, or the associated Index and NameBase objects.
  */
 void SortCache::th_sort() {
-	size_t nGames = this->nGames_;
-	gamenumT* v = this->fullMap_;
-	gamenumT* begin = v;
-	gamenumT* end = v + nGames;
-	auto comp = SortCache::CmpLess(this);
+	gamenumT* begin = fullMap_;
+	const size_t n = nGames_;
+	std::iota(begin, begin + n, 0);
 
-	std::iota(begin, end, 0);
+	// The comparator is constant for the whole run: std::sort, std::partition
+	// and friends require a strict weak ordering for the duration of the
+	// call, so the sort is cancelled between two steps instead (see
+	// th_sort_range()).
+	int depth = 2 * static_cast<int>(std::log2(std::max<size_t>(n, 2)));
+	th_sort_range(begin, begin + n, depth);
 
-	// An interruptible implementation of:
-	// std::make_heap(v.begin(), v.end(), comp);
-	ASSERT(nGames < size_t(INT_MAX / 2));
-	const int lastNode = static_cast<int>(nGames) - 1;
-	const auto lastRoot = (lastNode - 1) / 2;
-	for (auto node = lastRoot; node >= 0; --node) {
-		if (this->th_interrupt_)
-			return;
-		// Sift down @e node
-		for (auto toSift = node;;) {
-			const auto leftChild = 2 * toSift + 1;
-			const auto rightChild = 2 * toSift + 2;
-			if (leftChild > lastNode)
-				break;
-			int maxChild = (rightChild <= lastNode && comp(v[leftChild], v[rightChild]))
-			                   ? rightChild
-			                   : leftChild;
-			if (!comp(v[toSift], v[maxChild]))
-				break;
-			std::swap(v[toSift], v[maxChild]);
-			toSift = maxChild;
-		}
-	}
-	ASSERT(std::is_heap(begin, end, comp));
+	if (th_interrupt_)
+		return;
 
-	// An interruptible implementation of:
-	// std::sort_heap(v.begin(), v.end(), comp);
-	for (auto it = end; it != begin; --it) {
-		if (this->th_interrupt_)
-			return;
-		std::pop_heap(begin, it, comp);
-	}
-	ASSERT(std::is_sorted(begin, end, comp));
-
+	ASSERT(std::is_sorted(begin, begin + n, CmpLess(this)));
 	this->valid_fullMap_ = true;
 }
 
+/**
+ * Heap sort [first, last) with the key cache comparator.
+ *
+ * Used as introsort's fallback when the pivot choices degenerate; it checks
+ * th_interrupt_ between the steps, so a cancelled sort still stops quickly.
+ */
+void SortCache::th_heap_sort_range(gamenumT* first, gamenumT* last) {
+	const ptrdiff_t n = last - first;
+	if (n < 2)
+		return;
+	CmpLess comp(this);
+	const ptrdiff_t lastNode = n - 1;
+	for (ptrdiff_t node = (lastNode - 1) / 2; node >= 0; --node) {
+		if (th_interrupt_)
+			return;
+		for (ptrdiff_t toSift = node;;) {
+			const ptrdiff_t leftChild = 2 * toSift + 1;
+			const ptrdiff_t rightChild = 2 * toSift + 2;
+			if (leftChild > lastNode)
+				break;
+			const ptrdiff_t maxChild = (rightChild <= lastNode &&
+			                            comp(first[leftChild], first[rightChild]))
+			                               ? rightChild
+			                               : leftChild;
+			if (!comp(first[toSift], first[maxChild]))
+				break;
+			std::swap(first[toSift], first[maxChild]);
+			toSift = maxChild;
+		}
+	}
+	for (ptrdiff_t i = n; i > 0; --i) {
+		if (th_interrupt_)
+			return;
+		std::pop_heap(first, first + i, comp);
+	}
+}
+
+/**
+ * Sort [first, last) with quicksort over the key cache.
+ *
+ * The recursion checks th_interrupt_ before every partition, so a cancelled
+ * sort stops within one partition without ever changing the comparator's
+ * answers. A depth limit falls back to std::sort on the remaining range,
+ * which bounds the worst case.
+ */
+void SortCache::th_sort_range(gamenumT* first, gamenumT* last, int depth) {
+	CmpLess comp(this);
+	while (last - first > 24) {
+		if (th_interrupt_)
+			return;
+		if (depth <= 0) {
+			// Introsort's safety net for a pathological pivot sequence: a
+			// heap sort, which can be abandoned between two steps.
+			th_heap_sort_range(first, last);
+			return;
+		}
+		// Median of three at the front, then three-way-less partition.
+		gamenumT* mid = first + (last - first) / 2;
+		if (comp(*mid, *first))
+			std::iter_swap(mid, first);
+		if (comp(*(last - 1), *first))
+			std::iter_swap(last - 1, first);
+		if (comp(*(last - 1), *mid))
+			std::iter_swap(last - 1, mid);
+		std::iter_swap(first, mid);
+
+		gamenumT* cut = std::partition(first + 1, last, [&](gamenumT g) {
+			return comp(g, *first);
+		});
+		std::iter_swap(first, cut - 1);
+		--depth;
+		// Sort the smaller part recursively, keep looping on the larger one.
+		if (cut - 1 - first < last - cut) {
+			th_sort_range(first, cut - 1, depth);
+			first = cut;
+		} else {
+			th_sort_range(cut, last, depth);
+			last = cut - 1;
+		}
+	}
+	std::sort(first, last, comp);
+}
 
 SortCache::SortCache(const Index* idx, const NameBase* nbase)
     : nGames_(0), valid_fullMap_(false), th_interrupt_(false),
-      partialHash_(false), fullMap_(nullptr), th_(nullptr), hash_(nullptr), index_(idx),
+      partialKey_(false), fullMap_(nullptr), th_(nullptr), key_(nullptr), index_(idx),
       nbase_(nbase), refCount_(0) {}
 
 SortCache::~SortCache() {
 	th_interrupt();
-	delete_huge(hash_, nGames_);
+	delete_huge(key_, nGames_);
 	delete_huge(fullMap_, nGames_);
 }
 
@@ -145,7 +201,11 @@ SortCache* SortCache::create(const Index* idx, const NameBase* nb,
 	}
 	sc->criteria_[i] = SORTING_sentinel;
 
-	sc->generateHashCache();
+	if (!sc->computeKeyLayout(sc->criteria_)) {
+		delete sc;
+		return nullptr;
+	}
+	sc->generateKeyCache();
 	sc->sortAsynchronously();
 
 	return sc;
@@ -232,10 +292,10 @@ size_t SortCache::sortedPosition(gamenumT gameId, const HFilter& filter) const {
 void SortCache::checkForChanges(gamenumT id) {
 	th_interrupt();
 	if (id >= nGames_) {
-		generateHashCache();
+		generateKeyCache();
 		sortAsynchronously();
 	} else {
-		hash_[id] = calcHash(id);
+		key_[id] = calcKey(id);
 		if (valid_fullMap_) {
 			gamenumT* begin = fullMap_;
 			gamenumT* end = fullMap_ + nGames_;
@@ -262,17 +322,17 @@ void SortCache::checkForChanges(gamenumT id) {
 }
 
 /*
- * Calculate the hashes of all games and store them into @e hash_.
+ * Calculate the keys of all games and store them into @e key_.
  */
-void SortCache::generateHashCache() {
+void SortCache::generateKeyCache() {
 	ASSERT(th_ == nullptr);
 
 	valid_fullMap_ = false;
-	delete_huge(hash_, nGames_);
+	delete_huge(key_, nGames_);
 	nGames_ = index_->GetNumGames();
-	hash_ = new_huge<uint32_t>(nGames_);
+	key_ = new_huge<uint64_t>(nGames_);
 	for (gamenumT i = 0; i < nGames_; i++) {
-		hash_[i] = calcHash(i);
+		key_[i] = calcKey(i);
 	}
 }
 
@@ -298,9 +358,9 @@ void SortCache::sortAsynchronously() {
 bool SortCache::CmpLess::operator()(gamenumT g1, gamenumT g2) const {
 	ASSERT(g1 < sc_->nGames_ && g2 < sc_->nGames_);
 
-	if (sc_->hash_[g1] != sc_->hash_[g2])
-		return sc_->hash_[g1] < sc_->hash_[g2];
-	if (!sc_->partialHash_)
+	if (sc_->key_[g1] != sc_->key_[g2])
+		return sc_->key_[g1] < sc_->key_[g2];
+	if (!sc_->partialKey_)
 		return g1 < g2;
 
 	int cmp = sc_->fullCompare(g1, g2);
@@ -461,45 +521,129 @@ int SortCache::fullCompare(gamenumT left, gamenumT right) const {
     return 0;
 }
 
-/*
- * Calculate an order-preserving hash corresponding to the current criteria.
- * @param gameId: the id of the game whose hash should be calculated.
- * @returns the hash value.
+/**
+ * True if the key cache stores the whole value of a sorting field.
+ *
+ * The name-based fields are packed as their first 32 bits (see calcKey()):
+ * two different names often share a prefix, so their key is only a
+ * coarsening of the real order.  A field that is not exact must be the last
+ * one contributing to the key, because a tie in a prefix says nothing about
+ * the fields that follow it: the comparison of the following fields would
+ * then decide an order that the truncated field should have decided first.
  */
-uint32_t SortCache::calcHash(gamenumT gameId) {
+static bool keyFieldIsExact(char field) {
+	switch (field) {
+	case 'w': // white
+	case 'b': // black
+	case 's': // site
+	case 'e': // event
+	case 'n': // round
+	case 'c': // country
+		return false;
+	default:
+		return true;
+	}
+}
+
+/*
+ * Compute the bit layout of the key cache from the sorting criteria.
+ *
+ * The key is a uint64_t built by concatenating the sorting fields, most
+ * significant field first (see calcKey()). When the fields do not fit into
+ * 64 bits, or when a field is a string (of which only a 32 bits prefix is
+ * used), the key is not enough to decide the order: @e partialKey_ is set
+ * and CmpLess() resolves the remaining ties with fullCompare().
+ *
+ * @param criteria: the sorting criteria.
+ * @returns false if the criteria contain an unknown field.
+ */
+bool SortCache::computeKeyLayout(const char* criteria) {
+	size_t totalBits = 0;
+	partialKey_ = false;
+
+	for (const char* field = criteria; *field != SORTING_sentinel; field += 2) {
+		size_t bits;
+		switch (*field) {
+		case SORTING_white:
+		case SORTING_black:
+		case SORTING_site:
+		case SORTING_event:
+		case SORTING_round:
+		case SORTING_country:
+			// Only the first 32 bits of the name are compared: a string
+			// prefix can never decide the order on its own.  It must also
+			// be the last field packed into the key (see keyFieldIsExact()).
+			bits = 32;
+			break;
+		case SORTING_date:         bits = 24; break;
+		case SORTING_eventdate:    bits = 32; break;
+		case SORTING_year:         bits = 16; break;
+		case SORTING_whiteelo:     bits = 16; break;
+		case SORTING_blackelo:     bits = 16; break;
+		case SORTING_avgElo:       bits = 16; break;
+		case SORTING_result:       bits = 8;  break;
+		case SORTING_resultwin:    bits = 8;  break;
+		case SORTING_resultdraw:   bits = 8;  break;
+		case SORTING_resultloss:   bits = 8;  break;
+		case SORTING_moveCount:    bits = 16; break;
+		case SORTING_eco:          bits = 16; break;
+		case SORTING_commentcount: bits = 16; break;
+		case SORTING_varcount:     bits = 16; break;
+		case SORTING_nagcount:     bits = 16; break;
+		case SORTING_deleted:      bits = 8;  break;
+		case SORTING_rating:       bits = 8;  break;
+		case SORTING_number:       bits = 32; break;
+		default:                   return false;
+		}
+
+		totalBits += bits;
+		if (totalBits > 64 || !keyFieldIsExact(*field)) {
+			// The key keeps the leading criteria only.
+			partialKey_ = true;
+			break;
+		}
+		if (totalBits == 64) {
+			if (*(field + 2) != SORTING_sentinel)
+				partialKey_ = true;
+			break;
+		}
+	}
+	return true;
+}
+
+/*
+ * Calculate an order-preserving key corresponding to the current criteria.
+ * @param gameId: the id of the game whose key should be calculated.
+ * @returns the key value.
+ */
+uint64_t SortCache::calcKey(gamenumT gameId) const {
 	uint64_t retValue = 0;
-	const size_t nHashBits = 32;
 	size_t totalBitsUsed = 0;
 	const IndexEntry* ie = index_->GetEntry(gameId);
 
-	for (const char* field = criteria_; *field != SORTING_sentinel; ++field) {
+	for (const char* field = criteria_; *field != SORTING_sentinel; field += 2) {
 		uint32_t value;
 		size_t bitsUsed;
 		switch (*field) {
 			case SORTING_white:
 				value = strStartHash(nbase_->GetName(NAME_PLAYER, ie->GetWhite()));
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			case SORTING_black:
 				value = strStartHash(nbase_->GetName(NAME_PLAYER, ie->GetBlack()));
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			case SORTING_site:
 				value = strStartHash(nbase_->GetName(NAME_SITE, ie->GetSite()));
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			case SORTING_event:
 				value = strStartHash(nbase_->GetName(NAME_EVENT, ie->GetEvent()));
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			case SORTING_round:
 				value = strGetUnsigned(nbase_->GetName(NAME_ROUND, ie->GetRound()));
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			case SORTING_country:
 			{
@@ -508,8 +652,7 @@ uint32_t SortCache::calcHash(gamenumT gameId) {
 				if (slen > 3) 
 					scountry += slen - 3;
 				value = strStartHash(scountry);
-				bitsUsed = nHashBits;
-				partialHash_ = true;
+				bitsUsed = 32;
 				break;
 			}
 			case SORTING_date:
@@ -586,36 +729,33 @@ uint32_t SortCache::calcHash(gamenumT gameId) {
 				break;
 			default:    // Should never happen:
 				ASSERT(0);
-				partialHash_ = true;
 				return 0;
 		}
 
 		// If reverse order, just negate the cache value
-		if (*++field) {
+		if (*(field + 1)) {
 			value = ~value;
-			if (sizeof(value) * 8 > bitsUsed) {
+			if (bitsUsed < 32) {
 				// Clear the unused top bits
-				value <<= sizeof(value) * 8 - bitsUsed;
-				value >>= sizeof(value) * 8 - bitsUsed;
+				value &= (1u << bitsUsed) - 1;
 			}
 		}
-		// Combine with previous hash value
+		// Combine with the previous key value. If not all the sorting fields
+		// fit, the key keeps the leading bits only: the remaining
+		// differences are resolved by fullCompare().
+		if (totalBitsUsed + bitsUsed > 64) {
+			const size_t keep = 64 - totalBitsUsed;
+			retValue <<= keep;
+			if (keep != 0)
+				retValue |= value >> (bitsUsed - keep);
+			break;
+		}
 		retValue <<= bitsUsed;
 		retValue |= value;
 		totalBitsUsed += bitsUsed;
-
-		// If not all search attributes fit, then it is a partial hash
-		if (totalBitsUsed > nHashBits) {
-			retValue >>= totalBitsUsed - nHashBits;
-			partialHash_ = true;
+		if (totalBitsUsed == 64 || !keyFieldIsExact(*field))
 			break;
-		}
-		if (totalBitsUsed == nHashBits) {
-			if (*(field + 1) != SORTING_sentinel)
-				partialHash_ = true;
-			break;
-		}
 	}
 
-	return static_cast<uint32_t>(retValue);
+	return retValue;
 }
