@@ -179,6 +179,12 @@ public:
 			const uint8_t b = u8();
 			if (!ok_)
 				break;
+			// At shift 63 only bit 0 of the payload still fits: reject the
+			// bytes that would otherwise be dropped silently.
+			if (shift == 63 && (b & 0x7E) != 0) {
+				ok_ = false;
+				return 0;
+			}
 			v |= static_cast<uint64_t>(b & 0x7F) << shift;
 			if ((b & 0x80) == 0)
 				return v;
