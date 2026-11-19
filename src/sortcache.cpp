@@ -441,6 +441,30 @@ int SortCache::fullCompare(gamenumT left, gamenumT right) const {
     return 0;
 }
 
+/**
+ * True if the key cache stores the whole value of a sorting field.
+ *
+ * The name-based fields are packed as their first 32 bits (see calcKey()):
+ * two different names often share a prefix, so their key is only a
+ * coarsening of the real order.  A field that is not exact must be the last
+ * one contributing to the key, because a tie in a prefix says nothing about
+ * the fields that follow it: the comparison of the following fields would
+ * then decide an order that the truncated field should have decided first.
+ */
+static bool keyFieldIsExact(char field) {
+	switch (field) {
+	case 'w': // white
+	case 'b': // black
+	case 's': // site
+	case 'e': // event
+	case 'n': // round
+	case 'c': // country
+		return false;
+	default:
+		return true;
+	}
+}
+
 /*
  * Compute the bit layout of the key cache from the sorting criteria.
  *
@@ -467,9 +491,9 @@ bool SortCache::computeKeyLayout(const char* criteria) {
 		case SORTING_round:
 		case SORTING_country:
 			// Only the first 32 bits of the name are compared: a string
-			// prefix can never decide the order on its own.
+			// prefix can never decide the order on its own.  It must also
+			// be the last field packed into the key (see keyFieldIsExact()).
 			bits = 32;
-			partialKey_ = true;
 			break;
 		case SORTING_date:         bits = 24; break;
 		case SORTING_eventdate:    bits = 32; break;
@@ -493,7 +517,7 @@ bool SortCache::computeKeyLayout(const char* criteria) {
 		}
 
 		totalBits += bits;
-		if (totalBits > 64) {
+		if (totalBits > 64 || !keyFieldIsExact(*field)) {
 			// The key keeps the leading criteria only.
 			partialKey_ = true;
 			break;
@@ -636,18 +660,20 @@ uint64_t SortCache::calcKey(gamenumT gameId) const {
 				value &= (1u << bitsUsed) - 1;
 			}
 		}
-		// Combine with previous key value
+		// Combine with the previous key value. If not all the sorting fields
+		// fit, the key keeps the leading bits only: the remaining
+		// differences are resolved by fullCompare().
+		if (totalBitsUsed + bitsUsed > 64) {
+			const size_t keep = 64 - totalBitsUsed;
+			retValue <<= keep;
+			if (keep != 0)
+				retValue |= value >> (bitsUsed - keep);
+			break;
+		}
 		retValue <<= bitsUsed;
 		retValue |= value;
 		totalBitsUsed += bitsUsed;
-
-		// If not all the sorting fields fit, keep the leading bits only:
-		// the remaining differences are resolved by fullCompare().
-		if (totalBitsUsed > 64) {
-			retValue >>= totalBitsUsed - 64;
-			break;
-		}
-		if (totalBitsUsed == 64)
+		if (totalBitsUsed == 64 || !keyFieldIsExact(*field))
 			break;
 	}
 
