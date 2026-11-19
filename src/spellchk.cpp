@@ -34,6 +34,9 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include <fcntl.h>
+#include <unistd.h>
 #endif
 
 
@@ -802,7 +805,17 @@ void SpellChecker::writeCache(const char* cacheFile, const char* sourceFile,
 	                        std::to_string(std::chrono::steady_clock::now()
 	                                           .time_since_epoch()
 	                                           .count());
+#ifdef _WIN32
 	FILE* f = fopenUtf8(tmp.c_str(), "wb");
+#else
+	// Create the file private from the start: it holds the same personal
+	// data as the source, and the source's own mode is only applied just
+	// before it is published. O_EXCL also refuses a pre-existing file.
+	const int fd = ::open(tmp.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0600);
+	FILE* f = (fd >= 0) ? ::fdopen(fd, "wb") : nullptr;
+	if (fd >= 0 && f == nullptr)
+		::close(fd);
+#endif
 	if (f == nullptr)
 		return;
 
