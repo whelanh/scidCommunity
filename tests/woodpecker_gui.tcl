@@ -178,7 +178,7 @@ proc ::wpgui::run {} {
     checkEq "three exercises logged" [lmap x $xs { dict get $x result }] {second failed clean}
     checkEq "what was found" [lmap x $xs { dict get $x found }] {111 00 11}
     checkEq "one session row" [llength $ss] 1
-    checkEq "the summary counts three exercises" [.woodpeckerWin.sum.grid.v2 cget -text] 3
+    checkEq "the summary counts three exercises" $::woodpecker::ui::txt(sumEx.now) 3
     check "the summary lists the failed exercise" [string match "*2*" $::woodpecker::ui::txt(sumNotes)] $::woodpecker::ui::txt(sumNotes)
     # Points: ex1 second = (0.75 + 1 + 2) * 1466/1500; ex2 failed with nothing found = 0;
     # ex3 clean = (1 + 1 + 1) * 1597/1500.

@@ -571,9 +571,17 @@ translate I WoodpeckerNoSlot {Nessuno spazio libero per un database della sessio
 (%s)}
 translate I WoodpeckerRestAsk {Il riposo finisce il %s. Iniziare comunque il ciclo %d?}
 translate I WoodpeckerUnratedShort {%d esercizi non sono valutati: lì conta solo la linea.}
-translate I WoodpeckerStatsLine {serie %d   punti %s}
-translate I WoodpeckerPace {%s s per esercizio (obiettivo %s s)}
-translate I WoodpeckerPaceFirst {%s s per esercizio}
+translate I WoodpeckerRes1 {1°}
+translate I WoodpeckerRes2 {2°}
+translate I WoodpeckerRes3 {falliti}
+translate I WoodpeckerPacePer {per esercizio}
+translate I WoodpeckerPaceTarget {obiettivo %s s}
+translate I WoodpeckerCardStreak {Serie}
+translate I WoodpeckerCardPoints {Punti}
+translate I WoodpeckerCardDeadline {Scadenza}
+translate I WoodpeckerStreakSub {pulite di fila}
+translate I WoodpeckerPointsSub {sul massimo}
+translate I WoodpeckerDaysLeft {giorni rimasti}
 translate I WoodpeckerExercise {Esercizio %d di %d}
 translate I WoodpeckerWhiteToMove {Muove il Bianco}
 translate I WoodpeckerBlackToMove {Muove il Nero}

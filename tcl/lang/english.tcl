@@ -603,9 +603,17 @@ translate E WoodpeckerNoSlot {No free database slot for the session: close a dat
 (%s)}
 translate E WoodpeckerRestAsk {The rest days end on %s. Start cycle %d anyway?}
 translate E WoodpeckerUnratedShort {%d exercises are not evaluated: there only the line counts.}
-translate E WoodpeckerStatsLine {streak %d   points %s}
-translate E WoodpeckerPace {%s s per exercise (target %s s)}
-translate E WoodpeckerPaceFirst {%s s per exercise}
+translate E WoodpeckerRes1 {1st}
+translate E WoodpeckerRes2 {2nd}
+translate E WoodpeckerRes3 {failed}
+translate E WoodpeckerPacePer {per exercise}
+translate E WoodpeckerPaceTarget {target %s s}
+translate E WoodpeckerCardStreak {Streak}
+translate E WoodpeckerCardPoints {Points}
+translate E WoodpeckerCardDeadline {Deadline}
+translate E WoodpeckerStreakSub {clean in a row}
+translate E WoodpeckerPointsSub {of the possible}
+translate E WoodpeckerDaysLeft {days left}
 translate E WoodpeckerExercise {Exercise %d of %d}
 translate E WoodpeckerWhiteToMove {White to move}
 translate E WoodpeckerBlackToMove {Black to move}

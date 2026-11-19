@@ -100,6 +100,43 @@ proc ::woodpecker::ui::roundRect {c x0 y0 x1 y1 r args} {
     return [$c create polygon $pts -smooth 1 {*}$args]
 }
 
+# A card of the session panel (as in Repertoire Recall): a heading in small
+# capitals, the figure and what it means. Texts: txt(<name>.now|unit|sub).
+proc ::woodpecker::ui::cardNew {f name head} {
+    set v ::woodpecker::ui
+    set bg [color field]
+    set c [frame $f.$name -background $bg -highlightthickness 1 -highlightbackground [color track] \
+        -padx 10 -pady 8]
+    label $c.head -text [string toupper $head] -font woodpeckerSmall -foreground [color muted] -background $bg
+    frame $c.v -background $bg
+    foreach {x font fg} {now woodpeckerHead fg unit woodpeckerSmall muted} {
+        label $c.v.$x -textvariable ${v}::txt($name.$x) -font $font -foreground [color $fg] \
+            -background $bg -padx 0 -pady 0 -borderwidth 0
+        pack $c.v.$x -side left -anchor s
+    }
+    label $c.sub -textvariable ${v}::txt($name.sub) -font woodpeckerSmall -foreground [color muted] \
+        -background $bg -anchor w
+    pack $c.head $c.v $c.sub -side top -anchor w
+    return $c
+}
+
+# Light up a figure that has just changed, for a moment.
+proc ::woodpecker::ui::flash {lbl} {
+    if {![winfo exists $lbl]} { return }
+    set bg [color field]
+    $lbl configure -background [mix [color accent] $bg 0.25]
+    after 800 [list catch [list $lbl configure -background $bg]]
+}
+
+# The colour `t` of the way from b to a.
+proc ::woodpecker::ui::mix {a b t} {
+    set out "#"
+    foreach x [winfo rgb . $a] y [winfo rgb . $b] {
+        append out [format %02x [expr {int(($x * $t + $y * (1 - $t)) / 257)}]]
+    }
+    return $out
+}
+
 proc ::woodpecker::ui::openLink {url} {
     if {$::tcl_platform(platform) eq "windows"} {
         catch { exec rundll32 url.dll,FileProtocolHandler $url & }
@@ -230,8 +267,14 @@ proc ::woodpecker::ui::buildSession {} {
         -background [color bg] -foreground white -padx 6
     ttk::label $p.head.clock -textvariable ${v}::txt(clock) -font woodpeckerClock
     canvas $p.head.att -width 64 -height 28 -highlightthickness 0 -background [color bg]
+    # The pace sits next to the clock: the average per exercise and the target.
+    ttk::frame $p.head.pace
+    ttk::label $p.head.pace.now -textvariable ${v}::txt(paceNow) -font woodpeckerMove -foreground [color muted]
+    ttk::label $p.head.pace.sub -textvariable ${v}::txt(paceSub) -font woodpeckerSmall -foreground [color muted]
+    pack $p.head.pace.now $p.head.pace.sub -side top -anchor w
     pack $p.head.verdict -side left
     pack $p.head.clock -side left -padx 14
+    pack $p.head.pace -side left
     pack $p.head.att -side right
     ttk::label $p.title -textvariable ${v}::txt(title) -font woodpeckerTitle
     ttk::frame $p.sub
@@ -272,7 +315,13 @@ proc ::woodpecker::ui::buildSession {} {
     grid configure $p.bars.ntoday $p.bars.ncycle -sticky e -padx {10 0}
     grid columnconfigure $p.bars 1 -weight 1
     bind $p.bars.ctoday <Configure> ${v}::drawBars
-    ttk::label $p.meta -textvariable ${v}::txt(meta) -foreground [color muted]
+    # Streak, points and deadline as three cards.
+    ttk::frame $p.cards
+    foreach {k tag} {streak WoodpeckerCardStreak points WoodpeckerCardPoints deadline WoodpeckerCardDeadline} {
+        cardNew $p.cards $k [tr $tag]
+    }
+    pack $p.cards.streak $p.cards.points $p.cards.deadline -side left -fill both -expand 1 -padx {0 6}
+    pack configure $p.cards.deadline -padx 0
     # One tile per exercise of this session: green, amber or red.
     canvas $p.strip -height 18 -highlightthickness 0 -background [color bg]
     bind $p.strip <Configure> ${v}::drawStrip
@@ -294,7 +343,7 @@ proc ::woodpecker::ui::buildSession {} {
     pack $p.sub -side top -anchor w -pady {2 8}
     pack $p.card -side top -fill x
     pack $p.bars -side top -fill x -pady {12 4}
-    pack $p.meta -side top -anchor w
+    pack $p.cards -side top -fill x -pady {4 0}
     pack $p.strip -side top -fill x -pady {10 0}
     pack $p.notice -side top -anchor w -pady {6 0}
 }
@@ -305,11 +354,38 @@ proc ::woodpecker::ui::buildSummary {} {
     set s [ttk::frame $w.sum -padding 16]
     ttk::label $s.title -textvariable ${v}::txt(sumTitle) -font woodpeckerHead
     ttk::label $s.badge -textvariable ${v}::txt(sumBadge) -foreground [color good] -font woodpeckerTitle
-    ttk::label $s.points -textvariable ${v}::txt(sumPoints) -font woodpeckerBig
-    ttk::label $s.pl -textvariable ${v}::txt(sumPointsLabel) -foreground [color muted]
+    ttk::label $s.date -textvariable ${v}::txt(sumDate) -foreground [color muted]
     canvas $s.strip -height 18 -highlightthickness 0 -background [color bg]
     bind $s.strip <Configure> ${v}::drawStrip
-    ttk::frame $s.grid
+    # The figures of the session as cards, like the ones of the session panel.
+    ttk::frame $s.cards
+    foreach {k tag} {sumPoints WoodpeckerCardPoints sumEx WoodpeckerSumExercises sumTime WoodpeckerSumDuration
+            sumToday WoodpeckerSumQuota sumCycle WoodpeckerSumCycle} {
+        cardNew $s.cards $k [tr $tag]
+    }
+    grid $s.cards.sumPoints $s.cards.sumEx -sticky nsew -pady {0 6}
+    grid $s.cards.sumTime $s.cards.sumToday -sticky nsew -pady {0 6}
+    grid $s.cards.sumCycle -sticky nsew -columnspan 2
+    grid configure $s.cards.sumPoints $s.cards.sumTime -padx {0 6}
+    grid columnconfigure $s.cards {0 1} -weight 1 -uniform card
+    # Points, today's target and the cycle: both sides of the slash in bold.
+    foreach k {sumPoints sumToday sumCycle} {
+        $s.cards.$k.v.unit configure -font woodpeckerHead -foreground [color fg]
+    }
+    # The results of the exercises in columns, in the colours of the strip.
+    set c $s.cards.sumEx
+    pack forget $c.sub
+    frame $c.res -background [color field]
+    set i 0
+    foreach {col tag} {good WoodpeckerRes1 warn WoodpeckerRes2 bad WoodpeckerRes3} {
+        label $c.res.n$i -textvariable ${v}::txt(sumEx.c$i) -font woodpeckerMove -foreground [color $col] \
+            -background [color field]
+        label $c.res.l$i -text [tr $tag] -font woodpeckerSmall -foreground [color muted] -background [color field]
+        grid $c.res.n$i -row 0 -column $i -padx {0 14} -sticky w
+        grid $c.res.l$i -row 1 -column $i -padx {0 14} -sticky w
+        incr i
+    }
+    pack $c.res -side top -anchor w
     ttk::label $s.notes -textvariable ${v}::txt(sumNotes) -wraplength 380 -justify left
     ttk::frame $s.b
     ttk::button $s.b.exit -text [tr WoodpeckerExit] -command ${v}::exitSession -default active
@@ -320,11 +396,10 @@ proc ::woodpecker::ui::buildSummary {} {
     pack $s.b -side bottom -fill x -pady {12 0}
     pack $s.title -side top -anchor w
     pack $s.badge -side top -anchor w
-    pack $s.points -side top -anchor w -pady {10 0}
-    pack $s.pl -side top -anchor w
+    pack $s.date -side top -anchor w
+    pack $s.cards -side top -fill x -pady {10 0}
     pack $s.strip -side top -fill x -pady {10 0}
-    pack $s.grid -side top -anchor w -pady 10
-    pack $s.notes -side top -anchor w
+    pack $s.notes -side top -anchor w -pady {10 0}
 }
 
 proc ::woodpecker::ui::showPage {page} {
@@ -1103,9 +1178,11 @@ proc ::woodpecker::ui::train {{dir ""}} {
     set marks [::woodpecker::readMarks $dir]
     set meta [dict get $dp meta]
     array unset run
+    array unset ::woodpecker::ui::lastFig
     array set run [list on 1 dir $dir exs $exs n [dict size $exs] cycle [dict get $dp cycle] \
         next [dict get $dp next] session [expr {$session + 1}] quota [dict get $dp quota] \
         doneToday [dict get $dp doneToday] deadline [dict get $dp deadline] \
+        daysLeft [dict get $dp daysLeft] status [dict get $dp status] \
         doneCycle [expr {[dict get $dp next] - 1}] \
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
@@ -1190,13 +1267,12 @@ proc ::woodpecker::ui::bar {c done target} {
     set cw [winfo width $c]
     set ch [winfo height $c]
     if {$cw < 4} { return }
-    set total [expr {double(max($target, $done, 1))}]
+    # Blue while filling; green and full once the target is reached. What goes
+    # beyond it is written next to the bar (+N), not drawn.
     roundRect $c 0 0 $cw $ch [expr {$ch / 2.0}] -fill [color track] -outline ""
-    set x [expr {$cw * min($done, $target) / $total}]
-    if {$x > 0} { roundRect $c 0 0 $x $ch [expr {$ch / 2.0}] -fill [color accent] -outline "" }
-    if {$done > $target} {
-        roundRect $c [expr {$cw * $target / $total - $ch / 2.0}] 0 [expr {$cw * $done / $total}] $ch \
-            [expr {$ch / 2.0}] -fill [color extra] -outline ""
+    set x [expr {$target > 0 ? $cw * min($done, $target) / double($target) : $cw}]
+    if {$x > 0} {
+        roundRect $c 0 0 $x $ch [expr {$ch / 2.0}] -fill [color [expr {$done >= $target ? "good" : "accent"}]] -outline ""
     }
 }
 
@@ -1252,24 +1328,41 @@ proc ::woodpecker::ui::drawAttempts {} {
 proc ::woodpecker::ui::statsLine {} {
     variable run
     variable txt
-    set txt(ntoday) "$run(doneToday) / $run(quota)"
+    variable lastFig
+    variable w
+    set txt(ntoday) "$run(doneToday) / $run(quota)[expr {$run(doneToday) > $run(quota) ? "  (+[expr {$run(doneToday) - $run(quota)}])" : ""}]"
     set txt(lcycle) [T WoodpeckerCycleShort $run(cycle)]
     set txt(ncycle) "$run(doneCycle) / $run(n)"
     set done [llength $run(results)]
-    set parts {}
+    set txt(paceNow) "\u2013"
+    set txt(paceSub) [tr WoodpeckerPacePer]
+    set txt(streak.now) $run(streak)
+    set txt(points.now) "\u2013"
+    set txt(points.unit) ""
+    set txt(points.sub) [tr WoodpeckerPointsSub]
     if {$done} {
-        set avg [expr {[sumMs] / 1000.0 / $done}]
+        set txt(paceNow) [format "%.0f s" [expr {[sumMs] / 1000.0 / $done}]]
         set target [targetPace]
-        if {$target ne ""} {
-            lappend parts [T WoodpeckerPace [format %.0f $avg] [format %.0f $target]]
-        } else {
-            lappend parts [T WoodpeckerPaceFirst [format %.0f $avg]]
-        }
-        set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
-        lappend parts [T WoodpeckerStatsLine $run(streak) [pct $pct]]
+        if {$target ne ""} { set txt(paceSub) "[tr WoodpeckerPacePer] \u00b7 [T WoodpeckerPaceTarget [format %.0f $target]]" }
+        set txt(points.now) [num $run(points)]
+        set txt(points.unit) " / [num $run(max)]"
+        set txt(points.sub) [pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]]
     }
-    lappend parts [T WoodpeckerDeadline $run(deadline)]
-    set txt(meta) [join $parts "   \u00b7   "]
+    set txt(streak.sub) [tr WoodpeckerStreakSub]
+    # The deadline as the days left, with the date under it; amber in the last three.
+    set txt(deadline.now) [expr {$run(status) eq "done" ? "\u2713" : $run(daysLeft)}]
+    set txt(deadline.sub) [clock format [clock scan $run(deadline) -format %Y-%m-%d] -format "%d %b %Y"]
+    set txt(deadline.unit) [expr {$run(status) eq "done" ? "" : " [tr WoodpeckerDaysLeft]"}]
+    set c $w.sess.cards
+    if {[winfo exists $c]} {
+        $c.points.v.unit configure -font woodpeckerHead -foreground [color fg]
+        $c.streak.v.now configure -foreground [color [expr {$run(streak) > 0 ? "accent" : "muted"}]]
+        $c.deadline.v.now configure -foreground [color [expr {$run(status) ne "done" && $run(daysLeft) <= 3 ? "warn" : "fg"}]]
+        foreach k {streak points} {
+            if {[info exists lastFig($k)] && $lastFig($k) ne $txt($k.now)} { flash $c.$k.v.now }
+            set lastFig($k) $txt($k.now)
+        }
+    }
     drawBars
     drawStrip
 }
@@ -1660,35 +1753,34 @@ proc ::woodpecker::ui::summary {} {
     set done [llength $run(results)]
     set txt(sumTitle) [tr WoodpeckerSessionOver]
     set txt(sumBadge) [expr {$run(why) eq "cycle" ? [T WoodpeckerCycleComplete $run(cycle)] : ""}]
-    set pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]
-    set txt(sumPoints) [pct $pct]
-    set txt(sumPointsLabel) [T WoodpeckerSumPoints [num $run(points)] [num $run(max)]]
     set c [dict create clean 0 second 0 failed 0]
     set failed {}
     foreach r $run(results) {
         dict incr c [dict get $r result]
         if {[dict get $r result] eq "failed"} { lappend failed [dict get $r ex] }
     }
-    set g $w.sum.grid
-    foreach ch [winfo children $g] { destroy $ch }
-    set rows [list \
-        WoodpeckerSumDate [clock format $run(start) -format {%Y-%m-%d %H:%M}] \
-        WoodpeckerSumDuration [::woodpecker::fmtDuration $run(dur)] \
-        WoodpeckerSumExercises $done \
-        WoodpeckerSumResults "[dict get $c clean] \u00b7 [dict get $c second] \u00b7 [dict get $c failed]" \
-        WoodpeckerSumQuota "$run(doneToday) / $run(quota)[expr {$run(doneToday) >= $run(quota) ? "  \u2713" : ""}]" \
-        WoodpeckerSumCycle "$run(doneCycle) / $run(n)   ([T WoodpeckerDeadline $run(deadline)])"]
-    if {$done} {
-        lappend rows WoodpeckerSumAvg "[format %.0f [expr {[sumMs] / 1000.0 / $done}]] s"
-    }
-    set r 0
-    foreach {tag value} $rows {
-        ttk::label $g.l$r -text [tr $tag] -foreground [color muted]
-        ttk::label $g.v$r -text $value -font woodpeckerMove
-        grid $g.l$r $g.v$r -sticky w -pady 2
-        grid configure $g.l$r -padx {0 16}
-        incr r
-    }
+    set txt(sumDate) [clock format $run(start) -format {%Y-%m-%d %H:%M}]
+    set txt(sumPoints.now) [num $run(points)]
+    set txt(sumPoints.unit) " / [num $run(max)]"
+    set txt(sumPoints.sub) [pct [expr {$run(max) > 0 ? 100.0 * $run(points) / $run(max) : 0.0}]]
+    set txt(sumEx.now) $done
+    set txt(sumEx.unit) ""
+    set txt(sumEx.c0) [dict get $c clean]
+    set txt(sumEx.c1) [dict get $c second]
+    set txt(sumEx.c2) [dict get $c failed]
+    set txt(sumTime.now) [::woodpecker::fmtDuration $run(dur)]
+    set txt(sumTime.unit) ""
+    set txt(sumTime.sub) [expr {$done ? "[format %.0f [expr {[sumMs] / 1000.0 / $done}]] s [tr WoodpeckerPacePer]" : ""}]
+    set reached [expr {$run(doneToday) >= $run(quota)}]
+    set txt(sumToday.now) "$run(doneToday) /"
+    set txt(sumToday.unit) " $run(quota)[expr {$reached ? "  \u2713" : ""}]"
+    set txt(sumToday.sub) ""
+    # "done /" in the text colour; the target green when reached, the colour of a second attempt when not.
+    $w.sum.cards.sumToday.v.now configure -foreground [color fg]
+    $w.sum.cards.sumToday.v.unit configure -foreground [color [expr {$reached ? "good" : "warn"}]]
+    set txt(sumCycle.now) $run(doneCycle)
+    set txt(sumCycle.unit) " / $run(n)"
+    set txt(sumCycle.sub) "[expr {$run(status) eq "done" ? "" : "$run(daysLeft) [tr WoodpeckerDaysLeft] \u00b7 "}][T WoodpeckerDeadline $run(deadline)]"
     set notes {}
     if {$run(cycle) > 1 && $done} {
         set cmp [::woodpecker::compareCycles $run(xs) $run(cycle) [lmap x $run(results) { dict get $x ex }]]
