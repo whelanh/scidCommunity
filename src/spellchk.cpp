@@ -579,8 +579,9 @@ bool SpellChecker::readCache(const char* cacheFile, const char* sourceFile,
 	if (!r.ok() || blobBytes == 0 || blobBytes > cacheSize)
 		return false;
 	// The writer never stores more than UINT32_MAX bytes, and the buffer must
-	// fit in size_t even on a 32-bit build.
-	if (blobBytes > std::numeric_limits<size_t>::max())
+	// fit in size_t even on a 32-bit build.  The parentheses keep the Windows
+	// <windows.h> "max" macro from expanding the member name.
+	if (blobBytes > (std::numeric_limits<size_t>::max)())
 		return false;
 	if (r.u32() != NUM_NAME_TYPES)
 		return false;
