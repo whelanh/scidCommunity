@@ -43,10 +43,10 @@ class SortCache {
 	gamenumT nGames_;
 	atomic_bool valid_fullMap_;
 	atomic_bool th_interrupt_;
-	bool partialHash_;
+	bool partialKey_;
 	gamenumT* fullMap_;
 	void* th_;
-	uint32_t* hash_;
+	uint64_t* key_;
 	const Index* index_;
 	const NameBase* nbase_;
 	char criteria_[32];
@@ -152,8 +152,9 @@ private:
 	};
 	int fullCompare(gamenumT left, gamenumT right) const;
 
-	uint32_t calcHash(gamenumT gameId);
-	void generateHashCache();
+	bool computeKeyLayout(const char* criteria);
+	uint64_t calcKey(gamenumT gameId) const;
+	void generateKeyCache();
 	void sortAsynchronously();
 
 	void th_interrupt() {
