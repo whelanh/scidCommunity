@@ -56,7 +56,21 @@ void MarkBoard::MoveForward(){
   Position * position=game->GetCurrentPos();
   const pieceT * board=position->GetBoard();
   colorT color=position->GetToMove();
-  map.make_move(from,to,board,color);
+  if(currentmove->isCastle()){
+    // Position::makeMove() records a castling move as king-from plus the rook
+    // square (Chess960) or king-from plus/minus two (standard chess), so the
+    // rook square is not always derivable from the move's target square.
+    const bool kingside=currentmove->isCastle()>0;
+    const squareT kingfrom=currentmove->from;
+    const squareT rookfrom=position->isChess960()
+      ? currentmove->to
+      : square_Relative(color,kingside ? H1 : A1);
+    const squareT kingto=square_Relative(color,kingside ? G1 : C1);
+    const squareT rookto=square_Relative(color,kingside ? F1 : D1);
+    map.make_castle(kingfrom,kingto,rookfrom,rookto);
+  }
+  else
+    map.make_move(from,to,board,color);
   game->MoveForward();
   verify();
 }

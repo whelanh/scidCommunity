@@ -189,5 +189,78 @@ check "and the main line alone does not have it" [run {cql() move to g4}] 0
 sc_base switch $small
 set id $small
 
+puts "\n== castling from a FEN start (Chess960) ==\n"
+# The engine's mark map used to recognise castling only as "king from the
+# e-file to c/g". A Chess960 game (or any FEN start with the king elsewhere)
+# never matched that, so the rook's mark stayed on the square it had left,
+# verify() aborted the search with "mark on empty", and one such game killed a
+# search of a 4.5M-game database. Both castling games below land on, or cross,
+# the other piece's square, and the mark queries are true only if the mark
+# moved with the piece.
+file tempfile castlePgn cqlcheck-castle.pgn
+set ch [open $castlePgn w]
+puts $ch {[Event "960 kingside overlap"]
+[Site "?"]
+[Date "2026.11.18"]
+[Round "1"]
+[White "A"]
+[Black "B"]
+[Result "*"]
+[Variant "Chess960"]
+[SetUp "1"]
+[FEN "4k3/8/8/8/8/8/8/R4KR1 w KQ - 0 1"]
+
+1. O-O *
+[Event "960 queenside overlap"]
+[Site "?"]
+[Date "2026.11.18"]
+[Round "2"]
+[White "A"]
+[Black "B"]
+[Result "*"]
+[Variant "Chess960"]
+[SetUp "1"]
+[FEN "1k6/8/8/8/8/8/8/2RKR3 w KQ - 0 1"]
+
+1. O-O-O *
+[Event "standard castling"]
+[Site "?"]
+[Date "2026.11.18"]
+[Round "3"]
+[White "A"]
+[Black "B"]
+[Result "*"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O *
+}
+close $ch
+set castleId [sc_base create MEMORY cql_check_castle]
+sc_base switch $castleId
+sc_base import $castleId $castlePgn
+file delete $castlePgn
+set id $castleId
+check "the base has all three games" [sc_base numGames $id] 3
+# A query that binds a mark and never matches walks every position of every
+# game with the mark map live: before the fix it aborted at the first game's
+# castling move. (A query with no marks, such as "mate", never builds the map,
+# so it cannot see this.)
+check "a Chess960 castling game is walked with marks to its end" \
+    [run {cql() piece $x in [K] {attack ($x a8)}}] 0
+check "white reaches g1 in the two kingside games" [run {cql() Kg1}] 2
+check "the queenside rook crossed the king" [run {cql() Rd1}] 1
+# Marks, not the board: only a mark that followed the rook to f1 (or d1, the
+# king's old square) makes these attacks true.
+check "a rook mark follows it to f1" \
+    [run {cql() piece $x in [R] {attack ($x f8)}}] 1
+check "a rook mark follows it across the king's square" \
+    [run {cql() piece $x in [R] {attack ($x d8)}}] 1
+check "a king mark follows it to g1" \
+    [run {cql() piece $x in [K] {attack ($x f1)}}] 2
+# The query a user reported: the building blocks' Knight fork, verbatim.
+check "the Knight fork block runs on a FEN game" \
+    [run {cql() flipcolor { {btm piece $x in N {countsquares 2 100 attack ($x [kqr]) not attack ([pbn] $x) {not attack (a $x) or attack (A $x)}}} }}] 0
+sc_base switch $small
+set id $small
+
 puts "\n[expr {$fails ? "FAILED $fails" : "all checks passed"}]"
 exit [expr {$fails ? 1 : 0}]

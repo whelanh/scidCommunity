@@ -13,6 +13,8 @@ class MarkBoardMap{
   void verify(Game*game);
   const char*thisclass(){return "MarkBoardMap";}
   void make_move(squareT from, squareT to, const pieceT*board, colorT color);
+  void make_castle(squareT kingfrom, squareT kingto,
+                   squareT rookfrom, squareT rookto);
   void make_null_move(squareT from, squareT to, const pieceT*board, colorT color);
 };
 
