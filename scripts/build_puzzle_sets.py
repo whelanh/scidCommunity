@@ -59,7 +59,16 @@ SETS = [
     SetSpec(4, "Club",         1500, 1799, None),
     SetSpec(5, "Advanced",     1800, 2099, None),
     SetSpec(6, "Expert",       2100, 2450, None),
+    SetSpec(7, "Master",       2451, 2599, None),
+    SetSpec(8, "Grandmaster",  2600, 2749, None),
+    SetSpec(9, "Elite",        2750, 2899, None),
 ]
+
+# Sets 1-6 were published first and draw their sampling keys from the one
+# seeded generator; every later set draws from its own, so adding a band
+# leaves the published sets byte-identical.  Above 2899 too few puzzles pass
+# the quality gates (88 in the 2026-11 snapshot) for a set.
+FIRST_RELEASE = 6
 
 # Phase and outcome mixes, by set.  Availability clipping in allocate_cells()
 # redistributes anything a band cannot supply.
@@ -72,6 +81,9 @@ OUTCOME_TARGETS = {
     4: {"mate": 0.15, "crushing": 0.35, "advantage": 0.44, "other": 0.06},
     5: {"mate": 0.10, "crushing": 0.32, "advantage": 0.50, "other": 0.08},
     6: {"mate": 0.05, "crushing": 0.30, "advantage": 0.57, "other": 0.08},
+    7: {"mate": 0.05, "crushing": 0.30, "advantage": 0.57, "other": 0.08},
+    8: {"mate": 0.05, "crushing": 0.30, "advantage": 0.57, "other": 0.08},
+    9: {"mate": 0.05, "crushing": 0.30, "advantage": 0.57, "other": 0.08},
 }
 
 # Theme families.  Specific mate patterns are grouped: the exotic names are
@@ -244,8 +256,10 @@ def analyse(p):
 # Streaming and reservoir sampling
 # --------------------------------------------------------------------------
 
-def stream_pools(csv_path, sets, cap, rng, row_limit=None):
+def stream_pools(csv_path, sets, cap, rng, row_limit=None, seed=""):
     heaps = {s.number: [] for s in sets}
+    rngs = {s.number: rng if s.number <= FIRST_RELEASE else random.Random("%s/%d" % (seed, s.number))
+            for s in sets}
     seq = 0
     seen = 0
     skipped = Counter()
@@ -286,7 +300,7 @@ def stream_pools(csv_path, sets, cap, rng, row_limit=None):
                 continue
 
             w = quality_weight(pop_i, nb_i, daily)
-            key = rng.random() ** (1.0 / w)
+            key = rngs[spec.number].random() ** (1.0 / w)
             rec = (pid, fen, tuple(moves.split()), rating_i, rd_i, pop_i, nb_i,
                    tuple(themes.split()), url, daily)
             heap = heaps[spec.number]
@@ -707,7 +721,7 @@ def main(argv=None):
     os.makedirs(args.out, exist_ok=True)
 
     print("Streaming %s ..." % args.csv, flush=True)
-    heaps, seen, skipped = stream_pools(args.csv, SETS, POOL_CAP, rng, args.rows)
+    heaps, seen, skipped = stream_pools(args.csv, SETS, POOL_CAP, rng, args.rows, args.seed)
     print("Read %d rows (%s)." % (seen, ", ".join("%s: %d" % kv for kv in skipped.items())),
           flush=True)
 
