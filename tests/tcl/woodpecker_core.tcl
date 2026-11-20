@@ -316,8 +316,9 @@ checkEq "different moves" [::woodpecker::sameMove e2e4 e2e3] 0
 
 
 # --------------------------------------------------------------- presets ----
-checkEq "three presets" [dict keys [::woodpecker::presets]] {automatic standard challenge}
-foreach name {automatic standard challenge} {
+checkEq "four presets" [dict keys [::woodpecker::presets]] {automatic standard challenge tough}
+checkEq "standard keeps the book's proportion" [::woodpecker::presetShares standard] {easier 25 normal 60 harder 15}
+foreach name {automatic standard challenge tough} {
     set sum 0
     dict for {k v} [::woodpecker::presetShares $name] {
         incr sum $v

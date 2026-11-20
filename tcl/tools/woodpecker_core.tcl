@@ -912,11 +912,13 @@ proc ::woodpecker::sameMove {a b} {
 #   automatic  simple tactics until they are seen at once
 #   standard   about a quarter easier, the rest around one's level
 #   challenge  around and above one's level
+#   tough      mostly well above one's level
 proc ::woodpecker::presets {} {
     return {
         automatic {easiest 30 easier 50 normal 20}
         standard  {easier 25 normal 60 harder 15}
         challenge {normal 40 harder 45 hardest 15}
+        tough     {normal 15 harder 40 hardest 45}
     }
 }
 

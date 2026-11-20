@@ -688,7 +688,8 @@ proc ::woodpecker::ui::deleteSet {} {
 
 proc ::woodpecker::ui::presetLabels {} {
     return [list automatic [tr WoodpeckerPreset_automatic] standard [tr WoodpeckerPreset_standard] \
-        challenge [tr WoodpeckerPreset_challenge] custom [tr WoodpeckerPreset_custom]]
+        challenge [tr WoodpeckerPreset_challenge] tough [tr WoodpeckerPreset_tough] \
+        custom [tr WoodpeckerPreset_custom]]
 }
 
 proc ::woodpecker::ui::newDialog {} {
@@ -704,7 +705,7 @@ proc ::woodpecker::ui::newDialog {} {
     fonts
     set v ::woodpecker::ui
     set preset $::woodpecker::ui::lastPreset
-    if {$preset ni {automatic standard challenge custom}} { set preset standard }
+    if {$preset ni [dict keys [presetLabels]]} { set preset standard }
     array set newCfg [list name "Woodpecker [clock format [clock seconds] -format %Y-%m-%d]" \
         source lichess count $::woodpecker::ui::lastCount color both theme [tr WoodpeckerThemeMix] \
         file "" days1 $::woodpecker::ui::lastDays restDays 1 preset $preset \

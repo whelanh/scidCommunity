@@ -645,10 +645,12 @@ translate I WoodpeckerPresetNoRating {I livelli sono relativi al tuo rating puzz
 translate I WoodpeckerRatingAsk {Il tuo rating puzzle su Lichess}
 translate I WoodpeckerBadRating {Indica il tuo rating puzzle su Lichess (400-3200): lo trovi sul tuo profilo, alla voce Puzzle.}
 translate I WoodpeckerPresetStated {I livelli sono relativi al rating indicato (%s).}
+translate I WoodpeckerPreset_tough {Duro (soprattutto sopra il tuo livello)}
 translate I WoodpeckerDataDir {Cartella dati del Metodo del Picchio (vuota: quella di Scid)}
 translate I WoodpeckerNoDataDir {La cartella dati del Metodo del Picchio non si trova:\n%s\n\nIl disco è collegato? La cartella si imposta in Opzioni > Risorse.}
 translate I WoodpeckerDataDirMove {Nella cartella dati precedente ci sono %d set del Picchio:\n%s\n\nSpostarli nella nuova?\n%s\n\nNo: la nuova cartella parte vuota e i set restano dove sono.}
 translate I WoodpeckerDataDirHasSets {La nuova cartella dati contiene già %d set (sincronizzati da un altro computer?):\n%s\n\nScid userà quelli. I set della cartella precedente restano in:\n%s}
+translate I WoodpeckerPresetHelp_tough {Soprattutto ben sopra il tuo livello, per giocatori forti che vogliono spingersi oltre.}
 
 # Board screenshot
 menuText I ToolsScreenshot "Schermata della scheda" 0 \
