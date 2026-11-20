@@ -277,9 +277,17 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::newDialog
     wait 300
     check "the new-set dialog opens" [winfo exists .woodpeckerNew]
-    checkEq "it proposes the Lichess source" $::woodpecker::ui::newCfg(source) lichess
+    checkEq "it proposes the puzzles shipped with Scid" $::woodpecker::ui::newCfg(source) puzzles
+    checkEq "Lichess is opt-in" $::woodpecker::ui::newCfg(useLichess) 0
     check "it offers the five Lichess levels" [winfo exists .woodpeckerNew.f.lich.diff.shardest]
-    check "without a token it asks for the puzzle rating" [winfo ismapped .woodpeckerNew.f.lich.rating]
+    check "it asks for the Lichess puzzle rating" [winfo ismapped .woodpeckerNew.f.lich.rating]
+    check "the token stays hidden under Advanced" [expr {![winfo ismapped .woodpeckerNew.f.lich.adv.tok]}]
+    .woodpeckerNew.f.lich.adv.use invoke
+    wait 200
+    check "ticking Lichess shows the token" [winfo ismapped .woodpeckerNew.f.lich.adv.tok]
+    shot newset-lichess
+    .woodpeckerNew.f.lich.adv.use invoke
+    wait 200
     check "the presets explain themselves with that rating" \
         [string match "*1500*" $::woodpecker::ui::newCfg(presetHelp)] $::woodpecker::ui::newCfg(presetHelp)
     shot newset

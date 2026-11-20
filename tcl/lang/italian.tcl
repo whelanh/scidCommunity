@@ -522,6 +522,16 @@ translate I WoodpeckerDeleteAsk {Eliminare il set "%s" con il suo database e le 
 translate I WoodpeckerNewTitle {Nuovo set del Picchio}
 translate I WoodpeckerName {Nome}
 translate I WoodpeckerFromLichess {Puzzle da Lichess}
+translate I WoodpeckerFromPuzzles {Puzzle inclusi in Scid (puzzle Lichess graduati)}
+translate I WoodpeckerAdvanced {Avanzate}
+translate I WoodpeckerUseLichess {Scarica i puzzle da Lichess invece di usare quelli inclusi}
+translate I WoodpeckerPicking {Scelta dei puzzle...}
+translate I WoodpeckerShortAsk {Fra i puzzle inclusi in Scid ne restano solo %d dei %d richiesti al tuo livello.
+
+Scaricare gli altri %d da Lichess?
+
+No: il set viene creato con i puzzle trovati.}
+translate I WoodpeckerNoPuzzles {Non resta nessun puzzle per questo livello, tema e colore.}
 translate I WoodpeckerCount {Esercizi}
 translate I WoodpeckerDifficulty {Difficoltà}
 translate I WoodpeckerTheme {Tema}
@@ -631,26 +641,26 @@ translate I WoodpeckerTokenNoScope {Questo token non ha l'ambito puzzle:read: cr
 translate I WoodpeckerTokenInvalid {Lichess non riconosce questo token.}
 translate I WoodpeckerTokenUnchecked {Impossibile verificare il token (nessuna connessione?). Verrà usato così com'è.}
 translate I WoodpeckerTokenChecking {Verifica del token...}
-translate I WoodpeckerTokenMissing {Niente token? Funziona lo stesso: indica qui sotto il tuo rating puzzle (profilo Lichess, voce Puzzle). Il download è più lento e possono tornare puzzle già risolti su Lichess; con un token è più veloce.}
+translate I WoodpeckerTokenMissing {Niente token? Funziona lo stesso, con il rating puzzle indicato sopra (profilo Lichess, voce Puzzle). Il download è più lento e possono tornare puzzle già risolti su Lichess; con un token è più veloce.}
 translate I WoodpeckerPreset_automatic {Automatismi (più facile)}
 translate I WoodpeckerPreset_standard {Standard (consigliato)}
 translate I WoodpeckerPreset_challenge {Impegnativo}
+translate I WoodpeckerPreset_tough {Duro (soprattutto sopra il tuo livello)}
 translate I WoodpeckerPreset_custom {Personalizzato...}
 translate I WoodpeckerPresetHelp_automatic {Soprattutto tattiche semplici, per vederle all'istante: il primo scopo del libro.}
 translate I WoodpeckerPresetHelp_standard {Un quarto più facili, la maggior parte al tuo livello, qualcuno più difficile: la proporzione delle sezioni Easy e Intermediate del libro.}
 translate I WoodpeckerPresetHelp_challenge {Al tuo livello e sopra, per giocatori forti (come la sezione Advanced del libro).}
+translate I WoodpeckerPresetHelp_tough {Soprattutto ben sopra il tuo livello, per giocatori forti che vogliono spingersi oltre.}
 translate I WoodpeckerPresetHelp_custom {Scegli tu la quota di ciascun livello di Lichess.}
-translate I WoodpeckerPresetRating {I livelli sono relativi al tuo rating puzzle (%s).}
+translate I WoodpeckerPresetRating {I livelli sono relativi al tuo rating puzzle su Lichess (%s).}
 translate I WoodpeckerPresetNoRating {I livelli sono relativi al tuo rating puzzle su Lichess.}
 translate I WoodpeckerRatingAsk {Il tuo rating puzzle su Lichess}
 translate I WoodpeckerBadRating {Indica il tuo rating puzzle su Lichess (400-3200): lo trovi sul tuo profilo, alla voce Puzzle.}
 translate I WoodpeckerPresetStated {I livelli sono relativi al rating indicato (%s).}
-translate I WoodpeckerPreset_tough {Duro (soprattutto sopra il tuo livello)}
 translate I WoodpeckerDataDir {Cartella dati del Metodo del Picchio (vuota: quella di Scid)}
 translate I WoodpeckerNoDataDir {La cartella dati del Metodo del Picchio non si trova:\n%s\n\nIl disco è collegato? La cartella si imposta in Opzioni > Risorse.}
 translate I WoodpeckerDataDirMove {Nella cartella dati precedente ci sono %d set del Picchio:\n%s\n\nSpostarli nella nuova?\n%s\n\nNo: la nuova cartella parte vuota e i set restano dove sono.}
 translate I WoodpeckerDataDirHasSets {La nuova cartella dati contiene già %d set (sincronizzati da un altro computer?):\n%s\n\nScid userà quelli. I set della cartella precedente restano in:\n%s}
-translate I WoodpeckerPresetHelp_tough {Soprattutto ben sopra il tuo livello, per giocatori forti che vogliono spingersi oltre.}
 
 # Board screenshot
 menuText I ToolsScreenshot "Schermata della scheda" 0 \

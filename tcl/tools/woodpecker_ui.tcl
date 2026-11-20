@@ -707,7 +707,7 @@ proc ::woodpecker::ui::newDialog {} {
     set preset $::woodpecker::ui::lastPreset
     if {$preset ni [dict keys [presetLabels]]} { set preset standard }
     array set newCfg [list name "Woodpecker [clock format [clock seconds] -format %Y-%m-%d]" \
-        source lichess count $::woodpecker::ui::lastCount color both theme [tr WoodpeckerThemeMix] \
+        source puzzles useLichess 0 count $::woodpecker::ui::lastCount color both theme [tr WoodpeckerThemeMix] \
         file "" days1 $::woodpecker::ui::lastDays restDays 1 preset $preset \
         presetLabel [dict get [presetLabels] $preset] \
         easiest 0 easier 25 normal 60 harder 15 hardest 0 \
@@ -717,19 +717,10 @@ proc ::woodpecker::ui::newDialog {} {
     pack $f -fill both -expand 1
     ttk::label $f.lname -text [tr WoodpeckerName]
     ttk::entry $f.name -textvariable ${v}::newCfg(name) -width 36
-    ttk::radiobutton $f.rl -text [tr WoodpeckerFromLichess] -variable ${v}::newCfg(source) -value lichess
+    # The puzzles shipped with Scid by default; Lichess under Advanced.
+    ttk::radiobutton $f.rl -text [tr WoodpeckerFromPuzzles] -variable ${v}::newCfg(source) -value puzzles
     set l [ttk::frame $f.lich -padding {20 2 0 0}]
-    # The token first: without it the set is hardly usable.
-    ttk::label $l.ltoken -text [tr WoodpeckerToken]
-    ttk::frame $l.tok
-    ttk::entry $l.tok.e -textvariable ${v}::newCfg(token) -show * -width 28
-    ttk::button $l.tok.b -text [tr WoodpeckerTokenSave] -command ${v}::tokenSave
-    pack $l.tok.e -side left
-    pack $l.tok.b -side left -padx 4
-    ttk::label $l.toklink -text [tr WoodpeckerTokenCreate] -foreground [color link] -cursor hand2
-    bind $l.toklink <ButtonRelease-1> [list ${v}::openLink [::woodpecker::set::tokenCreateUrl]]
-    ttk::label $l.tokstate -textvariable ${v}::newCfg(tokenText) -wraplength 400 -justify left
-    # Without a token the trainee's rating stands in for Lichess's own.
+    # The levels are relative to this rating, whatever the source.
     ttk::label $l.lrating -text [tr WoodpeckerRatingAsk]
     ttk::spinbox $l.rating -from 400 -to 3200 -increment 50 -width 6 -textvariable ${v}::newCfg(rating) \
         -command ${v}::presetChosen
@@ -761,18 +752,32 @@ proc ::woodpecker::ui::newDialog {} {
         ttk::radiobutton $l.color.$c -text [tr WoodpeckerColor_$c] -variable ${v}::newCfg(color) -value $c
         pack $l.color.$c -side left -padx {0 8}
     }
-    grid $l.ltoken $l.tok -sticky w -pady 2
-    grid x $l.toklink -sticky w
-    grid x $l.tokstate -sticky w -pady {0 6}
+    set a [ttk::labelframe $l.adv -text [tr WoodpeckerAdvanced] -padding 6]
+    ttk::checkbutton $a.use -text [tr WoodpeckerUseLichess] -variable ${v}::newCfg(useLichess) \
+        -command "${v}::tokenShow; ${v}::presetChosen"
+    ttk::label $a.ltoken -text [tr WoodpeckerToken]
+    ttk::frame $a.tok
+    ttk::entry $a.tok.e -textvariable ${v}::newCfg(token) -show * -width 28
+    ttk::button $a.tok.b -text [tr WoodpeckerTokenSave] -command ${v}::tokenSave
+    pack $a.tok.e -side left
+    pack $a.tok.b -side left -padx 4
+    ttk::label $a.toklink -text [tr WoodpeckerTokenCreate] -foreground [color link] -cursor hand2
+    bind $a.toklink <ButtonRelease-1> [list ${v}::openLink [::woodpecker::set::tokenCreateUrl]]
+    ttk::label $a.tokstate -textvariable ${v}::newCfg(tokenText) -wraplength 400 -justify left
+    grid $a.use - -sticky w
+    grid $a.ltoken $a.tok -sticky w -pady 2
+    grid x $a.toklink -sticky w
+    grid x $a.tokstate -sticky w
+    grid configure $a.ltoken -padx {0 10}
     grid $l.lrating $l.rating -sticky w -pady {0 6}
-    grid configure $l.lrating -padx {0 10}
     grid $l.lcount $l.count -sticky w -pady 2
     grid $l.ldiff $l.preset -sticky w -pady 2
     grid x $l.presethelp -sticky w
     grid x $l.diff -sticky w -pady 2
     grid $l.ltheme $l.theme -sticky w -pady 2
     grid $l.lcolor $l.color -sticky w -pady 2
-    grid configure $l.ltoken $l.lcount $l.ldiff $l.ltheme $l.lcolor -padx {0 10}
+    grid $l.adv - -sticky ew -pady {8 2}
+    grid configure $l.lrating $l.lcount $l.ldiff $l.ltheme $l.lcolor -padx {0 10}
     ttk::radiobutton $f.rf -text [tr WoodpeckerFromFile] -variable ${v}::newCfg(source) -value file
     ttk::frame $f.file -padding {20 0 0 0}
     ttk::entry $f.file.e -textvariable ${v}::newCfg(file) -width 36
@@ -822,20 +827,28 @@ proc ::woodpecker::ui::presetChosen {} {
         dict for {lv share} [::woodpecker::presetShares $key] { set newCfg($lv) $share }
         set newCfg(presetHelp) [tr WoodpeckerPresetHelp_$key]
     }
-    if {$newCfg(tokenState) eq "ok" && $newCfg(tokenRating) ne ""} {
+    set lichessToken [expr {$newCfg(useLichess) && $newCfg(tokenState) eq "ok"}]
+    if {$lichessToken && $newCfg(tokenRating) ne ""} {
         append newCfg(presetHelp) " " [T WoodpeckerPresetRating $newCfg(tokenRating)]
-    } elseif {$newCfg(tokenState) eq "ok"} {
+    } elseif {$lichessToken} {
         append newCfg(presetHelp) " " [tr WoodpeckerPresetNoRating]
     } elseif {[string is integer -strict $newCfg(rating)]} {
         append newCfg(presetHelp) " " [T WoodpeckerPresetStated $newCfg(rating)]
     }
 }
 
-# The line under the token: what the token is, or why a set needs one.
+# The line under the token: what the token is, or why a set needs one. The
+# token rows only when Lichess is the source.
 proc ::woodpecker::ui::tokenShow {} {
     variable newCfg
     set l .woodpeckerNew.f.lich
-    if {![winfo exists $l.tokstate]} { return }
+    set a $l.adv
+    if {![winfo exists $a.tokstate]} { return }
+    if {$newCfg(useLichess)} {
+        foreach w [list $a.ltoken $a.tok $a.toklink $a.tokstate] { grid $w }
+    } else {
+        grid remove $a.ltoken $a.tok $a.toklink $a.tokstate
+    }
     switch -- $newCfg(tokenState) {
         ok {
             set txt [T WoodpeckerTokenOk $newCfg(tokenUser)]
@@ -849,9 +862,9 @@ proc ::woodpecker::ui::tokenShow {} {
         default { set txt [tr WoodpeckerTokenMissing]; set c warn }
     }
     set newCfg(tokenText) $txt
-    $l.tokstate configure -foreground [color $c]
-    # The rating field only when Lichess will not supply the rating.
-    if {$newCfg(tokenState) eq "ok"} {
+    $a.tokstate configure -foreground [color $c]
+    # The rating field unless Lichess supplies the rating itself.
+    if {$newCfg(useLichess) && $newCfg(tokenState) eq "ok"} {
         grid remove $l.lrating $l.rating
     } else {
         grid $l.lrating $l.rating
@@ -888,6 +901,8 @@ proc ::woodpecker::ui::tokenVerify {} {
     set newCfg(tokenState) [dict get $r status]
     set newCfg(tokenUser) [dict get $r user]
     set newCfg(tokenRating) [dict get $r rating]
+    # The account's rating is the best guess for the bundled puzzles too.
+    if {$newCfg(tokenRating) ne ""} { set newCfg(rating) $newCfg(tokenRating) }
     tokenShow
     presetChosen
 }
@@ -924,15 +939,17 @@ proc ::woodpecker::ui::create {} {
     set meta [::woodpecker::set::newMeta $name $newCfg(source) [expr {max(1, $newCfg(days1))}] \
         $newCfg(restDays) [clock seconds]]
     set ::woodpecker::ui::lastDays $newCfg(days1)
-    if {$newCfg(source) eq "lichess"} {
-        set token [string trim $newCfg(token)]
+    if {$newCfg(source) eq "puzzles"} {
+        set lichess $newCfg(useLichess)
+        # The token matters only when Lichess is the source: a stale one never
+        # blocks a set from the bundled puzzles.
+        set token [expr {$lichess ? [string trim $newCfg(token)] : ""}]
         if {$token ne "" && $newCfg(tokenState) ne "ok"} { tokenVerify }
-        switch -- $newCfg(tokenState) {
-            invalid - noscope {
-                tk_messageBox -icon error -parent $d -message $newCfg(tokenText)
-                return
-            }
+        if {$token ne "" && $newCfg(tokenState) in {invalid noscope}} {
+            tk_messageBox -icon error -parent $d -message $newCfg(tokenText)
+            return
         }
+        # Lichess with a token knows the rating; every other case needs it.
         set rating ""
         if {$token eq ""} {
             set rating [string trim $newCfg(rating)]
@@ -956,18 +973,37 @@ proc ::woodpecker::ui::create {} {
         set ::woodpecker::ui::lastPreset $newCfg(preset)
         set spec [dict create count $newCfg(count) shares $shares angle [themeKey $newCfg(theme)] \
             color $newCfg(color) token $token rating $rating]
+        dict set meta source [expr {$lichess ? "lichess" : "bundled"}]
         dict set meta preset $newCfg(preset)
         dict set meta shares $shares
         dict set meta angle [dict get $spec angle]
         dict set meta token [expr {$token ne ""}]
-        if {$newCfg(tokenRating) ne ""} { dict set meta rating $newCfg(tokenRating) }
+        if {$token ne "" && $newCfg(tokenRating) ne ""} { dict set meta rating $newCfg(tokenRating) }
         if {$rating ne ""} { dict set meta rating $rating }
         destroy $d
         set dir [::woodpecker::set::newDir $name]
-        progressOpen [tr WoodpeckerDownloading] ::woodpecker::set::cancel
+        set fewer ""
         if {[catch {
-            set exs [::woodpecker::set::fetchLichess $spec ::woodpecker::ui::progressStep]
-            progressStep 0 0 [tr WoodpeckerBuilding]
+            if {$lichess} {
+                progressOpen [tr WoodpeckerDownloading] ::woodpecker::set::cancel
+                set exs [::woodpecker::set::fetchLichess $spec ::woodpecker::ui::progressStep]
+                if {[llength $exs] < $newCfg(count)} { set fewer [T WoodpeckerFewer [llength $exs] $newCfg(count)] }
+            } else {
+                progressOpen [tr WoodpeckerPicking] ""
+                lassign [::woodpecker::set::fetchBundled $spec ::woodpecker::ui::progressStep] exs short
+                set missing [tcl::mathop::+ 0 {*}[dict values $short]]
+                if {$missing > 0} {
+                    progressClose
+                    set exs [shortfall $spec $exs $short $missing fewer]
+                }
+            }
+            if {![llength $exs]} { error [tr WoodpeckerNoPuzzles] }
+            # The same progress window when one is open: one bar per action.
+            if {[winfo exists .woodpeckerProgress]} {
+                progressStep 0 0 [tr WoodpeckerBuilding]
+            } else {
+                progressOpen [tr WoodpeckerBuilding] ""
+            }
             set n [::woodpecker::set::buildFromExercises $dir $meta $exs]
         } err]} {
             progressClose
@@ -980,7 +1016,7 @@ proc ::woodpecker::ui::create {} {
         }
         progressClose
         set msg [T WoodpeckerCreated $n]
-        if {$n < $newCfg(count)} { append msg "\n" [T WoodpeckerFewer $n $newCfg(count)] }
+        if {$fewer ne ""} { append msg "\n" $fewer }
         refresh
         selectSet $dir
         afterCreate $dir $msg
@@ -1008,6 +1044,31 @@ proc ::woodpecker::ui::create {} {
         selectSet $dir
         afterCreate $dir $msg
     }
+}
+
+# The bundled puzzles left fewer than asked at the trainee's level (after the
+# band widened): offer to download the rest from Lichess, with the same levels.
+# Returns the exercises to build; `fewerVar` gets the line for the final
+# message when Lichess, too, gave fewer.
+proc ::woodpecker::ui::shortfall {spec exs short missing fewerVar} {
+    upvar 1 $fewerVar fewer
+    set have [llength $exs]
+    if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+            -message [T WoodpeckerShortAsk $have [dict get $spec count] $missing]] ne "yes"} {
+        return $exs
+    }
+    progressOpen [tr WoodpeckerDownloading] ::woodpecker::set::cancel
+    # The levels and band of the bundled draw (rating, no token), and none of
+    # the puzzles it already chose.
+    # Offline or cancelled: the set is still built from the puzzles found.
+    if {[catch { ::woodpecker::set::fetchLichess [dict merge $spec [dict create count $missing shares $short \
+            token "" skip [lmap e $exs {dict get $e id}]]] ::woodpecker::ui::progressStep } more]} {
+        set fewer [T WoodpeckerFewer 0 $missing]
+        if {$more ne "cancelled"} { append fewer "\n$more" }
+        return $exs
+    }
+    if {[llength $more] < $missing} { set fewer [T WoodpeckerFewer [llength $more] $missing] }
+    return [::woodpecker::set::byRating [concat $exs $more]]
 }
 
 proc ::woodpecker::ui::selectSet {dir} {

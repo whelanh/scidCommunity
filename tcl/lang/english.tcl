@@ -554,6 +554,16 @@ translate E WoodpeckerDeleteAsk {Delete the set "%s" with its database and stati
 translate E WoodpeckerNewTitle {New Woodpecker set}
 translate E WoodpeckerName {Name}
 translate E WoodpeckerFromLichess {Puzzles from Lichess}
+translate E WoodpeckerFromPuzzles {Puzzles included with Scid (graded Lichess puzzles)}
+translate E WoodpeckerAdvanced {Advanced}
+translate E WoodpeckerUseLichess {Get puzzles from Lichess instead of the included sets}
+translate E WoodpeckerPicking {Choosing the puzzles...}
+translate E WoodpeckerShortAsk {Only %d of the %d puzzles asked for are left at your level among those included with Scid.
+
+Download the other %d from Lichess?
+
+No: the set is created with the puzzles found.}
+translate E WoodpeckerNoPuzzles {No puzzle is left for this level, theme and side.}
 translate E WoodpeckerCount {Exercises}
 translate E WoodpeckerDifficulty {Difficulty}
 translate E WoodpeckerTheme {Theme}
@@ -663,26 +673,26 @@ translate E WoodpeckerTokenNoScope {This token lacks the puzzle:read scope: crea
 translate E WoodpeckerTokenInvalid {Lichess does not know this token.}
 translate E WoodpeckerTokenUnchecked {The token could not be checked (no connection?). It will be used as it is.}
 translate E WoodpeckerTokenChecking {Checking the token...}
-translate E WoodpeckerTokenMissing {No token? It works too: enter your puzzle rating below (Lichess profile, Puzzles). The download is slower and puzzles you already solved on Lichess may come up; with a token it is faster.}
+translate E WoodpeckerTokenMissing {No token? It works too, with the puzzle rating entered above (Lichess profile, Puzzles). The download is slower and puzzles you already solved on Lichess may come up; with a token it is faster.}
 translate E WoodpeckerPreset_automatic {Automatic (easier)}
 translate E WoodpeckerPreset_standard {Standard (recommended)}
 translate E WoodpeckerPreset_challenge {Challenging}
+translate E WoodpeckerPreset_tough {Tough (mostly above your level)}
 translate E WoodpeckerPreset_custom {Custom...}
 translate E WoodpeckerPresetHelp_automatic {Mostly simple tactics, to see them at once: the book's first aim.}
 translate E WoodpeckerPresetHelp_standard {A quarter easier, most around your level, a few harder - the proportion of the book's Easy and Intermediate sections.}
 translate E WoodpeckerPresetHelp_challenge {Around and above your level, for strong players (like the book's Advanced section).}
+translate E WoodpeckerPresetHelp_tough {Mostly well above your level, for strong players who want to stretch.}
 translate E WoodpeckerPresetHelp_custom {Choose the share of each Lichess level yourself.}
-translate E WoodpeckerPresetRating {Levels are relative to your puzzle rating (%s).}
+translate E WoodpeckerPresetRating {Levels are relative to your Lichess puzzle rating (%s).}
 translate E WoodpeckerPresetNoRating {Levels are relative to your Lichess puzzle rating.}
 translate E WoodpeckerRatingAsk {Your Lichess puzzle rating}
 translate E WoodpeckerBadRating {Enter your Lichess puzzle rating (400-3200): it is on your Lichess profile, under Puzzles.}
 translate E WoodpeckerPresetStated {Levels are relative to the rating you entered (%s).}
-translate E WoodpeckerPreset_tough {Tough (mostly above your level)}
 translate E WoodpeckerDataDir {Woodpecker Method data folder (empty: Scid's own)}
 translate E WoodpeckerNoDataDir {The Woodpecker data folder cannot be found:\n%s\n\nIs the drive connected? The folder is set in Options > Resources.}
 translate E WoodpeckerDataDirMove {%d Woodpecker sets are in the previous data folder:\n%s\n\nMove them into the new one?\n%s\n\nNo: the new folder starts empty and the sets stay where they are.}
 translate E WoodpeckerDataDirHasSets {The new data folder already holds %d sets (synchronised from another computer?):\n%s\n\nScid uses those. The sets of the previous folder stay in:\n%s}
-translate E WoodpeckerPresetHelp_tough {Mostly well above your level, for strong players who want to stretch.}
 
 # Board screenshot
 menuText E ToolsScreenshot "Board Screenshot" 0 \
