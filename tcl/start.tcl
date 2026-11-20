@@ -1150,6 +1150,7 @@ help/help.tcl
 help/tips.tcl
 keyboard.tcl
 menus.tcl
+hyprland-menus.tcl
 board.tcl
 board3d.tcl
 windows/game3d.tcl

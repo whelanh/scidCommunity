@@ -265,6 +265,13 @@ jobs:
       - name: Window layout
         run: xvfb-run -a wish tests/tcl/layout_windows.tcl
 
+      # Hyprland on a floating workspace resizes and recentres every window
+      # that opens, Tk's menu windows included, so menus come up as large
+      # squares that cover each other. The harness plays the compositor and
+      # checks every menu returns to the geometry Tk posted it with.
+      - name: Menus under Hyprland
+        run: xvfb-run -a wish tests/tcl/hyprland_menus_tk.tcl
+
       # The Header search's Presets menu: rebuilding it twice, two names that
       # used to share a submenu, and the Load and Delete entries a user clicks.
       - name: Search presets menu
