@@ -1,0 +1,35 @@
+Lichess puzzle database
+=======================
+
+  Source   : https://database.lichess.org/#puzzles
+  File     : lichess_db_puzzle.csv
+  Snapshot : 2026-11-11
+  License  : Creative Commons CC0 1.0 Universal (public domain dedication)
+             https://creativecommons.org/publicdomain/zero/1.0/
+
+Lichess publishes its database exports under CC0: "Use them for research,
+commercial purpose, publication, anything you like. You can download,
+modify and redistribute them, without asking for permission."
+
+The six PGN files in this directory are a selection of 6,000 puzzles from
+that database, made with scripts/build_puzzle_sets.py. The positions and
+solutions come from games played on lichess.org and are covered by the CC0
+dedication above. Each puzzle keeps its Lichess PuzzleId and GameUrl so the
+original can be inspected.
+
+The selection itself -- which puzzles were chosen, the six rating bands, the
+theme and phase quotas -- is part of scidCommunity and is released under the
+same licence as the rest of scidCommunity (GNU General Public License,
+version 2 or later; see ../COPYING).
+
+Provenance of this build
+------------------------
+
+  CSV SHA-256 : 8ce98180bcb7cb60f3f51f12afdbe6a4fd294d8aaf4f1410e8c25e85ac78fdc9
+  Seed        : 20261120
+  Generated   : 2026-11-20
+  Script      : ../scripts/build_puzzle_sets.py
+
+A future build from a newer Lichess snapshot, or with a different seed,
+will contain different puzzles. The generation report (REPORT.md) records
+the counts and coverage of this particular build.
