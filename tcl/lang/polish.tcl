@@ -2,7 +2,7 @@
 ### Polskie menu i komunikaty dla ScidCommunity.
 
 # Contributed by Michal Rudolf and Adam Umiastowski.(Scid)
-# Aktualizacja ScidCommunity v5.1.4.62  by Szustan 
+# Aktualizacja ScidCommunity v5.1.4.71  by Szustan 
 
 # addLanguage P Polish 0 utf-8
 # Tekst nazw menu i komunikatów pomocy na pasku stanu w języku polskim.
@@ -159,7 +159,7 @@ menuText P GameNovelty "Znajdź nowinkę..." 7 \
   {Znajdź pierwsze posunięcie tej partii, które nie było wcześniej grane}
 menuText P PlayTournament "Rozegraj turniej silników..." 0 \
     {Rozegraj turniej silników}
-
+	
 # Search Menu:
 menuText P Search "Szukaj" 0
 menuText P SearchReset "Wyczyść filtr" 0 {Wyczyść filtr, aby uwzględnić wszystkie partie}
@@ -167,8 +167,8 @@ menuText P SearchNegate "Odwróć filtr" 0 {Odwróć filtr, aby uwzględnić tyl
 menuText P SearchCurrent "Bieżąca pozycja..." 0 {Wyszukaj bieżącą pozycję na szachownicy}
 menuText P SearchHeader "Nagłówek..." 0 {Wyszukaj według informacji z nagłówka partii (gracz, turniej itp.)}
 menuText P SearchMaterial "Materiał/wzorce..." 0 {Wyszukaj według materiału lub układu figur na szachownicy}
-menuText P SearchMoves "Porusza się..." 0 {Wyszukaj sekwencję ruchów w linii głównej}
-menuText P SearchCQL "CQL..." 0 {Szukaj za pomocą zapytania Chess Query Language}
+menuText P SearchMoves "Posunięcia..." 0 {Wyszukaj sekwencję posunięć w głównej linii}
+menuText P SearchCQL "CQL..." 0 {Wyszukaj za pomocą zapytania w języku Chess Query Language}
 menuText P SearchComments "Szukaj w komentarzach..." 0 {Przeszukaj komentarze w partiach bieżącego filtra}
 menuText P SearchUsing "Użyj pliku wyszukiwania..." 0 {Wyszukaj według ustawień z pliku SearchOptions}
 
@@ -207,8 +207,8 @@ translate P EpdStripOpcodes {Usuń kody operacyjne...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
-# EPD headless analysis: status text and the reasons the session reports.
-# The EpdEngine* strings are fragments shown after the "%s" above them.
+# Analiza EPD bez interfejsu graficznego: tekst statusu i przyczyny zgłaszane przez sesję.
+# Ciągi EpdEngine* to fragmenty wyświetlane po znajdującym się nad nimi "%s".
 translate P EpdAnalysisTitle {Analiza EPD}
 translate P EpdAnalysisRunning {Inna analiza EPD jest już uruchomiona.}
 translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
@@ -254,7 +254,7 @@ menuText P ToolsTrainFics "Graj na FICS"  0 {Graj na freechess.org}
 menuText P ToolsEngineTournament "Turniej silników"  0 {Rozpocznij turniej między silnikami szachowymi}
 menuText P ToolsTimeAnalysis "Analiza czasu" 0 {Pokaż wykres czasu na zegarze dla bieżącej partii}
 menuText P ToolsBookTuning "Dostrajanie książki debiutowej" 0 {Dostrajanie książki debiutowej}
-menuText P ToolsCtgConvert "Konwertuj CTG na OBR..." 0 {Konwertuj książkę ChessBase CTG na książkę OpenBook Rich (.obr).}
+menuText P ToolsCtgConvert "Konwertuj CTG na OBR..." 0 {Konwertuj książkę debiutową ChessBase w formacie CTG na format OpenBook Rich (.obr)}
 menuText P ToolsRapidAnnotate "Adnotacje z wykresu analizy silnika" 0 {Zapisz oceny i adnotacje z wykresu analizy silnika w bieżącej partii (Ctrl+Shift+A)}
 menuText P ToolsDownloadTWIC "Pobierz partie TWIC" 0 {Pobierz najnowsze partie z The Week In Chess (TWIC)}
 menuText P ToolsConnectHardware "Podłącz urządzenie" 8 {Podłącz urządzenie zewnętrzne}
@@ -357,7 +357,7 @@ menuText P OptionsMovesGlossOfDanger "Kolorowe oznaczenia zagrożeń" 0 {Włącz
 translate P OptionsGlistWheelRows {Liczba wierszy przewijanych kółkiem myszy}
 translate P OptionsMovesTreeDepth {Domyślna liczba półposunięć w oknie drzewa wariantów}
 translate P OptionsMovesEnginePvLength {Długość wyświetlanych linii PV silnika}
-translate P OptionsMovesEngineHistory {Pokaż historię wyszukiwania w wyszukiwarce}
+translate P OptionsMovesEngineHistory {Pokaż historię wyszukiwania silnika}
 menuText P OptionsNumbers "Format liczb" 0 {Wybierz format liczb}
 menuText P OptionsTheme "Motyw" 0 {Zmień wygląd interfejsu}
 menuText P OptionsWindows "Okna" 0 {Opcje okien}
@@ -382,7 +382,7 @@ translate P OptionsThemeOmarchy {Dopasuj do motywu Omarchy}
 menuText P OptionsSave "Zapisz opcje" 0 "Zapisz wszystkie ustawienia do pliku $::optionsFile"
 menuText P OptionsAutoSave "Zapisz opcje przy zamykaniu" 0 \
   {Automatycznie zapisuj wszystkie opcje przy zamykaniu Scid}
-
+  
 # Help menu:
 menuText P Help "Pomoc" 0
 menuText P HelpContents "Spis treści" 0 {Pokaż stronę ze spisem treści pomocy}
@@ -406,11 +406,11 @@ translate P UpdateDownloading "Pobieranie scidCommunity %s..."
 translate P UpdateDownloaded "Pobrano %s"
 translate P UpdateDownloadFailed "Nie udało się pobrać aktualizacji. Spróbuj ponownie później."
 
-# Toolbar tooltips:
-menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
-
-# Game info box popup menu:
-menuText P GInfoHideNext "Ukryj następne posunięcie" 0
+ # Toolbar tooltips:
+ menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
+ 
+ # Game info box popup menu:
+ menuText P GInfoHideNext "Ukryj następne posunięcie" 0
 menuText P GInfoMaterial "Pokaż wartości materialne" 0
 menuText P GInfoFEN "Pokaż FEN" 5
 menuText P GInfoMarks "Pokaż kolorowe pola i strzałki" 5
@@ -520,13 +520,13 @@ translate P LichessPuzzlesGame {Partia}
 translate P LichessPuzzlesNoNew {Nie znaleziono nowych zadań dla tych ustawień.\n\nSpróbuj zmienić motyw, poziom trudności lub kolor figur.}
 
 # Board screenshot
-menuText P ToolsScreenshot "Zrzut ekranu tablicy" 0 \
-  {Zapisz bieżącą pozycję planszy jako obraz PNG}
-translate P ScreenshotTitle {Zrzut ekranu tablicy}
+menuText P ToolsScreenshot "Zapisz obraz szachownicy..." 0 \
+  {Zapisz bieżącą pozycję na szachownicy jako obraz PNG}
+translate P ScreenshotTitle {Obraz szachownicy}
 translate P ScreenshotFileType {Obrazy PNG}
-translate P ScreenshotOverwrite {Plik o tej nazwie już istnieje. Nadpisać to?}
-translate P ScreenshotError {Nie udało się zapisać zrzutu ekranu.}
-translate P ScreenshotSaved {Zapisano zrzut ekranu tablicy:}
+translate P ScreenshotOverwrite {Plik o tej nazwie już istnieje. Czy go zastąpić?}
+translate P ScreenshotError {Nie udało się zapisać obrazu szachownicy.}
+translate P ScreenshotSaved {Zapisano obraz szachownicy:}
 
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
@@ -634,9 +634,9 @@ translate P Preview {Podgląd}
 translate P Revert {Przywróć}
 translate P Rename {Zmień nazwę}
 translate P Save {Zapisz}
-translate P Presets {Ustawienia wstępne}
-translate P SavePreset {Zapisz gotowe ustawienia wyszukiwania}
-translate P PresetName {Nazwa ustawienia:}
+translate P Presets {Zapisane wyszukiwania}
+translate P SavePreset {Zapisz wyszukiwanie}
+translate P PresetName {Nazwa wyszukiwania:}
 translate P Search {Szukaj}
 translate P Stop {Zatrzymaj}
 translate P Store {Zapisz}
@@ -804,8 +804,8 @@ menuText P TreeOptFastmode "Tryb szybki" 0 {Szybki tryb aktualizacji (bez uwzgl�
 menuText P TreeOptFastAndSlowmode "Tryb szybki i dokładny" 0 {Najpierw szybki, potem dokładny tryb aktualizacji}
 menuText P TreeOptStartStop "Automatyczne odświeżanie" 0 {Włącz lub wyłącz automatyczne odświeżanie okna drzewa wariantów}
 menuText P TreeOptLock "Zablokuj" 0 {Przypnij lub odłącz drzewo wariantów od bieżącej bazy danych}
-menuText P TreeOptAutoLoadMask "Automatyczne ładowanie ostatniej maski" 0 \
-  {Otwórz automatycznie ostatnio używaną maskę po otwarciu okna drzewa}
+menuText P TreeOptAutoLoadMask "Automatycznie wczytuj ostatnią maskę" 0 \
+  {Automatycznie otwieraj ostatnio używaną maskę przy otwieraniu okna drzewa wariantów}
 menuText P TreeOptTraining "Trening" 0 {Włącz lub wyłącz tryb treningowy drzewa wariantów}
 menuText P TreeOptDepth "Półposunięcia" 0 {Liczba półposunięć wyświetlanych w drzewie wariantów (1–4)}
 menuText P TreeOptAutosave "Automatycznie zapisuj pamięć podręczną" 0 \
@@ -825,7 +825,7 @@ translate P TreeTrainingMoveNotInBase {Tego posunięcia nie ma w bazie danych.}
 translate P LockTree {Zablokuj}
 translate P TreeDepth {Półposunięcia:}
 translate P TreeLocked {zablokowane}
-translate P TreeTimingSearch {szukaj}
+translate P TreeTimingSearch {wyszukiwanie}
 translate P TreeTimingStats {statystyki}
 translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
@@ -958,12 +958,12 @@ translate P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)"
 translate P PgnOptSpace "Spacja po nr posunięcia"
 translate P PgnOptStripMarks "Usuń kody kolorowych pól i strzałek"
 translate P PgnOptBoldMainLine "Pogrubiaj posunięcia wariantu głównego"
-translate P PgnOptCenter "Wyśrodkuj bieżący ruch"
+translate P PgnOptCenter "Wyśrodkuj bieżące posunięcie"
 
 # Analysis window:
 translate P AddAllVariations {Dodaj wszystkie warianty}
 translate P AddMove {Dodaj posunięcie}
-translate P RemoveMove {Usuń Przenieś}
+translate P RemoveMove {Usuń posunięcie}
 translate P Annotate {Adnotuj}
 translate P FinishGame {Dokończ partię}
 translate P StartEngine {Start/Stop}
@@ -1019,8 +1019,8 @@ translate P ReviewVarLines {Warianty do zapisania}
 translate P ReviewVarCp {Różnica ocen wariantów (cp)}
 translate P ReviewMoveWait {Czekaj na osiągnięcie zadanej głębokości analizy}
 translate P ReviewMovetime {Limit czasu (ms)}
-translate P ReviewCloudEval {Cloud pre-pass}
-translate P ReviewEstimatedRating {ocena wyniku (z tej partii)}
+translate P ReviewCloudEval {Wstępna analiza w chmurze}
+translate P ReviewEstimatedRating {szacowany ranking na podstawie tej partii}
 translate P ReviewOpeningMoves {Posunięcia w debiucie}
 translate P ReviewFromPreset {%s (z ustawień silnika)}
 translate P ReviewProgress {Analiza pozycji %s z %s}
@@ -1038,7 +1038,7 @@ translate P ReviewCoachLevelLabel {Poziom}
 translate P ReviewCoachOpeningLabel {Debiut}
 translate P ReviewCoachPhase {posunięcia %d-%d — dokładność Białych %.1f%%, Czarnych %.1f%%, ACPL Białych %d, Czarnych %d.}
 translate P ReviewReportMarker {Analiza partii}
-translate P ReviewReportSide {%s: dokładność %.1f%%, ACPL %d}
+translate P ReviewReportSide {%s: dokładność %s%%, ACPL %d}
 translate P ReviewReportLabels {Oceny %s: %s}
 translate P ReviewReportKeyMoments {Kluczowe momenty: %s}
 translate P ReviewReportPhases {Fazy partii: %s}
@@ -1057,23 +1057,23 @@ translate P Alphabetical {Alfabetycznie}
 translate P BookCount {Książki debiutowe}
 
 # OpenBook Rich (.obr) book columns, shown in the Book window for a .obr book.
-translate P ObrBookMove {Przenosić}
-translate P ObrBookGames {Zawody sportowe}
+translate P ObrBookMove {Posunięcie}
+translate P ObrBookGames {Partie}
 translate P ObrBookFrequency {Częstotliwość}
 translate P ObrBookScore {Wynik}
-translate P ObrBookWDB {W/D/B%}
+translate P ObrBookWDB {W/R/P%}
 translate P ObrBookElo {Elo}
-translate P ObrBookPerf {Perf}
+translate P ObrBookPerf {Wynik rankingowy}
 translate P ObrBookNoStats {(brak statystyk)}
-translate P ObrBookDetail {%s %d gry (częstotliwość %.1f%%): +%d =%d -%d (biały/remis/czarny) wynik %.1f%% Elo %s Perf %s kolor %s flagi 0x%02X}
+translate P ObrBookDetail {%s  %d partii (częstotliwość %.1f%%): +%d =%d -%d (Białe/Remis/Czarne)  wynik %.1f%%  Elo %s  wynik rankingowy %s  kolor %s  flagi 0x%02X}
 translate P ObrColourRed {czerwony}
 translate P ObrColourBlue {niebieski}
 translate P ObrColourGreen {zielony}
 # Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
-translate P CtgChooseSource {Wybierz książkę CTG (.ctg): jej pliki .cto i .ctb muszą znajdować się w tym samym folderze}
-translate P CtgChooseDest {Wybierz miejsce zapisania księgi OBR (.obr)}
-translate P CtgConverting {Konwersja}
-translate P CtgConvertDone {Książka zapisana:}
+translate P CtgChooseSource {Wybierz książkę CTG (.ctg): pliki .cto i .ctb muszą znajdować się w tym samym folderze}
+translate P CtgChooseDest {Wybierz miejsce zapisu książki OBR (.obr)}
+translate P CtgConverting {Konwertowanie}
+translate P CtgConvertDone {Zapisano książkę:}
 
 # Configure Engines dialog:
 translate P EngineList {Konfiguruj silniki}
@@ -1116,7 +1116,7 @@ menuText P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)" 1
 menuText P PgnOptSpace "Spacja po nr posunięcia" 1
 menuText P PgnOptStripMarks "Usuń kody kolorowych pól i strzałek" 1
 menuText P PgnOptBoldMainLine "Pogrubiaj posunięcia wariantu głównego" 4
-menuText P PgnOptCenter "Wyśrodkuj bieżący ruch" 7
+menuText P PgnOptCenter "Wyśrodkuj bieżące posunięcie" 7
 menuText P PgnColor "Kolory" 0
 menuText P PgnColorHeader "Nagłówek..." 0
 menuText P PgnColorAnno "Adnotacje..." 0
@@ -1434,8 +1434,8 @@ translate P SearchInRefDatabase {Szukaj w bazie referencyjnej}
 translate P LookInVars {Szukaj w wariantach}
 
 # Moves search:
-translate P MovesSearchHint {SAN porusza się po kolei, np. e4 e5 Sf3. „?” pasuje do dowolnego pojedynczego ruchu.}
-translate P LastMoveIsMate {Ostatni ruch to kolego}
+translate P MovesSearchHint {Posunięcia w notacji SAN, w kolejności, np. e4 e5 Nf3. „?” oznacza dowolne posunięcie.}
+translate P LastMoveIsMate {Ostatnie posunięcie daje mata}
 
 # Material search:
 translate P MaterialSearch {Wyszukiwanie wg materiału}
@@ -1679,7 +1679,7 @@ translate P NameEditSelect {Partie do edycji}
 translate P NameEditReplace {Zamień}
 translate P NameEditWith {na}
 translate P NameEditMatches {Dopasowania: naciśnij Ctrl+1 do Ctrl+9, aby wybrać}
-translate P NameEditWildcard {Symbol wieloznaczny dla nazw: * = dowolne znaki (1* = zaczyna się od 1, *Whelan = kończy się na Whelan)}
+translate P NameEditWildcard {Znak wieloznaczny w nazwach: * = dowolne znaki (1* = zaczyna się od 1, *Whelan = kończy się na Whelan)}
 
 # Check games window:
 translate P CheckGames {Sprawdź partie}
@@ -1728,15 +1728,15 @@ translate P IndentVariations {Wcięcia wariantów}
 translate P ExportColumnStyle {Układ kolumnowy (jedno posunięcie w wierszu)}
 translate P ExportSymbolStyle {Styl adnotacji symbolicznych:}
 translate P ExportStripMarks {Usuń z komentarzy kody kolorowych pól i strzałek}
-translate P OptionsExportEol {Zakończenia linii:}
-translate P OptionsExportEolNative {Rodzinny}
+translate P OptionsExportEol {Zakończenia wierszy:}
+translate P OptionsExportEolNative {Systemowe}
 translate P OptionsPGNExport {Eksport PGN}
-translate P OptionsTagOrderIntro {Kolejność pozostałych tagów PGN podczas pisania gry. Lista Seven Tag Roster jest zawsze pisana jako pierwsza, zgodnie ze standardem PGN.}
-translate P OptionsTagOrderStr {Lista siedmiu tagów (stała): wydarzenie, miejsce, data, runda, biały, czarny, wynik}
-translate P OptionsTagOrderWhite {Ocena biała}
-translate P OptionsTagOrderBlack {Czarna ocena}
-translate P OptionsTagOrderOthers {Inne tagi}
-translate P OptionsTagOrderSort {Sortuj pozostałe tagi alfabetycznie (w przeciwnym razie oryginalna kolejność)}
+translate P OptionsTagOrderIntro {Kolejność pozostałych znaczników PGN podczas zapisywania partii. Siedem podstawowych znaczników jest zawsze zapisywanych jako pierwsze, zgodnie ze standardem PGN.}
+translate P OptionsTagOrderStr {Siedem podstawowych znaczników (stała kolejność): Event, Site, Date, Round, White, Black, Result}
+translate P OptionsTagOrderWhite {Ranking Białych}
+translate P OptionsTagOrderBlack {Ranking Czarnych}
+translate P OptionsTagOrderOthers {Pozostałe znaczniki}
+translate P OptionsTagOrderSort {Sortuj pozostałe znaczniki alfabetycznie (w przeciwnym razie zachowaj pierwotną kolejność)}
 translate P Up {W górę}
 translate P Down {W dół}
 
@@ -1932,19 +1932,19 @@ translate P ChooseTrainingBase {Wybierz bazę treningową}
 translate P Thinking {Myślenie}
 translate P AnalyzeDone {Analiza zakończona}
 translate P WinWonGame {Wygraj wygraną partię}
-translate P TacticsEngineStartFail {Nie można uruchomić silnika taktyki: %s}
-translate P TacticsEngineGone {Silnik taktyki zatrzymał się: %s}
-translate P TacticsNoAssessment {Silnik nie zwrócił oceny dla tej pozycji}
+translate P TacticsEngineStartFail {Nie udało się uruchomić silnika do treningu taktycznego: %s}
+translate P TacticsEngineGone {Silnik do treningu taktycznego został zatrzymany: %s}
+translate P TacticsNoAssessment {Silnik nie ocenił tej pozycji}
 translate P Lines {Warianty}
 translate P ConfigureUCIengine {Konfiguracja silnika UCI}
 translate P SpecificOpening {Wybrany debiut}
 translate P StartNewGame {Rozpocznij nową partię}
 translate P Opening {Debiut}
 translate P StartFromCurrentPosition {Rozpocznij od bieżącej pozycji}
-translate P ShowDigitalClock {Show digital clock}
-translate P ClockFromGame {Start from the time recorded in the game}
-translate P ClocksContinued {Clocks continued from the game}
-translate P ClocksRestarted {Clocks restarted}
+translate P ShowDigitalClock {Pokaż zegar cyfrowy}
+translate P ClockFromGame {Rozpocznij od czasu zapisanego w partii}
+translate P ClocksContinued {Zegary kontynuują odliczanie od zapisanego czasu}
+translate P ClocksRestarted {Zegary uruchomiono od nowa}
 translate P FixedDepth {Stała głębokość}
 translate P Nodes {Węzły}
 translate P Depth {Głębokość}
@@ -2309,18 +2309,20 @@ translate P FinishGameGameChanged {partia zmieniła się podczas działania funk
 translate P FinishGameAtEnd {Funkcja „Zakończ partię” rozpoczyna działanie od końca głównej linii. Najpierw przejdź na koniec partii}
 # CQL search:
 translate P CQLQuery {Zapytanie CQL}
-translate P CQLQueryHint {Zapytanie CQL, np. cql() mate lub cql(:gamenumber 1 10) K. Ctrl+Enter uruchamia wyszukiwanie.}
-translate P CQLQueryEmpty {Przed wyszukiwaniem wpisz zapytanie CQL.}
+translate P CQLQueryHint {Zapytanie CQL, np. cql() mate lub cql(:gamenumber 1 10) K. Ctrl+Enter rozpoczyna wyszukiwanie.}
+translate P CQLQueryEmpty {Przed rozpoczęciem wyszukiwania wpisz zapytanie CQL.}
 translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
-translate P CQLUnreadableGames {%d partii nie dało się odczytać}
+translate P CQLUnreadableGames {Nie udało się odczytać %d partii}
 }
-# end of english.tcl
+# end of polish.tcl
+
+
 
 
 ############################################################
 #
 # Polish tip of the day
-# Aktualizacja tip of the day ScidCommunity v.5.1.4.48  by Szustan 
+# Aktualizacja tip of the day ScidCommunity by Szustan 
 
 set tips(P) {
   {
@@ -2538,3 +2540,4 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
+###########################################

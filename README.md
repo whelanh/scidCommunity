@@ -170,6 +170,7 @@ with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 - **[Venkat Krishnamurthy](https://github.com/kayvee42)** — focuses on the macOS version (build, packaging and platform fixes) and redesigned the PGN Window buttons
 - **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature.  He has also added other new features like CQL search, and he has taken the lead on simplifying scidCommunity to use one engine mode protocol. Along the way he has cleaned up a significant amount of obsolete and/or inconsistent code.
 - **[Tommaso Bergamasco](https://github.com/TBergh98)** — designed the Lichess study publishing feature, the OpenBook Rich (.obr) opening-book reader, and the CTG to .obr converter. He has also contributed to Tree View loading speedups.
+- **[Szustan](https://github.com/Szustan)** - Has faithfully maintained the Polish language translation file throughout the many changes in scidCommunity.
 
 
 ### Acknowledgements
