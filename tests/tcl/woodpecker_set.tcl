@@ -88,6 +88,103 @@ checkEq "level counts add up" [::woodpecker::set::levelCounts 10 {easier 25 norm
 checkEq "one level takes all" [::woodpecker::set::levelCounts 7 {normal 1}] {normal 7}
 check "no level is an error" {[catch {::woodpecker::set::levelCounts 5 {}}]}
 
+# ---------------------------------------------------------- bundled puzzles ----
+set pdir [file join $root puzzles]
+set games 0
+foreach file [glob -directory $pdir set-*.pgn] {
+    set f [open $file r]
+    incr games [regexp -all -line {^\[Event } [read $f]]
+    close $f
+}
+set pool [::woodpecker::set::readPool $pdir]
+checkEq "the pool is the union of every set file" [llength $pool] $games
+set flipBad {}
+foreach g $pool {
+    set black [expr {[::woodpecker::fenSide [dict get $g FEN]] eq "b"}]
+    if {![dict exists $g FlipB] || [dict get $g FlipB] != $black} { lappend flipBad [dict get $g PuzzleId] }
+}
+checkEq "FlipB is 1 exactly when Black is to move" [lrange $flipBad 0 4] {}
+
+# The loader's conversion against the manifest, which holds the UCI solution.
+set f [open [file join $pdir manifest.csv] r]
+set head [split [gets $f] ,]
+set manifest [dict create]
+while {[gets $f line] >= 0} {
+    set row [split $line ,]
+    dict set manifest [lindex $row [lsearch $head PuzzleId]] [lindex $row [lsearch $head SolutionUCI]]
+}
+close $f
+set convBad {}
+foreach g $pool {
+    if {[incr _k] % 200 != 1} { continue }
+    set ex [::woodpecker::set::bundledExercise $g]
+    set after [::chessboard::toFen [::chessboard::makeMove [::chessboard::fromFen [dict get $g SourceFEN]] [dict get $ex lastMove]]]
+    if {[dict get $ex solution] ne [dict get $manifest [dict get $ex id]] \
+            || [lindex $after 0] ne [lindex [dict get $ex fen] 0]} { lappend convBad [dict get $ex id] }
+}
+checkEq "solution and last move match the manifest (30 puzzles)" $convBad {}
+set ex [::woodpecker::set::bundledExercise [lindex $pool 0]]
+checkEq "the exercise links the game at the puzzle's move" "https://lichess.org/[dict get $ex gameId]" \
+    [string map {lichess.org/game/ lichess.org/} [dict get [lindex $pool 0] GameUrl]]
+
+set ::woodpecker::dataDir ""
+proc inBand {exs rating level {extra 0}} {
+    set centre [expr {$rating + [::woodpecker::levelDelta $level]}]
+    set w [expr {[::woodpecker::levelWindow $centre] + $extra}]
+    foreach e $exs {
+        if {[dict get $e level] eq $level && abs([dict get $e rating] - $centre) > $w} { return 0 }
+    }
+    return 1
+}
+proc levelsOf {exs} {
+    set c [dict create]
+    foreach e $exs { dict incr c [dict get $e level] }
+    return [lsort -stride 2 $c]
+}
+set spec [dict create count 100 shares [::woodpecker::presetShares standard] rating 1500 seed 7]
+lassign [::woodpecker::set::fetchBundled $spec "" $pdir] exs short
+checkEq "standard at 1500: the shares become counts" [levelsOf $exs] {easier 25 harder 15 normal 60}
+checkEq "and nothing is missing" $short {}
+check "each level stays in its band" {[inBand $exs 1500 easier] && [inBand $exs 1500 normal] && [inBand $exs 1500 harder]}
+set ratings {}
+foreach e $exs { lappend ratings [dict get $e rating] }
+checkEq "easiest first" $ratings [lsort -integer $ratings]
+lassign [::woodpecker::set::fetchBundled $spec "" $pdir] again
+checkEq "the same seed draws the same puzzles" [lmap e $again {dict get $e id}] [lmap e $exs {dict get $e id}]
+
+# A set made of them: the next draw never repeats its puzzles.
+set sd [::woodpecker::set::newDir "bundled" $now]
+set rows [dict create]
+set i 0
+foreach e $exs {
+    incr i
+    dict set rows $i [::woodpecker::exerciseRow $i $i [dict get $e id] [dict get $e rating] \
+        [dict get $e fen] [dict get $e solution] [dict get $e lastMove]]
+}
+::woodpecker::writeExercises $sd $rows
+::woodpecker::writeMeta $sd [dict create name bundled created 2026-11-20]
+lassign [::woodpecker::set::fetchBundled [dict replace $spec seed 8] "" $pdir] next
+set ids [lmap e $exs {dict get $e id}]
+checkEq "no puzzle repeated across sets" [llength [lmap e $next {expr {[dict get $e id] in $ids ? 1 : [continue]}}]] 0
+
+# Across a change of density (sets 6 and 7 meet at 2450) the draw stays even in
+# rating: 2000 + harder is centred on 2300, band 2000-2600.
+lassign [::woodpecker::set::fetchBundled [dict create count 100 shares {harder 1} rating 2000 seed 5] "" $pdir] hx
+set hr [lsort -integer [lmap e $hx {dict get $e rating}]]
+check "a band across 2450 is drawn evenly in rating (median [lindex $hr 50])" {abs([lindex $hr 50] - 2300) <= 60}
+
+lassign [::woodpecker::set::fetchBundled [dict create count 60 shares {hardest 1} rating 2500 color black] "" $pdir] top short
+checkEq "2500 and hardest: clipped to the top of the pool, not empty" [llength $top] 60
+set topMax [tcl::mathfunc::max {*}[lmap g $pool {dict get $g LichessRating}]]
+check "from the top of the pool" {[tcl::mathfunc::min {*}[lmap e $top {dict get $e rating}]] >= $topMax - [::woodpecker::levelWindow 3100]}
+check "only black to move, as asked" {[llength [lmap e $top {expr {[::woodpecker::fenSide [dict get $e fen]] eq "b" ? [continue] : 1}}]] == 0}
+
+lassign [::woodpecker::set::fetchBundled [dict create count 40 shares {normal 1} rating 1500 angle castling] "" $pdir] dbl short
+check "a theme takes only puzzles with it" {[llength [lmap e $dbl {expr {"castling" in [dict get $e themes] ? [continue] : 1}}]] == 0}
+checkEq "the band widens by 100 before a shortfall" [inBand $dbl 1500 normal 100] 1
+checkEq "what is missing is counted per level" [expr {[llength $dbl] + ([dict exists $short normal] ? [dict get $short normal] : 0)}] 40
+check "a thin theme comes up short" {[dict exists $short normal]}
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

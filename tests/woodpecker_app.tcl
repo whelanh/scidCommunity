@@ -96,6 +96,30 @@ checkEq "a later evaluation takes its own mark back off" [string trim [sc_pos ge
 sc_base switch $prev
 sc_base close $b
 
+# ------------------------------------------------------- bundled puzzles set --
+puts "bundled set"
+set spec [dict create count 20 shares [::woodpecker::presetShares standard] rating 1500 seed 3]
+lassign [::woodpecker::set::fetchBundled $spec "" [file join $root puzzles]] bexs short
+checkEq "twenty puzzles drawn" [llength $bexs] 20
+set bdir [::woodpecker::set::newDir "Bundled"]
+checkEq "the set is built" [::woodpecker::set::buildFromExercises $bdir \
+    [::woodpecker::set::newMeta "Bundled" bundled 28 1 [clock seconds]] $bexs] 20
+set brows [::woodpecker::readExercises $bdir]
+checkEq "the PuzzleId reaches exercises.tsv" [dict get $brows 1 puzzleId] [dict get [lindex $bexs 0] id]
+check "so a later draw skips it" [dict exists [::woodpecker::set::usedIds] [dict get [lindex $bexs 0] id]]
+lassign [::woodpecker::set::openBase $bdir] b opened
+set prev [sc_base current]
+sc_base switch $b
+sc_game load 1
+set ml [sc_game UCI_mainLine]
+checkEq "the game starts from the puzzle position" [lindex $ml 0] "position fen [dict get $brows 1 fen] moves"
+checkEq "its main line is the solution" [lrange $ml 1 end] [dict get $brows 1 solution]
+check "the site is the game at the puzzle's move" [string match "https://lichess.org/*#*" [sc_game tags get Site]] \
+    [sc_game tags get Site]
+sc_base switch $prev
+sc_base close $b
+file delete -force $bdir
+
 # ------------------------------------------------------------------ PGN book --
 puts "book set"
 set pgn [file join $tmp book.pgn]

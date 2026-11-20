@@ -3,8 +3,9 @@
 ###
 ### A set is a directory under <user dir>/woodpecker/ holding a Scid database
 ### (set.si5 ...) with one game per exercise, and the files woodpecker_core.tcl
-### reads and writes. Two sources: Lichess puzzles (the batch API) and a PGN or
-### Scid database the user already has (a book converted to PGN).
+### reads and writes. Three sources: the puzzles shipped with Scid (puzzles/),
+### Lichess puzzles (the batch API) and a PGN or Scid database the user already
+### has (a book converted to PGN).
 ###
 ### Uses sc_* commands and, for Lichess, curl or Tcl's http package. No Tk:
 ### the GUI passes a progress callback and polls a cancel flag.
@@ -281,6 +282,8 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
     # puzzle; when a whole round brings nothing new the next minute is awaited.
     set angles [expr {$angle eq "mix" ? {mix opening middlegame endgame} : [list $angle]}]
     set seen [usedIds]
+    # `skip`: ids already chosen for this set (from the bundled pool).
+    if {[dict exists $spec skip]} { foreach id [dict get $spec skip] { dict set seen $id 1 } }
     # Puzzles fetched but outside the band of the level being filled: another
     # level, or the same one once its band widens, may still take them.
     set spare [dict create]
@@ -386,13 +389,178 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
         }
     }
     if {$cancel} { error cancelled }
+    return [byRating $got]
+}
+
+# Exercises sorted by rating, easiest first.
+proc ::woodpecker::set::byRating {exs} {
     return [lsort -integer -command {apply {{a b} {
         expr {[dict get $a rating] - [dict get $b rating]}
-    }}} $got]
+    }}} $exs]
 }
 
 proc ::woodpecker::set::urlPart {s} {
     return [string map {" " "%20" "/" "%2F" "?" "%3F" "&" "%26" "#" "%23"} $s]
+}
+
+################################################################################
+# The puzzles shipped with Scid (puzzles/set-*.pgn, graded Lichess puzzles).
+# Their union is one pool, filtered by the rating band of each level as
+# fetchLichess does without a token. A new set-*.pgn joins the pool unchanged.
+
+# share/scid/puzzles once installed; the repository's puzzles/ in a source tree
+# run, where scidShareDir is the repository itself.
+proc ::woodpecker::set::puzzlesDir {} {
+    if {[info exists ::scidShareDir]} { return [file join $::scidShareDir puzzles] }
+    variable HERE
+    return [file normalize [file join $HERE .. .. puzzles]]
+}
+set ::woodpecker::set::HERE [file dirname [file normalize [info script]]]
+
+# The pool: one dict per game, its PGN tags plus `moves` (the SAN movetext).
+# Only the tags are read here (under a second for 6000 games); the moves are
+# converted for the puzzles drawn. Kept for the session.
+proc ::woodpecker::set::readPool {{dir ""}} {
+    variable pool
+    if {$dir eq ""} { set dir [puzzlesDir] }
+    if {[info exists pool($dir)]} { return $pool($dir) }
+    set games {}
+    foreach f [lsort [glob -nocomplain -directory $dir set-*.pgn]] {
+        set ch [open $f r]
+        fconfigure $ch -encoding utf-8
+        set g [dict create]
+        while {[gets $ch line] >= 0} {
+            set line [string trim $line]
+            if {[regexp {^\[(\w+)\s+"(.*)"\]$} $line -> k v]} {
+                if {[dict exists $g moves]} { lappend games $g; set g [dict create] }
+                dict set g $k $v
+            } elseif {$line ne ""} {
+                dict append g moves " $line"
+            }
+        }
+        if {[dict exists $g moves]} { lappend games $g }
+        close $ch
+    }
+    set out {}
+    foreach g $games {
+        if {![dict exists $g PuzzleId] || ![dict exists $g FEN] || ![dict exists $g SourceFEN]} { continue }
+        if {![dict exists $g LichessRating] || ![string is integer -strict [dict get $g LichessRating]]} { continue }
+        lappend out $g
+    }
+    set pool($dir) $out
+    return $out
+}
+
+# One pool game as the trainer's exercise (the ::woodpecker::lichessExercise
+# shape). The PGN has no LastMove tag: it is the one legal move that leads from
+# SourceFEN to FEN. The solver's side comes from the FEN; FlipB is ignored.
+proc ::woodpecker::set::bundledExercise {g} {
+    set fen [dict get $g FEN]
+    set src [::chessboard::fromFen [dict get $g SourceFEN]]
+    set board [lindex $fen 0]
+    set last ""
+    foreach m [::chessboard::legalMoves $src] {
+        if {[lindex [::chessboard::toFen [::chessboard::makeMove $src $m]] 0] eq $board} { set last $m; break }
+    }
+    if {$last eq ""} { error "[dict get $g PuzzleId]: no move leads from SourceFEN to FEN" }
+    set pos [::chessboard::fromFen $fen]
+    set solution {}
+    foreach tok [dict get $g moves] {
+        regsub {^\d+\.+} $tok "" tok
+        if {$tok eq "" || $tok in {* 1-0 0-1 1/2-1/2}} { continue }
+        set uci [::woodpecker::sanToUci $pos $tok]
+        lappend solution $uci
+        set pos [::chessboard::makeMove $pos $uci]
+    }
+    if {![llength $solution]} { error "[dict get $g PuzzleId]: no solution" }
+    # The game's page at the puzzle's move: lichess.org/<id>/black#74.
+    set gameId ""
+    if {[dict exists $g GameUrl]} { regexp {lichess\.org/(?:game/)?(.+)$} [dict get $g GameUrl] -> gameId }
+    return [dict create id [dict get $g PuzzleId] rating [dict get $g LichessRating] \
+        plays [expr {[dict exists $g NbPlays] ? [dict get $g NbPlays] : ""}] \
+        themes [expr {[dict exists $g Themes] ? [dict get $g Themes] : {}}] \
+        fen $fen lastMove $last solution $solution gameId $gameId white "" black ""]
+}
+
+# Draw puzzles from the pool. `spec` keys as for fetchLichess (count, shares,
+# angle, color, rating; no token), plus `seed` for a repeatable draw (tests).
+# Per level the band is the one Lichess uses (centre = rating + the level's
+# delta, ::woodpecker::levelWindow), with its centre clipped to the ratings the
+# pool holds; when short it widens once by 100. Not more: the pool is small and
+# a band widened further stops being the level asked for (at 1500, six steps
+# turn "normal" from 1400-1600 into 800-2200), so a level still short is a
+# shortfall the caller can fill from Lichess. `dir` is the puzzle folder
+# ("" = puzzlesDir).
+# Returns {exercises short}: the exercises sorted by rating, none already in
+# another set, and {level missing ...} for the levels that came up short.
+proc ::woodpecker::set::fetchBundled {spec {progress ""} {dir ""}} {
+    set pool [readPool $dir]
+    if {![llength $pool]} { error "no puzzles found in [expr {$dir eq "" ? [puzzlesDir] : $dir}]" }
+    if {[dict exists $spec seed]} { expr {srand([dict get $spec seed])} }
+    set n [dict get $spec count]
+    set angle [expr {[dict exists $spec angle] && [dict get $spec angle] ne "" ? [dict get $spec angle] : "mix"}]
+    set color [expr {[dict exists $spec color] ? [dict get $spec color] : "both"}]
+    set rating [dict get $spec rating]
+    set want [levelCounts $n [dict get $spec shares]]
+    set seen [usedIds]
+    # What the pool holds (not what is left): an exhausted band is a shortfall,
+    # never a silent move to easier puzzles.
+    set lo Inf
+    set hi -Inf
+    set cands {}
+    # Puzzles per 50 rating points: the sets are not equally dense (1000 in
+    # 300 points up to 2450, 1000 in 150 above), so a puzzle is drawn with a
+    # weight of 1 / density, which makes the draw uniform in rating.
+    set dens [dict create]
+    foreach g $pool { dict incr dens [expr {[dict get $g LichessRating] / 50}] }
+    foreach g $pool {
+        set r [dict get $g LichessRating]
+        set lo [expr {min($lo, $r)}]
+        set hi [expr {max($hi, $r)}]
+        if {[dict exists $seen [dict get $g PuzzleId]]} { continue }
+        set side [::woodpecker::fenSide [dict get $g FEN]]
+        if {($color eq "white" && $side ne "w") || ($color eq "black" && $side ne "b")} { continue }
+        if {$angle ne "mix" && (![dict exists $g Themes] || $angle ni [dict get $g Themes])} { continue }
+        lappend cands $g
+    }
+    set got {}
+    set short [dict create]
+    set done 0
+    dict for {level target} $want {
+        if {$target <= 0} { continue }
+        set centre [expr {$rating + [::woodpecker::levelDelta $level]}]
+        set window [::woodpecker::levelWindow $centre]
+        set centre [expr {min(max($centre, $lo), $hi)}]
+        set have 0
+        for {set round 0} {$have < $target && $round <= 1} {incr round} {
+            set in {}
+            set rest {}
+            foreach g $cands {
+                set r [dict get $g LichessRating]
+                if {abs($r - $centre) <= $window} {
+                    # Weighted random order (Efraimidis-Spirakis, log form).
+                    lappend in [list [expr {log(rand()) * [dict get $dens [expr {$r / 50}]]}] $g]
+                } else {
+                    lappend rest $g
+                }
+            }
+            set cands $rest
+            foreach k [lsort -real -decreasing -index 0 $in] {
+                set g [lindex $k 1]
+                # Left over: another level, or a wider band, may take it.
+                if {$have >= $target} { lappend cands $g; continue }
+                if {[catch { bundledExercise $g } ex]} { continue }
+                dict set ex level $level
+                lappend got $ex
+                incr have
+                incr done
+                if {$progress ne "" && $done % 10 == 0} { {*}$progress $done $n $level }
+            }
+            incr window 100
+        }
+        if {$have < $target} { dict set short $level [expr {$target - $have}] }
+    }
+    return [list [byRating $got] $short]
 }
 
 ################################################################################
