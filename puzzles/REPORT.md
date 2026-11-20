@@ -132,3 +132,4 @@ Each puzzle is counted under the first theme family it matches, so a puzzle tagg
 - Duplicate PuzzleIds: 0
 - Duplicate solver positions: 0
 - Every solution was replayed with python-chess before writing.
+- Orientation: `FlipB` is written to match the side to move in every game (3000 white, 3000 black), so Scid opens each puzzle from the solver's side.

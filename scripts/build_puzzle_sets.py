@@ -526,6 +526,12 @@ def pgn_game(p, spec):
     game.headers["GameUrl"] = p.url
     game.headers["Set"] = str(spec.number)
     game.headers["SetName"] = spec.name
+    # Scid orients the board from the "FlipB" extra tag when it loads a game
+    # (tcl/game.tcl, ::game::Load) and otherwise keeps whatever orientation
+    # the board already had. Puzzles must be solved from the solver's side,
+    # so pin the orientation to the side to move; without an explicit "0"
+    # a white-to-move puzzle would inherit a board the user had flipped.
+    game.headers["FlipB"] = "1" if p.side == "black" else "0"
     game.headers["SourceFEN"] = p.fen
     if p.daily:
         try:
@@ -665,6 +671,10 @@ def write_report(path, by_set, csv_path, csv_sha, args):
         len(all_ids) - len({" ".join(p.solver_fen.split(" ")[:4])
                             for _, ps in by_set for p in ps})))
     lines.append("- Every solution was replayed with python-chess before writing.")
+    white = sum(1 for _, ps in by_set for p in ps if p.side == "white")
+    lines.append("- Orientation: `FlipB` is written to match the side to move in "
+                 "every game (%d white, %d black), so Scid opens each puzzle "
+                 "from the solver's side." % (white, len(all_ids) - white))
     lines.append("")
 
     with open(path, "w", encoding="utf-8", newline="\n") as fh:

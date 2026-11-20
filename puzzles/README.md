@@ -27,6 +27,12 @@ One game per puzzle:
 - `PuzzleId`, `LichessRating`, `RatingDeviation`, `Popularity`, `NbPlays`,
   `Themes`, `GameUrl` and `SourceFEN` record where the puzzle came from.
   `SourceFEN` is the position before the opponent's move, for reference.
+- `FlipB` is `1` when Black is to move and `0` when White is, so the board
+  opens with the solver's own side at the bottom. Scid applies this tag on
+  load — the same flag its ICCF and LSS tools write — and programs that do
+  not know it ignore it. Both values are written on purpose: with no tag at
+  all, Scid keeps the orientation the board already had, so a puzzle could
+  open from the wrong side depending on what was viewed before it.
 
 `manifest.csv` has the same information in tabular form, including the
 solution in UCI, and is meant for review rather than for training.
