@@ -12,7 +12,8 @@ Play > Woodpecker Method
    |
    +-- woodpecker_ui.tcl    one window: sets page, session panel, summary;
    |                        new-set and evaluate dialogs, statistics window
-   +-- woodpecker_set.tcl   build a set (Lichess batch API, or a PGN/Scid file),
+   +-- woodpecker_set.tcl   build a set (bundled puzzles, Lichess batch API, or
+   |                        a PGN/Scid file),
    |                        the set's database, the token, the data folder
    +-- woodpecker_eval.tcl  grade a set: two passes on ::reviewdriver
    +-- woodpecker_core.tcl  pure Tcl: score, attempts, marks, schedule,
@@ -94,7 +95,41 @@ one.
 *Rejected:* a new binary format, or a SQLite file. Nothing in the records needs
 indexing, and plain text can be read, diffed and repaired by hand.
 
-## Decision 2 — two sources: the Lichess batch API and the user's own file
+## Decision 2 — three sources: the bundled puzzles, the Lichess batch API, the user's own file
+
+**The puzzles shipped with Scid** (`::woodpecker::set::fetchBundled`, the
+default). `puzzles/set-*.pgn` are graded Lichess puzzles in plain PGN, built
+offline by `scripts/build_puzzle_sets.py` (see `puzzles/README.md`) and
+installed to `share/scid/puzzles`. Their union is one pool, filtered the way
+the no-token Lichess fetch filters (below): per level, centre = rating + delta,
+band = centre ± (100 + |1500 − centre| / 4). Then:
+
+- the pool is read once per session, tags only (under a second for 6000
+  games); the SAN solution is converted to UCI, and the opponent's last move
+  found as the one legal move from `SourceFEN` to `FEN`, only for the puzzles
+  drawn;
+- the solver's side comes from the FEN; the `FlipB` tag, which orients the
+  board when a set is opened as a plain PGN, is not read (a test checks it
+  agrees with the FEN);
+- inside a band each puzzle is drawn with a weight of 1 / (puzzles in its 50
+  rating points): the sets are not equally dense (1000 in 300 points up to
+  2450, 1000 in 150 above), and an unweighted draw pulled a band crossing 2450
+  upwards (2000, *harder*: median 2474 instead of about 2300; weighted, 2314);
+- a centre beyond the pool's range is clipped to its edge, so a 2500 player's
+  *hardest* gets the top of the pool instead of nothing;
+- a short band widens once by 100. Not more: at 1500 six steps would turn
+  *normal* from 1400–1600 into 800–2200. A level still short opens a dialog
+  that offers to download the shortfall from Lichess with the same levels
+  (no token, rating-emulated, none of the puzzles already drawn). Measured:
+  at 1500, seven Standard sets of 300 before the eighth comes up short;
+- new `set-*.pgn` files join the pool without code changes; nothing assumes
+  a number of files or a ceiling. Sets 7–9 (2451–2899, 1,000 each) were added
+  this way, with sets 1–6 left byte-identical.
+
+Lichess is opt-in, under *Advanced* in the dialog ("Get puzzles from Lichess
+instead of the included sets"), where the token lives. The rating stays in the
+main part of the dialog because every source needs it, except Lichess with a
+token, which knows it.
 
 **Lichess** (`::woodpecker::set::fetchLichess`). `GET /api/puzzle/batch/{angle}`,
 50 puzzles per call, one request at a time, a `User-Agent`, a minute's wait
@@ -109,6 +144,7 @@ after a 429. The dialog asks for:
   | Automatic (patterns until they are seen at once) | 30% | 50% | 20% | | |
   | **Standard** (default; the book's Easy/Intermediate proportion, 222/762) | | 25% | 60% | 15% | |
   | Challenging | | | 40% | 45% | 15% |
+  | Tough | | | 15% | 40% | 45% |
   | Custom | the five percentages are shown only here | | | | |
 
 - a theme (`mix` by default, as the book gives no hint of the theme) and the
@@ -152,9 +188,9 @@ set-up position becomes an exercise, the main line is the solution, variations
 are ignored, and the author's own `!`/`!!` become the first marks version. The
 original file is never touched; it is copied into the set.
 
-*Rejected:* importing the Lichess puzzle CSV (6 M puzzles, 310 MB, zstd). It
-would allow absolute rating bands, but Scid has no zstd decoder, and the API
-with angle rotation is enough for 200–2000 exercises. The API spec asks not to
+*Rejected:* importing the Lichess puzzle CSV (6 M puzzles, 310 MB, zstd) at
+run time. Scid has no zstd decoder; the bundled sets are a curated subset of
+it, chosen offline, which gives absolute rating bands without the download. The API spec asks not to
 use the batch endpoint for mass download; a set is a few dozen requests made
 one at a time.
 
@@ -357,6 +393,7 @@ scrolls when the window is short.
 | `tcl/utils/win.tcl` | **fix**: `::docking::layout_restore` compared the whole `{Toplevel .wnd}` pair with `Toplevel`, so every floating window was dropped on restore, the "auto" layout at startup included. Found by the Woodpecker GUI test |
 | `tcl/main.tcl` | **fix**: the play-mode status line expanded the literal word `pInfo` instead of the variable |
 | `.github/workflows/tcl-tests.yml` | four new `tclsh` harnesses |
+| `CMakeLists.txt` | installs `puzzles/set-*.pgn` and `Copyright.txt` to `share/scid/puzzles` (not `manifest.csv`) |
 
 ## Tests
 
@@ -364,9 +401,9 @@ scrolls when the window is short.
 | --- | --- | --- |
 | `tests/tcl/woodpecker_core.tcl` | `tclsh`, CI | score, attempts, marks, schedule, record files, statistics, JSON, SAN↔UCI, presets, no-token bands |
 | `tests/tcl/woodpecker_eval.tcl` | `tclsh`, CI | marks from the two passes' results |
-| `tests/tcl/woodpecker_set.tcl` | `tclsh`, CI | data folder, moving sets, README, token file |
+| `tests/tcl/woodpecker_set.tcl` | `tclsh`, CI | data folder, moving sets, README, token file; bundled pool: FlipB against the FEN, SAN→UCI and last move against `manifest.csv`, shares to counts, bands, widening, clipping at the top, no repeats across sets, shortfall |
 | `tests/tcl/lichess_puzzles.tcl` | `tclsh`, CI | the Difficulty menu, colour filter and User-Agent against a fake Lichess |
-| `tests/woodpecker_app.tcl` | in the built app | sets from Lichess and from PGN, NAGs, a real Stockfish evaluation |
+| `tests/woodpecker_app.tcl` | in the built app | sets from the bundled puzzles, from Lichess and from PGN, NAGs, a real Stockfish evaluation |
 | `tests/woodpecker_gui.sh` (+ `.tcl`) | GUI, Xvfb | real sessions: focus layout, hidden solution, abandon, restored layout, card clicks and arrows, scrolling sets page; `WOODPECKER_GUI_UNDOCKED=1` repeats with a floating window |
 
 `scripts/woodpecker/` holds the calibration probe (needs Stockfish and network
@@ -378,6 +415,10 @@ access, not run in CI); its README has the commands.
   red herrings (p. 12). A set built from a book keeps them.
 - Without a token, puzzles already solved on Lichess can come back, and the
   hardest band of players above about 2100 is narrower.
+- The bundled pool stops at the top of its last set (2897 today; above 2899
+  only 88 puzzles pass the quality gates): a band beyond it is clipped, so a
+  very strong player's *harder* and *hardest* overlap, and set 9 (2750–2899)
+  is thinner than the others.
 - Sub-variations of a book's solution are ignored; the main line is the
   exercise.
 - The marks rule was calibrated on one sample of 150 puzzles.
