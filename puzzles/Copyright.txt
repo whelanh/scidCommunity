@@ -11,13 +11,13 @@ Lichess publishes its database exports under CC0: "Use them for research,
 commercial purpose, publication, anything you like. You can download,
 modify and redistribute them, without asking for permission."
 
-The six PGN files in this directory are a selection of 6,000 puzzles from
+The nine PGN files in this directory are a selection of 9,000 puzzles from
 that database, made with scripts/build_puzzle_sets.py. The positions and
 solutions come from games played on lichess.org and are covered by the CC0
 dedication above. Each puzzle keeps its Lichess PuzzleId and GameUrl so the
 original can be inspected.
 
-The selection itself -- which puzzles were chosen, the six rating bands, the
+The selection itself -- which puzzles were chosen, the nine rating bands, the
 theme and phase quotas -- is part of scidCommunity and is released under the
 same licence as the rest of scidCommunity (GNU General Public License,
 version 2 or later; see ../COPYING).

@@ -1,6 +1,6 @@
 # Graded puzzle sets
 
-Six sets of 1,000 Lichess puzzles, from beginner to expert. They are plain
+Nine sets of 1,000 Lichess puzzles, from beginner to elite. They are plain
 PGN, so the Woodpecker trainer, Scid's PGN import and any other chess
 program can read them.
 
@@ -12,6 +12,9 @@ program can read them.
 | 4 | `set-4-club.pgn` | 1500–1799 | 1636 | Club |
 | 5 | `set-5-advanced.pgn` | 1800–2099 | 1944 | Advanced |
 | 6 | `set-6-expert.pgn` | 2100–2450 | 2209 | Expert |
+| 7 | `set-7-master.pgn` | 2451–2599 | 2514 | Master |
+| 8 | `set-8-grandmaster.pgn` | 2600–2749 | 2662 | Grandmaster |
+| 9 | `set-9-elite.pgn` | 2750–2899 | 2781 | Elite |
 
 The bands are contiguous and do not overlap, so no puzzle appears in two
 sets. Within a set the puzzles are sorted from easiest to hardest.
@@ -49,7 +52,7 @@ Within each set the selection balances:
 
 - **phase** — 10% opening, 55% middlegame, 35% endgame;
 - **outcome** — mates, crushing wins and smaller advantages, with the mate
-  share falling from 30% in set 1 to 5% in set 6;
+  share falling from 30% in set 1 to 5% in set 6 and above;
 - **side to move** — 50% white, 50% black;
 - **theme** — families are weighted by the square root of their availability,
   so rare motifs appear without displacing forks and pins, and the untagged
@@ -57,6 +60,11 @@ Within each set the selection balances:
   fewer puzzles carry a specific motif);
 - **length** — set 1 allows at most three solver moves, and longer solutions
   become more common as the rating rises.
+
+The top of the scale is thin. Set 9 is drawn from the 2,476 puzzles in
+2750–2899 that pass the gates, so its mix follows what exists rather than
+the targets (almost no opening or mate puzzles, median 2781). Above 2899
+only 88 puzzles pass, too few for a set.
 
 The exact coverage of this build is in `REPORT.md`.
 
@@ -72,7 +80,9 @@ python3 scripts/build_puzzle_sets.py \
 It needs [python-chess](https://python-chess.readthedocs.io/) (`pip install chess`).
 Use a different `--seed` to draw a different collection from the same
 snapshot, or `--count` to change the size. The rating bands and the phase and
-outcome targets are constants near the top of the script.
+outcome targets are constants near the top of the script. Sets 7–9 were
+added after sets 1–6 were published; each new set draws its sampling keys
+from its own generator, so adding a band leaves the earlier sets unchanged.
 
 ## Licence
 
