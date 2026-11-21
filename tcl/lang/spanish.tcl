@@ -500,11 +500,11 @@ translate S LichessPuzzlesViewSolution {Ver solución}
 translate S LichessPuzzlesHintMsg {Mira la pieza de %s.}
 translate S LichessPuzzlesSolutionMsg {Solución:\n%s}
 translate S LichessPuzzlesDifficulty {Dificultad:}
-translate S LichessPuzzlesDiffEasiest {mas facil}
-translate S LichessPuzzlesDiffEasiestThenNormal {Más fácil, luego normal}
+translate S LichessPuzzlesDiffEasiest {El más fácil}
+translate S LichessPuzzlesDiffEasier {Más fácil}
 translate S LichessPuzzlesDiffNormal {Normal}
-translate S LichessPuzzlesDiffNormalThenHardest {Normal, luego lo más difícil}
-translate S LichessPuzzlesDiffHardest {mas dificil}
+translate S LichessPuzzlesDiffHarder {Más difícil}
+translate S LichessPuzzlesDiffHardest {El más difícil}
 translate S LichessPuzzlesColor {Juega como:}
 translate S LichessPuzzlesNextColor {Siguiente color del rompecabezas:}
 translate S LichessPuzzlesSideToMove {Lado para moverse}

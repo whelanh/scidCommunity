@@ -501,9 +501,9 @@ translate g LichessPuzzlesHintMsg {Вижте частта на %s.}
 translate g LichessPuzzlesSolutionMsg {Решение:\n%s}
 translate g LichessPuzzlesDifficulty {Трудност:}
 translate g LichessPuzzlesDiffEasiest {Най-лесно}
-translate g LichessPuzzlesDiffEasiestThenNormal {Най-лесно, после нормално}
-translate g LichessPuzzlesDiffNormal {нормално}
-translate g LichessPuzzlesDiffNormalThenHardest {Нормално, тогава най-трудно}
+translate g LichessPuzzlesDiffEasier {По-лесно}
+translate g LichessPuzzlesDiffNormal {Средно}
+translate g LichessPuzzlesDiffHarder {По-трудно}
 translate g LichessPuzzlesDiffHardest {Най-трудно}
 translate g LichessPuzzlesColor {Играйте като:}
 translate g LichessPuzzlesNextColor {Следващ цвят на пъзела:}

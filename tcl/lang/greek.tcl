@@ -491,11 +491,11 @@ translate G LichessPuzzlesViewSolution {Προβολή Λύσης}
 translate G LichessPuzzlesHintMsg {Δείτε το κομμάτι στο %s.}
 translate G LichessPuzzlesSolutionMsg {Λύση:\n%s}
 translate G LichessPuzzlesDifficulty {Δυσκολία:}
-translate G LichessPuzzlesDiffEasiest {Το πιο εύκολο}
-translate G LichessPuzzlesDiffEasiestThenNormal {Το πιο εύκολο, μετά το κανονικό}
-translate G LichessPuzzlesDiffNormal {Κανονικός}
-translate G LichessPuzzlesDiffNormalThenHardest {Κανονικό, μετά το πιο δύσκολο}
-translate G LichessPuzzlesDiffHardest {Το πιο δύσκολο}
+translate G LichessPuzzlesDiffEasiest {Πολύ εύκολο}
+translate G LichessPuzzlesDiffEasier {Εύκολο}
+translate G LichessPuzzlesDiffNormal {Κανονικό}
+translate G LichessPuzzlesDiffHarder {Δύσκολο}
+translate G LichessPuzzlesDiffHardest {Πολύ δύσκολο}
 translate G LichessPuzzlesColor {Παίξτε ως:}
 translate G LichessPuzzlesNextColor {Επόμενο χρώμα παζλ:}
 translate G LichessPuzzlesSideToMove {Πλευρά για κίνηση}

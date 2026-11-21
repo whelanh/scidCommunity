@@ -225,6 +225,7 @@ set m .menu.play
 menu $m -postcommand "updateMenuStates $m"
 .menu add cascade -label Play -menu $m
 $m add command -label LichessPuzzles -command ::lichess_puzzles::start
+$m add command -label Woodpecker -command ::woodpecker::ui::open
 $m add separator
 $m add command -label ToolsPlayVsEngine -command ::sergame::config
 $m add command -label ToolsTrainFics -command ::fics::config

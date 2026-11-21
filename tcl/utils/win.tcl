@@ -1031,7 +1031,7 @@ proc ::docking::layout_restore { slot } {
   foreach data $::docking::layout_list($slot) {
     if {[lindex $data 0] eq "MainWindowGeometry"} {
       lappend restore_geometry [list "." [lindex $data 1] [lindex $data 2]]
-    } elseif {[lindex $data 0] eq "Toplevel"} {
+    } elseif {[lindex $data 0 0] eq "Toplevel"} {
       ::docking::layout_restore_pw $data
     } else {
       lassign [::docking::layoutPrune $data] pruned panes

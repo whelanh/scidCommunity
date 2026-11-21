@@ -165,7 +165,7 @@ proc updateStatusBar {} {
         if {[llength $pInfo] != 4} {
             ::board::setInfoAlert .main.board "Playing..." [tr Stop] "red" {{*}$::playMode stop}
         } else {
-            ::board::setInfoAlert .main.board {*}pInfo
+            ::board::setInfoAlert .main.board {*}$pInfo
         }
         return
     }

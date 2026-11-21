@@ -460,9 +460,11 @@ translate Z LichessPuzzlesHintMsg {Angalia kipande kwenye %s.}
 translate Z LichessPuzzlesSolutionMsg {Suluhisho:\n%s}
 translate Z LichessPuzzlesDifficulty {Ugumu:}
 translate Z LichessPuzzlesDiffEasiest {Rahisi zaidi}
-translate Z LichessPuzzlesDiffEasiestThenNormal {Rahisi zaidi, basi kawaida}
+# ====== TODO To be translated ======
+translate Z LichessPuzzlesDiffEasier {Easier}
 translate Z LichessPuzzlesDiffNormal {Kawaida}
-translate Z LichessPuzzlesDiffNormalThenHardest {Kawaida, basi ngumu zaidi}
+# ====== TODO To be translated ======
+translate Z LichessPuzzlesDiffHarder {Harder}
 translate Z LichessPuzzlesDiffHardest {Ngumu zaidi}
 translate Z LichessPuzzlesColor {Cheza kama:}
 translate Z LichessPuzzlesNextColor {Rangi inayofuata ya fumbo:}

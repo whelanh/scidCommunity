@@ -460,10 +460,10 @@ translate h LichessPuzzlesHintMsg {%s पर अंश देखें.}
 translate h LichessPuzzlesSolutionMsg {समाधान:\n%s}
 translate h LichessPuzzlesDifficulty {कठिनाई:}
 translate h LichessPuzzlesDiffEasiest {सबसे आसान}
-translate h LichessPuzzlesDiffEasiestThenNormal {सबसे आसान, फिर सामान्य}
-translate h LichessPuzzlesDiffNormal {सामान्य}
-translate h LichessPuzzlesDiffNormalThenHardest {सामान्य, फिर सबसे कठिन}
-translate h LichessPuzzlesDiffHardest {मुश्किल}
+translate h LichessPuzzlesDiffEasier {आसान}
+translate h LichessPuzzlesDiffNormal {समान्य}
+translate h LichessPuzzlesDiffHarder {कठिन}
+translate h LichessPuzzlesDiffHardest {सबसे कठिन}
 translate h LichessPuzzlesColor {इस प्रकार खेलें:}
 translate h LichessPuzzlesNextColor {अगला पहेली रंग:}
 translate h LichessPuzzlesSideToMove {स्थानांतरित करने के लिए पक्ष}

@@ -459,11 +459,11 @@ translate b LichessPuzzlesViewSolution {সমাধান দেখুন}
 translate b LichessPuzzlesHintMsg {%s-এ অংশটি দেখুন।}
 translate b LichessPuzzlesSolutionMsg {সমাধান:\n%s}
 translate b LichessPuzzlesDifficulty {অসুবিধা:}
-translate b LichessPuzzlesDiffEasiest {সবচেয়ে সহজ}
-translate b LichessPuzzlesDiffEasiestThenNormal {সবচেয়ে সহজ, তারপর স্বাভাবিক}
-translate b LichessPuzzlesDiffNormal {স্বাভাবিক}
-translate b LichessPuzzlesDiffNormalThenHardest {স্বাভাবিক, তারপর সবচেয়ে কঠিন}
-translate b LichessPuzzlesDiffHardest {কঠিনতম}
+translate b LichessPuzzlesDiffEasiest {খুবই সহজ}
+translate b LichessPuzzlesDiffEasier {সহজ}
+translate b LichessPuzzlesDiffNormal {সাধারন}
+translate b LichessPuzzlesDiffHarder {কঠিন}
+translate b LichessPuzzlesDiffHardest {খুবই কঠিন}
 translate b LichessPuzzlesColor {এইভাবে খেলুন:}
 translate b LichessPuzzlesNextColor {পরবর্তী ধাঁধার রঙ:}
 translate b LichessPuzzlesSideToMove {পাশ সরানো}

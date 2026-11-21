@@ -177,6 +177,9 @@ install(DIRECTORY bitmaps DESTINATION share/scid)
 install(DIRECTORY books DESTINATION share/scid)
 install(DIRECTORY html DESTINATION share/scid)
 install(DIRECTORY img DESTINATION share/scid)
+# The Woodpecker trainer's bundled puzzles; manifest.csv is for review only.
+install(DIRECTORY puzzles DESTINATION share/scid
+        FILES_MATCHING PATTERN "set-*.pgn" PATTERN "marks.tsv" PATTERN "Copyright.txt")
 install(DIRECTORY scripts DESTINATION share/scid)
 install(DIRECTORY sounds DESTINATION share/scid)
 install(DIRECTORY tcl DESTINATION share/scid)

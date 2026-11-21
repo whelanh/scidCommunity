@@ -494,9 +494,9 @@ translate D LichessPuzzlesHintMsg {Schauen Sie sich die Figur auf %s an.}
 translate D LichessPuzzlesSolutionMsg {Lösung:\n%s}
 translate D LichessPuzzlesDifficulty {Schwierigkeit:}
 translate D LichessPuzzlesDiffEasiest {Am einfachsten}
-translate D LichessPuzzlesDiffEasiestThenNormal {Am einfachsten, dann normal}
+translate D LichessPuzzlesDiffEasier {Einfacher}
 translate D LichessPuzzlesDiffNormal {Normal}
-translate D LichessPuzzlesDiffNormalThenHardest {Normal, dann am schwersten}
+translate D LichessPuzzlesDiffHarder {Schwieriger}
 translate D LichessPuzzlesDiffHardest {Am schwierigsten}
 translate D LichessPuzzlesColor {Spielen Sie als:}
 translate D LichessPuzzlesNextColor {Nächste Puzzlefarbe:}

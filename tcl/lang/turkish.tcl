@@ -463,11 +463,11 @@ translate T LichessPuzzlesViewSolution {Çözümü Görüntüle}
 translate T LichessPuzzlesHintMsg {%s'deki parçaya bakın.}
 translate T LichessPuzzlesSolutionMsg {Çözüm:\n%s}
 translate T LichessPuzzlesDifficulty {Zorluk:}
-translate T LichessPuzzlesDiffEasiest {En kolay}
-translate T LichessPuzzlesDiffEasiestThenNormal {En kolayı, o zaman normal}
+translate T LichessPuzzlesDiffEasiest {Çok kolay}
+translate T LichessPuzzlesDiffEasier {Kolay}
 translate T LichessPuzzlesDiffNormal {Normal}
-translate T LichessPuzzlesDiffNormalThenHardest {Normal, sonra en zoru}
-translate T LichessPuzzlesDiffHardest {En zor}
+translate T LichessPuzzlesDiffHarder {Zor}
+translate T LichessPuzzlesDiffHardest {Çok zor}
 translate T LichessPuzzlesColor {Şu şekilde oynayın:}
 translate T LichessPuzzlesNextColor {Sonraki bulmaca rengi:}
 translate T LichessPuzzlesSideToMove {Taşınacak taraf}

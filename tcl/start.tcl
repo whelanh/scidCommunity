@@ -1195,6 +1195,10 @@ tools/novag.tcl
 tools/tablebase.tcl
 tools/batch_annotate.tcl
 tools/rapid_annotate.tcl
+tools/woodpecker_core.tcl
+tools/woodpecker_set.tcl
+tools/woodpecker_eval.tcl
+tools/woodpecker_ui.tcl
 updatecheck.tcl
 end.tcl
 }

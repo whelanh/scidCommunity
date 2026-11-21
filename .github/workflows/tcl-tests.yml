@@ -49,6 +49,17 @@ jobs:
       - name: Move labels
         run: tclsh tests/tcl/move_labels.tcl
 
+      # Woodpecker trainer: scoring, the single attempt, the puzzle marks, the cycle
+      # schedule (quota, moved deadline) and the record files.
+      - name: Woodpecker core
+        run: tclsh tests/tcl/woodpecker_core.tcl
+
+      - name: Woodpecker evaluation
+        run: tclsh tests/tcl/woodpecker_eval.tcl
+
+      - name: Woodpecker sets on disk
+        run: tclsh tests/tcl/woodpecker_set.tcl
+
       # Repetition presentation: off/banner/dialog must not change the count,
       # and the Finish Game and autoplay passes must stay silent.
       - name: Repetition alert
@@ -207,6 +218,13 @@ jobs:
       # training base, but not when a different base is cancelled.
       - name: Tree cancel clears a pending training move
         run: tclsh tests/tcl/tree_cancel_training.tcl
+
+      # Lichess Puzzles against a fake Lichess: each Difficulty entry sends
+      # its own value of the five the API accepts (old saved values mapped),
+      # only puzzles of the asked side are queued or shown, and all three
+      # transports (curl, Tcl http, PowerShell) send a User-Agent.
+      - name: Lichess puzzles requests
+        run: tclsh tests/tcl/lichess_puzzles.tcl
 
   tk-dialogs:
     name: dialogs under Tk
