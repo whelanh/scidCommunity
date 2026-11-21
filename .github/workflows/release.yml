@@ -311,7 +311,16 @@ jobs:
           path: packaging/windows/scidCommunity-*-windows-x64-setup*.exe
 
   build-linux-deb:
-    runs-on: ubuntu-latest
+    # Build on 24.04, not ubuntu-latest. The ubuntu-latest label is moving to
+    # 26.04, which builds its archive for the amd64v3 variant: gcc there
+    # defaults to -march=x86-64-v3, so every binary built on it needs AVX2/BMI2
+    # and the dynamic loader refuses to start it on anything older than Haswell
+    # with "CPU ISA level is lower than required". That is what broke the
+    # 5.1.4.70 release on an Ivy Bridge ThinkPad (issue #530). The ISA check
+    # below fails the build if this comes back. When 24.04 is retired, move
+    # these jobs to a container image rather than letting them follow
+    # ubuntu-latest again.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -360,6 +369,14 @@ jobs:
                 ${{ github.workspace }}
           make package
 
+      - name: Check the package runs on baseline x86-64 CPUs
+        run: |
+          mkdir -p "$RUNNER_TEMP/deb"
+          for deb in build/*.deb; do
+            dpkg-deb -x "$deb" "$RUNNER_TEMP/deb"
+          done
+          scripts/check-x86-64-baseline.sh "$RUNNER_TEMP/deb"
+
       - name: Upload DEB artifact
         uses: actions/upload-artifact@v7
         with:
@@ -367,7 +384,8 @@ jobs:
           path: build/*.deb
 
   build-linux-rpm:
-    runs-on: ubuntu-latest
+    # See build-linux-deb: 24.04 keeps the baseline x86-64 toolchain.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -473,6 +491,11 @@ jobs:
                ${{ github.workspace }}/rpm-root/usr/share/icons/hicolor/256x256/apps/io.github.whelanh.scidCommunity.png
           fi
 
+      - name: Check the package runs on baseline x86-64 CPUs
+        # rpm-root is what the RPM ships: our binaries plus the Tcl/Tk bundled
+        # from this image.
+        run: scripts/check-x86-64-baseline.sh rpm-root
+
       - name: Build RPM package
         run: |
           cd build
@@ -493,7 +516,8 @@ jobs:
           path: build/*.rpm
 
   build-linux-appimage:
-    runs-on: ubuntu-latest
+    # See build-linux-deb: 24.04 keeps the baseline x86-64 toolchain.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
@@ -628,6 +652,16 @@ jobs:
 
           # Verify desktop file exists for appimagetool
           test -f ${{ github.workspace }}/AppDir/io.github.whelanh.scidCommunity.desktop
+
+      - name: Check the AppImage runs on baseline x86-64 CPUs
+        # usr/bin/curl is deliberately excluded: it is the third-party static
+        # build from static-curl, which is compiled for x86-64-v3 and needs a
+        # separate fix before the AppImage works on a pre-Haswell CPU.
+        run: |
+          scripts/check-x86-64-baseline.sh \
+            AppDir/usr/lib \
+            AppDir/usr/bin/scidCommunity.bin \
+            AppDir/usr/bin/phalanx-scid
 
       - name: Build AppImage
         run: |
