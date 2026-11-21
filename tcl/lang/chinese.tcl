@@ -436,11 +436,11 @@ translate M LichessPuzzlesViewSolution {查看解决方案}
 translate M LichessPuzzlesHintMsg {查看 %s 上的棋子。}
 translate M LichessPuzzlesSolutionMsg {解决方案：\n%s}
 translate M LichessPuzzlesDifficulty {困难：}
-translate M LichessPuzzlesDiffEasiest {最简单}
-translate M LichessPuzzlesDiffEasiestThenNormal {最简单，然后正常}
-translate M LichessPuzzlesDiffNormal {普通的}
-translate M LichessPuzzlesDiffNormalThenHardest {正常，然后是最难的}
-translate M LichessPuzzlesDiffHardest {最难的}
+translate M LichessPuzzlesDiffEasiest {最易}
+translate M LichessPuzzlesDiffEasier {较易}
+translate M LichessPuzzlesDiffNormal {普通}
+translate M LichessPuzzlesDiffHarder {较难}
+translate M LichessPuzzlesDiffHardest {最难}
 translate M LichessPuzzlesColor {扮演：}
 translate M LichessPuzzlesNextColor {下一个拼图颜色：}
 translate M LichessPuzzlesSideToMove {侧面移动}

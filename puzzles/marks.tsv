@@ -1,0 +1,9004 @@
+# Woodpecker marks for the bundled puzzles (set-*.pgn): one line per puzzle, PuzzleId TAB the mark of each
+# solver move ("-" none, "!" or "!!"), separated by spaces. A new set takes them instead of asking for a review.
+# Made by scripts/woodpecker/bundled_marks.tcl: Stockfish 18 (Threads 1, Hash 16), depth 12 MultiPV 3, then depth 3,
+# with ::woodpecker::markFor as committed. A second run of set 9 gave identical marks. Regenerate it when markFor changes.
+S6tSJ	- -
+TZusR	-
+Qz0WT	-
+0VK6u	- -
+sz69j	- -
+caEVN	- -
+py2cb	-
+HRxiD	! -
+IOYF1	! -
+GjrYT	-
+ut8e0	!! -
+N5JOL	- -
+YkXDL	-
+bPSId	- !
+2SXOT	-
+ZpY3X	-
+7B9cq	- -
+BSlUe	-
+h8x2H	- -
+liehW	-
+e8o4A	- -
+k1n9o	-
+kXXTU	- -
+CCf2M	-
+HphaW	-
+B1uUn	-
+3ey96	- -
+Jtf9S	- -
+KG1C9	- -
+p0Wlv	- -
+GVhYi	- -
+tLzoG	!! -
+NumvD	- !
+18kCF	!! -
+cosQQ	- -
+nVY5e	- -
+2SnjE	! !
+7vv9B	- -
+MuFfZ	!! -
+zz5m5	- -
+hkcug	-
+nugrf	- -
+dIm3i	- -
+E2JmQ	- -
+LzkIV	-
+yMPk0	! -
+0WZrt	-
+Sv0fD	- -
+PdceI	- -
+lIL7l	- -
+8LIsq	! !
+htqBn	- -
+Y3sON	- -
+HGBkP	- -
+ZSf8x	-
+2TPqL	-
+NjpgN	- -
+8PysK	-
+I8X1X	- -
+heTAa	! -
+VKZKf	- -
+wIVTK	-
+cXn4M	- -
+eI3v5	- -
+l2uJb	-
+nyaYd	- -
+1wtRJ	-
+L1jP1	-
+cUTXa	! -
+MH0OG	-
+OUmiA	- -
+sQ4kn	- -
+uXv4k	- -
+v3lxj	- -
+iE1kT	!! -
+vbtAi	- -
+wRyU1	- -
+8hFxJ	- -
+JkYR9	! -
+LOu92	- -
+VWAE4	- -
+qZAu0	- -
+YGnWF	- -
+jn7i7	- -
+AizrA	!! -
+HvBim	-
+4Iioh	- -
+9gJ1Q	- -
+U26TQ	- -
+jkiSc	- -
+6jNgw	- -
+X6uM8	- -
+gd6BP	-
+tA4ji	- -
+GsLTZ	- -
+WmCL4	- -
+1JlaU	-
+ATKqn	!! -
+OMdqQ	-
+Qrfcc	- -
+burPp	-
+d3lYk	-
+dWu1E	- -
+i7X0U	- -
+WUoCh	- -
+zebXx	- -
+bZxlD	!! -
+nWCqM	!! -
+vF6aS	- -
+045Ao	-
+izG3V	-
+o4Jub	!! -
+2DQD3	- -
+3wPFx	!! -
+ckXoT	-
+ilmpN	-
+kTpqi	- -
+r0mrs	- -
+cjK5p	- -
+s8zLK	- -
+S0A2N	! !
+YXQOL	-
+4v6eq	- -
+G0WKi	- -
+W2SiP	- -
+2z3Q7	- -
+7Q0eH	-
+1VkDq	!! -
+6HOtS	-
+CND57	- -
+9Jpq0	-
+nfxxT	- -
+qEKr9	- -
+vVcPv	-
+Er0wG	-
+tpzCB	- -
+WiwFt	- -
+gLJ2S	- -
+iDvKC	-
+L65v1	-
+wJw8Z	!! -
+LFxAo	- -
+Vwjwf	- -
+wZJup	-
+zavVC	- -
+vuLVm	- -
+zuPpO	-
+iRiZS	- -
+Id1w3	- -
+EZkg9	- -
+AC9S9	- -
+NllOv	- -
+k2dpI	- -
+x0ZZI	-
+FQwG6	- -
+kI0eV	!! -
+nLB5w	-
+tIp1g	!! -
+u8Tek	-
+DpSnq	! !
+Qgflf	- -
+5LcKu	- -
+gcSNE	- -
+rqWyx	-
+YrTtc	- -
+Z7iRJ	- -
+uzv7G	- -
+y02GY	! !
+3kScT	!! -
+4o4Aj	-
+cRtOl	-
+YHld9	-
+rYgCZ	-
+QfVJn	!! -
+SeAx8	- -
+vAHda	- -
+XHqju	- -
+ge65t	- -
+3T6Xp	- -
+GXIZd	- -
+ZxG9f	- -
+cuuu0	- -
+vahva	- -
+pUYHU	-
+VXZOg	- -
+fZqqa	-
+87i2o	-
+9OGq7	- -
+b6dgt	- -
+sy1zx	- -
+jAlQ9	-
+yLhhb	!! -
+7dXZL	! !
+IiGBn	- -
+psI2L	-
+sjKAT	- -
+gkGiz	-
+nIg95	- -
+cWICx	!! -
+Cpa77	-
+LbtEo	-
+NckZ9	- -
+jufyn	- -
+vTo8o	! -
+AomCZ	- -
+G2irw	- !
+VzAQr	!! -
+0jxxP	- -
+QU6TF	! -
+pSL2O	- -
+GVloG	!! -
+SiKRI	!! -
+gumVD	-
+gQPte	- -
+kgPNu	- -
+ksOCy	- -
+EcICG	-
+47pjT	-
+krSU4	-
+Ga3By	! -
+PLcx2	- -
+Tmmd8	- -
+bjoXb	- -
+tX7TS	-
+1Y7AX	- -
+4wFvn	- -
+9f5NK	-
+q745O	- -
+0OMyN	-
+JYKLs	! !!
+N0GSw	!! -
+vRIoy	- -
+56qtl	- -
+BBEu2	-
+hsHt7	-
+uWn9G	- -
+yRgj5	-
+02J2r	- -
+WtZJG	- -
+fGzqJ	- -
+wxDAM	- -
+28mSH	- -
+5K3S7	-
+XYKnx	- -
+bAERm	- -
+izO0z	- -
+mp7q6	- -
+4GGEy	- -
+SYfUU	- -
+dUqnC	- -
+xUBCc	! -
+zyN9u	- -
+EOdQc	- -
+uvgyp	- -
+tEe1M	!! -
+01I8x	- -
+4LZEc	- -
+7J6XW	- -
+AeZaW	- -
+ITw7I	-
+Qn7e6	!
+IqlFu	!! -
+YYRaW	-
+gw3eS	- !
+f1aku	- -
+tm3Dv	- -
+oaokx	-
+9PaX5	! -
+STnGV	- -
+c0Buh	- -
+3mqyy	- -
+8fdvE	-
+Kkp56	- -
+Lp4MA	- -
+nb0Hh	- -
+1xRAz	!! -
+5pgg9	- -
+Dm1Wo	- -
+8hdZ2	-
+A3KJ0	-
+M9AB9	-
+V0etm	!! -
+fX4dw	- -
+zkiVx	- -
+YagnU	-
+2nOIQ	- -
+CZB8m	!! -
+XaWRx	! !
+o3Zmw	- -
+yFt09	- -
+gaz4Y	- -
+E7sdA	- -
+NYDGu	- -
+82Pa9	- -
+8hI3s	-
+KdJbv	- -
+cRSI6	- -
+0rH0C	- -
+oh3No	- -
+JFUnE	- -
+T4JKK	-
+41sd2	- -
+E4eEz	-
+orb1P	!! -
+w9JQH	! !
+9QlYm	!! -
+LfQzN	!! -
+jyN3r	- -
+n4sMt	! !
+ALvWv	- -
+NsIMn	- -
+squL1	- -
+4Lyxp	- -
+JKZ0w	! !
+S8v5q	!! -
+roLia	- -
+z446W	-
+7w4qp	-
+f5Qga	-
+ABAs7	-
+P4q2J	- -
+XEc4S	- -
+0MqeM	-
+b2ZOr	-
+kMDKA	-
+tRKxH	- -
+OW2rp	-
+uEkUN	- -
+vAKZL	- -
+vcVfU	-
+AAUNq	-
+T6fIi	-
+d2l5M	- -
+n5Z8n	- -
+6uxgP	-
+DTPtl	- -
+T7mBV	-
+gIY34	! -
+oCx8e	-
+0FoVg	- -
+DDWXx	!! -
+DO0DT	- -
+P1Qjw	- -
+rtQy8	- -
+7x7bS	- -
+BSlwt	!! -
+FsR9x	- -
+ZNQ9C	- -
+j6qGj	- -
+qOzbz	- -
+uRL78	- -
+7AiYv	- -
+DjVka	- -
+IkMk5	- -
+YjBeR	- -
+k39lC	-
+oislL	- -
+y22SH	! -
+zSrJS	! -
+14uvh	- -
+2qFiZ	- -
+AcNqr	- -
+cqkmQ	- -
+q3hEV	- -
+qN7QR	- -
+AKULB	- -
+iNAUk	- -
+2PRQH	- -
+Vzoff	- -
+aYPHq	- -
+mihoT	-
+qqCd8	- -
+1doNR	! -
+2xsfq	!! -
+OhVxw	- -
+attqi	- -
+p87aY	- -
+1qnTq	- -
+BlgQp	- -
+EYiw2	- -
+5SHPH	- -
+RL2xo	- -
+bDQpy	- -
+bfG26	- -
+fgRLk	- -
+k1OoF	-
+yUGGl	- -
+27xw5	- -
+Fn6vq	- -
+LUl2s	!! -
+eLzsC	-
+6MznI	- -
+7BMMj	- -
+OUBTd	-
+SrNuT	!! -
+a69Ls	- -
+eMuFK	- -
+sM99w	- -
+1eVuh	-
+57Zw6	- -
+DEPsd	- -
+VMszw	- -
+g9s3Z	- -
+AeytY	- -
+NJLsw	- -
+V0Jpg	!! -
+adilB	- -
+luj6T	- -
+vPHUI	- -
+A2cj0	- -
+ASXZN	- -
+KeBbQ	! !
+Mejb4	- -
+RIPLJ	- -
+Vp5aI	!! -
+eT5M7	-
+pEpqE	- -
+ux7UX	- -
+yMqzO	- -
+8ybjo	! -
+JYha6	- -
+OsHge	- -
+xfLiA	- -
+2EUGd	- -
+6pIUz	-
+9kaKZ	- -
+Jw3IK	-
+gNhjY	-
+sau9e	!! -
+7bjpH	- -
+8IMco	- -
+DNDZ9	- -
+PKW2S	!! -
+Tagkm	- -
+TzTEr	- -
+3vKHE	!! -
+kbIp9	- -
+R7OB5	!! -
+dtsaq	!! -
+llXtT	- -
+sIO4a	- -
+1v7G2	- -
+57ZaQ	- -
+Dni9k	! -
+HdVSF	- -
+PK04R	! -
+XPFWn	-
+b1fzF	! -
+tiOWS	- -
+KNIXt	- -
+V4B9f	- -
+cory5	- -
+mzw7i	-
+qScxQ	!! -
+ui4Sw	- -
+1tlhI	- -
+LJ5DQ	!! -
+QStE1	- -
+WpR5g	- -
+t2nwk	- !
+5R23N	- -
+5rPF6	- -
+85WzK	!! -
+SSC4k	- -
+2t9Cj	! -
+Gcl0t	-
+fLOHN	-
+j8adc	- -
+H2ozk	- -
+LSXXE	- -
+QFXGn	-
+RiAFm	! -
+fisJp	!! -
+zrKNK	- -
+FTbU6	- !
+IPZ0n	!! -
+IwSgv	- -
+Z7TUk	- -
+rNcej	-
+47Qtk	-
+4RD0w	!! -
+MkTH2	-
+TjZWy	!! -
+0nSDR	!! -
+1hs3j	- -
+2B8Dh	- -
+BdHM1	- -
+I255z	- !
+NXqWp	-
+dqJwC	- -
+ey7Ob	- -
+ojick	- -
+D5sSR	- -
+DoBsU	-
+JewZp	! -
+aJcvy	- -
+xNPyn	- -
+SFr9k	- -
+yb9yO	- -
+6VcUH	! -
+DSnyp	- -
+KqRLZ	-
+MXgRk	! !
+SgFGm	- -
+wpRFD	-
+PrZUO	- !
+tF9hp	- -
+3JWH4	! -
+9LGnj	-
+A7L7C	- -
+B90zO	!! -
+GjFtL	! !
+VnpbF	- -
+iwJbg	- -
+nRKlh	! !
+UDALr	- -
+aGJ6p	- -
+kkD6n	- -
+mxu5X	- -
+nWiYA	-
+6GMTw	-
+GWplA	- -
+Ru3xN	- -
+S2D9P	!! -
+TK8sW	- -
+cjNNW	- -
+0IvTE	!! -
+eyM8V	!! -
+gbfPl	- -
+mYrMx	- -
+po4xF	- -
+skVXW	-
+vXnzi	- -
+WBF24	- -
+b4J4o	-
+xT2BE	- -
+6aryE	- -
+GylXW	- -
+nT5z9	- -
+A4dX3	! !
+A77Cf	- -
+2U9I4	- -
+F9uAO	- -
+3M96L	- -
+6fYsR	- -
+1phMw	- -
+MAvh4	- -
+O0g6Q	- -
+Ws7em	- -
+cKtf7	- -
+jbbAm	!! -
+oBtml	!! -
+IBo8p	- -
+MsB5i	- -
+NF6T8	- -
+UL0w4	- -
+YZQXj	- -
+sTHPS	!! -
+wBWGr	!! -
+0pc82	- -
+L0lUB	- -
+rjTqf	- -
+0sEuC	- -
+HZ3UH	- -
+ZFkxn	- -
+yNEU2	- -
+0jsSS	-
+5hCq6	- -
+92hOT	- -
+DNuN2	- -
+gZwbe	- -
+I9Ljf	- -
+qz72m	! -
+FgldW	- -
+f0M0Y	- -
+ihliL	- -
+yQulo	!! -
+5jKh7	- -
+7lzx4	! !
+Fh8B9	-
+YNBvi	- !
+e9jdF	- -
+k7XW2	! -
+uuSNi	-
+0q3vN	- -
+RmTWM	- -
+b1v2v	!! -
+bT6HL	- -
+keuzE	!! -
+oZJvD	- -
+CLDfY	- -
+Sn6lx	- -
+WGxSk	! -
+d68L3	-
+5ocZi	-
+LrtzA	! -
+c5vJT	- -
+fzUvV	- -
+iIhUf	- -
+qR4sU	- -
+2RqmP	- -
+FzP2Y	- -
+GVdb4	- -
+IHeK3	! -
+OOv5F	-
+YEBNM	- -
+o9w2M	- -
+4L01F	- -
+6GEAX	- -
+JYL4N	-
+ZxVBs	- -
+hZILa	- -
+jkG1R	- -
+6lI4Q	!! -
+OZ3IH	- -
+hJInT	-
+tBdg8	-
+L90nZ	- -
+rmOmV	- -
+vNXVd	!! -
+AmebO	- -
+FPtM6	- -
+OLNdS	! -
+QZCy1	!! -
+XSbbZ	-
+uSqRQ	- -
+y2Pxn	- -
+8yQfC	- -
+LYhIP	!! -
+Lu3rx	-
+O3JZe	- -
+UeIct	- !
+n8tYI	- -
+uCsZM	- -
+dNudn	- -
+lVCKl	-
+vgE7o	- -
+AG1fZ	- -
+HaOpV	- -
+ccI0P	- -
+dlbGU	- -
+mTnhw	- -
+om6Xn	-
+uP7vy	! !
+8mWZF	- -
+KKpIv	! -
+k65ci	- -
+wFPbM	- -
+9jrhK	! -
+N4450	! -
+f4Zbb	- -
+Dycyb	-
+XPotw	- -
+mRYTa	- -
+62fn5	- -
+K2Nwe	- -
+Lb9mT	-
+SMkvD	- -
+iGJSd	- -
+jSTQ3	- -
+lLbAP	- -
+3NYwR	! !!
+ZLpps	- !
+hzxaT	- -
+6G2Bt	-
+BvhLc	- -
+MUT2b	-
+YHtlf	- -
+bEvra	- -
+fTlPD	! -
+8d13A	- -
+Pp2Ct	- -
+d52am	- -
+low5Q	- -
+HAz2N	!! -
+M0QMw	-
+VFJIe	- -
+m7hrh	- -
+wIPej	-
+2umBj	-
+8hfFv	!! -
+EqAmp	- -
+SjuvJ	- -
+BcoIc	!! -
+iEz5A	- -
+05adP	- -
+9b6gC	- -
+EAVH4	- -
+JMJqr	- -
+cgUrG	- -
+yA4Vv	!! -
+3uuwK	- -
+Cqsri	- -
+MhqpV	-
+dnsrP	- -
+iAW7x	- -
+rLeDW	- -
+uF8G9	- -
+wNgFr	- -
+K2hA7	- -
+sZWBX	- -
+vssL7	- -
+y53yN	- -
+Jldoe	! !!
+LN903	- -
+SWnTf	!! -
+n3YDT	- -
+rr8Vh	- -
+taDVJ	- -
+ze1vh	- -
+5ojWU	- -
+9gFjf	- !
+Rjap9	- -
+0cbT2	- -
+LfiK2	- -
+P7iHS	- -
+WXwF7	!! -
+d5oX6	! -
+gYxal	- -
+nELFz	!! -
+tTJEF	- -
+z7Gcy	! -
+G9i75	- -
+nRwm1	-
+xsylQ	!! -
+C4keM	- -
+EVl3v	! -
+QnkGp	- -
+VTdnB	- -
+6UUD4	-
+BKGIx	- !
+U9e5P	- -
+adiLv	- -
+aoMZp	! -
+dHF52	- -
+pkOBW	- -
+9CLY5	- -
+PJftz	!! -
+Ul7Z3	- -
+WFWPh	- -
+cwELI	- -
+j17ze	- -
+nFjnT	- -
+o5xMq	- -
+8zNst	- -
+VEacA	- -
+aEdD6	- -
+dNbdR	- -
+j1mA9	- -
+pVkff	- -
+uc7hg	- -
+zbiyY	- -
+7Jv0j	- -
+PU0Pv	- -
+PyQ8d	- -
+VBNIF	- -
+ZN3Y8	! -
+ZkgpG	- -
+jwBeM	- -
+mY14c	- !
+376rw	!! -
+97pTG	- -
+IQRix	- -
+JwOAa	! -
+LLkVH	- -
+StzUN	- -
+kFVSI	! -
+qv9QP	- -
+s73Ad	- -
+tCXBm	- -
+3lPcx	- -
+GYxhL	- -
+GmJLs	! -
+PCKYH	- -
+UAwkt	!! -
+UjYNb	- -
+Vr6ON	- -
+eFntI	! -
+yrOdV	-
+DGSyf	!! -
+E73Y4	!! -
+Ks1MN	- -
+O1m5Q	- -
+SYmyd	- -
+V71bG	- -
+jSNoa	! -
+kWKYt	- !
+v4Ebj	-
+6CiK9	- -
+QYEXO	- -
+UODqp	- -
+f7mZi	- -
+ii3AC	! -
+6YoiJ	-
+BkWrC	! -
+CEfRi	- -
+LJsIW	!! -
+NlN0N	- -
+NpiHh	! -
+cXRRK	- -
+k99of	!! -
+md7hr	- -
+2BYAU	- -
+9xBuR	- -
+J2iWc	- -
+nWmw9	- !
+oYtXO	!! -
+rCBb4	- -
+rhKRt	! -
+I9EcM	- -
+tlLH0	!! -
+yo8iL	- -
+Cem24	- -
+Hv2XZ	- -
+Ieef9	- -
+MzZQf	-
+NaVH8	! !
+PNb2J	-
+axObo	- -
+dhRZL	- -
+06vJl	- -
+5AbHR	- !
+AjXtf	!! -
+jG0HP	- -
+owe83	- -
+vktui	! -
+15Sco	- -
+4J0UX	- -
+7ZJEx	- -
+BZu3w	- -
+Ge5JS	!! -
+ITZzU	! -
+M3QqA	!! -
+NJuxB	! -
+QZWYI	- -
+RlDXG	-
+dC4l6	- -
+xuiEX	- -
+6uA5k	-
+81tor	- -
+EHrgG	- -
+MGw2e	- -
+OfTOq	! -
+RDyi8	- -
+XTBwo	- !
+a4kI0	- -
+lZxC9	- -
+n19gc	- -
+8vxcQ	! !
+MhGir	- -
+lfJmJ	- -
+qLacu	- -
+tYjd1	! -
+63yLW	- -
+9zbVR	- -
+AEvbX	- -
+G3M4I	! !
+er3BY	! !
+i8YXu	!! -
+mssaT	! -
+nMaRR	!! -
+wyv3d	- -
+2W39b	- -
+B2xtA	- -
+BoX9N	- -
+XEVbk	- -
+XZYNd	- -
+frg9N	- -
+kQEjx	- -
+wG40h	!! -
+xFSBp	!! -
+9Q7JW	! !
+B02yb	- -
+MHq8J	! !
+RRA0w	- -
+bqriB	- -
+m9Kep	- -
+sZjvy	-
+xqGM9	- -
+DlpNr	- -
+FsObo	-
+VckwO	-
+YdQQV	- -
+ZmtjU	- -
+bMfjR	- -
+hAKwb	- -
+jh2JL	- -
+qToRG	!! -
+tZYNn	- -
+2XJX5	- -
+H8Mhb	! -
+PJFs5	! -
+SgLmX	- -
+Y6koD	! !
+Yz0Hv	!! -
+cj4tF	! -
+emodp	-
+BXhve	- -
+MJYpR	- -
+Pb4ME	- -
+TK6a4	! -
+VtaNJ	!! -
+cCm4a	! -
+oOvv5	- -
+sATVI	- -
+DxeFY	- -
+Fo4ij	-
+H57RS	- -
+IyerT	- -
+Uy2j6	- -
+Yc8BS	!! !
+bCGgt	- -
+dKCcZ	-
+e5KT8	! -
+kHmKc	- -
+uKu0w	- -
+C96SR	- -
+CafkN	- -
+IYzpw	- -
+TPhri	- -
+kog6E	- -
+uGubE	- -
+uOPtw	- -
+3G597	- -
+4HOEE	- -
+8nX3D	!! -
+9gKtL	- -
+GEumi	!! -
+LePDi	- -
+Lla4b	- -
+TjMYk	- -
+UrNdW	!! -
+alpdQ	!! -
+hSxv3	- -
+r8TVJ	- -
+tdWaZ	- -
+uJwFM	!! -
+KzYQS	!! -
+LuK8U	- -
+MM0gx	- -
+QBI1R	!! -
+SgrkJ	- -
+WPf0t	- -
+lX59t	- -
+lmJFH	!! -
+qls7L	- -
+1r4kS	! -
+FSKpF	- -
+MC765	- -
+Mn2mY	- -
+QYxFu	- -
+TR0lL	- -
+VyGdd	- -
+pcJWC	!! -
+w5jBh	- -
+xijMV	- -
+1HUbg	- -
+2PGqj	!! -
+93ohw	!! -
+BpY9v	! !
+BvJXc	- -
+Dqbuo	-
+L8CM1	-
+QI7HG	- -
+ok3Ei	- -
+1bfyZ	- -
+3iGOX	- -
+4PWX1	! -
+GWv8B	! -
+IQjjR	- -
+XTHzE	- -
+jQBKN	- -
+kdgKZ	- -
+0p3b3	- -
+2op1R	- -
+5ySAn	-
+9AEF3	- -
+DOgE5	! -
+Wr4Lm	!! -
+kF8TR	- -
+sX16B	- -
+zdY3o	- -
+3haLx	- -
+8Ad0L	- -
+8j0BO	- -
+C4kZJ	- -
+KlNfg	! -
+NTBGr	- -
+QUH3S	- -
+Rurqi	! -
+VPe2m	- -
+Ycpkk	- -
+ZNLv7	!! -
+a6o1D	!! -
+hoLkK	- -
+ofWv9	- -
+rhsv3	- -
+vnI4i	- -
+xNWvc	- -
+zIIJ0	-
+k92It	- -
+F7OO3	! !
+6ZFmT	- -
+9u8kx	- -
+H3GvN	- -
+qoQhI	- -
+mlcAq	- -
+L6cL1	- -
+ja74B	- - -
+L8lO0	- -
+xYUur	- -
+01LPf	- -
+p2aHN	!! -
+ZK0LR	!! -
+6A33h	- -
+8OB2E	- -
+IKVXl	- - -
+qF6ts	-
+4acpt	- -
+faUDK	!! -
+qyKql	- ! -
+OggYJ	- -
+qB9D3	- -
+59yhB	- !! -
+5IqTB	-
+lVxKV	-
+zAXiu	- - -
+2mpus	-
+vqK3j	- -
+PHswQ	! -
+4Ib5n	- -
+8tCa5	! -
+RctGw	-
+mQHkN	!! -
+HZhtF	- -
+O0nQj	! -
+Tv66G	- -
+pLKcQ	- -
+h6PD7	- -
+ykWJ9	- -
+zR3bo	- -
+IHv7U	!! -
+JlDq9	-
+Nu0m6	- -
+nhi5H	-
+HaeUI	-
+RMByW	- -
+3Iy9A	-
+lNPvz	! -
+B4kgA	- - -
+vO9KO	-
+e1dKA	-
+a9Ndn	- -
+jvKVW	- -
+CI71D	-
+O7HQj	- -
+mO5uA	- -
+hbhjt	- -
+tiiPo	-
+PQ8ni	- -
+cTvB7	- - -
+nrRFq	- -
+z7EZN	- -
+UQMOI	- -
+V1Zdx	- -
+r6V3S	! -
+wN4xD	- -
+wfgUH	- -
+2JJ2f	- -
+GtHPa	-
+RDnie	!! - -
+XtKgV	- -
+N5eoX	- -
+dXhwM	- - -
+nZXcz	- -
+PX88H	-
+ZoNmC	- -
+qwr4Q	-
+QuTuM	- - -
+RTiLV	- -
+WayOY	- -
+YZqfl	- -
+AAFZu	- -
+WqTR8	- -
+4iw7u	- -
+AOibs	- -
+ajph1	!! -
+0nKGq	-
+FHGyg	- - -
+OY2K9	- -
+PhdVG	-
+U5vWG	- -
+g5ys2	- - -
+k6qcH	- -
+lozBq	- -
+O17cK	-
+QLRRz	- -
+4RND2	- -
+EuvOt	-
+MlGvX	!! -
+zdy88	- -
+4nJ1R	! -
+AzW1w	! -
+HDnJt	- -
+riEQs	- ! -
+CSbVN	! -
+GgCTp	-
+BRs7w	!! -
+Olzm3	- -
+TKYuw	- -
+cgVUo	- -
+d63QQ	- -
+hRED2	- -
+xaPs1	- -
+2yfZt	- ! -
+CFwpZ	- -
+M7753	- -
+eK8sx	- -
+kMmnX	- - -
+rc9HG	! -
+Dplz9	- -
+ZIKTs	- -
+GSc8e	- -
+cHz3Y	- -
+19cee	- -
+SYnJI	- -
+mDFCE	- - -
+uSbpQ	-
+7WZry	- -
+JhucD	- -
+0J3yV	- -
+7Ktrc	- -
+RD2uz	-
+4an2p	- -
+JwnGf	- -
+e7zO4	- -
+qIGID	!! -
+ArMoF	- -
+ZOcFN	- -
+ZmXLO	!! -
+EJelp	! -
+TXNOI	- -
+ByqfK	- -
+EN3cx	- -
+KBY6j	!! -
+2VnFS	- - -
+HOHlv	- -
+WsAUV	- -
+v4p9v	- -
+Itf2N	- -
+P4O2J	-
+V9fwa	! - -
+5NCWd	- -
+HLDR8	- -
+K2cVw	!! -
+RCyqv	- -
+mjXPH	-
+nPoqP	!! -
+4zGQP	-
+5i29B	- -
+C5DBS	!! -
+OYxKz	! -
+bMFfz	- -
+4OexG	! !! -
+JpLZW	-
+RlKid	- -
+gyeUY	- -
+9Wdyu	- -
+DlUkr	! -
+HDywI	- -
+TDqsv	!! -
+0X58R	- -
+BzBTK	- -
+KKBiX	- - -
+h0vkK	- -
+hlBYK	!! - -
+sEClO	-
+YIDb1	-
+wPLzS	-
+AoWhy	- -
+BYFq1	- -
+FiAtz	-
+Ftn3L	- -
+L9Gz3	- -
+ez74H	! -
+pfcxp	- - -
+srPRP	! -
+1HnkE	- -
+8DRPW	- -
+0jVDL	! -
+5gAuk	- -
+NhXvj	- -
+bObQD	! -
+1NJGg	- -
+FXWmk	!! -
+RJzsC	- - -
+SIvSH	- -
+kG3mw	- -
+Cx9VR	!! -
+JGkcC	- -
+b7bxv	! -
+bqhe7	- - -
+n9bfj	!! -
+rTIiv	- -
+vBPI4	- -
+7tp3h	- -
+N0UaW	- !
+NvCyu	- - -
+OhxTs	- -
+nlngM	- -
+5Qzf1	- -
+7gYt4	! ! -
+8lJtm	- -
+IM1fX	- -
+KzLtH	- -
+Bw625	- -
+HZRFZ	- -
+TrDhq	-
+UWxxX	- -
+jp8LP	- -
+BP1VU	- - -
+IigEL	- -
+pG99t	-
+dOVyo	- -
+VlWIt	- -
+allXe	-
+EkelU	- -
+JTiDr	- -
+mPiSM	! - -
+v5geL	-
+Q0W1V	! !
+UEj53	!! -
+CC8Kq	- -
+HxHo8	- -
+eGimW	! !
+FR2xt	- -
+Srzoe	- - -
+qQZ3b	- -
+24xDk	- -
+3kMLT	- -
+OjpUR	- -
+X0O3s	- -
+dYpz5	! !! -
+igrI7	- -
+utOm8	- - -
+5mWnn	- -
+Ba3Xg	!! -
+K6Aeq	! - -
+OikhU	- - -
+kAh27	- -
+nItBX	- -
+tvTts	! ! !
+9qVoi	- -
+DBT4f	- -
+NqRKY	! !
+adOfK	- -
+nbKPs	!! -
+rzLHX	!! -
+Fs2bd	! -
+PIWAo	- -
+SP5Mx	- -
+zHWo5	- -
+196Kc	- -
+6ZI4T	!! -
+9R1x2	- - -
+QvnnZ	- -
+f7pd0	- -
+q7nNk	!! -
+eFg4f	- -
+zsNo5	!! -
+4FwKq	- -
+QsdP6	- -
+YE2uR	- -
+jTgmR	- - -
+tBHON	!! -
+Ndo4F	- -
+f6XPD	- !
+vP1oZ	! - -
+IoU1A	- -
+g8gM3	! -
+qWTcN	- -
+J2Rc6	! -
+OZSu8	- -
+nS6F1	! -
+OlBuC	- -
+w4ddU	!! ! -
+zvgim	! -
+SHjam	! -
+ix0pD	-
+k4OiS	- - -
+ntwu2	- - -
+sIODv	-
+56pCm	- -
+Ca7JN	- -
+SooX7	- -
+Sq0on	! -
+dMKdx	- -
+KlnEt	- !
+uid89	- -
+7M81F	- -
+UGBYo	!! -
+2W9n8	!! - -
+T4zmf	- -
+Z0iJv	!! -
+bnYvR	- -
+64IMd	- -
+vY5Ij	- -
+0IcWT	- -
+AJHvl	!! - -
+mvPwj	- -
+wasU4	- -
+BuHdD	- -
+ZJ7FS	!! - -
+nhRKV	! -
+tMQoM	! !
+vXBoF	- -
+x7Aat	- -
+HUzlb	!! -
+Yx423	- -
+tvwVs	- -
+VPpWU	- !!
+OhKn5	- -
+bgfzV	- ! -
+5AuxW	- -
+BfqKU	!! -
+Z9Oat	- -
+duK8M	- - -
+YEMxL	- -
+xsdXj	- -
+DQrzK	- -
+teZPq	!! -
+I8iJV	- -
+q80vR	- -
+BBOOa	- -
+ZH9g4	!! - -
+FfB9p	! -
+Zygf2	- -
+ymSuo	- -
+3EqjR	- - -
+4wW0p	- -
+yhmsn	! -
+JF7eZ	- -
+XXIwP	- -
+poE0F	!! -
+6OvpH	- -
+ixyUH	- -
+IzQKf	- -
+JUKZW	- -
+zkJzW	- -
+EHE8V	!! -
+Cv2Na	- - -
+eodrf	-
+fM69P	-
+wpQ8o	- - -
+GEy2q	- -
+VBMRF	- !! -
+tPh6Q	- -
+2hmEZ	! -
+YAKfc	- -
+kpfbz	- -
+4CP1Y	- -
+hLinI	-
+xz8Mw	! -
+DkXqw	-
+naolg	- -
+1Sxqc	!! -
+23dGA	- - -
+IQQs8	-
+SVkoZ	! -
+5cv3i	- !
+BEQOf	- -
+fhbdA	!! -
+ywDz4	!! -
+6jaTj	- - -
+EjD1F	- -
+WYEpF	- ! -
+gya2F	- -
+voXhC	- -
+L1CMj	- -
+T1Ce9	- -
+n2D8o	- -
+yCxES	! !
+1gn3j	- -
+OH9tK	! !
+BeS1U	- - -
+WO3ye	- -
+N8qxr	! -
+zu5wh	- - -
+VfVAF	! -
+lxosL	- -
+1ePWg	- -
+9U7TV	- -
+YVqLV	- -
+crfTQ	- -
+fUVrO	!! -
+lLclC	! -
+3HW2o	- -
+8FHwn	- - -
+AocFv	! !
+f0p8s	-
+vXeYV	- -
+FIZBB	- -
+b5TTY	- -
+uwiHE	-
+7vR2i	! -
+E7Ydr	! -
+KISlR	- - -
+ufpiF	!! -
+DMUp2	- -
+HSUDo	- -
+aNd1S	! -
+evZp3	! -
+oCYt4	-
+S4zr5	- -
+YDrUR	- -
+ooXSq	- !
+Gle9E	- - -
+H7Ff2	-
+CND2n	- -
+Cd8oN	- -
+HoSsH	- -
+QJb0n	!! -
+fJ7qm	- -
+TTVeW	! !! -
+vrrA1	- - -
+zp10h	!! -
+e5iuO	- -
+3S62p	- -
+c1lPP	- -
+mZ22Y	- -
+If0Sb	- -
+i96uj	- -
+mE6OD	- -
+zzEqD	- -
+kCvLf	!! -
+3qqPC	! -
+bf7aZ	- -
+cjiL5	- -
+DHGTu	- - -
+GCtO0	- -
+mNyQc	- -
+uBPV5	- -
+40pOp	- -
+BEa7Y	!! -
+GmYff	- -
+qpfaC	- -
+9HVZo	- -
+PeKip	! -
+R27eq	- -
+RrlBU	- -
+un44Y	- !!
+0IazC	!! -
+0qzy6	- -
+YjwhH	- - -
+eQBXv	- - -
+sdo8n	- -
+0xNw4	! -
+IHZSs	- -
+Ud9pJ	!! -
+NcKD2	- !
+VsRSP	- -
+zvHXq	- -
+2TL8R	!! - -
+j1GTf	- - -
+lAbIn	- -
+aEr7O	- -
+wOVd8	- -
+AXj70	!! -
+KISyM	- -
+S3nw9	- -
+DsmdI	- -
+HRw6S	!! -
+cQgJ7	! -
+k9Wpu	- -
+vVGiV	! -
+C24aM	- - -
+J4GkV	- -
+Jtjtl	- -
+Oinz2	! !
+em5GC	- -
+vsM4m	- -
+H8YiM	- !!
+7fqRr	- -
+PF9C5	! -
+byxgF	!! -
+sTrPM	-
+2cpIS	! -
+yqd9u	-
+38v2F	- -
+Ng6JQ	! -
+QsY7X	- -
+TDF7c	- -
+n8Xkh	- -
+JgI6T	!! -
+4bOuv	- -
+6P21H	- -
+Q8Vks	- -
+btpGc	- -
+zDQdD	! !! -
+TVO9O	- -
+L2Y7a	- - -
+fm8qa	! - -
+jT6fD	! -
+8dOFi	- -
+IfPDc	!! -
+UDKhv	- -
+AVVPp	- -
+Lf7ZT	!! - -
+M9XYQ	- -
+akDJa	- - !
+HflLM	!! - -
+at8FT	!! !
+hsaQA	- -
+oYVjE	- -
+NlPXP	!! -
+VpuoM	-
+6kuni	- -
+7pZnC	- - -
+OlUYf	- -
+jGZSE	- -
+uKCqP	!! -
+6kUDA	! -
+Jw9Xs	!! -
+bz359	- - -
+sGttx	- - -
+vYWK0	- -
+8cOqy	- -
+GIvw6	- -
+Yacq1	! -
+sr93s	- - -
+wkSsa	!! -
+UvS69	- -
+QRV86	! -
+qg25I	- !! -
+MN1nW	! -
+RRv0u	! -
+WQi1l	- - -
+lSnyD	- - -
+wfl3C	!! -
+jICt0	- -
+7Lhd6	- -
+mEoLk	-
+uGCpX	! !! -
+5c73Y	- - -
+P00nP	! -
+lRzFo	- -
+oYmwW	- -
+JU78Q	!! -
+qHqk4	- -
+vBl10	- -
+zoaEe	- -
+Fsctf	!! -
+PZlN4	- -
+TJzs9	- - -
+XdvGX	- -
+0dnnU	- -
+49M6j	- -
+HyGeJ	- ! -
+I6IV5	! -
+Me0Jp	- -
+I5Gmx	- -
+K31lx	! !
+WU6u1	- - -
+vnuOV	- -
+yatdX	! -
+JmQ2g	! -
+Znqf3	- -
+h2UYk	- -
+snxaI	! !! -
+56Yy0	! !! -
+CMF0R	- - !
+XvnpC	! -
+gNZQs	- !
+F6XLw	!! ! -
+FT2lK	- -
+G3Tio	- !
+MHgWX	- -
+fw29u	!! -
+n0BHS	- - -
+n517x	- -
+nJmR6	!! -
+tfDX5	! ! -
+2A322	- -
+t2gVb	- -
+4IZYo	- -
+7kCZQ	- - -
+I6jba	- -
+QrRuu	- -
+RHTA8	- -
+k9cTj	- -
+u9I9N	- -
+zZDSQ	- -
+G6jNO	- - -
+k3f2r	- -
+EcuD1	- !
+FhJhf	- -
+JtOdz	! - -
+cqwfF	- -
+dlP1r	- -
+lOF36	- -
+iS15i	- -
+n8QtO	- -
+qn7PI	- -
+8cKwL	-
+BkjoS	-
+ZxUUh	!! -
+f8dC9	- ! -
+n0bVg	-
+nXwC9	!! -
+d6ryY	- !! -
+fdkFC	- -
+gAjpn	!! -
+PXoFW	- -
+XM8dS	- -
+fOq2R	- - -
+oe6br	- -
+oqWu1	- - -
+CizsM	- -
+fLLIQ	!
+5ZQpU	- -
+An3mg	!! -
+Nnynb	- -
+xlGVX	- -
+7Qf7B	- -
+PnwCe	- -
+XrSzX	- -
+buNfD	- -
+nDt7y	!! - -
+rBglm	- - -
+5zrHn	- !!
+cH9i3	- -
+Xqipd	-
+hzNSl	! ! !!
+0GF6q	- -
+8VcV2	- -
+SU8GL	! - -
+eLV9j	!! -
+eOuJh	- -
+kinlt	!! -
+m3ccd	- !
+n2gle	- -
+qE7Hg	!! -
+xYmFb	! -
+BjOKV	- -
+D7aHJ	- -
+RtorD	! -
+X7Xgm	! !
+Y6hSA	- -
+YnpTN	- -
+eJZfV	- -
+hrxNM	! -
+yAJOa	! - -
+4SKsS	- -
+Ul7MN	- -
+WJ1UO	- -
+r3mUC	! -
+XUkwy	- - -
+m8Fns	!! ! -
+xQPXU	!! - -
+1yCue	- -
+5PePc	! ! -
+CWIoe	! -
+4Meb2	! -
+7i1Ms	- -
+9SvWm	- -
+CWqTA	- -
+y5E52	!! -
+0wY6F	- -
+8UnN3	! - -
+VUSn7	!! - -
+b5iaC	- -
+jJ3pR	- - -
+oUSFg	- - -
+9UUvz	- -
+EVxjC	-
+L9S7a	- -
+SdwPB	! -
+eFMhR	! -
+vQ8aW	-
+zQG62	- ! -
+KhxGw	- -
+RP4hD	- -
+YbE20	-
+qGoKB	-
+5aPwP	! -
+OOfMn	- - -
+UakMK	- -
+eQOgG	! - !
+kFP9e	- - -
+ll4Zs	- -
+6lGwF	- -
+81nsU	- - -
+EKqnT	- -
+1m6d8	!! -
+MVaKh	- -
+gjCDm	-
+qHd8H	- -
+r4sDJ	-
+tUoxA	- -
+xy4A1	- -
+zAPrP	- -
+GhxLs	- - -
+dHqKs	- -
+qbDB0	!! -
+7eT9p	- - -
+KDbA6	- -
+MEqA9	- - -
+YiqCX	- -
+ZcvQU	- -
+eINjN	- - -
+tqz9d	! !! -
+9zP0L	- - -
+QMuGT	! - -
+YJSa6	- -
+lkYKl	- -
+6IB23	- - !
+Hp9lR	- -
+M6z4A	- -
+TLzCz	- -
+t6Mmu	- -
+TLa7w	-
+apKKT	! -
+dnuEV	- - -
+xOXs9	- - -
+Jnc49	- - -
+jPhib	- -
+rU7WJ	- -
+sizId	- -
+tlwPz	! - -
+zvI7w	!! -
+1M7qr	- -
+Fce74	! -
+HSjOd	- -
+HXEb1	- - -
+Xi4a3	- -
+hLAsY	!! -
+2nDb4	! -
+VR2hG	- ! !
+XQ0NQ	!! -
+dZJOt	! -
+oqf2z	- -
+6G4XF	!! - -
+8EZww	-
+8zvA3	- -
+BdX2V	-
+EsyRa	- - -
+LucRT	- - -
+WhWkh	- -
+tgKU0	- -
+xsOEX	- ! -
+CkzV8	! ! -
+DtQP5	- -
+adLDA	!! -
+mEe1V	! -
+2aVvf	- - -
+9tNrf	- - -
+BaVxw	- - -
+UzWpj	!! -
+YFhRO	- -
+Yv7bM	! !
+ZkHa7	- - -
+fsuEl	! -
+tGWQR	- -
+CWUTB	- !! -
+ScucD	! -
+YDNv4	! - -
+n6qSe	!! -
+nuq8h	! ! -
+qdWBt	- -
+KI0SP	- -
+beHdi	- -
+q26qS	- -
+ylZ4C	- -
+L5peq	- -
+RG1bx	- -
+cLwVF	- -
+vGDu6	!! !
+4M97R	!! -
+CLJ8H	- - -
+GBmTH	!! -
+Hpifp	- -
+LX8FQ	! - !
+NNrUa	- - -
+PpiBp	!! -
+dnqS8	! !
+s08JW	- -
+yJtzo	-
+0R6zZ	- !! -
+AYxnN	! ! -
+QMa7t	- -
+QnIoh	!! -
+UgXU2	!! ! !
+hAKLd	- -
+kM5dd	- -
+5kn0I	- ! !
+Wtwml	! - !
+bPxuX	- -
+OSuCe	- !!
+b2CLe	! -
+kBSm0	- -
+uHCXH	-
+7ozXq	- - -
+QoIu9	- -
+RfZwW	- -
+WAM0B	- -
+pUlRq	- -
+sgPoF	- -
+088XX	- - -
+W5wBJ	!! -
+bZm2H	- -
+cnPNe	! !
+0DKKA	- - -
+3BmVR	- -
+ZeQz8	- - -
+06Bks	- -
+6RqmI	! - -
+DJFGE	- - !
+HRabM	!! -
+K3cHR	- - -
+NaVQ1	- - -
+VQT2w	- -
+pCQXJ	- !
+6y6d1	!! -
+PuBt4	- ! !
+eb8Ca	- -
+efB20	- - -
+kUAIA	!! -
+thLGo	!! - -
+2C4zA	- -
+4WKlb	!! -
+DEh0D	-
+Gq4U0	- -
+SSXa7	-
+ZiwnF	!! -
+fxBDu	- -
+0CmCn	- - -
+Fi30Y	- -
+GToWr	- -
+a7K3X	!! -
+pYGEW	- -
+rYHTb	- -
+vCAIe	- - !
+xnO01	- - -
+DUvDl	- -
+ELO38	! -
+EdHn1	-
+RaETS	!! -
+h5Ien	- - -
+w4mT4	- -
+0997O	!! -
+3ICV5	! -
+JiYwm	- -
+QaKRh	! - -
+TNPoH	!! - -
+V1wdM	-
+Z9fw3	!! -
+0iH0K	- -
+51qtC	! -
+JbhVt	! - -
+dFogY	- -
+wJUa4	!! -
+71FKm	- ! -
+ACyr0	- -
+HYteC	!! -
+XHkzx	!! -
+fhlC0	- -
+qaRi0	- - -
+8QYfe	! -
+KE8Oe	- -
+a1yVm	! !
+fKRmw	! -
+ocXvI	-
+v29B8	!! -
+0ysXH	!! ! !
+9WObb	- !
+lRKug	- - -
+zMShb	- ! -
+30jkN	! -
+5bz3j	! -
+8muyQ	! - -
+GITtp	- -
+IzpXL	- - -
+apErz	- -
+epHaP	- ! -
+iCOR1	- -
+sxYJk	! - -
+CxzdL	- - !!
+MXiSD	- !! -
+WiFuT	-
+cYtZg	- - -
+gI6Ac	- !! -
+lCVSA	- -
+xVm8L	- !! -
+2ByNt	- - -
+ArKqM	- -
+59vOR	!! -
+cah5F	- - -
+e0Whf	- -
+8ZABi	- !
+CvPxy	- -
+DnK4Z	! !
+HAaSu	! - -
+doiob	- -
+6wUg9	- - -
+DPWal	!! -
+gcxsA	- - -
+jTfpd	!! -
+lH1rc	- - -
+7lkrR	- ! !
+gNDWw	! !! -
+hn030	- - -
+lAPGK	! -
+mbrNg	- ! -
+4uMIQ	- -
+MtWxc	- ! -
+QWL6y	!! - -
+oHkka	- -
+1NNfb	!! - -
+HbkZy	- - -
+UNPGF	-
+Wy1sr	- -
+jk4rS	- - -
+9NZzR	- -
+cbxkZ	- - -
+s2TsO	! -
+wxj6i	! ! -
+7K37Q	- -
+EWA56	- - -
+OfDGW	!! -
+PadPs	- - -
+p9hxl	- - -
+2iheR	- - -
+O41XV	! -
+hConF	- -
+p9eTz	!! -
+vx2fc	- -
+xuL0A	- -
+0Aurg	- !!
+8eixL	! - -
+FCVg8	!! !!
+VSwSK	- -
+am50M	!! -
+kjXwH	-
+qVWXa	- -
+tWoiF	-
+CKK90	!! -
+Hy8vm	! -
+2jQWf	! -
+5usHV	- -
+ErpIB	!! -
+KUnUA	- - -
+qoLxg	- -
+tmO0G	- - -
+xrxee	- -
+yMwiH	- - -
+M7M4l	- -
+crhdB	- -
+kxbKr	!! - -
+sUi7r	!! -
+xyRtS	! -
+1R15v	- -
+O4puf	- -
+OmMdd	!! - -
+VJge9	! - -
+aC1tm	- -
+dDfK4	! !
+wl7nE	- - -
+EONcQ	!! -
+HUdee	- -
+InA7a	- -
+ONdkU	! !
+R7lXb	- -
+kZiKu	- -
+lDJRQ	- -
+zXeWc	! -
+6t5O6	- -
+HVveN	- -
+Kj4sc	- -
+UI36I	!! -
+aqaLW	- -
+gBAJL	- -
+gQlDa	! -
+tpkG7	- -
+2WHQ7	- -
+3IfZS	- -
+M5vn5	! !
+P4OnX	- - -
+WNYxr	!! -
+eQlZT	- -
+rCnh8	- !! -
+tyw8F	- -
+9iq0Z	- -
+gKMpd	! -
+gTdTG	- - -
+oj9tk	! -
+v9gz9	- - -
+w24YE	!! -
+D8Ovk	! -
+HnydD	- -
+cH6Pm	- !
+RZASo	- ! -
+u7nBD	!! -
+59yva	- -
+E5cpv	- - -
+JtzHW	- -
+2s9Ja	- -
+Hs3Ch	- - -
+V5KK0	- -
+IGvZy	- -
+8QTIm	- -
+ck264	- -
+m8Wg9	! !!
+DBkGr	!! -
+fwsZz	!! -
+aS2LQ	- -
+lit0h	- -
+ylX1C	!! -
+EimS6	- -
+pkt9u	- -
+xwFlV	- - -
+8RIxH	!! -
+SRTwq	- -
+HNr03	-
+KePdt	- -
+nwLTV	!! !
+PomCp	!! -
+aLHV4	! ! -
+aOw0T	! !! -
+8Q83r	! -
+oQ69z	! !
+1Mego	!! -
+mk9S6	!! -
+nCwn9	! !! -
+oy0hO	- -
+yw3Yk	-
+31MsP	- -
+5eVA9	- ! -
+gW3Ck	- -
+7AceN	! ! !
+C4taF	- -
+NdjoE	- - -
+yNds8	- ! !
+2bp67	- - -
+OH62u	- -
+iDb1L	- -
+j7mOk	- !
+cpME0	- -
+v1Fhl	!! -
+1K0QQ	- ! !!
+32910	!! -
+mqe3K	- -
+ndfKR	- - -
+qW0Mp	- -
+tjnyH	- -
+wqiVG	- -
+56IFd	- - - !
+OvXiB	- -
+mfQ16	- - - -
+RWUjf	- -
+bAS9F	- -
+dUKEB	- -
+dOOfX	- - -
+prRkr	! -
+VBZ9n	- -
+VYQ9Q	- -
+WoXgd	-
+oPoW6	!! - -
+xsQ1t	!! - -
+4ZNB3	!! !
+JYrtE	- !
+avErL	- -
+jrM4j	- ! -
+yUdRk	!! -
+HgcmQ	- -
+Fl33l	- - -
+Hc45e	- -
+hJ2jt	- - -
+vBGmp	! -
+7VA4N	-
+FX4xt	! -
+yFYKi	- - - -
+MXzL7	- -
+ryZeZ	-
+DSeBK	- -
+vdD4G	!! -
+hyC9S	!! -
+Sd26R	!! -
+Vu4F0	-
+scPzf	- ! - -
+61bbM	! -
+qhgaM	- - -
+8hruM	- -
+M4Rhm	- -
+dgMbf	! -
+r9V9p	- - -
+hTWuI	- -
+qKO0T	- -
+UAdz5	- -
+keeKS	! ! !
+56zeH	- -
+QuKQ6	-
+aFyZC	-
+gWpdE	- -
+zXMMU	- !
+7FKUB	- - - -
+0K0pD	!! - -
+M7xKw	- -
+uO7Vh	- -
+JTarw	!! -
+ZkZLh	! - -
+nycMo	- -
+ueFji	- ! -
+1N0k2	- -
+9hPWR	-
+clP3F	! - -
+fEGbO	!! -
+8J7sI	! ! -
+BnhyK	! -
+Lfm8E	- -
+LxR9C	- -
+Ztid8	- -
+gffOO	-
+CGjAT	!! -
+htEHG	- ! ! -
+sNh5z	! -
+OwhDs	! !
+olpRw	! - -
+6Txtb	! ! ! - - -
+BVXRy	- -
+jlLo9	- ! ! -
+DNuIF	-
+n3gEr	-
+5fA2v	! - -
+MhdzG	- -
+vk0Iy	-
+XMaN8	- -
+1eZ6G	- -
+RQ6Bh	- -
+xDfAp	!! - - !
+S5Dpl	- -
+hjNw6	- -
+v1SNG	- -
+LcaFy	!! -
+T73JR	- -
+ml5TB	- - !! -
+KRTpj	- -
+M3YUx	- -
+4STnh	- - !
+4wkNG	- - -
+Wu2Ev	- -
+pafW1	! - -
+vdizo	- -
+U5twI	- ! !
+XxWRN	- -
+lY4yp	- -
+P8fS7	!! -
+WaicR	- -
+n43PE	- -
+sMzhU	- -
+0ZFCW	-
+TkRjo	- -
+wWU8P	- -
+e1Akd	! -
+mcI6w	- -
+twgAD	- - -
+vgbwk	-
+CjbeV	!! -
+RMl6S	- - -
+gmGBd	-
+4k6mm	- -
+IMyn2	- -
+29zdq	- - -
+9iDFU	- -
+Fl78l	- -
+QysBa	! -
+cRT4h	! -
+flgp1	- -
+ukS1g	- -
+xKlwj	!! -
+Zl6Y1	- -
+b4wrh	- -
+hf73x	- -
+5fUD5	- -
+u4bOj	-
+KVPpQ	- ! -
+TFSM2	- -
+fmqEA	! - ! ! !
+y6DDf	-
+9hiWF	! ! -
+jew3K	!! -
+wLEoL	! ! -
+ALfZL	- -
+HaVUh	- - -
+nDz3t	- - !!
+tqnQ5	!! -
+2tsUg	- -
+NEm77	!! -
+i1aLI	!! -
+sQZle	- - -
+91lAJ	- -
+FdtoM	! ! -
+TDaCC	! -
+QZsAa	! -
+TvsGn	! -
+XCpQC	- - -
+ax5t4	! - !
+nBkRU	!! -
+i8gJX	- - - -
+xGSRh	- -
+cJq83	- - -
+CaV2d	- - -
+DsNEJ	- !
+EBwpS	- -
+LVobq	! -
+wnzrK	- -
+4t7nW	!! !
+XedTm	!! -
+bXlTH	- - -
+nq1CB	- - -
+AajFB	- -
+Ffmno	- - -
+t2Msb	!! -
+qGN35	- - -
+ExuU1	!! !
+jKhY2	- -
+uVlqt	! -
+PPCwV	- - -
+Tqg3w	- -
+n39DK	- -
+7ZjUr	- -
+Cn8dC	! !
+Hgloc	!! -
+PWKgh	!! -
+eiueZ	- - -
+8eQzj	- -
+I5VPW	- - -
+FiVPE	- - -
+8xKCf	- -
+Ajrvv	! -
+CMICL	! - !
+LWaXY	- -
+BxAeq	- - -
+Z4ATO	!! -
+bNU0L	- -
+o3Jsz	- - -
+pKL7N	! ! -
+t677Z	- !
+0vj0L	! -
+8IH9A	- - -
+UXGLZ	- ! -
+VGOqU	- - -
+vLgpB	-
+w7Oy2	- - -
+xUCCI	! !! -
+3Dj9u	- -
+IhPqP	- - -
+GumhI	- -
+QBhoT	- - -
+6Rf73	! !
+C53H4	- !
+F5MjL	- - -
+Mi0Y9	! !
+UXqk6	!! -
+iwRa0	- -
+jZ8uY	- -
+St2T4	- -
+jeSIm	!! -
+O1zEe	! - - -
+zUsca	- -
+atNrX	!! -
+aOusk	- - -
+bAkM3	- -
+w0nef	- -
+9Kp26	! -
+CMFbs	- - -
+LsUQ1	- -
+oDxDH	- -
+Xr2wm	- ! -
+ZXX8u	- -
+bwz70	! -
+oTZM5	! !! -
+FaqaQ	!! -
+HVQSd	! !
+XCqgD	- -
+izOmA	! -
+3XaQh	- ! - -
+BS72q	!! -
+Dl1ZB	- -
+PYl3U	- -
+UWIBw	- -
+bXYiG	! !
+oiGD2	- -
+zO4FV	- !
+aUsCm	- - - -
+pNwHN	- -
+FO7XW	- -
+L6SnS	! ! -
+eFOji	!! -
+kM6Za	- -
+ktB4m	! -
+FvKi7	- -
+cEOSm	! - -
+y8ECK	- -
+NWPbP	! ! -
+YU4T6	- -
+mDwav	!! -
+XdEtv	- -
+nINHG	!! - -
+7IPA1	! -
+B0KYN	!! -
+Mx4Vb	- - -
+UyoB7	- - -
+akmmu	- -
+Mkg7x	-
+niP1Y	- !! -
+tLX89	- !!
+tdNeW	! -
+bdKfw	- - -
+lCmVE	- -
+uAar8	! -
+ZMIIA	- -
+h0LXR	- ! !
+xP1tt	- !! -
+zoOW5	!! -
+FSBeM	- - -
+GuA5q	- -
+Oowol	- ! !
+U087Q	- -
+mWmqC	- !! -
+sGjvH	- -
+wr0hZ	- ! ! -
+2hTN7	- - -
+3SQyg	- -
+lrr78	- -
+qM9FD	- - -
+0UIiR	- -
+6gkP2	- -
+BACZ9	- -
+hrn03	! -
+47Iq7	- -
+g9mFK	- -
+lOZ2a	- -
+KKbWE	! -
+KjHyH	! -
+LtpSv	- -
+ekdFM	!! -
+3Iq2C	- -
+T3Qva	- -
+c6sFN	! -
+u99gu	- - - -
+8cxJI	- -
+PpEZO	- -
+S1DDL	- !
+gmJ9q	- -
+reI5d	- - -
+BADdT	- - -
+hg0cm	- -
+GWypi	- -
+bU50w	- -
+mH189	- -
+myJnU	- !! -
+X17j5	- -
+gLGxx	!! ! -
+vlf5U	! !
+4BEKo	- -
+5yaO4	- - -
+bR3Mk	- - -
+95gQZ	! !
+CdX1L	- -
+L0MBh	- - -
+ftBqA	- -
+mU2cn	! - -
+1bBfI	!! - -
+4HHdP	- - -
+SqcMV	! ! !
+cKkxP	- !! -
+m9OeP	- ! -
+odBmZ	- -
+7uEUY	- -
+rAVwQ	!! - -
+tSr04	- !
+xFoS9	- - -
+DdLmR	- !
+NFl9y	!! -
+XFzBF	! -
+tFQ6Y	- ! ! ! ! -
+avQkG	- ! -
+gYIB1	- -
+Oo8gr	- !
+v9CCd	- -
+C5jjW	- -
+XRDB2	- - -
+wSoNP	- -
+0WO7U	! !
+G8X7C	- -
+Mxxje	- -
+O1A2e	!! - -
+nLOTy	- - -
+TQqAk	- !!
+VmteL	- - -
+bEwwT	- -
+AeoRm	! -
+CIkWS	- -
+CwEOI	!! -
+XEhmn	! - -
+wBrm5	- - ! -
+8GytI	!! ! !
+Ixog2	!! -
+X14Ti	!! -
+bidxa	- -
+zrUPD	- - -
+3uX6m	!! -
+o4pJv	!! -
+VkxRl	- ! -
+b7Y1v	- - - -
+jPcSf	! -
+tr04O	- ! !
+walAW	- -
+40Ua7	! ! -
+mooRQ	- - -
+oj5p1	! -
+tR7xR	- - ! -
+uTxQb	! -
+4S8fm	- - -
+5J6Er	!! -
+K8Vhs	- -
+YYpeZ	! !
+kQa1d	- ! -
+5Tbjb	- - !
+MTxMw	!! -
+WQvsL	! -
+Vhlrs	! - !
+axlFf	- -
+kJoTu	! !! -
+tu1BG	- -
+wA9o7	- -
+FpU2N	- !
+bid0L	- -
+cIu5C	- -
+rNWgj	- -
+y1loF	!! -
+OIpTD	!! -
+TWCyG	! - -
+bOGrT	- -
+P1DoK	- -
+RtdAV	- -
+UwyGQ	- ! - -
+91Kmr	! !! -
+J5rMh	- -
+Nzi3P	- - -
+eCsSW	- - -
+kOLkL	- -
+mA7t8	!! - -
+x4NWE	- -
+CsagG	- !
+U6rlX	-
+dA6qw	!! -
+tdZuA	- -
+8qrEp	- -
+BsFFW	! -
+DZxIK	- -
+PyVno	- - -
+Qkydt	- !
+vO0V8	!! - -
+DM8rd	- !
+al0iO	- -
+fg2j2	! -
+732rx	! -
+XkfNy	! - -
+xjmKb	- - !
+1mFGR	- -
+1mdLJ	! - -
+6wkIb	- - !
+LtxJK	- -
+fF8q3	- -
+j1ftd	! ! ! !
+pKhzY	! -
+1fVLk	!! -
+Mu5oY	- - -
+y1xNM	- - -
+BnL98	!! -
+I8F5c	- !! -
+MbAUH	!! - -
+RrWsR	- - - -
+eBzEq	- -
+1TUFq	!! ! -
+1qeCb	!! - -
+2A6C2	- -
+EXVPq	- -
+F0KMF	- !
+KcDVJ	- -
+kkUPN	!! -
+o5jgy	- -
+xqpSF	- -
+EEwVo	- -
+KXPPH	!! -
+OiWTK	- - -
+XZRce	- - -
+ber33	- -
+1rd1W	- -
+EV1b8	- -
+dNmQp	- !
+5VHRJ	- -
+68Zod	! -
+H8g4o	- -
+kLNon	- -
+u7oel	- ! -
+wifWZ	- -
+4aDAF	! - -
+8C5HO	!! - -
+U3WbT	! ! -
+hwHfY	! - -
+4jJ2F	! -
+N2Fyn	- -
+6Wjwp	- -
+JrdNZ	- -
+Biutb	! -
+NalCF	! -
+j0j4O	! - -
+sQmHt	! -
+yd2oD	- - -
+9FH4O	! -
+rpGi4	! -
+4MPqJ	- -
+56lHE	- -
+7NGyO	- -
+NG1px	- -
+dqMzf	- !
+eQehi	- - -
+kxEAi	- -
+Atf65	!! -
+JZ39z	- -
+kSYOH	- - -
+lzP6g	- -
+BmByz	- -
+unU9T	!! -
+2DSgg	!! -
+9pKuq	- !
+ULnQc	- -
+VoTZp	! -
+XC91K	- -
+WBWbz	! -
+yVam7	- !! -
+yscdU	- -
+8GCSP	- !
+FpvuY	- -
+Xo6oO	!! -
+63Dus	- - -
+vWx04	- -
+wc3WY	- -
+MFsK2	- - -
+R6bfL	- ! -
+ULmjA	- -
+Up4wp	!! -
+f02Wg	- - -
+vKdh0	- -
+4yu0r	! - -
+g8iXs	- !! -
+sMx8J	! - -
+wRWWt	- - -
+9uDNV	-
+CM1SH	- - -
+HPiPf	- -
+Rd8t2	- !! -
+jyEJS	- -
+EfLSp	- -
+IwbdT	! !! -
+LYB3W	-
+hR2DW	! -
+ovyYq	- -
+2u31Q	- -
+B3EQp	! -
+NTGAW	- -
+SSXKZ	- -
+kzPWx	!! - -
+O8Eiw	!! -
+BlaYI	! ! ! -
+RtGbq	! -
+YETHx	!! -
+jhZp6	-
+1YPM6	! !
+QsNID	! !! - -
+fPXEA	- -
+nAO9o	- - -
+svjHI	- - -
+ROVvu	!! - -
+Wamva	- !
+gmL1H	! -
+8OSlK	! -
+IZRD3	- - - -
+IqlJa	!! - -
+Jmv59	! - -
+OeoqP	- - -
+NOavA	! -
+cpxXL	!! -
+joSW3	- -
+ksODy	- -
+5sggK	- -
+PfcTo	- -
+fk1wN	- - - -
+mOcnK	! - -
+oATRu	- - - - -
+oXN4Y	! !! -
+KHIje	- -
+chAOD	! - -
+7j1sF	! -
+8qmuK	- -
+98JYR	!! - -
+H8xcI	- - -
+8iolE	- -
+OkRub	!! - -
+iXs3m	- -
+lW8T3	- -
+oepgs	- -
+uq0LV	- -
+zW6DA	!! -
+3rkbY	- - -
+OtKsM	- ! - !
+87vyo	! ! !
+G3pB5	- -
+m5QPS	- - !
+yR90N	- -
+J96dW	- - -
+JrTQ5	- - -
+TTIH9	- -
+UXKc2	!! - -
+zQ2Zi	- - -
+EeN0m	- -
+WlEmk	- -
+jUmVP	- !! -
+539dE	!! - -
+eNRQu	- -
+8f3al	!! -
+AHkbH	-
+XbX4F	! -
+h198O	- -
+5wvMp	-
+7vp6L	! !
+JWsdI	- - !
+NRra2	- -
+TGgE4	!! - -
+ekN4A	! - -
+yRseG	- ! !
+FImnW	- -
+OgMHr	!! -
+OtM0B	! -
+U0moA	! !! -
+mzUH5	- -
+EPxzP	!! - -
+PFfVA	- -
+Pjcqh	- -
+jVUmU	- -
+NHQHM	- -
+iyI6h	- !
+1jbPS	! -
+4SMIh	- -
+jk3vr	- -
+mlN5j	- -
+AByCV	- !! -
+3Q1z9	- - -
+UZcz5	!! -
+Zro5p	! -
+g5iNC	!! -
+j8i1j	- -
+11dT4	- ! !
+Fjqae	- -
+GS0CY	- -
+YLBZw	! ! ! -
+rg5JZ	- -
+wGq0Y	! !
+A4UpI	! -
+C2OUJ	!! - -
+N8YFK	!! - -
+XMYca	- -
+yEx5Z	- -
+A88ZZ	!! - -
+HhIMQ	- - -
+j2X6L	!! -
+sx3i5	! - -
+1Kbmv	- - -
+dG03n	- !
+gid7v	- - -
+tfved	- !! -
+7oH2b	- -
+lOXip	!! - -
+F6KEn	- -
+JDQ1s	- - -
+RNyHy	- -
+gshsS	-
+jKz0G	!! -
+Syr4h	! -
+sTEL5	- -
+EOm3h	- - -
+TKudx	- -
+ZBTCP	- !
+j9QpQ	- -
+wk25m	!! - -
+yOvIW	!! -
+8dSUL	!! -
+Jipkh	- - -
+e9j4U	- ! ! ! !
+pFobn	! -
+xIORQ	- -
+Lomdg	- - -
+UvWKC	- -
+geKcX	- -
+NxLkx	- -
+OMnim	! - -
+TqIkv	!! !! -
+irlTk	- -
+6bHbi	- -
+ORLPJ	! -
+xeZ2j	- -
+0XLMV	- -
+2nUzX	- -
+UHXuk	! - !
+bMfHS	- - -
+eLtmg	- -
+jrVpJ	! - !
+jwqI4	- -
+yVpr4	! -
+071B1	- ! -
+4KiN2	!! !!
+GnJGn	!! -
+UJQ9v	!! -
+CGZQX	! -
+DaUay	!! -
+S3Nru	!! -
+78rSo	- - -
+V2IV4	!! -
+ZkJkL	! -
+hIMqL	!! - -
+he2qq	! - -
+GwdW8	- -
+P9nPT	- -
+bhhB0	- -
+kRSBQ	- !
+spDBU	- !! -
+FDVso	- !
+Fn78L	- -
+srRnE	- -
+vmksZ	- -
+KmEEU	- -
+dEmkR	! -
+n2KP0	- -
+2bmM9	! !! -
+xZl8s	- - -
+yNdJ9	- -
+PoE0b	!! -
+DLcZr	! -
+ELHlY	- - !! !
+HPKY1	- - -
+b1z71	! ! -
+mqy1B	- -
+uZJGt	- -
+7GFxr	-
+FYMDs	- -
+R59Jy	- !! -
+6pTF9	- -
+G80Ai	- - -
+Gjykn	!! -
+JTbPB	- -
+LT2lh	- !!
+Rkbqr	! ! -
+ns4pz	-
+8bOYX	- ! -
+WED3v	- -
+ePfsu	-
+v5mHs	-
+0yavY	-
+Dbw72	- !! -
+KjpHI	- !
+cGOJj	- -
+m2GZy	- - -
+z4QKV	! - -
+7myhz	- -
+GhiQB	!! - -
+STwiA	-
+o3vE2	!! ! ! -
+rPiIx	- -
+T5a9d	! - -
+hvCQk	!! -
+ktPmk	- -
+nXcfq	- -
+twOvM	- !! -
+84qBU	- -
+JOjzL	- -
+OOBNb	! -
+j0vo7	- - !
+zzB3I	!! -
+DakD1	- -
+KJFkp	- -
+uNGgK	- -
+51hZN	-
+L89uN	- !
+h8b0E	! -
+qUtNt	! -
+pYfTc	! - -
+s6Zxj	- - - -
+BE2Pp	- - -
+ShD2F	- - -
+XEtZ8	- -
+5Gy6R	-
+5J9L7	- ! -
+Gmcy3	! ! -
+KMmLd	- !
+NahyK	-
+wpGoY	- - -
+0fFfG	!! -
+8yQBo	!! - - -
+Atjlm	- -
+JNKRj	!! - -
+XXh07	- !! -
+fIPB1	- -
+gfyP7	- -
+iiOMx	!! -
+xmCMH	! !
+yUaYO	- -
+PKRlH	- -
+Vq0Zl	!! - -
+lzefc	!! - -
+nhu73	-
+t0xWK	- -
+15q0e	- - -
+bYU2m	! !! -
+tjjQG	- -
+ogtBS	!! - -
+sRPDO	- - -
+fiq7B	- -
+x2uv1	!! - -
+hf2jK	!! !
+sBuKP	! -
+zfKmD	!! -
+A0ROq	- -
+OxPRw	- - -
+hjRTt	!! -
+sAV8K	- - - -
+wc60E	!! -
+ZL9C2	- -
+cDvTH	- -
+kwJwx	- -
+pFKqx	- - - -
+sI5ep	- - -
+0vvqP	! -
+7QXbf	!! - -
+cLA4Q	- -
+um4tb	- - -
+Eja6K	! -
+JbubF	- - -
+QHCBv	!! -
+TD0fb	- - -
+VNhiH	! - -
+m3vkE	!! -
+sY60B	- - -
+u5qQh	- !!
+CkETs	-
+DD7a7	! - -
+DoLUN	- ! -
+SyX5Z	!! -
+QgdgL	! -
+gX6cb	! -
+KvrFx	- -
+mFqK8	- -
+oJHCY	- -
+e50AX	- !! -
+hKnw2	- -
+6YfFz	- !
+CHhiu	- -
+Eowyz	! -
+NZ0cQ	! !! -
+diAUe	- -
+zniQe	! - -
+2Xw5p	- - -
+JqmS2	! - -
+WzNyH	!! -
+Xqg9W	!! -
+hKnoJ	- - -
+qOdcb	! -
+AF71T	- -
+1LH63	- ! !
+8vrJA	! - !
+ZGqtP	! - -
+feXeU	- - -
+ZDgen	!! -
+d6DVB	! !
+kUvkC	- -
+lS8Tq	!! -
+u2s6l	- - -
+zP92d	!! - -
+8L8P7	- - -
+EE4xF	- - -
+NShFv	- -
+URY4b	- ! !
+XUXRq	- -
+Y4hRe	- - !!
+qjnVI	- -
+4xLZI	- -
+6DXPP	! -
+QnxhT	! -
+hcCqI	- -
+i8EyT	- - -
+sUqeS	- !! -
+YtiRo	- - !
+fc4iW	- - -
+9JBuf	- - -
+diLBC	!! -
+grvTa	!! - -
+uosJf	- - -
+9Vi1A	! !
+HURJY	- -
+QnT4Q	!! -
+YJhAq	- -
+a27OY	! -
+xs55S	- !! - !
+yhBJq	- -
+ajjV4	!! - -
+oF4oY	! !
+ODT4R	!! - -
+bhgsU	- -
+jq8CZ	- -
+qDH7X	! ! -
+t1h3Y	- -
+vZRqT	! -
+Bta0R	!! -
+Go3Xn	- -
+gbT4F	- - -
+jND7V	- -
+BUX0l	- -
+Eh6kA	- -
+GPy3G	- - -
+H41aV	!! -
+i66Pa	!! -
+vCgFP	- - -
+wMXZS	!! - -
+322jG	! -
+fzhvN	! -
+l6OSs	! - - -
+rVl8l	- -
+O4SQw	- -
+TTgBb	- - -
+VDS8s	!! ! -
+WDcGA	- -
+4Iq5v	- -
+YFOL8	- -
+c1nLP	- - -
+ZjvbE	!! -
+j3pfN	- -
+MVJ13	- - -
+mzdFx	- -
+wGw8i	- ! -
+EpM4s	! -
+IvGQb	- -
+XzNS4	- - -
+hRVma	! ! ! -
+5cFi6	! -
+5lnSJ	!! - -
+Da6Kt	- !
+1jZ2i	!! -
+2Te1e	! !
+4wBma	! -
+LlFn3	! -
+MolY4	-
+QRoVf	- -
+Tzfpy	!! -
+4cJJx	! !! -
+PlLmP	! -
+kOkyD	- -
+1d0ki	- -
+5jivc	- - - -
+8QA5Q	- ! -
+cXXgj	- - - -
+dVDhV	!! -
+5fJo5	- -
+5vMVq	!! -
+8DXYJ	!! -
+tWvWy	- -
+zNyNr	! - -
+ZE4Nf	- - !
+rXXbW	- -
+sSGdt	! !
+WtRaw	- -
+yk5Dc	!! -
+6wEBN	!! -
+umasS	!! -
+ylfas	! -
+3SOVC	- -
+6MsFD	! ! -
+B5f5D	!! - - -
+EE4uG	- -
+GOYhP	- -
+sY4gp	- - -
+sPEBW	! -
+toNnG	! -
+yDf5I	! - ! -
+zNex7	- -
+1jhkr	!! -
+XobKL	- -
+dsEUb	! - -
+fwbgR	! -
+uLph3	- ! -
+g8BZr	- -
+oiG01	! -
+6FZnM	- -
+IhzMu	- - !
+K3REA	! -
+T7VIp	- -
+bvQoo	!! -
+C29sG	- -
+TQ4y3	- - -
+h0Vp0	! -
+EPQ9y	- - -
+FtdTQ	! -
+Sz9cE	- - !! -
+z0pT4	! -
+3y6eF	- -
+IZh8J	- -
+VXEkE	- -
+ynFF4	! -
+gDCNH	!! -
+9KfuZ	! !! -
+PV3px	!! -
+JPEjd	- - -
+Yaywj	- - ! ! -
+cxW1i	- - -
+mAenl	! - -
+GGEwd	!! -
+b2gdY	- !
+Ex2M6	! ! !! -
+JskLh	- -
+K7Yqp	!! -
+WIlBX	!! - -
+abHjw	!! -
+suIGy	- -
+4D6Vw	- -
+IWOLf	! - - -
+DfrFd	!! - -
+oqk0G	- -
+vZgT1	- -
+c1ZKb	! ! -
+ruN0A	- - -
+sel6I	-
+cJTRQ	- -
+ffKSc	! ! -
+n9eva	- - -
+wbs1b	! - -
+rqTOT	- -
+FovMW	- - !
+H9YLV	! - -
+XIC5A	!! - -
+EUBr1	!! - -
+KL1kl	- -
+1RFga	!! -
+VM0v1	- -
+veqPD	- - -
+bwV3S	!! !
+2GWHV	- -
+Qu7wn	- - -
+w2XHH	- ! !
+0UVHr	!! -
+3iFEr	!! -
+5WId4	- -
+RzUYe	- - -
+gxSMn	- - -
+sQQg3	! -
+6JVeV	-
+u6tlI	- -
+N4OCu	!! -
+RNRaf	!! - -
+iqfaH	- - - -
+meS4H	- - -
+iwJlM	- - - - -
+sCtCe	! -
+Ex9Zj	- ! !
+JnCwR	! !!
+SYz3x	- - -
+SqsXd	- - -
+tTsMC	- -
+ySv5Y	- -
+745DA	!! -
+uBfuT	!! -
+Hoj0N	!! - -
+JfGKh	! !! -
+ovQ4G	- -
+5bBkd	- -
+8QiBn	! - -
+hJADk	- -
+jFecO	- !
+nTORH	- ! -
+0jiE2	- - -
+85XBm	! - -
+ojEB0	- - !
+tJMuV	! -
+3AHYK	- -
+J3dMJ	- ! ! ! -
+Q6eMd	!! - -
+b2gh5	- - - -
+jIyD4	!! - !! -
+2q7s8	! !
+AL29Y	! -
+nKrTC	- - -
+o4OiJ	- - -
+uyPH9	- - -
+zfbFU	! - -
+6tx7G	! ! ! !
+t5VTb	!! - -
+ymDiM	! !! -
+yvW5m	- !
+8H53T	! ! - ! - !
+RIqt2	!! -
+Tgq0c	! !!
+kPR06	!! - -
+0kAoG	! - -
+0wAUo	- -
+3h2wy	!! -
+uiJpz	- - -
+ummv2	- ! -
+2OkRV	! - !
+CxcIw	- -
+vlAhl	- - -
+DDbNl	- -
+OUjdI	! - -
+m2Qtf	!! -
+4qagg	- ! -
+bChZP	! -
+nealy	- -
+FnGSz	-
+SARxw	!! - -
+mv9gr	! ! -
+zCIqY	- -
+65AFW	! -
+p4jsW	! -
+zWXda	! ! -
+JfMjz	!! -
+WqtTd	- -
+c4Lwh	!! -
+5cZI7	- -
+Fyoxu	- -
+J2617	- !
+KlVrn	! -
+ed8DW	! !! -
+fLgp9	!! !! -
+BZeYi	!! -
+dTrD1	!! - -
+0pHxs	!! - -
+DXs0i	! !
+DybsL	- - -
+UUFTV	! - -
+eghbZ	! -
+rLwPC	!! -
+ydEGi	-
+Cq3Cf	! - -
+JSvmJ	- -
+MfBSt	- -
+mKKFz	! -
+8bB9M	- -
+DpgI9	!! -
+KFeKe	!! -
+OFhtE	- -
+Cl4NY	- - -
+bZq5v	- - -
+xK8j6	- -
+HS6JM	! -
+hTpMZ	- -
+njWAN	- -
+yBrDr	- -
+JNNci	! !
+WGNVw	- - -
+rL9xC	!! -
+Vd5xJ	!! - -
+khFMD	- - -
+0VxfV	!! -
+KHhcC	- -
+Mbthx	- - -
+UeOgs	!! ! -
+RLBRQ	- ! -
+tluDj	- ! -
+Vctri	- - -
+Xae6A	- -
+AeBOy	! !!
+R1fRS	- - -
+qFAPC	- -
+smeWH	!! -
+6HBxG	! -
+An8Td	- -
+SjerE	! -
+Z2E8a	- ! !
+dmiDc	! ! -
+m5a1A	- -
+8BS7s	! -
+KhvZJ	- -
+5dEBl	- -
+XZI3d	- -
+eln0q	- - -
+niH66	- -
+qnzC4	!! !! -
+K89eG	!! - -
+NS03x	!! - -
+P1wcA	- - -
+VCPht	! - -
+gykEW	- - -
+nCh5B	- !! !
+v40Uz	- - -
+45FYH	!! - -
+JVYfh	- -
+NoHGy	- - -
+QxDcD	! ! -
+wUB1R	!! - -
+WZkFF	!! -
+b6gyT	- !
+omLM0	! ! -
+DVBZC	! ! -
+PR2lb	- - -
+YQJeK	- - -
+dgByl	!! -
+mk26I	! - -
+pf9aJ	! -
+0kRWH	!! !
+Yhtwa	! ! -
+iC8Vp	- !
+sxGx3	! -
+wnCkz	!! - - -
+4Bjru	- - -
+cKUWT	- !! - -
+xXQxo	- - -
+HH4fh	!! - -
+Udhwt	!! - -
+eV8OS	- -
+pt73c	- - -
+s81Mk	- -
+1khhe	! -
+3xCl3	- - -
+4b19g	- - - -
+AHa80	- ! -
+B3rCc	- -
+KKItt	- -
+KZxZL	- -
+WJdkZ	- -
+lxXPm	! -
+LFty3	!! - -
+sJRvI	- -
+rTMGu	- -
+wvms8	!! - -
+cKwdb	- -
+diiHs	- ! ! -
+GMEof	- - -
+ZnT19	- -
+t1BPe	!! -
+veZXf	- -
+EysSc	!! - - -
+Jvvsh	- - !
+r1c2a	!! -
+1OZ9J	!! - -
+256bl	- - -
+A7cqe	- -
+GLBhm	!! - -
+6Voh2	! ! -
+mMVFF	- -
+13ZTJ	- -
+F6loS	- -
+IQgzP	! !! -
+MYaSa	- ! -
+ACkHb	- -
+IXEoA	!! !! -
+eKPy4	! - -
+ZpfrO	- ! ! !
+mNNBH	!! - -
+Af362	- - -
+XyhYB	-
+ZZxax	! ! !
+7KwSm	!! - -
+AgGl7	! !
+bIMRb	!! - -
+YATsq	! -
+qSN09	! ! -
+rH2iv	- - - -
+sP1Bq	- - - !
+ie9pt	- -
+ylBSa	! -
+Nz3QV	!! - -
+Pbiq3	- - - -
+prYut	! -
+ZTKlm	!! -
+jeZNe	- - -
+pDdFL	- -
+GMySz	- -
+6GX35	- - -
+GoPgj	!! ! -
+ibAxf	! -
+Ky3IM	! -
+N3uQZ	! -
+OgFCW	- -
+iio7R	! -
+2Musb	- - - -
+OtX6n	!! -
+X48tW	!! - -
+aK8WM	- !!
+wKt7v	- -
+4VcGK	- !! -
+7Ph7k	- - -
+8bC6I	- ! -
+TYTX1	- -
+9A6eo	- - -
+DuXVR	- -
+GB6pK	!! -
+PRb7c	! - -
+gMfwN	- -
+khWMW	- - - -
+DvTEs	- !
+rbGu1	! !! -
+rqXld	!! - -
+4EkcE	!! - -
+6Zj4x	- -
+UxBTG	! !!
+bF7jY	! -
+dYjS0	! -
+oOmPH	!! !
+th12J	!! -
+ZTsF1	! -
+fj7gn	- -
+jmOgZ	- -
+GczoH	- -
+HqPJG	- -
+N8gJJ	! ! -
+QAV9g	- -
+h229u	!! ! -
+wARhy	! !!
+4g0ZB	- - -
+bdjfu	! - -
+wVURW	! !
+rA6Dg	- !
+AA86L	! - -
+P85Tw	!! -
+qE0b1	- - -
+qZpXG	- ! - -
+0okxv	- - - -
+17Oig	!! -
+4NMXo	! ! -
+nJpuj	! -
+ofzFO	!! - -
+Bbr7a	! - -
+YoA8K	- -
+b9aJH	- - -
+bQVNc	- - -
+fz5pc	- !
+hwVWH	- -
+FNy87	- -
+SEAGe	!! -
+XzE1V	- - -
+zVhgK	- -
+BGsPy	!! -
+Fr53J	- - -
+M6xh9	- -
+ZUgzl	- ! -
+5lKwl	- -
+BbEQ1	! !! -
+OLoSM	!! -
+hfM8v	! -
+pYdMX	! - - -
+GKCu3	!! -
+PKdvt	- - -
+cNl55	! !
+jvsq6	! -
+97TOl	! -
+YymK9	!! -
+zIQpJ	! -
+AYRBx	- - -
+bmqCR	- -
+sPIwu	- - -
+4Hgmo	- -
+E5XGA	- - -
+HYc4T	- !
+iKh2P	- - -
+jaXGo	! ! -
+zvmqh	!! -
+9LxaE	- - -
+p5yam	- - -
+zJ7JZ	!! - -
+NXKK7	- - -
+Wlm5p	- !! !! -
+X4Cxv	- - -
+gmw7L	- -
+nj57X	- !
+qF1O8	! -
+2PIiS	- - -
+4Xnrn	- -
+5JSL4	- !
+8Q7Ph	!! - - -
+bVj48	! !
+1lyRd	!! -
+rbEK2	!! - -
+52xfy	!! -
+qZmFO	- -
+0vkpR	- - -
+JvtqS	!! - !
+XPezR	- !
+YZEiE	!! -
+gd7im	! - - - -
+vbypa	- -
+1Nzt2	- ! !! -
+JIxBM	- -
+NtLmX	! -
+bglYg	- -
+gYh5S	- - -
+ioyRK	- -
+mknHc	- -
+QW0tH	- !
+bbCci	- -
+w2o4M	- -
+Cvz5e	-
+NWMM3	!! - -
+PlZ8l	- !
+QP5LO	- !
+V03hS	! !
+XQRX3	! -
+d2v2S	- - -
+fKe92	- -
+t21e1	! -
+9mX7C	- -
+UsK12	! ! -
+jDOhp	!! -
+n7Os9	!! -
+taODs	! - - -
+uESzt	!! -
+7fj9K	- -
+KvbSo	- !! - -
+hulxW	- - - -
+Fnk1n	- -
+KO9x2	- ! - -
+XQtkC	- -
+cnWfi	! !! -
+idBmC	! -
+ldDSx	-
+mkRPU	- - - !
+oP4GY	! !! -
+4INbH	- - !
+HrJqa	- -
+qpKPd	!! -
+Lcy52	! -
+VltK2	!! !!
+Zy07G	- - -
+DnYBU	- - -
+HqkFj	-
+NcF9A	! -
+zEqdm	! -
+0WT9i	! -
+4jPJs	- -
+DW0jU	!! -
+SfKws	!! - -
+WclZl	!! - -
+bK5aU	- -
+PxwdY	- - !
+QK0lF	! -
+QqfUH	!! -
+W7KN5	- !! !!
+WZnbq	-
+aHPET	! ! -
+fbX2v	! - -
+2Ybph	- - - -
+4t8e8	! ! -
+GvVi5	! -
+SoqEa	- - -
+nYZ4c	! - -
+ttK39	- - -
+vMUef	- -
+V7jQQ	- -
+t1GV9	- -
+GhCvM	- -
+H4iiP	- - -
+aCrOR	!! -
+hny6E	! - !
+xXcv0	- - !
+z4mAn	!! -
+Itnyx	! - -
+Pwr8Q	- - -
+ZXpCw	!! -
+jENU9	- -
+q3Cz6	- - !
+b987i	! - -
+8uf2s	! -
+WCtpv	! !! - -
+YZ3fp	- -
+NutDR	- - -
+zh4I9	- ! !
+V9VSQ	- -
+Zrfto	- -
+avUrg	! -
+nTqIt	! - ! -
+pTo5F	- ! -
+PfgQk	! -
+QsXen	!! -
+V2rov	- - -
+r2Xw4	- -
+sojMC	- -
+LvdgC	- -
+mzdYD	!! - -
+A4725	!! -
+JNk1n	- - -
+Zi1Bd	- - ! !
+ex8yn	- !! - -
+oFDHO	!! !! -
+tqIP3	! ! !! -
+LQzL8	!! -
+StV3B	! ! -
+42sx1	- - -
+Qo0LY	- ! -
+gbbaY	! ! -
+pdoTt	- -
+y2zRB	- !! -
+VArCQ	! -
+Ooy5a	- - -
+ZuMcG	- -
+3zk82	!! -
+zLgvt	! !! -
+4fAI0	! -
+gnrPo	- - -
+oy8QJ	! - - -
+8gK9U	- - -
+EdGEK	- ! -
+HNDIG	- - -
+iceH2	! - !! -
+MJLeH	- - - -
+8wcDH	!! - -
+abo4E	!! -
+26jFp	- ! -
+AP78e	- -
+F638S	!! -
+lkOhU	!! -
+wxO8H	! ! -
+3wAnO	! -
+genDm	- - !
+lLbE8	!! -
+mpz05	- ! !!
+7c7R3	! -
+LIc3y	- - !
+NK4YG	! -
+tZ7hI	! -
+52EQ7	!! - -
+VGpw7	!! - -
+afDJq	- - !
+luUMp	- -
+t6j2Y	- - -
+66qO4	!! -
+8bBjd	! ! -
+HjPOL	- !! -
+b3ONP	- - -
+cB6c0	- !
+BSyxu	! !
+C08Rh	! -
+diUiS	!! ! -
+vde96	! ! -
+yQeYk	- - -
+Snw9M	! - !
+fPdn8	- - -
+g4hwy	- -
+7NlOc	! -
+HnM9M	- - - - -
+JAQpu	!! - -
+Tt0Hi	! - -
+Yu5J2	- -
+eNqoK	!! - - -
+q2VjX	- -
+4NXmP	- - -
+YLqRX	- -
+bNwIS	- -
+n7mxp	- ! -
+w5yRI	! ! !
+8EfiK	!! - -
+IOwxn	- -
+cXX9e	! -
+kUwUG	! ! !
+sWvrr	- - -
+RYe2p	! - !
+gcNzO	- - -
+lcoIe	! -
+PHxGx	! - -
+anOyJ	! -
+7oMTa	!! - -
+Pldc6	! !
+edKcx	- - -
+k3Scp	! !! -
+JTPUb	! - -
+Tmw0M	!! !
+76qAh	- - !
+Ca7gQ	- - !
+DNhF4	!! ! -
+6WPzY	- !
+7gLAj	- ! -
+df2ZP	! -
+eYY44	- - -
+lZFvs	! -
+snUC3	- - -
+zmmt5	- -
+1jQqm	!
+7mAQQ	- - -
+LGDsj	- -
+PRehZ	- -
+WzxyI	- -
+BN9HF	! ! -
+Oka2x	!! - -
+bTrf1	!! -
+goD2X	- - -
+wTHcj	-
+1yd7h	- -
+8Aou0	!! - -
+Aju3t	- - -
+HVMzh	- - -
+RDZx5	!! - -
+SD8ft	- - -
+1EIHj	! -
+hCkC3	- - -
+rb5qs	- -
+hvCCX	! - -
+vJ1ir	!! -
+BWxBM	- - -
+Kyqaa	! ! -
+253Ns	!! -
+GsimS	- -
+gUeUs	! ! - -
+9dL9k	- -
+Dsfvc	- - ! !
+MqmkC	- - -
+Ssxme	!! - -
+Zz8QJ	! -
+4XZa5	- - -
+lIiry	- !
+umRhv	!! -
+3JWV6	!! - -
+Q1Z4Z	!! - -
+Yb7GM	- - ! -
+ZYVQR	- - -
+cNbQ1	! -
+jdpTo	! -
+nqXLd	! - -
+9Cboe	!! - - -
+efcmn	- -
+lmZ69	- !
+plze4	- ! - -
+drieF	!! - -
+o0Dl9	! -
+rsuCp	- -
+3DpkU	- !
+KRkYH	!! - -
+LU1Hf	- -
+waVQQ	! -
+RNXCs	- ! !
+fXJXv	- !
+hxwUs	- -
+qcxxF	- ! -
+rltE8	!! -
+xqpkG	! !
+N6mXE	- -
+RLCY7	! !! -
+TFUEf	!! -
+ijKGe	- - -
+toanx	!! - -
+6KpWx	!! !
+H6RzN	- ! -
+OJe7f	!! ! -
+GmW5S	! - -
+0tP1s	- -
+L1Yul	! -
+asRXT	- - -
+sJvwG	- -
+0Tr6H	- ! - ! -
+C6woO	- - -
+fMugq	- -
+DLTCa	- - -
+sghqD	-
+tJ4lC	! - -
+PJ2Us	- - -
+ZTa5z	- - -
+if2nf	!! -
+vhB2t	!! - -
+WuwhB	! -
+cgF0V	- - -
+eUFvX	! !
+6JuFV	!! - -
+V6eTP	!! -
+bYeOG	! -
+eRX6d	! -
+gL2JE	!! -
+mRoJN	!! -
+v0vLQ	!! - - -
+yY0q5	- -
+9exJt	! -
+BySiq	!! - - -
+fsgKE	- ! !
+w0fiq	! -
+zZ4x2	- -
+6VWK6	!! - -
+7kiRJ	! ! -
+8MTvm	- -
+G2OvI	! -
+WNpZ3	- -
+CCBD8	- ! -
+RE82b	! !! -
+eJp9h	!! -
+qvegc	- ! !
+rPBEQ	! -
+DqHBQ	- - - -
+Izfnc	! -
+CZpJN	! ! - -
+8o4oH	! !
+KXqsE	- -
+flbJ8	- -
+wO2K5	- - - -
+x75mc	- !
+Pqnlc	! ! -
+difLL	! ! -
+gxVDe	- !!
+MzVYu	- -
+TosnK	!! - -
+c189D	- -
+sRKwJ	! - - !
+DumKI	- !
+Som9T	- -
+bntar	! -
+ztMJ5	- - - -
+FcbB3	! ! -
+mVD5w	! !
+AFMtd	! - -
+KREWs	! - - -
+yjJ5m	! - -
+RWORF	!! -
+YNZbs	- - -
+wU045	! ! -
+PczLq	- -
+R3kwj	- ! -
+fdBmg	!! - -
+wNP48	! !
+M4cCq	- !
+OhIx7	! - !
+K95Gy	- -
+LKIWd	- - -
+Zz4pg	- -
+xtjWM	! ! -
+29Z3o	- -
+0iXx4	- - -
+TQVGo	- ! -
+nxkXs	- ! ! !
+rsLPE	- -
+BA28t	! ! !
+7NTZY	! ! !
+fehij	- -
+u2n3x	- ! -
+hGJaE	- -
+X53d3	- - !
+noQhB	! !! -
+2U36K	- - -
+6zUCT	! ! -
+8REmv	- - -
+B3m5u	- ! !! -
+ImZmy	! -
+1as9g	! !! -
+xgHIL	! !
+DkHQr	- -
+tM7ra	!! -
+O9vBU	!! !!
+W8THO	! -
+a8YxR	!! !
+cpXAl	- - - -
+q6BiM	! -
+tjyBb	! -
+GR9Br	- -
+pJY9s	- - !
+IQxqB	!! -
+RuG1N	! -
+XYJx8	!! -
+npoee	- - -
+qGoUH	- -
+0YH7Q	!! - !
+2RtlP	! !
+AvZkw	! - -
+JPoDA	- -
+OC1qa	! !! -
+g06mY	! !! -
+FXKVm	- - -
+ageev	! -
+tG5lc	! -
+mfmz4	- ! ! -
+1UzS2	! ! -
+ELPiM	- -
+INWQz	- - -
+6jyj4	- -
+sUDFd	! ! !!
+5JN6N	- !
+a7B1v	- !
+m26XW	- -
+pxBA1	!! -
+ykfKs	- -
+Y9Bx4	- - -
+fNcqu	- - -
+HKS6E	- - !
+3J1qd	! -
+DYxWY	! -
+Agyy5	- - -
+D35Ys	- -
+WEKmr	- - !! -
+htSUm	- - -
+nBnKJ	! ! ! - !
+yKJpO	! !! ! -
+EutfS	! - -
+OFIeo	!! -
+mC0va	!! - - -
+CqJL1	!! - -
+PVVaE	!! -
+SHq8H	! ! -
+WkVKE	!! -
+4OkPG	- - -
+VZTQc	- - -
+0SRNA	! !
+12rcX	!! !!
+IjsFb	! -
+cMEAR	- ! - -
+KlCtT	! - -
+VvpPu	- - !
+CWRtk	! -
+JKdiL	- ! -
+LxIzN	- -
+n419Z	- - -
+pjqjZ	! -
+UoMB1	- - -
+kE4jD	- -
+kgz85	!! -
+z8Yrx	- -
+0PBk2	- -
+DuwPP	- ! -
+aUfWp	!! -
+tkWFC	- - ! !! -
+8M0WQ	- ! ! - -
+drUre	- - -
+eEAMA	- - - -
+j7Ffm	!! - -
+xVQeK	- - -
+4SgcR	!! -
+bYp0B	! - -
+julXN	! -
+GUaQ7	! -
+TbVyO	- !
+7lR8n	!! -
+OJj6J	! !
+SUVcc	! - -
+TTZHv	!! - -
+XZqnJ	- -
+fSoR4	!! - -
+sC9WV	- -
+5Kntk	! - -
+D8S9H	- !! !
+Tcdjd	! - -
+bPJr4	! -
+fC7pd	! - -
+u5Wmu	!! -
+Is30G	! -
+LsKqA	- !
+W0U1n	- - -
+kkbSV	! !
+lBcd4	- -
+6b12I	- - -
+Ibbdb	! ! - -
+Rney5	- - -
+g1uYY	!! -
+xpRQB	- - - -
+LEMpo	- - - -
+mbIRG	! -
+JACwg	- !
+WNwKP	- !
+tNc3A	!! - -
+woVPA	- ! - - !
+zJrd9	! -
+9WOUa	- ! -
+R3Ds2	!! -
+SKTSH	- - -
+ZSthM	!! - -
+1ZIkf	- - -
+Iiq2m	- ! - -
+ZYapC	-
+xfyDJ	! -
+4Q8GU	! -
+XyihT	! - ! !
+ccQ8M	! ! ! !
+eH8kG	- -
+B2mpr	!! - -
+crenc	- ! -
+o6YIK	- - -
+ERXF6	- ! - !
+gXClz	- -
+yjn3L	!! -
+CAKEO	! -
+psPD5	! - !! -
+8F5Xz	- ! ! ! !
+R7GVF	- - !
+mlKX9	! ! ! -
+wmECv	!! !! -
+8Ec5m	! - -
+VRZ7u	- -
+bujh5	- - !
+unftj	- ! !
+4aG18	! -
+TvAXW	- - -
+WqUqZ	- -
+XAhPZ	!! -
+DfOmc	- - - -
+NSlwO	! -
+cHssJ	- -
+hRq6e	! -
+WY33Y	- !
+YYHXE	- - -
+pSgfG	! - -
+DgL1e	! - -
+HBqp7	!! -
+RS0ZG	! - -
+gDYbx	- -
+QvBYN	- - !! -
+VELi7	!! - -
+do8S4	- !
+NNRYT	!! ! -
+TphpE	!! -
+MBCfs	- - !
+pB0HO	- ! !!
+EDPBH	- ! -
+GecCX	- - - -
+dw4pY	- - -
+g60rz	- - -
+pGtz2	! - -
+s0scr	! - -
+8Y8x3	! -
+8pZ04	! -
+GeN7g	! - -
+J5etb	! ! ! -
+dJizu	- -
+jA8mz	- - -
+SisLr	- -
+fbSLx	- -
+pBESv	! ! -
+HElUh	- - !
+WbzOr	! ! -
+y13Uf	!! -
+8nucM	- - !
+JRuYh	! ! - -
+OsqGb	! -
+Z0yKL	- -
+BJjvl	! -
+J3wwl	!! - -
+Urxiq	!! -
+XbBrI	! - -
+vr09N	!! -
+8npxH	!! - - -
+Lw10O	! !
+SrO3g	! -
+VYAx4	! !! -
+pR6eX	!! ! ! -
+qCd07	- !
+9wu4l	- -
+BuncU	- - - !
+DLeKY	! - -
+IXzkE	- ! ! !
+mV4KW	-
+ryEey	! -
+3efe5	!! - -
+FtlDA	- ! -
+arWJK	!! - -
+gmwlj	- - -
+Ckgde	!! - -
+JvdBA	!! - - -
+kkfqW	- !
+12FOq	! - -
+8ACvm	- ! !!
+bhMpE	!! -
+iugjn	- !! - -
+OC7vx	- !
+fIS8d	- - -
+l4ql2	- - -
+1ceke	- -
+8yjwT	- ! -
+TDGU5	- -
+Z9SIe	- -
+n8QuF	- - -
+0BVUa	!! -
+BmWfY	!! - -
+mIVW1	-
+Cr2kt	- !
+ymvLz	!! -
+033Z0	!! - -
+09ZB9	! - -
+1tOKP	- -
+5DGvd	- !
+FZ3yZ	- -
+WuRzK	- - -
+ZVFlh	! - -
+iDxFB	- - -
+xkLXm	!! ! -
+XDgC4	! -
+oEA4T	- - -
+2wDEQ	!! - - -
+qwpgp	! - -
+2r2xI	! - -
+9p3AQ	- - -
+MsA0f	! - -
+vMutS	!! -
+xgsvL	! - !!
+Fx2HD	!! - -
+IsKBT	!! - -
+OYeSV	!! -
+5bG9n	! - -
+RgjfH	- ! -
+evYGZ	! -
+q5RrH	- - -
+3hOJj	- - -
+owgib	- ! ! ! -
+510eW	- -
+MxS3A	- -
+SNNJ2	- -
+dVoTF	- - !
+YCPPf	- !!
+xeWsu	- !!
+Rf4zF	! - -
+onzFm	!! -
+ZnWS7	- - -
+j9idF	! - -
+sPovK	!! - -
+xlxQy	! ! -
+S4evE	!! -
+Z8mND	!! -
+aHi0k	! - -
+ipG10	- -
+raRGE	- -
+2I05I	- - -
+9NvS7	- -
+Otj7B	-
+flhor	- - - - -
+3OqbC	! ! !! -
+8VTTY	!! ! -
+AtITt	- - !
+evbiq	- - -
+jzHj5	! - -
+vDPwr	- - !! -
+0FFYy	- !! -
+2tGQZ	- -
+6Ntj1	! -
+Dt4cA	- ! -
+QGKr3	- ! - -
+fQzY2	!! - -
+gYHL8	!! -
+ikqPo	! - -
+j1Jd4	!! -
+jR0xR	! - -
+xNKZV	!! - -
+F8Jgp	- -
+oWPcj	- -
+wnd6s	! -
+ChVQT	!! - -
+NfF69	- -
+nJ3EP	!! - -
+3yZYJ	! -
+4Rt5W	!! ! ! -
+C4eMw	- - !
+CrPje	! ! -
+OBToP	! !! -
+dPUIr	!! -
+njOsL	! !! - -
+t6dlO	- - -
+vyp5F	! -
+wTmiM	!! -
+25Q1A	!! -
+AElIA	- -
+GVrGh	! ! ! -
+H6eDO	- -
+tn6Oj	!! !! -
+yca0W	!! ! -
+AD3zC	! !
+GV3om	!! ! !
+Jwp6c	- -
+7xTFe	- ! -
+Nekmr	- -
+QIjD1	!! - -
+7ohET	- - -
+AS8s7	! - -
+WkQyy	- !
+ZKdrR	- - -
+ZahV4	- - -
+aMwX6	! -
+kijq9	- -
+vb13q	! - -
+zapQY	- -
+GY2aQ	- ! -
+3unfF	! -
+Pq3sZ	- - -
+TQbFw	- -
+WynMX	! ! -
+iM5M0	!! - -
+lpKoW	! -
+vTUAz	! ! -
+TTsKs	! !
+eHtbh	! -
+nSEhm	! - ! -
+R7Rd5	- - -
+g7acI	- ! -
+y4fhq	! - -
+MKOOK	!! -
+NM820	!! -
+r1f6f	!! - -
+A1hVw	! -
+I2s08	! -
+OP6PU	! - !
+nNKjr	! -
+E51FL	- -
+HH8iC	- -
+f630b	! ! -
+gFw7u	- -
+hRumS	!! - -
+2wDHs	- -
+HeNMh	- -
+NVFSL	- - -
+VdT09	! - -
+iYYQL	- - -
+jcp0h	!! -
+4BEXL	- ! !!
+9KPJW	- -
+LBfh9	! - -
+PWVPF	- -
+jNjGO	- - -
+amm2g	- - -
+gHhIr	- -
+nNxsV	- - - !!
+26c9k	!! - ! - -
+DfP63	- -
+KPN76	! ! - -
+RwPiG	!! -
+fEMqG	! -
+h1jY4	!! ! - -
+nkSCA	! - ! -
+qlFuK	! -
+O7YRH	- !
+yjBej	- - -
+SWTaz	!! !
+Ddb4I	- -
+EIZgL	- ! -
+GWYFQ	- - -
+y7s1h	- -
+GVodq	- - !! -
+n6z4Y	! -
+wJM2L	- -
+AZIX0	!! -
+rN2cK	- !
+CEGut	! !
+Pe9Of	- -
+S2pox	!! - -
+S4jKM	- - -
+T3bdM	- - -
+aRuiE	! !! -
+6BNUp	! ! -
+Gps2l	! -
+Pv2L7	- -
+T1rZJ	! -
+r6JTX	- -
+Rld0o	!! -
+XsKSu	- ! !
+ZZcta	! - !
+caV5D	- -
+nTfAS	!! - - -
+5rLha	! ! ! !! -
+DRHKO	! -
+tIOaQ	- -
+AOQEr	!! !! -
+YZCaU	- -
+rYomL	- - -
+rbROw	!! - -
+20UiL	- -
+41SPW	! !
+5uh1R	- -
+TKh2M	! ! ! -
+rvxC3	! ! -
+wkbvy	!! - !
+cLJiE	! ! -
+hOa5f	! !! - - -
+BkXM2	- - - -
+wSpRe	- ! -
+EddkP	- -
+jAVW0	- -
+6GDsL	- ! - -
+PWebP	- - -
+c7JVi	!! -
+fpNxA	- - -
+3Gsj2	- ! -
+8pquk	!! - -
+S0Bv8	!! - -
+cVxLf	- - -
+rJ9Rr	! - -
+kbrs1	!! -
+pnq0z	!! !
+xEyWn	- - -
+3VX4W	!! - !
+YamFj	- -
+lzkdj	- -
+fgJAY	- ! ! -
+tVuap	- -
+KrUi6	- ! -
+P4air	!! - -
+9b2qf	!!
+9taMJ	! - -
+G9fhg	!! !! -
+g2487	- ! !
+oRwrZ	! ! - -
+0u2pz	! !
+EjrC6	- -
+EoO76	- !
+MQJSc	- !
+PcWwo	!! -
+Xp7xe	- - -
+Zt3Hx	! -
+lD3u2	! - -
+vUaN6	- -
+Og74A	- - - -
+OkKHB	! !! -
+gjy5l	- - -
+J1gaC	- ! !
+KZpdG	! -
+QYVd9	- - -
+q37MY	!! !! -
+WBHsw	- ! -
+XtfJp	! - - -
+f8DPl	! !
+i8khw	! ! -
+mQDCw	- ! -
+79RLA	- -
+BcVD7	!! !
+WYYnJ	!! - -
+8ENRQ	! ! -
+H5bNr	! - -
+QCPaC	- - - -
+p8gPE	! !
+uVg4M	! -
+J5yVU	! -
+uK5Zi	- !
+KMVJL	! -
+TOeQL	- -
+9NdXG	- -
+FkH4A	- -
+qkGYM	- -
+RvKa3	- - -
+bVsmc	! !
+onkFe	- - ! !
+uDD4D	- ! -
+Dc9wv	! - -
+L1sMf	!! -
+heb3w	- -
+uycAn	! - -
+8iRwK	- - -
+2koy7	!! - -
+kt7Ne	! - -
+rFvzH	! -
+AfdhW	!! - -
+Pb3gM	! -
+UECW7	! - -
+0naXf	! !
+WCSL8	!! -
+Y5Zvu	! -
+lNt91	!! - -
+uvHVZ	!! -
+hxz9Z	- - -
+kw6bP	!! -
+si9jn	- -
+xtBxm	! -
+080T4	- !!
+awyYR	- - - -
+tsVSP	- -
+daUeW	! -
+4aqSk	! - -
+OojzB	! -
+X18D9	! -
+zGaE1	- ! !
+5iDi0	!! -
+9lDcX	!! -
+HMo2e	- - -
+7wuUf	- !! !
+Tfyv8	- !
+OCMia	- - -
+XC1tg	- - -
+lYOB5	!! -
+Oi8Mn	! ! -
+qXZpY	!! -
+GHwcb	! !!
+jTzRq	- - -
+mcCbc	- - -
+ESrXq	- !!
+G4AqC	! -
+9PVV8	- -
+yBZK2	- ! -
+8bIZc	- -
+M62qM	- ! !
+VtNrd	! - -
+Dl7oA	- -
+diVwP	- !! -
+dz6Ls	!! -
+4tMHp	- -
+Jrm6C	! - -
+gC6rn	- ! -
+t9zun	- ! - -
+9UVJ3	- - -
+Rr58i	! ! -
+UOgIl	! -
+VVSCc	! -
+WH7lX	- -
+6mDGP	- -
+Yy175	! - -
+uHpxi	- ! -
+E0S7D	- -
+EsAF7	! - -
+NTxmY	!! -
+JeNH1	! -
+CuM0M	- - -
+F6MuI	! - -
+wM9UC	- - -
+7I8v8	!! !! -
+hWkZc	! !! -
+rBjRS	- - - !!
+nezem	- - ! -
+oCcXP	!! - -
+ooRXn	! !! -
+JMafq	! -
+Yc6BF	- - - !
+gMlcx	- -
+iHxN6	! - !
+2Htsm	! - -
+ZKJ9w	- -
+nPKTg	- - -
+qfHse	! - -
+x5DwW	!! - -
+5V0Kt	! - -
+LSFgE	- !
+pBXc5	- - !
+1m1CJ	! -
+o04Lb	- -
+OzfpB	- - -
+mqhIB	! -
+vqjSa	- -
+853bE	! - -
+POE4N	!! !
+fNVyo	- !
+yMA7T	!! - !
+KeBJ7	- - - !
+VCZGS	- - -
+d8sxT	! - !
+v4TTb	!! -
+EZR7a	- - -
+JkLQH	- - - -
+ZkUyn	- - -
+qsVnM	- - - -
+sxS8Q	- - -
+GqZxB	! !! -
+WFA6B	! !! -
+XOAtu	- - !
+qOiBx	- - -
+sAm8C	!! - -
+PDA3m	! -
+TRava	- - -
+VE4rt	- - ! !
+3zhJC	- - - - !!
+H3lNv	- - -
+kfMEM	- - -
+FOr41	! - -
+GWbHF	!! -
+LAOZJ	! !
+SXy64	- - - -
+or09R	- - -
+INXxz	- - - !
+LYKHd	!! -
+YrK0u	! -
+eBpXe	!! -
+tpzJY	- - !
+zP8ls	- -
+Bgy4h	- - - -
+IiO8N	! ! ! !
+VfHeU	!! - -
+2bxWt	! - - - -
+OJHV6	- !
+gdznE	! -
+nefX6	! -
+obfmo	- - !
+Dy2lI	- !
+PPgTP	! -
+t0UkS	! -
+B4EuI	- ! -
+jFiDR	!! - -
+yBAWg	! - - -
+Mi8Ui	- -
+VWQH4	! - !
+3mYwf	! -
+FNy2F	! -
+Hlwph	- -
+LBGhe	- -
+iaSF6	- - -
+tarcP	- - !
+yZewh	- !
+GXdyR	-
+P7XaZ	! - -
+0oCRX	- - - -
+KfCtc	- - -
+9GMpr	!! -
+MyPE2	! ! -
+m7C7M	! !
+ScBqd	! !! -
+UaWsE	- !
+bqp1i	- -
+jEpwc	! -
+ndb6M	! -
+pPzSg	! -
+4djRL	- ! -
+6ha4f	- - -
+NFdqO	! !! -
+R6iSh	! -
+lf9jq	- -
+1Z7sl	- - ! -
+8DLVk	!! -
+OlX56	- - -
+TjYwm	- - - -
+4PbVV	! ! -
+8XHNE	! !
+hISlu	!! -
+pOfgX	- - - - -
+rPDTQ	!! !! -
+vzksV	!! -
+11sm2	! !
+Ehsfu	- - -
+bcofY	- - -
+2iunL	! ! - - -
+H6mxl	- ! ! ! - -
+cUaGz	- -
+vOVGD	!! !! - -
+E6waI	! !
+Jlhki	! -
+MAKm3	! ! !
+fuECS	! -
+IpQQU	! !
+Su7Ur	! !!
+V32xO	- !
+Wyfly	!! !! -
+b2FCh	! ! -
+leOu2	! !! -
+szjGf	- - -
+8hNLn	! ! -
+eL7Mv	- - -
+G6oR1	! !!
+RMCmh	- ! -
+XU0CV	! - -
+pa19d	- - -
+zmcE1	- - - -
+0X1bu	- - -
+1vHTM	!! - -
+7n5FZ	- !
+9KmfT	!! -
+Fuvtr	!! -
+U48cT	- - -
+XcHMA	- - -
+YXykk	! - ! !
+pxDvZ	- ! ! !
+qlfB6	! - !
+rHaX6	- ! -
+uFu2a	! !! -
+8dZ1x	! -
+SaJRV	!! - !
+bTGao	- ! -
+kGx8z	- - -
+XulPM	- -
+uKC05	! ! -
+xhP1B	! !! -
+zKZV1	- ! -
+4FZSN	- -
+hK4lE	! - -
+uCvUD	!! -
+uO04w	! !
+B1WN9	! -
+Oe7Bs	! -
+4L9is	- - -
+Qvqaj	! ! - -
+FQpoU	! !! - - -
+IJsx1	- !
+X4nQ7	- !
+on4XI	! !! !
+iLgDZ	! - -
+1RCfJ	- - -
+Jv8Rg	- - -
+UOlbs	!! -
+gAY3q	!! -
+MawgU	- ! -
+Wm05j	- - -
+exb5f	- -
+oeHlK	! !! -
+A3Ii5	! - -
+C024N	- ! -
+ChvOB	! -
+ICrJ4	- - -
+WHMF0	- !
+coyLW	! !! -
+lfKWC	- -
+5CV2E	- - -
+H1rvt	! ! -
+dEyki	- - !
+lOGrm	!! !
+YW5Km	! - -
+fmIlL	- - -
+X7qAW	! ! -
+g99Ue	! -
+myUFR	! ! -
+vpWGK	- ! !
+2pdr4	! -
+6wwmF	!! -
+RmiLr	- ! -
+Tfoto	- - -
+ntTil	!! -
+s2640	! - -
+Xrrez	- -
+hX3S4	- - -
+t0PuS	- ! -
+yWUZm	! -
+3qYc1	- !! -
+KNauY	! - -
+XCUgK	! - -
+sA3km	- !
+wfaze	- - -
+6hhqV	!! - -
+KwwoQ	!! - -
+PeFDc	- !
+hr8lt	!! - -
+pqYUM	!! - -
+wmQTq	- - - -
+FG0H0	- -
+JGjHR	! !! -
+tN4Ji	!! -
+tNLnS	! !! -
+CyVXv	- -
+PeFWm	! -
+UA9HW	- - - - !
+YEClT	! !
+b4IFp	! -
+iDLFP	! ! -
+n7YUZ	! ! ! ! ! -
+vAslh	! ! !
+HDUz3	- - -
+m11wj	! -
+qrhJn	- !
+z6Bee	- - -
+6yFwo	! !! - -
+Lyp8k	! ! ! -
+QYucw	- ! ! !
+TfDPh	- -
+ZU5JM	! - -
+jNDb6	!! - -
+lPCsV	!! ! - !
+RDS4Q	- -
+7uISb	!! -
+8N9ns	! -
+ixMwD	- !
+nAugs	- ! -
+tG2yt	! - -
+yFfBn	- !! -
+2HsJ7	- -
+E9JSM	! -
+OxVok	- -
+Tk7wG	! !
+bPP86	- -
+fYKDy	- -
+oAhl4	- ! -
+tZCX3	!! -
+WGqq0	! -
+hRJur	- ! -
+jgxPl	- !! -
+qsFaF	!! - -
+9dLnH	! !!
+DFNTp	!! - - -
+B7asM	! -
+En4vG	- - ! -
+hiG3o	- - -
+kKV78	! -
+pA2Ow	- - - - -
+wIMwb	- -
+0jnbe	- ! -
+RfBOd	! !
+adBVm	!! ! -
+uZ5Ee	! -
+PYZhD	! -
+RL0L3	!! ! -
+AETF3	! !! -
+Gechi	- !
+MKD47	! - -
+TpqbP	- - -
+fuVei	! - -
+nvpEN	! -
+ttCrl	- !
+2ElFI	- !
+Fnhi3	!! -
+W03vX	! -
+KCBaK	! -
+OG6Py	! - ! !
+UOHdO	!! !
+weg9e	- -
+AFbJv	- - -
+CPpmC	- ! !! -
+N0Dk1	- -
+oVzgG	- -
+ozglt	!! - - !
+thUYc	!! !! -
+xnlK1	! - -
+WGzZu	! - -
+hslvH	!! -
+qbWVt	!! - -
+Eqozh	! !
+RVuLa	! !! -
+S9XvC	- ! !! -
+az7Pn	- - !!
+28VVS	! - !
+8EMEF	- - -
+C5QIZ	! !
+VElux	- !! !!
+wBxz8	!! - - -
+DbAdh	- - - -
+U46I2	- - -
+ejNYD	! !
+vqQWY	- - -
+gQaWx	! - -
+sy1Jz	! - -
+y685y	- !
+7p7D4	- - -
+N66nX	- !
+YUoaB	! !
+dKsdB	- -
+kfYXA	!! ! -
+p3PsB	!! -
+y5MtG	- ! !
+eC1lO	- ! -
+hl179	- -
+wyk0w	! !! !! !
+x0T0Q	! ! ! -
+8i8RH	! ! -
+EljOg	- - -
+vM1gM	- - -
+GHkfi	! !! -
+IDyxL	! - !
+JMoii	- ! ! ! - !
+jyER0	!! - -
+8yjT9	- - -
+J16SF	- ! !! ! !
+NvGrE	! !
+QjuTV	- -
+UM8Xa	! -
+iTpoY	- - -
+80iMt	- -
+B8M0w	!! -
+QWBap	!! -
+fuDtB	- - -
+usjwi	- ! -
+ORXKl	- -
+gGEZT	! !
+gKFs8	!! - -
+lEsNv	! !
+3q7NL	- -
+EZIfH	- - -
+jAjBl	! !! -
+9hVEm	! - !
+U9sz7	!! - -
+uTT9i	! -
+1nZDN	- -
+26k8P	- -
+8AX8u	- !
+KVJcN	- - -
+cQ3KQ	! !!
+h7QuB	! -
+qyo8F	- !
+zY9ae	- -
+7CYkl	! ! -
+oDJkO	! ! -
+RJLhB	! ! -
+fTDXA	! -
+3y0cF	- -
+6D91A	- - !
+BJ6tj	- -
+iG5yq	- !
+mVxnK	!! - -
+zYAew	! - !
+5o4C8	! - -
+TmyNv	!! !! - -
+dhQ3s	! - ! ! ! -
+ub9yG	! - -
+7BZNn	! - -
+GuL99	! !
+TfbM3	!! -
+UhaIL	- !!
+vSqoo	- ! -
+6tItS	- - -
+T5POa	- - -
+grRqS	!! ! !
+7IeJG	!! -
+Fi368	- - -
+l90WS	- !! -
+qVaG7	! - -
+Ij8h7	- -
+KX54S	!! - - -
+WBoLo	- ! -
+u4Zvh	- -
+Hgtw0	- !
+FumTc	- !
+RNIPd	- - -
+jEalc	! - !
+mEIog	!! ! -
+LiNb6	! ! !
+N0dop	! - !
+UK6lR	- -
+g5tdg	!! - -
+DLswz	! !
+TFf4i	!! -
+Y1api	- - -
+58Gqy	- ! - -
+I2xCm	! !
+0dZNj	- -
+1HYPv	- -
+VEkvS	!! ! - -
+axfTN	! - -
+5lBvk	- ! - -
+A3NTk	! - -
+PkYOe	! ! -
+sYt2A	!! -
+ItJCh	! ! !
+EJd9g	- - !
+UmOIO	! - - !
+kY0v3	! - -
+Ys3Q6	- - -
+eAesG	! - -
+1fsLb	!! - !
+TYBOk	! ! - !
+WnK5g	! ! !
+d3YKs	- !
+dIa34	! ! -
+vGxy8	- - !
+6tZL0	!! !! -
+IJkNN	!! -
+BYRun	- -
+S9P0N	!! !! -
+WJHTp	- - -
+foAav	!! - -
+HeMln	! - -
+NeoRb	- -
+oMcXk	- -
+vPOG6	! -
+VwAJv	- - -
+YBHXs	! - !
+dykKe	! ! -
+fbF5Z	!! - -
+iz2S5	!! -
+LOP3p	! !
+cxPEm	! ! ! ! -
+lurEM	- !
+uCFHs	- - - -
+BDsjm	- - -
+K9lQk	- !
+opKeO	! - -
+Y3iLs	- - !
+ow5OF	! - -
+qUXvx	- - -
+CJNhu	! - -
+NHpVI	- -
+QjEFm	- - -
+zhjYj	- -
+jrgoN	- - -
+sJ3c5	! !! -
+ttQr9	- !
+IDtPE	! -
+Uqk00	!! -
+Xotu3	- -
+iqEkb	!! -
+Ib0nu	! - -
+LJQoZ	! ! -
+S1545	- -
+bOVLn	- - -
+xTytw	! - - ! ! -
+BREcd	!! -
+Gd3QV	! - -
+gMLsl	! - !
+aM9Cx	!! - -
+wXikb	- - - -
+DtPkR	- -
+FVcHK	! !
+ZZvRT	! ! -
+kj68Q	! - -
+mQQiU	- -
+C5ah4	! ! !
+YI7Ka	! ! -
+Yna7s	!! - - -
+cTAZC	- - -
+9lk0Z	! -
+cANCU	!! -
+mbvmJ	! !! -
+P4lQz	! ! ! -
+TUmgS	! -
+XXBI1	! !
+qiMUj	- ! -
+vnwfG	!! - !
+w7aOk	! - -
+66MuY	! ! -
+BUH40	! !! -
+DjEl9	! - -
+FJkZe	! ! - -
+O2aH1	!! !
+SDmFK	! !! -
+WCtBZ	! ! -
+1lwcs	- !
+GI0Kh	! !! -
+HplDZ	! - -
+IkVnS	- - -
+eEgI6	! -
+zu7Yp	- - -
+BieoH	!! - -
+WM26d	- ! ! !
+tRqDV	! -
+zRtiV	!! - -
+GkPqm	- - -
+8NlV2	! !
+Lnx7A	!! -
+DOR37	- ! -
+Pv9bp	- ! !
+U0WZc	- - -
+Vqs39	! -
+71rVO	- -
+GW8Bz	- !! -
+sDNhJ	- - -
+fLWmb	! !! - - -
+zBKUz	!! - -
+InWP7	- -
+oe6i7	!! - -
+48MMo	!! - - - -
+kKBY0	- -
+zDAEQ	!! -
+FkY62	! - -
+fLOEH	! - -
+zVb3k	! - -
+6RZ0i	! ! -
+Ft1d7	! - !
+birTN	!! - -
+dcvX0	- -
+89LpQ	- - ! -
+VOnzR	! !!
+tegS8	! ! -
+FXvQ1	- ! -
+FxxRj	! ! -
+ORPgv	! -
+LQQn9	- !
+8QPVf	! -
+sbBfb	- ! !
+FzoZf	- ! -
+Tro3l	- - -
+hAeQn	! ! -
+qnwTx	!! - -
+EMESz	- -
+Q5W28	! !! -
+j9fok	! - -
+kzMM7	- -
+9Ae0D	!! ! -
+jQoWk	- - -
+xUeRK	- - -
+uWI8Z	- - -
+uftuw	- - !
+ECcLW	- - - - !
+tYhdG	!! - -
+6MJn4	- -
+FDLfV	!! !
+lf20g	! ! -
+i8WwF	- !! - -
+tlF1n	! -
+zIjEi	! -
+PyTHp	- -
+V7WZZ	- - !
+klwSJ	! -
+1opdj	- - -
+UkUP9	! - - !
+a2JXB	- !! !
+o2bAg	- ! -
+6yklO	- ! -
+7sccg	- - - ! -
+6LPWs	! -
+fHM5z	- ! ! - !
+sWGLs	- !! -
+vUUJs	- - -
+CF320	! !
+JhvTH	! !
+IsYbj	! -
+UhKgn	- ! !
+XygUh	! -
+fPVXw	- - - -
+Dkwjr	- -
+HpJBH	- ! -
+nS2jn	! -
+Bxdma	! !! - - -
+SPbjj	- -
+W9yzz	- - - -
+acOWq	! !! -
+iNSbl	!! ! -
+HoOS3	! ! -
+bap1O	! -
+BKbGT	!! - -
+MaYwC	- - !
+vWEqM	! ! -
+1gyRz	! -
+7Og0K	- !! -
+RxeXZ	- -
+shYEF	! - !!
+v69iU	- -
+1W92r	! !! - !! -
+IJ8oH	- !
+UX1qS	- - - -
+hz3k2	! - - -
+DV4vK	! - -
+idV8B	!! - -
+dv0av	- - - -
+eH63P	!! !! -
+qbEy5	- - !
+7nR51	- ! - -
+ErlCM	! ! !
+MyKeY	!! - - -
+fWl4F	! -
+hAej4	!! -
+A6y67	! - -
+TYVpM	- - - ! ! -
+hXKWW	! !! -
+huD3H	- -
+xx0SQ	- - - -
+E6PGF	- ! -
+IuXId	- !
+Vyyv6	- - -
+bnNkX	! -
+2wzal	- - -
+HYShl	- -
+YewxZ	! -
+2tR46	!! - -
+hsceY	!! !
+pLfq2	! !! !! -
+cP8eD	- - -
+rn5OW	! ! - ! ! - -
+F4FMy	- !
+Gde5c	! ! -
+P5nEX	- - -
+X4ig0	- !! - -
+iWi1o	! - - -
+kV4Lh	- - -
+tghgT	! ! -
+HQinN	- ! -
+a9hV5	! !! - -
+cwt6I	!! -
+sMt6d	! - -
+3OwmO	- ! !
+PXZOH	- -
+QXcPr	! - !
+lCG74	- ! -
+wCSFU	! - -
+71ndE	!! - -
+7Zljx	! -
+9WNYb	- -
+RSlXa	- - -
+30L9E	- -
+GbzOs	! -
+HSaU7	- !! - -
+op2XS	! - -
+pQeI4	- -
+vF9xv	! - -
+B1a5T	- ! -
+DVdsX	! - !!
+POpiV	!! - - - -
+e5WTh	! !
+lPMwL	! ! -
+laZcM	! - -
+IClnu	! !! - -
+QkqrC	- - -
+Vwa7Y	- - - - -
+nxeIn	!! -
+GG9B5	- - - - -
+T405I	- -
+jE84w	! - -
+ywDCh	!! - -
+DniOU	! ! ! -
+bEgPE	! -
+sRkE8	- !
+v3jlz	!! - !
+Eapi3	- !! -
+gq00d	- !! !! -
+iy5Yj	! - !
+DWbuq	! - - - -
+JIMkg	!! - -
+sjyaH	! !! - -
+xSp3j	! ! -
+nWiO0	- - -
+psofg	- - - -
+onyZR	- -
+sdPc9	! - -
+1oqZD	- -
+CvvSw	!! - -
+VMr9f	-
+reOCh	!! !! -
+zovsC	! ! !
+UqpeM	- ! !
+a80PB	! - !
+RECoL	! ! - !
+ko6NP	- ! -
+CQca0	! -
+JlocV	- -
+gHU20	- ! !
+jqlr2	! !
+oMWyo	! -
+pLjUl	- - -
+wTkOO	- - !!
+GDP34	!! ! !
+fox0n	- !!
+lbhxf	- -
+3KZHW	- !
+WXNSI	- !! -
+ZyIlY	- !! - -
+lOq5c	! !!
+mRjBl	- - -
+wfvXT	! - -
+5pndC	! - - - -
+Pz812	- ! !
+Si0iw	- ! !
+ldPDX	!! - - -
+6YmtL	! - -
+jCbNE	! !
+mEcmv	- -
+5SJ36	- -
+8UBBm	! - - - -
+EqgLL	!! - - -
+N7chB	! !
+VdkXE	- ! ! !
+xKeIb	! - -
+yZxlV	! -
+1qyid	! -
+II144	- ! ! -
+JZD4W	- ! !
+Mr52K	!! !! -
+UlBjN	- - -
+smV0I	! -
+7kkQM	! -
+EfdvJ	! - -
+S53iE	!! ! !! -
+ajWCG	- - !
+qbWcB	! !
+1c27u	- -
+leer8	! - -
+m6hgL	! !
+tHLfk	! ! !
+vBzuJ	- !
+wTe0Y	! !
+DSR62	- - -
+FxQfU	! !
+McfbH	!! ! !
+X9WZT	!! - ! !! - -
+zFXeS	- ! - -
+5Gkpm	- - -
+Q5igU	- -
+VJlIk	- ! !! -
+lalRZ	- ! !
+OPgrV	! - - -
+EBGBO	!! - -
+FyEfd	! ! -
+GW7UA	!! !! -
+QHwu4	! -
+eX5yB	!! ! ! !
+q8PXA	!! -
+NLudz	!! !!
+RzWE9	- ! -
+ap8VO	! !
+vrwbB	!! -
+DGZxV	! - -
+lUSP7	- - ! !! -
+qzidF	! !
+3gmHO	!! - ! !
+gBbax	- - - !! -
+nPspv	- ! -
+6jPQh	!! - -
+LWxPW	! !! - -
+TTiTW	! !
+wJTZF	! - -
+xVZpo	! ! -
+BDPi2	!! - -
+dTVKS	!! - -
+vqKNc	- - - -
+4rGd7	! ! -
+BJX2l	! - -
+XP4Zb	! - -
+hLc9E	! -
+KZjjV	! !
+McrtO	! !
+rlGeD	! !
+x9LWm	- !!
+CkU5d	- - -
+PR83V	- - -
+RZ5eV	! - -
+TniE6	! !! -
+ZF8Mz	!! -
+ZLSLy	!! - -
+wK5ty	- !
+xk8A0	! -
+GvKB0	- !
+LZF9y	!! !! !!
+t4Pc1	- -
+uRjIt	! -
+L4NUd	- -
+QD5b1	- !
+TQrr4	- - ! !
+fxcze	- -
+204d7	- - -
+I2mZP	! -
+k35FU	- -
+tksHj	! -
+wQvh8	- ! !
+NHSme	! ! !!
+RurHu	! - -
+SLDfE	! ! !
+llcKC	- !! -
+D2EBG	- - -
+MJ3NS	- - -
+Pm4yv	!! ! -
+xjuyd	! - -
+0cQXN	! -
+DJ6MP	- ! -
+G1qGX	!! - -
+HANVo	- - !
+is98E	! ! !
+mw8iL	- ! -
+Ff14t	! - ! !
+XvZr9	! !! - -
+1tMK5	!! !! -
+ZLZaY	! !! -
+cRV76	! ! !
+eq0aD	! ! !
+qp18x	- -
+4h2SF	! ! !
+PdDWl	- - -
+QiW4A	- !
+Rz1rW	!! -
+kbOM7	- ! !
+rrSR6	!! - -
+wC7wC	!! - -
+KbwnG	! ! - -
+LRwTM	!! -
+eu4ln	- - -
+sAoi4	! !
+7dyqf	! - -
+9862H	! ! -
+aWK9q	! - -
+goNdM	! ! -
+Uv8a0	!! !!
+lIXTL	! ! - - -
+tqM8A	! ! ! - !
+Ia9yu	! - ! ! - -
+MQQOn	- !!
+UMxzq	- -
+b8uy8	! -
+dDtfC	!! -
+l8jO7	! ! !!
+uI4Uo	- !! - -
+zcTSz	- - -
+6PENx	- ! -
+VlcHf	! ! !
+ttN79	! -
+w1cLS	- - -
+61Y29	!! ! - !! -
+CHePw	! - -
+QWmqe	! !
+mr0ni	- - -
+2p4rR	! -
+b3UYU	- !! -
+nYqvN	!! !! !! - - - -
+nyrz0	- !
+wjv19	!! -
+Kg1N4	! - -
+Sn76b	! ! -
+lDJZL	- - -
+2UNnO	!! - -
+3wFtz	- - -
+3yxvm	! !!
+e4ktP	- - -
+mY3Ox	! - -
+CypkG	- ! !! !
+HKX9V	!! - -
+TBPZh	! -
+a1kGR	!! -
+3XWpw	! - -
+9gFuD	! ! -
+A0ZDN	! !
+EzqwY	! ! !
+RiCOy	- - -
+lRMOr	- - -
+3oGm4	- - -
+6OK6k	! -
+6lzHq	!! - !
+8rtR6	!! - -
+TtwLw	!! !! -
+56FEr	- -
+BD62R	! - -
+KC27o	! !!
+UkVo6	!! ! - - - -
+alFkF	! - !
+5aCxn	! ! -
+DJnyV	!! ! !
+clnvC	!! !! -
+dn5BB	! - -
+GPnWW	! - !
+NQ6K6	!! ! -
+rMxXQ	!! !! - !
+zTr5m	- - ! !
+1tWN2	! ! - - -
+6CCCl	! ! !
+AT4YI	! -
+QPjsN	- !
+ssUme	! -
+2oUA7	!! - - -
+45gm2	- ! !
+SrdJb	- - -
+XHocO	! ! !
+d4nyx	- ! ! -
+t896H	! !! -
+PwFXD	! -
+WthIm	! !
+Vv263	- !
+WJrnI	- ! !
+dMAh6	- ! !
+gTEBb	! ! -
+sdmY3	! - - -
+zevtX	! - -
+5sHw4	! !! -
+BgjHo	- - - -
+DKMue	! !
+K9vWL	! !
+Wszys	! -
+iAHWz	! - - -
+zwmRF	!! -
+GLbE0	! - -
+IWfIk	!! -
+PMkST	- - - ! -
+ir3kw	!! -
+odA17	!! -
+qD5HL	!! - - -
+yO7dW	! ! -
+6yxxw	!! !! - - - -
+Hk8hR	!! -
+IkcYr	! ! !
+O7OyY	! ! -
+SvWBr	!! -
+Y6nIc	- !
+YLbuo	- -
+gzcSc	- - -
+jdiKK	!! ! -
+liV9b	! -
+BBMkk	! ! !
+EucX4	!! ! -
+NIsCb	- - -
+YQUgB	- - -
+bk15F	- - !
+t75tl	- !!
+zfF8G	!! -
+1QaGs	- - - -
+2NvdN	- - -
+M2tky	- ! - !
+N2T3X	!! -
+2QEpc	- ! -
+4Sowo	- !!
+AoydW	!! -
+NQANW	- ! !
+NeCdb	! ! -
+RuAe6	! ! -
+rR2EY	! ! -
+taMu1	! - - !
+v9eT8	- -
+LxNak	- -
+kyoBS	! !
+yWNng	!! - -
+zTqBz	! !
+3u7E4	!! -
+DZzDj	- !
+RH2Ec	! ! -
+tNa5b	! !! -
+xBViN	- - - -
+Gp121	- -
+MI3cm	- !! -
+XMduZ	- - -
+kueHA	! - -
+nf65U	!! !! -
+p1Xvk	!! -
+OPUVM	- ! !
+aLVuY	- - - -
+fuiaG	! ! -
+gFA5R	- !!
+pTuFK	- !! -
+wqBrK	- !
+0RRAN	!! - !
+BG1hj	! ! - !
+5b0k1	! - -
+92YxX	- ! ! -
+9ty0B	! !! -
+ibC9f	! ! -
+EQ9L9	! !
+JQzcT	- -
+LNJAD	- -
+SLi24	!! -
+Z2x8w	- ! - -
+gZvw7	- - - -
+kiLBJ	! !
+ravyS	! - -
+rf3YU	! - - -
+2fGoV	!! -
+LRnKk	- - ! ! !
+hTBxq	! -
+uX27g	- -
+uZXA4	- ! !
+42SFq	! !! -
+4YMKs	! !
+8C2FH	! - -
+9u0tU	- ! -
+mPocV	!! !! -
+nlYz7	- !
+w96xT	! -
+9Xt6r	! ! ! !
+SUR50	! !
+XXNiR	!! -
+fqMg1	! ! - -
+nZHbu	- ! -
+3N2bM	! -
+AMatS	!! -
+J2F56	!! !! -
+Lx2gw	- ! -
+cuzBn	! !! - -
+ydUAn	! !! -
+6Kl3Q	! ! -
+a1vYH	- ! !
+rThkr	- - !!
+wQDsv	! - !! -
+6UOhY	!! !
+Tp61S	!! -
+eWlYb	- -
+nZdVX	- -
+3bozJ	! - !
+HM2ut	! !
+JLSwp	- -
+v14Vs	! -
+xOKF7	- -
+Gzs76	- - !
+Jh3uX	! !! ! - -
+M4EI3	! -
+V2Zpo	- - !
+ZU7DR	- ! -
+o3wx7	!! - - -
+8k2Da	!! -
+uD4XN	!! -
+FqpVS	- -
+Lo8gs	!! - - -
+MEHmM	- !
+Voven	! !!
+b5WVi	- -
+jzu8u	!! ! ! - -
+rw60c	! -
+zn5tY	!! - -
+yEHEB	!! - -
+4Wzk7	- -
+UgouC	!! - -
+jLcg0	! - -
+lpCdt	! !
+zpPxC	!! !
+5mflu	- - !
+5phsm	! !! !! !
+Mjjrx	- - -
+YhKer	- !
+qIh4u	!! ! -
+SrUxF	- - -
+aJ5fP	- ! -
+h08J2	- !
+iuy1n	!! -
+pCCJ3	- ! -
+zUfKu	!! - !
+AqMJD	! ! !
+C3Ghq	- - !
+MmK32	- -
+NLS2B	! !
+O0SLq	!! - - !!
+SXaqE	! -
+peHxs	! - -
+yOApF	- ! !
+CVkVz	! ! -
+cu4hC	! -
+fsmGH	- !
+pu7qQ	! ! -
+pwJPS	- !!
+9wMPK	- - -
+A2zNo	- ! !
+DQMbk	! !
+MfCQI	! ! -
+sm1Cr	! ! - !
+JJGVO	- - - - -
+LVtBJ	!! - -
+Gglak	! ! -
+TFBaP	!! - -
+yfpHk	! ! -
+5aJoo	- - !!
+FAmz3	!! - -
+Lxmu2	! -
+qhI5i	- - -
+smOo1	!! - !! -
+4bjo4	! !! !
+8bkZP	! -
+Ok5bJ	! - !
+c2AHU	!! ! ! ! -
+eYWTV	- -
+yurGn	! ! - !
+VSbGb	- - -
+VeZaA	- !! -
+f6Aez	! - - -
+jYh9S	- -
+mTKdJ	- !
+5JWTI	- ! - -
+A0Ei5	- ! - -
+GS667	- -
+TUlVN	- - -
+Xqa35	!! -
+iqzmK	! ! - -
+vAZcP	- - -
+wi6D5	! - !
+AK9qW	- !! -
+AO8zQ	! ! -
+StGu4	- -
+2GADV	! -
+HMk9g	- -
+bTwHx	! !
+p60Hy	- ! -
+tMNvd	- !
+1nx31	- - - - - -
+AaDpz	! !! !!
+P7bAk	!! - !! !
+YNDVj	- !! - -
+gYpyX	- ! -
+tnu04	!! - - -
+udLh3	- - !! -
+HIF2I	- ! -
+iC9Bp	- -
+nzUE7	- - -
+rWtNj	! ! - -
+8ZN6E	! !
+EhHLZ	!! -
+IaTfO	! ! !!
+VcaI9	- - -
+iuWAD	- - -
+oFaz6	!! -
+07CCA	- - -
+4CdDm	- ! -
+kAYHt	- ! !
+qaW78	! !
+tNo7l	! !
+zqWlx	- -
+Z9J6u	- ! -
+lQfGm	- ! -
+6Oqh1	! !! - -
+CoNAi	- -
+Yr5Pp	!! - !
+jjGoU	! -
+lVNiB	! - -
+lrYMa	- - -
+tyHdb	- !
+wJMyg	! - -
+2MIdG	! - ! -
+CxzoQ	! !! -
+IbZsU	! - -
+i1qJY	- ! !
+zv90j	- !
+22vvs	- !
+KwCwh	! ! -
+dWVcN	! -
+KCyRB	! - !
+VaW7X	! ! -
+n7bZn	! ! -
+PtPr6	- - - -
+WSB5C	! - -
+lR3oS	!! - -
+GhrOv	- ! !
+NKdmW	- !! -
+mZiHS	! ! - -
+oSbKR	- - -
+znvQw	!! - -
+lTaDJ	- - ! ! -
+B2HjA	! !
+DXYIG	- !
+DtSNk	! -
+QFm0J	- -
+WWx1X	! ! -
+zD5SP	! !
+NxJy4	- ! - -
+gdnxN	! ! - !
+6xQco	! - -
+9vaWW	! !
+ittxs	! -
+5eXUS	! ! -
+9zMqu	! -
+Tpfbb	! -
+lfF4q	- !!
+0uDAF	! - - -
+1CFFr	- !
+7TGJw	! ! -
+Ly2Wz	! -
+M4b6t	- - - -
+rCVab	! !! -
+Q7Wer	! !! !
+RZKIt	! ! -
+aqvmV	! - -
+pJQfU	- ! !
+OEwwJ	! -
+fCT2s	!! -
+3JF7h	! ! -
+cMV1y	! ! !! -
+GGwod	! ! - -
+sZYAq	- - -
+ywja6	- ! -
+E3tAK	! ! -
+SmRsf	! -
+TNkB7	! - -
+gM4rF	- - !
+uAcrD	! - -
+zXTiP	- - -
+0bzK2	! !
+10FxS	! - -
+YA2Cn	! - ! - -
+3yfkf	- - - -
+P4ehv	! !! -
+6I54Y	!! - -
+ax1As	- ! - -
+RkSsd	- -
+WfxcY	- - !! -
+ZoxF6	!! - -
+icsBq	!! ! -
+rm3J6	! - -
+UR8Oc	- - -
+mBBKl	!! - -
+uqHMd	!! - - -
+QKidQ	! ! ! -
+A27xn	- !! -
+KtUwt	! - -
+thfMP	! ! - - - ! -
+9hT42	!! - !!
+LkcSb	! !
+XtgPk	! ! -
+eLshI	- ! -
+swgo2	- - -
+6gfRb	! ! !
+Csrtr	- ! -
+mMFzp	!! - -
+aS9EY	! - - ! -
+3ILal	- -
+VcBwa	! ! -
+505sO	- - -
+EnfFb	- - - -
+NF0gk	!! - -
+iEbqM	!! - ! -
+iLUGc	- -
+oHJ72	- ! -
+pC1GI	- -
+sPzPR	- - !! - -
+mJfY0	!! -
+JYyPU	! - - -
+O0n4c	- -
+eEDFk	!! - -
+jDVRJ	- ! - -
+45UKK	- !
+6cOs6	!! ! -
+exuDJ	!! -
+r0PTb	! ! !!
+EdOxy	! - -
+RVipb	! - !
+avxB2	- ! !! -
+4qkFo	! !! !
+JjQLe	! -
+SGsMC	- - -
+qE6Db	! - - -
+1tPbe	! - -
+7Bnob	! - - -
+H8paa	- !
+Kt2xv	! !!
+Lz4oj	- ! ! - -
+nVGBU	- ! - -
+rVtpC	!! -
+0Rq76	!! - -
+UulI5	! !
+VCSXS	! - -
+w6zHZ	! !! - -
+0YxKE	! !
+BIUg8	! - -
+TB2ef	- ! - !! -
+wLjL2	- - -
+e3WNA	! - -
+Ks4Nj	!! ! !
+9Uzw8	- - - -
+p0ZCi	- ! !
+FSvQ6	!! - - -
+aVwbm	! !! !!
+movr1	! !! -
+nwedW	! ! -
+abKNV	! - -
+ghe8d	- ! ! - !
+zOVk6	- - -
+IiUn2	- ! -
+OVw1l	! -
+Wcm3j	! - - -
+Wu7kH	! - -
+e4lE0	! -
+0KxXw	- !
+AFBX1	!! - -
+FjOPu	- - !! - -
+R6xSH	- ! -
+tGmPA	! ! -
+K482B	!! -
+NPXGv	- ! -
+bWOLu	!! -
+ch47h	! ! - -
+eosUc	! !! -
+jU1ml	!! - - -
+m85oU	! - -
+7mVnx	- - -
+B5yen	- !
+SMmH5	- - -
+XY7sa	! ! - -
+gt5AA	- - ! ! - -
+rUsxL	! -
+HeY1E	!! !! -
+lnUva	! - -
+mbRIR	- !! - -
+sigmY	- - ! ! ! -
+9xY8u	!! ! -
+QemMJ	! ! - -
+77cxP	! -
+R8B7J	! - - -
+pyiTu	! -
+wlpY6	- - - -
+1zv5B	!! - - -
+OiVRO	- - -
+PkmO8	- - - -
+tz4Ha	!! ! ! !! ! -
+uJ4VQ	- !! - !
+XXEYW	- - -
+YRiZw	- - -
+se9pn	! ! - -
+DEmYW	- !
+iGxL1	! - -
+CkFUo	! -
+FPblt	- - !
+QeFVd	- ! ! !
+XJoov	- !
+XUsIA	! ! -
+1rMIB	! -
+I06qk	! -
+a10N9	- -
+oeuRT	! ! !
+qSn49	!! - - -
+uss0R	!! - -
+9d93N	! ! - ! -
+BvHaR	! !! -
+IPPbR	! -
+IVq40	- !! -
+bZJZO	- ! ! -
+sGdtb	- - -
+WXYAx	- ! -
+bhPaC	- !!
+fTkPj	! -
+kE1Ny	- ! !
+Q45x6	! !! -
+WGK25	- ! ! ! ! -
+bKBYL	! ! -
+lJQPs	- - ! !
+CwN70	! !! - -
+6tjol	! ! !
+KQRda	! !
+kXdu8	- ! -
+Cf3nd	!! - !
+KCjmj	- - -
+wSLc1	- ! ! -
+QC01V	! !! ! -
+thwti	! -
+X2Z1w	- - - !
+kxBUR	!! - !!
+wIYPS	- ! -
+AAH7r	! !
+J2g2U	- !! !
+aZjCx	- !! - -
+ngGqg	- !! - -
+rq554	- !! - -
+ADKkw	!! - - - -
+EoGdj	- - - -
+LQEFQ	- !! -
+ZdYru	!! !
+xiLPP	! -
+ySZBI	!! -
+1Dn1B	! - !
+l8sJc	- -
+BS4Pj	! !! - -
+Gfse5	- ! !
+u2o6z	- ! -
+7VGCb	- - - -
+zONHT	! !! -
+0Mf2D	- ! -
+TKrpg	- -
+22Yem	!! - -
+JyvMl	- ! ! ! !
+hPKJB	! -
+iZAk0	! ! !
+Wn1H1	! - !
+g1I7k	- ! - -
+3Fh6r	- - ! !!
+A622C	! - -
+lZc3y	! !
+0sDGy	! -
+sseiQ	- -
+5uZQd	! !
+rySKg	! ! - -
+t95rI	- ! - - -
+4nr0q	- - - -
+IXFio	! !! - -
+heGhS	!! ! !
+wXx1Z	- - -
+Pskqb	!! !! - - -
+cODee	!! -
+iy5kL	! ! -
+DSbXh	- ! -
+QgUIy	- - -
+lpkNH	! - !!
+qbfmK	!! !! - -
+7Kma3	! - !
+UjL3B	- - !
+KGgLp	!! -
+xsbvB	! ! -
+SrO4T	! - -
+QrRXA	! ! -
+V5k28	! !
+CxwCU	!! - -
+D9xFW	!! - -
+DgWXt	- ! -
+pDM7i	!! !! -
+p8St3	- !!
+tW9E8	! ! ! -
+yhDzp	! !! -
+KAuMJ	!! !!
+RgIPa	! ! !! -
+bKJ9Y	! !
+LjehB	! ! -
+4eGMp	- !!
+U5GSn	! - - - -
+G52B9	!! - !! -
+PQh5b	- - - -
+fUXK7	- !!
+fh5Qi	! ! !
+kxpPP	- - -
+F3j6s	! -
+TI8I3	! ! -
+TmlTc	! !! -
+026sh	! !!
+CXkGR	- - ! -
+9q1Ve	- - !
+4nvmo	- !! -
+YrREG	- - ! -
+u7wWB	- ! - -
+8Df7f	!! - !!
+j82aA	- !! !
+3G4mt	! ! !
+W0CPY	- ! -
+uA9gU	- ! ! !
+nv5Tm	! - -
+BOU9m	- - -
+l7foS	!! - ! !
+b1Gk8	- - !
+A1lMx	! -
+BrnZZ	- - !
+JFbh1	!! - ! -
+S9IA8	! !! -
+XhIpz	!! - !! -
+wYHOO	- - - -
+8y4q4	!! - -
+AGyHS	!! - - !
+XgP8a	! -
+4O35q	- -
+Y7yvu	! - -
+9n86k	! -
+6RC5k	! - -
+BdvSu	- ! ! !
+MFnfO	! ! ! - -
+CxnPQ	- -
+rkfOA	! ! ! !
+ZlLzF	- !! -
+ncIOv	- -
+wJ6lh	!! ! -
+yI9Ax	! !
+8N8vz	!! - -
+Kifii	! ! - - -
+kHWAF	! - !! -
+jHtxx	! !!
+rCyjg	! -
+wdGsY	! ! -
+Y1fc0	! !
+YQej4	- - !
+buZYQ	!! !! -
+1CHgM	! ! ! -
+ChI95	! ! ! -
+8vvp3	- ! !
+CbHLn	- - -
+nhsvC	! !! - -
+vAaPo	! - - -
+WgenH	! - ! ! -
+c2m0G	- - - ! -
+1xA5F	- ! ! -
+UVjDa	! ! -
+gYh3I	! ! !
+qn03i	!! - - -
+wA95T	!! !! -
+yBd8j	- - -
+Bpndk	! - - -
+Sn8cX	!! - !! !! - -
+rsN7r	! !! -
+xXhGM	- ! -
+z3Q0l	!! - -
+yKoxp	! - -
+3PDoL	!! - -
+40pKU	! - -
+luIGC	!! - - -
+zaeJ1	- ! -
+eiuQW	!! -
+MGbsY	- !
+imh96	!! - -
+qvQLR	- ! - -
+sjP0r	!! ! -
+4cQ85	- ! -
+73Fm6	! - !
+pHn0c	! ! - -
+zbrrP	- ! ! -
+G8tfw	! !! -
+L4dxL	- !
+tE79d	! -
+zYRnc	- - - -
+IRego	!! -
+Oqgin	- ! -
+9Aa0w	! !! -
+MP0WK	! ! - -
+czmks	- !! - -
+7C3zB	! -
+0aX8g	! !
+NsDQp	- - !
+Yb2En	!! ! !! !
+0FePW	! - -
+5KH4w	!! -
+JadAe	! !! - -
+RhqoJ	- - -
+ejdnq	- - -
+Z8cIm	- -
+vnQlk	! ! !
+Kj45Q	! - -
+4fhoC	- -
+Cqytc	! - !
+LMno3	! ! -
+xuBBv	! -
+uvIPS	- !
+01lBC	!! - - -
+HMwlx	!! !! - -
+a1Ugm	!! ! - !
+IKImV	!! ! -
+2KiEU	- !
+9fkGD	! !! ! !
+HBPNe	! ! !
+fQUcP	! ! !
+n1IXG	- - -
+rHoAC	! ! !
+2lhYE	! - -
+Kcg3D	!! -
+j6DyO	! -
+aZ0jw	!! -
+FuoxS	- - -
+fDcuK	! - !
+sMD4i	! !! -
+B6yqP	! !! !
+dDKiA	! - -
+wgA4H	! !
+5TPiI	!! !! - ! -
+FuNQE	! - -
+jtaTD	- -
+iSuas	! - - -
+OTmnP	- -
+kN1Nq	- !
+8T2Qa	- ! ! -
+D6GUz	!! !! - -
+JXelV	! -
+1PwuR	! ! -
+cMT75	- - -
+dQPIJ	! !
+jfEWV	! - -
+BYAFU	- !
+ELhFG	!! !! - -
+Pz5Lu	- !
+haLUm	!! -
+vWWwX	! !
+yCYul	- - -
+H3Ikm	- - - - -
+KAU67	! !
+BiU09	- -
+ArGXo	!! - - - -
+RSMFF	- - !
+X2vs3	! - -
+mm9KC	! - -
+6YMQo	! - ! -
+Bi1c3	!! - -
+LK9Pc	- -
+OP3eE	! - -
+neLiC	! ! ! !
+9iUz3	!! - -
+00Mca	! -
+BI0zn	! !
+LeOow	- !!
+V3K9L	! - - !
+BgTfK	- -
+nMbBh	!! !! - -
+4WteW	! - !
+nPE02	! ! ! - -
+gEyTe	- - - !
+y92Mp	! ! -
+zBoci	- ! -
+M5wJR	! ! - -
+rQnvT	- ! !
+Ckags	- - - - -
+ZZbWW	!! - !
+hLym6	! -
+D4XsW	! - -
+YM8Sx	! ! -
+ejgSb	! ! -
+fzQNU	- !! - - -
+qo03v	! - -
+LSupq	- ! - - -
+PR8Vw	!! - -
+qdwmz	- - -
+W1rhc	! - !
+LgZMd	! -
+2jzHy	- ! !! -
+7fcZi	!! ! -
+aHubK	- ! !
+rcV8D	- - -
+VNbXP	!! - -
+rZRXO	- !
+E7hCs	!! ! -
+igCTb	- - - !
+KdLX2	! !! ! ! - - -
+tAjpN	- !! ! ! -
+GPHxY	!! - -
+Jh01r	!! - -
+RwOod	!! ! !
+nBiap	! !! -
+uWaoa	! -
+d86cs	! !
+hM5rO	!! - -
+i2QK9	! - ! -
+C9QHW	!! - -
+rSTAV	!! - - -
+vUFf6	! - -
+5Xots	- !
+yC4KG	!! !! !
+cLCCq	- - !! !!
+lzTOZ	- - -
+J1Pjt	- !!
+SFUiT	! ! !
+Y0OeG	! ! !
+ioDTP	! - -
+Q861j	- - !
+nwSd6	- !
+wZ79h	! -
+0DAb8	- !
+0tDxZ	- ! ! -
+IAU3k	- !! - - -
+K8Pbc	- ! - !
+R4A2n	! ! -
+mI5aF	!! - - -
+2RkdZ	!! - ! - -
+sRaOQ	!! -
+OJMtE	- - ! -
+KUhUD	- ! - -
+VFVuT	! - -
+iq1eW	! ! !!
+BmzKS	!! -
+do7Po	- !! - -
+28aus	! - ! -
+PPi0N	!! ! -
+Xeroq	- ! !
+r8Agf	!! -
+nFiY3	- - -
+7wyRP	! ! ! -
+FzBIS	!! -
+yuLvx	! ! ! -
+vmydS	! ! -
+2H27M	!! ! -
+LjSyH	! !
+WmBQI	- ! !
+Qp9wx	! - !
+fwlyP	- !! -
+BvngD	!! !!
+lt9jo	!! -
+rKq66	! ! - !!
+4qEJe	- !! !! -
+FI9ST	- ! ! !
+5zXjD	- ! -
+Dac8f	!! - !! -
+Llc9s	!! !! -
+MgkeY	- -
+RlGHV	!! - -
+TTCnp	! - -
+cLFdW	- - !!
+dEyKR	- - -
+puT0H	! !! ! -
+u5aF3	! ! -
+0qNmn	! - -
+4MAGK	! ! -
+E5YcQ	- !
+QElPa	! - !
+WKhFc	- ! - ! -
+cEguS	- !
+mtY5p	! - -
+w2Y1t	! ! -
+6LLvx	- - -
+9Ybkr	! - - -
+9yRgT	!! !! !!
+BdczB	!! ! -
+C0ruZ	!! - -
+GM7HJ	!! !!
+LJE2V	! !! -
+LQNFY	! - - -
+P7Tna	! - -
+XCRbS	- - - ! - -
+oMbhH	! ! - ! -
+v96Cg	! !! - ! - ! -
+x6R0F	- -
+71Skd	- - !! ! - -
+Flw12	!! - !
+L1Emc	- - ! !! !! -
+NZwy4	! ! !!
+PI5WX	! - -
+QZKAs	- !! ! ! !
+eVOI7	! !
+jE3yu	!! - -
+kHoLp	! ! - - !
+PYHLI	- -
+UBHkc	- -
+UbjUM	! - -
+ZMqbO	- -
+aAwT1	- ! - - - -
+qVQZt	! !! -
+tj09X	! !
+tlOE9	- -
+197G1	! - -
+6S0Fb	- -
+755q8	! !
+LPQMp	- !! -
+Onkzn	!! ! !
+Q5jAr	!! -
+i58GX	!! - - !!
+ix43W	! ! -
+qQKeH	! ! -
+tFjmz	! -
+vNVan	! - -
+1aL6f	- ! - !
+5bzFQ	!! - - - -
+Dmczo	!! ! - -
+Z8zPe	! ! - -
+b6Y5O	!! - - -
+dATrv	! - ! -
+eeAAN	- -
+voSNA	!! - !
+F5fW1	- - - !
+GddGn	! -
+JIaYi	- !! -
+KSoPQ	- - ! !
+WJUYt	- !! ! -
+XHC40	- ! -
+YevVo	! - - -
+zrQZr	- - ! !
+EYgYi	! -
+VRkE1	! - - -
+Xtsuc	- - !
+cD4E6	!! -
+9Sln5	- !
+AIpaQ	- - -
+NAxGs	! ! - !
+QKAQr	! ! !
+V7FlF	! - -
+ch1Ls	!! !
+qXyyY	! - !
+xmjFz	!! - - - - -
+3LDVN	! - !
+DAswK	! - !
+Zi8zo	- - -
+ec6i0	!! !! !!
+nYVVX	- ! !! !
+sgSxO	! ! !
+uhhpU	! -
+0jfTz	- !
+7P78O	! - ! - -
+FOpxg	! !
+GKeYg	! ! !! -
+MTksg	! ! !
+fley1	!! ! ! -
+m9lSQ	- - !! - -
+mEQ1W	- !! -
+pW3Xs	! - -
+vepJn	! ! -
+vvtfF	- - -
+OPOno	! !!
+SsylQ	- - -
+Z8oox	- ! ! ! ! ! -
+bbBiR	! ! - ! -
+fB8yR	- - - -
+ge44w	!! - !
+oOzro	!! - !! ! -
+omliR	! ! - !
+qN0Dw	! ! - -
+tn7cC	- -
+7VuWS	! !! -
+AM4r4	! ! !
+LGiwJ	- - !
+S4Y4E	! - -
+Uxg4s	!! - !
+cfLoB	- ! -
+f6vqj	!! ! ! !
+iDhZS	! !! -
+inbXx	- ! !
+jvmNo	! ! -
+pF59S	!! ! ! - - -
+vwhyt	- - -
+1UYK1	! - !
+6fLnz	- - -
+I8pfh	- - - -
+Nbuur	!! !! -
+V9JGd	- - - ! !
+Y4qmY	! !! -
+f2MqG	- ! !
+gW7cn	- -
+jGEa0	- - - - -
+nsJ2B	! ! -
+oUFXN	! ! !!
+5uOMg	- ! - -
+AOO46	!! !! !
+OjpMi	! ! !! -
+R1f0V	! ! !! - - -
+Vsqcs	! ! !
+q0hrv	!! ! - - - !
+4o8p5	! - -
+Hw1FJ	- - !! -
+JvpbL	- -
+NTCmF	! -
+NVi7H	- - - - -
+O6hLm	! ! - -
+RGyGn	- ! -
+TNs32	! ! - -
+ll6Q1	! !! -
+tBzlZ	! ! ! ! !
+4Ns7G	- !! ! -
+4syxE	- !
+EAv2w	!! - -
+Vo4bw	- - ! -
+VqUQw	- -
+p3HtL	! ! !
+pzGzZ	- !! - -
+xKWjO	! - !!
+16zXU	!! - -
+7L2VR	- - !
+BzhFn	! -
+FPMsC	! !!
+LcjGY	! ! !
+PzhdQ	- - !
+QWvhc	- - ! -
+WMWuv	- ! -
+a2EWo	! ! -
+kGjEA	! ! !
+mPjPj	! ! !
+ofVr9	! -
+z5hnX	! ! -
+1EJ4C	! ! -
+9N423	- !
+CVU1o	- - ! !
+O67f6	! ! -
+SFDRi	- !! - -
+bf15Y	! ! !
+omWuh	- - -
+pfZEY	! - - -
+2wMfF	! ! !
+GSdbw	! ! -
+Gn7Ek	! -
+MeHOY	! ! -
+RNEa1	- - -
+UwDdr	- ! - -
+VRRat	! !! !
+ZFF1P	! - -
+ZjXww	!! -
+eBVG2	! ! -
+eG0B7	- !
+fR2gn	! -
+nMbJB	!! ! !
+p9wIn	- - - - - ! ! !! -
+wTtIu	! ! -
+8l5lI	- ! -
+CIGcf	- - !!
+Hrlq2	- ! ! -
+de0m6	- !! !!
+gJomt	- - !
+lWTVj	- - -
+qX8RG	- - - -
+vjear	- ! -
+9TyP8	! !!
+Jo37O	- - - ! !! -
+MuIev	- - -
+hr63s	!! !
+tE9zJ	! - -
+tNRrz	! - - -
+2HXV7	- ! -
+5q2ar	! ! - !
+JU8iu	- !!
+QGMa9	! - - -
+WQAUH	- !! !! -
+eULy1	- -
+sYsca	- - !
+va2EL	- ! !
+6dcqK	- - -
+8bpQ7	- ! !!
+AaltP	! ! - -
+e9mI5	- ! ! ! -
+lJdNU	! ! -
+oru5i	!! !! - -
+rcb1m	- - - -
+zNs6v	!! - -
+zWfjS	!! -
+0NySe	! !! -
+0Xw9N	- ! -
+7PP5p	- - - -
+MFcYp	- - -
+R1NxU	- ! !! !
+YGCEC	! -
+gfD04	! ! !! !
+hPRJT	! ! - -
+jIkcc	! - -
+jqNzG	! - -
+ncYPj	- !!
+nqSOj	! - !
+oTSHS	! ! - - - -
+v57qO	! -
+v6vYB	! !
+0FhL1	! !
+0QZR9	- ! ! -
+0fae5	!! -
+3ng11	! !
+GfMHm	- - ! - - -
+b5uch	! -
+bEvGE	! ! - ! !
+bwznw	! !
+taDgO	- !
+sgDk1	!! -
+zWhQu	!! !! - -
+3gxSD	- - !!
+43ANl	! -
+6uUqO	! ! -
+7ALkn	!! - -
+DbEmn	!! - - -
+WJjk9	! ! - -
+c58FM	! - ! - -
+dw27D	!! !!
+Lpb7u	! - -
+RWc35	! !
+f95Du	- - - - !
+3S4Yd	! !!
+3bjG3	! - -
+4ZuBh	- !! - -
+5CTXa	! - -
+6haLt	- - -
+7YcfG	!! !! -
+8gXcH	! -
+LZNGJ	! - - - -
+YckFf	!! - -
+i5AAY	! - - -
+kjeox	! !
+QiuhO	!! ! - -
+5A95J	- - !
+KQhpF	! -
+QlaDJ	! !
+QtpiX	- ! -
+ThYpR	- ! !! - -
+aMKPt	- - !
+bWddD	- !!
+pm0oU	! - -
+tGzIR	! ! -
+upCWc	! ! - -
+4W1dE	! ! !
+794IG	! !! - -
+BSxOC	! ! ! !
+EUTr3	- !!
+F1BAG	!! ! -
+KMHzy	! -
+LCsLo	- - -
+a7BIO	! ! -
+ypzMV	!! -
+A6JDG	! ! -
+Glzge	!! - - -
+IA40s	- - -
+bwMix	! ! -
+dop1R	!! - -
+iAuhV	! !! -
+rrBI9	! ! -
+uVbCv	- -
+5ltBY	! ! !! - -
+AQPIc	- ! -
+JA1Ul	- !!
+JCJ9X	- - - - -
+QrZcI	! - - -
+TDDdT	! - !
+tSVHC	- ! ! !
+097kn	- - -
+4AfLZ	! - -
+BRVQk	!! - -
+PKxAR	! -
+ZVyOz	- !
+a61iB	! ! ! -
+l78co	!! !! - -
+sEl04	! !
+yfVYB	- - ! -
+32NsG	! !!
+5iuM0	- ! - -
+9dujF	- !! -
+Csibh	! ! ! -
+SZ8yi	- !! !!
+cDPhT	- !
+jCzts	- - -
+lzTPy	! !
+mPMkQ	! - -
+mdTwP	! !!
+sIlxO	- - -
+zgle4	! !
+0eT3m	! !
+4GhUm	! - -
+HWzWF	- - -
+NAEHm	! -
+PKmnx	! - -
+SHKLd	- - -
+kMaC1	! ! - -
+kfusp	! ! -
+nNHSH	! ! !
+tC3hw	- - - -
+PwfZd	! -
+5NmSg	! !! -
+67eP6	! ! ! ! - -
+AfYXj	- -
+GQB6C	! !! -
+Gf30u	! ! - - - !
+JEGK4	! ! !!
+SkRzv	!! - -
+azZy6	- - -
+h6jPa	! ! -
+j2CKU	! - -
+ttPr8	!! -
+2rvJA	! - -
+OLrDE	- ! !! -
+j4GpE	! - -
+mJH89	- -
+3wQkh	! ! - -
+9roGK	!! - -
+CurPx	! - ! -
+FAFj4	- ! -
+NdP2x	- ! -
+OZcsu	- ! -
+WcviO	! !!
+bDPvR	!! -
+nsFFW	- !! - - !! ! ! -
+nuUEk	!! !! - -
+os7Y1	!! - -
+0XsFq	- - -
+GSOsK	!! - -
+Glmbs	! ! -
+HMf8H	! ! ! -
+KgdOa	! - - -
+Ky8IB	! ! - ! - ! ! !
+VRTaY	! -
+WeTjW	! - -
+aJK5z	! ! -
+hkEZp	- !! !
+iiglp	- - -
+mTJEe	! ! -
+39a93	! !! -
+FLguD	- !! - -
+HW9pt	! ! -
+V2XP0	!! - -
+WCEPn	- - !!
+Yd4lq	!! - - -
+fupga	! - - - - -
+umFNz	- - !
+MtZKj	- -
+NqvFO	- - - -
+QDNwS	! - !!
+aYwIA	! ! - ! -
+s21aZ	- - ! -
+08Z3G	! - -
+2xjOc	! - !
+7kG3u	! -
+BChHt	! ! ! ! ! - -
+EnPAi	!! - - -
+LrvaH	! - -
+PHNxr	! !
+X9ZOh	!! ! - -
+fNbl4	!! !! -
+giwMx	! ! -
+rjXxp	! - -
+DXfUj	! -
+PXga7	- - ! -
+PssXl	! - ! - ! ! -
+cPg4J	- ! -
+fX7dW	! - ! - -
+i0Q6m	! -
+oWRtd	! - !
+sEmJY	!! - !! -
+umWaX	!! - - -
+zcqx0	! ! !
+BVHCa	! - !! - -
+KPHeb	! - ! -
+MK5ub	- - - ! !! - -
+MwZeX	- !! -
+ZE1PL	! ! !
+BzkfC	! - -
+WWVMv	! ! !! - !
+mgytl	- ! -
+rL1hk	- ! !
+RFXUF	! - - -
+ghXNM	- -
+B19OD	- ! -
+CB7uC	! -
+Gygv5	! -
+Jf9OO	- !! - - -
+JkkIv	! ! !
+o6DHC	! ! -
+pAupB	- ! !
+3uViG	- !! -
+BvjkD	! !! -
+J38h6	! - !
+gZZHe	! ! -
+uoFuO	- !!
+x7iZT	! - -
+ITDmA	! ! ! ! -
+Rnkwc	! - -
+XECMN	- ! ! -
+fXF7U	! - !
+n8HZ1	! ! -
+oG1Hc	!! - - -
+7ethn	!! ! !!
+7g90H	- -
+XiNKT	! ! ! ! !
+iJP1p	- ! !!
+jdcW6	- ! -
+zZdsv	- ! ! - !
+0BIMV	- ! !
+2PStl	- - -
+3HL2C	! !!
+BXjnv	- ! ! -
+EitG7	! ! -
+ZUeDw	- - -
+kc3yt	- ! !
+1BUF6	! ! !!
+6mJ5t	! !!
+C3352	- ! !
+DaUBy	! -
+L33aV	! ! ! !!
+v9DPM	! -
+z1MsK	! - ! !
+6fzMj	! !! -
+9n7oq	!! !! - -
+MVKtb	! ! -
+UJ31X	! - - - -
+ZlLt5	! ! -
+arepH	!! -
+hRuLN	! ! !
+nxRzF	- ! - ! ! ! !
+uZSXc	! ! ! -
+wyeMG	! !! - -
+2rJZ7	!! !! - -
+exoP3	- ! -
+l5FkS	- - !
+3wGAE	! !
+JBB4x	- !! !
+Y9GKA	!! - -
+w9mT1	! ! -
+BR7fK	- - -
+GKCzE	! - !
+KCIPv	!! - - !
+LjfIl	! -
+BgpaT	! !! -
+pgiLg	- - - - - !!
+t8VfW	! !
+46r5e	- - - -
+KzPD3	!! !! !
+RBlsd	! !
+h2ZG3	! - - -
+3tx9t	!! !!
+4leHq	- - !
+73mql	- ! -
+7qTdn	!! ! -
+AwoBO	!! - - - - -
+IusOZ	- - - - -
+NWR1l	! ! !
+co49Y	- - -
+ddcr8	! ! ! -
+ffiUt	- ! -
+hZiQO	- ! - - - - !! -
+pvBry	! !
+zC0zq	- - ! -
+3YUzr	- ! !
+BNnJj	- - -
+C3rPo	! ! -
+DQHP8	- !! -
+VVlEF	!! !! -
+Ycdwe	! - !!
+rLnKx	!! !!
+rLrLc	!! - ! -
+yy2rz	! ! !
+A0Nnu	! -
+GKv7n	! ! -
+Ts7LR	- ! !
+XKL3O	! ! - !
+aW9o4	! - -
+bnR1D	! ! ! ! -
+k3EhQ	! ! - -
+vlJLj	!! - -
+zbQdH	!! - -
+5zT3g	- ! -
+E0V9A	- ! !
+Mj1lb	! ! - -
+iKdP4	- ! -
+sobdq	- -
+twv2q	!! - - -
+zR51s	!! - ! ! !
+92lOL	- -
+9s5n3	- -
+HxKjz	! - -
+KNOdU	!! - - !
+RsENg	- !
+Ue6oA	! ! -
+4IL79	- - !
+7GkCv	! !! -
+qmWPb	- - !
+C95Ce	! - - - -
+CgewD	! - - ! !
+Id9ic	! ! ! !
+JiFaW	- !! -
+PrkPN	!! - -
+REeAr	! ! - -
+lJmQe	- - - -
+rEX9x	- ! ! !
+vEgz5	- !
+4eLak	- -
+FDqMw	!! !
+MOy6x	! !! - !
+olbCq	! ! ! -
+CM4gr	- - - !
+MK7TF	- -
+ToV24	! !! -
+ecbgY	! ! !
+mnR2c	! ! ! -
+rolub	- - ! - -
+vUZoR	- - - -
+ve5lA	! ! !
+yS6J8	- ! - ! -
+3vfCC	!! -
+6zYeO	! - -
+GjkrF	- - - -
+MFFqY	! !
+MprvS	! - -
+e37Ed	! ! - - -
+jkzzl	! ! ! ! !
+yEmw1	! ! ! !!
+3dbWC	- - !
+4XBYm	! - - -
+4uvOu	- !! !!
+SgzPM	! - !! ! !!
+UHTjl	! ! !
+ctI9I	- ! !
+jMhzl	! - ! !
+louks	- ! ! - -
+o9Faq	- - !
+wicMq	! ! - -
+0vlay	! ! ! -
+5FZI9	!! ! -
+5QJuO	- - -
+J9jKr	!! -
+UXbE2	!! - - - -
+4OMeM	! -
+6UVqp	- ! ! - - !
+HGDqU	- !!
+PmpGj	! ! -
+W34Zu	! - ! !
+Wkuc2	- - ! -
+euerB	!! - !
+iRRwL	! ! -
+rFqsa	- -
+yJvtj	- ! ! - -
+S7z8T	! - -
+ZiV78	- -
+nfNjl	- - -
+1S0qn	- - !
+4r355	! !!
+AKSLP	!! - - -
+eXzoE	! ! ! !
+g63Js	- -
+p26DU	! ! !!
+s3rDk	! ! ! ! !
+uvi9L	! !
+Fkye1	- -
+IB6s9	! - !
+RckJX	- !
+sCmnm	! ! - !!
+u0KxZ	- - -
+u5uCV	!! ! ! -
+weMmL	- - !
+DaCwA	- !!
+Jm5Of	! - -
+LOZYK	!! !! -
+Nooq1	! - -
+NsjFh	!! - -
+WAIpw	!! ! -
+cPb9q	- !! !
+AFI6u	! -
+F1esx	! -
+Pxk2g	! !! -
+QqZf3	! !
+ore97	! !! !!
+q2bPX	! ! -
+u3NaL	- ! ! -
+uFWOa	!! ! -
+17kdj	! ! - -
+Ifz4L	! - - -
+KX2cI	!! - - !
+05F1i	- !!
+E1rNs	- ! -
+LU11O	! ! -
+TDT2l	!! -
+siwrG	! !
+zk6Fy	- ! - -
+9eBfV	!! - ! !! - ! !
+DfB3J	! ! !
+EwPUU	- - -
+Kdrv4	! - - - -
+VLyaN	! !!
+hBudE	- ! -
+5r6Da	- ! -
+6KxNF	! - -
+FVNvi	- - -
+IysBZ	! ! -
+S0eWH	! - ! - ! !
+VUAsX	! ! ! -
+4ZJy1	- !!
+B9cMf	! - !
+EEfxm	!! - -
+JLheB	! -
+Vw5ud	- -
+XOZ1F	! - !! -
+YXjZp	! - -
+bsaJ8	!! ! !
+eKVlR	! -
+fnSov	- - !
+42Au6	! ! ! -
+ELgfr	- !!
+Gu7wZ	! ! -
+Hg7xO	!! - -
+NemYc	! !
+P25wK	- ! !
+PU8vi	! !
+SDdFA	! !! -
+Ug5lh	- - -
+WAAnV	- - -
+rX8tG	! - -
+GFaNl	! !
+eVJ6y	!! - - - ! -
+it6MD	- ! -
+j34Lj	! !
+jNGHx	!! - ! !
+tOfeD	- !
+8u0rk	- - !
+Aqsf0	- - !
+OgcVT	- ! ! -
+Y7LmE	- !! - - - - -
+YteMz	! !!
+sRTXT	- - -
+uSwgZ	- - -
+zu4oV	- -
+H3223	!! !
+PQAJB	! !! - !
+RTP0b	!! !! - -
+lCvio	- !
+n00tp	! - -
+uToGN	! !
+vdOXQ	- ! - -
+yoD3W	! !! - -
+yu91h	! - !! ! !! -
+9LMdf	! !! -
+CBvus	! ! ! - ! - ! !
+SfJxa	- - !
+apQD0	- - -
+ffUce	! !
+hIm5v	!! - -
+jXiVp	! !
+xD14b	- - - -
+2GWtd	!! - -
+8veXE	! - !
+AXQni	- ! !
+J9SYo	! ! !
+PTTGz	!! ! -
+Q01ov	- - !!
+TCqRu	! !!
+X4BZp	- - ! -
+eow1V	! - -
+2uRcJ	! ! -
+G6meO	! - !
+HrLZc	- - !! - -
+PLuhA	- ! -
+kC78J	- - ! -
+vnfOv	- ! -
+JAIXE	- ! !
+iKG7p	- ! -
+1ZTQ4	! - - !
+Htqhe	! ! -
+JZmpY	! !! !! !! !
+LGBxO	!! !! ! ! -
+PQZZ5	! ! -
+kEWXy	- - -
+otpuJ	! - - !
+rXB7q	- !! - !! - -
+vWkjV	- !
+07wvy	- - !!
+DRaXP	! !! ! -
+ElkAk	! - ! ! -
+Hgx4Q	- ! !! - -
+UUCWP	! - -
+Yqdjp	!! -
+aDMwS	- !
+gqCho	- - -
+mIgHr	- ! - !
+qo0mw	- - -
+vOM1T	!! - - ! -
+4OxgC	- - - -
+QFtTe	! !! !!
+agJS5	!! ! -
+oAOP0	- - - -
+GNbUU	! - -
+Hkb4x	! ! - - - -
+hPVqm	- - -
+k5JdU	! - -
+o5g51	- !! ! - !
+9MdAG	! - -
+EO47V	! !
+Qiabg	- -
+kzRMS	!! - !!
+w7rCH	- ! !! -
+TlWWs	! !
+fNMgw	!! !!
+Br6Bz	- - - - -
+LDZEK	! ! -
+S70Ol	! !
+Thtu7	- - -
+Xsveb	! ! - !
+2czCv	! ! - !
+6x1a5	- ! -
+GsBY7	! - !
+JTeCb	- - !! -
+K3PkU	! - - -
+TOxsA	! ! !
+dpaQ5	- ! - -
+eNVLm	! !! -
+ecajL	!! !!
+4MY0c	- !
+SFwNt	! - ! ! -
+fMtc9	! ! -
+xqi7O	- - - -
+SF1Zw	- !!
+Td5pr	!! - !! -
+WfM2l	! ! - -
+zP4B3	! ! ! - !
+6c7pS	! -
+Ecb7Q	!! !! ! -
+JWMLz	- ! ! - -
+ZapjB	- ! ! !
+lc52X	! ! -
+ryc5Y	- - -
+BgAyi	! - !! -
+PeNGV	! !! - -
+QBOPg	! ! - -
+nGpnq	- -
+rIoGK	! ! -
+sdC6M	! ! - !!
+vMU39	! -
+1s9vR	- - -
+CEx5o	! !!
+MtpnQ	! -
+Wcbov	! - !
+peGcJ	! !
+wNGkp	! - -
+97Ey1	! !! -
+DYqn5	- - - -
+NPyE4	- !! ! !
+bnEFW	- - -
+lECId	- - ! !! -
+pWOh9	! - -
+3GYgv	! - - -
+5WhFE	!! ! - !
+Jf84C	! ! !! - - -
+KBzYM	- - -
+Lpv0W	- - -
+MnWlD	!! - -
+S9OF3	! - -
+kfzoj	! !!
+lGSCv	! - - - -
+L5074	- - !
+P0oaF	!! !! - -
+QgFcF	! ! - - - -
+VROQa	- !
+YJGBf	! -
+yZyc2	! !! - -
+9nAUU	! -
+hCriQ	- ! ! - -
+o9zJA	! -
+weg4c	! ! -
+xwRHU	!! ! -
+5cbBL	! ! !
+6Ke4Z	! - -
+F1YuW	!! - -
+Tz8VO	- - - - - - -
+Uro7d	- ! -
+b6vu7	! ! -
+wwEah	- ! !
+JYGZG	! !! !!
+moy7w	! -
+ojOwk	!! !! -
+4FOJd	!! - - -
+CJzsx	! - - -
+axhYj	- ! -
+bRMO1	! -
+rP9Y6	- !!
+6WjWa	- - -
+BTzkt	- - -
+JaWbu	! ! !
+N2SEY	! !
+S7qJV	- - ! !! - -
+Y1yIA	! -
+n2ON7	! !! - -
+9wK4q	! ! -
+FHTPc	! -
+L1kA9	!! !!
+O8EWt	- ! !!
+ixHxt	! ! ! !
+5ZVvQ	! - !
+PwN4f	- - ! ! -
+YIiej	!! -
+bVu4o	- !! -
+fPP5E	- ! ! -
+koiHO	!! - !
+3eKSF	! ! -
+6oNPQ	! ! ! - !
+Fj7Df	! !! -
+G1C1l	- !! !! - -
+ZL6V5	- - !! -
+8q51Q	! !
+V82Yx	! ! -
+ecFvf	! -
+20kN8	- - !
+JO7Rr	!! ! !!
+NLqvO	- !
+dUk7F	! -
+g4fj8	- - - - !
+kAjNw	- !! !! ! -
+t6x6Q	! - !
+tyxfQ	- ! ! -
+AXBM9	!! ! -
+uNc4X	!! - -
+w9WBm	- - !
+Mu31r	- - -
+NHo2Q	! -
+14Qov	!! ! - - -
+T01pS	! ! - ! - ! -
+ihSDi	!! !! !! !! -
+jq8mf	- -
+oL88W	- ! -
+ujj5e	! ! !
+um3W8	! !
+4GkpM	! ! -
+P993b	! - -
+jleCP	- ! !
+q8Jqe	!! - -
+zojP4	!! - -
+3y8gQ	- - - - - -
+JYsWi	!! !! !
+PTaJZ	! ! - -
+QuQDJ	! !
+Yg0Vk	! ! ! ! !
+t1BlA	! ! ! -
+x0sfR	! - - -
+02u6i	- ! - !! !
+2uMAs	! - -
+44oaH	!! !! - -
+7O4wL	! -
+H4ljy	! - -
+StBDU	!! - - -
+Un8CP	!! ! !! - -
+fOVFm	!! !! -
+01cHu	! ! ! !
+gz2b6	! ! -
+lxipp	! - !
+2Wd2K	- !
+52DZU	!! !! -
+Aiw8g	!! - -
+jvvPN	! !
+pMbw3	! -
+4k1Zj	! -
+AMe28	- - -
+NHdiy	! ! - !
+dTemc	- !! -
+rApvs	! !
+EYD9j	- ! !
+eYu5w	- ! -
+mEEUM	- - -
+rC0kq	- - - ! ! -
+HWkAZ	!! - ! - !
+dbSiF	! -
+khR9l	- ! ! - - -
+7xVsH	- ! -
+C4gZZ	- ! !
+OHBxj	! !
+Vf8tG	! ! - !
+M7qse	! - -
+MCXjz	- - -
+QKs7z	! - -
+eWCeH	- !
+2oKRR	- !! - -
+5RpKy	! - !
+6g3EN	! - -
+ADXKe	!! - !! -
+pj0YM	! -
+nRVVv	! ! -
+owKzc	- !!
+s3xqv	! !!
+2TA4a	- - -
+T4cj3	! -
+8taBL	!! - - !
+8g3JA	!! ! !
+j3ceL	! ! !
+8P0uy	!! -
+UfBd8	! - ! ! !! -
+uv2rj	- ! !
+Yrb0W	! ! ! !
+32D6k	!! - -
+KYxYs	! ! - - -
+LhdVw	! - !!
+ZY4Tn	! - - -
+oRuxO	! ! -
+BeWaz	- - !
+FDfE3	! - -
+OWcaM	- !
+Y7cT7	- - -
+vVlSm	- !
+yefZH	! ! -
+57IrK	- ! -
+Bpxoc	! ! - !
+CBLdf	- - !
+JEkXQ	! !! -
+OKvW7	!! - -
+SdlSr	- !! - -
+blOpc	- ! ! -
+ntqLu	! - -
+2qwHi	! - - !
+5siKY	!! - - -
+HGKlQ	!! ! !
+Qwxhp	- -
+RGsQT	- ! !
+YYDcY	- - -
+a0UL2	!! - - -
+ptR8g	! -
+qtVLN	!! ! ! - -
+DLrZr	! !
+XFcQe	- !! ! - -
+bRHvc	- !! - - -
+rylr4	! -
+zi7na	! ! - ! ! -
+ChlYj	! - -
+F6Tx5	! - -
+H2xnG	- !! !
+PotvT	- - -
+pINTf	- - -
+xpZwR	- - -
+TwM12	- ! - -
+Z0IZ5	! !
+MZse9	! ! !
+j289A	- -
+4qswO	! ! - -
+5E9rn	- ! ! !
+86vzl	!! ! -
+EMqRX	! !
+HRZXp	- !
+QR3k7	- ! !
+rntJI	- ! - -
+xHAme	- -
+xszei	! ! !
+GN4Dd	! !! - - -
+JHVss	!! - ! !
+JQcbh	! -
+LWLbw	! ! ! ! ! - ! -
+YcFDW	- ! -
+aJRlq	! ! - -
+dcr77	!! ! - !
+ki9gS	! !
+r4nqE	!! - ! -
+uXJU6	- !
+3TbMe	- ! !
+I988V	- !!
+mXoHB	- - !
+4bnHS	! - !
+676NV	! ! - -
+Afa3Y	! !! - - -
+RGyCm	- - -
+ROqX4	!! - -
+TrICv	! ! -
+UhDyC	!! ! -
+XIPFH	! - ! -
+nGRrP	! - -
+t7QZf	- ! -
+uknIF	- - ! !
+vzKKE	! - !! -
+1nIQw	! ! -
+61S3D	- ! ! !
+6BkPn	!! ! -
+FuVYL	! !! !
+K0Vwp	- - !
+NNGfb	!! -
+iGvPS	! - -
+m4Dbm	- - ! !
+o3Wub	! ! !
+yUvBh	! - !! -
+AA8eQ	! ! !
+GQqXf	! - -
+H6hEz	! ! -
+QVST8	! - -
+THeRz	- - - -
+a6Ifb	! ! -
+dBSxW	! !! - -
+ljrCv	!! !! !
+o15ob	! ! !
+ye5Rs	- -
+AeiXf	!! -
+RhZui	!! - - !!
+pVXev	- - - - -
+sMMvo	! ! !
+xqCNV	! - -
+5ng5F	- - ! ! ! -
+Xp8kQ	!! ! !
+fp7mS	- ! ! !
+y7V70	- - !
+00RPk	! - !
+4UCo6	! ! ! -
+BDN8H	- ! !
+C6MON	! - - -
+CZV2u	! - !
+FL61r	! !
+XR9eJ	! ! !
+aWHf4	- - - -
+cy84W	! ! ! ! -
+ovVQS	- !! ! -
+reiu5	- - !
+wS7eu	! - -
+wz639	!! ! - -
+zO2jw	! ! -
+4mpmA	!! !! -
+G6Kfa	!! !! -
+OFIBB	! ! - -
+TYjM0	! - -
+iv1MW	!! - -
+o8Zfe	! !
+sXTtL	! !! !! ! -
+u222g	- ! - - -
+vbqVy	- - - !
+78i0g	! ! -
+NtcSk	! - -
+O5Vt2	- ! !
+PfN2j	! - -
+Xy4WT	- -
+eoVqR	- ! ! ! -
+fdVOy	! ! !
+p9UPe	! ! ! ! - -
+uTtJp	! - ! -
+zfhHM	! !
+0qWJK	!! -
+9ftaE	! -
+CT5Ry	!! ! ! - -
+L02Wt	- !! -
+OCQRO	! !
+UZ4yO	- - -
+VI41a	! !
+YTsOT	! ! !
+bBatR	- - !!
+jI2iw	!! - -
+lqjUQ	!! - !
+ryvMX	!! - - !
+xI49H	! - -
+yuIW6	- ! !
+8YrIB	!! - ! !!
+Je2lC	- ! !
+KcMoO	! ! -
+QtDxj	! -
+XEesO	- !
+ZozIc	- ! -
+cag7U	! ! !!
+sKgI5	- - !!
+A5dYl	- ! ! -
+DbZfV	!! - -
+FE7gb	! !
+GheT0	- - -
+U3xAo	!! ! ! -
+UsObJ	! - - -
+lNsDr	!! - - !
+meG7G	! ! -
+oDZ9m	- !! - !
+y2tJm	- ! -
+1sJ7K	!! - - - -
+5dd2S	! ! -
+9R0CX	!! - -
+GkPKE	- ! !
+JX4Ed	! - -
+K8dwU	- - ! - -
+QZZW5	- - - -
+UZBEX	! !
+hzMp1	! - -
+mYoo7	! - - !!
+zP903	- - !!
+MvXkq	! -
+NLtBw	! ! !
+QKcbx	- !! - -
+bZDvD	! -
+jPpux	- ! !
+z4Dii	! - !
+MAFgO	! ! -
+RvHeC	! !
+k7Hdx	! ! -
+m966q	!! !
+mLzCQ	!! ! ! !
+nRZzg	- !!
+29H0t	! - -
+2lgsK	- !! -
+5q2yJ	! ! -
+Ek2x1	! ! ! -
+OeA3n	!! !! - - -
+0jDa5	- ! -
+4jwJq	- - - !
+5UH7r	- !!
+97vcN	! ! !! !
+FdCyQ	! !
+GzIoc	!! - - - - -
+cUVz1	! - - - !! -
+gBQrc	! -
+ACkFR	! ! !
+Q7pw9	! - ! -
+cQYy4	! ! -
+cqh45	! ! -
+jHjtm	- ! !
+kFxXD	! - -
+mbDro	!! !! !
+ps2D4	- - ! - -
+pvqzS	! - - -
+w1pPD	! ! ! !
+25IqU	- ! - -
+4UpdM	! - - !!
+4soMk	!! !! !!
+Bm06T	!! - -
+Xxnjv	! ! ! -
+sBwda	- -
+CUV7E	! !! !!
+GtsG9	! - ! !
+gG9dX	!! - -
+q9sAW	! -
+rCS9v	- ! -
+uOj4a	! ! ! !
+9GfU1	!! - !
+FjzFh	- -
+JnLan	! ! !
+O5k8M	! ! ! ! - !
+SzVJV	! !! -
+WrZxQ	!! !! - - -
+clcDP	!! - !!
+kKqhH	- !! !!
+1sA5h	! !! - !
+5NL8A	- ! !
+9O5fg	!! -
+EMZe5	- - -
+IFS7K	- ! ! -
+V2zoX	- -
+WdwpW	! - -
+a9elo	!! - -
+p1Xid	- - - -
+sQEn9	- - -
+zSm4r	!! - -
+zwi54	- ! -
+4GLF9	!! -
+Pf4LI	!! - !
+YT6Li	- ! - !
+i8hFK	! ! !
+o8Ash	- ! -
+uQO9h	- !
+ysPeX	! ! -
+0f9RD	! ! !
+1eZaj	- - -
+CJhi5	! ! - !
+LHuHY	! ! - -
+kGYWB	!! - -
+lFzns	- ! ! !
+4u0xr	- !! !!
+9kAVQ	!! - -
+ICgKj	- ! -
+OmC29	!! - - !
+aHKH4	! ! !
+xcubh	!! - -
+y489U	! ! !
+1XLx1	! - !
+2jjYu	- - - -
+GuNUi	- ! - !!
+SVeUu	- - -
+fWAOk	!! - - -
+ywB65	!! - !! -
+8doe0	- ! -
+8n0sR	- ! !!
+AEyEi	! !! -
+MrvVY	! - -
+STfpj	!! - ! - !
+lD24x	! - -
+vsC7q	- !
+BRf4m	! ! - !! -
+H9oTL	- ! !
+NXNqT	!! -
+UgkQv	! ! -
+VUtqX	! - ! ! -
+dr9VK	- !! -
+hfFqw	- - - -
+026Tf	! -
+0FFta	! ! !
+13qr5	! !
+8rCS8	- ! ! -
+FLGjB	- - - -
+MaxZt	! !!
+UA1uY	- !! ! ! -
+Am8Ie	- ! ! !
+Dbutx	- ! ! -
+Nge83	- ! - -
+ZSeow	- !
+h1CGs	! ! -
+lJn1L	- - - - - -
+tQOi5	- ! -
+tnelW	!! - ! -
+0CSTB	- !! !
+2JjA8	! ! -
+6BIdJ	- !! - - -
+EKw4S	- ! !
+FX36R	! ! !! ! - -
+G1tS0	! - -
+O7WAe	! ! -
+ONMCf	! - ! ! ! !! ! -
+Q2bYw	- ! -
+eF6D3	- - ! -
+tLVCS	!! - - !! -
+7K1Ea	! - -
+GjIqj	!! !!
+M8wfw	!! - ! ! - -
+QVC82	! ! -
+UjUK6	!! - !!
+kBnKa	!! ! - - !
+nIVLd	! ! -
+vuDEK	- ! - -
+wcWL1	! - - ! - !
+wiEe9	! -
+y2yuR	! !! !!
+7Yip4	- - -
+C1m1c	! ! - -
+OXMRW	! !! -
+bXhyA	- - -
+c7iCB	- - !
+php0P	! ! ! ! - !
+ulfPe	- - - -
+yZJCM	!! - -
+zLqzI	! ! - !! -
+1Jl6y	! ! -
+1akb6	- ! -
+EhFsH	! ! !
+QchBm	- -
+qeCMq	! ! -
+wFUlB	! !! !! !!
+ziDL1	! - !! -
+Fwhhc	! - -
+Le4Jb	- - -
+NubXW	! - !!
+UYHNp	- !! - -
+VR2ZO	- - -
+t4NBQ	!! !
+urljs	! ! -
+TgsBk	- - !
+SKnWU	- !! -
+XCc4l	! ! -
+hAOFr	- !
+jiu5p	! !
+jktCt	- - -
+sJJsz	! !! !
+zeINN	- !! !
+5Mnx9	- - -
+8icuu	! - !
+95F7O	! !! ! !!
+Ej1vq	- ! !
+GIZvW	! !! !! -
+NBmpI	- - -
+SrElZ	! - -
+YTh9Z	! ! - !
+kaeQp	- ! -
+kgCwb	! - -
+pJmqB	! ! !
+1TJNl	! !! !
+LrNw3	- - - -
+ZQEEi	! ! ! !
+k4Jst	! !
+xAdTc	! ! -
+0lsLh	! - !
+3wXe6	! ! -
+Dj6C8	- !! - -
+EWQkX	- !
+YPGy8	- !! -
+jKqUJ	- !
+tfbsg	- - - - -
+Ux1P1	- !! - -
+ZTzG5	!! ! - !!
+fdgvc	! -
+gsP7t	! !! -
+kr0DT	- !
+nAo5A	! ! -
+nM9wh	- - !! - - - - -
+NTRHi	- ! - -
+bOo4c	- ! !! ! !
+h0ZYR	! - -
+mbwTD	! ! - !
+nxyvr	!! - - - -
+oJBdp	- ! ! ! -
+qsmBM	! ! !
+yd2mr	! ! -
+29bsw	! -
+BeDP0	! ! ! -
+LqtIw	! - - -
+Mxg2V	! -
+QsBQq	!! ! - - -
+WqvyV	- ! !
+cHENi	! - ! -
+dQPF0	! ! -
+hfZxa	- ! !
+iAIEx	- !
+rZVM4	- - -
+uYJmv	! !! ! -
+vQf4h	- - ! !
+wLEIC	! !!
+J5faX	- !! ! - -
+nHmDz	! !
+y4qjm	- - - - -
+6XbWp	- - !
+FV1cS	! - !!
+FamtU	! !! -
+J1I3P	! ! -
+JFITX	! !
+Mroqe	! ! !
+NwbPU	- !! ! ! !
+cJRUL	! !
+gOyTd	! - -
+iBnzD	!! !! -
+jXXJT	! !
+jwPGa	- ! ! -
+pKm1X	- ! - -
+t1fHV	! ! !
+xfMxJ	! ! ! !! -
+4QrsD	- !! - -
+6iR6r	! - -
+CuRBw	- - - !! !
+lnSjl	- ! -
+rXCca	- -
+0FVQE	! ! !! -
+BV9Z4	!! !! !
+FzBmG	- ! !
+NQq0n	! - -
+Nmw2H	! ! -
+Perp2	!! ! - - -
+YbUMP	- ! -
+1yEU4	! ! !! !!
+FK7mA	- ! - - -
+zUjlL	! - -
+3ZM0h	! ! ! -
+Ck3Ar	!! ! !!
+E36Nj	- ! !
+I8Omo	! ! !
+XaQmL	! - ! -
+YYLge	! ! -
+bwQ3F	! !! -
+hnZQS	! - ! -
+o4f16	! - !
+sdfGK	!! -
+2WS8I	!! ! ! ! !
+4zoQl	!! ! ! -
+5lkgD	- ! -
+Dqgws	! -
+iQRxQ	- !! -
+iVe7Q	! ! ! ! -
+t8yep	! !
+tF1fU	! - -
+tV1ju	!! - -
+5oGBC	- - ! ! !
+7HmU0	! - - -
+7LGHK	! ! ! ! ! -
+ECCCm	- - -
+LXWDA	- - -
+NUk2M	!! !! - -
+TDhJs	! - ! !! - -
+VJWZT	! ! -
+oC8oq	- ! !
+pwtxY	- ! - !
+2Q2bv	- - -
+7A2nL	- ! !! -
+7sk1Z	! ! -
+9avfG	!! - -
+TBg3V	! !
+gEmj0	! - !
+8kNfO	!! ! -
+CbRO3	! !! - -
+JS8cc	- - - -
+S5WzK	! ! - !
+VC2CF	! ! -
+eg1Zq	! !! -
+gGWFL	! ! ! -
+i4H78	! !
+j1UXW	- !! -
+v5Wht	- -
+yenjc	! - -
+5g5Hp	! ! -
+DfkXw	! ! ! -
+HRje6	!! -
+LQJYh	- !! - !
+Pnj0E	! ! ! - -
+WGwcC	! !! -
+jYT6p	! !! -
+D2SgL	- - !! - ! ! !
+N2HP4	!! !! -
+d7hM9	! - !
+hIBfb	! ! -
+wNjUq	!! - -
+Fy0V6	- ! !
+cAPmC	! -
+h3sIg	!! - -
+ux2I0	- ! -
+z5uvp	! - ! ! - -
+OAdxB	! ! ! ! - -
+QNSD6	!! -
+hwPNn	- !! !!
+qmkdP	! ! ! !
+tTh6B	- -
+vwAKQ	! ! -
+33Sow	!! - ! - -
+43i08	- !
+7PxWh	- - !
+J8oKy	- !! - ! !
+KGay4	- ! -
+TjjJy	- !! -
+cU1FX	! ! !
+euECy	- - -
+g5Lq0	- - ! -
+v2Mpg	!! - -
+8Kxvt	! - !! ! !!
+XmTW2	- ! !! -
+fgDg0	- ! -
+rJaN1	!! ! -
+soU9u	- ! ! -
+xjVLg	- - !
+z87jf	! - -
+8odSM	! !! -
+OHGPz	! ! !
+VwjCy	!! ! -
+WRzt7	!! !!
+c13Gt	! ! -
+gb7zS	! ! !! -
+qGYkY	! !! ! -
+vykCk	- ! -
+wpS15	!! - -
+xyM5s	- -
+4aAjW	! !!
+ChERL	- !! ! -
+Gsm99	! - - - -
+NT8Nd	!! !!
+fFdUJ	- - !!
+giBpQ	! ! -
+kk5vr	!! !! -
+qGlKy	- - !
+xSlHa	! ! !
+9Eimt	- !
+9ztP4	! - -
+AZz4T	!! !!
+CzQsb	!! ! - -
+YbMfR	- ! !! -
+cEW3R	!! - -
+cZbFB	!! - -
+ywtV9	- - !
+5ON8d	!! ! -
+5X9iB	- ! - - -
+JX0nT	! ! !
+LU5wk	! -
+ZNAZf	! ! ! -
+hW2Fe	! !! ! ! -
+juP9I	!! ! !
+uIzu6	- !! - -
+2A0sc	- - !
+8KUaa	- - ! -
+CJ6V4	- ! -
+JnkvM	- !!
+KGTB7	! ! ! ! -
+MYVcZ	!! !
+NnOZu	- ! -
+OA6hO	! !! - -
+Ubnbi	! ! !
+VHE8J	- - - !
+coeG6	! !
+dC2gZ	! -
+ffdRc	- ! -
+gWGvm	- !! -
+lwbPM	!! ! !
+oXl5U	- !! - -
+p3Zm5	! ! - !
+vZkkj	! ! -
+3Qp2r	!! !! - -
+CjzRb	! - ! !
+GKkri	! - !!
+IbhBT	!! !! ! -
+RqEWz	- - - -
+jaVT7	- !! - - -
+k62nD	- ! ! -
+xZTmX	- - !! -
+xzwO9	!! - -
+0A05m	! ! - - -
+0Kd5m	!! ! ! - - -
+4TpHE	- ! -
+EGNUw	! ! ! !
+MxPIH	!! ! -
+Wmba2	!! ! ! -
+chZMw	! !
+i61kI	- ! - - - -
+ElrWQ	!! -
+Kvzda	!! - -
+VrHVq	! !! !
+fRLSy	! - ! -
+2ZBTG	- - !
+5JBOp	! ! -
+FlCKp	! !
+LWH8H	! -
+Y1rwr	! - - - -
+e94Hw	- !
+iDooh	!! !!
+CYA4R	- !! ! ! - -
+EmbQ6	- - !
+JqxcK	! ! !
+PcMK8	! ! - !
+mlmJZ	! !
+t5Bvo	!! - -
+3cCUi	! - -
+N9EOX	- !
+qU5CC	!! ! -
+GXIRB	- ! !
+QE3IF	!! !!
+aDgk3	- ! - !
+bK0OY	! ! -
+m8V2a	!! - -
+qUdkM	- - !
+x2f44	! ! -
+yY3FH	!! - -
+EpQac	! ! !
+WksrN	- - - -
+hDaZI	! ! - !
+isaqV	- ! !
+sqVLA	- ! -
+xdXWL	! - -
+72fon	! - - -
+7bXrr	!! - -
+HMswt	! - !! -
+ONjAT	! !
+lT8Jo	! ! -
+PwetU	! !
+cLbjb	!! ! !!
+fRDkK	! - ! - - !
+gzIYB	- !
+ldbji	! - ! -
+qxvVs	!! - ! - - - -
+sGydx	!! - -
+t9DQ8	! ! -
+3HV90	- ! -
+8se1R	! ! -
+KX0sR	!! ! -
+N8KHc	- !
+O2iLH	! !
+fP0BM	!! !
+kLhH2	!! !! -
+yzLIF	- - -
+zj7l7	! -
+1sEOs	!! - -
+6Sgrx	! - ! -
+A2Tme	! - -
+Aj5yp	! !! - !! -
+DLkri	! ! ! !
+JvkTC	! !
+NueGW	! - !
+lCONq	! ! !! - -
+wSqc5	- - - - ! !
+xSNKp	!! - -
+5Z5kb	! ! -
+7WV5z	! - ! -
+FSJXI	! ! ! ! - ! ! - -
+IRpHq	! -
+MpqIf	- - - -
+RE1hb	! ! -
+ViPdz	!! !! - - -
+XWTIl	!! - -
+Z0Uuz	! !
+ZFiaL	! ! ! -
+nbCm9	! ! !
+rxS2U	- - ! !
+wtI8U	! - -
+0pieJ	! ! - -
+58CYm	!! - !!
+aQQCH	! - !!
+cCUmH	! !! ! ! !
+0Ap38	! ! -
+1Ksao	! !! - -
+4y755	- ! ! ! ! ! ! -
+BfdHw	!! ! !
+JxwLO	! ! - - - !!
+NIfG8	- !! !! -
+ZjkF4	- ! ! ! ! -
+hGz7D	!! !! -
+p5evR	! ! ! ! - !
+qLD8I	- - - -
+1rkne	! !! - -
+6LPvz	- - - ! ! !! -
+9jZJP	!! ! ! -
+DXdmI	! ! - -
+l88IV	! !
+o56rh	- !! - -
+v3z1m	! ! -
+0t3hW	!! ! -
+4NWKw	!! - - -
+HRfnO	!! ! !! -
+PhQzx	!! - - - -
+R3noU	! ! -
+TcY8n	- - !
+WZmVt	- - ! - !
+eJZMC	!! !! -
+qmroT	!! ! -
+8Mcth	!! - - !!
+WLbBw	! ! !
+dO5bR	- - !! -
+iG9ni	- -
+p53En	! ! -
+yndYH	- - !
+NOPWf	! - !! -
+PK1Vq	- !! !!
+SqGAA	! !! -
+UKhqw	! - - ! -
+V7mU1	! !! - -
+VvpI0	- ! -
+XU48X	- ! -
+YjrSL	! ! -
+aN7HC	! - ! !
+564Ma	! ! -
+MsSGh	!! ! -
+nzwN2	!! !! !!
+1idOi	- - ! !!
+2akjy	- ! - - !! - !
+FtQDR	- !
+GliSi	! -
+K64tL	- ! ! - !
+OJtAN	- !! ! - -
+W1ZFR	- ! - ! -
+XvuBS	! ! !
+eB1Vx	! - -
+hZ7Jb	! - - - -
+mR4Nh	- ! !!
+z1Ir6	!! ! -
+8MTuM	- ! -
+AGwpy	! !! ! -
+PhyiL	! ! - ! !
+SntCO	! - ! ! -
+qPd0o	!! - -
+rKXhP	- ! ! !! -
+s0cPC	!! !! -
+9V9Jd	- ! - ! ! !
+QQQL6	! - - -
+tQyEx	!! ! !
+vrkmQ	!! !! !
+C0WfZ	- ! ! ! -
+Efak7	!! ! ! - - -
+ILwGu	- - - - - ! !! -
+L36YA	!! ! -
+QpygQ	- - -
+V96W4	! !
+c1Fbv	- - - - !
+gLAAK	! - -
+QmqpW	- - -
+gDvvg	- - - -
+tOICG	! -
+zq8BR	! ! ! ! ! ! ! ! -
+2sNxO	- ! !! ! -
+9INka	- ! -
+NdGvt	!! ! -
+bmoB4	!! !! -
+cOSDX	! - - -
+f8G4N	!! ! !
+raYJS	- ! !! !
+zv3fv	- !! !! -
+6SuB3	!! ! - !!
+JuhHs	! ! ! ! ! -
+Kq7Ep	- ! !
+PCuyq	! ! !! - ! -
+i6H6p	!! ! -
+oxgRi	- ! !! -
+qPaLT	- ! -
+ycC3B	! !
+zllz7	! ! -
+HYBjf	! ! ! -
+VPwQp	- -
+ne2il	!! ! -
+9uUKJ	! ! ! !! - -
+GAYzO	- !!
+NHzSw	! !
+X0861	! - ! -
+ZYsM5	! - -
+dppte	- ! ! ! - -
+jpslR	!! ! - -
+v1qZ9	- - -
+83MAS	! !! !! ! -
+ODOpl	- - !
+TWPjt	! !! - -
+nAt4h	! ! !
+CzTe4	!! - - - -
+NEl0i	!! !! -
+tghBZ	! ! !!
+Ioc1e	- !
+NC82x	! ! - -
+O5fjh	- ! -
+dZSfv	! -
+nnFNO	! !! -
+sWGSP	! ! ! ! ! ! -
+0LKzU	! ! -
+7PaBG	! - ! - - - -
+6TXCI	!! !! ! - !
+KHUAt	! !! -
+L0I7A	- ! -
+Ov19t	- - -
+SuAaX	! ! ! !
+jm5xH	!! ! ! - !! !! - -
+CZk0j	! ! !! -
+LnM5V	- !
+NnSVH	! !! - !! !!
+Zstfw	! !! - -
+qv4Yg	!! ! -
+2RWg0	! ! !
+92ItB	! !! -
+LY4ts	!! - - -
+cos2C	! -
+efgE5	- ! -
+jIGet	! ! - !
+o8LL6	- ! !
+qlP22	! ! - -
+r37gl	! ! ! -
+tBp1F	! !
+u8RF6	! - -
+13ATD	! ! -
+DiIfI	- ! !!
+HQNSQ	- ! -
+SOYiE	! - ! !
+ZrIaQ	- - - ! ! -
+9fdHN	!! - !
+AmXqv	- !
+BbJos	! ! !
+MfIWQ	! !! !! ! !
+QG1dU	! ! -
+e7bg0	! !! -
+uP9nN	! -
+vLjp5	! - !
+wkRCV	- - ! -
+3ZW7h	! - !!
+E5Aei	!! ! - !! -
+WZHsY	!! !
+aacW4	!! - !! - -
+jF37b	! -
+ChpZI	- ! -
+JeXZL	! !
+PwRsZ	! ! -
+RbR2y	! ! -
+aXguD	- - !!
+iTiD5	! !! !
+yGQy0	- ! -
+G6ZTO	! ! ! !! !
+YZmuN	!! !
+YbG8g	! -
+tIIyl	! ! - - - -
+48cFN	- !
+4Kk50	!! !! - -
+KQ3v3	!! - !
+RHyPI	! - !! - - - -
+SZClA	! -
+heTQX	!! ! -
+tCh0e	- ! -
+Ivgd4	- !
+bjNrx	! !! -
+jF1b7	! !!
+n5SdS	! !
+vjDjr	! - -
+3y4JN	! ! !!
+4e0dR	- ! ! -
+HfvGM	!! !
+H4vQt	- - -
+37qXg	!! - -
+YByqK	! - !
+jpy2r	! !
+lMXqj	- ! !
+pHWF7	- - - -
+N3OHO	- ! ! ! - !
+SHKnx	!! - -
+d13tW	! ! ! -
+ACD8P	! ! !
+O6fTW	- - ! -
+VT8sg	! !! ! -
+GJXaB	! !! - -
+4tgE1	!! - -
+XhcsU	! ! !
+YqBQh	- !! !! -
+dMVcZ	- -
+xKdpL	- ! ! ! -
+4NhWm	- ! -
+9SZTY	! ! !
+Ck3sO	- ! - ! -
+mgL8m	! !! - - -
+qnGc3	! ! - -
+4n6VS	! - -
+BBQeG	! - -
+JROhZ	- - - ! !
+Vozok	! - - -
+aiA6v	! ! ! !
+bcLsp	! - - ! ! !
+p4cV2	! ! ! - ! - -
+upxyG	! - -
+7r9Ri	!! -
+oBnrj	- - ! -
+xIiI6	- ! -
+32MkM	- ! !!
+4wZk7	! ! !
+5nLxE	! - -
+H2Pjg	! ! !
+V9mvQ	! ! !
+ZZZK2	! ! -
+m4CcJ	- ! !
+th9h0	- - ! -
+7Ezjd	! !! - -
+1U3Db	!! - -
+28Vl6	- ! !
+BYBZ9	! - !
+LORP3	- ! ! - -
+RmUcB	- - !
+mNnYs	!! ! - -
+LPTht	- ! !
+SBFJ6	- !! -
+eGcT6	! !! - -
+w01ie	! ! - - -
+wITyb	- - !!
+6lNCC	- ! - - -
+HM9yP	!! !
+WEgA9	- !! - -
+f4ELo	! !
+nmRdf	! - - -
+xAPMK	!! !! -
+z4hLy	- - ! - -
+89ci2	! ! -
+9Rbed	- - !!
+N35j3	- - ! -
+QHR6d	- ! !
+6WqOW	! - -
+7y6MS	! ! !
+Br3Su	! ! -
+Ro6mh	- !! - ! -
+eYuuo	- ! -
+tvlnM	- ! -
+zJ3l9	- ! -
+5nRud	!! - -
+EdHuh	! ! !
+WqaWe	! ! ! !
+aQl2M	! ! ! ! !
+mxuQx	- !! ! -
+qyXJh	! ! !
+Mcto5	! ! ! -
+YPFOK	- !
+nIx7t	- ! ! -
+qHK3Z	! - -
+O7Q7E	!! - - -
+R2hov	! ! !
+ZFgpo	! -
+pQAWF	! - ! !
+wAGhh	- ! !!
+dZkQd	- -
+eHX8G	!! - !!
+f5chf	! !! !!
+okGzh	- - - ! -
+r945P	- !
+tTlZA	! ! -
+2UhpP	- - -
+d7Cvz	!! - - -
+1HzVK	- - ! - -
+618q7	- ! ! !
+CCc4O	! - !! !
+EOE3a	- - ! - -
+J5BMg	! - - - -
+Ziltr	! ! !
+mPkEp	- - ! !
+qIbmI	! - ! -
+42guN	! ! !! !! - - -
+U0x5f	- !
+UBXLF	! ! -
+cjTzA	! - ! -
+hNCqn	!! -
+kNlGs	! !! ! -
+ldprv	!! ! -
+qwx2L	! - !
+067YS	- - !! ! ! !
+FDmc4	! - ! !
+KZhmZ	! !
+foSf9	! - ! ! -
+rPXEE	! -
+K499L	- - -
+aJoCo	- !
+kYGsG	- - - !! -
+ofpaQ	! ! ! - -
+8Uqb6	- ! ! -
+9sUmg	! ! !
+DoQwu	! - -
+DwViS	!! !! -
+S54Y1	! - -
+TM0kd	- ! - !
+ZPMWB	- - - -
+aDCor	- ! -
+cACXh	- ! -
+qXLoP	!! ! - !! ! - -
+vN1E8	- !! !
+U3XnP	! !! !
+h2xxw	- ! -
+20FMx	! ! ! -
+RNdmg	! -
+SPWAW	!! - ! !! -
+gfS3j	- ! - - -
+OBBbN	- !! - - ! -
+aIMNM	- - !
+cvoJ0	- - !
+fkmls	- ! ! -
+HUcIz	! ! !
+iuAbc	!! - ! - -
+nbfIn	! ! !
+pP4uG	- - -
+zTMOi	! !
+9t6la	- ! ! -
+lJUsW	- ! ! ! -
+Bi4o5	! !! -
+J2JCW	- !
+9x7yX	!! !! !!
+BSQLQ	- !! ! !
+dx5A6	!! - -
+sexW9	! ! !
+G7Nh5	!! -
+aN1Mh	!! ! !!
+dIwAL	! ! ! !! !
+e51b4	- ! ! -
+nEfW9	- - ! !! - !
+ywmAf	! ! - !
+WIYDm	! !! -
+YZl4l	- - -
+mAMdK	! - -
+KnCYe	! - ! -
+QjxlM	- !! ! ! !
+jVhxk	- - ! !
+kaF23	- ! -
+pptit	- - - -
+tqpJ8	- ! ! !
+IM30l	- - -
+YkhUt	! - !
+lr54i	! ! !! ! !! -
+2Fehg	! - ! ! -
+Rz7bz	- - ! -
+mSbAe	!! - -
+pbPhY	!! ! ! !! !! -
+Ev1Em	!! - - ! !
+ILTZo	! ! ! -
+UiUxC	!! ! !
+C2CWW	! ! -
+TWafT	- !! -
+ocdcX	! - !
+55fvk	- - - -
+5xMU2	! ! -
+9UkkP	! !
+Ap39T	- - !
+Bysx2	- ! - -
+DsnUj	! - !
+QHmHL	! ! - ! !
+QwFvj	! - - - !
+Tmytp	! - - - - ! !
+Tsxvn	! !! - - - - - -
+YVZ58	! ! - -
+ak0bT	! - !
+bbtyV	- ! !
+bweFj	! -
+h9dyQ	! - -
+hEypZ	! ! ! -
+j5UEW	! - ! !!
+kFqSx	- ! !! ! !! -
+m8iVM	! !
+rdzHK	- ! ! -
+tYHkJ	- ! - - -
+tdhmh	- ! ! !
+uPMQk	!! !!
+7O0Ky	- - ! - -
+9gCi9	! ! !
+AyFCA	- - !! - ! ! ! -
+CaUk7	! !
+CiImL	- !! !! !!
+DGIlA	- ! ! !
+JT0pb	- - !
+OGnNr	!! !! - - - -
+QYRuD	! !! - - - -
+Ry55C	! ! !
+WmrQb	- - !
+hQRY5	! ! -
+jN6z9	- ! -
+jmRZo	! ! ! ! -
+q1Tll	- - !
+r2sh0	- - -
+uDiMh	! - ! -
+xY2kX	- ! - ! !! !! !!
+xwtJJ	- - !
+1MCqT	! - - - -
+3RxLj	! - ! ! -
+74qr4	! -
+7PGxM	! !
+IR8r0	! ! - !
+Mh1Lr	- ! -
+NBWVn	! ! !
+UFxN4	! ! -
+VOewd	!! !
+agreC	! -
+eaGRV	- ! - !
+g4PLb	! ! !
+jxiN5	!! ! !
+ksZ2D	! - !! !! -
+mS6ZQ	! ! !! -
+nH1DT	! ! !
+sFvwX	! ! ! !
+uANXr	- - - -
+uKLjk	- ! - !
+2fXku	- - - - !
+5jyoM	!! - - ! -
+6Tfiz	! ! -
+9DghW	- -
+9K6z2	! ! -
+EV7TH	- - !
+G4y2n	! ! !
+IPrrr	! !
+NTwR0	! !! - -
+TtXfR	! !! -
+Y8P0g	! ! ! -
+d1ZIK	- -
+dm6ab	! - !!
+inf2L	- ! ! ! - !
+oIox9	! ! ! ! -
+rIRBY	!! - !
+u8uyT	- - ! !
+vR5Aq	!! -
+vd7yU	- ! - !! - -
+0OdHS	! - ! -
+4uEAp	! ! !! -
+Cpekv	! ! ! ! ! ! !
+HNVwK	! ! !
+OV7fc	- ! !
+R6QWX	!! !! -
+RXLro	- ! !
+UzvGw	- ! ! -
+dCZmj	- ! !
+ejwLp	! ! -
+gCLsa	- - ! ! !
+gSpQv	! ! -
+gcDYb	! !
+hrKE2	- !! - !
+jQGf2	!! - -
+kv2sJ	! ! -
+mF8lu	- !! !! -
+osUeW	! - !
+poE44	! ! -
+qboqu	! ! -
+vzccL	! - !
+zNOES	! - -
+2DzlK	- !! - -
+8tBh7	! !
+DchcX	! ! !! !
+En8Fc	- ! !
+FCbMJ	! ! !
+GXoSp	! ! -
+IOGZb	- - ! -
+NZp6I	- - !
+OV44M	! ! - !
+RMVHp	! ! ! -
+UP65R	! !
+UPdKc	! - - !
+VNqHK	! ! -
+j8SHr	- ! -
+kBlyH	! - ! -
+nGC7i	!! - !! -
+qI3jp	- - !
+qNVdy	- ! - -
+uayu9	- ! -
+wYiVM	- !
+zYD8E	- ! ! - -
+2HZD9	!! !! - - - -
+3M9VN	- ! ! -
+8kAsf	! ! !
+RtgTQ	! !! !!
+Sakg7	!! - - - -
+SyOSF	! !
+WNxsB	- ! ! !
+XkRZi	!! ! - - !! -
+ZItxH	! ! !
+ccuzp	!! ! ! -
+dJ8ZH	!! ! -
+gtsJ9	!! - -
+hRrkU	! !
+ll5Rh	- ! ! !
+loWSS	- ! -
+rJxDN	! ! -
+swNfM	! !! -
+zASCc	- ! - ! ! ! -
+zg3O5	! - -
+0QwBE	! ! - -
+0ULQe	- !
+5wSMv	! !
+68dIJ	! ! !! ! !
+69Yh7	! ! -
+ARSug	! !! !
+Dy42Z	! !! - - - !
+GL0V6	- ! ! ! - ! ! ! - !
+Sp5HU	! ! ! -
+UDBWu	- !
+dKZtV	! - -
+fvYj1	! - - -
+hwrq9	! !! - -
+iR6Py	! !
+lVZqq	- - - - ! -
+qcgzV	- - !
+4EE6Y	! - !
+4sNGH	- !! - -
+7Pm0F	!! ! !
+FeMO5	!! - -
+GfWAq	- ! -
+HLQfg	! - ! ! -
+NyHGM	- - ! ! !
+WDhmt	! - !! !
+cNNs9	- - !
+k8Jjy	! ! -
+mXJlJ	! ! -
+y5RVb	- !
+2UgEl	! - -
+91D6Y	- ! -
+GE8cm	!! !! -
+MYGlP	- !! !!
+NLHZs	! - -
+Nua8b	! !
+OSAXY	! !
+S3JV5	! ! - ! ! - -
+UVVfK	! ! !
+XknGi	! -
+ZEY3r	! ! ! !
+dAXtY	! !!
+fP6Su	! ! !
+i7ka0	- !!
+pNjZh	! ! !
+ubemk	! -
+vIOkH	- - - -
+wBblK	! !
+ynAUk	! - !
+4RcQx	! ! ! !
+7bEtv	!! ! -
+A6tFJ	- ! ! - -
+Bstpq	! ! ! -
+NFpeV	! !! -
+OtSYR	! !
+VRuNR	! - !! - -
+Yo0SM	- !!
+Zwtts	! - -
+l8j6l	! ! -
+s9jU2	! - -
+17DBB	- ! !
+4vvjv	!! ! !
+5Kg8G	- - -
+AELij	!! - !
+CC2Zu	! ! ! !
+ERPS6	- ! !
+PaMKX	!! ! -
+WcG67	!! ! ! - !
+XUpLL	! ! !
+duquM	! ! -
+gJTNO	- ! ! ! - -
+jPZCv	- ! -
+lVwwK	!! - !
+mzmKx	! - !! - -
+nh8hJ	! - ! ! !
+qetO2	!! - -
+renUr	- ! -
+y0o2K	! ! !
+3UYYx	! ! !
+5TVxf	- !! - -
+8OQDN	- !
+E3Rr1	- - -
+N8rbu	! !! - ! - - - - -
+ObtbL	! ! - !
+RR7zn	- - !
+Uap7c	! - ! !
+VcUlQ	! - !
+X6hGK	!! !! -
+Zf472	- !! -
+dSbSg	!! ! ! !
+i3Nvd	! ! !!
+lTQTm	- - !
+mECDj	- - -
+mYzWS	! ! ! ! -
+n2J61	! ! !!
+ufZGE	- - - ! ! !
+vOpiJ	- ! !
+x0JJA	! ! - ! -
+39t9l	! -
+3LDXA	- - !
+D5DTE	!! - !
+Jy7bJ	! !! !!
+KnKS0	!! ! !! -
+Poweq	! ! - -
+YsYUm	- !! - - - !! !! -
+eF3OD	- - !
+iYB3p	! !! - -
+r7aiG	! - - !
+s04CV	- - !
+w8DU5	! ! ! - !
+1ljsY	! - -
+30KZ8	- - - !
+4NpQG	! -
+6id4M	! -
+ApMT6	! ! - !
+JUmnm	- ! ! ! !
+MeUV9	! ! ! !
+W0WZm	! - ! - -
+XkWqm	- !! ! ! -
+dMo6F	!! ! !! ! -
+nCsRz	! ! -
+7nALi	- !! !! !! -
+C2zw0	!! - -
+GXGpo	! - - -
+OgUDl	! ! -
+jSSp4	- !
+lcGUj	!! !!
+ni4Jr	! - !
+p1FyR	! ! ! -
+qZO4J	- !!
+wLBHw	! ! ! !
+AMWRU	! - ! -
+Cq9K1	! ! !
+NBdw9	- !
+WDPKm	! ! - ! !
+bLfuE	- ! - ! - -
+o1zjn	! - -
+p22wV	! ! !!
+08jQH	! - ! - !
+4nRwe	! !! - -
+7kYz6	!! - -
+AyEw9	! ! !
+IrRZT	- ! ! !
+Kl5qX	- ! -
+Kum1D	! - !
+OboD5	!! - !!
+VWJnA	- ! -
+XwIji	! - ! !
+a7oVw	- ! -
+asOqd	! - -
+beAKe	!! !! -
+ceA6g	- ! !! -
+ddP2n	! !
+hmbHZ	!! !! !
+i9gq9	! ! - - -
+iNQoH	! ! -
+zEmkU	- !! - - - -
+zGdlY	!! - ! !!
+42FMg	!! !
+7oJbS	! ! -
+Att3w	- !
+Ei5VO	- ! !
+FPvaN	!! ! ! -
+LYHwl	- ! ! ! -
+RBtSR	!! - ! ! -
+a7cvg	! !! -
+b4mzp	- ! ! - -
+dP25J	! !! -
+jmEFl	! ! ! !
+pTNQz	- - - !
+zaLzk	- -
+3EyaS	! ! ! ! !
+8C9UB	- - - !
+EncR9	! - -
+FAABQ	- !
+HBtqj	!! - -
+NZDij	! !! - -
+ZxcYT	- ! !
+eOCDZ	- - !
+m63AR	!! !
+nTNKx	- ! ! ! !
+sJUBG	! - !!
+tfbwh	- !!
+to28D	! -
+wslUb	!! ! -
+yU1nK	! !!
+3sTPi	! !
+4BHXZ	!! - ! -
+55GHu	! - !
+8jkWb	!! ! !!
+8r98H	! ! ! - !
+BAiW7	! -
+G9moY	- ! ! - ! - -
+I3N5G	! - !
+IZnAe	!! - -
+PfE7J	! - - -
+ZcmN1	! - ! ! ! -
+eAodk	! !
+hqmYf	! !! -
+ikRKI	- ! !
+kCzfe	- - -
+rcMpl	!! !! !
+tnDoP	- ! -
+uLlRG	! ! -
+vBtLa	! ! ! - -
+2Fib7	!! ! - -
+7vzlj	! !
+83g5N	!! - - -
+G7MJ3	! - - !
+KSXXl	!! !! !! - -
+MJeok	- ! ! !! - -
+Sq8zl	! ! !
+ezfXW	! - -
+rDBiA	- ! - -
+0t1Cx	- - -
+1eIE2	- !
+7x08I	- ! !
+VJBip	- ! !
+g5x57	- ! !
+guaax	! !! -
+lYYJq	- !! !!
+xSd5Y	! - - - - -
+34PU6	! ! ! !
+4CQ2Z	!! !! !
+NhwQv	! - !
+QijoE	! -
+SVxa5	! - - - -
+V7Hqw	! ! !
+dtS3Z	- -
+fWwWb	- - - - ! !!
+nyn7R	- ! !
+o5FbD	!! ! ! !
+wsbd5	- ! !! -
+xerFU	- ! ! - - - -
+zR6Is	!! !! -
+8GdtA	- ! - !
+QjgR4	! !! -
+STBBl	! ! -
+T8KoT	- !
+Ug5KR	! !
+Uup4x	! -
+WYT44	! ! ! ! !
+YbCl9	! - -
+bgNN5	! !
+ekofV	- -
+g1i1u	!! !! - !!
+jkLe8	!! - ! - -
+sH6sI	! ! -
+sbRWq	- ! ! -
+wRPZg	!! !
+x0gTu	- - -
+0I6iW	! !! - -
+2ffvW	! !! !! - -
+43H98	- ! !
+4anaC	! ! ! ! ! ! -
+6tcFH	!! - !! - -
+FCulI	- - ! !
+K0Pni	! - -
+LbJbb	- ! !
+P15Vk	! - ! - -
+PBE4A	- ! -
+RsVb5	!! - ! !
+UdeaJ	- ! ! - -
+XRrja	! ! -
+fZ5eT	- - - -
+igRde	! - ! -
+ijqpI	!! !! !! !!
+nJWC1	- - ! ! -
+nzQEm	- !
+zNQ26	- - - - !
+59MRj	!! !! -
+8SbVb	! ! ! ! -
+AXldq	- - !! -
+BjBhy	- ! !! - ! - -
+Br3AP	!! ! !! ! - - -
+Fjg2S	! ! -
+GrzsU	! !! !! -
+JpSwy	! - -
+LummV	! ! -
+MgJJd	! - - ! !
+Q1ryA	! ! -
+R7bOC	! !
+R8XOf	! !
+Sm7KY	- ! -
+UZ77Y	- ! ! -
+VcVZJ	- !! ! !
+WR6bz	! ! !
+bCBvq	! ! !! -
+oC9Fn	! !
+ttlex	!! !! -
+uLgIE	- - ! -
+A1Kbt	- -
+AKUms	! ! ! - -
+DW1li	- !! ! -
+EaL6V	! ! ! !
+EeUNn	! ! ! -
+FwQYj	! - - -
+G3g2x	! - !! -
+IlIE4	! - - -
+LYvJM	! -
+LcMp0	- !
+NCZAl	! ! !! - -
+P9V2N	! -
+V5mD5	! !! ! -
+V6MWl	! ! !
+WTjM6	- - - ! - -
+YIHdt	! ! !! - - -
+fLMRI	!! !!
+mV0nf	!! - ! - !!
+ofHi9	! ! ! !!
+sdcQr	- ! !
+ubyd9	!! - - - !
+4CbsU	- ! !! -
+5WsyG	! - - -
+G7DvJ	- !
+Rdp5L	! !!
+UOQ6N	! !! -
+aOmlM	- ! -
+bj0iJ	!! !! -
+nNWRw	- - - - -
+nSAud	!! - - -
+pHUW7	! !
+s7nFE	! !
+uQeHA	! - -
+vJvey	! - -
+1H4aU	! - !
+2o6QX	! !! ! ! ! ! -
+68Bxz	! - - !
+9lqDn	- - ! !
+BBbYL	! ! !
+DeWer	! - !!
+NEncv	! ! ! -
+dGGHJ	! - !! - -
+gSKJQ	!! ! !!
+l8zA7	- !! !
+pkalx	!! !! - - -
+vklDn	! - - ! ! -
+xYzu8	! ! !
+5vxhd	!! -
+6LreN	! !
+Cjk67	!! ! -
+D6woz	- ! ! !
+HpdXN	!! ! - - -
+Nc241	!! ! -
+SJwXx	! -
+d0jfZ	! ! - !!
+gr6SI	!! !! !! -
+km7sI	! ! !
+mUkR8	- - ! ! -
+mygBj	! ! ! -
+oZLCp	! ! ! ! - !
+t9dAz	! - ! -
+B2Zfz	! - ! -
+CfWIC	- ! ! ! - -
+HCGY3	! - ! !
+HVH6U	- !! - ! -
+Kk3SA	! ! !
+MeBn4	! ! - !
+NHSnX	!! !! !
+NZIUX	- !
+OgPCl	! ! ! !
+RB29B	! ! !
+RyGN1	! ! ! !
+fBgTs	! - - - -
+fV2MR	! ! ! !
+iHxWc	- - !
+jx3Td	! !! ! ! -
+l68KS	- ! ! -
+lF7kL	! ! -
+nHRxR	- - - - !
+pfykL	!! ! - - -
+qTHjS	! -
+vOiqT	- - !
+0UY2K	! - - -
+0pKFj	! ! -
+2icBf	!! !! - -
+LwMmI	- ! - -
+PHoGd	- !!
+Y2zrq	! ! !! - -
+ZrpLV	!! !! !
+h5Ytx	- - - -
+pjfuk	!! ! ! -
+qDRgg	- ! - ! -
+s2bDO	! !!
+sAhQL	!! !! !! -
+sqM4R	! - -
+tYPk0	!! - !
+0nP1q	- !! !! -
+251aH	! !! -
+7kKe2	!! !! !!
+DnTEt	! - !! -
+DpA9t	!! - -
+M8JSm	! - -
+Oy59P	! ! - -
+PDLHA	!! - ! -
+SDdC0	! - ! ! - !
+Tfz2n	!! ! -
+USuUC	! !
+VzJos	!! ! !
+Y4mq8	! - -
+eekCG	! ! ! -
+emayr	! ! -
+gVyTD	! !! !
+gxqf8	! - ! -
+nshoB	- ! !
+piyZn	! - ! !
+sjDOB	- - !!
+2xLAv	! ! - -
+4IchH	! !
+6uTZQ	- - -
+Amp6K	! -
+GD9y1	- - - - - !
+Gh8hh	- ! -
+MVUg9	- ! !
+QbTRI	! ! !
+RWxhD	! ! -
+Y3Uha	- ! ! ! ! -
+n0yhk	- - - -
+nOslj	- !! !! !! -
+oBhQh	!! ! ! -
+426av	! - !
+GvnvM	! !
+O6gT4	!! - -
+SEkYP	- ! ! !
+V3z7J	! !! - ! ! ! -
+ZCRVR	! ! !
+dMFFT	- ! - - - -
+shuFN	! ! !
+tP5Xc	- - !
+3UfNf	! ! ! -
+9nsmm	! ! ! - -
+EZcCr	- !! - - -
+GKJrZ	!! ! - ! -
+L7Bkq	- - - - !!
+Sa4gw	! ! !
+VZVui	- - !
+WgSw8	- ! !
+Yijkp	- - - ! !
+emg6h	! ! -
+oIKtB	! !! - -
+rfbCk	!! ! ! - - !
+ti6HH	! ! ! -
+u2BQT	! ! ! ! - -
+uUbm0	- !
+1rhBY	!! !
+9Ej1C	- ! ! !
+BQcKc	! ! -
+HRCrW	- - !
+Mcdsh	! ! !
+NW4C7	! !! - -
+Nb8H5	! ! -
+P05vk	! !
+RK11u	! ! ! !
+ZZy3N	! !
+ewO37	! ! !
+fpkID	! - !! !
+xVYiW	!! !! ! !
+zstXH	! !
+3o4ei	! - - - -
+66hVL	!! -
+MTp2B	! !
+N0ggk	! !
+Q3wye	!! - ! ! !
+V24i8	! - -
+XilMS	! ! - -
+u9kpY	- ! !!
+vYoEw	! - -
+GNthI	- ! -
+JNlIY	!! - !
+JO8gn	! ! !
+MbeMw	!! - -
+ZgeJn	! ! !
+cuAdK	!! - ! - -
+km6ws	!! ! !! - -
+kwnN9	- !! -
+lcZX1	- ! ! ! ! !
+pDOTd	! - ! ! - -
+u2WQo	- ! -
+vdqWE	! !
+zXg9A	! - -
+Bq1uI	- - - ! !
+NK0Lh	! - - !! -
+RVpEm	!! !! !!
+RmlmP	! ! - - - - -
+SGyC2	! !! !! ! !
+YEKrz	! -
+acHCZ	- ! -
+d4kDi	! ! ! - !
+uQ94X	! ! !!
+2fzC2	! ! ! - ! ! -
+Gr0N6	!! -
+Huzww	! ! ! !
+L8pY1	- - - - ! -
+jEecv	! !! -
+kQTBl	- ! !
+o3gfH	- ! !
+sZTdd	! - ! ! ! -
+w9HZ2	! ! - !
+4MSLW	! !! - !! !!
+4hLo5	- ! - -
+Apdvg	! !
+CTHCU	- ! !
+GFGi4	! !! !! - !!
+L9r0R	! ! !
+LRoO0	! ! !
+SXz3g	! !! -
+gbifb	- !
+i3rTD	! !!
+nqd2C	! ! ! !
+22vX6	!! ! !!
+2Wcnl	! - -
+4h44k	- ! ! !
+7ask8	!! -
+93GQT	- - !
+9OiSG	! - ! - ! -
+Fvoe2	! -
+KAR5x	! !! - -
+Ksh8p	! ! ! ! -
+RMfJB	! ! !
+XZTDf	! !! !! !! - - -
+YWT6O	!! !! ! - -
+ZDTW8	! - !
+ZqwTF	!! !! - !
+bEVx3	! !!
+kyU7t	! - - !
+le4wP	- !! - !! !!
+obUfZ	- !!
+qWVxA	- ! ! ! -
+qrr6e	! ! -
+sY7BK	- ! -
+0nBFh	! ! - !
+19qfc	! ! ! ! ! -
+2JFeW	! ! ! -
+3q5vD	- - -
+3yfet	!! ! -
+9RR5c	! ! - - -
+B0Dna	- - - - -
+HZSFA	! !
+KiUyf	- ! - -
+MAxfU	! - !
+PLuZh	! - -
+UMJv0	- !!
+VTtTS	!! - - ! -
+ZYy7W	! !!
+qhkUP	- - ! ! ! ! -
+7LQBe	! - ! -
+AxPGf	! !! !
+K6RsI	! -
+KpdkG	! - !
+LuB3J	- !
+MjJ9d	! !! - !
+RV4DO	- - !!
+VSKaL	! ! ! !
+Zqzyi	- ! - - -
+eWvpF	! !
+fL1eH	! ! ! - ! !
+jlA45	! !!
+u74p2	- ! ! !
+3YVTB	!! ! -
+74Hz6	! -
+OfIyi	- - ! !
+R8Nde	! ! -
+RXtIS	! ! - - -
+dtPQT	! ! ! ! -
+gu5WN	! !
+oHwNi	- - ! ! ! -
+rr7Sk	! ! ! !
+yrQZ9	! ! ! !
+D0UKU	- - ! !! -
+SQ7H3	- - !!
+TXsJv	! !
+gMGtH	!! !! -
+sS1GM	! - !
+seJDC	! - !
+uPOKz	! ! !!
+y6n7h	! ! !
+0W0ME	!! ! ! -
+5EDFP	!! !! !! ! -
+5uZBn	! - !
+7e6Fz	! - - - -
+8oaiG	- - - !
+HZ6Ei	! ! !
+KQ6W2	- - -
+PXc6f	- -
+YryIU	! ! !
+jbBTx	- - - - -
+l17vG	! ! -
+06Sro	!! !! !
+1DgqS	! - ! !
+Cbckd	! ! ! - ! - -
+J40zv	- ! ! ! !
+QcSy6	- ! -
+S1Szy	- ! ! -
+SLQbT	- !! - -
+dqLHO	! - - -
+mBtAC	! ! !! -
+xNsXw	! ! !
+zkI5F	! - ! -
+SgJTy	! ! -
+VrNNn	- - - -
+Y67VZ	- - - !! !! -
+cO5dS	- ! ! - !
+rZIp4	! ! ! ! !
+0e0LS	!! - - - -
+OE3SD	- ! !! !! !
+cOHoa	! - - ! !
+rZVZl	- - !
+CcUCV	- ! ! - - -
+OBfW2	- - - -
+UEBW2	! - - -
+UpGGS	!! !! !! -
+wTJVN	!! !! - -
+wsWfm	! !! -
+4rVVC	- ! ! !
+861xR	- - ! -
+HfVRL	! ! -
+RvZYc	! - -
+Z3IRk	! ! - ! !
+cEVdH	! ! !
+eElik	- ! -
+jbjsH	! ! !
+ou3Nb	- ! ! !
+qStKd	! !!
+LhGuB	- - ! - ! !
+coIPc	! - ! !
+DEC4n	! ! !
+TyWUD	- ! !
+nk6qN	! ! !
+wRmR3	- ! ! -
+2iS4R	! - - ! -
+A9cM4	- - ! -
+Avh8F	!! - - -
+MLZ0C	! ! !
+hmEh5	!! - !
+s6lkA	!! !
+HyIX5	- ! -
+jg39K	!! ! -
+2obOu	!! !
+7fPOq	- - !!
+AIJkz	- - !
+bxnBl	!! - -
+d11gM	! ! -
+2XIVx	- ! - ! !
+joHpa	! - - -
+leiZ1	! ! !
+26Ga2	!! !! ! -
+5sxRT	! - ! - ! -
+Euwy2	- ! ! !
+OVMxe	- ! !!
+wfoI0	! !! !
+3blcK	- - ! !
+IRsMH	- !! !!
+bmfhc	!! ! - -
+c1qDb	! ! ! -
+z31AD	- !! !!
+J18xp	! ! !
+Kk5gJ	! ! -
+Vvmkc	- ! ! !
+qxYCW	- ! ! -
+wjVz2	- ! - ! -
+2bmGs	! !
+MJz0c	! - ! -
+XcgiP	! !! !! !!
+kHeh2	! ! !
+Fkjos	! ! ! !
+Nrz6r	!! - !! - -
+PH0ru	! ! ! - -
+azdzM	- ! !
+f7H53	! !! -
+jJCJz	! - !!
+mVB7H	! -
+stkOY	! !
+v7vzz	- ! !
+w08At	- ! ! - ! ! ! - ! ! -
+yiGEb	! - -
+LO0DN	! ! ! !
+NSLrM	- !
+T6Ed0	! !! ! !! ! !! - !!
+fv1hW	- ! !!
+maeNL	! !! ! ! -
+uy5XS	- -
+MNSIQ	- - -
+jZHF7	! ! !!
+vzZ5u	- - -
+9RZLq	! ! !
+UqjKs	! ! !
+g08UU	- ! !
+ikfnP	! ! !
+4lZUT	! - !! -
+YoZ9V	! - - -
+Zo1hg	! ! -
+c2IZp	! ! -
+keZKt	- - - !
+muAJ9	! ! ! ! - !
+HieRs	- ! - - - -
+UPd0x	!! ! !
+qkDXv	! ! ! !
+rVF3Q	!! !! - - -
+wINz2	!! - ! !
+HxRkQ	!! - ! -
+IGgOY	! - - -
+O7A6T	! !
+QgSZZ	! ! -
+WEaN9	- ! - -
+eixwN	!! - ! - -
+IGnGK	! -
+PPytn	- ! !
+hrXUa	! ! ! ! !
+Dmg6Q	!! ! ! -
+L1EMr	! ! !
+WFig3	- - -
+d79ZU	! - -
+rBthK	- ! ! !! - ! -
+sllS1	! - !
+6ZGkL	! !
+Km0cE	- - ! ! -
+Mq2Gz	!! - -
+PDVZd	!! !! -
+mT5fJ	! ! ! -
+2QW1M	!! - ! -
+NZA1w	!! ! ! -
+WIUKi	!! !! -
+Z6M4s	! - -
+k8xpf	! ! - - -
+bZL9D	- !! !!
+rQfwr	! - - ! !
+vBjMX	! ! ! -
+yNZNT	! !! !! - !! - -
+zhfoh	- !! - ! - - - - - -
+2NnVO	- - - - !
+CaT6Q	! !!
+rHviX	! !
+veBmU	- ! -
+HfiRq	- ! -
+NGpGE	!! !! - -
+dkkNH	- !
+yRY9w	- !
+0MioD	!! ! ! ! ! - !
+TH9p1	! - -
+TbwO3	- ! !
+c2OrI	! - - ! - ! -
+qAPwC	! ! !
+5fd4P	- - ! - ! -
+AENWq	- - !!
+ELXqb	! - -
+M47jd	!! -
+pJSKN	! !! !! -
+uZMmu	- - ! -
+4uZ8G	- !! ! ! -
+971z3	- !
+NSUVl	! - -
+7RHch	! ! !
+tEaSg	! - !
+uESd4	! ! !
+BADiA	! !! - -
+eEX81	- ! ! ! -
+oeFBX	! -
+4BJna	- ! -
+AQPVC	!! - - !
+KCk0t	! ! ! - -
+TvKna	! ! - !
+WuE2E	! ! - !
+zayuc	! !
+10Wfi	! -
+E5kUq	- - -
+zSYB1	- ! !
+5dH7X	- !! !! - !
+5SjvI	- ! !
+MdvXj	! ! !!
+MlnV3	! ! ! ! ! -
+QyTxc	! - !!
+YwiMW	! - ! -
+dUbiq	! - -
+HmC0A	- - ! !
+Sfpoz	! - -
+V6cBi	! !! - - -
+cVwhA	- - - !
+pFml4	! ! ! !
+1gHYI	- ! !!
+3f9Ck	- - - ! -
+YY7ta	! - ! -
+8pXq7	! ! -
+VsfFU	! - !
+qvRVx	- ! -
+5xn6f	- ! !
+WZHiw	- ! !
+i0ofG	- ! ! -
+rvuWf	!! - -
+Subxd	- ! ! !! !
+WhC2i	! - !
+o52pm	! ! !
+6m5tt	! - -
+EA8Nd	! - ! -
+onUNV	- ! !
+hPgKM	! ! - ! - -
+sOOfy	!! - ! -
+xgDTb	! - -
+EK7gK	! ! ! - -
+lGWy3	!! !! -
+bh5BH	- !! ! !! - !!
+Dw7vm	! !
+qBZzl	!! -
+uChr6	! ! !
+uxwPb	! ! -
+4zSCS	- ! ! ! -
+RXrIT	! ! - -
+YqM9T	- !
+beaYY	- !! !! -
+Q1luE	- - ! - -
+tN9OI	! - ! !! -
+y7nX8	! ! - -
+0mReY	- ! ! -
+BMuiG	- ! !
+MAzYp	! !! !! -
+KTC03	! ! ! - -
+9CdaR	! ! -
+stdNU	!! ! !! - ! -
+9PfF1	- - - ! -
+cYJl7	! - -
+LXdPF	!! ! - -
+NGjJe	! ! ! !! - - !
+3hcAU	! ! - ! -
+CDgXR	! ! -
+NLcyN	- !! !! !! !! - -
+XVEKR	! - - !! -
+QH4lw	! !
+uLqQH	!! - -
+6AKs4	! !! !!
+Y8yCz	- - -
+IRRDX	! - ! !
+991bd	! ! ! -
+rp27F	- !
+GLLd8	- - ! ! ! - - !
+kOLGw	!! ! !!
+w9UOQ	- ! !
+6g5Ft	! ! !
+TQePs	!! !! -
+lGVud	- !
+nGfFA	- !! !! !!
+sSPgo	! ! !
+58wZ8	- ! -
+Kwy9J	- ! !! ! !
+UnDjR	! ! -
+gtTsq	- - - !! -
+vqVVK	! !
+K08po	! !!
+onQRI	! ! - -
+r4hjb	! ! ! !! -
+aTDzR	! - !
+0VS55	! ! -
+PW4pd	! - -
+lh10n	- ! !!
+zYCOc	! - !! -
+l9xq6	!! !!
+yUCIc	! ! - !
+S9jSZ	! - - - -
+6JS4s	!! !! ! !
+Fzr8V	!! !! - - -
+bmbPC	! - ! -
+l8Vzt	! ! ! ! !

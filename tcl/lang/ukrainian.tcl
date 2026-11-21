@@ -460,11 +460,11 @@ translate Q LichessPuzzlesViewSolution {Переглянути рішення}
 translate Q LichessPuzzlesHintMsg {Подивіться на фрагмент на %s.}
 translate Q LichessPuzzlesSolutionMsg {Рішення:\n%s}
 translate Q LichessPuzzlesDifficulty {Складність:}
-translate Q LichessPuzzlesDiffEasiest {Найпростіше}
-translate Q LichessPuzzlesDiffEasiestThenNormal {Найпростіше, потім нормально}
-translate Q LichessPuzzlesDiffNormal {нормальний}
-translate Q LichessPuzzlesDiffNormalThenHardest {Нормально, потім найважче}
-translate Q LichessPuzzlesDiffHardest {Найважче}
+translate Q LichessPuzzlesDiffEasiest {Найлегший}
+translate Q LichessPuzzlesDiffEasier {Легший}
+translate Q LichessPuzzlesDiffNormal {Нормальний}
+translate Q LichessPuzzlesDiffHarder {Важчий}
+translate Q LichessPuzzlesDiffHardest {Найважчий}
 translate Q LichessPuzzlesColor {Грати як:}
 translate Q LichessPuzzlesNextColor {Наступний колір головоломки:}
 translate Q LichessPuzzlesSideToMove {Сторона для переміщення}

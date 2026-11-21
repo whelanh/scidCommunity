@@ -499,11 +499,11 @@ translate P LichessPuzzlesViewSolution {Pokaż rozwiązanie}
 translate P LichessPuzzlesHintMsg {Przyjrzyj się figurze na polu %s.}
 translate P LichessPuzzlesSolutionMsg {Rozwiązanie:\n%s}
 translate P LichessPuzzlesDifficulty {Poziom trudności:}
-translate P LichessPuzzlesDiffEasiest {Najłatwiejsze}
-translate P LichessPuzzlesDiffEasiestThenNormal {Najłatwiejsze, potem normalne}
-translate P LichessPuzzlesDiffNormal {Normalne}
-translate P LichessPuzzlesDiffNormalThenHardest {Normalne, potem najtrudniejsze}
-translate P LichessPuzzlesDiffHardest {Najtrudniejsze}
+translate P LichessPuzzlesDiffEasiest {Bardzo łatwy}
+translate P LichessPuzzlesDiffEasier {Łatwy}
+translate P LichessPuzzlesDiffNormal {Normalny}
+translate P LichessPuzzlesDiffHarder {Trudny}
+translate P LichessPuzzlesDiffHardest {Bardzo trudny}
 translate P LichessPuzzlesColor {Graj jako:}
 translate P LichessPuzzlesNextColor {Kolor w następnym zadaniu:}
 translate P LichessPuzzlesSideToMove {Strona na posunięciu}

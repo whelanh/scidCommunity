@@ -489,9 +489,9 @@ translate N LichessPuzzlesHintMsg {Kijk naar het stuk op %s.}
 translate N LichessPuzzlesSolutionMsg {Oplossing:\n%s}
 translate N LichessPuzzlesDifficulty {Moeilijkheidsgraad:}
 translate N LichessPuzzlesDiffEasiest {Makkelijkst}
-translate N LichessPuzzlesDiffEasiestThenNormal {Makkelijkst, dan normaal}
+translate N LichessPuzzlesDiffEasier {Makkelijker}
 translate N LichessPuzzlesDiffNormal {Normaal}
-translate N LichessPuzzlesDiffNormalThenHardest {Normaal, daarna het moeilijkst}
+translate N LichessPuzzlesDiffHarder {Moeilijker}
 translate N LichessPuzzlesDiffHardest {Het moeilijkst}
 translate N LichessPuzzlesColor {Speel als:}
 translate N LichessPuzzlesNextColor {Volgende puzzelkleur:}

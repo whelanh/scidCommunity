@@ -464,9 +464,9 @@ translate C LichessPuzzlesHintMsg {Podívejte se na figuru na %s.}
 translate C LichessPuzzlesSolutionMsg {Řešení:\n%s}
 translate C LichessPuzzlesDifficulty {Obtížnost:}
 translate C LichessPuzzlesDiffEasiest {Nejjednodušší}
-translate C LichessPuzzlesDiffEasiestThenNormal {Nejjednodušší, pak normální}
-translate C LichessPuzzlesDiffNormal {Normální}
-translate C LichessPuzzlesDiffNormalThenHardest {Normální, pak nejtěžší}
+translate C LichessPuzzlesDiffEasier {Snadné}
+translate C LichessPuzzlesDiffNormal {Střední}
+translate C LichessPuzzlesDiffHarder {Těžší}
 translate C LichessPuzzlesDiffHardest {Nejtěžší}
 translate C LichessPuzzlesColor {Hrajte jako:}
 translate C LichessPuzzlesNextColor {Další barva puzzle:}

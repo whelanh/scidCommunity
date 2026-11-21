@@ -500,11 +500,11 @@ translate J LichessPuzzlesViewSolution {Погледајте решење}
 translate J LichessPuzzlesHintMsg {Погледајте комад на %s.}
 translate J LichessPuzzlesSolutionMsg {Решење:\n%s}
 translate J LichessPuzzlesDifficulty {потешкоћа:}
-translate J LichessPuzzlesDiffEasiest {Најлакше}
-translate J LichessPuzzlesDiffEasiestThenNormal {Најлакше, онда нормално}
-translate J LichessPuzzlesDiffNormal {Нормално}
-translate J LichessPuzzlesDiffNormalThenHardest {Нормално, онда најтеже}
-translate J LichessPuzzlesDiffHardest {Најтеже}
+translate J LichessPuzzlesDiffEasiest {Најлакши}
+translate J LichessPuzzlesDiffEasier {Лакши}
+translate J LichessPuzzlesDiffNormal {Нормалан}
+translate J LichessPuzzlesDiffHarder {Тежи}
+translate J LichessPuzzlesDiffHardest {Најтежи}
 translate J LichessPuzzlesColor {Играј као:}
 translate J LichessPuzzlesNextColor {Следећа боја слагалице:}
 translate J LichessPuzzlesSideToMove {Страна за кретање}

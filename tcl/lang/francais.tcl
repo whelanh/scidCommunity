@@ -475,11 +475,11 @@ translate F LichessPuzzlesViewSolution {Voir la solution}
 translate F LichessPuzzlesHintMsg {Regardez la pièce sur %s.}
 translate F LichessPuzzlesSolutionMsg {Solution :\n%s}
 translate F LichessPuzzlesDifficulty {Difficulté:}
-translate F LichessPuzzlesDiffEasiest {Le plus simple}
-translate F LichessPuzzlesDiffEasiestThenNormal {Le plus simple, puis normal}
-translate F LichessPuzzlesDiffNormal {Normale}
-translate F LichessPuzzlesDiffNormalThenHardest {Normal, puis le plus dur}
-translate F LichessPuzzlesDiffHardest {Le plus dur}
+translate F LichessPuzzlesDiffEasiest {Le plus facile}
+translate F LichessPuzzlesDiffEasier {Plus facile}
+translate F LichessPuzzlesDiffNormal {Normal}
+translate F LichessPuzzlesDiffHarder {Plus difficile}
+translate F LichessPuzzlesDiffHardest {Le plus difficile}
 translate F LichessPuzzlesColor {Incarnez :}
 translate F LichessPuzzlesNextColor {Couleur du puzzle suivant :}
 translate F LichessPuzzlesSideToMove {Côté à déplacer}

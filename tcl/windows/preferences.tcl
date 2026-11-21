@@ -298,6 +298,7 @@ proc ::preferences::resources {} {
         {::ecoFile                   OptionsECO             isfile      getECOFile                            readECOFile}
         {::scidBooksDir              OptionsBooksDir        isdirectory getBooksDir                           setBooksDir}
         {::scidBasesDir              OptionsTacticsBasesDir isdirectory getTacticsBasesDir                    setTacticsBasesDir}
+        {::woodpecker::dataDir       WoodpeckerDataDir      isdirectory ::woodpecker::ui::chooseDataDir       ::woodpecker::ui::setDataDir}
         {::scidPhotoDir              OptionsPhotosDir       isdirectory getPhotoDir                           setPhotoDir}
         {::utils::sound::soundFolder SoundsFolder           isdirectory ::utils::sound::GetDialogChooseFolder ::utils::sound::OptionsDialogChooseFolder}
     }

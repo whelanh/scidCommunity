@@ -470,10 +470,10 @@ translate W LichessPuzzlesViewSolution {Visa lösning}
 translate W LichessPuzzlesHintMsg {Titta på stycket på %s.}
 translate W LichessPuzzlesSolutionMsg {Lösning:\n%s}
 translate W LichessPuzzlesDifficulty {Svårighet:}
-translate W LichessPuzzlesDiffEasiest {Enklast}
-translate W LichessPuzzlesDiffEasiestThenNormal {Enklast, sedan normalt}
+translate W LichessPuzzlesDiffEasiest {Lättast}
+translate W LichessPuzzlesDiffEasier {Lättare}
 translate W LichessPuzzlesDiffNormal {Normal}
-translate W LichessPuzzlesDiffNormalThenHardest {Normalt, sedan svårast}
+translate W LichessPuzzlesDiffHarder {Svårare}
 translate W LichessPuzzlesDiffHardest {Svårast}
 translate W LichessPuzzlesColor {Spela som:}
 translate W LichessPuzzlesNextColor {Nästa pusselfärg:}
