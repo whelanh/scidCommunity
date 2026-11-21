@@ -51,14 +51,18 @@ checkEq "the token is read back" [::woodpecker::set::tokenRead] lip_abc123
 checkEq "it stays in Scid's own folder" [file dirname [::woodpecker::set::tokenPath]] [file join $::scidUserDir woodpecker]
 check "never in the synchronised folder" {![file exists [file join $cloud woodpecker token.txt]]}
 if {$tcl_platform(platform) eq "unix"} {
-    checkEq "readable by its owner only" [file attributes [::woodpecker::set::tokenPath] -permissions] 00600
+    # 0600: Tcl 8.6 prints the mode as 00600 and Tcl 9 as 0o600, so compare
+    # the permission bits themselves rather than either spelling.
+    checkEq "readable by its owner only" \
+        [format %o [file attributes [::woodpecker::set::tokenPath] -permissions]] 600
 }
 check "a malformed token is refused" {[catch {::woodpecker::set::tokenWrite "not a token"}]}
 check "no temporary token file is left" {![llength [glob -nocomplain -directory [file dirname [::woodpecker::set::tokenPath]] token.txt.*]]}
 ::woodpecker::set::tokenWrite lip_second
 checkEq "a new token replaces the old one" [::woodpecker::set::tokenRead] lip_second
 if {$tcl_platform(platform) eq "unix"} {
-    checkEq "still owner-only after replacing" [file attributes [::woodpecker::set::tokenPath] -permissions] 00600
+    checkEq "still owner-only after replacing" \
+        [format %o [file attributes [::woodpecker::set::tokenPath] -permissions]] 600
 }
 check "the create link asks for puzzle:read" \
     {[string first {scopes[]=puzzle:read} [::woodpecker::set::tokenCreateUrl]] >= 0}
