@@ -36,8 +36,14 @@ checkEq "an obvious mate earns no mark" [dict get $m 7 marks] [list ""]
 checkEq "the marks come from the review" [dict get $m 7 source] review
 set m [::woodpecker::eval::marksFromResults $exs {7} $deepRes [dict create 7000 [dict create 1 {3 20 cp a1a7}]]]
 checkEq "a mate the short search misses is !" [dict get $m 7 marks] [list "!"]
+# A pass that lost its engine reports only the positions it reached. An
+# exercise it never got to must be left out, so it keeps its earlier marks;
+# grading it would append a new version of blanks over them.
 set m [::woodpecker::eval::marksFromResults $exs {7} [dict create] [dict create]]
-checkEq "no results, no mark" [dict get $m 7 marks] [list ""]
+checkEq "an exercise the engine never reached is not graded" $m [dict create]
+set half [dict create 7000 [dict get $deepRes 7000]]
+set m [::woodpecker::eval::marksFromResults $exs {7} $half [dict create]]
+checkEq "half a line is not graded" $m [dict create]
 
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

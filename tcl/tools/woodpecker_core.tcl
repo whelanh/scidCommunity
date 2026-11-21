@@ -3,7 +3,7 @@
 ###
 ### Pure Tcl: no Tk and no sc_* commands, so the same code runs in the
 ### application and in tests/tcl/woodpecker_core.tcl. Time is always passed
-### in, never read here. Design: docs/woodpecker-adr.md.
+### in, never read here. Design: docs/woodpecker-method.md.
 ###
 ### Vocabulary
 ###   set        a fixed, ordered list of exercises (a Scid database + files)
@@ -42,7 +42,7 @@ namespace eval ::woodpecker {
 }
 
 ################################################################################
-# Scoring (docs/woodpecker-adr.md, Decision 4)
+# Scoring (docs/woodpecker-method.md, Decision 4)
 
 # How much a puzzle's points are worth: its Lichess rating over 1500, clamped.
 # A set without ratings (a book) weighs every exercise 1.

@@ -542,7 +542,7 @@ translate E WoodpeckerContinue {Continue (Enter)}
 translate E WoodpeckerPause {Pause}
 translate E WoodpeckerResume {Resume}
 translate E WoodpeckerEnd {End session}
-translate E WoodpeckerNoSets {No set yet: press New set to download puzzles from Lichess or to use a PGN book.}
+translate E WoodpeckerNoSets {No set yet: press New set to start with the puzzles included with Scid, to download more from Lichess, or to use a PGN book.}
 translate E WoodpeckerUnrated {%d of %d exercises have no ! / !! marks: evaluate the set to earn those bonuses (earlier sessions are rescored too).}
 translate E WoodpeckerCycleOver {Cycle %d is complete. Rest until %s, then the next cycle starts, with half the days.}
 translate E WoodpeckerCycleLine {Cycle %d: %d/%d done, %d days planned, deadline %s.}

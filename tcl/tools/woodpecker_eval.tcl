@@ -5,7 +5,7 @@
 ###   1. every position of every solution, MultiPV 3, depth 12 - the review's
 ###      verdict per move (::reviewdriver::judge). On puzzles depth 12 gives the
 ###      same labels as the review's default 18 at a twelfth of the time
-###      (docs/woodpecker-adr.md, Decision 3);
+###      (docs/woodpecker-method.md, Decision 3);
 ###   2. the position before each solver move, MultiPV 1, depth 3 - what a short
 ###      search plays, for the "not the obvious move" test.
 ### The marks (::woodpecker::markFor) become a new marks version and are written
@@ -92,13 +92,23 @@ proc ::woodpecker::eval::marksFromResults {exs exList deepRes shallowRes} {
         set deep [dict create]
         set shallow [dict create]
         set n [llength [dict get $e solution]]
+        set reached 1
         for {set p 0} {$p <= $n} {incr p} {
             set k [expr {$ex * $KEY + $p}]
-            if {[dict exists $deepRes $k]} { dict set deep $p [dict get $deepRes $k] }
+            if {[dict exists $deepRes $k]} {
+                dict set deep $p [dict get $deepRes $k]
+            } else {
+                set reached 0
+            }
             if {[dict exists $shallowRes $k 1]} {
                 dict set shallow $p [lindex [dict get $shallowRes $k 1] 3 0]
             }
         }
+        # A pass that lost its engine reports only the positions it reached.
+        # Grading an exercise it never got to would append a new version of
+        # blanks over the marks that exercise already had, so leave it out:
+        # it keeps its earlier marks and is not counted as graded.
+        if {!$reached} { continue }
         dict set out $ex [dict create marks [marksOf [dict get $e fen] [dict get $e solution] $deep $shallow] \
             source review]
     }
@@ -131,9 +141,17 @@ proc ::woodpecker::eval::start {dir engineName exList onProgress onDone} {
     if {![llength $exList]} { error "nothing to evaluate" }
     set run [dict create dir $dir cfg $cfg exs $exs exList $exList \
         onProgress $onProgress onDone $onDone deep {} token ""]
-    set token [::reviewdriver::start $cfg [deepPositions $exs $exList] $MPV \
-        [dict create depth $DEPTH] [list ::woodpecker::eval::progress deep] \
-        ::woodpecker::eval::deepDone 0]
+    # The driver refuses an engine id another pass is using (the Game Review
+    # takes the same one). A run left in `run` after that error would answer
+    # busy for the rest of the session and refuse every later Evaluate.
+    if {[catch {
+        set token [::reviewdriver::start $cfg [deepPositions $exs $exList] $MPV \
+            [dict create depth $DEPTH] [list ::woodpecker::eval::progress deep] \
+            ::woodpecker::eval::deepDone 0]
+    } err]} {
+        set run {}
+        return -code error $err
+    }
     dict set run token $token
     return $token
 }
@@ -180,6 +198,9 @@ proc ::woodpecker::eval::write {shallow} {
     progress write 0 1
     if {[catch {
         set marks [marksFromResults [dict get $run exs] [dict get $run exList] [dict get $run deep] $shallow]
+        # Nothing reached (the engine died at the first position): a new
+        # version of blanks would hide the marks already in the set.
+        if {![dict size $marks]} { error "the engine did not finish any exercise" }
         set dir [dict get $run dir]
         set ver [::woodpecker::marksAppend $dir $marks]
         # The NAGs go into the set's database, which means loading its games.

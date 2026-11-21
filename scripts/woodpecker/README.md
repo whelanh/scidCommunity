@@ -4,7 +4,7 @@ Measures what the review's verdict code writes on Lichess puzzle solutions.
 It runs the repository's own `::review::mainLineMap`, `::reviewdriver::sides`,
 `::reviewdriver::judge`, `::movelabels::label` and `::movelabels::refine` on
 each solver move, with Stockfish doing the search the review pass would do
-(MultiPV 3, depth 18 by default). Results are in `docs/woodpecker-adr.md`, Decision 3.
+(MultiPV 3, depth 18 by default). Results are in `docs/woodpecker-method.md`, Decision 3.
 
 Requirements: `tclsh` 8.6, `python3` (stdlib only), Stockfish
 (`/usr/games/stockfish` or `$STOCKFISH`), network access to `lichess.org`.

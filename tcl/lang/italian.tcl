@@ -510,7 +510,7 @@ translate I WoodpeckerContinue {Continua (Invio)}
 translate I WoodpeckerPause {Pausa}
 translate I WoodpeckerResume {Riprendi}
 translate I WoodpeckerEnd {Termina sessione}
-translate I WoodpeckerNoSets {Nessun set: premi Nuovo set per scaricare puzzle da Lichess o usare un libro in PGN.}
+translate I WoodpeckerNoSets {Nessun set: premi Nuovo set per iniziare con i puzzle inclusi in Scid, scaricarne altri da Lichess o usare un libro in PGN.}
 translate I WoodpeckerUnrated {%d esercizi su %d non hanno i segni ! / !!: valuta il set per ottenere quei bonus (anche le sessioni passate vengono ricalcolate).}
 translate I WoodpeckerCycleOver {Ciclo %d completato. Riposo fino al %s, poi parte il ciclo successivo, con metà dei giorni.}
 translate I WoodpeckerCycleLine {Ciclo %d: %d/%d fatti, %d giorni previsti, scadenza %s.}

@@ -286,6 +286,8 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
     if {[dict exists $spec skip]} { foreach id [dict get $spec skip] { dict set seen $id 1 } }
     # Puzzles fetched but outside the band of the level being filled: another
     # level, or the same one once its band widens, may still take them.
+    # Kept as id -> {difficulty fetched at, exercise}, so a level can tell a
+    # leftover of its own batch from one of another difficulty's.
     set spare [dict create]
     set got {}
     set done 0
@@ -303,13 +305,19 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
         }
         set have 0
         set idle 0
-        set take [list apply {{ex centre window} {
-            expr {$centre eq "" || abs([dict get $ex rating] - $centre) <= $window}
+        # Does a spare puzzle belong to this level's band? A batch fetched
+        # with a token is one difficulty, so its leftovers are only for the
+        # level that asked for them; an emulated draw has a rating window and
+        # may take any spare that fits it.
+        set take [list apply {{ex centre window spareLevel target} {
+            if {$centre eq ""} { return [expr {$spareLevel eq $target}] }
+            expr {abs([dict get $ex rating] - $centre) <= $window}
         }}]
         # What is already in hand first.
-        dict for {id ex} $spare {
+        dict for {id pair} $spare {
             if {$have >= $target} break
-            if {[{*}$take $ex $centre $window]} {
+            lassign $pair spareLevel ex
+            if {[{*}$take $ex $centre $window $spareLevel $level]} {
                 dict set ex level $level
                 lappend got $ex
                 dict unset spare $id
@@ -345,14 +353,14 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
                         set side [::woodpecker::fenSide [dict get $ex fen]]
                         if {$color eq "white" && $side ne "w"} { continue }
                         if {$color eq "black" && $side ne "b"} { continue }
-                        if {$have < $target && [{*}$take $ex $centre $window]} {
+                        if {$have < $target && [{*}$take $ex $centre $window $src $level]} {
                             dict set ex level $level
                             lappend got $ex
                             incr have
                             incr done
                             incr roundFresh
                         } else {
-                            dict set spare $id $ex
+                            dict set spare $id [list $src $ex]
                         }
                     }
                     if {$progress ne ""} { {*}$progress $done $n "lichess: $level" }
@@ -366,9 +374,10 @@ proc ::woodpecker::set::fetchLichess {spec {progress ""}} {
                     # Nothing new in the band: widen it, and look again at what
                     # was set aside before waiting for Lichess.
                     incr window 100
-                    dict for {id ex} $spare {
+                    dict for {id pair} $spare {
                         if {$have >= $target} break
-                        if {[{*}$take $ex $centre $window]} {
+                        lassign $pair spareLevel ex
+                        if {[{*}$take $ex $centre $window $spareLevel $level]} {
                             dict set ex level $level
                             lappend got $ex
                             dict unset spare $id
@@ -748,13 +757,18 @@ proc ::woodpecker::set::buildFromFile {dir meta file} {
     } else {
         set src [sc_base open PGN $file]
     }
+    set dst ""
     set err [catch {
         set dst [sc_base create SCID5 [basePath $dir]]
         sc_base copygames $src dbfilter $dst
         lassign [readGames $dst] rows marks skipped
         sc_base close $dst
+        set dst ""
     } msg]
     catch { sc_base close $src }
+    # A failure before the close above would leave the half-built base open,
+    # holding a database slot the UI can no longer free.
+    if {$dst ne ""} { catch { sc_base close $dst } }
     restoreBase $prev
     if {$err} { error $msg }
     if {![dict size $rows]} { error "no exercise: no game starts from a set-up position" }

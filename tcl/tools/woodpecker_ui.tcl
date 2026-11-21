@@ -3,7 +3,7 @@
 ###
 ### Play > Woodpecker Method. One window with three pages: the sets, the
 ### session panel and the session summary; a dialog to create a set, one to
-### evaluate it, and a statistics window. Design: docs/woodpecker-adr.md.
+### evaluate it, and a statistics window. Design: docs/woodpecker-method.md.
 ###
 ### A session takes the whole main window (the "focus layout"): the user's
 ### layout is saved, every window is closed but the board and this panel, and
@@ -1091,7 +1091,9 @@ proc ::woodpecker::ui::afterCreate {dir msg} {
     if {[dict get $st annotated] == 0} {
         if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
                 -message "$msg\n\n[tr WoodpeckerEvalRecommended]"] eq "yes"} {
-            evaluate $dir all
+            # A set with the bundled marks needs only its Lichess top-ups
+            # graded: `evaluate` leaves the marks that came with it alone.
+            evaluate $dir
         }
         return
     }
@@ -1117,6 +1119,9 @@ proc ::woodpecker::ui::progressOpen {title cancelVar} {
     if {$cancelVar ne ""} {
         ttk::button $d.c -text $::tr(Cancel) -command [list set $cancelVar 1]
         pack $d.c -pady {4 10}
+        # Closing the window is Cancel: without this the work would run on
+        # with no dialog and no button left to stop it.
+        wm protocol $d WM_DELETE_WINDOW [list set $cancelVar 1]
     }
     update idletasks
 }
@@ -1140,8 +1145,10 @@ proc ::woodpecker::ui::progressClose {} {
 ################################################################################
 # Evaluating a set
 
-# `mode`: all | missing | ask. With ask the dialog follows the trainee's rule:
-#   no annotations -> the evaluation is strongly recommended
+# `mode`: all | missing | unmarked | ask. With ask the dialog follows the
+# trainee's rule:
+#   no annotations -> grade the exercises without marks (the bundled sets keep
+#                     the marks they shipped with), or all if none is without
 #   some annotated -> complete with the review, or overwrite everything
 #   all annotated  -> the review is optional: overwrite or keep
 proc ::woodpecker::ui::evaluate {{dir ""} {mode ask}} {
@@ -1158,14 +1165,19 @@ proc ::woodpecker::ui::evaluate {{dir ""} {mode ask}} {
     set annotated [dict get $st annotated]
     set author {}
     set marks [::woodpecker::readMarks $dir]
-    dict for {ex e} [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] {
+    set table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]]
+    dict for {ex e} $table {
         if {[dict get $e source] eq "author"} { lappend author $ex }
     }
     set missing {}
-    foreach ex $all { if {$ex ni $author} { lappend missing $ex } }
+    set unmarked {}
+    foreach ex $all {
+        if {$ex ni $author} { lappend missing $ex }
+        if {![dict exists $table $ex]} { lappend unmarked $ex }
+    }
     if {$mode eq "ask"} {
         if {$annotated == 0} {
-            set mode all
+            set mode [expr {[llength $unmarked] ? "unmarked" : "all"}]
         } elseif {$annotated < $total} {
             set ans [choice [T WoodpeckerSomeAnnotated $annotated $total] \
                 [list missing [tr WoodpeckerComplete] all [tr WoodpeckerOverwrite] cancel $::tr(Cancel)]]
@@ -1178,7 +1190,7 @@ proc ::woodpecker::ui::evaluate {{dir ""} {mode ask}} {
             set mode all
         }
     }
-    set list [expr {$mode eq "missing" ? $missing : $all}]
+    set list [expr {$mode eq "missing" ? $missing : ($mode eq "unmarked" ? $unmarked : $all)}]
     if {![llength $list]} { return }
     set engine [chooseEngine [llength $list]]
     if {$engine eq ""} { return }
