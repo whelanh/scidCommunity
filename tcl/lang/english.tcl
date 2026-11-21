@@ -589,6 +589,7 @@ translate E WoodpeckerCreated {Set created: %d exercises.}
 translate E WoodpeckerFewer {Lichess gave %d of the %d puzzles asked for.}
 translate E WoodpeckerNoFile {Cannot read %s}
 translate E WoodpeckerSkipped {%d games were skipped (no set-up position, or no moves).}
+translate E WoodpeckerMarksIncluded {The key moves ! and !! are already marked, so you can start. You can still evaluate the set with your own engine from its menu.}
 translate E WoodpeckerEvalRecommended {Evaluate it now with the review? Strongly recommended: it marks the key moves ! and !!, which earn bonus points. It takes about a second per exercise and can also be done later.}
 translate E WoodpeckerLevel_easiest {Easiest}
 translate E WoodpeckerLevel_easier {Easier}

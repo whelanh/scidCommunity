@@ -557,6 +557,7 @@ translate I WoodpeckerCreated {Set creato: %d esercizi.}
 translate I WoodpeckerFewer {Lichess ha fornito %d dei %d puzzle richiesti.}
 translate I WoodpeckerNoFile {Impossibile leggere %s}
 translate I WoodpeckerSkipped {%d partite saltate (nessuna posizione impostata, o nessuna mossa).}
+translate I WoodpeckerMarksIncluded {Le mosse chiave ! e !! sono già segnate, quindi puoi iniziare. Puoi comunque valutare il set con il tuo motore dal suo menu.}
 translate I WoodpeckerEvalRecommended {Valutarlo ora con la review? Caldamente consigliato: segna le mosse chiave con ! e !!, che danno punti bonus. Richiede circa un secondo per esercizio e si può fare anche più tardi.}
 translate I WoodpeckerLevel_easiest {Facilissimo}
 translate I WoodpeckerLevel_easier {Facile}

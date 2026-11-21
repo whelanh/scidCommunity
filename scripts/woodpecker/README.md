@@ -40,3 +40,18 @@ python3 -I analyze.py out/probe_f.tsv
 
 The batch endpoint is for training, not bulk download (Lichess API spec): keep
 samples small, one request at a time.
+
+## Marks of the bundled puzzles
+
+`bundled_marks.tcl` regenerates `puzzles/marks.tsv`, the `!` and `!!` of the nine
+bundled puzzle sets, with the trainer's own evaluation. It needs the built
+application (for the `sc_*` commands) and a UCI engine, not network access:
+
+```bash
+WP_ENGINE=/path/to/stockfish scidCommunity scripts/woodpecker/bundled_marks.tcl
+```
+
+All 9,000 puzzles take roughly two hours on one core (the high sets are the
+slow ones). `WP_SETS` and `WP_OUT` grade some sets into a part file, which lets
+you run one process per set; the header of the script shows how to join the
+parts. Rerun it whenever `::woodpecker::markFor` or the evaluation changes.

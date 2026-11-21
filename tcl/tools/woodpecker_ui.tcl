@@ -1078,9 +1078,16 @@ proc ::woodpecker::ui::selectSet {dir} {
 }
 
 # A new set: say what was built and offer the evaluation (no annotations ->
-# strongly recommended; some -> complete or overwrite).
+# strongly recommended; some -> complete or overwrite). A set whose every
+# exercise came with its marks (the bundled puzzles) needs no question: the
+# evaluation stays in the set's menu for anyone who wants their own engine's.
 proc ::woodpecker::ui::afterCreate {dir msg} {
     set st [::woodpecker::set::markStatus $dir]
+    if {[dict get $st reviewed] == [dict get $st total]} {
+        tk_messageBox -icon info -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+            -message "$msg\n\n[tr WoodpeckerMarksIncluded]"
+        return
+    }
     if {[dict get $st annotated] == 0} {
         if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
                 -message "$msg\n\n[tr WoodpeckerEvalRecommended]"] eq "yes"} {

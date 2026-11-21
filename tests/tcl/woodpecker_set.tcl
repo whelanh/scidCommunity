@@ -127,6 +127,31 @@ set ex [::woodpecker::set::bundledExercise [lindex $pool 0]]
 checkEq "the exercise links the game at the puzzle's move" "https://lichess.org/[dict get $ex gameId]" \
     [string map {lichess.org/game/ lichess.org/} [dict get [lindex $pool 0] GameUrl]]
 
+# The marks shipped with the puzzles (puzzles/marks.tsv): one line per puzzle,
+# one mark per solver move, only ! !! or nothing.
+set bm [::woodpecker::set::readBundledMarks $pdir]
+checkEq "marks.tsv has one line per pool puzzle" [dict size $bm] [llength $pool]
+set markBad {}
+set oddMark {}
+foreach g $pool {
+    set plies 0
+    foreach tok [dict get $g moves] {
+        regsub {^\d+\.+} $tok "" tok
+        if {$tok eq "" || $tok in {* 1-0 0-1 1/2-1/2}} { continue }
+        incr plies
+    }
+    set id [dict get $g PuzzleId]
+    if {![dict exists $bm $id] || [llength [dict get $bm $id]] != ($plies + 1) / 2} { lappend markBad $id; continue }
+    foreach m [dict get $bm $id] { if {$m ni {"" ! !!}} { lappend oddMark $id } }
+}
+checkEq "every puzzle has one mark per solver move" [lrange $markBad 0 4] {}
+checkEq "marks are only ! !! or nothing" [lrange $oddMark 0 4] {}
+set ex [::woodpecker::set::bundledExercise [lindex $pool 0] $bm]
+checkEq "an exercise carries its marks" [dict get $ex marks] [dict get $bm [dict get $ex id]]
+set ex [::woodpecker::set::bundledExercise [lindex $pool 0] [dict create [dict get [lindex $pool 0] PuzzleId] {! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !}]]
+check "marks of the wrong length are not trusted" [expr {![dict exists $ex marks]}]
+check "a puzzle without marks is still an exercise" [expr {![dict exists [::woodpecker::set::bundledExercise [lindex $pool 0]] marks]}]
+
 set ::woodpecker::dataDir ""
 proc inBand {exs rating level {extra 0}} {
     set centre [expr {$rating + [::woodpecker::levelDelta $level]}]
@@ -145,6 +170,7 @@ set spec [dict create count 100 shares [::woodpecker::presetShares standard] rat
 lassign [::woodpecker::set::fetchBundled $spec "" $pdir] exs short
 checkEq "standard at 1500: the shares become counts" [levelsOf $exs] {easier 25 harder 15 normal 60}
 checkEq "and nothing is missing" $short {}
+checkEq "every drawn puzzle comes with its marks" [llength [lmap e $exs { if {[dict exists $e marks]} continue; set e }]] 0
 check "each level stays in its band" {[inBand $exs 1500 easier] && [inBand $exs 1500 normal] && [inBand $exs 1500 harder]}
 set ratings {}
 foreach e $exs { lappend ratings [dict get $e rating] }

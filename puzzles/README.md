@@ -40,6 +40,13 @@ One game per puzzle:
 `manifest.csv` has the same information in tabular form, including the
 solution in UCI, and is meant for review rather than for training.
 
+`marks.tsv` is not part of the sets: for each puzzle it lists the `!` and `!!`
+the Woodpecker trainer gives to the solver's moves (`-` for none), so a new
+set needs no engine evaluation of its own. It was made with Stockfish 18 by
+`scripts/woodpecker/bundled_marks.tcl` and is installed with the sets. The PGN
+files carry no such marks and stay exactly as `scripts/build_puzzle_sets.py`
+writes them.
+
 ## How the sets were chosen
 
 Every puzzle passed these gates:

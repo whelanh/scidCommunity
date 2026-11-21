@@ -116,6 +116,27 @@ checkEq "the game starts from the puzzle position" [lindex $ml 0] "position fen 
 checkEq "its main line is the solution" [lrange $ml 1 end] [dict get $brows 1 solution]
 check "the site is the game at the puzzle's move" [string match "https://lichess.org/*#*" [sc_game tags get Site]] \
     [sc_game tags get Site]
+# The marks that ship with the puzzles are the set's first marks version, from
+# the review, and the database carries them as NAGs.
+set bst [::woodpecker::set::markStatus $bdir]
+checkEq "every exercise came with its marks: nothing to evaluate" \
+    [list [dict get $bst total] [dict get $bst annotated] [dict get $bst reviewed]] {20 0 20}
+set btable [::woodpecker::marksAt [::woodpecker::readMarks $bdir] 1]
+checkEq "the marks are the puzzle's own" [dict get $btable 1 marks] [dict get [lindex $bexs 0] marks]
+set nagChecked 0
+dict for {ex e} $btable {
+    set i 0
+    foreach m [dict get $e marks] {
+        if {$m ne "" && !$nagChecked} {
+            sc_game load [dict get $brows $ex game]
+            sc_move ply [expr {2 * $i + 1}]
+            checkEq "a marked solver move carries its NAG" [string trim [sc_pos getNags]] $m
+            set nagChecked 1
+        }
+        incr i
+    }
+}
+check "at least one drawn puzzle was marked" $nagChecked
 sc_base switch $prev
 sc_base close $b
 file delete -force $bdir

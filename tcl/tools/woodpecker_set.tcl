@@ -451,10 +451,33 @@ proc ::woodpecker::set::readPool {{dir ""}} {
     return $out
 }
 
+# puzzles/marks.tsv: the ! and !! of each pool puzzle, graded once with the
+# trainer's evaluation (scripts/woodpecker/bundled_marks.tcl). PuzzleId -> the
+# mark of each solver move ("" for none). Missing file: no marks, and a new set
+# is graded like any other.
+proc ::woodpecker::set::readBundledMarks {{dir ""}} {
+    variable bmarks
+    if {$dir eq ""} { set dir [puzzlesDir] }
+    if {[info exists bmarks($dir)]} { return $bmarks($dir) }
+    set out [dict create]
+    foreach row [::woodpecker::readLines [file join $dir marks.tsv]] {
+        lassign $row id marks
+        set l {}
+        foreach m [split $marks " "] {
+            if {$m ne ""} { lappend l [expr {$m eq "-" ? "" : $m}] }
+        }
+        if {$id ne "" && [llength $l]} { dict set out $id $l }
+    }
+    set bmarks($dir) $out
+    return $out
+}
+
 # One pool game as the trainer's exercise (the ::woodpecker::lichessExercise
 # shape). The PGN has no LastMove tag: it is the one legal move that leads from
 # SourceFEN to FEN. The solver's side comes from the FEN; FlipB is ignored.
-proc ::woodpecker::set::bundledExercise {g} {
+# `marks` (readBundledMarks): when it has the puzzle, and one mark per solver
+# move, the exercise carries them (key `marks`).
+proc ::woodpecker::set::bundledExercise {g {marks ""}} {
     set fen [dict get $g FEN]
     set src [::chessboard::fromFen [dict get $g SourceFEN]]
     set board [lindex $fen 0]
@@ -476,10 +499,17 @@ proc ::woodpecker::set::bundledExercise {g} {
     # The game's page at the puzzle's move: lichess.org/<id>/black#74.
     set gameId ""
     if {[dict exists $g GameUrl]} { regexp {lichess\.org/(?:game/)?(.+)$} [dict get $g GameUrl] -> gameId }
-    return [dict create id [dict get $g PuzzleId] rating [dict get $g LichessRating] \
+    set ex [dict create id [dict get $g PuzzleId] rating [dict get $g LichessRating] \
         plays [expr {[dict exists $g NbPlays] ? [dict get $g NbPlays] : ""}] \
         themes [expr {[dict exists $g Themes] ? [dict get $g Themes] : {}}] \
         fen $fen lastMove $last solution $solution gameId $gameId white "" black ""]
+    # The solver moves are every other ply, from the first.
+    set id [dict get $g PuzzleId]
+    if {$marks ne "" && [dict exists $marks $id] \
+            && [llength [dict get $marks $id]] == (([llength $solution] + 1) / 2)} {
+        dict set ex marks [dict get $marks $id]
+    }
+    return $ex
 }
 
 # Draw puzzles from the pool. `spec` keys as for fetchLichess (count, shares,
@@ -503,6 +533,7 @@ proc ::woodpecker::set::fetchBundled {spec {progress ""} {dir ""}} {
     set rating [dict get $spec rating]
     set want [levelCounts $n [dict get $spec shares]]
     set seen [usedIds]
+    set bmarks [readBundledMarks $dir]
     # What the pool holds (not what is left): an exhausted band is a shortfall,
     # never a silent move to easier puzzles.
     set lo Inf
@@ -549,7 +580,7 @@ proc ::woodpecker::set::fetchBundled {spec {progress ""} {dir ""}} {
                 set g [lindex $k 1]
                 # Left over: another level, or a wider band, may take it.
                 if {$have >= $target} { lappend cands $g; continue }
-                if {[catch { bundledExercise $g } ex]} { continue }
+                if {[catch { bundledExercise $g $bmarks } ex]} { continue }
                 dict set ex level $level
                 lappend got $ex
                 incr have
@@ -573,9 +604,12 @@ proc ::woodpecker::set::buildFromExercises {dir meta exercises} {
     set f [open $pgn w]
     fconfigure $f -encoding utf-8
     set rows [dict create]
+    set marks [dict create]
     set ex 0
     foreach e $exercises {
         incr ex
+        # Marks already graded (the bundled puzzles): the set's first marks version.
+        if {[dict exists $e marks]} { dict set marks $ex [dict create marks [dict get $e marks] source review] }
         set tags [list [list PuzzleId [dict get $e id]] [list PuzzleRating [dict get $e rating]]]
         if {[dict get $e plays] ne ""} { lappend tags [list PuzzlePlays [dict get $e plays]] }
         lappend tags [list PuzzleThemes [join [dict get $e themes] " "]]
@@ -593,6 +627,10 @@ proc ::woodpecker::set::buildFromExercises {dir meta exercises} {
     catch { file delete $pgn }
     ::woodpecker::writeExercises $dir $rows
     ::woodpecker::writeMeta $dir $meta
+    if {[dict size $marks]} {
+        ::woodpecker::marksAppend $dir $marks
+        writeMarks $dir $marks
+    }
     return $ex
 }
 
