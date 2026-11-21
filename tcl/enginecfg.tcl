@@ -474,6 +474,11 @@ proc ::enginecfg::updateConfigOptions {id configFrame msgInfoConfig} {
             return $renamed
         }
         ::enginecfg::createOptionWidgets $id $configFrame $options
+        # New widgets hold no value yet, so none can be skipped as unchanged.
+        # oldOptions is not empty even on the first connect (it carries the
+        # review's switches), and comparing against it would read a switch
+        # whose variable was never set.
+        set oldOptions {}
     }
     ::enginecfg::updateOptionWidgets $id $configFrame $options $oldOptions
     ::enginecfg::updateNetClients $configFrame $netclients
