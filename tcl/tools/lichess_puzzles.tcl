@@ -857,7 +857,10 @@ namespace eval ::lichess_puzzles {
             set linkTag "link_$puzzleData(gameId)"
             $t insert end "[tr LichessPuzzlesGame]: " {}
             $t insert end $gameUrl $linkTag
-            $t tag configure $linkTag -foreground blue -underline 1
+            # The pane is white today, but take the colour from the widget so
+            # the link stays readable if it is ever themed (#531).
+            $t tag configure $linkTag -foreground [::htext::linkColor $t] \
+                -underline 1
             $t tag bind $linkTag <ButtonRelease-1> \
                 [list ::lichess_puzzles::openBrowser $gameUrl]
             $t insert end "\n" {}

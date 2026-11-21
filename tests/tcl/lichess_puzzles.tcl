@@ -422,6 +422,20 @@ section "a batch that honours color: all 30 are kept"
 freshFetch
 checkEq "30 queued" [llength $::lichess_puzzles::puzzleQueue] 30
 
+# ------------------------------------------------------- the game link (#531) --
+
+# The detail pane is a plain Tk text widget, so its background is white whatever
+# the theme; the link is still coloured by the widget rather than by a literal,
+# so it follows the pane if it is ever themed.
+section "the puzzle's game link takes its colour from the widget"
+set fd [open $::module r]
+set src [read $fd]
+close $fd
+checkHas "the link foreground comes from ::htext::linkColor" $src \
+    {tag configure $linkTag -foreground [::htext::linkColor $t]}
+check "no literal blue is left on the link" \
+    [expr {[string first {$linkTag -foreground blue} $src] < 0}]
+
 # ------------------------------------------------------------------- result --
 
 file delete -force $tmp

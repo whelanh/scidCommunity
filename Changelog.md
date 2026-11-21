@@ -13,6 +13,10 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
+## Unreleased
+
+- Hyperlinks in the **tip window** and in help text are readable on the dark themes: they are drawn in a light blue, and the yellow highlight under the pointer switches the label to a dark blue so it stays legible. The light themes, and the black-on-white Help window, keep the usual blue.
+
 ## 5.1.4.72 - 19 November 2026
 
 - Opening a large database is faster. A 4.4-million-game database a full game-list sort drops from about 4 seconds of processor time to about 1.4, and a date-only sort is about five times faster. Sorting a list after a game is edited or added still produces exactly the same order as building it from scratch. A large spelling file is now parsed once and cached. A FIDE rating list of 250 MB, which is re-read at every start and takes over a second to parse, is written next to the file as `<name>.ssp.sspc`; later starts load it in about a third of the time. The cache is rebuilt whenever the spelling file changes, is ignored if its folder is read-only and can be deleted at any time. Small spelling files that contain no ratings are not cached, because parsing them is already quick. - thanks to @whelanh ([#526](https://github.com/whelanh/scidCommunity/pull/526)).

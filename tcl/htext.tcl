@@ -170,6 +170,28 @@ proc ::htext::isDarkColor {w color} {
   return [expr {$lum < 32768}]
 }
 
+# The colour of a hyperlink on this widget. X11 "blue" is very dark (about
+# 1.8:1 against the dark themes' backgrounds, cf. #531), so links switch to a
+# light blue on a dark background. The help window forces black-on-white text
+# and keeps the classic blue.
+proc ::htext::linkColor {w} {
+  if {[catch {set bg [$w cget -background]}]} { return "blue" }
+  if {$bg ne "" && [::htext::isDarkColor $w $bg]} { return "LightSkyBlue" }
+  return "blue"
+}
+
+# Hovering a link highlights it in yellow, so the foreground has to change with
+# the highlight: a light blue on yellow is unreadable (about 1.6:1).
+proc ::htext::linkEnter {w tag} {
+  $w tag configure $tag -background yellow -foreground blue
+  $w configure -cursor hand2
+}
+
+proc ::htext::linkLeave {w tag} {
+  $w tag configure $tag -background {} -foreground [::htext::linkColor $w]
+  $w configure -cursor {}
+}
+
 # Configure the htext tag colors that would otherwise be unreadable on a dark
 # background (e.g. "gray" used for the FEN line and "black"). The colors are
 # chosen based on the actual background of the widget, so the (light) help
@@ -187,6 +209,18 @@ proc ::htext::configureColors {w} {
   }
   catch { $w tag configure gray -foreground $gray }
   catch { $w tag configure black -foreground $black }
+
+  # Link tags are created per displayed link ("link <page> <section>"), so they
+  # cannot be configured by name here. Recolour the ones already on the widget
+  # when the theme changes; new links take the colour in ::htext::display.
+  if {![catch {$w tag names} tags]} {
+    set linkColor [::htext::linkColor $w]
+    foreach tag $tags {
+      if {[string match "link *" $tag]} {
+        catch { $w tag configure $tag -foreground $linkColor }
+      }
+    }
+  }
 
   # applyThemeStyle rebinds <<ThemeChanged>> with a plain "bind" (which replaces
   # any appended scripts), so re-append this hook unless it is already present.
@@ -414,15 +448,14 @@ set ::htext::baseId ""
         set sectionName [::htext::extractSectionName $tagName]
         set linkTag "link ${linkName} ${sectionName}"
         set tagName "a"
-        $w tag configure "$linkTag" -foreground blue -underline 1
+        $w tag configure "$linkTag" -foreground [::htext::linkColor $w] \
+            -underline 1
         $w tag bind "$linkTag" <ButtonRelease-1> \
             "helpWindow $linkName $sectionName"
         $w tag bind $linkTag <Any-Enter> \
-            "$w tag configure \"$linkTag\" -background yellow
-        $w configure -cursor hand2"
+            [list ::htext::linkEnter $w $linkTag]
         $w tag bind $linkTag <Any-Leave> \
-            "$w tag configure \"$linkTag\" -background {}
-        $w configure -cursor {}"
+            [list ::htext::linkLeave $w $linkTag]
       } elseif {[strIsPrefix "url " $tagName]} {
         # Check if it is a URL tag:
         set urlName [string range $tagName 4 end]

@@ -278,6 +278,13 @@ jobs:
       - name: Repetition notice
         run: xvfb-run -a wish tests/tcl/repetition_notice_tk.tcl
 
+      # #531: the tip window is an htext widget on the theme's own background,
+      # so its links were X11 blue on cobalt2 (1.8:1). The colour now follows
+      # the background, the yellow hover highlight takes the foreground with it,
+      # and a theme change recolours the links already drawn.
+      - name: Help text link colours
+        run: xvfb-run -a wish tests/tcl/htext_link_colors.tcl
+
       # An old layout naming .analysisWin1 must draw nothing now that the
       # Analysis window has no restore door (#436 item 3).
       - name: Window layout
