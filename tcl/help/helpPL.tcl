@@ -2,11 +2,11 @@
 ### Ten plik używa kodowania UTF-8.
 ### Ładowany na żądanie przez setLanguage, gdy użytkownik wybierze język Polski.
 ### Wpisy używają kluczy z prefiksem językowym helpText(P,...) / helpTitle(P,...),
-### dzięki czemu przeglądarka pomocy (htext.tcl) wyświetla je po polsku,
-### a dla tematów, które nie zostały przetłumaczone, korzysta z angielskich stron.
+### dzięki czemu przeglądarka pomocy (htext.tcl) wyświetla je po polsku,a dla tematów, które nie zostały
+### przetłumaczone, korzysta z angielskich stron.
 #################################################
 
-set helpTitle(P,Contents) "Zawartość"
+set helpTitle(P,Contents) "Spis treści"
 set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   
   <h4>Rozpoczęcie pracy i pomoc ogólna</h4>
@@ -17,14 +17,15 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a Menus><b>Menu</b> ScidCommunity</a></li>
   <li><a Moves>Wprowadzanie <b>posunięć szachowych</b></a></li>
   <li><a Searches><b>Wyszukiwanie</b> w ScidCommunity</a></li>
+  <li><a CQL><b>CQL-Język zapytań szachowych </b></a></li>
   <li><a Clipbase>Korzystanie z bazy danych <b>Clipbase-schowek</b></a></li>
-  <li><a Annotating><b>Komentowanie partii</b></a> (notatki ręczne)</li>
+  <li><a Annotating><b>Komentowanie partii</b></a> (własne komentarze)</li>
   </ul>
   
   <h4>Inne okna ScidCommunity</h4>
   <ul>
   <li><a Engine><b>Okna silnika</b></a></li>
-  <li><a Book><b>Okno księgi debiutowej</b></a></li>
+  <li><a Book><b>Okno książki debiutowej</b></a></li>
   <li><a Comment><b>Okno edytora komentarzy</b></a></li>
   <li><a Crosstable><b>Okno tabeli turniejowej</b></a></li>
   <li><a Switcher><b>Okno przełącznika baz danych</b></a></li>
@@ -35,9 +36,9 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a Reports><b>Raporty</b></a></li>
   <li><a PGN><b>Okno PGN</b> (tekst partii)</a></li>
   <li><a PTracker><b>Śledzenie figur</b></a></li>
-  <li><a PList><b>Okno wyszukiwarki zawodników</b></a></li>
-  <li><a PInfo><b>Okno informacji o zawodniku</b></a></li>
-  <li><a PlayVsEngine><b>Graj z silnikiem</b></a></li>
+  <li><a PList><b>Okno wyszukiwarki graczy</b></a></li>
+  <li><a PInfo><b>Okno informacji o graczu</b></a></li>
+  <li><a PlayVsEngine><b>Gra z silnikiem</b></a></li>
   <li><a Presentation>Okno <b>szachownicy prezentacyjnej</b></a></li>
   <li><a Tmt><b>Okno wyszukiwarki turniejów</b></a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
@@ -47,9 +48,10 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <h4>Inne narzędzia i informacje</h4>
   <ul>
   <li><a Bookmarks><b>Zakładki</b></a></li>
+  <li><a Ctg2Obr>Konwersja książki CTG na <b>OBR</b></a></li>
   <li><a Cmdline>Opcje wiersza poleceń</a></li>
-  <li><a Compact><b>Obsługa</b> bazy danych</a></li>
-  <li><a Maintenance>Narzędzia <b>Obsługi bazy danych</b></a></li>
+  <li><a Compact><b>Kompaktowanie</b> bazy danych</a></li>
+  <li><a Maintenance>Narzędzia <b>bazy danych</b></a></li>
   <li><a ECO>Klasyfikacja debiutów <b>ECO</b></a></li>
   <li><a EPD>Pliki <b>EPD</b></a></li>
   <li><a Export><b>Eksportowanie</b> partii do plików tekstowych</a></li>
@@ -80,8 +82,8 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>B</h3>
   <ul>
-  <li><a Compact>Obsługa bazy danych</a></li>
-  <li><a Maintenance>Narzędzia Obsługi bazy danych</a></li>
+  <li><a Compact>Kompaktowanie bazy danych</a></li>
+  <li><a Maintenance>Narzędzia bazy danych</a></li>
   <li><a Maintenance Cleaner>Porządkowanie bazy danych</a></li>
   <li><a Metadata>Informacje o bazie danych (Metadane)</a></li>
   <li><a Menus Database>Menu <b>Baza danych</b></a></li>
@@ -96,12 +98,13 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a ImportChessCom>Importowanie partii z Chess.com</a></li>
   <li><a PGNChessDB>ChessDB Engine Tree (przycisk w oknie PGN)</a></li>
   <li><a Clipbase>Clipbase-Schowek</a></li>
+  <li><a CQL>CQL-Język zapytań szachowych </a></li>
   </ul>
   
   <h3>D</h3>
   <ul>
-  <li><a Book>Okno <b>księgi debiutowej</b></a></li>
-  <li><a BookTuning>Dostrajanie <b>księgi debiutowej</b></a></li>
+  <li><a Book>Okno <b>książki debiutowej</b></a></li>
+  <li><a BookTuning>Dostrajanie <b>książki debiutowej</b></a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
   <li><a ECO>Klasyfikacja debiutów ECO</a></li>
   <li><a TreeMasks>Maski dla drzewa wariantów</a></li>
@@ -136,7 +139,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>G</h3>
   <ul>
   <li><a Menus Play>Menu <b>Graj</b></a></li>
-  <li><a PlayVsEngine><b>Graj z silnikiem</b></a></li>
+  <li><a PlayVsEngine><b>Gra z silnikiem</b></a></li>
   <li><a FICS>Gra przez Internet (FICS)</a></li>
   </ul>
   
@@ -150,8 +153,10 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>K</h3>
   <ul>
   <li><a Comment>Edytor komentarzy</a></li>
-  <li><a Annotating><b>Komentowanie partii</b></a></li> 
+  <li><a Ctg2Obr>Konwersja książki CTG na OBR</a></li>
+  <li><a Annotating>Komentowanie partii</a> (własne komentarze))</li>
   <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a> (przycisk w oknie silnika)</li>
+  <li><a BatchAnnotate>Komentarz do partii -AI</a> (Wybór partii z Listy partii)</li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
   </ul>
   
@@ -166,7 +171,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>M</h3>
   <ul>
   <li><a TreeMasks>Maski dla drzewa wariantów</a></li>
-  <li><a Searches Material>Wyszukiwanie materiał/wzorzec</a></li>
+  <li><a Searches Material>Wyszukiwanie materiał/wzorce</a></li>
   <li><a Menus Database>Menu <b>Baza danych</b></a></li>
   <li><a Menus Edit>Menu <b>Edycja</b></a></li>
   <li><a Menus File>Menu <b>Plik</b></a></li>
@@ -186,21 +191,22 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a NAGs>Symbole adnotacji NAG</a></li>
   <li><a Searches Header>Wyszukiwanie wg nagłówka</a></li>
   <li><a Menus Tools>Menu <b>Narzędzia</b></a></li>
+  <li><a Compact>Narzędzia bazy danych</a></li>
   </ul>
   
   <h3>O</h3>
   <ul> 
   <li><a MainWindow>Główne okno ScidCommunity</a></li>
   <li><a PTracker><b>Okno śledzenia figur</b></a></li>
-  <li><a Book>Okno <b>księgi debiutowej</b></a></li>
-  <li><a PInfo><b>Okno informacji o zawodniku</b></a></li>
+  <li><a Book>Okno <b>książki debiutowej</b></a></li>
+  <li><a PInfo><b>Okno informacji o graczu</b></a></li>
   <li><a Tree Best>Okno <b>najlepszych partii</b></a></li> 
   <li><a Switcher><b>Okno przełącznika baz danych</b></a></li>
-  <li><a Compact>Obsługa bazy danych</a></li>
   <li><a Menus Windows>Menu <b>Okna</b></a></li>
   <li><a Options>Menu <b>Opcje</b></a></li>
-  <li><a GameList>Okno lista partii</a></li>
+  <li><a GameList>Okno listy partii</a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
+  <li><a Analysis>Okno <b>analizy</b></a></li>
   </ul> 
   
   <h3>P</h3>
@@ -211,7 +217,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a PGNLichess>Okno PGN: przycisk lichess.org</a></li>
   <li><a PGNChessDB>Okno PGN: przycisk chessdb Engine Tree</a></li>
   <li><a PgnScid>PgnScid</a></li>
-  <li><a Searches Board>Wyszukiwanie wg pozycji</a></li>
   <li><a GameList Browsing>Wczytywanie i łączenie partii</a></li>
   <li><a Flags>Flagi partii</a></li>
   <li><a Maintenance Twins>Usuwanie duplikatów partii </a></li>
@@ -231,7 +236,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <h3>R</h3>
   <ul>
   <li><a Reports Opening>Okno Raportu debiutowego</a></li>
-  <li><a Reports Player>Okno raportu o zawodniku</a></li>
+  <li><a Reports Player>Okno raportu o graczu</a></li>
   <li><a Graphs Rating>Wykres rankingu</a></li>
   </ul>
   
@@ -244,6 +249,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Moves Informant>Symbole Informatora</a></li>
   <li><a Maintenance Spellcheck>Sprawdzanie pisowni nazw</a></li>
   <li><a Engine><b>Okno silnika</b></a></li>
+  <li><a Engine Configure>Lista silników</a></li>
   <li><a Clipbase>Clipbase-Schowek</a></li>
   <li><a Sorting>Sortowanie bazy danych</a></li>
   <li><a NAGs>Symbole adnotacji NAG</a></li>
@@ -263,18 +269,17 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>W</h3>
   <ul>
-  <li><a ToolsWhatThreat><b>Co grozi?</b></a> (przycisk okna silnika i menu Narzędzia)</li>
   <li><a Cmdline>Opcje wiersza poleceń</a></li>
   <li><a Graphs>Okna wykresów</a></li>
   <li><a Graphs Filter>Wykres filtra</a></li>
   <li><a Graphs Rating>Wykres rankingu</a></li> 
   <li><a Searches>Wyszukiwanie</a></li>
-  <li><a Searches Material>Wyszukiwanie materiał/wzorzec</a></li>
+  <li><a Searches Material>Wyszukiwanie materiał/wzorce</a></li>
   <li><a Searches Header>Wyszukiwanie wg nagłówka</a></li>
   <li><a Searches Board>Wyszukiwanie wg pozycji</a></li>
+  <li><a Searches Moves>Wyszukiwanie sekwencji posunięć</a></li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
-  <li><a PList><b>Okno wyszukiwarki zawodników</b></a></li>
-  <li><a Tmt>Wyszukiwarka turniejów</a></li>
+  <li><a PList><b>Okno wyszukiwarki graczy</b></a></li>
   <li><a Finder>Okno wyszukiwarki plików</a></li>
   <li><a Hints>Wskazówki</a></li>
   <li><a Annotating Vars>Warianty</a></li>
@@ -282,8 +287,9 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
 
   <h3>Z</h3>
   <ul>
+  <li><a ToolsWhatThreat><b>Jakie jest zagrożenie?</b></a> (przycisk w oknie silnika i menu Narzędzia)</li>
   <li><a Bookmarks><b>Zakładki</b></a></li>
-  <li><a Contents>Zawartość</a></li>
+  <li><a Contents>Spis treści</a></li>
   </ul>
   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -389,9 +395,13 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   wyświetlał następne posunięcie w polu informacji pod szachownicą.
   Czy mogę to ukryć?</h4>
   <p>
-  Możesz ukryć następne posunięcie, naciskając <b>prawy przycisk myszy</b> w
-  oknie Informacji o partii i wybierając <b>Ukryj następne posunięcie</b> z
-  menu, które się pojawi.
+    Możesz ukryć następne posunięcie, klikając <b>prawym</b> przyciskiem myszy
+  w obszarze informacji o partii i wybierając z menu opcję <b>Ukryj następne
+  posunięcie</b>. Gdy opcja jest włączona, nie są wyświetlane ani następne
+  posunięcie, ani warianty w bieżącej pozycji. Dzięki temu możesz ćwiczyć
+  grę z tej pozycji, nie znając dalszego przebiegu partii. Aby zobaczyć
+  możliwe posunięcia, otwórz okno <term>Warianty</term>. Wyświetla ono
+  posunięcia do wyboru, ale nie pokazuje ich dalszego ciągu.
   </p>
   
   <h4>Jak mogę zobaczyć kod debiutowy ECO dla bieżącej pozycji?</h4>
@@ -460,8 +470,8 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   Jak poprawić je wszystkie?</h4>
   <p>
   Możesz edytować pojedyncze nazwy albo sprawdzić pisownię wszystkich nazw w bazie
-  za pomocą opcji  <menu>Obsługa</menu> w menu <b>Baza danych</b>.
-  Zobacz stronę <a Maintenance Editing>Obsługa bazy danych</a>.
+  za pomocą opcji  <menu>Narzędzia bazy danych</menu> w menu <b>Baza danych</b>.
+  Zobacz stronę <a Maintenance Editing>Narzędzia bazy danych</a>.
   </p>
   
   <h4>Mam otwarte dwie bazy danych: jedną z moimi partiami i dużą bazę
@@ -470,7 +480,7 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   <p>
   Po prostu otwórz <a Tree>Okno drzewa wariantów</a> dla bazy referencyjnej i
   przełącz się z powrotem na partię, którą chcesz porównać, za pomocą Przełącznika
-  baz danych. Alternatywnie bazę można otworzyć bezpośrednio jako drzewo przez
+  baz danych. Alternatywnie bazę można otworzyć bezpośrednio jako drzewo wariantów przez
   menu <term>Plik</term>.
   </p>
   
@@ -531,7 +541,7 @@ takiej jak baza danych, w katalogu tej bazy. Jeśli go nie znajdzie, korzysta z 
   </p>
   <p>
   Jeśli scidCommunity znajdzie odpowiedni plik ze zdjęciem (w katalogu użytkownika 
-  lub katalogu współdzielonym scidCommunity, w folderze photos), zdjęcia zawodników
+  lub katalogu współdzielonym scidCommunity, w katalogu photos), zdjęcia graczy
   pojawią się również w panelu informacyjnym. (Odpowiednie
   pliki zdjęć można pobrać ze strony <url
   http://Scid.sourceforge.net/>ScidCommunity</url>; dokumentacja
@@ -589,9 +599,9 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Zakładki</menu>: <a Bookmarks>Zakładki</a> i funkcje 
   zakładek.</li>
   <br>
-  <li><menu>Otwórz bazę jako drzewo</menu>: Otwiera okno drzewa wariantów dla
+  <li><menu>Otwórz bazę jako drzewo wariantów</menu>: Otwiera okno drzewa wariantów dla
   wybranej bazy danych.</li>
-  <li><menu>Otwórz ostatnią bazę jako drzewo</menu>: Pokazuje listę ostatnio
+  <li><menu>Otwórz ostatnią bazę jako drzewo wariantów</menu>: Pokazuje listę ostatnio
   otwieranych baz, aby od razu otworzyć ich okno drzewa wariantów.</li>
   <br>
   <li><menu>Otwórz turnieje Lichess</menu>: Pobiera i otwiera partie z transmisji turniejowych Lichess na żywo.</li>
@@ -606,7 +616,7 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <h3><name Database>Baza danych</name></h3>
   <ul>
   <li><menu>Zamknij</menu>: Zamyka bieżącą bazę danych ScidCommunity.</li>
-  <li><menu>Wczytaj przy starcie</menu>: Przełącza, czy bieżąca baza ma być wczytywana przy uruchomieniu.</li>
+  <li><menu>Wczytaj przy uruchomieniu</menu>: Przełącza, czy bieżąca baza ma być wczytywana przy uruchomieniu.</li>
   <br>
   <li><menu>Kopiuj wszystkie partie do</menu>: Podmenu do kopiowania wszystkich partii do innej bazy danych.</li>
   <ul>
@@ -621,24 +631,24 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   </ul>
   <li><menu>Importuj partie z pliku PGN</menu>: Podmenu do importu plików <a PGN>PGN</a> do baz danych.</li>
   <br>
-  <li><menu>Obsługa</menu>: Narzędzia <a Maintenance>obsługi</a> bazy danych.</li>
+  <li><menu>Narzędzia bazy danych</menu>: Narzędzia <a Maintenance>porządkowania</a> bazy danych.</li>
   <ul>
-  <li><menu>Okno Obsługi</menu>: Otwiera/zamyka okno obsługi.</li>
-  <li><menu>Porządkuj bazę... </menu>: <a Compact>Porządkuje</a> bieżącą bazę danych.</li>
-  <li><menu>Klasyfikuj partie wg ECO</menu>: Klasyfikuje wszystkie partie wg <a ECO>kodów ECO</a>.</li>
+  <li><menu>Okno narzędzi bazy danych</menu>: Otwiera/zamyka okno narzędzi.</li>
+  <li><menu>Kompaktuj bazę danych... </menu>: <a Compact>Kompaktuje</a> bieżącą bazę danych.</li>
+  <li><menu>Przypisz kody ECO</menu>: Klasyfikuje wszystkie partie wg <a ECO>kodów ECO</a>.</li>
   <li><menu>Edytor nazw</menu>: Otwiera/zamyka okno edytora nazw.</li>
   <li><menu>Usuń znaczniki PGN</menu>: Usuwa niechciane tagi z partii.</li>
   <li><menu>Usuń duplikaty partii</menu>: Oznacza partie <a Maintenance Twins>duplikaty</a> do usunięcia.</li>
-  <li><menu>Okno sprawdzania duplikatów</menu>: Pozwala sprawdzić  duplikaty.</li>
-  <li><menu>Zestaw zadań</menu>: Otwiera okno <a Maintenance Cleaner>porządkowania</a> bazy danych. Pozwala wykonać od razu kilka operacji porządkowania bazy danych</li>
+  <li><menu>Okno wyszukiwania duplikatów</menu>: Pozwala sprawdzić  duplikaty.</li>
+  <li><menu>Porządkowanie...</menu>: Otwiera okno <a Maintenance Cleaner>porządkowania</a> bazy danych. Pozwala wykonać od razu kilka operacji porządkowania bazy danych</li>
   </ul>
   <li><menu>Pisownia nazw</menu>: <a Maintenance Spellcheck>Sprawdzanie pisowni</a> nazw i dodawania rankingów ELO.</li>
   <ul>
-  <li><menu>Nazwisk zawodników</menu>: Sprawdza pisownię nazwisk zawodników.</li>
+  <li><menu>Nazwisk graczy</menu>: Sprawdza pisownię nazwisk graczy.</li>
   <li><menu>Nazw turniejów</menu>: Sprawdza pisownię nazw turniejów.</li>
   <li><menu>Nazw miejsc</menu>: Sprawdza pisownię nazw miejsc.</li>
   <li><menu>Nazw rund</menu>: Sprawdza pisownię nazw rund.</li>
-  <li><menu>Dodaj rankingi Elo</menu>: Przydziela ranking Elo zawodnikom.</li>
+  <li><menu>Dodaj rankingi Elo</menu>: Przydziela ranking Elo graczom.</li>
   </ul>
   <br>
   <li><menu>Baza 1/2/3/...</menu>: Te polecenia pozwalają przełączać się między
@@ -668,9 +678,9 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Posunięcia do końca</menu>: Usuwa posunięcia od bieżącej pozycji do końca.</li>
   </ul>
   <br>
-  <li><menu>Opróżnij schowek</menu>: Czyści <a Clipbase>clipbase</a>,
+  <li><menu>Usuń wszystkie partie ze schowka</menu>: Czyści <a Clipbase>clipbase</a>,
   tak aby nie zawierał żadnych partii.</li>
-  <li><menu>Kopiuj tę partię do schowka</menu>: Kopiuje bieżącą partię
+  <li><menu>Kopiuj partię do schowka</menu>: Kopiuje bieżącą partię
   do bazy <a Clipbase>clipbase</a>.</li>
   <li><menu>Wklej partię ze schowka</menu>: Wkleja aktywną partię z
   <a Clipbase>clipbase</a> jako aktywną partię bieżącej
@@ -714,16 +724,18 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Bieżąca pozycja...</menu>: Wyszukuje pozycję z
   <a Searches Board>bieżącej pozycji</a>.</li>
   <li><menu>Nagłówek...</menu>: Wyszukuje wg informacji <a Searches Header>nagłówka</a>,
-  takich jak nazwy zawodników. Ten filtr jest kumulatywny względem
+  takich jak nazwy graczy. Ten filtr jest kumulatywny względem
   filtra ustawionego ewentualnie przez otwarte <a Tree>okno drzewa wariantów</a>.</li>
-  <li><menu>Materiał/Wzorzec...</menu>: Wyszukuje wg
-  <a Searches Material>Materiał/wzorzec</a> albo wzorców na szachownicy. Ten
+  <li><menu>Materiał/Wzorce...</menu>: Wyszukuje wg
+  <a Searches Material>Materiał/wzorce</a> albo wzorców na szachownicy. Ten
   filtr jest kumulatywny względem filtra ustawionego ewentualnie przez otwarte <a
   Tree>okno drzewa wariantów</a>.</li>
+  <li><menu>Posunięcia...</menu>: Wyszukuje
+  <a Searches Moves>sekwencję posunięć</a> w głównej linii partii.</li>
   <li><menu>Szukaj w komentarzach...</menu>: Przeszukuje komentarze do pozycji w partiach bieżącego filtra.
   Kliknij dwukrotnie wynik, aby wyświetlić daną pozycję.</li>
   <br>
-  <li><menu>Wyszukiwarka zawodników</menu>: Otwiera/zamyka <a PList>okno wyszukiwania zawodników</a>.</li>
+  <li><menu>Wyszukiwarka graczy</menu>: Otwiera/zamyka <a PList>okno wyszukiwania graczy</a>.</li>
   <li><menu>Wyszukiwarka turniejów</menu>: Otwiera/zamyka
   <a Tmt>okno wyszukiwania turniejów</a>.</li>
   <br>
@@ -753,12 +765,12 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Okno statystyk</menu>: Otwiera/zamyka
   <term>okno statystyk filtra</term>, które pokazuje podsumowanie
   wygranych/przegranych partii w <a Searches Filter>filtrze</a>.</li>
-  <li><menu>Drzewo wariantów</menu>: Otwiera/zamyka <a Tree>okno drzewa wariantów</a>.</li>
-  <li><menu>Okno księgi debiutowej</menu>: Otwiera/zamyka <a Book>okno księgi debiutowej</a>.</li>
+  <li><menu>Okno drzewa wariantów</menu>: Otwiera/zamyka <a Tree>okno drzewa wariantów</a>.</li>
+  <li><menu>Okno książki debiutowej</menu>: Otwiera/zamyka <a Book>okno książki debiutowej</a>.</li>
   <li><menu>Szachownica prezentacyjna</menu>: Otwiera lub zamyka <a Presentation>osobne okno
   z szachownicą, które śledzi główną szachownicę</a>. Przydatne przy projektorze 
   lub drugim ekranie.</li>
-  <li><menu>Zatrzymaj szachownicę prezentacyjną</menu>: Zatrzymuje lub wznawia śledzenie 
+  <li><menu>Zatrzymaj/wznów szachownicę prezentacyjną</menu>: Zatrzymuje lub wznawia śledzenie 
   głównej szachownicy, aby można było przeglądać partię bez pokazywania kolejnych 
   posunięć publiczności.</li>
   <li><menu>Wykres analizy</menu>: Odświeża <a Graphs Score>wykres oceny</a>.</li>
@@ -767,7 +779,7 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
  
   <h3><name Play>Graj</name></h3>
   <ul>
-  <li><menu>Graj z silnikiem</menu>: Konfiguruje i uruchamia okno <a PlayVsEngine>Graj przeciwko silnikowi
+  <li><menu>Gra z silnikiem</menu>: Konfiguruje i uruchamia okno <a PlayVsEngine>Graj przeciwko silnikowi
   szachowemu</a>z funkcjami trenera, kontrolą czasu, książkami debiutowymi i obsługą analizy podczas namysłu.</li> 
   <li><menu>Graj na FICS</menu>: Konfiguruje połączenie z <a FICS>Free Internet
   Chess Server</a> (FICS), aby grać przeciwko ludzkim przeciwnikom lub brać udział w sesjach treningowych.</li>
@@ -780,11 +792,20 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   
   <h3><name Tools>Narzędzia</name></h3>
   <ul>
-  <li><menu>Konfiguruj silniki</menu>: Otwiera okno
-  <a Engine Configure>konfiguracji silników</a>, w którym można też otworzyć
-  okno silnika dla wybranego presetu.</li>
+  <li><menu>Konfiguruj silniki</menu>: Otwiera okno <a Engine Configure>konfiguracji silników</a>,
+  w którym można skonfigurować silniki i otworzyć okno silnika dla wybranego zestawu ustawień.</li>
   <li><menu>Uruchom silnik 1</menu>: Otwiera pierwsze okno silnika.</li>
   <li><menu>Uruchom silnik 2</menu>: Otwiera drugie okno silnika.</li>
+  <li><menu>Jakie jest zagrożenie?</menu>: Pyta silnik, jakie zagrożenie stwarza strona będąca na posunięciu — 
+  zobacz <a ToolsWhatThreat>Jakie jest zagrożenie?</a>.</li>
+   <li><menu>Zapisz obraz szachownicy</menu>: Zapisuje bieżącą pozycję z głównej
+   szachownicy jako obraz PNG ze współrzędnymi. Gdy włączona jest opcja <menu>
+   Pokaż kolorowe pola i strzałki</menu>, na obrazie są również widoczne strzałki
+   i kolorowe pola zapisane w komentarzu do pozycji. Dodatkowo, jeśli w menu Preferencje &gt;
+   Posunięcia włączono odpowiednie opcje, obraz zawiera strzałkę ostatniego posunięcia,
+   symbole oceny (!, ?) i symbole oceny pozycji (+-, =, ...), a po zakończeniu partii także
+   wynik obok królów. Nazwy plików są numerowane automatycznie
+   (position-1.png, position-2.png, ...).</li>
   <br>
   <li><menu>Względny wykres filtra</menu>: Otwiera/zamyka okno <a Graphs Filter>wykresu filtra</a>.</li>
   <li><menu>Bezwzględny wykres filtra</menu>: Otwiera/zamyka okno bezwzględnego wykresu filtra.</li>
@@ -792,20 +813,22 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   dla bieżącej pozycji.</li>
   <li><menu>Śledzenie figur</menu>: Otwiera <a PTracker>okno śledzenia 
   figur</a>.</li>
-  <li><menu>Dostrajanie księgi debiutowej</menu>: Otwiera <a BookTuning>okno dostrajania księgi debiutowej</a>.</li>
+  <li><menu>Dostrajanie książki debiutowej</menu>: Otwiera <a BookTuning>okno dostrajania książki debiutowej</a>.</li>
+  <li><menu>Konwertuj CTG na OBR...</menu>: <a Ctg2Obr>Konwertuje</a> książkę debiutową ChessBase z formatu
+  CTG na format OpenBook Rich (.obr).</li>
   <li><menu>Pobierz partie TWIC</menu>: <a DownloadTWIC>Pobiera</a> najnowsze partie z This Week In Chess.</li>
   <li><menu>Podłącz urządzenia</menu>: Umożliwia użycie <a HardwareConfig>sprzętu zewnętrznego</a>
   do wprowadzania posunięć (np. elektronicznej szachownicy DGT, Novag Citrine).</li>
   <ul>
   <li><menu>Konfiguruj</menu>: Pozwala ustawić <a HardwareConfig>podstawowe parametry</a>
   użycia sprzętu zewnętrznego.</li>
-  <li><menu>Podłącz silnik wejściowy</menu>: Łączy/rozłącza <a InputEngine>silnik wejściowy</a>.</li>
-  <li><menu>Podłącz Novag Citrine</menu>: Łączy/rozłącza szachownicę <a Novag>Novag Citrine</a>.</li>
+  <li><menu>Podłącz urządzenie wejściowe</menu>: Łączy/rozłącza <a InputEngine>silnik wejściowy</a>.</li>
+  <li><menu>Połącz z Novag Citrine</menu>: Łączy/rozłącza szachownicę <a Novag>Novag Citrine</a>.</li>
   </ul>
   <br>
-  <li><menu>Informacje o zawodniku</menu>: Wyświetla <a PInfo>informacje o zawodniku</a>
+  <li><menu>Informacje o graczu</menu>: Wyświetla <a PInfo>informacje o graczu</a>
   grającym białymi lub czarnymi z aktualnej partii.</li>
-  <li><menu>Raport o zawodniku</menu>: Generuje <a Reports Player>raport o zawodniku</a>.</li>
+  <li><menu>Raport o graczu</menu>: Generuje <a Reports Player>raport o graczu</a>.</li>
   <li><menu>Wykres rankingu</menu>: Wyświetla <a Graphs Rating>wykres rankingu</a>.</li>
   </ul>
   
@@ -832,12 +855,12 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   ScidCommunity dla
   użytkowników Windows); ten plik jest wczytywany przy każdym uruchomieniu
   ScidCommunity.</li>
-  <li><menu>Automatyczny zapis</menu>: Przełącza automatyczne zapisywanie opcji przy wyjściu.</li>
+  <li><menu>Zapisz opcje przy zamykaniu</menu>: Przełącza automatyczne zapisywanie opcji przy wyjściu.</li>
   </ul>
   
   <h3><name Help>Pomoc</name></h3>
   <ul>
-  <li><menu>Zawartość</menu>: Otwiera stronę zawartości pomocy.</li>
+  <li><menu>Spis treści</menu>: Otwiera stronę zawartości pomocy.</li>
   <li><menu>Indeks</menu>: Otwiera indeks pomocy.</li>
   <li><menu>Skrócony przewodnik</menu>: Otwiera skrócony przewodnik po ScidCommunity.</li>
   <li><menu>Wskazówki</menu>: Otwiera stronę ze wskazówkami.</li>
@@ -952,10 +975,11 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   Aby usunąć znak, naciśnij [Backspace] albo [Delete].
   </p>
   <p>
-  Jeśli nie jest aktualnie wpisywane żadne posunięcie, naciśnięcie klawisza [spacja] wykonuje
-  najlepsze posunięcie silnika widocznego na szachownicy: silnika powiązanego z głównym paskiem oceny lub,
-  jeśli go nie ma, działającego okna silnika (w stylu Lichess). Przy włączonej funkcji MultiPV wykonywane jest
-  posunięcie z pierwszego wariantu. Ten sam skrót działa w oknach <a Engine>Okno silnika</a>.
+  Jeśli nie jest aktualnie wpisywane żadne posunięcie, naciśnięcie klawisza
+  [spacja] wykonuje najlepsze posunięcie silnika wyświetlanego na szachownicy:
+  silnika powiązanego z głównym paskiem oceny lub, jeśli go nie ma, działającego
+  silnika w oknie (jak w Lichess). Przy MultiPV wykonywane jest posunięcie
+  z pierwszej linii. Ten sam skrót działa w oknach <a Engine>silnika</a>.
   </p>
   <p>
   <b>Uwaga</b>: mała litera dopasowuje się najpierw do pionka, więc
@@ -1007,7 +1031,7 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   <b>Uwaga</b>: ScidCommunity używa też niektórych z tych symboli do automatycznych
   adnotacji. W tym celu symbole te muszą być przypisane
   do określonej wartości pionka. Te wartości pionków można ustawić przez <b>Opcje / Preferencje / 
-  Wartości Informatora</b>. Zauważ, że od czasu
+  Oceny Informatora</b>. Zauważ, że od czasu
   ScidCommunity 4.0 wiele NAG-ów może być wyświetlanych symbolicznie, jeśli system
   poprawnie obsługuje UTF-8. Związek między liczbową wartością NAG
   a jej symbolicznym przedstawieniem w ScidCommunity podany jest na stronie <a
@@ -1030,8 +1054,14 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   <ul>
   <li><b>1)</b> po bieżącej pozycji na szachownicy, </li>
   <li><b>2)</b> po określonym materiale i wzorcach figur, oraz </li>
-  <li><b>3)</b> według danych nagłówka, takich jak zawodnicy, wynik i data, oraz </li>
-  <li><b>4)</b> tekstu w komentarzach do pozycji. </li></ul>
+  <li><b>3)</b> według danych nagłówka, takich jak gracze, wynik i data, oraz </li>
+  <li><b>4)</b> tekstu w komentarzach do pozycji. </li>  </ul>
+  <p>
+  Piątym sposobem, pozwalającym wyszukiwać układy, których nie można opisać
+  za pomocą czterech powyższych metod, jest <a CQL><b>CQL-język zapytań szachowych </b></a>.
+  W oknie CQL (<b>Szukaj &gt; CQL...</b>) możesz zbudować zapytanie z gotowych bloków
+  lub wpisać szukaną pozycję albo posunięcie.
+  </p>
   <p>
   Oprócz tego istnieje też automatyczny tryb wyszukiwania zwany
   <a Tree>oknem drzewa wariantów</a>, które jest opisane osobno.
@@ -1054,7 +1084,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   </p>
   <p>
   Przy wyszukiwaniu dokładnej pozycji, w oknie <a Tree>drzewa wariantów</a> lub 
-  wg <b>materiał/wzorzec</b>,
+  wg <b>materiał/wzorce</b>,
   zapamiętywany jest numer posunięcia pierwszej pasującej pozycji w każdej dopasowanej partii,
   więc po wczytaniu partii pasująca pozycja zostanie pokazana automatycznie.
   </p>
@@ -1098,7 +1128,32 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   znacznie spowolnić wyszukiwanie, jeśli baza jest duża i ma wiele partii z wariantami.
   </p>
   
-  <h3><name Material>Wyszukiwanie: materiał/wzorzec</name></h3>
+  <h3><name Moves>Wyszukiwanie: Posunięcia...</name></h3>
+  <p>
+  To wyszukiwanie znajduje partie, których główna linia zawiera określoną
+  sekwencję posunięć w podanej kolejności. Wpisz posunięcia w notacji SAN,
+  oddzielając je spacjami: <b>e4 e5 Nf3</b> znajdzie wszystkie partie rozpoczynające się od
+  tych trzech posunięć. Możesz też wkleić zapis partii — numery posunięć są ignorowane,
+  więc <b>1. e4 e5 2. Nf3</b> oznacza to samo wyszukiwanie.
+</p>
+<p>
+  Sekwencja może zaczynać się w dowolnym miejscu partii, nie tylko od pierwszego posunięcia.
+  Użyj <b>?</b>, aby oznaczyć dowolne posunięcie: <b>d4 ? c4</b> znajdzie partie, w których
+  pierwsze trzy posunięcia to posunięcie pionem hetmańskim, dowolna odpowiedź i c4.
+</p>
+<p>
+  Oznaczenia szacha i mata są opcjonalne, a wielkość liter nie ma znaczenia:
+  <b>Qh4</b>, <b>qh4</b> i <b>Qh4+</b> pasują do posunięcia <b>Qh4#</b>.
+  Zaznacz opcję <b>Ostatnie posunięcie daje mata</b>, aby znaleźć tylko
+  partie, w których ostatnie posunięcie sekwencji kończy się matem.
+</p>
+<p>
+  Opcja <b>Strona na posunięciu</b> określa, kto wykonuje pierwsze posunięcie sekwencji: białe,
+  czarne lub dowolna strona. Znalezione partie są wyświetlane na liście partii, która otwiera
+  się na pozycji, z której wykonywane jest pierwsze pasujące posunięcie.
+</p>
+  
+  <h3><name Material>Wyszukiwanie: materiał/wzorce</name></h3>
   <p>
   To wyszukiwanie jest przydatne do znajdowania tematów końcówek lub środkowej gry.
   Możesz określić minimalną i maksymalną liczbę każdego typu materiału
@@ -1124,7 +1179,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   również te znajdujące się w wariantach.
   </p>
   <p>
-  Wyniki zawierają numer partii, nazwiska zawodników, posunięcie i fragment
+  Wyniki zawierają numer partii, nazwiska graczy, posunięcie i fragment
   komentarza. Kliknij dwukrotnie wynik (lub zaznacz go i naciśnij Enter),
   aby otworzyć partię i wyświetlić znalezioną pozycję, gotową do porównania
   z obrazem lub diagramem.
@@ -1164,14 +1219,14 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   użyciu podwójnych cudzysłowów) dopasuje tylko miasta w Stanach Zjednoczonych.
   </p>
   <p>
-  Jeśli szukasz konkretnego zawodnika (lub pary przeciwników) jako Białego
+  Jeśli szukasz konkretnego gracza (lub pary przeciwników) jako Białego
   lub Czarnego i nie ma znaczenia, jakim kolorem grali, wybierz opcję
   <b>Ignoruj kolory</b>.
   </p>
   <p>
   Dodatkowo można wyszukiwać Komentatora bez rozróżniania wielkości liter. Zauważ,
   że ta funkcja wymaga, aby pole nagłówka <b>Komentator</b> było
-  ustawione prawidłowo. Pole wyboru <menu>tylko partie z komentarzami</menu> działa jako
+  ustawione prawidłowo. Pole wyboru <menu>tylko partie z adnotacjami</menu> działa jako
   logiczny OR dla flag <b>Komentarze, Warianty,
   Adnotacje</b>, to znaczy może być użyte do wybrania tylko tych partii, które
   posiadają jakikolwiek rodzaj adnotacji.
@@ -1203,13 +1258,15 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   
   <h3><name Settings>Zapisywanie ustawień wyszukiwania</name></h3>
   <p>
-  Okno wyszukiwania nagłówka udostępnia przycisk <term>Layout</term>, który
-  pozwala zapisywać i przywoływać nazwane konfiguracje wyszukiwania. Kliknij
-  <b>Layout</b> i wybierz <b>Save Layout</b>, aby zapisać bieżące
-  ustawienia wyszukiwania pod wybraną nazwą. Wcześniej zapisane układy
-  można wczytać lub usunąć z tego samego menu <b>Layout</b>. Układy
-  są przechowywane w preferencjach ScidCommunity i zachowują się między sesjami.
-  </p>
+  Okno wyszukiwania nagłówków zawiera przycisk <term>Zapisane wyszukiwania</term>,
+  który pozwala zapisywać i wczytywać nazwane konfiguracje wyszukiwania. Kliknij
+  <b>Zapisane wyszukiwania</b> i wybierz <b>Zapisz</b>, aby zapisać bieżące ustawienia wyszukiwania
+  pod wybraną nazwą. Zapisane wyszukiwanie można wczytać lub usunąć z tego samego menu
+  <b>Zapisane wyszukiwania</b>. Konfiguracje są przechowywane w ustawieniach scidCommunity
+  i pozostają dostępne między sesjami. Wczytanie zapisanej konfiguracji zastępuje
+  wszystkie pola wyszukiwania. Pola, których nie obejmuje dana konfiguracja, zostaną
+  wyczyszczone, a nie pozostawione z poprzednimi wartościami.
+</p>
   
   <h3>Czasy wyszukiwania i pomijane partie</h3>
   <p>
@@ -1256,7 +1313,7 @@ set helpText(P,Clipbase) {<h1>Baza danych Clipbase</h1>
   <p>
   Zauważ, że clipbase <i>nie może</i> zostać zamknięta; wybranie
   polecenia <menu>Baza danych/Zamknij</menu> podczas pracy w clipbase jest równoważne
-  z <menu>Edycja/Opróżnij schowek</menu>, które czyści clipbase.
+  z <menu>Edycja/Usuń wszystkie partie ze schowka</menu>, które czyści clipbase.
   </p>
   <p>
   Clipbase ma w dowolnym momencie limit 100 000 partii, ponieważ istnieje
@@ -1272,13 +1329,13 @@ set helpText(P,Clipbase) {<h1>Baza danych Clipbase</h1>
 set helpTitle(P,Annotating) "Komentowanie partii"
 set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   <p>
-  ScidCommunity pozwala dodawać notatki do partii. Istnieją trzy typy
-  adnotacji, które można dodać po posunięciu: symbole, komentarz i
-  warianty. Ta sekcja opisuje adnotacje ręczne. Do adnotacji wspieranej przez
-  silnik użyj <a ReviewGameButton>Game Review</a> (jedna partia) albo
-  <a BatchAnnotate>Batch annotate</a> (wybór partii); ich ustawienia są w
-  <a ReviewSettings>Review Settings</a>. Stare okno dialogowe Annotate zostało
-  wycofane.
+  scidCommunity umożliwia dodawanie komentarzy do partii. Po każdym
+  posunięciu można dodać trzy rodzaje adnotacji: symbole, komentarz i
+  warianty. Ta sekcja opisuje dodawanie adnotacji ręcznie. Aby skorzystać
+  z adnotacji wspomaganych przez silnik, użyj funkcji <a ReviewGameButton>Analiza partii</a>
+  (jedna partia) lub <a BatchAnnotate>Adnotacja zbiorcza</a> (wybrane partie).
+  Ich opcje znajdują się w <a ReviewSettings>Ustaw parametry analizy</a>.
+  Starsze okno dialogowe adnotacji zostało wycofane.
   </p>
   
   <h3>Symbole i komentarze</h3>
@@ -1307,20 +1364,24 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   
   <h4>Skróty klawiaturowe</h4>
   <p>
-  Gdy posunięcie ma warianty, są one pokazane w oknie <b>Informacja o partii</b>.
-  Pierwszy będzie nazwany <b>v1</b>, drugi <b>v2</b> itd.
-  Możesz kliknąć wariant, aby w niego wejść, albo nacisnąć "<b>v</b>". W
-  tym drugim przypadku pojawi się okno <term>Warianty</term>,
-  pozwalające wybrać wariant za pomocą klawiszy kursora. Ustawienie w <b>
-  Opcje / Preferencje / Posunięcia / Pokaż drzewo wariantów </b> spowoduje, 
-  że to okno pojawi się
-  automatycznie za każdym razem, gdy podczas poruszania się po partii
-  klawiszami kursora zostanie znalezione posunięcie z wariantem. W oknie wariantów
-  można wejść do wariantu, wybierając go klawiszami strzałek góra/dół i naciskając Enter
-  albo klikając go myszą. Dzięki temu można poruszać się po partii
-  wyłącznie za pomocą klawiszy kursora.
-  Aby opuścić wariant, można użyć skrótu "<b>z</b>". Na
-  początku wariantu można też użyć strzałki w górę.
+  Gdy posunięcie ma warianty, są one wyświetlane w obszarze informacji o partii.
+  Pierwszy jest oznaczony jako <b>v1</b>, drugi jako <b>v2</b> itd.
+  Możesz kliknąć wariant, aby go wybrać, lub nacisnąć klawisz "<b>v</b>".
+  W drugim przypadku otworzy się okno <term>Warianty</term>, w którym można
+  wybrać wariant za pomocą klawiszy strzałek. Włączenie opcji
+  Preferencje / Posunięcia / Pokaż okno wariantów powoduje automatyczne
+  otwieranie tego okna za każdym razem, gdy podczas przeglądania partii
+  za pomocą klawiszy strzałek napotkane zostanie posunięcie z wariantami.
+  W oknie wariantów można wybrać wariant klawiszami strzałek w górę i w dół,
+  a następnie nacisnąć Enter lub kliknąć go myszą. Każdy wiersz okna
+  pokazuje posunięcie rozpoczynające dany wariant oraz kolejne posunięcia.
+  Gdy w obszarze informacji o partii włączona jest opcja
+  <b>Ukryj następne posunięcie</b>, wyświetlane jest tylko pierwsze
+  posunięcie. Dzięki temu wybór wariantu nie zdradza dalszego przebiegu.
+  Pozwala to przeglądać partię wyłącznie za pomocą klawiszy strzałek.
+  Aby opuścić wariant, naciśnij klawisz "<b>z</b>".
+  Na początku wariantu można też użyć klawisza
+  strzałki w górę.
   </p>
   <p>
   Zauważ, że jeśli partia ma warianty, można też wejść do wariantu, po prostu
@@ -1330,7 +1391,7 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   aby jawnie dodać wariant, i dopiero potem wykonaj posunięcia.
   </p>
   <p>
-  Ustawienie <b>Opcje / Posunięcia / Pokaż strzałki dla wariantów </b> może służyć do
+  Ustawienie <b>Opcje / Posunięcia / Pokaż strzałki wariantów </b> może służyć do
   wyświetlania istniejących wariantów na głównej szachownicy. Może to być
   szczególnie pomocne na komputerach z małymi ekranami (netbooki)
   i/lub w połączeniu z wyłączeniem zarówno okna PGN, jak i okna
@@ -1563,7 +1624,7 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   </p>
   <p>
   Menu Wyświetlanie pozwala również dostosować prezentowane dane, aby
-  uwzględnić lub wykluczyć rankingi, kraje i tytuły zawodników. Możesz również
+  uwzględnić lub wykluczyć rankingi, kraje i tytuły graczy. Możesz również
   wybrać, czy w tabelach szwajcarskich wyświetlane są przydziały kolorów.
   </p>
   <p>
@@ -1588,7 +1649,7 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   Aby uzyskać dobre wyniki w tabeli turniejowej, należy oznaczyć duplikaty
   do usunięcia, a nazwy graczy, miejsc i wydarzeń powinny mieć
   spójną pisownię.
-  Zobacz stronę <a Maintenance>Obsługa bazy danych</a>, aby uzyskać pomoc w
+  Zobacz stronę <a Maintenance>Narzędzia bazy danych</a>, aby uzyskać pomoc w
   usuwaniu duplikatów partii oraz edycji (lub sprawdzaniu pisowni)
   nazw graczy/wydarzeń/miejsc.
   </p>
@@ -1764,7 +1825,7 @@ set helpText(P,GameList) {<h1>Okno listy partii</h1>
   można otworzyć (wczytać) ją w przeglądarce albo scalić partię
   (zobacz niżej), usunąć (lub przywrócić) partię albo wykluczyć ją z filtra.
   Zauważ, że usunięcie partii tylko ustawia jej flagę usunięcia; pozostanie ona
-  w bazie danych, dopóki jej nie usuniesz w menu <b>Obsługa</b> i dalej <a Compact>Uporządkuj bazę...</a>.
+  w bazie danych, dopóki jej nie usuniesz w menu <b>Narzędzia bazy danych</b> i dalej <a Compact>Kompaktuj bazę danych...</a>.
   </p>
   
   <h3>Konfiguracja listy partii</h3>
@@ -1932,11 +1993,11 @@ set helpText(P,Export) {<h1>Eksportowanie partii</h1>
   <p>
   Ten format składa się z kilku plików, które muszą być zapisane w
   określonej strukturze. Dlatego zaleca się najpierw utworzyć
-  pusty folder, który będzie zawierał te pliki. Nazwę głównego
+  pusty katalog, który będzie zawierał te pliki. Nazwę głównego
   pliku można określić, a otrzyma on rozszerzenie html (np.
   mygame.html). Ten plik powinien być otwarty przez przeglądarkę internetową. Pozostałe
   pliki muszą znajdować się dokładnie w miejscach, w których umieszcza je filtr
-  eksportu. Cały folder można jednak łatwo przesłać na
+  eksportu. Cały katalog można jednak łatwo przesłać na
   dowolny serwer WWW.
   </p>
   
@@ -2186,21 +2247,25 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   
   <h3>Operacje w oknie <a PGN>PGN</a></h3>
   <p>
-  Możesz używać okna <a PGN>PGN</a> do poruszania się po partii: kliknięcie
-  lewym przyciskiem myszy na posunięcia przeniesie Cię do tego posunięcia. Kliknięcie
-  lewym przyciskiem myszy na komentarzu pozwala go edytować. Klawisze
-  strzałek oraz klawisze (<b>v</b> i <b>z</b> do wchodzenia do wariantów i wychodzenia z nich)
-  działają do nawigacji po partii tak samo jak w głównym oknie. Tak jak w głównym
-  oknie, naciśnięcie <b>v</b> spowoduje wyświetlenie okna <term>Warianty</term>,
-  umożliwiającego wybór wariantu klawiszami kursora. Ustawienie
-  <b>Opcje /Preferencje / Posunięcia / Pokaż okno wariantów</b> spowoduje automatyczne
-  wyświetlanie tego okna za każdym razem, gdy podczas poruszania się po partii
-  klawiszami kursora zostanie znalezione posunięcie z wariantem. W oknie wariantów
-  można wejść do wariantu, wybierając go klawiszami góra/dół i naciskając Enter
-  albo klikając go myszą. Dzięki temu można poruszać się po partii
-  wyłącznie klawiszami kursora.
-  Kliknięcie posunięcia środkowym przyciskiem myszy wyświetli małą
-  szachownicę. Kliknięcie prawym przyciskiem myszy otworzy menu kontekstowe.
+  Do przeglądania partii można używać okna <a PGN>PGN</a>: kliknięcie
+  lewym przyciskiem myszy na posunięciu przenosi do tego miejsca partii.
+  Kliknięcie lewym przyciskiem myszy na komentarzu umożliwia jego edycję.
+  Klawisze strzałek oraz klawisze <b>v</b> i <b>z</b> (do wchodzenia
+  do wariantów i ich opuszczania) działają tak samo jak w głównym oknie.
+  Podobnie jak w głównym oknie, naciśnięcie klawisza <b>v</b> otwiera
+  okno <term>Warianty</term>, w którym można wybrać wariant za pomocą
+  klawiszy strzałek. Włączenie opcji Preferencje / Posunięcia / Pokaż
+  okno wariantów powoduje automatyczne otwieranie tego okna za każdym
+  razem, gdy podczas przeglądania partii za pomocą klawiszy strzałek
+  napotkane zostanie posunięcie z wariantami. W oknie wariantów można
+  wybrać wariant klawiszami strzałek w górę i w dół, a następnie
+  nacisnąć Enter lub kliknąć go myszą. Każdy wiersz okna pokazuje
+  posunięcie rozpoczynające dany wariant oraz kolejne posunięcia.
+  Gdy w obszarze informacji o partii włączona jest opcja <b>Ukryj następne posunięcie</b>,
+  wyświetlane jest tylko pierwsze posunięcie. Dzięki temu wybór wariantu nie zdradza dalszego
+  przebiegu. Pozwala to przeglądać partię wyłącznie za pomocą klawiszy strzałek.
+  Kliknięcie posunięcia środkowym przyciskiem myszy wyświetla małą szachownicę. Kliknięcie prawym
+  przyciskiem myszy otwiera menu kontekstowe.
   </p>
   <p>
   Z menu kontekstowego dostępne są następujące funkcje:
@@ -2212,7 +2277,7 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
      Przenosi aktualny wariant na pierwszą pozycję wśród wszystkich
      wariantów na tym poziomie
      </li>
-     <li><term>Promuj wariant do linii głównej</term>
+     <li><term>Ustaw wariant jako główną linię</term>
      Promuje aktualny wariant do linii głównej i przesuwa
      aktualną linię główną do wariantu.
      </li>
@@ -2536,29 +2601,40 @@ set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
 set helpTitle(P,ReviewGameButton) "Przycisk Analiza partii"
 set helpText(P,ReviewGameButton) {<h1>Okno silnika: przycisk Analiza partii</h1>
   <p>
-  Przycisk <b>Analiza partii</b> w oknie <a Engine>Silnik</a> służy do analizy
-  głównego wariantu otwartej partii. Silnik analizuje kolejno każdą pozycję
-  w tym wariancie, a wyniki analizy są zapisywane dla każdej z nich.
+  Przycisk <b>Analiza partii</b> w oknie <a Engine>silnika</a> analizuje
+  linię, w której znajduje się kursor: linię główną lub wariant,
+  od początku partii aż do ostatniego posunięcia tego wariantu.
+  Silnik analizuje kolejno każdą pozycję w tej linii, a wyniki analizy są
+  zapisywane dla każdej z nich.
   </p>
   
   <h3>Jak to działa</h3>
   <p>
-  Analiza odbywa się za pomocą osobnego połączenia z silnikiem, więc nie
-  zakłóca obserwowanej analizy. Pozycja na szachownicy również się nie zmienia:
-  analizowane są pozycje z głównego wariantu zapisane w chwili naciśnięcia
-  przycisku. Możesz więc kontynuować pracę podczas analizy. Warianty poboczne
-  nie są analizowane — analiza obejmuje tylko główny wariant.
+  Analiza korzysta z osobnego połączenia z silnikiem, więc nie zakłóca analizy, którą aktualnie
+  obserwujesz. Szachownica również się nie zmienia: pozycje są pobierane z linii w takiej postaci,
+  w jakiej znajdowała się ona w chwili naciśnięcia przycisku. Możesz więc kontynuować pracę podczas
+  analizy. W przypadku linii głównej analizowana jest cała partia. Jeśli kursor znajduje się w wariancie,
+  analizowana jest linia główna do miejsca rozpoczęcia wariantu, a następnie ten wariant — wraz z ewentualnymi wariantami podrzędnymi — aż do ostatniego posunięcia.
+  Analizowana jest tylko ta jedna linia.
   </p>
   <p>
-  Każde ocenione posunięcie otrzymuje słowną ocenę i komentarz <b>[%eval]</b>, a także odpowiedni
-  kod NAG (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>). Posunięcia oznaczone przez
-  analizę otrzymują również <b>ocenę pozycji</b> na podstawie tej samej wartości: <b>=</b>
-  dla pozycji równej, <b>+=</b>, <b>+/-</b>, <b>+-</b> i <b>+--</b> w miarę wzrostu przewagi
-  białych oraz odpowiadające im oznaczenia <b>=+</b>, <b>-/+</b>, <b>-+</b> i <b>--+</b> dla
-  przewagi czarnych. Spokojne posunięcie, które nie otrzymało oznaczenia, nie dostaje oceny
-  pozycji, a ewentualna wcześniejsza ocena zostaje usunięta. Dzięki temu oceny wskazują
-  najważniejsze momenty partii i są zawsze  zgodne z sąsiadującym komentarzem <b>[%eval]</b>.
+  Analiza wariantu zapisuje tylko posunięcia: słowną ocenę i znacznik
+  <b>[%eval]</b> w komentarzu do każdego posunięcia, powiązane z nimi
+  symbole NAG i ocenę pozycji, diagram oraz warianty alternatywne, które
+  silnik zachowuje. Elementy dotyczące całej partii — <b>raport</b>,
+  znaczniki partii i komentarz trenera — opisują partię, a nie pojedynczą
+  linię. Dlatego są zapisywane tylko podczas analizy linii głównej.
   </p>
+  <p>
+  Każde ocenione posunięcie otrzymuje słowną ocenę i znacznik <b>[%eval]</b> w komentarzu,
+  a także odpowiadający tej ocenie symbol NAG (<b>?!</b>, <b>?</b>, <b>??</b>, <b>!</b>, <b>!!</b>).
+  Posunięcie oznaczone przez analizę otrzymuje również <b>ocenę pozycji</b> wynikającą z tej samej oceny
+  liczbowej: <b>=</b> dla pozycji równej, <b>+=</b>, <b>+/-</b>, <b>+-</b> i <b>+--</b> dla coraz
+  większej przewagi białych oraz odpowiadające im symbole <b>=+</b>, <b>-/+</b>, <b>-+</b>
+  i <b>--+</b> dla czarnych. Spokojne posunięcie, które nie otrzymuje oznaczenia, nie dostaje też
+  oceny pozycji — każda wcześniejsza ocena zostaje usunięta. Dzięki temu oceny pozycji wskazują momenty warte uwagi
+  i zawsze są zgodne z sąsiadującym znacznikiem <b>[%eval]</b>.
+ </p>
   <p>
   Podczas analizy okno wyświetla komunikat <b>Analiza pozycji N z M</b>
   oraz znajdujący się obok przycisk <b>Anuluj</b>. Anulowanie przerywa analizę
@@ -2604,10 +2680,11 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: przycisk Analiza partii</h1>
   
   <h3>Kiedy przycisk jest aktywny</h3>
   <p>
-  Funkcja komentowania posunięcia wymaga otwartej partii, wybranego silnika i posunięcia na szachownicy.
-  Na początku wariantu nie ma jeszcze posunięcia do skomentowania, natomiast ostatnie posunięcie można już
-  komentować.  Wewnątrz wariantu numeracja posunięć jest inna — analiza obejmuje główny wariant, dlatego 
-  przycisk jest tam nieaktywny.
+  Funkcja <b>Komentarz do posunięcia</b> wymaga wczytanej partii, wybranego
+  silnika i posunięcia na szachownicy. Na początku linii nie ma jeszcze
+  posunięcia do skomentowania, natomiast można skomentować ostatnie posunięcie. Posunięcie
+  wewnątrz wariantu traktowane jest tak samo jak każde inne: komentarz jest zapisywany w tym
+  miejscu wariantu, a posunięcie linii głównej o tym samym numerze pozostaje bez zmian.
   </p>
   
   <h3>Oczekiwanie na głębokość analizy</h3>
@@ -2630,8 +2707,8 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: przycisk Analiza partii</h1>
 set helpTitle(P,ReviewSettings) "Ustawienia analizy"
 set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <p>
-  Okno <b>Ustawienia analizy</b> w oknie <a Engine>Silnik</a> zawiera
-  parametry używane podczas analizy partii:
+  <b>Ustaw parametry analizy</b> w oknie <a Engine>silnika</a> zawierają opcje
+  używane podczas analizy:
   </p>
   <ul>
   <li><b>Warianty</b>: liczba wariantów silnika zapisywanych dla każdej pozycji
@@ -2639,6 +2716,8 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <li><b>Głębokość</b>: głębokość analizy każdej pozycji. Jest to również
     głębokość, na którą czeka funkcja <a ReviewMoveButton>Komentarz do posunięcia</a>,
     gdy włączona jest opcja <b>Czekaj na osiągnięcie zadanej głębokości analizy</b>.</li>
+	<li><b>Limit czasu (ms)</b>: maksymalny czas analizy każdej pozycji. Wartość zero oznacza brak własnego
+	limitu — obowiązuje wtedy limit ustawiony w konfiguracji silnika.</li>
   <li><b>Liczba wariantów do zapisania</b>: liczba wariantów silnika dodawanych  przy każdym błędzie, poważnym  błędzie
     i przeoczonej wygranej. Dzięki temu partia pokazuje, jakie posunięcie należało wykonać. Wartość zero oznacza, że żadne
     warianty nie będą zapisywane. Liczba ta nie może być większa niż liczba wariantów silnika.Warianty są dodawane tylko
@@ -2655,13 +2734,20 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <li><b>Diagram</b>: wartość 1 dodaje znacznik diagramu (<b>D</b>) przy posunięciu poprzedzającym każdy błąd i
     poważny błąd. Dzięki temu w wydruku lub wersji HTML partii zostanie pokazana pozycja, w której popełniono błąd.
     Wartość 0 oznacza brak znaczników.</li>
-  <li><b>Znajdź błędy debiutowe</b>: dodaje wpis <b>opBlunder</b> do tagu
-    Annotator na posunięciu, na którym skończyła się księga debiutowa.</li>
-  <li><b>Posunięcia debiutowe</b>: okno 10–20 posunięć dla wyszukiwania błędów
-    debiutowych; domyślnie 12.</li>
-  <li><b>Oznacz ćwiczenia taktyczne</b>: oznacza partię flagą <b>T</b> i dodaje
-    komentarz <b>****D</b> przy błędach i poważnych błędach. Domyślnie
-    wyłączone.</li>
+   <li><b>Znajdź błędy debiutowe</b>: po włączeniu tej opcji analiza dodaje
+    wpis <b>opBlunder &lt;move&gt; (&lt;side&gt;)</b> do znacznika Annotator
+    partii, przy posunięciu, na którym kończy się książka debiutowa, jeśli
+    mieści się ono w zakresie <b>Posunięć w debiucie</b>.</li>
+	<li><b>Posunięcia w debiucie</b>: zakres posunięć, w którym wyszukiwane są
+    błędy debiutowe, od 10 do 20 posunięć od końca książki debiutowej; domyślnie 12.</li>
+	<li><b>Oznacz zadania taktyczne</b>: po włączeniu tej opcji posunięcie
+    ocenione przez analizę jako błąd lub poważny błąd może również oznaczyć
+    partię symbolem <b>T</b> i dodać komentarz <b>****D&lt;difficulty&gt; &lt;before&gt;-&gt;&lt;after&gt;</b>.
+    Domyślnie opcja jest wyłączona.</li>
+	<li><b>Komentarz trenera</b>: prosi skonfigurowany model o jedno zdanie
+    dotyczące każdego ocenionego posunięcia.</li>
+	<li><b>Silnik weryfikujący</b>: wyłączony lub drugi profil silnika,
+    który sprawdza oceny „Błyskotliwe” i „Świetne”.</li>
   </ul>
   
   <h3>Ustawienia spoza tego okna</h3>
@@ -2683,65 +2769,122 @@ set helpText(P,ReviewSettings) {<h1>Okno silnika: Ustawienia analizy</h1>
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
 }
 ####################
-### Co grozi? -- sonda silnika:
+### What's the Threat? -- the engine probe:
 
-set helpTitle(P,ToolsWhatThreat) "Co grozi?"
-set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Co grozi?</h1>
-  <p>
-  <b>Co grozi?</b> pyta silnik, czym grozi strona na posunięciu w pozycji na
-  szachownicy, i zapisuje odpowiedź w komentarzu do aktualnego posunięcia. To
-  przycisk <button tb_review_threat> w oknie <a Engine>silnika</a> oraz pozycja
-  <menu>Co grozi?</menu> w menu <a Menus Tools>Narzędzia</a>.
-  </p>
+set helpTitle(P,ToolsWhatThreat) "Jakie jest zagrożenie?"
+set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Jakie jest zagrożenie?</h1>
+<p>
+  Funkcja <b>Jakie jest zagrożenie?</b> pyta silnik, jakie zagrożenie stwarza
+  strona będąca na posunięciu w aktualnej pozycji na szachownicy, a następnie
+  zapisuje odpowiedź w komentarzu do bieżącego posunięcia. Jest dostępna pod
+  przyciskiem <button tb_review_threat> w oknie <a Engine>silnika</a> oraz
+  w menu <menu>Jakie jest zagrożenie?</menu> w menu <a Menus Tools>Narzędzia</a>.
+</p>
 
-  <h3>Wyszukiwanie</h3>
-  <p>
-  Sonda otwiera własne połączenie z silnikiem, prosi o najlepsze posunięcie z
-  <b>MultiPV 1</b> i zamyka połączenie, gdy tylko posunięcie przyjdzie. Nie
-  pożycza silnika żadnego okna silnika i nie przeszkadza w trwającej
-  <a ReviewGameButton>Analizie partii</a>: wyszukiwanie jest krótkie, na
-  głębokości 14, w limicie czasu analizy. Ustawienie, które nie jest silnikiem
-  UCI, jest odrzucane, bo silnik XBoard nigdy nie odpowie na uzgodnienie
-  protokołu.
-  </p>
+<h3>Wyszukiwanie</h3>
+<p>
+  Funkcja nawiązuje własne połączenie z silnikiem, prosi go o znalezienie najlepszego posunięcia
+  przy ustawieniu <b>MultiPV 1</b> i zamyka połączenie zaraz po otrzymaniu odpowiedzi.
+  Nie korzysta z silnika używanego w oknie silnika i nie zakłóca trwającej <a ReviewGameButton>analizy
+  partii</a>. Wyszukiwanie jest krótkie: trwa do głębokości 14, z uwzględnieniem limitu
+  czasu ustawionego w analizie. Profil, który nie jest silnikiem UCI, zostaje
+  odrzucony, ponieważ silnik XBoard nie odpowiedziałby na uzgadnianie połączenia.
+</p>
 
-  <h3>Odpowiedź</h3>
-  <p>
-  Odpowiedź pochodzi z pozycji, nie z modelu. Posunięcie silnika jest podane
-  w notacji SAN i opisane słowami, a fakty, które je wyjaśniają - szach, mat
-  albo to, co posunięcie wygrywa lub atakuje - to te same fakty, z których
-  powstaje <a ReviewMoveButton>Komentarz do posunięcia</a>. Ciche najlepsze
-  posunięcie nie jest nazywane groźbą: odpowiedź mówi, że strona na posunięciu
-  nie ma bezpośredniej groźby, i podaje najlepsze posunięcie.
-  </p>
-  <p>
-  Odpowiedź jest zapisywana jako jedna linia <b>[Coach] Threat: ...</b> w
-  komentarzu do aktualnego posunięcia. Ponowne naciśnięcie zastępuje tę linię,
-  zamiast dodawać drugą; własna notatka w komentarzu oraz notatka trenera
-  <b>[Coach] ...</b> przy tym samym posunięciu zostają zachowane.
-  </p>
-  <p>
-  Gdy model jest skonfigurowany, nad tymi faktami powstaje jedno zdanie
-  komentarza trenera i jest dodawane po nich. Fakty zostają w obu przypadkach,
-  a bez modelu są całą odpowiedzią: brak dostawcy jest obsługiwanym stanem, nie
-  błędem.
-  </p>
+<h3>Odpowiedź</h3>
+<p>
+  Odpowiedź wynika z pozycji, a nie z modelu. Posunięcie silnika jest podane w notacji SAN i
+  opisane słowami. Fakty, które je uzasadniają — szach, mat lub to, co posunięcie zdobywa
+  albo atakuje — są tymi samymi informacjami, na których opiera się funkcja <a ReviewMoveButton>
+  Komentarz do posunięcia</a>. Spokojne, najlepsze posunięcie nie jest przedstawiane jako zagrożenie:
+  odpowiedź informuje, że strona na posunięciu nie stwarza bezpośredniego
+  zagrożenia, i podaje zamiast tego najlepsze posunięcie.
+</p>
+<p>
+  Odpowiedź jest zapisywana w komentarzu do bieżącego posunięcia jako jeden wiersz <b>[Coach]
+  Threat: ...</b>. Ponowne naciśnięcie przycisku zastępuje ten wiersz, zamiast dodawać kolejny.
+  Własny komentarz użytkownika oraz komentarz trenera w postaci <b>[Coach] ...</b> dotyczący tego samego
+  posunięcia pozostają bez zmian.
+</p>
+<p>
+  Jeśli skonfigurowano model, na podstawie tych informacji tworzony jest komentarz trenera w postaci
+  jednego zdania i dodawany po nich. Same informacje są zachowywane niezależnie od tego. Jeśli model
+  nie jest skonfigurowany, stanowią całą odpowiedź — brak dostawcy modelu jest obsługiwaną sytuacją, a nie błędem.
+</p>
 
-  <h3>Czego sonda nie robi</h3>
-  <p>
-  Sonda nie zapisuje NAG-a, wariantu, <b>[%eval]</b> ani etykiety posunięcia.
-  Nie przesuwa szachownicy i nie zmienia analizy silnika, której słuchasz.
-  </p>
-  <p>
-  Okno komunikatu pojawia się tylko wtedy, gdy sonda nie może działać: nie
-  skonfigurowano silnika, nie ma pozycji lub posunięcia do skomentowania, sonda
-  już działa, silnik zawiódł lub się rozłączył, partia zmieniła się w czasie
-  wyszukiwania albo silnik zwrócił posunięcie, którego szachownica nie
-  przyjmuje. Odrzucone posunięcie jest zgłaszane jako błąd, a nie zamieniane na
-  fakty z pozycji, której silnik nie miał na myśli.
-  </p>
+<h3>Czego ta funkcja nie robi</h3>
+<p>
+  Funkcja nie dodaje symboli NAG, wariantów, znacznika <b>[%eval]</b> ani
+  oceny słownej posunięcia. Nie zmienia pozycji na szachownicy ani analizy
+  silnika, którą aktualnie obserwujesz.
+</p>
+<p>
+  Okno komunikatu pojawia się tylko wtedy, gdy funkcja nie może zostać uruchomiona: nie skonfigurowano
+  silnika, nie ma pozycji lub posunięcia do skomentowania, wyszukiwanie już trwa, silnik nie działa
+  lub rozłącza się, partia zmienia się podczas wyszukiwania albo szachownica odrzuca
+  posunięcie zwrócone przez silnik. Odrzucone posunięcie jest zgłaszane jako
+  błąd, zamiast tworzyć opis pozycji, której silnik nie miał na myśli.
+</p>
 
-  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+<p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+}
+
+
+####################
+### Batch annotation help:
+###
+### The live path: the Game List's selection menu calls
+### ::batch_annotate::config, and each finished game is written by
+### ::reviewdriver::writeResults - the engine window's review writer - so this
+### page describes Review Settings and has no checkboxes of its own. The
+### script-only annotator this page used to document was retired in #437 §8.
+  
+set helpTitle(P,BatchAnnotate) "Adnotacja zbiorcza partii"
+set helpText(P,BatchAnnotate) {<h1>Adnotacja zbiorcza partii</h1>
+  <p>
+  <term>Adnotacja zbiorcza</term> uruchamia jedną serię analiz silnika dla kilku partii i zapisuje
+  w każdej z nich adnotacje tworzone przez funkcję analizy w oknie silnika. Jest to polecenie
+  dostępne na Liście partii: zaznacz partie, otwórz menu zaznaczenia (kliknij prawym przyciskiem myszy
+  lub naciśnij klawisz Menu) i wybierz <b>Adnotacja zbiorcza</b>.
+  </p>
+  <p>
+  Okno dialogowe zawiera dwa ustawienia. Wybrany <b>silnik</b> analizuje każde posunięcie we
+  wszystkich partiach. <b>Liczba instancji</b> określa, ile kopii silnika działa jednocześnie.
+  Każda instancja analizuje jedną partię naraz, więc przy dwóch instancjach można analizować równolegle
+  dwie partie, jeśli komputer ma wystarczającą liczbę rdzeni. Przycisk <b>Rozpocznij</b> rozpoczyna analizę.
+  </p>
+  
+  <h3>Co zapisuje analiza</h3>
+  <p>
+  Każda zakończona partia jest wczytywana i zapisywana za pomocą tej samej funkcji, której używa
+  <a ReviewGameButton>analiza</a> w oknie silnika. Dlatego zapisywane adnotacje zależą od ustawień w
+  <a ReviewSettings>Ustaw parametry analizy</a>: oceny słownej posunięcia, znacznika <b>[%eval]</b>,
+  symbolu NAG odpowiadającego ocenie, oceny pozycji przy oznaczonych posunięciach,
+  znacznika diagramu <b>D</b> oraz wariantu pokazującego, jak można było zagrać lepiej.
+  Oznaczenia błędów debiutowych i ćwiczeń taktycznych również zależą od odpowiednich opcji. Adnotacja
+  zbiorcza nie ma własnych pól wyboru.
+  </p>
+  <p>
+  Analiza nie korzysta z dostawcy AI: wyszukuje posunięcia za pomocą silnika
+  i zapisuje wyniki analizy — nic więcej. Komentarze AI są dostępne w funkcji
+  Analiza partii, w której trener generuje komentarze dla jednej partii naraz.
+ </p>
+  
+  <h3>Podczas analizy</h3>
+  <p>
+  Plansza postępu pokazuje aktualnie analizowaną partię i jej miejsce w całej
+  serii. Przycisk <b>Anuluj</b> zatrzymuje analizę zbiorczą: silniki zostają
+  zamknięte, partie już zapisane pozostają bez zmian, a partie, których
+  jeszcze nie zapisano, zachowują swój pierwotny stan.
+</p>
+<p>
+  Jeśli analiza posunięcia zakończy się bez uzyskania choć jednej ocenionej linii — najczęściej
+  z powodu limitu czasu — posunięcie zostanie zapisane bez oceny. Końcowy komunikat podaje
+  liczbę takich posunięć obok liczby ukończonych partii, dzięki czemu niepełna analiza partii nie jest
+  przedstawiana jako zakończona.
+</p>
+  
+   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 
@@ -2811,16 +2954,16 @@ set helpText(P,PTracker) {<h1>Okno śledzenia figur (Piece Tracker)</h1>
   </p>
   <p>
   W przypadku motywów środkowej gry tracker może być przydatny, gdy filtr
-  zawiera określony zakres ECO (używając <a Searches Header>Wyszukiwania
+  zawiera określony zakres ECO (używając <a Searches Header>Wyszukiwania wg
   nagłówka</a>)
   albo wzorzec, taki jak biały IQP (używając <a Searches Material>Wyszukiwania
-  materiał/wzorzec</a>). Ustaw zakres posunięć na odpowiedni, na przykład 20–40,
+  materiał/wzorce</a>). Ustaw zakres posunięć na odpowiedni, na przykład 20–40,
   i śledź bierki, aby zobaczyć na przykład posunięcia pionów w późnej środkowej grze 
   lub wczesnej końcówce.
   </p>
   <p>
   Do przygotowania pod konkretnego gracza użyj <a Searches Header>Wyszukiwania nagłówka</a>
-  albo okna <a PInfo>iOkno informacji o zawodniku</a>, aby znaleźć wszystkie partie danego
+  albo okna <a PInfo>iOkno informacji o graczu</a>, aby znaleźć wszystkie partie danego
   gracza jednym z kolorów. Następnie Śledzenie figur może pomóc ustalić,
   jak często gracz fianchettozuje gońce, roszuje na skrzydło hetmańskie
   albo ustawia klin pionowy na d5 lub e5.
@@ -2845,7 +2988,7 @@ set helpText(P,Tree) {<h1>Okno drzewo wariantów</h1>
   </p>
   <p>Aby otworzyć okno <term>Drzewa wariantów</term>, można najpierw otworzyć bazę
   danych, a następnie wybrać z menu <b>Okna / Drzewo wariantów (Ctrl-T)</b>, albo
-  otworzyć bazę jako drzewo wprost z menu <b>Plik</b>.
+  otworzyć bazę jako drzewo wariantów wprost z menu <b>Plik</b>.
   <p>
   Zauważ, że zawsze gdy okno drzewa wariantów zostanie zaktualizowane, <a Searches
   Filter>filtr</a> jest resetowany i będą w nim uwzględnione tylko partie zawierające
@@ -2937,7 +3080,7 @@ set helpText(P,Tree) {<h1>Okno drzewo wariantów</h1>
   otwarte i zamknie tylko widok drzewa tej bazy.
   </p>
   <p>
-  Uwaga: otwarcie bazy jako drzewa z menu <b>Plik</b> domyślnie automatycznie
+  Uwaga: otwarcie bazy jako drzewo wariantów z menu <b>Plik</b> domyślnie automatycznie
   blokuje bazę danych.
   </p>
   
@@ -3139,7 +3282,7 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
   albo użyć <term>Clipbase</term>, aby zaimportować go tymczasowo.
   W takim przypadku należy upewnić się, że <term>Clipbase</term> 
   jest pusty przed importem.
-  (<menu>Edycja / Opróżnij schowek</menu>).
+  (<menu>Edycja / Usuń wszystkie partie ze schowka</menu>).
   </p>
   <p>
   Następnym krokiem jest otwarcie drzewa dla właśnie otwartej bazy ScidCommunity.
@@ -3174,35 +3317,35 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
 ####################
 ### Kompaktowanie bazy danych:
 
-set helpTitle(P,Compact) "Obsługa bazy danych"
-set helpText(P,Compact) {<h1>Obsługa bazy danych</h1>
+set helpTitle(P,Compact) "Narzędzia bazy bazy danych"
+set helpText(P,Compact) {<h1>Narzędzia bazy danych</h1>
   <p>
-  <term>Porządkowanie</term> bazy danych to specyficzny rodzaj
-  <a Maintenance>Obsługi</a>, który utrzymuje bazę możliwie małą i
+  <term>Kompaktowanie</term> bazy danych to specyficzny rodzaj
+  <a Maintenance>Narzędzia bazy danych</a>, który utrzymuje bazę możliwie małą i
   wydajną.
-  Porządkowanie bazy oznacza usunięcie wszelkiej niewykorzystanej przestrzeni
-  w jej plikach. Istnieją dwa typy: porządkowanie pliku nazw i pliku partii.
+  Kompaktowanie bazy oznacza usunięcie wszelkiej niewykorzystanej przestrzeni
+  w jej plikach. Istnieją dwa typy: Kompaktowanie pliku nazw i pliku partii.
   </p>
   
-  <h3>Porządkowanie pliku nazw</h3>
+  <h3>Kompaktowanie pliku nazw</h3>
   <p>
-  Z czasem może się okazać, że baza zawiera wiele nazw zawodników,
+  Z czasem może się okazać, że baza zawiera wiele nazw graczy,
   turniejów, miejsc lub rund, które nie są już używane w żadnej partii.
   Często dzieje się tak po sprawdzeniu pisowni nazw. Nieużywane nazwy marnują
   miejsce w pliku nazw i mogą spowalniać wyszukiwanie nazw.
-  Porządkowanie pliku nazw usuwa wszystkie nazwy, które nie są używane w żadnej partii.
+  Kompaktowanie pliku nazw usuwa wszystkie nazwy, które nie są używane w żadnej partii.
   </p>
   
-  <h3>Porządkowanie pliku partii</h3>
+  <h3>Kompaktowanie pliku partii</h3>
   <p>
   Za każdym razem, gdy partia zostaje zastąpiona lub usunięta, w pliku partii
   pozostaje niewykorzystana przestrzeń (w największym z trzech plików w bazie ScidCommunity).
-  Porządkowanie pliku partii usuwa całą niewykorzystaną przestrzeń, nie pozostawiając
+  Kompaktowanie pliku partii usuwa całą niewykorzystaną przestrzeń, nie pozostawiając
   w bazie żadnych usuniętych partii. Zauważ, że ta operacja jest nieodwracalna:
-  po porządkowaniu usunięte partie znikają na zawsze!
+  po Kompaktowaniu usunięte partie znikają na zawsze!
   </p>
   <p>
-  Porządkowanie pliku partii jest też zalecane po <a Sorting>sortowaniu</a>
+  Kompaktowanie pliku partii jest też zalecane po <a Sorting>sortowaniu</a>
   bazy, aby zachować zgodność kolejności pliku partii z posortowanym 
   plikiem indeksu.
   </p>
@@ -3214,24 +3357,24 @@ set helpText(P,Compact) {<h1>Obsługa bazy danych</h1>
 ####################
 ### Pomoc dla narzędzi obsługi technicznej bazy danych:
 
-set helpTitle(P,Maintenance) "Okno Obsługi bazy danych"
-set helpText(P,Maintenance) {<h1>Okno Obsługi bazy danych</h1>
+set helpTitle(P,Maintenance) "Okno narzędzi bazy danych"
+set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   <p>
   ScidCommunity udostępnia wiele narzędzi do utrzymania porządków w bazie danych,
   dostępnych z menu <a Menus Database>Baza danych</a> ScidCommunity. Funkcje
-  <a Compact>porządkowania</a> i <a Sorting>sortowania</a>
+  <a Compact>Kompaktowanie</a> i <a Sorting>sortowanie</a>
   bazy są opisane na osobnych stronach pomocy.
   </p>
   
-  <h3>Okno obsługi</h3>
+  <h3>Okno narzędzi bazy danych</h3>
   <p>
-  Większość konserwacji baz ScidCommunity można wykonać w oknie <b>Obsługa</b>,
-  które można otworzyć z menu <menu>Baza danych: Obsługa</menu>
+  Większość konserwacji baz ScidCommunity można wykonać w oknie <b>Narzędzia bazy danych</b>,
+  które można otworzyć z menu <menu>Baza danych: Narzędzia bazy danych</menu>
   albo skrótem <b>Ctrl+M</b>.
   </p>
   <p>
   Możesz użyć tego okna do utrzymywania <a Flags>Flag partii</a>,
-  sprawdzania pisowni nazw, <a Compact> Porządkowanie</a> albo <a Sorting>Sortowania</a>
+  sprawdzania pisowni nazw, <a Compact> Kompaktowanie</a> albo <a Sorting>Sortowania</a>
   bazy danych. Zauważ, że wszystkie operacje niedostępne
   dla bieżącej bazy (na przykład dlatego, że jest tylko do odczytu
   albo jest plikiem <a PGN>PGN</a>) będą wyszarzone.
@@ -3239,7 +3382,7 @@ set helpText(P,Maintenance) {<h1>Okno Obsługi bazy danych</h1>
   
   <h3><name Twins>Usuwanie duplikatów partii</name></h3>
   <p>
-  Menu <menu>Baza danych: Obsługa</menu> zawiera polecenie
+  Menu <menu>Baza danych: Narzędzia bazy danych</menu> zawiera polecenie
   <menu>Usuń duplikaty partii...</menu> służące do wykrywania dodatkowych kopii
   (duplikatów) partii w bazie.
   Polecenie to znajduje wszystkie duplikaty partii i dla każdej pary
@@ -3258,35 +3401,43 @@ set helpText(P,Maintenance) {<h1>Okno Obsługi bazy danych</h1>
   oknie dialogowym usuwania duplikatów zaznaczono opcję „<b>Ustaw filtr na
   wszystkie usunięte duplikaty</b>”. Filtr będzie teraz zawierał wszystkie
   usunięte partie. Można je przeglądać (za pomocą klawiszy <b>p</b>
-  i <b>n</b>) w oknie <term>Sprawdzania duplikatów</term> (dostępnym z menu
-  Obsługi  lub skrótem klawiszowym <b>Ctrl+Shift+T</b>), aby
+  i <b>n</b>) w oknie <term>wyszukiwania duplikatów</term> (dostępnym z menu
+  Narzędzia bazy danych  lub skrótem klawiszowym <b>Ctrl+Shift+T</b>), aby
   zweryfikować, czy każda partia została usunięta, ponieważ rzeczywiście
   jest duplikatem innej partii.
   </p>
   
-  <h3><name Editing>Edytowanie nazw zawodników, turniejów, miejsc i rund</name></h3>
+  <h3><name Editing>Edytowanie nazw graczy, turniejów, miejsc i rund</name></h3>
   <p>
   W swoich bazach danych można znaleźć błędnie zapisane nazwy i chcieć je
   poprawić. Można to zrobić w ScidCommunity za pomocą okna <term>Edytora
   nazw</term> (skrót klawiszowy: <b>Control+Shift+N</b>), dostępnego z
-  podmenu <menu>Baza danych: Obsługa</menu>.
+  podmenu <menu>Baza danych: Narzędzia bazy danych</menu>.
   </p>
   <p>
   Każda unikalna nazwa jest przechowywana w pliku nazw tylko raz, więc
   zmiana nazwy w rzeczywistości zmienia wszystkie jej wystąpienia.
   </p>
+  <p>
+  Pole <b>Zamień</b> obsługuje również znak wieloznaczny <b>*</b>, dzięki czemu jedną operacją
+  można zmienić wszystkie pasujące nazwy: <b>1*</b> oznacza każdą nazwę zaczynającą się od „1”,
+  <b>*Whelan</b> — każdą nazwę kończącą się na „Whelan”, a <b>*</b> — dowolną nazwę.
+  Znaki wieloznaczne działają w nazwach graczy, turniejów, miejsc rozgrywek i rund, a także
+  w nazwie gracza podczas edycji rankingów. Wyszukiwanie rozróżnia wielkość
+  liter, tak samo jak przy dopasowaniu dokładnej nazwy.
+</p>
   
   <h3><name Spellcheck>Sprawdzanie pisowni nazw</name></h3>
   <p>
   ScidCommunity jest dostarczany z plikiem <term>spellcheck</term> o nazwie <b>spelling.ssp</b>,
-  służącym do poprawiania nazw zawodników, turniejów, miejsc i rund.
+  służącym do poprawiania nazw graczy, turniejów, miejsc i rund.
   ScidCommunity spróbuje wczytać plik spellcheck przy każdym uruchomieniu;  jeśli
   się nie wczyta, możesz załadować go z menu <menu>Opcje : Zasoby</menu>.
   </p>
   <p>
   Po wczytaniu pliku spellcheck możesz używać go na
   bazie ScidCommunity za pomocą poleceń  w menu
-  <menu>Baza danych: Pisownia nazw</menu> albo z okna obsługi.
+  <menu>Baza danych: Pisownia nazw</menu> albo z okna Narzędzia bazy danych.
   </p>
   <p>
   Gdy sprawdzasz pisownię nazw bazy, ScidCommunity tworzy listę poprawek, którą
@@ -3295,27 +3446,27 @@ set helpText(P,Maintenance) {<h1>Okno Obsługi bazy danych</h1>
   </p>
   <p>
   Sprawdzanie pisowni nazw jest szczególnie przydatne do standaryzacji bazy
-  danych, tak aby wszystkie wystąpienia danego zawodnika były zapisywane
+  danych, tak aby wszystkie wystąpienia danego gracza były zapisywane
   w ten sam sposób. Na przykład przy standardowym pliku spellcheck nazwy
   „Kramnik,V.”, „Vladimir Kramnik” i „V. Kramnik” zostałyby wszystkie
   poprawione do „Kramnik, Vladimir”.
   </p>
   <p>
   Plik sprawdzania pisowni ma jeszcze jedno dodatkowe zastosowanie:
-  po wczytaniu jego dane o zawodnikach są wykorzystywane
-  do wzbogacenia okna <a PInfo>informacji o zawodniku</a> oraz okna
+  po wczytaniu jego dane o graczach są wykorzystywane
+  do wzbogacenia okna <a PInfo>informacji o graczu</a> oraz okna
   <a Crosstable>Tabeli turniejowej</a>: dla każdego zawodnika 
   znajdującego się w pliku spellcheck zobaczysz tytuł mistrzowski FIDE 
   (<b>gm</b> = Międzynarodowy Mistrz Wielki, <b>im</b> = Mistrz Międzynarodowy itd.)
   oraz informację o kraju. W dostarczanym z ScidCommunity pliku
-  <b>spelling.ssp</b> znajduje się ponad 6500 silnych zawodników 
+  <b>spelling.ssp</b> znajduje się ponad 6500 silnych graczy 
   z przeszłości i obecnych.
   </p>
   
   <h3><name Ratings>Dodawanie rankingów Elo do partii</name></h3>
   <p>
   Przycisk "Dodaj rankingi ELO " w oknie <b>Baza danych: Pisownia nazw</b> powoduje, że ScidCommunity
-  przeszukuje bieżącą bazę w poszukiwaniu partii, w których zawodnik nie ma
+  przeszukuje bieżącą bazę w poszukiwaniu partii, w których gracz nie ma
   rankingu, ale plik spellcheck zawiera ranking Elo dla tego
   gracza na datę partii. ScidCommunity automatycznie doda wszystkie takie rankingi.
   Jest to bardzo przydatne w bazie partii na poziomie mistrzowskim,
@@ -3328,10 +3479,10 @@ set helpText(P,Maintenance) {<h1>Okno Obsługi bazy danych</h1>
   <url http://scid.sourceforge.net/>scidCommunity website</url>.
   </p>
   
-  <h3><name Cleaner>Zestaw zadań</name></h3>
+  <h3><name Cleaner>Porządkowanie...</name></h3>
   <p>
-  Okno <term>Obsługa</term> programu ScidCommunity (dostępne z Okna obsługi ) to narzędzie
-  do wykonywania szeregu zadań obsługi na bazie danych za jednym razem. 
+  Okno <term>Narzędzia bazy danych</term> programu ScidCommunity (dostępne z Okna narzędzi bazy danych ) to narzędzie
+  do wykonywania porządkowania bazy danych za jednym razem. 
   Można wybrać, jakie zadania chce się wykonać, a ScidCommunity wykona je na aktualnej bazie danych bez
   konieczności interakcji użytkownika. Jest to szczególnie przydatne przy
   obsłudze dużych baz danych.
@@ -3406,15 +3557,15 @@ set helpText(P,Sorting) {<h1>Sortowanie bazy danych</h1>
   Gdy baza jest sortowana, plik indeksu jest zmieniany, ale plik partii
   nie jest zmieniany. Oznacza to, że sortowanie bazy pozostawi rekordy
   pliku partii w pomieszanej kolejności względem pliku indeksu. To naprawdę może
-  <b>spowolnić</b> wyszukiwanie <a Tree>drzewa wariantów</a>, pozycji i wg materiał/wzorzec,
-  więc po sortowaniu bazy należy ponownie uporządkować
-  plik partii przez <a Compact>Porządkuj bazę...</a>, aby zachować
+  <b>spowolnić</b> wyszukiwanie <a Tree>drzewa wariantów</a>, pozycji i wg materiał/wzorce,
+  więc po sortowaniu bazy należy ponownie kompaktować
+  plik partii przez <a Compact>Kompaktuj bazę danych...</a>, aby zachować
   dobrą wydajność wyszukiwania.
   </p>
   <p>
   Zauważ, że tylko baza posortowana wg kodów <a ECO>ECO</a> może używać szybkich
   trybów wyszukiwania drzewa. To jednak również wymaga
-  porządkowania bazy po procedurze sortowania!
+  kompaktowania bazy po procedurze sortowania!
   </p>
   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -3433,7 +3584,7 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   bezpośrednio ustawić dla każdej partii. Spośród nich tylko flaga
   <b>Usunięta</b> ma szczególne znaczenie: partie z włączoną flagą 
   <b>Usunięta</b> są oznaczone do usunięcia i zostaną usunięte po
-  poleceniu<a Compact>Porządkuj bazę...</a> .
+  poleceniu<a Compact>Kompaktuj bazę danych...</a> .
   </p>
   <p>
   Pozostałe 12 flag ustawianych przez użytkownika i ich symbole to:
@@ -3457,18 +3608,18 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   <p>
   Od ScidCommunity 4.0 dostępnych jest dodatkowych 6 własnych flag dla
   indywidualnego użycia. Flagi te są specyficzne dla każdej bazy, a ich
-  tekstowy opis można ustawić w oknie <a Maintenance>Okno obsługi</a>.
+  tekstowy opis można ustawić w oknie <a Maintenance>Okno narzędzi bazy danych</a>.
   W oknie Lista partii, oknie Informacji o partii itd. wyświetlają się
-  jako liczby (1) .. (6). W przypadku <a Searches Header>wyszukiwań Nagłówka</a>
+  jako liczby (1) .. (6). W przypadku <a Searches Header>wyszukiwań wg Nagłówka</a>
   działają dokładnie jak flagi zdefiniowane wyżej.
   </p>
   
   <p>
   Flagę można ustawić dla bieżącej partii, wszystkich partii w filtrze
-  lub wszystkich partii bazy za pomocą okna <a Maintenance>Okno obsługi</a>.
+  lub wszystkich partii bazy za pomocą okna <a Maintenance>Okno narzedzi bazy danych</a>.
   </p>
   <p>
-  Możesz użyć <a Searches Header>wyszukiwania nagłówka</a>, aby znaleźć wszystkie
+  Możesz użyć <a Searches Header>wyszukiwania wg nagłówka</a>, aby znaleźć wszystkie
   partie w bazie, które mają włączoną lub wyłączoną określoną flagę,
   albo używać flag jako części bardziej złożonych wyszukiwań.
   </p>
@@ -3488,8 +3639,8 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   Następujące funkcje ScidCommunity ustawiają lub wymagają flag:
   <ul>
      <li><a OpeningTrainer>Trener debiutów </a>: może oceniać flagi (B) i (W)</li>
-     <li><a FindBestMove>Znajdź najlepsze posunięcie</a>: ocenia flagę (T)</li>
-     <li><a ReviewSettings>Oznacz ćwiczenia taktyczne</a>: ustawia flagę (T)</li>
+     <li><a FindBestMove>Znajdź najlepsze posunięcie</a>: ocenia flagę (T).</li>
+     <li><a ReviewSettings>Oznacz ćwiczenia taktyczne</a>: ustawia flagę (T).</li>
   </ul>
   </p>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -3501,15 +3652,14 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
 set helpTitle(P,Analysis) "Okno analizy (wycofane)"
 set helpText(P,Analysis) {<h1>Okno analizy zostało wycofane</h1>
   <p>
-  Okno analizy i jego okno dialogowe Annotate zostały usunięte. Praca z
-  silnikiem odbywa się w <a Engine>oknach silnika</a>:
-  <a ReviewGameButton>Game Review</a> i
-  <a ReviewMoveButton>Move Comment</a> zapisują adnotacje, a
-  <a ReviewSettings>Review Settings</a> przechowuje ich ustawienia. Dla wyboru
-  partii użyj <a BatchAnnotate>Batch annotate</a>.
+  Okno analizy i jego okno dialogowe adnotacji zostały usunięte. Analiza
+  silnikiem odbywa się teraz w <a Engine>oknach silnika</a>: <a ReviewGameButton>Analiza partii</a> i
+  <a ReviewMoveButton>Komentarz do posunięcia</a> dodają adnotacje, a
+  <a ReviewSettings>Ustaw parametry analizy</a> zawierają opcje tych funkcji.
+  Do analizy wielu partii służy funkcja <a BatchAnnotate>Adnotacja zbiorcza</a>.
   </p>
 
-  <p><footer>(Zaktualizowano: ScidCommunity, listopad 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 ####################
@@ -3518,25 +3668,23 @@ set helpText(P,Analysis) {<h1>Okno analizy zostało wycofane</h1>
 set helpTitle(P,Engine) "Okna silnika"
 set helpText(P,Engine) {<h1>Okna silnika</h1>
   <p>
-  Okna silnika zapewniają analizę w czasie rzeczywistym z silnikiem szachowym,
-  z wykresami oceny, zapisanymi ocenami chmurowymi i panelami konfiguracji
-  silnika. To jedyna powierzchnia silnika; stare okno analizy zostało
-  wycofane.
+  Silniki w <a Engine>oknach silnika</a> zapewniają bieżącą analizę,
+  wykresy ocen, zapisane oceny z chmury oraz panele konfiguracji silnika.
+  To jedyne dostępne obecnie okna analizy silnikiem — dawne okno analizy
+  zostało wycofane.
   </p>
   <p>
-  Otwiera się je klawiszem <b>F2</b> (pierwsze okno) albo <b>F3</b> (drugie
-  okno), a także przez <menu>Narzędzia → Konfiguruj silniki</menu>. Zamyka
-  klawiszem <b>Esc</b>.
+  Otwórz klawiszem <b>F2</b> (pierwsze okno) lub <b>F3</b> (drugie okno), albo przez
+  <menu>Narzędzia → Konfiguruj silniki</menu>. Zamknij klawiszem <b>Escape</b>.
   </p>
-
-  <h3><name Configure>Konfiguracja silników</name></h3>
+  
+  <h3><name Configure>Konfiguruj silniki</name></h3>
   <p>
-  Lista silników pokazuje presety dostępne w tej sesji. Wybierz preset i
-  naciśnij <b>Open Engine Window</b> (albo kliknij dwukrotnie lub naciśnij
-  Return), aby otworzyć okno silnika dla tego presetu. <b>Add</b>, <b>Edit</b>,
-  <b>Duplicate</b> i <b>Delete</b> zarządzają presetami; F2 i F3 pozostają
-  bezpośrednimi skrótami.
-  </p>
+  Lista silników zawiera dostępne w tej sesji profile. Wybierz profil i kliknij
+  <b>Otwórz okno silnika</b> (lub kliknij go dwukrotnie albo naciśnij Enter),
+  aby otworzyć okno silnika dla tego profilu. Przyciski <b>Nowy</b>,
+  <b>Edytuj</b>, <b>Powiel</b> i <b>Usuń</b> służą do zarządzania profilami.
+  Okna można też otwierać bezpośrednio klawiszami F2 i F3.
 
   <h3>Przyciski</h3>
   <ul>
@@ -3556,15 +3704,16 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
     funkcja Analiza partii.</li>
   <li><b>Konfiguracja</b> <button tb_eng_config>: Pokazuje lub ukrywa panel
     konfiguracji silnika.</li>
-  <li><a ReviewGameButton><b>Analiza partii</b></a>: Analizuje główny wariant
-    partii, sprawdzając każdą pozycję.</li>
+  <li><a ReviewGameButton><b>Analiza partii</b></a>: analizuje linię, w której
+    znajduje się kursor — główną lub wybrany wariant — aż do jej ostatniego
+    posunięcia, sprawdzając każdą pozycję.</li>
   <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a>: Opisuje aktualnie
     wybrane posunięcie i nic więcej.</li>
   <li><a ReviewSettings><b>Ustawienia analizy</b></a>: Głębokość analizy,
     liczba wariantów oraz głębokość, na którą czeka komentarz do posunięcia.</li>
-  <li><a ToolsWhatThreat><b>Co grozi?</b></a>: Pyta silnik, czym grozi strona
-    na posunięciu. Jedno krótkie wyszukiwanie na własnym połączeniu; zapisuje
-    odpowiedź w komentarzu do aktualnego posunięcia.</li>
+  <li><a ToolsWhatThreat><b>Jakie jest zagrożenie?</b></a>: pyta silnik o zagrożenie ze strony
+    gracza na posunięciu. Krótkie wyszukiwanie na osobnym połączeniu z silnikiem; odpowiedź zapisuje
+	w komentarzu do bieżącego posunięcia.</li>
   </ul>
 
   <h3>Sterowanie</h3>
@@ -3589,11 +3738,11 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   <li><b>PV Linie</b>: Główne warianty z ocenami i głębokością. Kliknij
     na posunięcie, aby zobaczyć wyskakującą szachownicę z tą pozycją.</li>
   <li><b>Wykres</b>: Wykres oceny w trakcie całej partii. Pokazuje
-    dokładność zawodnika na podstawie strat w centypionach względem optymalnych posunięć.</li>
+    dokładność gracza na podstawie strat w centypionach względem optymalnych posunięć.</li>
   <li><b>Debug</b>: Surowy log komunikacji z silnikiem (można włączać i wyłączać).</li>
   </ul>
 
-  <h3>Wykres ocen i dokładność zawodnika</h3>
+  <h3>Wykres ocen i dokładność gracza</h3>
   <p>
   Wykres pokazuje oceny w trakcie partii. Kliknięcie w dowolnym miejscu
   wykresu przenosi do tej pozycji. Procent dokładności pokazuje,
@@ -3603,14 +3752,14 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   
   <h3>Adnotacje z wykresu analizy silnika</h3>
   <p>
-  Podczas tworzenia wykresu oceny są przechowywane w pamięci dla bieżącej partii.
-  Naciśnij <b>Ctrl+Shift+A</b>, aby zapisać je w partii: każda oceniona pozycja otrzyma komentarz
-  <b>[%eval ...]</b>, a na podstawie ocen zostaną dodane odpowiednie adnotacje (oznaczenia wg symboli NAG,
-  komentarze z oceną i warianty z najlepszymi posunięciami). Ich tworzenie
-  odbywa się zgodnie z ustawieniami zapisanymi w oknie adnotacji zbiorczej.
-  Czas analizy na posunięcie nie jest pobierany z tych ustawień. Wykorzystywane
-  są oceny zebrane wcześniej przez wykres, przy czasie ustawionym w polu
-  <term>Autouruchamianie</term> okna silnika.
+  Podczas tworzenia wykresu oceny są przechowywane w pamięci dla bieżącej
+  partii. Naciśnij <b>Ctrl+Shift+A</b>, aby zapisać je w partii:
+  każda oceniona pozycja otrzyma komentarz <b>[%eval ...]</b>, a wynikające
+  z ocen adnotacje (symbole NAG oceniające jakość posunięcia, komentarze
+  z oceną i warianty z najlepszą linią) zostaną utworzone zgodnie
+  z ustawieniami zapisanymi w Ustaw parametry analizy. Czas na posunięcie nie
+  jest pobierany z tych ustawień. Wykorzystywane są oceny zebrane już
+  podczas tworzenia wykresu, z czasem ustawionym w opcji Autorun okna silnika.
   </p>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
@@ -3643,10 +3792,10 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   <li><b>acn</b> — Liczba przeanalizowanych węzłów.</li>
   <li><b>acs</b> — Czas analizy w sekundach.</li>
   <li><b>bm</b>  — Najlepsze posunięcie.</li>
-  <li><b>ce</b>  — Ocena pozycji w setnych częściach piona z perspektywy
-              strony, która ma posunięcie. Wartość <b>[%eval]</b> w recenzji
-              jest podawana w pionkach z perspektywy białych.</li>
-  <li><b>cx</b>  — Komentarz wyjaśniający zadanie.</li>
+  <li> <b>ce</b> Ocena w centypionach: ocena w setnych częściach pionka
+  z perspektywy <b>strony na posunięciu</b>. Ocena <b>[%eval]</b> z analizy
+  jest podawana w pionkach z perspektywy Białych. </li>
+  <li><b>cX</b>  — Komentarz wyjaśniający zadanie.</li>
   <li><b>eco</b> - Kod debiutowy systemu <a ECO>ECO</a>.</li>
   <li><b>id</b>  - Unikalny identyfikator pozycji.</li>
   <li><b>nic</b> - Kod debiutowy systemu <i>New In Chess</i>.</li>
@@ -3695,14 +3844,34 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
 
   <h3>Analizowanie</h3>
   <p>
-  Pliki EPD mogą być automatycznie analizowane poprzez wybór opcji <menu>Narzędzia /
-  Analizuj pozycje...</menu>. Okno dialogowe pozwala wybrać czas przeznaczony
-  na pozycję, silnik <term>UCI</term> (z skonfigurowanej
-  <a Engine Configure>listy silników</a>) oraz tryb: <b>Zlicz najlepsze posunięcia</b>
-  (tylko zlicza, jak często silnik zgadza się z kodami operacji <b>bm</b>/<b>am</b>,
-  bez modyfikowania pliku), <b>Dodaj adnotacje</b> (dodaje kody operacji analizy
-  do każdej pozycji) lub <b>Oba</b>. ScidCommunity przechodzi następnie przez każdą
-  pozycję, a dodawane kody operacji EPD to: acd, acn, ce, dm oraz pv.
+  Pliki EPD można automatycznie opisywać, wybierając
+  <menu>Narzędzia / Analizuj pozycje...</menu>. W oknie dialogowym można
+  ustawić czas analizy każdej pozycji, wybrać silnik <term>UCI</term>
+  (z <a Engine Configure>listy skonfigurowanych silników</a>) oraz tryb:
+  <b>Zlicz najlepsze posunięcia</b> (zlicza tylko, jak często silnik zgadza
+  się z kodami <b>bm</b>/<b>am</b>, bez zmieniania pliku), <b>Adnotuj</b> (dodaje kody analizy
+  do każdej pozycji) lub <b>Oba</b>. Następnie scidCommunity analizuje kolejno wszystkie pozycje
+  i dodaje do nich kody EPD: acd, acn, ce, dm i pv.
+  </p>
+  <p>
+  Analiza odbywa się w <em>oknie silnika</em>: zadanie otwiera okno wybranego silnika (lub uaktywnia
+  już otwarte okno z tym silnikiem) i steruje nim, analizując pozycje kolejno, jedną po drugiej.
+  Do analizy wykorzystywane są silnik, jego opcje i ustawienie MultiPV z tego okna,
+  więc głębokość, ocena i wariant główny w raporcie odpowiadają temu, co można było obserwować w oknie.
+  Ustawienie <b>Sekund na pozycję</b> określa czas przydzielony oknu na analizę każdej pozycji.
+  Na czas zadania limity głębokości i czasu ustawione w oknie zostają pominięte (na pasku
+  narzędzi wyświetlany jest przydzielony czas), a każda pozycja jest analizowana przez określoną
+  liczbę sekund. Własne limity okna nie przerywają więc analizy przed czasem. Jeśli analiza pozycji
+  zakończy się wcześniej, np. po znalezieniu wymuszonego mata, zadanie przechodzi do następnej
+  pozycji. Po zakończeniu zadania przywracane są zwykłe limity. Ustawienia profilu silnika
+  nie są zmieniane. Funkcja Autoscan zostaje wyłączona na czas zadania i ponownie włączona po
+  jego zakończeniu, ponieważ skanowanie powodowałoby analizowanie pozycji, których zadanie  nie zleciło.
+  Nagłówek raportu zawiera nazwę silnika, okna oraz limity  wyszukiwania.
+  Pełny wariant główny jest zapisywany w kodzie EPD <b>pv</b>,
+  nawet jeśli w oknie silnika jest wyświetlany w skróconej postaci.
+  Zapisany raport tekstowy zawiera tylko posunięcie, zgodność, czas, głębokość, ocenę i FEN.
+  Przycisk <b>Zatrzymaj</b> w oknie EPD, zamknięcie tego okna lub zamknięcie okna
+  silnika kończy zadanie.
   </p>
   <p>
   Zaznacz opcję <b>Zapisz wyniki do pliku</b>, aby zapisać wyniki dla poszczególnych pozycji w pliku
@@ -3750,8 +3919,8 @@ set helpTitle(P,Reports) "Raporty"
 set helpText(P,Reports) {<h1>Raporty</h1>
   <p>
   <term>Raport</term> w ScidCommunity to dokument zawierający informacje o
-  konkretnej pozycji i/lub zawodniku. ScidCommunity może wygenerować dwa
-  typy raportów: Raporty debiutowe i Raporty o zawodniku.
+  konkretnej pozycji i/lub graczu. ScidCommunity może wygenerować dwa
+  typy raportów: Raporty debiutowe i Raporty o graczu.
   </p>
   
   <h3><name Opening>Raport debiutowy</name></h3>
@@ -3823,16 +3992,16 @@ set helpText(P,Reports) {<h1>Raporty</h1>
   (np. ".html" dla formatu HTML).
   </p>
   
-  <h3><name Player>Raport o zawodniku</name></h3>
+  <h3><name Player>Raport o graczu</name></h3>
   <p>
-  <term>Raport o zawodniku</term> jest bardzo podobny do raportu debiutowego,
-  ale zawiera informacje o partiach jednego zawodnika grającego białymi lub
-  czarnymi. Można wygenerować raport o zawodniku z menu <b>Narzędzia</b> lub z okna
-  <a PInfo>Informacje o zawodniku</a>.
+  <term>Raport o graczu</term> jest bardzo podobny do raportu debiutowego,
+  ale zawiera informacje o partiach jednego gracza grającego białymi lub
+  czarnymi. Można wygenerować raport o graczu z menu <b>Narzędzia</b> lub z okna
+  <a PInfo>Informacje o graczu</a>.
   </p>
   <p>
-  Raport o zawodniku może być generowany dla wszystkich partii danego
-  zawodnika z danymi figurami, albo tylko dla podzbioru tych partii, które
+  Raport o graczu może być generowany dla wszystkich partii danego
+  gracza z danymi figurami, albo tylko dla podzbioru tych partii, które
   dochodzą do aktualnej pozycji na głównej szachownicy.
   </p>
   
@@ -3856,16 +4025,16 @@ set helpText(P,Reports) {<h1>Raporty</h1>
 ####################
 ### Pomoc Player Finder:
 
-set helpTitle(P,PList) "Okno wyszukiwarki zawodników"
-set helpText(P,PList) {<h1>Okno wyszukiwarki zawodników </h1>
+set helpTitle(P,PList) "Okno wyszukiwarki graczy"
+set helpText(P,PList) {<h1>Okno wyszukiwarki graczy </h1>
   <p>
-  Okno <term>Wyszukiwarki zawodników</term> wyświetla listę nazwisk zawodników w
-  aktualnej bazie danych. Wybranie zawodnika otworzy okno <a PInfo>Okno 
-  informacji o zawodniku</a>, pokazujące bardziej szczegółowe 
-  informacje o tym zawodniku.
+  Okno <term>Wyszukiwarki graczy</term> wyświetla listę nazwisk graczy w
+  aktualnej bazie danych. Wybranie gracza otworzy okno <a PInfo>Okno 
+  informacji o graczu</a>, pokazujące bardziej szczegółowe 
+  informacje o tym graczu.
   </p>
   <p>
-  Wyświetlanych jest pięć kolumn pokazujących nazwę każdego zawodnika,
+  Wyświetlanych jest pięć kolumn pokazujących nazwę każdego gracza,
   najwyższy ranking Elo, liczbę rozegranych partii oraz rok jego najstarszej 
   i najnowszej partii.
   Kliknij na nagłówek dowolnej kolumny u góry listy, aby sortować listę 
@@ -3874,7 +4043,7 @@ set helpText(P,PList) {<h1>Okno wyszukiwarki zawodników </h1>
   <p>
   Elementy kontrolne pod listą pozwalają filtrować jej zawartość. Można
   zmienić maksymalny rozmiar listy, wprowadzić niewrażliwy na wielkość
-  liter przedrostek nazwy zawodnika (np. "ada", aby wyszukać "Adams") oraz
+  liter przedrostek nazwy gracza (np. "ada", aby wyszukać "Adams") oraz
   ograniczyć zakresy rankingu Elo i liczby rozegranych partii.
   </p>
   
@@ -3884,32 +4053,32 @@ set helpText(P,PList) {<h1>Okno wyszukiwarki zawodników </h1>
 ####################
 ### Pomoc Player Info:
 
-set helpTitle(P,PInfo) "Okno informacji o zawodniku"
-set helpText(P,PInfo) {<h1>Okno informacji o zawodniku</h1>
+set helpTitle(P,PInfo) "Okno informacji o graczu"
+set helpText(P,PInfo) {<h1>Okno informacji o graczu</h1>
   <p>
   
-  Okno <term>Informacje o zawodniku</term> jest tworzone lub aktualizowane za 
-  każdym razem, gdy klikniesz lewym przyciskiem myszy na nazwie zawodnika
+  Okno <term>Informacje o graczu</term> jest tworzone lub aktualizowane za 
+  każdym razem, gdy klikniesz lewym przyciskiem myszy na nazwie gracza
   w oknie Informacji o partii (pod szachownicą) lub w oknie <a Crosstable>Tabeli turniejowej</a>.
   </p>
   <p>
-  Wyświetla ono (zwykle) przydatne informacje o zawodniku, w tym jego
+  Wyświetla ono (zwykle) przydatne informacje o graczu, w tym jego
   skuteczność białymi i czarnymi, ulubione debiuty (wg <a ECO>kodu
   ECO</a>) oraz historię rankingu.<br>
   Dane historii Elo mogą być opcjonalnie pobierane z aktualnej bazy danych
   lub z pliku spelling/pliku rankingów. Jeśli używasz rzeczywistego pliku
   rankingów, można też wyświetlić okresy czasu, dla których w bazie danych
-  nie ma partii.<br> Plik rankingów z ponad 300 000 zarejestrowanych zawodników FIDE wraz z
+  nie ma partii.<br> Plik rankingów z ponad 300 000 zarejestrowanych graczy FIDE wraz z
   ich rankingami ELO można pobrać z <url https://sourceforge.net/projects/Scid/files/Player Data/>
   https://sourceforge.net/projects/Scid/files/Player Data/</url>.
   </p>
   <p>
   Wszystkie wyświetlane procenty to oczekiwany wynik (wskaźnik
-  skuteczności) z perspektywy zawodnika – więc wyższy procent jest zawsze
-  lepszy dla zawodnika, niezależnie od tego, czy gra białymi czy czarnymi.
+  skuteczności) z perspektywy gracza – więc wyższy procent jest zawsze
+  lepszy dla gracza, niezależnie od tego, czy gra białymi czy czarnymi.
   </p>
   <p>
-  Historię rankingu zawodnika można obejrzeć na wykresie, naciskając
+  Historię rankingu gracza można obejrzeć na wykresie, naciskając
   przycisk <a Graphs Rating>Wykres rankingu</a>.
   </p>
   <p>
@@ -3921,20 +4090,20 @@ set helpText(P,PInfo) {<h1>Okno informacji o zawodniku</h1>
   http://Scid.sourceforge.net/>strona internetowa ScidCommunity</url>) jest
   dostępna online, mogą być obecne odnośniki do dodatkowych zasobów,
   dostępne za pomocą przeglądarki internetowej użytkownika, o ile dostępny jest dostęp do Internetu. 
-  Do tych informacji można dotrzeć za pomocą następujących symboli w oknie informacji o zawodniku (uwaga: nie
+  Do tych informacji można dotrzeć za pomocą następujących symboli w oknie informacji o graczu (uwaga: nie
   wszystkie symbole muszą być obecne!):
   <ul>
-  <li><button fidelnk> Przejdź do strony profilu FIDE zawodnika</li>
-  <li><button iccflnk> Przejdź do strony profilu ICCF zawodnika</li>
-  <li><button bcflnk> Przejdź do profilu zawodnika w British Chess
+  <li><button fidelnk> Przejdź do strony profilu FIDE gracza</li>
+  <li><button iccflnk> Przejdź do strony profilu ICCF gracza</li>
+  <li><button bcflnk> Przejdź do profilu gracza w British Chess
   Federation.</li>
-  <li><button wikiplnk> Otwórz stronę profilu zawodnika na Wikipedii.
+  <li><button wikiplnk> Otwórz stronę profilu  na Wikipedii.
   ScidCommunity będzie próbować użyć języka ustawionego dla samego
   ScidCommunity. Jeśli strona nie jest dostępna, użyje niemieckiego (z czysto technicznych powodów).</li>
   <li><button dnblnk> Otwórz niemiecką bibliotekę narodową w poszukiwaniu
-  książek napisanych przez zawodnika lub o nim.</li>
-  <li><button viaflnk> Otwórz informacje o zawodniku w Virtual Authority
-  File (VIAF). Można to wykorzystać do wyszukania książek tego zawodnika w
+  książek napisanych przez gracza lub o nim.</li>
+  <li><button viaflnk> Otwórz informacje o graczu w Virtual Authority
+  File (VIAF). Można to wykorzystać do wyszukania książek tego gracza w
   uczestniczących bibliotekach narodowych.</li>
   </ul>
   </p>
@@ -3998,7 +4167,7 @@ set helpText(P,Graphs) {<h1>Okna wykresów</h1>
   Okno <term>Wykresu rankingu</term> pokazuje historię rankingu jednego
   gracza lub obu graczy aktualnej partii.
   Wykres dla jednego gracza można wygenerować, klikając przycisk
-  <b>Wykres rankingu</b> w oknie <a PInfo>Informacji o zawodniku</a>,
+  <b>Wykres rankingu</b> w oknie <a PInfo>Informacji o graczu</a>,
   lub wygenerować go dla obu graczy aktualnej partii,
   wybierając <b>Wykres rankingu</b> z menu <menu>Narzędzia</menu>.
   </p>
@@ -4066,7 +4235,7 @@ set helpText(P,Bookmarks) {<h1>Zakładki</h1>
   </p>
   <p>
   Jeśli baza danych partii zapisanej w zakładkach zostanie posortowana lub
-  uporządkowana, szczegóły zakładki mogą się zdezaktualizować. W takiej
+  skompaktowana, szczegóły zakładki mogą się zdezaktualizować. W takiej
   sytuacji ScidCommunity przy wyborze zakładki wyszuka w bazie najlepiej
   pasującą partię (porównując nazwiska graczy, miejsce itd.), więc partia
   z zakładki nadal powinna się otworzyć. Jeśli jednak szczegóły tej partii
@@ -4078,7 +4247,7 @@ set helpText(P,Bookmarks) {<h1>Zakładki</h1>
   <h3>Edycja zakładek</h3>
   <p>
   Za pomocą edytora zakładek możesz zmieniać tekst menu wyświetlany
-  dla każdej zapisanej partii oraz dodawać foldery do kategoryzowania zakładek.
+  dla każdej zapisanej partii oraz dodawać katalogi do kategoryzowania zakładek.
   </p>
   
   <h3>Wskazówki</h3>
@@ -4089,7 +4258,7 @@ set helpText(P,Bookmarks) {<h1>Zakładki</h1>
   podczas studiowania konkretnego debiutu.
   </p>
   <p>
-  Menu zakładek zawiera pozycję do sterowania wyświetlaniem folderów:
+  Menu zakładek zawiera pozycję do sterowania wyświetlaniem katalogów:
   mogą być pokazywane jako podmenu (przydatne, gdy zakładek jest dużo)
   albo jako jedna lista.
   </p>
@@ -4125,9 +4294,9 @@ set helpText(P,Cmdline) {<h1>Opcje wiersza poleceń</h1>
   </p>
 
   <p>
-  Aby ponownie użyć konfiguracji wyszukiwania nagłówków, otwórz okno Wyszukiwania
-  nagłówków i użyj przycisku <b>Layouts</b>, aby wczytać wcześniej zapisany
-  układ przed uruchomieniem wyszukiwania.
+  Aby ponownie użyć ustawień wyszukiwania w nagłówkach, otwórz okno
+  wyszukiwania w nagłówkach i przed rozpoczęciem wyszukiwania kliknij
+  przycisk <b>Zapisane wyszukiwania</b>, aby wczytać zapisane ustawienia.
   </p>
   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -4184,7 +4353,7 @@ set helpText(P,PgnScid) {<h1>PgnScid</h1>
   komentarze wewnątrz partii są nadal konwertowane i zapisywane.
   </p>
   
-  <h3>Formatowanie nazwisk zawodników</h3>
+  <h3>Formatowanie nazwisk graczy</h3>
   <p>
   Aby zmniejszyć liczbę różnych zapisów tej samej nazwy 
   odnoszących się do tego samego gracza, pgnScid wykonuje podstawowe
@@ -4196,7 +4365,7 @@ set helpText(P,PgnScid) {<h1>PgnScid</h1>
   </p>
   <p>
   Możesz edytować (a nawet sprawdzać pisownię) nazwy graczy, turniejów, miejsc i rund w ScidCommunity; 
-  szczegóły znajdziesz na stronie pomocy <a Maintenance Editing>Obsługa bazy danych</a>.
+  szczegóły znajdziesz na stronie pomocy <a Maintenance Editing>Narzędzia bazy danych</a>.
   </p>
   
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
@@ -4219,7 +4388,7 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   Plik ten zawiera opis bazy danych oraz mały, o stałym rozmiarze, wpis dla każdej
   partii. Obecny rozmiar to 41 bajtów na partię.
   Z tego około 28 bajtów to istotne informacje, takie jak wynik,
-  data, numery identyfikacyjne nazw zawodników/turnieju/miejsca rozgrywek (same nazwy
+  data, numery identyfikacyjne nazw graczy/turnieju/miejsca rozgrywek (same nazwy
   znajdują się w pliku nazw) itd.
   </p>
   <p>
@@ -4245,7 +4414,7 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   <p>
   Gdy partia zostaje zastąpiona, jej nowa wersja jest zapisywana na <i>końcu</i>
   pliku partii, więc z czasem może gromadzić się niewykorzystane miejsce.
-  Możesz przywrócić bazę do minimalnego rozmiaru poleceniem <a Compact>Porządkuj bazę...</a> .
+  Możesz przywrócić bazę do minimalnego rozmiaru poleceniem <a Compact>Kompaktuj bazę danych...</a> .
   </p>
   
   <h3>Inne pliki ScidCommunity</h3>
@@ -4259,10 +4428,10 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   do których wysyłasz wiadomości e-mail.
   </p>
   <p>
-  Ustawienia wyszukiwania w nagłówkach mogą być zapisywane i przywoływane za pomocą
-  przycisku <b>Układ</b> w oknie <a Searches Header>Wyszukiwania w nagłówku</a>.
-  Nazwane układy są przechowywane w pliku preferencji ScidCommunity,
-  a nie jako osobne pliki.
+  Ustawienia wyszukiwania w nagłówkach można zapisywać i wczytywać za pomocą
+  przycisku <b>Zapisane wyszukiwania</b> w oknie
+  <a Searches Header>wyszukiwania wg nagłówka</a>. Zapisane ustawienia
+  są przechowywane w pliku preferencji scidCommunity, a nie w osobnych plikach.
   </p>
   
   <h3><name Fast>Szybkie wyszukiwanie w ScidCommunity</name></h3>
@@ -4308,13 +4477,13 @@ set helpText(P,Options) {<h1>Opcje i preferencje</h1>
   się w podkatalogu <b>config/options.dat</b>.
   </p>
   
-  <h3><name MyPlayerNames>Ustawianie własnych nazwisk zawodników</name></h3>
+  <h3><name MyPlayerNames>Ustawianie własnych nazwisk graczy</name></h3>
   <p>
-  Może istnieć nazwisko zawodnika (lub kilka nazwisk), dla której, przy każdym wczytaniu
+  Może istnieć nazwisko gracza (lub kilka nazwisk), dla której, przy każdym wczytaniu
   partii, chcesz, aby szachownica w oknie głównym była wyświetlana z
-  perspektywy tego zawodnika. Listę takich nazwisk można skonfigurować
-  za pomocą <b>Moje nazwiska zawodników...</b> z menu <menu>Opcje </menu>.
-  W wyświetlonym oknie dialogowym wprowadź jedno nazwisko zawodnika w każdej linii.
+  perspektywy tego gracza. Listę takich nazwisk można skonfigurować
+  za pomocą <b>Moje nazwiska graczy...</b> z menu <menu>Opcje </menu>.
+  W wyświetlonym oknie dialogowym wprowadź jedno nazwisko w każdej linii.
   Można używać symboli wieloznacznych ("<b>?</b>" oznacza dokładnie jeden znak, a "<b>*</b>"
   oznacza ciąg zera lub więcej znaków).
   </p>
@@ -4710,46 +4879,81 @@ set helpText(P,Author) {<h1>Informacje kontaktowe</h1>
   </p>
 }
 
-# Pomoc: okno księgi
-set helpTitle(P,Book) "Okno księgi debiutowej"
-set helpText(P,Book) {<h1>Okno księgi debiutowej</h1>
+# Pomoc: okno książki
+set helpTitle(P,Book) "Okno książki debiutowej"
+set helpText(P,Book) {<h1>Okno książki debiutowej</h1>
   <p>
   Lista wszystkich plików książek znajdujących się w katalogu <b>books</b> ScidCommunity
   jest wyświetlana na rozwijanej liście u góry okna. Aby wskazać
   katalog, w którym ScidCommunity ma szukać książek debiutowych, wybierz z menu <b>
-  Opcje / Zasoby / Katalog ksiąg</b>. Z tej listy można łatwo wybrać
-  aktywną księgę.
+  Opcje / Zasoby / Katalog książek debiutowych</b>. Z tej listy można łatwo wybrać
+  aktywną książkę.
   </p>
   <p>
   Format ksiąg jest taki sam jak w Polyglocie, a ich zwykłe rozszerzenie to .bin.
-  Aby tworzyć nowe księgi, trzeba użyć <term>polyglot</term> w wierszu poleceń.
-  Informacje o tworzeniu księgi znajdują się w dokumentacji Polyglota.
+  Aby tworzyć nowe książek, trzeba użyć <term>polyglot</term> w wierszu poleceń.
+  Informacje o tworzeniu książki znajdują się w dokumentacji Polyglota.
   </p>
   <p>
   Menu <i>Książki</i> pozwala wybrać liczbę widocznych paneli ksiąg (maksymalnie trzy).
   Każdy widoczny panel ma własną listę rozwijaną ksiąg oraz kolumnę z listą posunięć. Wyświetlenie
   dwóch lub trzech ksiąg umożliwia ich łatwe porównanie obok siebie.
   Zaznaczenie opcji <i>Alfabetycznie</i> sortuje posunięcia alfabetycznie i wyrównuje identyczne
-  posunięcia w tym samym wierszu we wszystkich księgach.
+  posunięcia w tym samym wierszu we wszystkich książkach.
   </p>
   <p>
-  Dla każdej pozycji okno księgi debiutowej wyświetla wszystkie możliwe posunięcia,
+  Dla każdej pozycji okno książki debiutowej wyświetla wszystkie możliwe posunięcia,
   które zawiera, oraz ich względne wagi w procentach. Gdy zostanie wykonane posunięcie,
-  okno księgi debiutowej jest aktualizowane. Kliknięcie posunięcia w oknie księgi
+  okno książki debiutowej jest aktualizowane. Kliknięcie posunięcia w oknie książki
   spowoduje jego wykonanie w bieżącej pozycji.
   </p>
   <p>
-  U dołu okna księgi przycisk <i>Księga przeciwnika</i> wyświetla posunięcia,
-  których nie ma w księdze, ale które są częścią linii obecnych w dalszej części księgi.
+  U dołu okna książki przycisk <i>Książka przeciwnika</i> wyświetla posunięcia,
+  których nie ma w książce, ale które są częścią linii obecnych w dalszej części książki.
   Pozwala to silnikowi grać najlepsze posunięcia, a jednocześnie mieć dostępne odpowiedzi 
-  w księdze, gdy przeciwnik wybiera posunięcia spoza księgi. Wyświetlanie tych posunięć z <i>Księga przeciwnika</i>
-  pokazuje, gdzie w księdze występują luki.
+  w książce, gdy przeciwnik wybiera posunięcia spoza książki. Wyświetlanie tych posunięć z <i>Książki przeciwnika</i>
+  pokazuje, gdzie w książce występują luki.
   </p>
   <p>
-  Używaną księgę można wybrać z rozwijanej listy 
-  w oknie księgi.
+  Używaną książkę można wybrać z rozwijanej listy 
+  w oknie książki.
   </p>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+}
+
+# Convert CTG to OBR
+set helpTitle(P,Ctg2Obr) "Konwertuj CTG na OBR"
+set helpText(P,Ctg2Obr) {<h1>Konwersja książki debiutowej ChessBase z CTG na OBR</h1>
+  <p>
+  Polecenie <b>Konwertuj CTG na OBR...</b> konwertuje książkę debiutową
+  ChessBase (plik <b>.ctg</b> wraz z plikami <b>.cto</b> i <b>.ctb</b>)
+  na książkę OpenBook Rich (<b>.obr</b>). Utworzoną książkę można otworzyć
+  i przeglądać w <a Book>oknie książki debiutowej</a>.
+  </p>
+
+<h3>Jak używać</h3>
+  <p>
+  Wybierz z menu <menu>Narzędzia: Konwertuj CTG na OBR...</menu>. scidCommunity wykona następujące czynności:
+  <ul>
+  <li>Poprosi o wskazanie pliku ChessBase <b>.ctg</b>. Pliki <b>.cto</b>
+      i <b>.ctb</b> muszą znajdować się w tym samym folderze.</li>
+  <li>Poprosi o wskazanie miejsca zapisu nowej książki <b>.obr</b> (domyślnie w folderze książek,
+      dzięki czemu od razu pojawi się ona  w oknie książki debiutowej).</li>
+  <li>Rozpocznie konwersję i wyświetli pasek postępu. W przypadku bardzo dużych książek może to potrwać
+      dłuższy czas i wymagać dużo pamięci. Kliknij <b>Anuluj</b>, aby przerwać.</li>
+  </ul>
+  </p>
+  
+  <h3>O książkach OpenBook Rich</h3>
+  <p>
+  Książka <b>.obr</b> przechowuje dla każdej pozycji liczbę partii, wygranych, remisów i przegranych,
+  średnie rankingi i wynik rankingowy, a także rekomendacje autora książki (zielona/niebieska/czerwona)
+  oraz adnotacje dotyczące każdego posunięcia. W przeciwieństwie do książek Polyglot
+  <b>.bin</b>, książki <b>.obr</b> są tylko do odczytu: można je przeglądać
+  w oknie książki debiutowej, ale nie można zmieniać wag posunięć za pomocą
+  funkcji <a BookTuning>dostrajania książki debiutowej</a>.
+  </p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 # Pomoc dla okna Graj z silnikiem
@@ -4757,7 +4961,7 @@ set helpTitle(P,PlayVsEngine) "Okno Graj z silnikiem"
 set helpText(P,PlayVsEngine) {<h1>Okno Graj przeciwko Silnikowi</h1>
   <p>
   Graj przeciwko silnikowi szachowemu <term>UCI</term> z opcjonalną trenerską asystą,
-  kontrolą czasu, księgami debiutowymi oraz obsługą namysłu podczas posunięcia przeciwnika (ponder).
+  kontrolą czasu, książkami debiutowymi oraz obsługą namysłu podczas posunięcia przeciwnika (ponder).
   </p>
   <p>
   Drugi silnik, pełniący rolę „trenera” (coach), może pracować w tle, aby wykrywać poważne błędy (blunder)
@@ -4778,22 +4982,22 @@ set helpText(P,PlayVsEngine) {<h1>Okno Graj przeciwko Silnikowi</h1>
   <li><term>Tryb czasu:</term>
   <ul>
   <li><term>Użyj zegara szachowego:</term> gdy opcja jest zaznaczona, stosowane są standardowe
-      ustawienia kontroli czasu (Czas+Bonus, Stała głębokość, Węzły, Sekundy na posunięcie), a
+      ustawienia kontroli czasu (Czas+Dodatek, Stała głębokość, Węzły, Sekundy na posunięcie), a
       zegary odliczają czas w dół. Gdy opcja jest odznaczona, zegary liczą czas w górę bez
       presji czasu, a silnik używa stałego czasu na posunięcie.</li>
-      <li><term>Czas + premia:</term> zegar Fischera z osobnymi ustawieniami czasu i
+      <li><term>Czas + dodatek:</term> zegar Fischera z osobnymi ustawieniami czasu i
       przyrostu (dodatku) dla Białych i Czarnych.</li>
       <li><term>Stała głębokość:</term> silnik prowadzi przeszukiwanie do stałej głębokości (półposunięć).</li>
       <li><term>Węzły:</term> silnik przeszukuje stałą liczbę węzłów.</li>
       <li><term>Sekund na posunięcie:</term> silnik otrzymuje stały czas na posunięcie.</li>
    </ul></li>
-  <li><term>Użyj księgi:</term> silnik będzie wykonywał posunięcia z wybranej
-  księgi debiutowej Polyglot (.bin). </li>
+  <li><term>Użyj książki:</term> silnik będzie wykonywał posunięcia z wybranej
+  książki debiutowej Polyglot (.bin). </li>
   <li><term>Stałe myślenie:</term> silnik analizuje pozycję w czasie
   namysłu gracza.</li>
-  <li><term>Zacznij od bieżącej pozycji:</term> rozpoczyna partię od
+  <li><term>Rozpocznij od bieżącej pozycji:</term> rozpoczyna partię od
   aktualnej pozycji na planszy.</li>
-  <li><term>Konkretny debiut :</term> silnik gra wg debiutu  wybranego
+  <li><term>Wybrany debiut :</term> silnik gra wg debiutu  wybranego
   z poniższej listy.</li>
   </ul>
   </p>
@@ -4818,7 +5022,7 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
   Aby baza była poprawna dla trenera debiutów, musi też mieć właściwy typ.
   To znaczy, jeśli mają być trenowane debiuty białych, baza musi mieć typ
   <term>Debiuty dla białych</term> (analogicznie dla czarnych
-  i obu kolorów). Typ można ustawić w <a Maintenance>Obsługa/Okno obsługi</a>,
+  i obu kolorów). Typ można ustawić w <a Maintenance>Narzędzia bazy danych/Okno narzędzi bazy danych</a>,
   wybierając ikonę albo z menu kontekstowego
   <b>Przełącznika bazy danych</b>.
   </p>
@@ -4855,7 +5059,7 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
   przefiltrowanie bazy danych pod kątem debiutów białych, a następnie ustawienie flagi dla
   wszystkich przefiltrowanych partii, i podobnie dla debiutów czarnych. Pamiętaj, że
   możesz mieć repertuar dla białych i czarnych w tej samej bazie danych.
-  Flagi można ustawiać w ten sposób w <a Maintenance>Obsługa/Okno Obsługi</a>. 
+  Flagi można ustawiać w ten sposób w <a Maintenance>Narzedzia bazy danych/Okno Narzedzi bazy danych</a>. 
   Sposób filtrowania partii do oznaczania flagami zależy
   całkowicie od użytkownika. Jednym z możliwych sposobów jest filtrowanie partii 1-0 dla
   debiutów białych i 0-1 dla debiutów czarnych. Ten sposób nie jest jednak najlepszy,
@@ -4951,12 +5155,12 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   katalogu <term>Bazy</term>, który można wskazać w menu <b>Opcje / Zasoby / Katalog baz </b>.
   W przeciwieństwie do innych baz, te bazy zwykle nie zawierają
   pełnych partii, a jedynie pozycję startową, znaną z typowych
-  książek z zadaniami taktycznymi. W rzeczywistości każdą księgę z zadaniami 
+  książek z zadaniami taktycznymi. W rzeczywistości każdą książkę z zadaniami 
   można łatwo przekształcić w taką bazę treningową, po prostu 
   ustawiając pozycje i zapisując je w katalogu <term>Bazy</term>.
   Dodatkowo trzeba ustawić typ bazy na <term>Taktyka</term>
   za pomocą okna <a
-  Maintenance>Obsługa</a>.
+  Maintenance>Narzędzia bazy danych</a>.
   </p>
   <p>
   Po wybraniu Graj / Trening / Taktyka pojawia się okno dialogowe, które
@@ -4964,7 +5168,7 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   liczba rozwiązanych zadań oraz całkowita liczba zadań w bazie, podana w nawiasie.
   Oznacza to, że ScidCommunity przechowuje informacje o zadaniach, które użytkownik już
   rozwiązał w danej bazie. Wybranie bazy i
-  kliknięcie przycisku <term>Resetuj wyniki</term> wyzeruje te
+  kliknięcie przycisku <term>Wyzeruj wyniki</term> wyzeruje te
   informacje, oznaczając wszystkie zadania jako nierozwiązane.
   </p>
   <p>
@@ -4973,12 +5177,16 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   informacyjnego głównego okna ScidCommunity. W przeciwnym razie oszukiwanie jest bardzo proste.
   </p>
   <p>
-  Aby uzyskać rozwiązanie zadań w danej bazie, pozycje są
-  analizowane przez dowolny skonfigurowany przez użytkownika silnik szachowy.
-  Suwak <term>Sekundy na pos.:</term> pozwala ograniczyć
-  czas, jaki silnik ma na rozwiązanie pozycji. Kilka sekund powinno
-  wystarczyć w większości przypadków, ponieważ zadania taktyczne zwykle zawierają
-  wymuszoną kontynuację, którą prawie każdy silnik szachowy  znajdzie bardzo szybko.
+  Aby znaleźć rozwiązania zadań szachowych w bazie, pozycje są analizowane
+  przez skonfigurowany silnik szachowy. scidCommunity uruchamia go tylko
+  na potrzeby treningu i zamyka po zamknięciu okna treningowego.
+  Dzięki temu trening nie przejmuje silnika używanego w otwartym
+  oknie silnika. Silnik wybiera się z listy <term>Silnik</term>
+  w oknie dialogowym. Lista zawiera skonfigurowane silniki UCI.
+  Suwak <term>Sekundy na pos.</term> określa czas, jaki silnik ma na
+  znalezienie rozwiązania. Zwykle wystarczy kilka sekund, ponieważ zadania
+  taktyczne najczęściej zawierają wymuszony wariant, który większość
+  silników znajduje bardzo szybko.
   </p>
   <p>
   Kliknięcie przycisku <term>Kontynuuj</term> rozpocznie ćwiczenie,
@@ -5010,20 +5218,20 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   partię przez Ctrl-? lub przechodząc do zakładki, czy po prostu poprzez <a
   GameList>listę partii</a>.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
+
 
 # Znajdź najlepsze posunięcie 
 set helpTitle(P,FindBestMove) "Trening: Znajdź najlepsze posunięcie"
 set helpText(P,FindBestMove) {<h1>Trening: Znajdź najlepsze posunięcie</h1>
   <p>
-  Podczas adnotowania partii komentarzami za pomocą silnika szachowego, silnik może wyszukiwać
-  okazje taktyczne w obrębie partii. Można to osiągnąć, zaznaczając
-  <term>Oznacz ćwiczenia taktyczne</term> w
-  <a ReviewSettings>Review Settings</a>. Jeśli
-  zostanie znaleziona okazja taktyczna, ScidCommunity oznaczy partię flagą
-  <term>T</term> (Taktyka) i doda specjalny komentarz, który jest
-  oceniany w tym ćwiczeniu.
+  Podczas analizy partii silnikiem można wyszukiwać zadania
+  taktyczne. W tym celu włącz opcję <term>Oznacz ćwiczenia
+  taktyczne</term> w <a ReviewSettings>Ustawieniach analizy</a>.
+  Jeśli silnik wykryje takie zadanie, scidCommunity oznaczy
+  partię flagą <term>T</term> (taktyka) i doda specjalny komentarz
+  opisujący znalezione zadanie.
   </p>
   <p>
   Aby skorzystać z tej metody treningowej, wymagana jest odpowiednio przygotowana
@@ -5288,23 +5496,23 @@ set helpText(P,FICS) {<h1>FICS: gra w internecie</h1>
   <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
 }
 
-# Dostrajanie księgi
-set helpTitle(P,BookTuning) "Dostrajanie księgi"
-set helpText(P,BookTuning) {<h1>Dostrajanie księgi</h1>
+# Dostrajanie książki
+set helpTitle(P,BookTuning) "Dostrajanie książki debiutowej"
+set helpText(P,BookTuning) {<h1>Dostrajanie książki</h1>
    <p>
-   Dla każdego posunięcia z księgi debiutowej podany jest procent określający
+   Dla każdego posunięcia z książki debiutowej podany jest procent określający
    prawdopodobieństwo, że ScidCommunity użyje tego posunięcia. Za pomocą funkcji 
-   <term>Dostrajanie księgi debiutowej</term> można dostosować te wartości. Najpierw należy ustawić pozycję,
-   w której mają zostać przyjęte linie. Po wybraniu <b>Narzędzia / Dostrajanie księgi debiutowej</b>
-   pojawia się małe okno przedstawiające posunięcia w księdze i ich procentowy udział
+   <term>Dostrajanie książki debiutowej</term> można dostosować te wartości. Najpierw należy ustawić pozycję,
+   w której mają zostać przyjęte linie. Po wybraniu <b>Narzędzia / Dostrajanie książki debiutowej</b>
+   pojawia się małe okno przedstawiające posunięcia w książce i ich procentowy udział
    w polu obrotowym. Należy zauważyć, że wyświetlane są tylko liczby całkowite, dlatego
    może pojawić się wartość 0, oznaczająca, że dane posunięcie ma prawdopodobieństwo "mniejsze
-   niż 1%". (Najprawdopodobniej zdarza się to w księgach generowanych automatycznie
+   niż 1%". (Najprawdopodobniej zdarza się to w książkach generowanych automatycznie
    na podstawie zbiorów partii.) Oczywiście wszystkie liczby sumują się do 100%.
    </p>
    <p>
-   Aby poruszać się po gałęziach księgi, wystarczy kliknąć
-   linię w oknie dostrajania księgi lub poruszać się po partii w zwykły sposób
+   Aby poruszać się po gałęziach książki, wystarczy kliknąć
+   linię w oknie dostrajania książki lub poruszać się po partii w zwykły sposób
    w ScidCommunity.
    </p>
    <p>
@@ -5314,14 +5522,14 @@ set helpText(P,BookTuning) {<h1>Dostrajanie księgi</h1>
    <term>Zapisz</term>.
    </p>
    <p>
-   Wybranie opcji <term>Eksportuj</term> wyeksportuje gałąź księgi od
+   Wybranie opcji <term>Eksportuj</term> wyeksportuje gałąź książki od
    bieżącej pozycji w postaci pojedynczej partii. Kontynuacja
    o najwyższym prawdopodobieństwie utworzy linię główną, a wszystkie
    inne zostaną zapisane jako warianty. Pozwala to na
-   częściowo ręczny wybór linii do uwzględnienia w nowo tworzonej księdze. Należy zauważyć,
+   częściowo ręczny wybór linii do uwzględnienia w nowo tworzonej książce. Należy zauważyć,
    że ScidCommunity obsługuje 3000 posunięć w pojedynczej partii, dlatego najprawdopodobniej
    nie będzie możliwe (ani szczególnie sensowne), aby
-   wyeksportować całą księgę debiutową do jednej partii. Należy też zauważyć, że eksport
+   wyeksportować całą książkę debiutową do jednej partii. Należy też zauważyć, że eksport
    można wykonywać przyrostowo. Oznacza to, że nowe linie są dodawane do już
    istniejących. Pozwala to również na łączenie kilku ksiąg.
    </p>
@@ -5428,11 +5636,11 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
   wyłączone):
   </p>
   <ul>
-     <li><term>Polecenie silnika</term>: nazwa programu, który ma
-     zostać użyty jako silnik sterujący. Może być wymagana w pełni
-     kwalifikowana nazwa, podobnie jak w oknie Konfiguruj silniki. (Np. silnik
-     sterownika DGT w systemie
-     Linux zwykle nazywa się <term>dgtdrv2.i686</term>.)
+     <li><term>Polecenie silnika</term>: nazwa programu, który
+	 ma być używany jako silnik sterujący. Może być wymagana
+	 pełna ścieżka do pliku, tak jak w oknie Konfiguruj silniki.
+	 (Np. w systemie Linux silnik sterujący DGT nazywa się zwykle
+	 <term>dgtdrv2.i686</term>.)</li>
      </li>
      <li><term>Parametr silnika</term>: tekst podany w tym polu
      jest przekazywany jako parametry do silnika sterującego. Wymagane tu
@@ -5724,4 +5932,182 @@ set helpText(P,Presentation) {<h1>Okno szachownicy prezentacyjnej</h1>
   </ul>
   
   <p><footer>(Updated: scidCommunity, October 2026)</footer></p>
+}
+
+####################
+### CQL help screen:
+
+set helpTitle(P,CQL) "CQL-Język zapytań szachowych"
+set helpText(P,CQL) {<h1>Język zapytań szachowych (CQL)</h1>
+  <p>
+  Język zapytań szachowych (CQL) pozwala opisać układ figur na szachownicy lub posunięcie
+  i wyszukać partie, w których występuje. W przeciwieństwie do innych wyszukiwań, które wymagają
+  wypełnienia formularza, zapytanie CQL ma postać tekstu. Wybierz <b>Szukaj &gt; CQL...</b>, utwórz zapytanie
+  z gotowych bloków lub wpisz je w polu tekstowym, a następnie naciśnij <b>Ctrl+Enter</b>
+  (lub kliknij <b>Szukaj</b>). Lista partii wyświetli partie spełniające warunki zapytania.
+  </p>
+  
+  <h3>Tworzenie zapytania z gotowych bloków</h3>
+  <p>
+  Nie musisz znać języka CQL, aby z niego korzystać. Nad polem zapytania
+  znajdują się karty z gotowymi blokami, przeniesionymi ze Scid vs. PC:
+  <b>Mates & tactics</b>, <b>Pawns</b>, <b>Pawn structures</b>,
+  <b>Pieces</b>, <b>Endings & material</b> oraz <b>Game</b>.
+  Zaznacz opcję <b>Smothered mate</b>, <b>Knight fork</b>,
+  <b>Isolated pawn on file</b>, <b>Maroczy bind</b>, <b>Rook v pawns</b> lub
+  <b>Material up by</b>, a zapytanie zostanie automatycznie wpisane w pole.
+  Jeśli blok ma dodatkowe opcje, sąsiednie pole wyboru pozwala określić linię, rząd,
+  figurę, materiał lub ranking, którego dotyczy. Na przykład zaznaczenie opcji <b>Promotion</b>
+  wpisuje zapytanie <term>cql() flipcolor { {move promote [QRBN]} }</term>, a poniżej bloków pojawia się
+  tekst „Searching for: Promotion (Both colours)”. Liczba obok nazwy karty informuje,
+  ile bloków na niej zaznaczono.
+  </p>
+  <p>
+  Opcja <b>Both colours</b>, zaznaczona domyślnie po otwarciu okna, obejmuje bloki poleceniem
+  <b>flipcolor</b>. Dzięki temu wyszukiwanie uwzględnia ten sam układ figur po obróceniu
+  szachownicy i zamianie  kolorów. W rezultacie <b>Back rank mate</b> znajduje mat na ostatniej
+  linii zadany zarówno przez Czarne, jak i przez Białe. Odznacz tę opcję, aby wyszukiwać tylko wariant
+  dla Białych. Opcja <b>Moves</b> z zakresem w dwóch sąsiednich polach ogranicza wyszukiwanie do podanych numerów
+  posunięć i nie wymaga zaznaczania żadnego bloku. Jeśli jedno pole
+  pozostawisz puste, zostanie przyjęty początek lub koniec partii.
+  </p>
+  <p>
+  Zaznaczenie bloku zastępuje zawartość pola, ponieważ nie można połączyć wpisanego
+  samodzielnie zapytania z zapytaniem tworzonym przez bloki. Informuje o tym
+  tekst pod blokami. Naciśnięcie <b>Ctrl+Z</b> w polu przywraca poprzednie zapytanie.
+  Samodzielne wpisanie tekstu w polu  zmienia ten komunikat na „Own CQL query”.
+  Zaznaczenie kolejnego bloku zastąpi wpisane zapytanie. Opcja <b>Clear all</b> odznacza
+  wszystkie bloki i usuwa zakres posunięć, ale pozostawia wpisane zapytanie. Opcja
+  <b>Defaults</b> czyści bloki i pole zapytania oraz przywraca wszystkie ustawienia początkowe.
+  Po ponownym otwarciu okno wygląda tak samo. Nazwy bloków pozostają angielskie
+  we wszystkich wersjach językowych.
+  </p>
+  
+  <h3>Budowa zapytania</h3>
+  <p>
+  Zapytanie składa się ze słowa <b>cql</b>, specyfikacji ujętej w nawiasy
+  oraz jednego lub kilku filtrów. Specyfikacja zawiera opcje wyszukiwania,
+  na przykład numery partii, które mają być przeszukane, ale może też być
+  pusta. Filtry określają wymagany układ figur na szachownicy. Partia zostaje uznana za pasującą,
+  jeśli przynajmniej jedna jej pozycja spełnia jednocześnie wszystkie te warunki.
+  </p>
+  <ul>
+  <li><term>cql() qh4</term> — czarny hetman na polu h4. Litery figur
+  to wielkie litery <b>KQRBNP</b> dla Białych i te same litery małe
+  dla Czarnych.</li>
+  <li><term>cql(:gamenumber 1 2) qh4</term> — ten sam układ, ale
+  wyszukiwanie ograniczone do partii nr 1 i 2.</li>
+  </ul>
+  
+  <h3>Figury i pola</h3>
+  <p>
+  Litera figury, po której następuje nazwa pola, oznacza tę figurę na tym
+  polu. Zestaw liter w nawiasach kwadratowych oznacza dowolną z wymienionych
+  figur. <b>.</b> oznacza dowolną figurę, a <b>_</b> — puste pole.
+  </p>
+  <ul>
+  <li><term>cql() [N]f3</term> — biały skoczek na polu f3.</li>
+  <li><term>cql() [B]b5</term> — biały goniec na polu b5.</li>
+  <li><term>cql() [RQ]a1</term> — biała wieża lub hetman na polu a1.</li>
+  </ul>
+  
+  <h3>Szach, mat i strona na posunięciu</h3>
+  <ul>
+  <li><term>cql() :check</term> — strona na posunięciu jest szachowana.</li>
+  <li><term>cql() :mate</term> — strona na posunięciu jest zamatowana.</li>
+  <li><term>cql() :wtm :check</term> — Białe są na posunięciu i mają szacha.</li>
+  </ul>
+  <p>
+  <b>:btm</b> oznacza, że na posunięciu są Czarne, <b>:stalemate</b> oznacza
+  pat, a <b>:initial</b> — pozycję początkową.
+  </p>
+  
+  <h3>Posunięcia</h3>
+  <p>
+  <b>move</b> wyszukuje posunięcie, a <b>from</b> i <b>to</b> określają
+  figurę, pole lub oba te elementy. Dodatkowe parametry zawężają
+  wyszukiwanie: <b>:promote</b> określa figurę, na którą następuje
+  promocja, a <b>enpassant</b> ogranicza wyniki do bić w przelocie.
+  </p>
+  <ul>
+  <li><term>cql() move from Ng1 to f3</term> — skoczek poruszający się
+  z g1 na f3.</li>
+  <li><term>cql() move from d1 to h5</term> — hetman poruszający się z d1 na h5.</li>
+  <li><term>cql() move :promote R</term> — pion promujący na wieżę.</li>
+  <li><term>cql() move enpassant</term> — bicie w przelocie.</li>
+  </ul>
+  
+  <h3>Łączenie i negowanie filtrów</h3>
+  <p>
+  Filtry zapisane jeden po drugim muszą być spełnione jednocześnie w tej samej pozycji. Nawiasy klamrowe
+  grupują filtry. <b>:not</b> odwraca warunek następującego po nim filtra.
+  </p>
+  <ul>
+  <li><term>cql() { qh4 :check }</term> — czarny hetman na h4, a strona
+  na posunięciu jest szachowana.</li>
+  <li><term>cql() { [N]f3 :not [B]b5 }</term> — biały skoczek na f3
+  i brak białego gońca na b5.</li>
+  </ul>
+  
+  <h3>Porównywanie pozycji</h3>
+  <p>
+  <b>relation</b> porównuje pozycję z inną pozycją z tej samej partii.
+  Część ujęta w nawiasy określa wzajemną kolejność tych pozycji:
+  <b>(ancestor)</b> wymaga, aby druga pozycja występowała później w partii,
+  <b>(descendant)</b> — aby występowała wcześniej, a <b>(tomove match)</b>
+  — aby w obu pozycjach na posunięciu była ta sama strona.
+  </p>
+  <ul>
+  <li><term>cql() relation qh4 (ancestor)</term> — czarny hetman na h4
+  w pozycji, po której następuje inna pozycja.</li>
+  <li><term>cql() relation [q]h4 (tomove match)</term> — w obu pozycjach
+  na posunięciu jest ta sama strona.</li>
+  </ul>
+  
+  <h3>Komentarze, nagłówki i numery posunięć</h3>
+  <ul>
+  <li><term>cql() hascomment "Ruy Lopez note"</term> — partia zawierająca
+  taki tekst w jednym z komentarzy.</li>
+  <li><term>cql() event "Ruy Lopez"</term> — znacznik Event.</li>
+  <li><term>cql() player "Gamma"</term> — nazwisko gracza, niezależnie od koloru.</li>
+  <li><term>cql() :movenumber 6 10</term> — pozycja między 6. a 10.
+  posunięciem.</li>
+  </ul>
+  <p>
+  <b>site</b>, <b>result</b> i <b>year</b> przyjmują taki sam tekst
+  w cudzysłowie lub zakres wartości. Nie ma filtra wyszukującego symbole
+  NAG (<b>$1</b>, <b>!?</b> itp.). Zamiast tego <b>hascomment</b>
+  wyszukuje tekst komentarza.
+  </p>
+  
+  <h3>Liczenie figur i ataków</h3>
+  <ul>
+  <li><term>cql() countsquares 2 2 [N]</term> — dokładnie dwa białe skoczki
+  na szachownicy.</li>
+  <li><term>cql() :attack (d1 d4)</term> — figura na d1 atakuje figurę
+  na d4.</li>
+  </ul>
+  
+  <h3>Typowe komunikaty o błędach</h3>
+  <p>
+  Jeśli silnik odrzuci zapytanie, w oknie CQL wyświetli się jego własny
+  komunikat o błędzie, a filtr pozostanie bez zmian. Najczęstsze błędy to:
+  </p>
+  <ul>
+  <li><i>"Expected 'cql' word to start :cql specification but got: "</i> —
+  zapytanie musi zaczynać się od słowa <b>cql</b>.</li>
+  <li><i>"Expected left paren following the 'cql' keyword"</i> —
+  specyfikację należy ująć w nawiasy, nawet jeśli jest pusta.</li>
+  <li><i>"Expected one or more filters following CQL specification, got
+  none"</i> — po specyfikacji musi występować co najmniej jeden filtr.</li>
+  <li><i>"Lexer: Unknown or not understood sequence of characters: ..."</i> —
+  podane znaki nie należą do języka CQL. Symbole figur szachowych, strzałki
+  i znak <b>~</b> nie są obsługiwane. Figury zapisuje się literami
+  <b>KQRBNPkrqbnp</b>.</li>
+  <li><i>"The 'any' keyword has been replaced by the '.' character since
+  version 5.2. Use '_' instead of '.' to denote an empty square"</i> —
+  użyj <b>.</b>, aby oznaczyć dowolną figurę, a <b>_</b>, aby oznaczyć puste pole.</li>
+  </ul>
+  
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }

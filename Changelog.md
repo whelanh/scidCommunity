@@ -13,9 +13,9 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 
-## Unreleased
+## 5.1.4.73 - 21 November 2026
 
-- Hyperlinks in the **tip window** and in help text are readable on the dark themes: they are drawn in a light blue, and the yellow highlight under the pointer switches the label to a dark blue so it stays legible. The light themes, and the black-on-white Help window, keep the usual blue.
+- The "Woodpecker" chess training method is now available under the **Play** menu. See [Discussions](https://github.com/whelanh/scidCommunity/discussions/528) for details on this new feature. - thanks to @TBergh98 ([#529](https://github.com/whelanh/scidCommunity/pull/529)).
 
 ## 5.1.4.72 - 19 November 2026
 
