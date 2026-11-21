@@ -858,8 +858,23 @@ proc ::woodpecker::set::tokenWrite {t} {
     set t [string trim $t]
     if {$t ne "" && ![tokenValid $t]} { error "invalid token" }
     set path [tokenPath]
-    ::woodpecker::writeAtomic $path $t
-    catch { file attributes $path -permissions 0600 }
+    # A fresh file created 0600 from the start (never world-readable, not even
+    # briefly), renamed over the old token only once fully written.
+    set tmp "$path.[pid].tmp"
+    file delete $tmp
+    set f ""
+    if {[catch {
+        set f [open $tmp {WRONLY CREAT EXCL} 0600]
+        fconfigure $f -encoding utf-8
+        puts -nonewline $f $t
+        close $f
+        set f ""
+        file rename -force $tmp $path
+    } err opts]} {
+        catch { close $f }
+        catch { file delete $tmp }
+        return -options $opts $err
+    }
 }
 
 # The page that creates a token with exactly the scope the trainer needs.

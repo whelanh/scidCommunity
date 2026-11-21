@@ -54,6 +54,12 @@ if {$tcl_platform(platform) eq "unix"} {
     checkEq "readable by its owner only" [file attributes [::woodpecker::set::tokenPath] -permissions] 00600
 }
 check "a malformed token is refused" {[catch {::woodpecker::set::tokenWrite "not a token"}]}
+check "no temporary token file is left" {![llength [glob -nocomplain -directory [file dirname [::woodpecker::set::tokenPath]] token.txt.*]]}
+::woodpecker::set::tokenWrite lip_second
+checkEq "a new token replaces the old one" [::woodpecker::set::tokenRead] lip_second
+if {$tcl_platform(platform) eq "unix"} {
+    checkEq "still owner-only after replacing" [file attributes [::woodpecker::set::tokenPath] -permissions] 00600
+}
 check "the create link asks for puzzle:read" \
     {[string first {scopes[]=puzzle:read} [::woodpecker::set::tokenCreateUrl]] >= 0}
 
