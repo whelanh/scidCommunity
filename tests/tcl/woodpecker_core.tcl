@@ -85,6 +85,7 @@ set base [dict create label best isBest 1 hanging 0 trivial 1 pvAfter {a b} play
 checkEq "an obvious forcing move earns nothing" [::woodpecker::markFor $base] ""
 checkEq "a move the engine dislikes earns nothing" [::woodpecker::markFor [dict merge $base {label mistake quiet 1}]] ""
 checkEq "a sound sacrifice is !!" [::woodpecker::markFor [dict merge $base {hanging 3 trivial 0}]] "!!"
+checkEq "the review's brilliant (a refined sacrifice) is !!" [::woodpecker::markFor [dict merge $base {label brilliant hanging 3 trivial 0}]] "!!"
 checkEq "a sacrifice that is traded back is not !!" [::woodpecker::markFor [dict merge $base {hanging 3 trivial 1}]] ""
 checkEq "a sacrifice needs a line to prove it" [::woodpecker::markFor [dict merge $base {hanging 3 trivial 0 pvAfter {}}]] ""
 checkEq "!! needs the engine's own move" [::woodpecker::markFor [dict merge $base {hanging 3 trivial 0 isBest 0 label excellent}]] ""
