@@ -487,7 +487,7 @@ translate I LichessPuzzlesClock {Orologio}
 translate I LichessPuzzlesRated {Valutato}
 translate I LichessPuzzlesGame {Gioco}
 translate I LichessPuzzlesNoNew {Nessun nuovo puzzle trovato per queste impostazioni.\n\nProva a cambiare il tema, la difficoltà o il colore del puzzle.}
-# Metodo del Picchio (tcl/tools/woodpecker_ui.tcl)
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
 translate I WoodpeckerTitle {Metodo del Picchio}
 translate I WoodpeckerColName {Set}
 translate I WoodpeckerColExercises {Esercizi}

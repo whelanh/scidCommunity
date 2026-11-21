@@ -265,6 +265,7 @@ menuText R ToolsCaptureBoard "Фиксировать текущую позици
 # Play menu
 menuText R Play "Играть" 1
 menuText R LichessPuzzles "Lichess Шахматные задачи" 0 {Решайте головоломки Lichess в интерактивном режиме}
+menuText R Woodpecker "Метод дятла" 0 {Тренируйте тактику циклами: один и тот же набор, каждый раз быстрее}
 
 # --- Correspondence Chess
 menuText R CCResign "Сдаться" 0 {Сдаться (не через электронную почту)}
@@ -485,6 +486,176 @@ translate R LichessPuzzlesClock {Часы}
 translate R LichessPuzzlesRated {Рейтинг}
 translate R LichessPuzzlesGame {Игра}
 translate R LichessPuzzlesNoNew {Для этих настроек новых головоломок не найдено.\n\nПопробуйте изменить тему, сложность или цвет головоломки.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate R WoodpeckerTitle {Метод дятла}
+translate R WoodpeckerColName {Набор}
+translate R WoodpeckerColExercises {Упражнения}
+translate R WoodpeckerColCycle {Цикл}
+translate R WoodpeckerColProgress {Этот цикл}
+translate R WoodpeckerColLast {Последняя сессия}
+translate R WoodpeckerColDays {Дни}
+translate R WoodpeckerColTime {Время решения}
+translate R WoodpeckerColResults {решено/не удалось}
+translate R WoodpeckerColPct {Счет}
+translate R WoodpeckerColDate {Дата}
+translate R WoodpeckerColDuration {Продолжительность}
+translate R WoodpeckerColPoints {Очки}
+translate R WoodpeckerNew {Новый набор...}
+translate R WoodpeckerTrain {Тренироваться}
+translate R WoodpeckerEvaluate {Оценивать...}
+translate R WoodpeckerStats {Статистика}
+translate R WoodpeckerDelete {Удалить}
+translate R WoodpeckerContinue {Продолжить (Ввод)}
+translate R WoodpeckerPause {Пауза}
+translate R WoodpeckerResume {Резюме}
+translate R WoodpeckerEnd {Завершить сеанс}
+translate R WoodpeckerNoSets {Набора еще нет: нажмите «Новый набор», чтобы начать с головоломок, включенных в Scid, чтобы загрузить больше из Lichess или использовать книгу PGN.}
+translate R WoodpeckerUnrated {В %d из %d упражнений нет ! / !! оценки: оцените набор, чтобы заработать эти бонусы (более ранние сеансы также пересчитываются).}
+translate R WoodpeckerCycleOver {Цикл %d завершен. Отдыхайте до %s, затем начинается следующий цикл, продолжительностью в половину дней.}
+translate R WoodpeckerCycleLine {Цикл %d: %d/%d выполнено, запланировано %d дней, крайний срок %s.}
+translate R WoodpeckerQuotaLine {Сегодня: %d из %d упражнений.}
+translate R WoodpeckerQuotaRaised {Вы немного отстаете: сегодняшняя цель — %d вместо %d.}
+translate R WoodpeckerDeadlineMoved {После перерыва срок сдвинулся на %d дней, до %s; дневная цель — %d.}
+translate R WoodpeckerOverStretch {Цикл превысил запланированную продолжительность вдвое: крайний срок остается на уровне %s, а дневная цель — %d.}
+translate R WoodpeckerDeleteAsk {Удалить набор "%s" с его базой данных и статистикой?}
+translate R WoodpeckerNewTitle {Новый набор Дятел.}
+translate R WoodpeckerName {Имя}
+translate R WoodpeckerFromLichess {Пазлы из Lichess}
+translate R WoodpeckerFromPuzzles {Головоломки, включенные в комплект Scid (головоломки с рейтингом Lichess)}
+translate R WoodpeckerAdvanced {Передовой}
+translate R WoodpeckerUseLichess {Получите головоломки из Lichess вместо входящих в комплект наборов.}
+translate R WoodpeckerPicking {Выбор загадок...}
+translate R WoodpeckerShortAsk {Только %d из запрошенных головоломок %d остались на вашем уровне среди тех, которые включены в Scid.
+
+Загрузить другой %d из Lichess?
+
+Нет: набор создан из найденных пазлов.}
+translate R WoodpeckerNoPuzzles {Для этого уровня, темы и стороны не осталось ни одной головоломки.}
+translate R WoodpeckerCount {Упражнения}
+translate R WoodpeckerDifficulty {Сложность}
+translate R WoodpeckerTheme {Тема}
+translate R WoodpeckerThemeMix {Смешанный (рекомендуется)}
+translate R WoodpeckerColor {Сторона}
+translate R WoodpeckerColor_both {Оба}
+translate R WoodpeckerColor_white {Белый}
+translate R WoodpeckerColor_black {Черный}
+translate R WoodpeckerToken {Lichess токен}
+translate R WoodpeckerFromFile {База данных PGN или Scid (например, книга)}
+translate R WoodpeckerFileHelp {Каждая партия, начинающаяся с расстановочной позиции, становится упражнением: ее основная линия — решение, варианты игнорируются. Авторский! и !! сохраняются.}
+translate R WoodpeckerDays1 {Первый цикл (дни)}
+translate R WoodpeckerRestDays {Отдых между циклами (дни)}
+translate R WoodpeckerDaysHelp {Каждый последующий цикл получает половину дней предыдущего: цель состоит в том, чтобы вдвое сократить время решения в каждом цикле.}
+translate R WoodpeckerCreate {Создавать}
+translate R WoodpeckerBadNumber {Недопустимый номер: %s}
+translate R WoodpeckerNoDifficulty {Выберите хотя бы одну сложность и несколько упражнений.}
+translate R WoodpeckerDownloading {Скачивание пазлов из Lichess...}
+translate R WoodpeckerBuilding {Создание базы данных набора...}
+translate R WoodpeckerCreateFailed {Не удалось создать набор:
+%s}
+translate R WoodpeckerCreated {Создан набор: %d упражнений.}
+translate R WoodpeckerFewer {Lichess дал %d из запрошенных головоломок %d.}
+translate R WoodpeckerNoFile {Не могу прочитать %s}
+translate R WoodpeckerSkipped {%d игры были пропущены (нет расстановки или ходов).}
+translate R WoodpeckerMarksIncluded {Ключ движется! и !! уже отмечены, так что можно начинать. Вы по-прежнему можете оценить набор со своим движком из его меню.}
+translate R WoodpeckerEvalRecommended {Оцените это сейчас с обзором? Настоятельно рекомендуется: он отмечает ключевые ходы! и !!, которые приносят бонусные баллы. Это занимает около секунды на каждое упражнение, и его также можно выполнить позже.}
+translate R WoodpeckerLevel_easiest {Самый простой}
+translate R WoodpeckerLevel_easier {Полегче}
+translate R WoodpeckerLevel_normal {Нормальный}
+translate R WoodpeckerLevel_harder {Сильнее}
+translate R WoodpeckerLevel_hardest {Самый трудный}
+translate R WoodpeckerEvalBusy {Оценка уже проводится.}
+translate R WoodpeckerSomeAnnotated {Аннотации уже присутствуют в %d из %d упражнений. Дополнить отзыв остальными или перезаписать отзывом все?}
+translate R WoodpeckerComplete {В комплекте с обзором}
+translate R WoodpeckerOverwrite {Заменить обзором}
+translate R WoodpeckerAllAnnotated {Все упражнения %d уже аннотированы, поэтому просмотр не является обязательным. Затирать оценки автора оценками рецензии?}
+translate R WoodpeckerKeep {Сохраняйте аннотации}
+translate R WoodpeckerEvaluating {Оцениваю комплект...}
+translate R WoodpeckerEvalPhase_deep {Обзор: поиск решений}
+translate R WoodpeckerEvalPhase_shallow {Обзор: какие ходы очевидны}
+translate R WoodpeckerEvalPhase_write {Написание оценок}
+translate R WoodpeckerEvalDone {Проведенная оценка: %d упражнений; %d ходы отмечены ! и %d отмечен !!, из %d перемещается для поиска.}
+translate R WoodpeckerNoEngine {Механизм UCI не настроен (Инструменты > Механизмы).}
+translate R WoodpeckerEvalAsk {Оцените упражнения %d с помощью этого движка:}
+translate R WoodpeckerOtherMode {Еще одно обучение или игра — с использованием доски.}
+translate R WoodpeckerNoSlot {Нет свободного места для базы данных для сеанса: закройте базу данных и повторите попытку.
+(%s)}
+translate R WoodpeckerRestAsk {Остальные дни заканчиваются %s. Все равно начать цикл %d?}
+translate R WoodpeckerUnratedShort {Упражнения %d не оцениваются: учитываются только строки.}
+translate R WoodpeckerRes1 {решено}
+translate R WoodpeckerRes2 {неуспешный}
+translate R WoodpeckerPacePer {за упражнение}
+translate R WoodpeckerPaceTarget {цель %s с}
+translate R WoodpeckerCardStreak {Полоса}
+translate R WoodpeckerCardPoints {Очки}
+translate R WoodpeckerCardDeadline {Крайний срок}
+translate R WoodpeckerStreakSub {убирать подряд}
+translate R WoodpeckerPointsSub {из возможных}
+translate R WoodpeckerDaysLeft {осталось дней}
+translate R WoodpeckerExercise {Упражнение %d из %d}
+translate R WoodpeckerWhiteToMove {Белые для хода}
+translate R WoodpeckerBlackToMove {Черный, чтобы двигаться}
+translate R WoodpeckerYourMove {Ваш ход.}
+translate R WoodpeckerSolved {Решено!}
+translate R WoodpeckerFailed {Неуспешный.}
+translate R WoodpeckerPoints {+%s / %s}
+translate R WoodpeckerNoMarks {(не оценено: пока нет !/!! бонуса)}
+translate R WoodpeckerQuotaDone {Сегодняшняя цель достигнута! Продолжайте или завершите сеанс.}
+translate R WoodpeckerSolutionShown {Пройдите решение на доске или на карточке, затем нажмите Enter.}
+translate R WoodpeckerPaused {Пауза.}
+translate R WoodpeckerAutoPaused {Пауза: никаких движений в течение двух минут. Время отсутствия не в счет.}
+translate R WoodpeckerSessionOver {Сессия окончена}
+translate R WoodpeckerCycleComplete {Цикл %d завершен!}
+translate R WoodpeckerSumDate {Дата}
+translate R WoodpeckerSumDuration {Продолжительность}
+translate R WoodpeckerSumExercises {Упражнения завершены}
+translate R WoodpeckerSumPoints {%s из %s баллов}
+translate R WoodpeckerSumAvg {В среднем за упражнение}
+translate R WoodpeckerSumQuota {Сегодняшняя цель}
+translate R WoodpeckerSumCompare {По сравнению с предыдущим циклом: %d быстрее, %d медленнее, %d ошибок исправлено, %d новых ошибок.}
+translate R WoodpeckerSumReview {Для ознакомления: упражнения %s}
+translate R WoodpeckerCyclesTitle {Циклы}
+translate R WoodpeckerSessionsTitle {Сессии}
+translate R WoodpeckerStatsNote {Баллы используют оценки оценки %d. Более ранние сессии оцениваются с одинаковыми оценками, поэтому циклы справедливо сравниваются.}
+translate R WoodpeckerNoData {Цикла еще нет}
+translate R WoodpeckerChartLegend {полоски: время решения пунктирное: цель (предыдущий цикл уменьшен вдвое)}
+translate R WoodpeckerTagline {Решайте один и тот же набор снова и снова, каждый раз быстрее.}
+translate R WoodpeckerExit {Покинуть сеанс}
+translate R WoodpeckerMore {Больше упражнений}
+translate R WoodpeckerToday {Сегодня}
+translate R WoodpeckerCycleShort {Цикл %d}
+translate R WoodpeckerDaysPlanned {Запланировано %d дней}
+translate R WoodpeckerExercisesShort {упражнения}
+translate R WoodpeckerDeadline {срок %s}
+translate R WoodpeckerHidden {Решение появится здесь.}
+translate R WoodpeckerSumCycle {Цикл}
+translate R WoodpeckerTokenSave {Сохраните и проверьте}
+translate R WoodpeckerTokenCreate {Создайте токен (загадка области действия: прочитайте)}
+translate R WoodpeckerTokenOk {✓ Токен работает: %s.}
+translate R WoodpeckerTokenRating {Рейтинг головоломок %s.}
+translate R WoodpeckerTokenNoScope {В этом токене отсутствует головоломка: область чтения: создайте ее по ссылке выше.}
+translate R WoodpeckerTokenInvalid {Lichess не знает этого токена.}
+translate R WoodpeckerTokenUnchecked {Токен не удалось проверить (нет соединения?). Он будет использоваться как есть.}
+translate R WoodpeckerTokenChecking {Проверка токена...}
+translate R WoodpeckerTokenMissing {Нет жетона? Это тоже работает с рейтингом головоломок, указанным выше (профиль Lichess, Пазлы). Загрузка происходит медленнее, и могут возникнуть головоломки, которые вы уже решили на Lichess; с жетоном это быстрее.}
+translate R WoodpeckerPreset_automatic {Автоматический (проще)}
+translate R WoodpeckerPreset_standard {Стандартный (рекомендуется)}
+translate R WoodpeckerPreset_challenge {Испытывающий}
+translate R WoodpeckerPreset_tough {Жесткий (в основном выше вашего уровня)}
+translate R WoodpeckerPreset_custom {Обычай...}
+translate R WoodpeckerPresetHelp_automatic {В основном простая тактика, чтобы увидеть их сразу: первая цель книги.}
+translate R WoodpeckerPresetHelp_standard {На четверть проще, большинство соответствует вашему уровню, несколько сложнее — пропорционально разделам книги «Легкий» и «Средний».}
+translate R WoodpeckerPresetHelp_challenge {Примерно вашего уровня и выше, для сильных игроков (например, раздел «Продвинутый уровень» книги).}
+translate R WoodpeckerPresetHelp_tough {В основном намного выше вашего уровня, для сильных игроков, которые хотят потренироваться.}
+translate R WoodpeckerPresetHelp_custom {Выбирайте долю каждого уровня Lichess самостоятельно.}
+translate R WoodpeckerPresetRating {Уровни зависят от вашего рейтинга головоломок Lichess (%s).}
+translate R WoodpeckerPresetNoRating {Уровни зависят от вашего рейтинга головоломок Lichess.}
+translate R WoodpeckerRatingAsk {Ваш рейтинг загадок Lichess}
+translate R WoodpeckerBadRating {Введите свой рейтинг головоломки Lichess (400-3200): он указан в вашем профиле Lichess в разделе «Пазлы».}
+translate R WoodpeckerPresetStated {Уровни указаны относительно введенного вами рейтинга (%s).}
+translate R WoodpeckerDataDir {Папка данных метода Woodpecker (пустая: собственная Scid)}
+translate R WoodpeckerNoDataDir {Невозможно найти папку с данными Woodpecker:\n%s\n\nПодключен ли диск? Папка устанавливается в меню «Параметры» > «Ресурсы».}
+translate R WoodpeckerDataDirMove {%d Наборы дятлов находятся в предыдущей папке данных:\n%s\n\nПереместить их в новую?\n%s\n\nНет: новая папка начинается пустой, а наборы остаются там, где они есть.}
+translate R WoodpeckerDataDirHasSets {В новой папке данных уже содержатся наборы %d (синхронизированы с другого компьютера?):\n%s\n\nScid использует их. Наборы из предыдущей папки остаются в:\n%s}
 
 # Board screenshot
 menuText R ToolsScreenshot "Скриншот доски" 0 \

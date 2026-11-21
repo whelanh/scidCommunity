@@ -235,6 +235,7 @@ menuText M ToolsCaptureBoard "捕获当前棋盘..." 5  {将当前棋盘保存�
 # Play menu
 menuText M Play "Play" 0
 menuText M LichessPuzzles "巫妖谜题" 0 {以交互方式解决 Lichess 谜题}
+menuText M Woodpecker "啄木鸟法" 0 {循环训练战术：同一组，每次更快}
 
 # --- Correspondence Chess
 menuText M CCResign "Resign" 1 {Resign (not via eMail)}
@@ -455,6 +456,176 @@ translate M LichessPuzzlesClock {钟}
 translate M LichessPuzzlesRated {额定}
 translate M LichessPuzzlesGame {游戏}
 translate M LichessPuzzlesNoNew {没有找到适合这些设置的新谜题。\n\n尝试更改主题、难度或谜题颜色。}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate M WoodpeckerTitle {啄木鸟法}
+translate M WoodpeckerColName {放}
+translate M WoodpeckerColExercises {练习}
+translate M WoodpeckerColCycle {循环}
+translate M WoodpeckerColProgress {本周期}
+translate M WoodpeckerColLast {最后一次会议}
+translate M WoodpeckerColDays {天}
+translate M WoodpeckerColTime {解决时间}
+translate M WoodpeckerColResults {解决/失败}
+translate M WoodpeckerColPct {分数}
+translate M WoodpeckerColDate {日期}
+translate M WoodpeckerColDuration {期间}
+translate M WoodpeckerColPoints {积分}
+translate M WoodpeckerNew {新套装...}
+translate M WoodpeckerTrain {火车}
+translate M WoodpeckerEvaluate {评价...}
+translate M WoodpeckerStats {统计数据}
+translate M WoodpeckerDelete {删除}
+translate M WoodpeckerContinue {继续（输入）}
+translate M WoodpeckerPause {暂停}
+translate M WoodpeckerResume {恢复}
+translate M WoodpeckerEnd {结束会话}
+translate M WoodpeckerNoSets {尚未设置：按“新设置”开始使用 Scid 中包含的谜题，从 Lichess 下载更多内容，或使用 PGN 书籍。}
+translate M WoodpeckerUnrated {%d 的 %d 练习没有！ /!!分数：评估该组以获得这些奖金（早期的会话也会重新评分）。}
+translate M WoodpeckerCycleOver {循环 %d 已完成。休息到%s，然后开始下一个周期，时间减半。}
+translate M WoodpeckerCycleLine {周期 %d：%d/%d 已完成，计划 %d 天，截止日期 %s。}
+translate M WoodpeckerQuotaLine {今天：%d %d 练习。}
+translate M WoodpeckerQuotaRaised {你有点落后了：今天的目标是 %d 而不是 %d。}
+translate M WoodpeckerDeadlineMoved {休息后，截止日期移动 %d 天，至 %s；每日目标是%d。}
+translate M WoodpeckerOverStretch {该周期已达到计划长度的两倍：截止日期仍为 %s，每日目标为 %d。}
+translate M WoodpeckerDeleteAsk {删除集合“%s”及其数据库和统计信息？}
+translate M WoodpeckerNewTitle {新啄木鸟套装}
+translate M WoodpeckerName {姓名}
+translate M WoodpeckerFromLichess {来自 Lichess 的谜题}
+translate M WoodpeckerFromPuzzles {Scid 中包含的谜题（分级 Lichess 谜题）}
+translate M WoodpeckerAdvanced {先进的}
+translate M WoodpeckerUseLichess {从 Lichess 获取拼图，而不是包含的套装}
+translate M WoodpeckerPicking {选择谜题...}
+translate M WoodpeckerShortAsk {仅有的 %d 的 %d 所要求的谜题在 Scid 中包含的谜题中保留在您的水平上。
+
+下载其他的 %d 来自巫妖？
+
+否：该套装是用找到的谜题创建的。}
+translate M WoodpeckerNoPuzzles {这个关卡、主题和侧面都没有留下任何谜题。}
+translate M WoodpeckerCount {练习}
+translate M WoodpeckerDifficulty {困难}
+translate M WoodpeckerTheme {主题}
+translate M WoodpeckerThemeMix {混合（推荐）}
+translate M WoodpeckerColor {边}
+translate M WoodpeckerColor_both {两个都}
+translate M WoodpeckerColor_white {白色的}
+translate M WoodpeckerColor_black {黑色的}
+translate M WoodpeckerToken {Lichess 令牌}
+translate M WoodpeckerFromFile {PGN 或 Scid 数据库（例如一本书）}
+translate M WoodpeckerFileHelp {每个从预备位置开始的游戏都变成了一次练习：它的主线就是解决方案，变化被忽略。作者的！和 ！！被保留。}
+translate M WoodpeckerDays1 {第一个周期（天）}
+translate M WoodpeckerRestDays {周期之间的休息（天）}
+translate M WoodpeckerDaysHelp {后面的每个周期的天数都是前一个周期的一半：目标是将每个周期的求解时间减半。}
+translate M WoodpeckerCreate {创造}
+translate M WoodpeckerBadNumber {不是有效号码：%s}
+translate M WoodpeckerNoDifficulty {至少选择一种难度和一些练习。}
+translate M WoodpeckerDownloading {正在从 Lichess 下载谜题...}
+translate M WoodpeckerBuilding {建立该集的数据库...}
+translate M WoodpeckerCreateFailed {无法创建该集：
+%s}
+translate M WoodpeckerCreated {创建的集合：%d练习。}
+translate M WoodpeckerFewer {Lichess 给出了 %d 所要求的 %d 谜题。}
+translate M WoodpeckerNoFile {无法读取 %s}
+translate M WoodpeckerSkipped {%d 比赛被跳过（没有准备位置，或没有移动）。}
+translate M WoodpeckerMarksIncluded {关键一动！和 ！！已经标记好了，你就可以开始了。您仍然可以从菜单中使用您自己的引擎来评估该集。}
+translate M WoodpeckerEvalRecommended {现在用review来评价一下吗？强烈推荐：它标志着关键动作！和!!，可赚取奖励积分。每次练习大约需要一秒钟，也可以稍后进行。}
+translate M WoodpeckerLevel_easiest {最简单}
+translate M WoodpeckerLevel_easier {更轻松}
+translate M WoodpeckerLevel_normal {普通的}
+translate M WoodpeckerLevel_harder {更难}
+translate M WoodpeckerLevel_hardest {最难的}
+translate M WoodpeckerEvalBusy {评估已经在进行。}
+translate M WoodpeckerSomeAnnotated {注释已经存在于 %d 的 %d 练习。通过评论完成其他内容，还是通过评论覆盖所有内容？}
+translate M WoodpeckerComplete {完成审核}
+translate M WoodpeckerOverwrite {用评论覆盖}
+translate M WoodpeckerAllAnnotated {所有 %d 练习都已注释，因此复习是可选的。用评论覆盖作者的标记？}
+translate M WoodpeckerKeep {保留注释}
+translate M WoodpeckerEvaluating {评估集合...}
+translate M WoodpeckerEvalPhase_deep {回顾：寻找解决方案}
+translate M WoodpeckerEvalPhase_shallow {点评：哪些动作是显而易见的}
+translate M WoodpeckerEvalPhase_write {写出标记}
+translate M WoodpeckerEvalDone {完成评估：%d练习； %d 移动已标记！并%d标记!!，从%d移动中找到。}
+translate M WoodpeckerNoEngine {未配置 UCI 引擎（工具 > 引擎）。}
+translate M WoodpeckerEvalAsk {使用此引擎评估 %d 练习：}
+translate M WoodpeckerOtherMode {另一种训练或游戏是使用棋盘。}
+translate M WoodpeckerNoSlot {该会话没有可用的数据库插槽：关闭数据库并重试。
+(%s)}
+translate M WoodpeckerRestAsk {休息日于 %s 结束。无论如何都要开始循环%d？}
+translate M WoodpeckerUnratedShort {%d 练习不被评估：只有行数。}
+translate M WoodpeckerRes1 {解决了}
+translate M WoodpeckerRes2 {失败的}
+translate M WoodpeckerPacePer {每次练习}
+translate M WoodpeckerPaceTarget {目标 %s 秒}
+translate M WoodpeckerCardStreak {条纹}
+translate M WoodpeckerCardPoints {积分}
+translate M WoodpeckerCardDeadline {最后期限}
+translate M WoodpeckerStreakSub {连续清洁}
+translate M WoodpeckerPointsSub {的可能的}
+translate M WoodpeckerDaysLeft {剩余天数}
+translate M WoodpeckerExercise {锻炼 %d 的 %d}
+translate M WoodpeckerWhiteToMove {白色移动}
+translate M WoodpeckerBlackToMove {黑色移动}
+translate M WoodpeckerYourMove {你的举动。}
+translate M WoodpeckerSolved {解决了！}
+translate M WoodpeckerFailed {失败的。}
+translate M WoodpeckerPoints {+%s / %s}
+translate M WoodpeckerNoMarks {（未评估：没有！/！！奖金尚未）}
+translate M WoodpeckerQuotaDone {今天的目标达到了！继续，或者结束会话。}
+translate M WoodpeckerSolutionShown {单步执行板上或卡上的解决方案，然后按 Enter。}
+translate M WoodpeckerPaused {暂停了。}
+translate M WoodpeckerAutoPaused {暂停：两分钟内没有任何动作。离开的时间不算数。}
+translate M WoodpeckerSessionOver {会议结束}
+translate M WoodpeckerCycleComplete {循环%d完成！}
+translate M WoodpeckerSumDate {日期}
+translate M WoodpeckerSumDuration {期间}
+translate M WoodpeckerSumExercises {练习完成}
+translate M WoodpeckerSumPoints {%s 的 %s 点}
+translate M WoodpeckerSumAvg {每次运动的平均数}
+translate M WoodpeckerSumQuota {今天的目标}
+translate M WoodpeckerSumCompare {与上一个周期相比：%d 更快，%d 更慢，%d 错误已修复，%d 新错误。}
+translate M WoodpeckerSumReview {复习：练习 %s}
+translate M WoodpeckerCyclesTitle {周期}
+translate M WoodpeckerSessionsTitle {会议}
+translate M WoodpeckerStatsNote {分数使用评价分数%d。早期的课程会以相同的分数重新计分，因此周期比较公平。}
+translate M WoodpeckerNoData {还没有周期}
+translate M WoodpeckerChartLegend {条形：求解时间 虚线：目标（前一个周期减半）}
+translate M WoodpeckerTagline {一次又一次地解决同一组问题，每次都更快。}
+translate M WoodpeckerExit {离开会话}
+translate M WoodpeckerMore {更多练习}
+translate M WoodpeckerToday {今天}
+translate M WoodpeckerCycleShort {循环%d}
+translate M WoodpeckerDaysPlanned {计划%d天}
+translate M WoodpeckerExercisesShort {练习}
+translate M WoodpeckerDeadline {截止日期%s}
+translate M WoodpeckerHidden {解决方案将出现在这里。}
+translate M WoodpeckerSumCycle {循环}
+translate M WoodpeckerTokenSave {保存并检查}
+translate M WoodpeckerTokenCreate {创建一个令牌（范围谜题：阅读）}
+translate M WoodpeckerTokenOk {✓ 代币有效：%s。}
+translate M WoodpeckerTokenRating {谜题评级%s。}
+translate M WoodpeckerTokenNoScope {该令牌缺少拼图：读取范围：使用上面的链接创建一个。}
+translate M WoodpeckerTokenInvalid {Lichess 不知道该标记。}
+translate M WoodpeckerTokenUnchecked {无法检查令牌（没有连接？）。它将按原样使用。}
+translate M WoodpeckerTokenChecking {检查令牌...}
+translate M WoodpeckerTokenMissing {没有令牌？它也可以使用上面输入的谜题评级（Lichess 配置文件，谜题）。下载速度较慢，并且可能会出现您在Lichess上已经解决的谜题；使用令牌，速度更快。}
+translate M WoodpeckerPreset_automatic {自动（更简单）}
+translate M WoodpeckerPreset_standard {标准（推荐）}
+translate M WoodpeckerPreset_challenge {具有挑战性的}
+translate M WoodpeckerPreset_tough {艰难（大部分高于你的水平）}
+translate M WoodpeckerPreset_custom {风俗...}
+translate M WoodpeckerPresetHelp_automatic {大多是简单的策略，立即看到它们：这本书的首要目标。}
+translate M WoodpeckerPresetHelp_standard {四分之一容易，大部分与您的水平有关，一些更难 - 本书简单和中级部分的比例。}
+translate M WoodpeckerPresetHelp_challenge {大约或高于您的水平，适合强玩家（如本书的高级部分）。}
+translate M WoodpeckerPresetHelp_tough {对于想要扩展的强大玩家来说，大部分都远高于您的水平。}
+translate M WoodpeckerPresetHelp_custom {自行选择每个Lichess级别的份额。}
+translate M WoodpeckerPresetRating {级别与您的 Lichess 谜题评分 (%s) 相关。}
+translate M WoodpeckerPresetNoRating {等级与您的 Lichess 谜题评分相关。}
+translate M WoodpeckerRatingAsk {您的 Lichess 谜题评分}
+translate M WoodpeckerBadRating {输入您的 Lichess 谜题评分 (400-3200)：它位于您的 Lichess 个人资料中的谜题下。}
+translate M WoodpeckerPresetStated {级别与您输入的评级相关 (%s)。}
+translate M WoodpeckerDataDir {啄木鸟方法数据文件夹（空：Scid 自己的）}
+translate M WoodpeckerNoDataDir {找不到啄木鸟数据文件夹:\n%s\n\n驱动器是否已连接？该文件夹在选项 > 资源中设置。}
+translate M WoodpeckerDataDirMove {%d 啄木鸟集位于上一个数据文件夹中：\n%s\n\n将它们移动到新文件夹中吗？\n%s\n\n否：新文件夹开始为空，集保留在原来的位置。}
+translate M WoodpeckerDataDirHasSets {新数据文件夹已包含 %d 集（从另一台计算机同步？）：\n%s\n\nScid 使用这些集。上一个文件夹的集合保留在:\n%s}
 
 # Board screenshot
 menuText M ToolsScreenshot "棋盘截图" 0 \

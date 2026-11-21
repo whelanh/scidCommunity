@@ -299,6 +299,7 @@ menuText J ToolsCaptureBoard "Сними тренутну таблу..." 5  {С�
 # Play menu
 menuText J Play "Играј" 0
 menuText J LichessPuzzles "Лицхесс Пуззлес" 0 {Интерактивно решавајте Лицхесс загонетке}
+menuText J Woodpecker "Метода детлића" 0 {Тренирајте тактику у циклусима: исти сет, сваки пут брже}
 
 # --- Correspondence Chess
 menuText J CCResign "Поднесите оставку" 1 {Поднесите оставку (не путем е-поште)}
@@ -519,6 +520,176 @@ translate J LichessPuzzlesClock {Сат}
 translate J LichessPuzzlesRated {Оцењено}
 translate J LichessPuzzlesGame {Игра}
 translate J LichessPuzzlesNoNew {Нису пронађене нове загонетке за ова подешавања.\n\nПробајте да промените тему, тежину или боју слагалице.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate J WoodpeckerTitle {Метода детлића}
+translate J WoodpeckerColName {Сет}
+translate J WoodpeckerColExercises {Вежбе}
+translate J WoodpeckerColCycle {Циклус}
+translate J WoodpeckerColProgress {Овај циклус}
+translate J WoodpeckerColLast {Последња сесија}
+translate J WoodpeckerColDays {Дани}
+translate J WoodpeckerColTime {Решавање времена}
+translate J WoodpeckerColResults {решено/неуспешно}
+translate J WoodpeckerColPct {Резултат}
+translate J WoodpeckerColDate {Датум}
+translate J WoodpeckerColDuration {Трајање}
+translate J WoodpeckerColPoints {Поени}
+translate J WoodpeckerNew {Нови сет...}
+translate J WoodpeckerTrain {Воз}
+translate J WoodpeckerEvaluate {Оцените...}
+translate J WoodpeckerStats {Статистика}
+translate J WoodpeckerDelete {Избриши}
+translate J WoodpeckerContinue {Настави (Ентер)}
+translate J WoodpeckerPause {Пауза}
+translate J WoodpeckerResume {Настави}
+translate J WoodpeckerEnd {Заврши сесију}
+translate J WoodpeckerNoSets {Још увек није постављено: притисните Нови сет да бисте започели са загонеткама укљученим у Сцид, да бисте преузели више са Лицхесс-а или да користите ПГН књигу.}
+translate J WoodpeckerUnrated {%d оф %d вежбе немају ! / !! оцене: процените скуп да бисте зарадили те бонусе (раније сесије се такође бодују).}
+translate J WoodpeckerCycleOver {Циклус %d је потпуна. Одморите се до %s, затим почиње следећи циклус, са половином дана.}
+translate J WoodpeckerCycleLine {Циклус %d: %d/%d готово, %d планирани дани, рок %s.}
+translate J WoodpeckerQuotaLine {данас: %d оф %d вежбе.}
+translate J WoodpeckerQuotaRaised {Мало сте у заостатку: данашњи циљ је %d уместо да %d.}
+translate J WoodpeckerDeadlineMoved {После паузе, рок је прошао %d дана, до %s; дневни циљ је %d.}
+translate J WoodpeckerOverStretch {Циклус је достигао двоструко више од планиране дужине: рок остаје до истека %s а дневни циљ је %d.}
+translate J WoodpeckerDeleteAsk {Избриши скуп "%s" са својом базом података и статистиком?}
+translate J WoodpeckerNewTitle {Нови сет детлића}
+translate J WoodpeckerName {Име}
+translate J WoodpeckerFromLichess {Загонетке из Лицхесса}
+translate J WoodpeckerFromPuzzles {Слагалице укључене у Сцид (оцењене Лицхесс слагалице)}
+translate J WoodpeckerAdvanced {Напредно}
+translate J WoodpeckerUseLichess {Набавите загонетке од Лицхесса уместо укључених сетова}
+translate J WoodpeckerPicking {Бирање слагалица...}
+translate J WoodpeckerShortAsk {Само %d оф тхе %d тражене загонетке остају на вашем нивоу међу онима укљученим у Сцид.
+
+Преузмите другу %d од Лицхесса?
+
+Не: сет је креиран од пронађених загонетки.}
+translate J WoodpeckerNoPuzzles {Нема загонетке за овај ниво, тему и страну.}
+translate J WoodpeckerCount {Вежбе}
+translate J WoodpeckerDifficulty {Потешкоће}
+translate J WoodpeckerTheme {Тема}
+translate J WoodpeckerThemeMix {мешовито (препоручено)}
+translate J WoodpeckerColor {Сиде}
+translate J WoodpeckerColor_both {И једно и друго}
+translate J WoodpeckerColor_white {Бела}
+translate J WoodpeckerColor_black {Црно}
+translate J WoodpeckerToken {Лицхесс токен}
+translate J WoodpeckerFromFile {ПГН или Сцид база података (нпр. књига)}
+translate J WoodpeckerFileHelp {Свака игра која почиње са позиције постављања постаје вежба: њена главна линија је решење, варијације се занемарују. Ауторска! и !! се чувају.}
+translate J WoodpeckerDays1 {Први циклус (дана)}
+translate J WoodpeckerRestDays {Одмор између циклуса (дана)}
+translate J WoodpeckerDaysHelp {Сваки каснији циклус добија половину дана од претходног: циљ је да се преполови време решавања сваког циклуса.}
+translate J WoodpeckerCreate {Креирај}
+translate J WoodpeckerBadNumber {Није важећи број: %s}
+translate J WoodpeckerNoDifficulty {Изаберите најмање једну тежину и неколико вежби.}
+translate J WoodpeckerDownloading {Преузимање загонетки са Лицхесс-а...}
+translate J WoodpeckerBuilding {Прављење базе података скупа...}
+translate J WoodpeckerCreateFailed {Скуп није могао да се направи:
+%s}
+translate J WoodpeckerCreated {Сет креиран: %d вежбе.}
+translate J WoodpeckerFewer {Лицхесс је дала %d оф тхе %d тражене загонетке.}
+translate J WoodpeckerNoFile {Не могу да читам %s}
+translate J WoodpeckerSkipped {%d игре су прескочене (без положаја за постављање или без потеза).}
+translate J WoodpeckerMarksIncluded {Кључ се помера! и !! су већ означени, тако да можете почети. Још увек можете да процените сет са сопственим мотором из његовог менија.}
+translate J WoodpeckerEvalRecommended {Да ли то сада процените са прегледом? Топло се препоручује: означава кључне потезе! и !!, који зарађују бонус поене. Потребно је око секунде по вежби, а може се урадити и касније.}
+translate J WoodpeckerLevel_easiest {Најлакше}
+translate J WoodpeckerLevel_easier {Лакше}
+translate J WoodpeckerLevel_normal {Нормално}
+translate J WoodpeckerLevel_harder {Теже}
+translate J WoodpeckerLevel_hardest {Најтеже}
+translate J WoodpeckerEvalBusy {Евалуација је већ у току.}
+translate J WoodpeckerSomeAnnotated {Напомене су већ присутне на %d оф %d вежбе. Остале допунити рецензијом или све преписати рецензијом?}
+translate J WoodpeckerComplete {У комплету са прегледом}
+translate J WoodpeckerOverwrite {Замените прегледом}
+translate J WoodpeckerAllAnnotated {Све %d вежбе су већ означене, тако да преглед није обавезан. Заменити ауторске оцене рецензијом?}
+translate J WoodpeckerKeep {Сачувајте напомене}
+translate J WoodpeckerEvaluating {Оцењивање комплета...}
+translate J WoodpeckerEvalPhase_deep {Преглед: тражење решења}
+translate J WoodpeckerEvalPhase_shallow {Преглед: који су потези очигледни}
+translate J WoodpeckerEvalPhase_write {Писање оцена}
+translate J WoodpeckerEvalDone {Урађена евалуација: %d вежбе; %d потези означени ! и %d означено !!, ван %d креће да пронађе.}
+translate J WoodpeckerNoEngine {Ниједан УЦИ мотор није конфигурисан (Алати > Мотори).}
+translate J WoodpeckerEvalAsk {Евалуате %d вежбе са овим мотором:}
+translate J WoodpeckerOtherMode {Други тренинг или игра је коришћење табле.}
+translate J WoodpeckerNoSlot {Нема слободног места за базу података за сесију: затворите базу података и покушајте поново.
+(%s)}
+translate J WoodpeckerRestAsk {Остали дани се завршавају %s. Започни циклус %d свеједно?}
+translate J WoodpeckerUnratedShort {%d вежбе се не вреднују: ту се рачуна само линија.}
+translate J WoodpeckerRes1 {решено}
+translate J WoodpeckerRes2 {пропао}
+translate J WoodpeckerPacePer {по вежби}
+translate J WoodpeckerPaceTarget {циљ %s с}
+translate J WoodpeckerCardStreak {Стреак}
+translate J WoodpeckerCardPoints {Поени}
+translate J WoodpeckerCardDeadline {Крајњи рок}
+translate J WoodpeckerStreakSub {чисти у низу}
+translate J WoodpeckerPointsSub {од могућих}
+translate J WoodpeckerDaysLeft {преосталих дана}
+translate J WoodpeckerExercise {Вежбање %d оф %d}
+translate J WoodpeckerWhiteToMove {Бели за кретање}
+translate J WoodpeckerBlackToMove {Црно за кретање}
+translate J WoodpeckerYourMove {Твој потез.}
+translate J WoodpeckerSolved {Решено!}
+translate J WoodpeckerFailed {Није успело.}
+translate J WoodpeckerPoints {+%s / %s}
+translate J WoodpeckerNoMarks {(није процењено: не ! / !! бонус још увек)}
+translate J WoodpeckerQuotaDone {Данашњи циљ је постигнут! Наставите или завршите сесију.}
+translate J WoodpeckerSolutionShown {Прођите кроз решење на табли или картици, а затим притисните Ентер.}
+translate J WoodpeckerPaused {Паузирано.}
+translate J WoodpeckerAutoPaused {Пауза: без покрета два минута. Одсуство се не рачуна.}
+translate J WoodpeckerSessionOver {Сесија је завршена}
+translate J WoodpeckerCycleComplete {Циклус %d завршено!}
+translate J WoodpeckerSumDate {Датум}
+translate J WoodpeckerSumDuration {Трајање}
+translate J WoodpeckerSumExercises {Вежбе завршене}
+translate J WoodpeckerSumPoints {%s оф %s бодова}
+translate J WoodpeckerSumAvg {Просек по вежби}
+translate J WoodpeckerSumQuota {Данашња мета}
+translate J WoodpeckerSumCompare {У односу на претходни циклус: %d брже, %d спорије, %d исправљене грешке, %d нове грешке.}
+translate J WoodpeckerSumReview {За преглед: вежбе %s}
+translate J WoodpeckerCyclesTitle {Циклуси}
+translate J WoodpeckerSessionsTitle {Сесије}
+translate J WoodpeckerStatsNote {Поени користе оцене евалуације %d. Раније сесије се бодују истим оценама, тако да се циклуси поштено упоређују.}
+translate J WoodpeckerNoData {Још нема циклуса}
+translate J WoodpeckerChartLegend {траке: време решавања испрекидано: циљ (претходни циклус преполовљен)}
+translate J WoodpeckerTagline {Решите исти скуп изнова и изнова, сваки пут брже.}
+translate J WoodpeckerExit {Напустите сесију}
+translate J WoodpeckerMore {Више вежби}
+translate J WoodpeckerToday {данас}
+translate J WoodpeckerCycleShort {Циклус %d}
+translate J WoodpeckerDaysPlanned {%d планираних дана}
+translate J WoodpeckerExercisesShort {вежбе}
+translate J WoodpeckerDeadline {рок %s}
+translate J WoodpeckerHidden {Решење ће се појавити овде.}
+translate J WoodpeckerSumCycle {Циклус}
+translate J WoodpeckerTokenSave {Сачувајте и проверите}
+translate J WoodpeckerTokenCreate {Направите токен (загонетка обима: прочитајте)}
+translate J WoodpeckerTokenOk {✓ Токен ради: %s.}
+translate J WoodpeckerTokenRating {Оцена слагалице %s.}
+translate J WoodpeckerTokenNoScope {Овом токену недостаје загонетка:читај опсег: креирајте је помоћу горње везе.}
+translate J WoodpeckerTokenInvalid {Лицхесс не познаје овај знак.}
+translate J WoodpeckerTokenUnchecked {Токен није могао да се провери (нема везе?). Користиће се онаква каква јесте.}
+translate J WoodpeckerTokenChecking {Провера токена...}
+translate J WoodpeckerTokenMissing {Нема токен? Такође ради, са горе унетом оценом слагалице (Лицхесс профил, Слагалице). Преузимање је спорије и могу се појавити загонетке које сте већ решили на Лицхесс-у; са жетоном је брже.}
+translate J WoodpeckerPreset_automatic {Аутоматски (лакше)}
+translate J WoodpeckerPreset_standard {Стандардно (препоручено)}
+translate J WoodpeckerPreset_challenge {Изазовно}
+translate J WoodpeckerPreset_tough {Тешко (углавном изнад вашег нивоа)}
+translate J WoodpeckerPreset_custom {Цустом...}
+translate J WoodpeckerPresetHelp_automatic {Углавном једноставне тактике, да их видите одједном: први циљ књиге.}
+translate J WoodpeckerPresetHelp_standard {За четвртину лакше, већина око вашег нивоа, неколико теже - удео у одељцима за лак и средњи ниво у књизи.}
+translate J WoodpeckerPresetHelp_challenge {Око и изнад вашег нивоа, за јаке играче (као што је напредни одељак у књизи).}
+translate J WoodpeckerPresetHelp_tough {Углавном знатно изнад вашег нивоа, за јаке играче који желе да се истегну.}
+translate J WoodpeckerPresetHelp_custom {Сами одаберите удео за сваки Лицхесс ниво.}
+translate J WoodpeckerPresetRating {Нивои су у односу на вашу Лицхесс оцену слагалице (%s).}
+translate J WoodpeckerPresetNoRating {Нивои су у односу на вашу Лицхесс оцену слагалице.}
+translate J WoodpeckerRatingAsk {Ваша Лицхесс оцена слагалице}
+translate J WoodpeckerBadRating {Унесите своју оцену Лицхесс слагалице (400-3200): налази се на вашем Лицхесс профилу, под Слагалице.}
+translate J WoodpeckerPresetStated {Нивои су у односу на оцену коју сте унели (%s).}
+translate J WoodpeckerDataDir {Фасцикла са подацима о методи детлића (празна: Сцидов сопствени)}
+translate J WoodpeckerNoDataDir {Није могуће пронаћи фолдер са подацима Воодпецкер:\н%s\н\нДа ли је диск повезан? Фасцикла је подешена у Опције > Ресурси.}
+translate J WoodpeckerDataDirMove {%d Сетови детлића се налазе у претходном фолдеру са подацима:\н%s\н\нДа их преместите у нови?\н%s\н\нНе: нови фолдер почиње празан и скупови остају тамо где су.}
+translate J WoodpeckerDataDirHasSets {Нова фасцикла са подацима се већ налази %d сетови (синхронизовани са другог рачунара?):\н%s\н\нСцид их користи. Скупови претходног фолдера остају у:\н%s}
 
 # Board screenshot
 menuText J ToolsScreenshot "Снимак екрана плоче" 0 \

@@ -258,6 +258,7 @@ menuText h ToolsCaptureBoard "वर्तमान बोर्ड कैप्
 # Play menu
 menuText h Play "खेल" 0
 menuText h LichessPuzzles "लाइकेस पहेलियाँ" 0 {लाइकेस पहेलियों को अंतःक्रियात्मक रूप से हल करें}
+menuText h Woodpecker "कठफोड़वा विधि" 0 {चक्रों में प्रशिक्षण की रणनीति: एक ही सेट, हर बार तेज़}
 
 # --- Correspondence Chess
 menuText h CCResign "इस्तीफ़ा देना" 1 {इस्तीफा दें (ईमेल के माध्यम से नहीं)}
@@ -478,6 +479,176 @@ translate h LichessPuzzlesClock {घड़ी}
 translate h LichessPuzzlesRated {रेटेड}
 translate h LichessPuzzlesGame {खेल}
 translate h LichessPuzzlesNoNew {इन सेटिंग्स के लिए कोई नई पहेली नहीं मिली।\n\nथीम, कठिनाई या पहेली का रंग बदलने का प्रयास करें।}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate h WoodpeckerTitle {कठफोड़वा विधि}
+translate h WoodpeckerColName {तय करना}
+translate h WoodpeckerColExercises {अभ्यास}
+translate h WoodpeckerColCycle {चक्र}
+translate h WoodpeckerColProgress {यह चक्र}
+translate h WoodpeckerColLast {पिछला सत्र}
+translate h WoodpeckerColDays {दिन}
+translate h WoodpeckerColTime {समाधान का समय}
+translate h WoodpeckerColResults {हल/विफल}
+translate h WoodpeckerColPct {अंक}
+translate h WoodpeckerColDate {तारीख}
+translate h WoodpeckerColDuration {अवधि}
+translate h WoodpeckerColPoints {अंक}
+translate h WoodpeckerNew {नया सेट...}
+translate h WoodpeckerTrain {रेलगाड़ी}
+translate h WoodpeckerEvaluate {मूल्यांकन करना...}
+translate h WoodpeckerStats {आंकड़े}
+translate h WoodpeckerDelete {मिटाना}
+translate h WoodpeckerContinue {जारी रखें (प्रवेश करें)}
+translate h WoodpeckerPause {विराम}
+translate h WoodpeckerResume {फिर शुरू करना}
+translate h WoodpeckerEnd {सत्र समाप्त}
+translate h WoodpeckerNoSets {अभी तक कोई सेट नहीं: स्किड के साथ शामिल पहेलियों से शुरुआत करने के लिए, Lichess से अधिक डाउनलोड करने के लिए, या पीजीएन पुस्तक का उपयोग करने के लिए नया सेट दबाएं।}
+translate h WoodpeckerUnrated {%d में से %d व्यायामों में कोई नहीं है ! /!! अंक: उन बोनस को अर्जित करने के लिए सेट का मूल्यांकन करें (पहले के सत्र भी दोबारा बनाए गए हैं)।}
+translate h WoodpeckerCycleOver {चक्र %d पूरा हो गया है। %s तक आराम करें, फिर अगला चक्र शुरू होता है, आधे दिनों के साथ।}
+translate h WoodpeckerCycleLine {चक्र %d: %d/%d हो गया, %d नियोजित दिन, समय सीमा %s।}
+translate h WoodpeckerQuotaLine {आज: %d में से %d व्यायाम।}
+translate h WoodpeckerQuotaRaised {आप थोड़ा पीछे हैं: आज का लक्ष्य है %d के बजाय %d.}
+translate h WoodpeckerDeadlineMoved {ब्रेक के बाद समय सीमा %d दिन बढ़कर %s हो गई; दैनिक लक्ष्य %d है।}
+translate h WoodpeckerOverStretch {चक्र अपनी नियोजित लंबाई से दोगुना तक पहुंच गया है: समय सीमा %s पर बनी हुई है और दैनिक लक्ष्य %d है।}
+translate h WoodpeckerDeleteAsk {सेट "%s" को उसके डेटाबेस और आँकड़ों के साथ हटाएँ?}
+translate h WoodpeckerNewTitle {नया कठफोड़वा सेट}
+translate h WoodpeckerName {नाम}
+translate h WoodpeckerFromLichess {Lichess से पहेलियाँ}
+translate h WoodpeckerFromPuzzles {स्किड के साथ शामिल पहेलियाँ (श्रेणीबद्ध Lichess पहेलियाँ)}
+translate h WoodpeckerAdvanced {विकसित}
+translate h WoodpeckerUseLichess {शामिल सेट के बजाय Lichess से पहेलियाँ प्राप्त करें}
+translate h WoodpeckerPicking {पहेलियाँ चुनना...}
+translate h WoodpeckerShortAsk {केवल %d की %d स्किड के साथ शामिल पहेलियों में से आपके स्तर पर पूछी गई पहेलियाँ छोड़ दी जाती हैं।
+
+अन्य डाउनलोड करें %d लाइकेस से?
+
+नहीं: सेट पाई गई पहेलियों से बनाया गया है।}
+translate h WoodpeckerNoPuzzles {इस स्तर, विषय और पक्ष के लिए कोई पहेली नहीं बची है।}
+translate h WoodpeckerCount {अभ्यास}
+translate h WoodpeckerDifficulty {कठिनाई}
+translate h WoodpeckerTheme {विषय}
+translate h WoodpeckerThemeMix {मिश्रित (अनुशंसित)}
+translate h WoodpeckerColor {ओर}
+translate h WoodpeckerColor_both {दोनों}
+translate h WoodpeckerColor_white {सफ़ेद}
+translate h WoodpeckerColor_black {काला}
+translate h WoodpeckerToken {Lichess टोकन}
+translate h WoodpeckerFromFile {पीजीएन या स्किड डेटाबेस (उदाहरण के लिए एक किताब)}
+translate h WoodpeckerFileHelp {प्रत्येक खेल जो एक सेट-अप स्थिति से शुरू होता है वह एक अभ्यास बन जाता है: इसकी मुख्य पंक्ति समाधान है, विविधताओं को नजरअंदाज कर दिया जाता है। लेखक का ! और !! रखे गए हैं.}
+translate h WoodpeckerDays1 {पहला चक्र (दिन)}
+translate h WoodpeckerRestDays {चक्रों के बीच आराम करें (दिन)}
+translate h WoodpeckerDaysHelp {प्रत्येक बाद के चक्र को पिछले चक्र के आधे दिन मिलते हैं: इसका उद्देश्य प्रत्येक चक्र को हल करने का समय आधा करना है।}
+translate h WoodpeckerCreate {बनाएं}
+translate h WoodpeckerBadNumber {मान्य संख्या नहीं: %s}
+translate h WoodpeckerNoDifficulty {कम से कम एक कठिनाई और अनेक अभ्यास चुनें।}
+translate h WoodpeckerDownloading {Lichess से पहेलियां डाउनलोड हो रही हैं...}
+translate h WoodpeckerBuilding {सेट का डेटाबेस बनाना...}
+translate h WoodpeckerCreateFailed {सेट नहीं बनाया जा सका:
+%s}
+translate h WoodpeckerCreated {सेट बनाया गया: %d अभ्यास।}
+translate h WoodpeckerFewer {लाइकेस ने दिया %d की %d पहेलियाँ माँगी गईं।}
+translate h WoodpeckerNoFile {%s पढ़ा नहीं जा सकता}
+translate h WoodpeckerSkipped {%d खेल छोड़ दिए गए (कोई सेट-अप स्थिति नहीं, या कोई चाल नहीं)।}
+translate h WoodpeckerMarksIncluded {कुंजी चलती है! और !! पहले से ही चिह्नित हैं, इसलिए आप शुरू कर सकते हैं। आप अभी भी इसके मेनू से अपने स्वयं के इंजन के साथ सेट का मूल्यांकन कर सकते हैं।}
+translate h WoodpeckerEvalRecommended {अब समीक्षा से इसका मूल्यांकन करें? पुरजोर अनुशंसा: यह प्रमुख चालों को चिह्नित करता है! और!!, जो बोनस अंक अर्जित करते हैं। प्रत्येक व्यायाम में लगभग एक सेकंड का समय लगता है और इसे बाद में भी किया जा सकता है।}
+translate h WoodpeckerLevel_easiest {सबसे आसान}
+translate h WoodpeckerLevel_easier {आसान}
+translate h WoodpeckerLevel_normal {सामान्य}
+translate h WoodpeckerLevel_harder {और जोर से}
+translate h WoodpeckerLevel_hardest {मुश्किल}
+translate h WoodpeckerEvalBusy {एक मूल्यांकन पहले से ही चल रहा है.}
+translate h WoodpeckerSomeAnnotated {एनोटेशन पहले से ही मौजूद हैं %d का %d व्यायाम. समीक्षा के साथ अन्य को पूरा करें, या समीक्षा के साथ सब कुछ अधिलेखित कर दें?}
+translate h WoodpeckerComplete {समीक्षा के साथ पूरा करें}
+translate h WoodpeckerOverwrite {समीक्षा के साथ अधिलेखित करें}
+translate h WoodpeckerAllAnnotated {सभी %d अभ्यास पहले से ही एनोटेट किए गए हैं, इसलिए समीक्षा वैकल्पिक है। समीक्षा के साथ लेखक के अंक अधिलेखित करें?}
+translate h WoodpeckerKeep {टिप्पणियाँ रखें}
+translate h WoodpeckerEvaluating {सेट का मूल्यांकन...}
+translate h WoodpeckerEvalPhase_deep {समीक्षा: समाधान खोजना}
+translate h WoodpeckerEvalPhase_shallow {समीक्षा करें: कौन सी चालें स्पष्ट हैं}
+translate h WoodpeckerEvalPhase_write {अंक लिखना}
+translate h WoodpeckerEvalDone {मूल्यांकन किया गया: %d व्यायाम; %d चालें चिह्नित! और %d चिह्नित !!, %d में से खोजने के लिए आगे बढ़ता है।}
+translate h WoodpeckerNoEngine {कोई यूसीआई इंजन कॉन्फ़िगर नहीं किया गया है (टूल्स > इंजन)।}
+translate h WoodpeckerEvalAsk {इस इंजन के साथ %d अभ्यास का मूल्यांकन करें:}
+translate h WoodpeckerOtherMode {एक अन्य प्रशिक्षण या खेल बोर्ड का उपयोग करना है।}
+translate h WoodpeckerNoSlot {सत्र के लिए कोई निःशुल्क डेटाबेस स्लॉट नहीं: डेटाबेस बंद करें और पुनः प्रयास करें।
+(%s)}
+translate h WoodpeckerRestAsk {बाकी दिन %s पर समाप्त होते हैं। फिर भी चक्र %d प्रारंभ करें?}
+translate h WoodpeckerUnratedShort {%d अभ्यासों का मूल्यांकन नहीं किया जाता: वहां केवल रेखा ही मायने रखती है।}
+translate h WoodpeckerRes1 {हल हो गया}
+translate h WoodpeckerRes2 {असफल}
+translate h WoodpeckerPacePer {प्रति व्यायाम}
+translate h WoodpeckerPaceTarget {लक्ष्य %s एस}
+translate h WoodpeckerCardStreak {धारी}
+translate h WoodpeckerCardPoints {अंक}
+translate h WoodpeckerCardDeadline {अंतिम तारीख}
+translate h WoodpeckerStreakSub {एक पंक्ति में साफ़ करें}
+translate h WoodpeckerPointsSub {संभव का}
+translate h WoodpeckerDaysLeft {दिन शेष}
+translate h WoodpeckerExercise {व्यायाम %d का %d}
+translate h WoodpeckerWhiteToMove {हिलने के लिए सफेद}
+translate h WoodpeckerBlackToMove {चलने के लिए काला}
+translate h WoodpeckerYourMove {अपनी चाल।}
+translate h WoodpeckerSolved {हल!}
+translate h WoodpeckerFailed {असफल।}
+translate h WoodpeckerPoints {+%s / %s}
+translate h WoodpeckerNoMarks {(मूल्यांकन नहीं किया गया: नहीं ! /!! बोनस अभी तक)}
+translate h WoodpeckerQuotaDone {आज का लक्ष्य पूरा हो गया! आगे बढ़ें, या सत्र समाप्त करें।}
+translate h WoodpeckerSolutionShown {बोर्ड या कार्ड पर समाधान डालें, फिर Enter दबाएँ।}
+translate h WoodpeckerPaused {रुका हुआ.}
+translate h WoodpeckerAutoPaused {रुका हुआ: दो मिनट तक कोई हलचल नहीं। दूर का समय मायने नहीं रखता.}
+translate h WoodpeckerSessionOver {सत्र ख़त्म}
+translate h WoodpeckerCycleComplete {चक्र %d पूरा!}
+translate h WoodpeckerSumDate {तारीख}
+translate h WoodpeckerSumDuration {अवधि}
+translate h WoodpeckerSumExercises {अभ्यास पूरा हुआ}
+translate h WoodpeckerSumPoints {%s में से %s अंक}
+translate h WoodpeckerSumAvg {प्रति व्यायाम औसत}
+translate h WoodpeckerSumQuota {आज का लक्ष्य}
+translate h WoodpeckerSumCompare {पिछले चक्र की तुलना में: %d तेज़, %d धीमा, %d त्रुटियाँ ठीक की गईं, %d नई त्रुटियाँ।}
+translate h WoodpeckerSumReview {समीक्षा करने के लिए: व्यायाम %s}
+translate h WoodpeckerCyclesTitle {साइकिल}
+translate h WoodpeckerSessionsTitle {सत्र}
+translate h WoodpeckerStatsNote {अंक मूल्यांकन के अंकों का उपयोग करते हैं %d। पहले के सत्रों को समान अंकों के साथ पुनः प्राप्त किया जाता है, इसलिए चक्रों की तुलना निष्पक्ष रूप से की जाती है।}
+translate h WoodpeckerNoData {अभी तक कोई चक्र नहीं}
+translate h WoodpeckerChartLegend {बार: हल करने का समय धराशायी: लक्ष्य (पिछला चक्र आधा)}
+translate h WoodpeckerTagline {एक ही सेट को बार-बार, हर बार तेजी से हल करें।}
+translate h WoodpeckerExit {सत्र छोड़ें}
+translate h WoodpeckerMore {अधिक व्यायाम}
+translate h WoodpeckerToday {आज}
+translate h WoodpeckerCycleShort {साइकिल %d}
+translate h WoodpeckerDaysPlanned {%d दिनों की योजना बनाई गई}
+translate h WoodpeckerExercisesShort {अभ्यास}
+translate h WoodpeckerDeadline {समय सीमा %s}
+translate h WoodpeckerHidden {समाधान यहां दिखाई देगा.}
+translate h WoodpeckerSumCycle {चक्र}
+translate h WoodpeckerTokenSave {सहेजें और जांचें}
+translate h WoodpeckerTokenCreate {एक टोकन बनाएं (स्कोप पहेली: पढ़ें)}
+translate h WoodpeckerTokenOk {✓ टोकन कार्य: %s।}
+translate h WoodpeckerTokenRating {पहेली रेटिंग %s।}
+translate h WoodpeckerTokenNoScope {इस टोकन में पहेली का अभाव है: पढ़ने का दायरा: ऊपर दिए गए लिंक के साथ एक बनाएं।}
+translate h WoodpeckerTokenInvalid {Lichess इस टोकन को नहीं जानता।}
+translate h WoodpeckerTokenUnchecked {टोकन की जाँच नहीं की जा सकी (कोई कनेक्शन नहीं?)। जैसा है वैसा ही उपयोग किया जायेगा.}
+translate h WoodpeckerTokenChecking {टोकन की जाँच हो रही है...}
+translate h WoodpeckerTokenMissing {कोई टोकन नहीं? यह ऊपर दर्ज की गई पहेली रेटिंग (Lichess प्रोफ़ाइल, पहेलियाँ) के साथ भी काम करता है। डाउनलोड धीमा है और आपके द्वारा Lichess पर पहले ही हल की गई पहेलियां सामने आ सकती हैं; एक टोकन के साथ यह तेज़ है।}
+translate h WoodpeckerPreset_automatic {स्वचालित (आसान)}
+translate h WoodpeckerPreset_standard {मानक (अनुशंसित)}
+translate h WoodpeckerPreset_challenge {चुनौतीपूर्ण}
+translate h WoodpeckerPreset_tough {कठिन (ज्यादातर आपके स्तर से ऊपर)}
+translate h WoodpeckerPreset_custom {रिवाज़...}
+translate h WoodpeckerPresetHelp_automatic {अधिकतर सरल युक्तियाँ, उन्हें एक बार में देखना: पुस्तक का पहला उद्देश्य।}
+translate h WoodpeckerPresetHelp_standard {एक चौथाई आसान, अधिकांश आपके स्तर के आसपास, कुछ कठिन - पुस्तक के आसान और मध्यवर्ती अनुभागों का अनुपात।}
+translate h WoodpeckerPresetHelp_challenge {मजबूत खिलाड़ियों के लिए, आपके स्तर के आसपास और ऊपर (पुस्तक के उन्नत अनुभाग की तरह)।}
+translate h WoodpeckerPresetHelp_tough {अधिकतर आपके स्तर से काफी ऊपर, उन मजबूत खिलाड़ियों के लिए जो आगे बढ़ना चाहते हैं।}
+translate h WoodpeckerPresetHelp_custom {प्रत्येक Lichess स्तर का हिस्सा स्वयं चुनें।}
+translate h WoodpeckerPresetRating {स्तर आपकी Lichess पहेली रेटिंग (%s) से संबंधित हैं।}
+translate h WoodpeckerPresetNoRating {स्तर आपकी Lichess पहेली रेटिंग से संबंधित हैं।}
+translate h WoodpeckerRatingAsk {आपकी Lichess पहेली रेटिंग}
+translate h WoodpeckerBadRating {अपनी Lichess पहेली रेटिंग (400-3200) दर्ज करें: यह आपके Lichess प्रोफ़ाइल पर, पहेलियाँ के अंतर्गत है।}
+translate h WoodpeckerPresetStated {स्तर आपके द्वारा दर्ज की गई रेटिंग (%s) से संबंधित हैं।}
+translate h WoodpeckerDataDir {कठफोड़वा विधि डेटा फ़ोल्डर (खाली: स्किड का अपना)}
+translate h WoodpeckerNoDataDir {वुडपेकर डेटा फ़ोल्डर नहीं मिल सका:\n%s\n\nक्या ड्राइव कनेक्ट है? फ़ोल्डर विकल्प > संसाधन में सेट है।}
+translate h WoodpeckerDataDirMove {%d वुडपेकर सेट पिछले डेटा फ़ोल्डर में हैं:\n%s\n\nउन्हें नए में ले जाएं?\n%s\n\nनहीं: नया फ़ोल्डर खाली शुरू होता है और सेट वहीं रहते हैं जहां वे हैं।}
+translate h WoodpeckerDataDirHasSets {नए डेटा फ़ोल्डर में पहले से ही %d सेट हैं (किसी अन्य कंप्यूटर से सिंक्रनाइज़?):\n%s\n\nScid उनका उपयोग करता है। पिछले फ़ोल्डर के सेट यहां रहते हैं:\n%s}
 
 # Board screenshot
 menuText h ToolsScreenshot "बोर्ड स्क्रीनशॉट" 0 \

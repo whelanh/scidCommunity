@@ -290,6 +290,7 @@ menuText G ToolsCaptureBoard "Σύλληψη τρέχουσας σκακιέρα
 # Play menu
 menuText G Play "Παιχνίδι" 0
 menuText G LichessPuzzles "Lichess παζλ" 0 {Λύστε γρίφους Lichess διαδραστικά}
+menuText G Woodpecker "Μέθοδος δρυοκολάπτης" 0 {Εκπαιδεύστε τακτικές σε κύκλους: το ίδιο σετ, πιο γρήγορα κάθε φορά}
 
 # --- Correspondence Chess
 menuText G CCResign "Παραίτηση" 1 {Παραιτηθείτε (όχι μέσω eMail)}
@@ -510,6 +511,176 @@ translate G LichessPuzzlesClock {Ρολόι}
 translate G LichessPuzzlesRated {Βαθμολογήθηκε}
 translate G LichessPuzzlesGame {Παιχνίδι}
 translate G LichessPuzzlesNoNew {Δεν βρέθηκαν νέα παζλ για αυτές τις ρυθμίσεις.\n\nΔοκιμάστε να αλλάξετε το θέμα, τη δυσκολία ή το χρώμα του παζλ.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate G WoodpeckerTitle {Μέθοδος δρυοκολάπτης}
+translate G WoodpeckerColName {Σειρά}
+translate G WoodpeckerColExercises {Γυμνάσια}
+translate G WoodpeckerColCycle {Κύκλος}
+translate G WoodpeckerColProgress {Αυτός ο κύκλος}
+translate G WoodpeckerColLast {Τελευταία συνεδρία}
+translate G WoodpeckerColDays {Μέρες}
+translate G WoodpeckerColTime {Επίλυση χρόνου}
+translate G WoodpeckerColResults {λύθηκε/απέτυχε}
+translate G WoodpeckerColPct {Σκορ}
+translate G WoodpeckerColDate {Ημερομηνία}
+translate G WoodpeckerColDuration {Διάρκεια}
+translate G WoodpeckerColPoints {Πόντοι}
+translate G WoodpeckerNew {Νέο σετ...}
+translate G WoodpeckerTrain {Τρένο}
+translate G WoodpeckerEvaluate {Αξιολογώ...}
+translate G WoodpeckerStats {Στατιστική}
+translate G WoodpeckerDelete {Διαγράφω}
+translate G WoodpeckerContinue {Συνέχεια (Enter)}
+translate G WoodpeckerPause {Παύση}
+translate G WoodpeckerResume {Περίληψη}
+translate G WoodpeckerEnd {Λήξη συνεδρίας}
+translate G WoodpeckerNoSets {Δεν έχει οριστεί ακόμα: πατήστε Νέο σύνολο για να ξεκινήσετε με τα παζλ που περιλαμβάνονται στο Scid, για λήψη περισσότερων από το Lichess ή για να χρησιμοποιήσετε ένα βιβλίο PGN.}
+translate G WoodpeckerUnrated {%d από %d ασκήσεις δεν έχουν ! / !! βαθμοί: αξιολογήστε το σετ για να κερδίσετε αυτά τα μπόνους (οι προηγούμενες συνεδρίες βαθμολογούνται επίσης).}
+translate G WoodpeckerCycleOver {Ο κύκλος %d έχει ολοκληρωθεί. Ξεκουραστείτε μέχρι %s και μετά ξεκινά ο επόμενος κύκλος, με τις μισές μέρες.}
+translate G WoodpeckerCycleLine {Κύκλος %d: %d/%d έχει ολοκληρωθεί, %d ημέρες προγραμματισμένες, προθεσμία %s.}
+translate G WoodpeckerQuotaLine {Σήμερα: %d από %d ασκήσεις.}
+translate G WoodpeckerQuotaRaised {Είστε λίγο πίσω: ο σημερινός στόχος είναι %d αντί για %d.}
+translate G WoodpeckerDeadlineMoved {Μετά το διάλειμμα, η προθεσμία μετακινήθηκε κατά %d ημέρες, σε %s. ο ημερήσιος στόχος είναι %d.}
+translate G WoodpeckerOverStretch {Ο κύκλος έχει φτάσει στο διπλάσιο της προγραμματισμένης του διάρκειας: η προθεσμία παραμένει στο %s και ο ημερήσιος στόχος είναι %d.}
+translate G WoodpeckerDeleteAsk {Να διαγραφεί το σύνολο "%s" με τη βάση δεδομένων και τα στατιστικά του;}
+translate G WoodpeckerNewTitle {Νέο σετ δρυοκολάπτης}
+translate G WoodpeckerName {Ονομα}
+translate G WoodpeckerFromLichess {Παζλ από Lichess}
+translate G WoodpeckerFromPuzzles {Παζλ που περιλαμβάνονται με παζλ Scid (βαθμολογημένα Lichess)}
+translate G WoodpeckerAdvanced {Προχωρημένος}
+translate G WoodpeckerUseLichess {Αποκτήστε παζλ από το Lichess αντί για τα σετ που περιλαμβάνονται}
+translate G WoodpeckerPicking {Επιλέγοντας τα παζλ...}
+translate G WoodpeckerShortAsk {Μόνο %d από τα %d παζλ που ζητήθηκαν έχουν απομείνει στο επίπεδό σας μεταξύ αυτών που περιλαμβάνονται στο Scid.
+
+Λήψη του άλλου %d από το Lichess;
+
+Όχι: το σετ δημιουργείται με τα παζλ που βρέθηκαν.}
+translate G WoodpeckerNoPuzzles {Δεν υπάρχει παζλ για αυτό το επίπεδο, το θέμα και την πλευρά.}
+translate G WoodpeckerCount {Γυμνάσια}
+translate G WoodpeckerDifficulty {Δυσκολία}
+translate G WoodpeckerTheme {Θέμα}
+translate G WoodpeckerThemeMix {Μικτή (συνιστάται)}
+translate G WoodpeckerColor {Πλευρά}
+translate G WoodpeckerColor_both {Και οι δύο}
+translate G WoodpeckerColor_white {Λευκό}
+translate G WoodpeckerColor_black {Μαύρος}
+translate G WoodpeckerToken {Lichess διακριτικό}
+translate G WoodpeckerFromFile {Βάση δεδομένων PGN ή Scid (π.χ. ένα βιβλίο)}
+translate G WoodpeckerFileHelp {Κάθε παιχνίδι που ξεκινά από μια θέση στηθεί γίνεται άσκηση: η κύρια γραμμή του είναι η λύση, οι παραλλαγές αγνοούνται. Του συγγραφέα! και !! διατηρούνται.}
+translate G WoodpeckerDays1 {Πρώτος κύκλος (ημέρες)}
+translate G WoodpeckerRestDays {Ανάπαυση μεταξύ των κύκλων (ημέρες)}
+translate G WoodpeckerDaysHelp {Κάθε μεταγενέστερος κύκλος παίρνει τις μισές ημέρες από τον προηγούμενο: ο στόχος είναι να μειώνεται στο μισό ο χρόνος επίλυσης κάθε κύκλου.}
+translate G WoodpeckerCreate {Δημιουργώ}
+translate G WoodpeckerBadNumber {Μη έγκυρος αριθμός: %s}
+translate G WoodpeckerNoDifficulty {Επιλέξτε τουλάχιστον μία δυσκολία και έναν αριθμό ασκήσεων.}
+translate G WoodpeckerDownloading {Λήψη παζλ από Lichess...}
+translate G WoodpeckerBuilding {Δημιουργία βάσης δεδομένων του συνόλου...}
+translate G WoodpeckerCreateFailed {Δεν ήταν δυνατή η δημιουργία του συνόλου:
+%s}
+translate G WoodpeckerCreated {Δημιουργήθηκε σετ: %d ασκήσεις.}
+translate G WoodpeckerFewer {Ο Lichess έδωσε το %d από τα %d παζλ που ζητήθηκαν.}
+translate G WoodpeckerNoFile {Δεν είναι δυνατή η ανάγνωση %s}
+translate G WoodpeckerSkipped {%d παιχνίδια παραλείφθηκαν (χωρίς θέση ρύθμισης ή καμία κίνηση).}
+translate G WoodpeckerMarksIncluded {Το κλειδί κινείται! και !! έχουν ήδη επισημανθεί, οπότε μπορείτε να ξεκινήσετε. Μπορείτε ακόμα να αξιολογήσετε το σετ με τον δικό σας κινητήρα από το μενού του.}
+translate G WoodpeckerEvalRecommended {Να το αξιολογήσετε τώρα με την κριτική; Συνιστάται ανεπιφύλακτα: επισημαίνει τις βασικές κινήσεις! και !!, που κερδίζουν μπόνους πόντους. Χρειάζεται περίπου ένα δευτερόλεπτο ανά άσκηση και μπορεί επίσης να γίνει αργότερα.}
+translate G WoodpeckerLevel_easiest {Το πιο εύκολο}
+translate G WoodpeckerLevel_easier {Πιο εύκολο}
+translate G WoodpeckerLevel_normal {Κανονικός}
+translate G WoodpeckerLevel_harder {Πιο δύσκολο}
+translate G WoodpeckerLevel_hardest {Το πιο δύσκολο}
+translate G WoodpeckerEvalBusy {Γίνεται ήδη αξιολόγηση.}
+translate G WoodpeckerSomeAnnotated {Οι σχολιασμοί υπάρχουν ήδη σε %d από %d ασκήσεις. Συμπληρώστε τα άλλα με την κριτική ή αντικαταστήστε τα πάντα με την κριτική;}
+translate G WoodpeckerComplete {Συμπληρώστε με την κριτική}
+translate G WoodpeckerOverwrite {Αντικαταστήστε με την κριτική}
+translate G WoodpeckerAllAnnotated {Όλες οι ασκήσεις %d έχουν ήδη σχολιαστεί, επομένως η αναθεώρηση είναι προαιρετική. Να αντικατασταθούν τα σημάδια του συγγραφέα με αυτά της κριτικής;}
+translate G WoodpeckerKeep {Κρατήστε τους σχολιασμούς}
+translate G WoodpeckerEvaluating {Αξιολόγηση του σετ...}
+translate G WoodpeckerEvalPhase_deep {Ανασκόπηση: αναζήτηση λύσεων}
+translate G WoodpeckerEvalPhase_shallow {Ανασκόπηση: ποιες κινήσεις είναι προφανείς}
+translate G WoodpeckerEvalPhase_write {Γράφοντας τα σημάδια}
+translate G WoodpeckerEvalDone {Έγινε αξιολόγηση: %d ασκήσεις. %d κινήσεις σημειώθηκαν ! και %d σημειώθηκε !!, από το %d κινείται προς εύρεση.}
+translate G WoodpeckerNoEngine {Δεν έχει διαμορφωθεί καμία μηχανή UCI (Εργαλεία > Μηχανές).}
+translate G WoodpeckerEvalAsk {Αξιολογώ %d ασκήσεις με αυτόν τον κινητήρα:}
+translate G WoodpeckerOtherMode {Μια άλλη εκπαίδευση ή παιχνίδι είναι η χρήση του πίνακα.}
+translate G WoodpeckerNoSlot {Δεν υπάρχει δωρεάν υποδοχή βάσης δεδομένων για τη συνεδρία: κλείστε μια βάση δεδομένων και δοκιμάστε ξανά.
+(%s)}
+translate G WoodpeckerRestAsk {Οι υπόλοιπες ημέρες τελειώνουν στις %s. Έναρξη του κύκλου %d τέλος πάντων;}
+translate G WoodpeckerUnratedShort {Οι ασκήσεις %d δεν αξιολογούνται: εκεί μετράει μόνο η γραμμή.}
+translate G WoodpeckerRes1 {λυθεί}
+translate G WoodpeckerRes2 {αποτυχημένος}
+translate G WoodpeckerPacePer {ανά άσκηση}
+translate G WoodpeckerPaceTarget {στόχος %s s}
+translate G WoodpeckerCardStreak {Ράβδωση}
+translate G WoodpeckerCardPoints {Πόντοι}
+translate G WoodpeckerCardDeadline {Διορία}
+translate G WoodpeckerStreakSub {καθαρό στη σειρά}
+translate G WoodpeckerPointsSub {του δυνατού}
+translate G WoodpeckerDaysLeft {απομένουν μέρες}
+translate G WoodpeckerExercise {Άσκηση %d από %d}
+translate G WoodpeckerWhiteToMove {Λευκό για κίνηση}
+translate G WoodpeckerBlackToMove {Μαύρο για κίνηση}
+translate G WoodpeckerYourMove {Η κίνησή σου.}
+translate G WoodpeckerSolved {Λύθηκε!}
+translate G WoodpeckerFailed {Αποτυχημένος.}
+translate G WoodpeckerPoints {+%s / %s}
+translate G WoodpeckerNoMarks {(δεν αξιολογήθηκε: όχι ! / !! μπόνους ακόμα)}
+translate G WoodpeckerQuotaDone {Ο σημερινός στόχος επιτεύχθηκε! Συνεχίστε ή τερματίστε τη συνεδρία.}
+translate G WoodpeckerSolutionShown {Περάστε μέσα από τη λύση στον πίνακα ή στην κάρτα και, στη συνέχεια, πατήστε Enter.}
+translate G WoodpeckerPaused {Σε παύση.}
+translate G WoodpeckerAutoPaused {Παύση: καμία κίνηση για δύο λεπτά. Ο χρόνος μακριά δεν μετράει.}
+translate G WoodpeckerSessionOver {Η συνεδρία τελείωσε}
+translate G WoodpeckerCycleComplete {Ο κύκλος %d ολοκληρώθηκε!}
+translate G WoodpeckerSumDate {Ημερομηνία}
+translate G WoodpeckerSumDuration {Διάρκεια}
+translate G WoodpeckerSumExercises {Οι ασκήσεις ολοκληρώθηκαν}
+translate G WoodpeckerSumPoints {%s από %s πόντους}
+translate G WoodpeckerSumAvg {Μέσος όρος ανά άσκηση}
+translate G WoodpeckerSumQuota {Σημερινός στόχος}
+translate G WoodpeckerSumCompare {Σε σχέση με τον προηγούμενο κύκλο: %d πιο γρήγορα, %d πιο αργά, %d σφάλματα διορθώθηκαν, %d νέα σφάλματα.}
+translate G WoodpeckerSumReview {Για επανεξέταση: ασκήσεις %s}
+translate G WoodpeckerCyclesTitle {Κύκλοι}
+translate G WoodpeckerSessionsTitle {Συνεδρίες}
+translate G WoodpeckerStatsNote {Οι βαθμοί χρησιμοποιούν τους βαθμούς αξιολόγησης %d. Οι προηγούμενες συνεδρίες βαθμολογούνται εκ νέου με τους ίδιους βαθμούς, επομένως οι κύκλοι συγκρίνονται αρκετά.}
+translate G WoodpeckerNoData {Κανένας κύκλος ακόμα}
+translate G WoodpeckerChartLegend {γραμμές: χρόνος επίλυσης διακεκομμένος: στόχος (προηγούμενος κύκλος μειώθηκε στο μισό)}
+translate G WoodpeckerTagline {Λύστε το ίδιο σετ ξανά και ξανά, πιο γρήγορα κάθε φορά.}
+translate G WoodpeckerExit {Αφήστε τη συνεδρία}
+translate G WoodpeckerMore {Περισσότερες ασκήσεις}
+translate G WoodpeckerToday {Σήμερα}
+translate G WoodpeckerCycleShort {Κύκλος %d}
+translate G WoodpeckerDaysPlanned {%d προγραμματισμένες ημέρες}
+translate G WoodpeckerExercisesShort {γυμνάσια}
+translate G WoodpeckerDeadline {προθεσμία %s}
+translate G WoodpeckerHidden {Η λύση θα εμφανιστεί εδώ.}
+translate G WoodpeckerSumCycle {Κύκλος}
+translate G WoodpeckerTokenSave {Αποθήκευση και έλεγχος}
+translate G WoodpeckerTokenCreate {Δημιουργήστε ένα διακριτικό (παζλ πεδίου: ανάγνωση)}
+translate G WoodpeckerTokenOk {✓ Token λειτουργεί: %s.}
+translate G WoodpeckerTokenRating {Αξιολόγηση παζλ %s.}
+translate G WoodpeckerTokenNoScope {Αυτό το διακριτικό δεν έχει το εύρος παζλ: ανάγνωσης: δημιουργήστε ένα με τον παραπάνω σύνδεσμο.}
+translate G WoodpeckerTokenInvalid {Ο Lichess δεν γνωρίζει αυτό το διακριτικό.}
+translate G WoodpeckerTokenUnchecked {Δεν ήταν δυνατός ο έλεγχος του διακριτικού (δεν υπάρχει σύνδεση;). Θα χρησιμοποιηθεί ως έχει.}
+translate G WoodpeckerTokenChecking {Έλεγχος του διακριτικού...}
+translate G WoodpeckerTokenMissing {Χωρίς διακριτικό; Λειτουργεί επίσης, με την αξιολόγηση του παζλ που έχει καταχωρηθεί παραπάνω (προφίλ Lichess, Παζλ). Η λήψη είναι πιο αργή και μπορεί να εμφανιστούν γρίφοι που έχετε ήδη λύσει στο Lichess. με συμβολικό είναι πιο γρήγορο.}
+translate G WoodpeckerPreset_automatic {Αυτόματο (πιο εύκολο)}
+translate G WoodpeckerPreset_standard {Τυπικό (συνιστάται)}
+translate G WoodpeckerPreset_challenge {Προκλητική}
+translate G WoodpeckerPreset_tough {Σκληρός (κυρίως πάνω από το επίπεδό σας)}
+translate G WoodpeckerPreset_custom {Εθιμο...}
+translate G WoodpeckerPresetHelp_automatic {Κυρίως απλές τακτικές, για να τις δεις αμέσως: ο πρώτος στόχος του βιβλίου.}
+translate G WoodpeckerPresetHelp_standard {Ένα τέταρτο πιο εύκολο, τα περισσότερα γύρω από το επίπεδό σας, μερικά πιο δύσκολα - η αναλογία των ενοτήτων Easy και Intermediate του βιβλίου.}
+translate G WoodpeckerPresetHelp_challenge {Γύρω και πάνω από το επίπεδό σας, για δυνατούς παίκτες (όπως η ενότητα Για προχωρημένους του βιβλίου).}
+translate G WoodpeckerPresetHelp_tough {Κυρίως πολύ πάνω από το επίπεδό σας, για δυνατούς παίκτες που θέλουν να τεντωθούν.}
+translate G WoodpeckerPresetHelp_custom {Επιλέξτε μόνοι σας το μερίδιο κάθε επιπέδου Lichess.}
+translate G WoodpeckerPresetRating {Τα επίπεδα είναι σχετικά με τη βαθμολογία του παζλ σας Lichess (%s).}
+translate G WoodpeckerPresetNoRating {Τα επίπεδα είναι σχετικά με τη βαθμολογία του παζλ σας Lichess.}
+translate G WoodpeckerRatingAsk {Η βαθμολογία σας στο παζλ Lichess}
+translate G WoodpeckerBadRating {Εισαγάγετε τη βαθμολογία παζλ Lichess σας (400-3200): βρίσκεται στο προφίλ σας Lichess, στην περιοχή Παζλ.}
+translate G WoodpeckerPresetStated {Τα επίπεδα είναι σχετικά με τη βαθμολογία που καταχωρίσατε (%s).}
+translate G WoodpeckerDataDir {Φάκελος δεδομένων Woodpecker Method (κενός: δικός του Scid)}
+translate G WoodpeckerNoDataDir {Δεν είναι δυνατή η εύρεση του φακέλου δεδομένων Woodpecker:\n%s\n\nΕίναι συνδεδεμένη η μονάδα; Ο φάκελος ορίζεται στις Επιλογές > Πόροι.}
+translate G WoodpeckerDataDirMove {%d Τα σετ δρυοκολάπτων βρίσκονται στον προηγούμενο φάκελο δεδομένων:\n%s\n\nΜετακίνηση τους στον νέο;\n%s\n\nΌχι: ο νέος φάκελος ξεκινάει κενός και τα σετ παραμένουν εκεί που βρίσκονται.}
+translate G WoodpeckerDataDirHasSets {Ο νέος φάκελος δεδομένων περιέχει ήδη %d σύνολα (συγχρονισμένα από άλλον υπολογιστή;):\n%s\n\nΤο Scid τα χρησιμοποιεί. Τα σύνολα του προηγούμενου φακέλου παραμένουν σε:\n%s}
 
 # Board screenshot
 menuText G ToolsScreenshot "Στιγμιότυπο οθόνης πίνακα" 0 \

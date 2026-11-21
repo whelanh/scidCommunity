@@ -258,6 +258,7 @@ menuText Z ToolsCaptureBoard "Nasa Bodi ya Sasa..." 5  {Hifadhi ubao wa sasa kam
 # Play menu
 menuText Z Play "Cheza" 0
 menuText Z LichessPuzzles "Mafumbo ya Lichess" 0 {Tatua mafumbo ya Lichess kwa maingiliano}
+menuText Z Woodpecker "Mbinu ya Kigogo" 0 {Mbinu za mafunzo katika mizunguko: seti sawa, haraka kila wakati}
 
 # --- Correspondence Chess
 menuText Z CCResign "Kujiuzulu" 1 {Kujiuzulu (sio kupitia barua pepe)}
@@ -460,11 +461,9 @@ translate Z LichessPuzzlesHintMsg {Angalia kipande kwenye %s.}
 translate Z LichessPuzzlesSolutionMsg {Suluhisho:\n%s}
 translate Z LichessPuzzlesDifficulty {Ugumu:}
 translate Z LichessPuzzlesDiffEasiest {Rahisi zaidi}
-# ====== TODO To be translated ======
-translate Z LichessPuzzlesDiffEasier {Easier}
+translate Z LichessPuzzlesDiffEasier {Rahisi zaidi}
 translate Z LichessPuzzlesDiffNormal {Kawaida}
-# ====== TODO To be translated ======
-translate Z LichessPuzzlesDiffHarder {Harder}
+translate Z LichessPuzzlesDiffHarder {Ngumu zaidi}
 translate Z LichessPuzzlesDiffHardest {Ngumu zaidi}
 translate Z LichessPuzzlesColor {Cheza kama:}
 translate Z LichessPuzzlesNextColor {Rangi inayofuata ya fumbo:}
@@ -480,6 +479,176 @@ translate Z LichessPuzzlesClock {Saa}
 translate Z LichessPuzzlesRated {Imekadiriwa}
 translate Z LichessPuzzlesGame {Mchezo}
 translate Z LichessPuzzlesNoNew {Hakuna mafumbo mapya yaliyopatikana kwa mipangilio hii.\n\nJaribu kubadilisha mandhari, ugumu au rangi ya mafumbo.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate Z WoodpeckerTitle {Mbinu ya Kigogo}
+translate Z WoodpeckerColName {Weka}
+translate Z WoodpeckerColExercises {Mazoezi}
+translate Z WoodpeckerColCycle {Mzunguko}
+translate Z WoodpeckerColProgress {Mzunguko huu}
+translate Z WoodpeckerColLast {Kikao cha mwisho}
+translate Z WoodpeckerColDays {Siku}
+translate Z WoodpeckerColTime {Muda wa kutatua}
+translate Z WoodpeckerColResults {kutatuliwa/imeshindwa}
+translate Z WoodpeckerColPct {Alama}
+translate Z WoodpeckerColDate {Tarehe}
+translate Z WoodpeckerColDuration {Muda}
+translate Z WoodpeckerColPoints {Pointi}
+translate Z WoodpeckerNew {Seti mpya...}
+translate Z WoodpeckerTrain {Treni}
+translate Z WoodpeckerEvaluate {Tathmini...}
+translate Z WoodpeckerStats {Takwimu}
+translate Z WoodpeckerDelete {Futa}
+translate Z WoodpeckerContinue {Endelea (Ingiza)}
+translate Z WoodpeckerPause {Sitisha}
+translate Z WoodpeckerResume {Endelea}
+translate Z WoodpeckerEnd {Maliza kipindi}
+translate Z WoodpeckerNoSets {Bado hujaweka: bonyeza Seti Mpya ili kuanza na mafumbo yaliyojumuishwa na Scid, ili kupakua zaidi kutoka Lichess, au kutumia kitabu cha PGN.}
+translate Z WoodpeckerUnrated {%d kati ya %d mazoezi hayana ! / !! alama: tathmini seti ili kupata bonasi hizo (vipindi vya awali vinarudiwa pia).}
+translate Z WoodpeckerCycleOver {Mzunguko %d umekamilika. Pumzika hadi %s, kisha mzunguko unaofuata uanze, na nusu ya siku.}
+translate Z WoodpeckerCycleLine {Mzunguko %d: %d/%d imekamilika, %d siku zilizopangwa, tarehe ya mwisho %s.}
+translate Z WoodpeckerQuotaLine {Leo: %d kati ya %d mazoezi.}
+translate Z WoodpeckerQuotaRaised {Uko nyuma kidogo: lengo la leo ni %d badala ya %d.}
+translate Z WoodpeckerDeadlineMoved {Baada ya mapumziko tarehe ya mwisho ilisogezwa kwa siku %d, hadi %s; lengo la kila siku ni %d.}
+translate Z WoodpeckerOverStretch {Mzunguko umefikia mara mbili urefu wake uliopangwa: tarehe ya mwisho inakaa %s na lengo la kila siku ni %d.}
+translate Z WoodpeckerDeleteAsk {Ungependa kufuta seti "%s" iliyo na hifadhidata na takwimu zake?}
+translate Z WoodpeckerNewTitle {Seti mpya ya Kigogo}
+translate Z WoodpeckerName {Jina}
+translate Z WoodpeckerFromLichess {Mafumbo kutoka Lichess}
+translate Z WoodpeckerFromPuzzles {Mafumbo yaliyojumuishwa na Scid (mafumbo ya daraja la Lichess)}
+translate Z WoodpeckerAdvanced {Advanced}
+translate Z WoodpeckerUseLichess {Pata mafumbo kutoka kwa Lichess badala ya seti zilizojumuishwa}
+translate Z WoodpeckerPicking {Kuchagua mafumbo...}
+translate Z WoodpeckerShortAsk {Pekee %d ya %d mafumbo yaliyoombwa yamesalia katika kiwango chako kati ya yale yaliyojumuishwa na Scid.
+
+Pakua nyingine %d kutoka kwa Lichess?
+
+Hapana: seti imeundwa na mafumbo yaliyopatikana.}
+translate Z WoodpeckerNoPuzzles {Hakuna fumbo lililosalia kwa kiwango hiki, mada na upande huu.}
+translate Z WoodpeckerCount {Mazoezi}
+translate Z WoodpeckerDifficulty {Ugumu}
+translate Z WoodpeckerTheme {Mandhari}
+translate Z WoodpeckerThemeMix {Imechanganywa (inapendekezwa)}
+translate Z WoodpeckerColor {Upande}
+translate Z WoodpeckerColor_both {Zote mbili}
+translate Z WoodpeckerColor_white {Nyeupe}
+translate Z WoodpeckerColor_black {Nyeusi}
+translate Z WoodpeckerToken {Ishara ya Lichess}
+translate Z WoodpeckerFromFile {PGN au hifadhidata ya Scid (k.m. kitabu)}
+translate Z WoodpeckerFileHelp {Kila mchezo unaoanza kutoka kwa nafasi ya kuweka inakuwa zoezi: mstari wake kuu ni suluhisho, tofauti hupuuzwa. Ya mwandishi! na !! huhifadhiwa.}
+translate Z WoodpeckerDays1 {Mzunguko wa kwanza (siku)}
+translate Z WoodpeckerRestDays {Pumzika kati ya mizunguko (siku)}
+translate Z WoodpeckerDaysHelp {Kila mzunguko wa baadaye hupata nusu ya siku za ule uliopita: lengo ni kupunguza nusu ya muda wa kutatua kila mzunguko.}
+translate Z WoodpeckerCreate {Unda}
+translate Z WoodpeckerBadNumber {Si nambari halali: %s}
+translate Z WoodpeckerNoDifficulty {Chagua angalau ugumu mmoja na idadi ya mazoezi.}
+translate Z WoodpeckerDownloading {Inapakua mafumbo kutoka Lichess...}
+translate Z WoodpeckerBuilding {Kuunda hifadhidata ya seti...}
+translate Z WoodpeckerCreateFailed {Seti haikuweza kuundwa:
+%s}
+translate Z WoodpeckerCreated {Seti imeundwa: %d mazoezi.}
+translate Z WoodpeckerFewer {Lichess alitoa %d ya %d mafumbo aliuliza.}
+translate Z WoodpeckerNoFile {Siwezi kusoma %s}
+translate Z WoodpeckerSkipped {%d michezo ilirukwa (hakuna nafasi ya kuweka, au hakuna hatua).}
+translate Z WoodpeckerMarksIncluded {Hatua muhimu! na !! tayari zimewekwa alama, kwa hivyo unaweza kuanza. Bado unaweza kutathmini seti na injini yako mwenyewe kutoka kwa menyu yake.}
+translate Z WoodpeckerEvalRecommended {Je, uitathmini sasa kwa ukaguzi? Inapendekezwa sana: inaashiria hatua muhimu! na !!, ambayo hupata alama za bonasi. Inachukua sekunde moja kwa kila zoezi na inaweza pia kufanywa baadaye.}
+translate Z WoodpeckerLevel_easiest {Rahisi zaidi}
+translate Z WoodpeckerLevel_easier {Rahisi zaidi}
+translate Z WoodpeckerLevel_normal {Kawaida}
+translate Z WoodpeckerLevel_harder {Ngumu zaidi}
+translate Z WoodpeckerLevel_hardest {Ngumu zaidi}
+translate Z WoodpeckerEvalBusy {Tathmini tayari inaendelea.}
+translate Z WoodpeckerSomeAnnotated {Ufafanuzi tayari upo kwenye %d ya %d mazoezi. Je, ukamilishe zingine kwa ukaguzi, au ubadilishe kila kitu kwa ukaguzi?}
+translate Z WoodpeckerComplete {Kamilisha na ukaguzi}
+translate Z WoodpeckerOverwrite {Andika upya na ukaguzi}
+translate Z WoodpeckerAllAnnotated {Mazoezi yote ya %d tayari yamefafanuliwa, kwa hivyo ukaguzi ni wa hiari. Je, ungependa kufuta alama za mwandishi na za ukaguzi?}
+translate Z WoodpeckerKeep {Weka vidokezo}
+translate Z WoodpeckerEvaluating {Inatathmini seti...}
+translate Z WoodpeckerEvalPhase_deep {Mapitio: kutafuta suluhu}
+translate Z WoodpeckerEvalPhase_shallow {Mapitio: ambayo hatua ni dhahiri}
+translate Z WoodpeckerEvalPhase_write {Kuandika alama}
+translate Z WoodpeckerEvalDone {Tathmini imefanywa: %d mazoezi; %d hatua zimetiwa alama ! na %d imetiwa alama !!, kati ya %d hatua za kupatikana.}
+translate Z WoodpeckerNoEngine {Hakuna injini ya UCI iliyosanidiwa (Zana > Injini).}
+translate Z WoodpeckerEvalAsk {Tathmini %d mazoezi ukitumia injini hii:}
+translate Z WoodpeckerOtherMode {Mafunzo au mchezo mwingine ni kutumia ubao.}
+translate Z WoodpeckerNoSlot {Hakuna hifadhidata isiyolipishwa ya kipindi: funga hifadhidata na ujaribu tena.
+(%s)}
+translate Z WoodpeckerRestAsk {Siku za mapumziko zitaisha %s. Je, ungependa kuanza mzunguko %d?}
+translate Z WoodpeckerUnratedShort {%d mazoezi hayatathminiwi: kuna hesabu za mstari tu.}
+translate Z WoodpeckerRes1 {kutatuliwa}
+translate Z WoodpeckerRes2 {imeshindwa}
+translate Z WoodpeckerPacePer {kwa zoezi}
+translate Z WoodpeckerPaceTarget {lengwa %s s}
+translate Z WoodpeckerCardStreak {Mfululizo}
+translate Z WoodpeckerCardPoints {Pointi}
+translate Z WoodpeckerCardDeadline {Tarehe ya mwisho}
+translate Z WoodpeckerStreakSub {safi mfululizo}
+translate Z WoodpeckerPointsSub {ya iwezekanavyo}
+translate Z WoodpeckerDaysLeft {siku zimebaki}
+translate Z WoodpeckerExercise {Zoezi %d kati ya %d}
+translate Z WoodpeckerWhiteToMove {Nyeupe kusonga}
+translate Z WoodpeckerBlackToMove {Nyeusi kusonga}
+translate Z WoodpeckerYourMove {Hoja yako.}
+translate Z WoodpeckerSolved {Imetatuliwa!}
+translate Z WoodpeckerFailed {Imeshindwa.}
+translate Z WoodpeckerPoints {+%s / %s}
+translate Z WoodpeckerNoMarks {(haijatathminiwa: hapana! / !! bonasi bado)}
+translate Z WoodpeckerQuotaDone {Lengo la leo limefikiwa! Endelea, au umalize kipindi.}
+translate Z WoodpeckerSolutionShown {Pitia suluhisho kwenye ubao au kwenye kadi, kisha ubofye Ingiza.}
+translate Z WoodpeckerPaused {Imesitishwa.}
+translate Z WoodpeckerAutoPaused {Imesitishwa: hakuna kusonga kwa dakika mbili. Wakati wa mbali hauhesabu.}
+translate Z WoodpeckerSessionOver {Kikao kimekwisha}
+translate Z WoodpeckerCycleComplete {Mzunguko %d umekamilika!}
+translate Z WoodpeckerSumDate {Tarehe}
+translate Z WoodpeckerSumDuration {Muda}
+translate Z WoodpeckerSumExercises {Mazoezi yamekamilika}
+translate Z WoodpeckerSumPoints {%s ya pointi %s}
+translate Z WoodpeckerSumAvg {Wastani kwa kila zoezi}
+translate Z WoodpeckerSumQuota {Lengo la leo}
+translate Z WoodpeckerSumCompare {Kinyume na mzunguko uliopita: %d haraka, %d polepole, %d makosa yaliyowekwa, %d makosa mapya.}
+translate Z WoodpeckerSumReview {Ili kukagua: mazoezi %s}
+translate Z WoodpeckerCyclesTitle {Mizunguko}
+translate Z WoodpeckerSessionsTitle {Vikao}
+translate Z WoodpeckerStatsNote {Alama hutumia alama za tathmini %d. Vipindi vya awali vinarudiwa kwa alama sawa, kwa hivyo mizunguko inalinganishwa kwa usawa.}
+translate Z WoodpeckerNoData {Hakuna mzunguko bado}
+translate Z WoodpeckerChartLegend {pau: muda wa kusuluhisha umekatika: lengo (mzunguko uliopita ulipunguzwa kwa nusu)}
+translate Z WoodpeckerTagline {Tatua seti sawa tena na tena, haraka kila wakati.}
+translate Z WoodpeckerExit {Ondoka kwenye kikao}
+translate Z WoodpeckerMore {Mazoezi zaidi}
+translate Z WoodpeckerToday {Leo}
+translate Z WoodpeckerCycleShort {Mzunguko %d}
+translate Z WoodpeckerDaysPlanned {%d siku zilizopangwa}
+translate Z WoodpeckerExercisesShort {mazoezi}
+translate Z WoodpeckerDeadline {tarehe ya mwisho %s}
+translate Z WoodpeckerHidden {Suluhisho litaonekana hapa.}
+translate Z WoodpeckerSumCycle {Mzunguko}
+translate Z WoodpeckerTokenSave {Hifadhi na uangalie}
+translate Z WoodpeckerTokenCreate {Unda ishara (fumbo la upeo:soma)}
+translate Z WoodpeckerTokenOk {✓ Tokeni inafanya kazi: %s.}
+translate Z WoodpeckerTokenRating {Ukadiriaji wa chemshabongo %s.}
+translate Z WoodpeckerTokenNoScope {Tokeni hii haina fumbo:mawanda ya kusoma: unda moja na kiungo kilicho hapo juu.}
+translate Z WoodpeckerTokenInvalid {Lichess hajui ishara hii.}
+translate Z WoodpeckerTokenUnchecked {Ishara haikuweza kuangaliwa (hakuna muunganisho?). Itatumika kama ilivyo.}
+translate Z WoodpeckerTokenChecking {Inakagua tokeni...}
+translate Z WoodpeckerTokenMissing {Hakuna ishara? Inafanya kazi pia, na alama ya chemshabongo iliyoingizwa hapo juu (wasifu wa Lichess, Mafumbo). Upakuaji ni polepole na mafumbo ambayo tayari umesuluhisha kwenye Lichess yanaweza kutokea; kwa ishara ni kasi zaidi.}
+translate Z WoodpeckerPreset_automatic {Otomatiki (rahisi zaidi)}
+translate Z WoodpeckerPreset_standard {Kawaida (inapendekezwa)}
+translate Z WoodpeckerPreset_challenge {Changamoto}
+translate Z WoodpeckerPreset_tough {Mgumu (zaidi juu ya kiwango chako)}
+translate Z WoodpeckerPreset_custom {Maalum...}
+translate Z WoodpeckerPresetHelp_automatic {Mbinu rahisi zaidi, kuziona mara moja: lengo la kwanza la kitabu.}
+translate Z WoodpeckerPresetHelp_standard {Robo rahisi zaidi, karibu na kiwango chako, ngumu zaidi - idadi ya sehemu za kitabu Rahisi na za Kati.}
+translate Z WoodpeckerPresetHelp_challenge {Karibu na juu ya kiwango chako, kwa wachezaji wenye nguvu (kama vile sehemu ya Kitabu ya Kina).}
+translate Z WoodpeckerPresetHelp_tough {Mara nyingi zaidi ya kiwango chako, kwa wachezaji wenye nguvu ambao wanataka kunyoosha.}
+translate Z WoodpeckerPresetHelp_custom {Chagua mgao wa kila kiwango cha Lichess wewe mwenyewe.}
+translate Z WoodpeckerPresetRating {Viwango vinahusiana na ukadiriaji wako wa mafumbo Lichess (%s).}
+translate Z WoodpeckerPresetNoRating {Viwango vinahusiana na ukadiriaji wako wa mafumbo Lichess.}
+translate Z WoodpeckerRatingAsk {Ukadiriaji wako wa fumbo la Lichess}
+translate Z WoodpeckerBadRating {Weka daraja lako la fumbo la Lichess (400-3200): liko kwenye wasifu wako wa Lichess, chini ya Mafumbo.}
+translate Z WoodpeckerPresetStated {Viwango vinahusiana na ukadiriaji ulioweka (%s).}
+translate Z WoodpeckerDataDir {Folda ya data ya Mbinu ya Woodpecker (tupu: Scid's own)}
+translate Z WoodpeckerNoDataDir {Folda ya data ya Woodpecker haiwezi kupatikana:\n%s\n\nJe, hifadhi imeunganishwa? Folda imewekwa katika Chaguzi > Rasilimali.}
+translate Z WoodpeckerDataDirMove {%d Seti za vigogo ziko kwenye folda ya awali ya data:\n%s\n\nUngependa kuzihamisha hadi kwenye mpya?\n%s\n\nHapana: folda mpya huanza tupu na seti hubaki pale zilipo.}
+translate Z WoodpeckerDataDirHasSets {Folda mpya ya data tayari inashikilia %d seti (zimesawazishwa kutoka kwa kompyuta nyingine?):\n%s\n\nScid hutumia hizo. Seti za folda iliyotangulia hukaa katika:\n%s}
 
 # Board screenshot
 menuText Z ToolsScreenshot "Picha ya skrini ya Bodi" 0 \

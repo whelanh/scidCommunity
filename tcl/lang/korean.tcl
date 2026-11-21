@@ -299,6 +299,7 @@ menuText k ToolsCaptureBoard "현재 캡처 중..." 5  {현재 보드를 이미�
 # Play menu
 menuText k Play "플레이" 0
 menuText k LichessPuzzles "리치 퍼즐" 0 {Lichess 퍼즐을 대화식으로 해결하세요}
+menuText k Woodpecker "딱따구리 방법" 0 {주기에 따른 전술 훈련: 동일한 세트, 매번 더 빨라짐}
 
 # --- Correspondence Chess
 menuText k CCResign "기권" 1 {사임(이메일을 통하지 않음)}
@@ -519,6 +520,176 @@ translate k LichessPuzzlesClock {시계}
 translate k LichessPuzzlesRated {정격}
 translate k LichessPuzzlesGame {게임}
 translate k LichessPuzzlesNoNew {이 설정에 대한 새로운 퍼즐을 찾을 수 없습니다.\n\n테마, 난이도 또는 퍼즐 색상을 변경해 보세요.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate k WoodpeckerTitle {딱따구리 방법}
+translate k WoodpeckerColName {세트}
+translate k WoodpeckerColExercises {수업 과정}
+translate k WoodpeckerColCycle {주기}
+translate k WoodpeckerColProgress {이번 사이클}
+translate k WoodpeckerColLast {마지막 세션}
+translate k WoodpeckerColDays {날}
+translate k WoodpeckerColTime {해결 시간}
+translate k WoodpeckerColResults {해결/실패}
+translate k WoodpeckerColPct {점수}
+translate k WoodpeckerColDate {날짜}
+translate k WoodpeckerColDuration {지속}
+translate k WoodpeckerColPoints {전철기}
+translate k WoodpeckerNew {새로운 세트...}
+translate k WoodpeckerTrain {기차}
+translate k WoodpeckerEvaluate {평가하다...}
+translate k WoodpeckerStats {통계}
+translate k WoodpeckerDelete {삭제}
+translate k WoodpeckerContinue {계속(Enter)}
+translate k WoodpeckerPause {정지시키다}
+translate k WoodpeckerResume {재개하다}
+translate k WoodpeckerEnd {세션 종료}
+translate k WoodpeckerNoSets {아직 설정되지 않음: Scid에 포함된 퍼즐로 시작하거나 Lichess에서 더 많은 퍼즐을 다운로드하거나 PGN 책을 사용하려면 New set을 누르십시오.}
+translate k WoodpeckerUnrated {%d 중 %d 연습문제에는 ! / !! 점수: 보너스를 얻기 위해 세트를 평가합니다(이전 세션도 다시 채점됩니다).}
+translate k WoodpeckerCycleOver {사이클 %d이 완료되었습니다. %s까지 휴식을 취한 후 반나절로 다음 주기가 시작됩니다.}
+translate k WoodpeckerCycleLine {주기 %d: %d/%d 완료, %d일 계획, 마감일 %s.}
+translate k WoodpeckerQuotaLine {오늘: %d 중 %d 운동.}
+translate k WoodpeckerQuotaRaised {조금 뒤쳐졌네요. 오늘의 목표는 %d 대신에 %d.}
+translate k WoodpeckerDeadlineMoved {휴식 시간 이후 마감일은 %d일씩 %s로 변경되었습니다. 일일 목표는 %d입니다.}
+translate k WoodpeckerOverStretch {주기가 계획된 길이의 두 배에 도달했습니다. 마감일은 %s에 유지되고 일일 목표는 %d입니다.}
+translate k WoodpeckerDeleteAsk {세트 삭제 "%s" 데이터베이스와 통계로?}
+translate k WoodpeckerNewTitle {새로운 딱따구리 세트}
+translate k WoodpeckerName {이름}
+translate k WoodpeckerFromLichess {Lichess의 퍼즐}
+translate k WoodpeckerFromPuzzles {Scid에 포함된 퍼즐(등급 Lichess 퍼즐)}
+translate k WoodpeckerAdvanced {고급의}
+translate k WoodpeckerUseLichess {포함된 세트 대신 Lichess에서 퍼즐을 받으세요}
+translate k WoodpeckerPicking {퍼즐을 고르는 중...}
+translate k WoodpeckerShortAsk {오직 %d ~의 %d 요청된 퍼즐은 Scid에 포함된 퍼즐 중 귀하의 레벨에 남아 있습니다.
+
+다른 것을 다운로드하세요 %d 리체스에서?
+
+아니요: 발견된 퍼즐로 세트가 생성됩니다.}
+translate k WoodpeckerNoPuzzles {이 레벨, 테마 및 측면에는 퍼즐이 남아 있지 않습니다.}
+translate k WoodpeckerCount {수업 과정}
+translate k WoodpeckerDifficulty {어려움}
+translate k WoodpeckerTheme {주제}
+translate k WoodpeckerThemeMix {혼합(권장)}
+translate k WoodpeckerColor {옆}
+translate k WoodpeckerColor_both {둘 다}
+translate k WoodpeckerColor_white {하얀색}
+translate k WoodpeckerColor_black {검은색}
+translate k WoodpeckerToken {Lichess 토큰}
+translate k WoodpeckerFromFile {PGN 또는 Scid 데이터베이스(예: 책)}
+translate k WoodpeckerFileHelp {셋업 포지션에서 시작하는 각 게임은 연습이 됩니다. 메인 라인이 솔루션이고 변형은 무시됩니다. 작가님! 그리고 !! 보관됩니다.}
+translate k WoodpeckerDays1 {첫 번째 주기(일)}
+translate k WoodpeckerRestDays {주기 사이의 휴식(일)}
+translate k WoodpeckerDaysHelp {각각의 이후 주기는 이전 주기의 절반을 차지합니다. 목표는 매 주기마다 해결 시간을 절반으로 줄이는 것입니다.}
+translate k WoodpeckerCreate {만들다}
+translate k WoodpeckerBadNumber {유효한 숫자가 아닙니다: %s}
+translate k WoodpeckerNoDifficulty {최소한 하나의 난이도와 여러 가지 연습을 선택하십시오.}
+translate k WoodpeckerDownloading {Lichess에서 퍼즐을 다운로드하는 중...}
+translate k WoodpeckerBuilding {세트의 데이터베이스 구축 중...}
+translate k WoodpeckerCreateFailed {세트를 생성할 수 없습니다:
+%s}
+translate k WoodpeckerCreated {생성된 세트: %d 운동.}
+translate k WoodpeckerFewer {리치가 준 %d ~의 %d 퍼즐이 요청되었습니다.}
+translate k WoodpeckerNoFile {%s을(를) 읽을 수 없습니다.}
+translate k WoodpeckerSkipped {%d 게임을 건너뛰었습니다(설정 위치가 없거나 이동이 없음).}
+translate k WoodpeckerMarksIncluded {열쇠가 움직인다! 그리고 !! 이미 표시되어 있으므로 시작할 수 있습니다. 메뉴에서 자체 엔진을 사용하여 세트를 계속 평가할 수 있습니다.}
+translate k WoodpeckerEvalRecommended {지금 리뷰로 평가해 보시겠어요? 적극 권장합니다. 키 동작을 표시합니다! 및 !!는 보너스 포인트를 획득합니다. 운동당 약 1초가 소요되며 나중에 수행할 수도 있습니다.}
+translate k WoodpeckerLevel_easiest {가장 쉬운}
+translate k WoodpeckerLevel_easier {더 쉽게}
+translate k WoodpeckerLevel_normal {정상}
+translate k WoodpeckerLevel_harder {더 세게}
+translate k WoodpeckerLevel_hardest {가장 어렵다}
+translate k WoodpeckerEvalBusy {평가가 이미 실행 중입니다.}
+translate k WoodpeckerSomeAnnotated {주석이 이미 에 있습니다. %d ~의 %d 수업 과정. 리뷰로 다른 항목을 완료하시겠습니까, 아니면 리뷰로 모든 항목을 덮어쓰시겠습니까?}
+translate k WoodpeckerComplete {리뷰를 완료하세요}
+translate k WoodpeckerOverwrite {리뷰로 덮어쓰기}
+translate k WoodpeckerAllAnnotated {모든 %d 운동에는 이미 주석이 달려 있으므로 검토는 선택 사항입니다. 작성자의 표시를 리뷰의 표시로 덮어쓰시겠습니까?}
+translate k WoodpeckerKeep {주석을 유지하세요}
+translate k WoodpeckerEvaluating {세트 평가 중...}
+translate k WoodpeckerEvalPhase_deep {검토: 솔루션 검색}
+translate k WoodpeckerEvalPhase_shallow {검토: 어떤 움직임이 분명한지}
+translate k WoodpeckerEvalPhase_write {마크 쓰기}
+translate k WoodpeckerEvalDone {평가 완료: %d 연습; %d 표시된 움직임 ! !!로 표시된 %d는 %d 중에서 찾기로 이동합니다.}
+translate k WoodpeckerNoEngine {UCI 엔진이 구성되지 않았습니다(도구 > 엔진).}
+translate k WoodpeckerEvalAsk {이 엔진을 사용하여 %d 연습을 평가합니다.}
+translate k WoodpeckerOtherMode {또 다른 훈련이나 게임은 보드를 사용하는 것입니다.}
+translate k WoodpeckerNoSlot {세션에 사용 가능한 데이터베이스 슬롯이 없습니다. 데이터베이스를 닫고 다시 시도하세요.
+(%s)}
+translate k WoodpeckerRestAsk {나머지 날은 %s에 끝납니다. 어쨌든 %d 사이클을 시작하시겠습니까?}
+translate k WoodpeckerUnratedShort {%d 연습은 평가되지 않습니다. 줄 수만 계산됩니다.}
+translate k WoodpeckerRes1 {해결됨}
+translate k WoodpeckerRes2 {실패한}
+translate k WoodpeckerPacePer {운동마다}
+translate k WoodpeckerPaceTarget {대상 %s s}
+translate k WoodpeckerCardStreak {줄}
+translate k WoodpeckerCardPoints {전철기}
+translate k WoodpeckerCardDeadline {사선}
+translate k WoodpeckerStreakSub {연속으로 청소하다}
+translate k WoodpeckerPointsSub {가능한}
+translate k WoodpeckerDaysLeft {일 남음}
+translate k WoodpeckerExercise {운동 %d ~의 %d}
+translate k WoodpeckerWhiteToMove {흰색으로 이동}
+translate k WoodpeckerBlackToMove {이동하려면 검정색}
+translate k WoodpeckerYourMove {당신의 움직임.}
+translate k WoodpeckerSolved {해결되었습니다!}
+translate k WoodpeckerFailed {실패한.}
+translate k WoodpeckerPoints {+%s / %s}
+translate k WoodpeckerNoMarks {(평가되지 않음: 아직 없음 ! / !! 보너스)}
+translate k WoodpeckerQuotaDone {오늘 목표달성! 계속하거나 세션을 종료하세요.}
+translate k WoodpeckerSolutionShown {보드나 카드에 있는 솔루션을 단계별로 진행한 다음 Enter 키를 누릅니다.}
+translate k WoodpeckerPaused {일시중지되었습니다.}
+translate k WoodpeckerAutoPaused {일시 중지됨: 2분 동안 움직이지 않습니다. 떨어져 있는 시간은 포함되지 않습니다.}
+translate k WoodpeckerSessionOver {세션 종료}
+translate k WoodpeckerCycleComplete {사이클 %d 완료!}
+translate k WoodpeckerSumDate {날짜}
+translate k WoodpeckerSumDuration {지속}
+translate k WoodpeckerSumExercises {운동 완료}
+translate k WoodpeckerSumPoints {%s ~의 %s 전철기}
+translate k WoodpeckerSumAvg {운동당 평균}
+translate k WoodpeckerSumQuota {오늘의 목표}
+translate k WoodpeckerSumCompare {이전 주기에 비해: %d 더 빠르고, %d 더 느리고, %d 오류가 수정되었으며, %d 새로운 오류가 발생했습니다.}
+translate k WoodpeckerSumReview {검토하려면: 운동 %s}
+translate k WoodpeckerCyclesTitle {사이클}
+translate k WoodpeckerSessionsTitle {세션}
+translate k WoodpeckerStatsNote {포인트는 평가 표시 %d를 사용합니다. 이전 세션은 동일한 점수로 다시 채점되므로 주기가 공정하게 비교됩니다.}
+translate k WoodpeckerNoData {아직 주기가 없습니다.}
+translate k WoodpeckerChartLegend {막대: 해결 시간 점선: 목표(이전 주기가 반으로 줄임)}
+translate k WoodpeckerTagline {같은 세트를 계속해서 더 빠르게 풀어보세요.}
+translate k WoodpeckerExit {세션에서 나가기}
+translate k WoodpeckerMore {더 많은 연습}
+translate k WoodpeckerToday {오늘}
+translate k WoodpeckerCycleShort {사이클 %d}
+translate k WoodpeckerDaysPlanned {%d일 예정}
+translate k WoodpeckerExercisesShort {수업 과정}
+translate k WoodpeckerDeadline {마감일 %s}
+translate k WoodpeckerHidden {여기에 해결책이 나타납니다.}
+translate k WoodpeckerSumCycle {주기}
+translate k WoodpeckerTokenSave {저장하고 확인하세요}
+translate k WoodpeckerTokenCreate {토큰 생성(범위 퍼즐:읽기)}
+translate k WoodpeckerTokenOk {✓ 토큰 작동: %s.}
+translate k WoodpeckerTokenRating {퍼즐 등급 %s.}
+translate k WoodpeckerTokenNoScope {이 토큰에는 puzzle:read 범위가 없습니다. 위의 링크를 사용하여 토큰을 만드세요.}
+translate k WoodpeckerTokenInvalid {Lichess는 이 토큰을 모릅니다.}
+translate k WoodpeckerTokenUnchecked {토큰을 확인할 수 없습니다(연결이 없습니까?). 그대로 사용됩니다.}
+translate k WoodpeckerTokenChecking {토큰 확인 중...}
+translate k WoodpeckerTokenMissing {토큰이 없나요? 위에 입력된 퍼즐 등급(Lichess 프로필, 퍼즐)으로도 작동합니다. 다운로드 속도가 느려지고 Lichess에서 이미 해결한 퍼즐이 나타날 수 있습니다. 토큰을 사용하면 더 빠릅니다.}
+translate k WoodpeckerPreset_automatic {자동(더 쉬움)}
+translate k WoodpeckerPreset_standard {표준(권장)}
+translate k WoodpeckerPreset_challenge {도전적이다}
+translate k WoodpeckerPreset_tough {힘들다 (대부분 당신의 수준 이상)}
+translate k WoodpeckerPreset_custom {관습...}
+translate k WoodpeckerPresetHelp_automatic {대부분 간단한 전술, 한 번에 보는 것이 이 책의 첫 번째 목표이다.}
+translate k WoodpeckerPresetHelp_standard {4분의 1은 더 쉬우며, 대부분은 귀하의 수준에 가깝고, 몇 가지 더 어려운 것은 책의 초급 및 중급 섹션의 비율입니다.}
+translate k WoodpeckerPresetHelp_challenge {자신의 레벨 주변 및 그 이상, 강력한 플레이어를 위한 것입니다(책의 고급 섹션과 같은).}
+translate k WoodpeckerPresetHelp_tough {스트레칭을 원하는 강력한 플레이어의 경우 대부분 레벨보다 훨씬 높습니다.}
+translate k WoodpeckerPresetHelp_custom {각 Lichess 레벨의 점유율을 직접 선택하세요.}
+translate k WoodpeckerPresetRating {레벨은 Lichess 퍼즐 등급(%s)을 기준으로 합니다.}
+translate k WoodpeckerPresetNoRating {레벨은 Lichess 퍼즐 등급에 따라 달라집니다.}
+translate k WoodpeckerRatingAsk {당신의 Lichess 퍼즐 평가}
+translate k WoodpeckerBadRating {Lichess 퍼즐 등급(400-3200)을 입력하세요. 이는 퍼즐 아래의 Lichess 프로필에 있습니다.}
+translate k WoodpeckerPresetStated {레벨은 입력한 등급(%s)을 기준으로 합니다.}
+translate k WoodpeckerDataDir {Woodpecker Method 데이터 폴더(비어 있음: Scid 자체)}
+translate k WoodpeckerNoDataDir {딱따구리 데이터 폴더를 찾을 수 없습니다.\n%s\n\n드라이브가 연결되어 있습니까? 폴더는 옵션 > 리소스에서 설정됩니다.}
+translate k WoodpeckerDataDirMove {%d 딱따구리 세트는 이전 데이터 폴더에 있습니다:\n%s\n\n새 폴더로 이동하시겠습니까?\n%s\n\n아니요: 새 폴더는 비어 있게 시작되고 세트는 그대로 유지됩니다.}
+translate k WoodpeckerDataDirHasSets {새 데이터 폴더에는 이미 %d 세트가 있습니다(다른 컴퓨터에서 동기화되었나요?):\n%s\n\nScid는 이를 사용합니다. 이전 폴더 세트는 다음 위치에 유지됩니다.\n%s}
 
 # Board screenshot
 menuText k ToolsScreenshot "보드 스크린샷" 0 \

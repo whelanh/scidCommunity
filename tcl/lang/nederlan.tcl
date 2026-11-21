@@ -283,6 +283,7 @@ menuText N ToolsCaptureBoard "Huidig ??bord vastleggen..." 5  {Sla het huidige b
 # Play menu
 menuText N Play "Speel" 0
 menuText N LichessPuzzles "Lichess-puzzels" 0 {Los Lichess-puzzels interactief op}
+menuText N Woodpecker "Specht-methode" 0 {Train tactieken in cycli: dezelfde set, elke keer sneller}
 
 # --- Correspondence Chess
 menuText N CCResign "Geef op" 0 {Geef op (niet via e-mail)}
@@ -507,6 +508,176 @@ translate N LichessPuzzlesClock {Klok}
 translate N LichessPuzzlesRated {Beoordeeld}
 translate N LichessPuzzlesGame {Spel}
 translate N LichessPuzzlesNoNew {Er zijn geen nieuwe puzzels gevonden voor deze instellingen.\n\nProbeer het thema, de moeilijkheidsgraad of de puzzelkleur te wijzigen.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate N WoodpeckerTitle {Specht-methode}
+translate N WoodpeckerColName {Set}
+translate N WoodpeckerColExercises {Oefeningen}
+translate N WoodpeckerColCycle {Cyclus}
+translate N WoodpeckerColProgress {Deze cyclus}
+translate N WoodpeckerColLast {Laatste sessie}
+translate N WoodpeckerColDays {Dagen}
+translate N WoodpeckerColTime {Tijd oplossen}
+translate N WoodpeckerColResults {opgelost/mislukt}
+translate N WoodpeckerColPct {Scoren}
+translate N WoodpeckerColDate {Datum}
+translate N WoodpeckerColDuration {Duur}
+translate N WoodpeckerColPoints {Punten}
+translate N WoodpeckerNew {Nieuw setje...}
+translate N WoodpeckerTrain {Trein}
+translate N WoodpeckerEvaluate {Evalueer...}
+translate N WoodpeckerStats {Statistieken}
+translate N WoodpeckerDelete {Verwijderen}
+translate N WoodpeckerContinue {Doorgaan (invoeren)}
+translate N WoodpeckerPause {Pauze}
+translate N WoodpeckerResume {Cv}
+translate N WoodpeckerEnd {Sessie beëindigen}
+translate N WoodpeckerNoSets {Nog geen set: druk op Nieuwe set om te beginnen met de puzzels die bij Scid worden geleverd, om meer te downloaden van Lichess, of om een ​​PGN-boek te gebruiken.}
+translate N WoodpeckerUnrated {%d van %d oefeningen hebben geen ! / !! punten: evalueer de set om deze bonussen te verdienen (eerdere sessies worden ook opnieuw beoordeeld).}
+translate N WoodpeckerCycleOver {Cyclus %d is voltooid. Rust tot %s, dan begint de volgende cyclus, met de helft van de dagen.}
+translate N WoodpeckerCycleLine {Cyclus %d: %d/%d voltooid, %d dagen gepland, deadline %s.}
+translate N WoodpeckerQuotaLine {Vandaag: %d van %d oefeningen.}
+translate N WoodpeckerQuotaRaised {Je loopt een beetje achter: het doel van vandaag is %d in plaats van %d.}
+translate N WoodpeckerDeadlineMoved {Na de pauze werd de deadline met %d dagen verplaatst naar %s; het dagelijkse doel is %d.}
+translate N WoodpeckerOverStretch {De cyclus heeft tweemaal de geplande lengte bereikt: de deadline blijft op %s en het dagelijkse doel is %d.}
+translate N WoodpeckerDeleteAsk {De set "%s" met zijn database en statistieken verwijderen?}
+translate N WoodpeckerNewTitle {Nieuwe spechtset}
+translate N WoodpeckerName {Naam}
+translate N WoodpeckerFromLichess {Puzzels van Lichess}
+translate N WoodpeckerFromPuzzles {Puzzels meegeleverd met Scid (puzzels met beoordeling Lichess)}
+translate N WoodpeckerAdvanced {Geavanceerd}
+translate N WoodpeckerUseLichess {Ontvang puzzels van Lichess in plaats van de meegeleverde sets}
+translate N WoodpeckerPicking {Het kiezen van de puzzels...}
+translate N WoodpeckerShortAsk {Slechts %d van de gevraagde %d puzzels blijven op jouw niveau over van de puzzels die bij Scid zijn inbegrepen.
+
+De andere %d downloaden van Lichess?
+
+Nee: de set is gemaakt met de gevonden puzzels.}
+translate N WoodpeckerNoPuzzles {Er is geen puzzel meer voor dit niveau, thema en kant.}
+translate N WoodpeckerCount {Oefeningen}
+translate N WoodpeckerDifficulty {Moeilijkheidsgraad}
+translate N WoodpeckerTheme {Thema}
+translate N WoodpeckerThemeMix {Gemengd (aanbevolen)}
+translate N WoodpeckerColor {Kant}
+translate N WoodpeckerColor_both {Beide}
+translate N WoodpeckerColor_white {Wit}
+translate N WoodpeckerColor_black {Zwart}
+translate N WoodpeckerToken {Lichess-token}
+translate N WoodpeckerFromFile {PGN- of Scid-database (bijvoorbeeld een boek)}
+translate N WoodpeckerFileHelp {Elk spel dat vanuit een opzetpositie begint, wordt een oefening: de hoofdlijn is de oplossing, variaties worden genegeerd. Die van de auteur! En !! worden bewaard.}
+translate N WoodpeckerDays1 {Eerste cyclus (dagen)}
+translate N WoodpeckerRestDays {Rust tussen cycli (dagen)}
+translate N WoodpeckerDaysHelp {Elke volgende cyclus krijgt de helft van de dagen van de vorige: het doel is om de oplostijd elke cyclus te halveren.}
+translate N WoodpeckerCreate {Creëren}
+translate N WoodpeckerBadNumber {Geen geldig nummer: %s}
+translate N WoodpeckerNoDifficulty {Kies minimaal één moeilijkheidsgraad en een aantal oefeningen.}
+translate N WoodpeckerDownloading {Puzzels downloaden van Lichess...}
+translate N WoodpeckerBuilding {De database van de set opbouwen...}
+translate N WoodpeckerCreateFailed {De set kan niet worden gemaakt:
+%s}
+translate N WoodpeckerCreated {Set gemaakt: %d oefeningen.}
+translate N WoodpeckerFewer {Lichess gaf %d van de %d puzzels waar om gevraagd werd.}
+translate N WoodpeckerNoFile {Kan %s niet lezen}
+translate N WoodpeckerSkipped {%d partijen zijn overgeslagen (geen opzetpositie of geen zetten).}
+translate N WoodpeckerMarksIncluded {De belangrijkste bewegingen! En !! zijn al gemarkeerd, dus u kunt beginnen. Je kunt de set nog steeds evalueren met je eigen engine vanuit het menu.}
+translate N WoodpeckerEvalRecommended {Evalueer het nu met de review? Sterk aanbevolen: het markeert de belangrijkste zetten! en !!, waarmee bonuspunten worden verdiend. Het duurt ongeveer een seconde per oefening en kan ook later gedaan worden.}
+translate N WoodpeckerLevel_easiest {Makkelijkst}
+translate N WoodpeckerLevel_easier {Makkelijker}
+translate N WoodpeckerLevel_normal {Normaal}
+translate N WoodpeckerLevel_harder {Moeilijker}
+translate N WoodpeckerLevel_hardest {Het moeilijkst}
+translate N WoodpeckerEvalBusy {Er loopt al een evaluatie.}
+translate N WoodpeckerSomeAnnotated {Annotaties zijn al aanwezig op %d van %d oefeningen. De anderen aanvullen met de recensie, of alles overschrijven met de recensie?}
+translate N WoodpeckerComplete {Compleet met de recensie}
+translate N WoodpeckerOverwrite {Overschrijven met de recensie}
+translate N WoodpeckerAllAnnotated {Alle %d-oefeningen zijn al geannoteerd, dus de herhaling is optioneel. De auteurscijfers overschrijven met die van de recensie?}
+translate N WoodpeckerKeep {Bewaar de aantekeningen}
+translate N WoodpeckerEvaluating {De set evalueren...}
+translate N WoodpeckerEvalPhase_deep {Review: zoeken naar oplossingen}
+translate N WoodpeckerEvalPhase_shallow {Review: welke zetten liggen voor de hand}
+translate N WoodpeckerEvalPhase_write {Het schrijven van de cijfers}
+translate N WoodpeckerEvalDone {Evaluatie gedaan: %d oefeningen; %d bewegingen gemarkeerd ! en %d gemarkeerd !!, van %d zetten om te vinden.}
+translate N WoodpeckerNoEngine {Er is geen UCI-engine geconfigureerd (Extra > Engines).}
+translate N WoodpeckerEvalAsk {Evalueer %d oefeningen met deze engine:}
+translate N WoodpeckerOtherMode {Een andere training of spel is het gebruik van het bord.}
+translate N WoodpeckerNoSlot {Geen vrije databaseruimte voor de sessie: sluit een database en probeer het opnieuw.
+(%s)}
+translate N WoodpeckerRestAsk {De rustdagen eindigen op %s. Toch cyclus %d starten?}
+translate N WoodpeckerUnratedShort {%d oefeningen worden niet geëvalueerd: daar telt alleen de lijn.}
+translate N WoodpeckerRes1 {opgelost}
+translate N WoodpeckerRes2 {mislukt}
+translate N WoodpeckerPacePer {per oefening}
+translate N WoodpeckerPaceTarget {doel %s s}
+translate N WoodpeckerCardStreak {Streep}
+translate N WoodpeckerCardPoints {Punten}
+translate N WoodpeckerCardDeadline {Termijn}
+translate N WoodpeckerStreakSub {schoon op een rij}
+translate N WoodpeckerPointsSub {van het mogelijke}
+translate N WoodpeckerDaysLeft {dagen over}
+translate N WoodpeckerExercise {Oefening %d van %d}
+translate N WoodpeckerWhiteToMove {Wit aan zet}
+translate N WoodpeckerBlackToMove {Zwart aan zet}
+translate N WoodpeckerYourMove {Jouw zet.}
+translate N WoodpeckerSolved {Opgelost!}
+translate N WoodpeckerFailed {Mislukt.}
+translate N WoodpeckerPoints {+%s / %s}
+translate N WoodpeckerNoMarks {(niet geëvalueerd: nog geen ! / !! bonus)}
+translate N WoodpeckerQuotaDone {Het doel van vandaag bereikt! Ga door of beëindig de sessie.}
+translate N WoodpeckerSolutionShown {Blader door de oplossing op het bord of op de kaart en druk vervolgens op Enter.}
+translate N WoodpeckerPaused {Gepauzeerd.}
+translate N WoodpeckerAutoPaused {Gepauzeerd: twee minuten geen beweging. De tijd weg telt niet mee.}
+translate N WoodpeckerSessionOver {Sessie voorbij}
+translate N WoodpeckerCycleComplete {Cyclus %d voltooid!}
+translate N WoodpeckerSumDate {Datum}
+translate N WoodpeckerSumDuration {Duur}
+translate N WoodpeckerSumExercises {Oefeningen voltooid}
+translate N WoodpeckerSumPoints {%s van %s punten}
+translate N WoodpeckerSumAvg {Gemiddeld per oefening}
+translate N WoodpeckerSumQuota {Het doel van vandaag}
+translate N WoodpeckerSumCompare {Tegenover de vorige cyclus: %d sneller, %d langzamer, %d fouten opgelost, %d nieuwe fouten.}
+translate N WoodpeckerSumReview {Ter beoordeling: oefeningen %s}
+translate N WoodpeckerCyclesTitle {Cycli}
+translate N WoodpeckerSessionsTitle {Sessies}
+translate N WoodpeckerStatsNote {Punten gebruiken de cijfers van evaluatie %d. Eerdere sessies worden opnieuw beoordeeld met dezelfde cijfers, zodat de cycli redelijk met elkaar vergeleken kunnen worden.}
+translate N WoodpeckerNoData {Nog geen cyclus}
+translate N WoodpeckerChartLegend {balken: oplossingstijd onderbroken: doel (vorige cyclus gehalveerd)}
+translate N WoodpeckerTagline {Los dezelfde set keer op keer op, elke keer sneller.}
+translate N WoodpeckerExit {Verlaat de sessie}
+translate N WoodpeckerMore {Meer oefeningen}
+translate N WoodpeckerToday {Vandaag}
+translate N WoodpeckerCycleShort {Cyclus %d}
+translate N WoodpeckerDaysPlanned {%d dagen gepland}
+translate N WoodpeckerExercisesShort {oefeningen}
+translate N WoodpeckerDeadline {deadline %s}
+translate N WoodpeckerHidden {De oplossing zal hier verschijnen.}
+translate N WoodpeckerSumCycle {Cyclus}
+translate N WoodpeckerTokenSave {Opslaan en controleren}
+translate N WoodpeckerTokenCreate {Maak een token (scope-puzzel: lezen)}
+translate N WoodpeckerTokenOk {✓ Token werkt: %s.}
+translate N WoodpeckerTokenRating {Puzzelbeoordeling %s.}
+translate N WoodpeckerTokenNoScope {Dit token mist de puzzel: lees bereik: maak er een met de bovenstaande link.}
+translate N WoodpeckerTokenInvalid {Lichess kent dit token niet.}
+translate N WoodpeckerTokenUnchecked {Het token kon niet worden gecontroleerd (geen verbinding?). Het zal worden gebruikt zoals het is.}
+translate N WoodpeckerTokenChecking {Het token controleren...}
+translate N WoodpeckerTokenMissing {Geen token? Het werkt ook, met de puzzelbeoordeling die hierboven is ingevoerd (Lichess profiel, Puzzels). Het downloaden is langzamer en er kunnen puzzels verschijnen die je al op Lichess hebt opgelost; met een token is het sneller.}
+translate N WoodpeckerPreset_automatic {Automatisch (makkelijker)}
+translate N WoodpeckerPreset_standard {Standaard (aanbevolen)}
+translate N WoodpeckerPreset_challenge {Uitdagend}
+translate N WoodpeckerPreset_tough {Stoer (meestal boven jouw niveau)}
+translate N WoodpeckerPreset_custom {Aangepast...}
+translate N WoodpeckerPresetHelp_automatic {Meestal eenvoudige tactieken, om ze meteen te zien: het eerste doel van het boek.}
+translate N WoodpeckerPresetHelp_standard {Een kwart makkelijker, de meeste rond jouw niveau, een paar moeilijker - de verhouding tussen de secties Gemakkelijk en Gemiddeld in het boek.}
+translate N WoodpeckerPresetHelp_challenge {Rond en boven jouw niveau, voor sterke spelers (zoals het gedeelte Gevorderden in het boek).}
+translate N WoodpeckerPresetHelp_tough {Meestal ruim boven jouw niveau, voor sterke spelers die willen stretchen.}
+translate N WoodpeckerPresetHelp_custom {Kies zelf het aandeel van elk Lichess-niveau.}
+translate N WoodpeckerPresetRating {Niveaus zijn gerelateerd aan je puzzelbeoordeling Lichess (%s).}
+translate N WoodpeckerPresetNoRating {Niveaus zijn gerelateerd aan je puzzelbeoordeling Lichess.}
+translate N WoodpeckerRatingAsk {Jouw Lichess puzzelwaardering}
+translate N WoodpeckerBadRating {Voer uw Lichess puzzelbeoordeling in (400-3200): deze staat op uw Lichess profiel, onder Puzzels.}
+translate N WoodpeckerPresetStated {Niveaus zijn relatief ten opzichte van de beoordeling die u heeft ingevoerd (%s).}
+translate N WoodpeckerDataDir {Woodpecker Method-gegevensmap (leeg: Scid's eigen)}
+translate N WoodpeckerNoDataDir {De Woodpecker-gegevensmap kan niet worden gevonden:\n%s\n\nIs de schijf aangesloten? De map wordt ingesteld in Opties > Bronnen.}
+translate N WoodpeckerDataDirMove {%d Spechtensets staan ​​in de vorige gegevensmap:\n%s\n\nVerplaatsen naar de nieuwe?\n%s\n\nNee: de nieuwe map begint leeg en de sets blijven waar ze zijn.}
+translate N WoodpeckerDataDirHasSets {De nieuwe datamap bevat al %d sets (gesynchroniseerd vanaf een andere computer?):\n%s\n\nScid gebruikt deze. De sets van de vorige map blijven in:\n%s}
 
 # Board screenshot
 menuText N ToolsScreenshot "Schermafbeelding van het bord" 0 \

@@ -260,6 +260,7 @@ menuText C ToolsCaptureBoard "Uloit aktuln achovnici..." 0  {Uloit aktuln achovn
 # Play menu
 menuText C Play "Hra" 0
 menuText C LichessPuzzles "Lichess hádanky" 0 {Interaktivně řešte hádanky Lichess}
+menuText C Woodpecker "Metoda datel" 0 {Trénujte taktiku v cyklech: stejná sada, pokaždé rychlejší}
 
 # --- Correspondence Chess
 menuText C CCResign "Vzdt" 0 {Vzdt (nikoliv prostednictvm e-mailu)}
@@ -482,6 +483,176 @@ translate C LichessPuzzlesClock {Hodiny}
 translate C LichessPuzzlesRated {Hodnoceno}
 translate C LichessPuzzlesGame {Hra}
 translate C LichessPuzzlesNoNew {Pro tato nastavení nebyly nalezeny žádné nové hádanky.\n\nZkuste změnit téma, obtížnost nebo barvu hádanky.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate C WoodpeckerTitle {Metoda datel}
+translate C WoodpeckerColName {Soubor}
+translate C WoodpeckerColExercises {Cvičení}
+translate C WoodpeckerColCycle {Cyklus}
+translate C WoodpeckerColProgress {Tento cyklus}
+translate C WoodpeckerColLast {Poslední sezení}
+translate C WoodpeckerColDays {Dny}
+translate C WoodpeckerColTime {Doba řešení}
+translate C WoodpeckerColResults {vyřešeno/nepovedlo se}
+translate C WoodpeckerColPct {Skóre}
+translate C WoodpeckerColDate {Datum}
+translate C WoodpeckerColDuration {Trvání}
+translate C WoodpeckerColPoints {Body}
+translate C WoodpeckerNew {Nová sada...}
+translate C WoodpeckerTrain {Vlak}
+translate C WoodpeckerEvaluate {Vyhodnotit...}
+translate C WoodpeckerStats {Statistika}
+translate C WoodpeckerDelete {Vymazat}
+translate C WoodpeckerContinue {Pokračovat (Enter)}
+translate C WoodpeckerPause {Pauza}
+translate C WoodpeckerResume {Resumé}
+translate C WoodpeckerEnd {Ukončete relaci}
+translate C WoodpeckerNoSets {Zatím žádná sada: stiskněte Nová sada, chcete-li začít s hádankami obsaženými ve Scid, stáhnout si další z Lichess nebo použít knihu PGN.}
+translate C WoodpeckerUnrated {%d z %d cvičení nemají žádné ! /!! známky: vyhodnoťte sadu, abyste získali tyto bonusy (dřívější relace jsou také hodnoceny).}
+translate C WoodpeckerCycleOver {Cyklus %d je dokončen. Odpočívejte do %s, pak začne další cyklus s polovinou dnů.}
+translate C WoodpeckerCycleLine {Cyklus %d: %d/%d hotovo, %d dny plánované, termín %s.}
+translate C WoodpeckerQuotaLine {Dnes: %d z %d cvičení.}
+translate C WoodpeckerQuotaRaised {Jste trochu pozadu: dnešní cíl je %d místo %d.}
+translate C WoodpeckerDeadlineMoved {Po přestávce se termín posunul o %d dnů na %s; denní cíl je %d.}
+translate C WoodpeckerOverStretch {Cyklus dosáhl dvojnásobku své plánované délky: konečný termín zůstává na %s a denní cíl je %d.}
+translate C WoodpeckerDeleteAsk {Smazat sadu "%s" s její databází a statistikami?}
+translate C WoodpeckerNewTitle {Nová sada Datel}
+translate C WoodpeckerName {Jméno}
+translate C WoodpeckerFromLichess {Hádanky z Lichess}
+translate C WoodpeckerFromPuzzles {Hádanky, které jsou součástí Scid (hádanky s klasifikací Lichess)}
+translate C WoodpeckerAdvanced {Moderní}
+translate C WoodpeckerUseLichess {Získejte hádanky z Lichess místo přiložených sad}
+translate C WoodpeckerPicking {Výběr hádanek...}
+translate C WoodpeckerShortAsk {Pouze %d z %d hádanek, které jste požadovali, jsou ponechány na vaší úrovni mezi těmi, které jsou součástí Scid.
+
+Stáhnout další %d z Lichess?
+
+Ne: sada je vytvořena z nalezených hádanek.}
+translate C WoodpeckerNoPuzzles {Pro tuto úroveň, téma a stranu nezbývá žádná hádanka.}
+translate C WoodpeckerCount {Cvičení}
+translate C WoodpeckerDifficulty {Obtížnost}
+translate C WoodpeckerTheme {Téma}
+translate C WoodpeckerThemeMix {Smíšené (doporučeno)}
+translate C WoodpeckerColor {Strana}
+translate C WoodpeckerColor_both {Obě}
+translate C WoodpeckerColor_white {Bílý}
+translate C WoodpeckerColor_black {Černý}
+translate C WoodpeckerToken {Lichess token}
+translate C WoodpeckerFromFile {Databáze PGN nebo Scid (např. kniha)}
+translate C WoodpeckerFileHelp {Každá hra, která začíná z nastavené pozice, se stává cvičením: její hlavní linií je řešení, variace jsou ignorovány. Autorův! a !! jsou zachovány.}
+translate C WoodpeckerDays1 {První cyklus (dny)}
+translate C WoodpeckerRestDays {Odpočinek mezi cykly (dny)}
+translate C WoodpeckerDaysHelp {Každý další cyklus má polovinu dní předchozího: cílem je snížit čas řešení každého cyklu na polovinu.}
+translate C WoodpeckerCreate {Vytvořit}
+translate C WoodpeckerBadNumber {Neplatné číslo: %s}
+translate C WoodpeckerNoDifficulty {Vyberte si alespoň jednu obtížnost a množství cviků.}
+translate C WoodpeckerDownloading {Stahování hádanek z Lichess...}
+translate C WoodpeckerBuilding {Budování databáze sady...}
+translate C WoodpeckerCreateFailed {Sadu nelze vytvořit:
+%s}
+translate C WoodpeckerCreated {Sada vytvořena: %d cvičení.}
+translate C WoodpeckerFewer {Lichess dal %d z %d hádanek, o které požádal.}
+translate C WoodpeckerNoFile {Nelze číst %s}
+translate C WoodpeckerSkipped {%d hry byly přeskočeny (žádné nastavení pozice nebo žádné tahy).}
+translate C WoodpeckerMarksIncluded {Klíč se pohybuje! a !! jsou již označeny, takže můžete začít. Sadu s vlastním motorem můžete stále hodnotit z její nabídky.}
+translate C WoodpeckerEvalRecommended {Vyhodnotit to nyní pomocí recenze? Důrazně doporučujeme: označuje pohyby klíčů! a !!, které získávají bonusové body. Trvá to asi sekundu na cvičení a lze to provést i později.}
+translate C WoodpeckerLevel_easiest {Nejjednodušší}
+translate C WoodpeckerLevel_easier {Jednodušší}
+translate C WoodpeckerLevel_normal {Normální}
+translate C WoodpeckerLevel_harder {Těžší}
+translate C WoodpeckerLevel_hardest {Nejtěžší}
+translate C WoodpeckerEvalBusy {Vyhodnocení již probíhá.}
+translate C WoodpeckerSomeAnnotated {Anotace již existují u %d z %d cvičení. Doplnit ostatní recenzí, nebo recenzi přepsat vše?}
+translate C WoodpeckerComplete {Kompletní s recenzí}
+translate C WoodpeckerOverwrite {Přepište recenzí}
+translate C WoodpeckerAllAnnotated {Všechna %d cvičení jsou již opatřena poznámkami, takže kontrola je nepovinná. Přepsat značky autora značkami recenze?}
+translate C WoodpeckerKeep {Ponechte si anotace}
+translate C WoodpeckerEvaluating {Hodnocení sady...}
+translate C WoodpeckerEvalPhase_deep {Recenze: hledání řešení}
+translate C WoodpeckerEvalPhase_shallow {Recenze: které pohyby jsou zřejmé}
+translate C WoodpeckerEvalPhase_write {Psaní značek}
+translate C WoodpeckerEvalDone {Provedené hodnocení: %d cvičení; %d pohyby označené ! a %d označené !!, z %d tahů k nalezení.}
+translate C WoodpeckerNoEngine {Není nakonfigurován žádný UCI engine (Nástroje > Motory).}
+translate C WoodpeckerEvalAsk {Vyhodnoťte %d cvičení s tímto motorem:}
+translate C WoodpeckerOtherMode {Dalším tréninkem nebo hrou je použití desky.}
+translate C WoodpeckerNoSlot {Žádný volný databázový slot pro relaci: zavřete databázi a zkuste to znovu.
+(%s)}
+translate C WoodpeckerRestAsk {Ostatní dny končí %s. Přesto spustit cyklus %d?}
+translate C WoodpeckerUnratedShort {%d cvičení se nevyhodnocují: počítá se pouze řádek.}
+translate C WoodpeckerRes1 {vyřešeno}
+translate C WoodpeckerRes2 {nepodařilo}
+translate C WoodpeckerPacePer {za cvičení}
+translate C WoodpeckerPaceTarget {cíl %s s}
+translate C WoodpeckerCardStreak {Pruh}
+translate C WoodpeckerCardPoints {Body}
+translate C WoodpeckerCardDeadline {Lhůta}
+translate C WoodpeckerStreakSub {čisté v řadě}
+translate C WoodpeckerPointsSub {z možných}
+translate C WoodpeckerDaysLeft {zbývající dny}
+translate C WoodpeckerExercise {Cvičení %d z %d}
+translate C WoodpeckerWhiteToMove {Bílá k pohybu}
+translate C WoodpeckerBlackToMove {Černá k pohybu}
+translate C WoodpeckerYourMove {Váš pohyb.}
+translate C WoodpeckerSolved {Vyřešeno!}
+translate C WoodpeckerFailed {Nepodařilo se.}
+translate C WoodpeckerPoints {+%s / %s}
+translate C WoodpeckerNoMarks {(nevyhodnoceno: ne ! / !! bonus zatím)}
+translate C WoodpeckerQuotaDone {Dnešní cíl splněn! Pokračujte nebo relaci ukončete.}
+translate C WoodpeckerSolutionShown {Projděte si řešení na desce nebo na kartě a stiskněte Enter.}
+translate C WoodpeckerPaused {Pozastaveno.}
+translate C WoodpeckerAutoPaused {Pozastaveno: bez pohybu po dobu dvou minut. Čas pryč se nepočítá.}
+translate C WoodpeckerSessionOver {Relace skončila}
+translate C WoodpeckerCycleComplete {Cyklus %d dokončen!}
+translate C WoodpeckerSumDate {Datum}
+translate C WoodpeckerSumDuration {Trvání}
+translate C WoodpeckerSumExercises {Cvičení dokončena}
+translate C WoodpeckerSumPoints {%s z %s bodů}
+translate C WoodpeckerSumAvg {Průměr na cvičení}
+translate C WoodpeckerSumQuota {Dnešní cíl}
+translate C WoodpeckerSumCompare {Oproti předchozímu cyklu: %d rychleji, %d pomaleji, %d chyby opraveny, %d nové chyby.}
+translate C WoodpeckerSumReview {Ke kontrole: cvičení %s}
+translate C WoodpeckerCyclesTitle {Cykly}
+translate C WoodpeckerSessionsTitle {Relace}
+translate C WoodpeckerStatsNote {Body používají známky hodnocení %d. Dřívější relace jsou hodnoceny stejnými známkami, takže cykly se spravedlivě porovnávají.}
+translate C WoodpeckerNoData {Zatím žádný cyklus}
+translate C WoodpeckerChartLegend {pruhy: doba řešení přerušovaná: cíl (předchozí cyklus poloviční)}
+translate C WoodpeckerTagline {Řešte stejnou sadu znovu a znovu, pokaždé rychleji.}
+translate C WoodpeckerExit {Opustit relaci}
+translate C WoodpeckerMore {Více cvičení}
+translate C WoodpeckerToday {Dnes}
+translate C WoodpeckerCycleShort {Cyklus %d}
+translate C WoodpeckerDaysPlanned {Naplánováno %d dnů}
+translate C WoodpeckerExercisesShort {cvičení}
+translate C WoodpeckerDeadline {termín %s}
+translate C WoodpeckerHidden {Řešení se objeví zde.}
+translate C WoodpeckerSumCycle {Cyklus}
+translate C WoodpeckerTokenSave {Uložit a zkontrolovat}
+translate C WoodpeckerTokenCreate {Vytvořte token (skládačka rozsahu: čtení)}
+translate C WoodpeckerTokenOk {✓ Token funguje: %s.}
+translate C WoodpeckerTokenRating {Hodnocení hádanky %s.}
+translate C WoodpeckerTokenNoScope {Tento token postrádá rozsah puzzle:read: vytvořte si jej pomocí výše uvedeného odkazu.}
+translate C WoodpeckerTokenInvalid {Lichess tento token nezná.}
+translate C WoodpeckerTokenUnchecked {Token nelze zkontrolovat (žádné připojení?). Bude se používat tak, jak je.}
+translate C WoodpeckerTokenChecking {Kontrola tokenu...}
+translate C WoodpeckerTokenMissing {Žádný token? Funguje to také s hodnocením hádanky zadaným výše (profil Lichess, hádanky). Stahování je pomalejší a mohou se objevit hádanky, které jste již vyřešili na Lichess; s tokenem je to rychlejší.}
+translate C WoodpeckerPreset_automatic {Automaticky (jednodušší)}
+translate C WoodpeckerPreset_standard {Standardní (doporučeno)}
+translate C WoodpeckerPreset_challenge {Náročný}
+translate C WoodpeckerPreset_tough {Tvrdý (většinou nad vaší úrovní)}
+translate C WoodpeckerPreset_custom {Zvyk...}
+translate C WoodpeckerPresetHelp_automatic {Většinou jednoduché taktiky, vidět je najednou: první cíl knihy.}
+translate C WoodpeckerPresetHelp_standard {O čtvrtinu snazší, většina kolem vaší úrovně, o několik těžších – poměr částí knihy pro snadné a středně pokročilé.}
+translate C WoodpeckerPresetHelp_challenge {Kolem a nad vaší úrovní, pro silné hráče (jako část knihy pro pokročilé).}
+translate C WoodpeckerPresetHelp_tough {Většinou hodně nad vaší úrovní, pro silné hráče, kteří se chtějí protáhnout.}
+translate C WoodpeckerPresetHelp_custom {Sami si vyberte podíl každé úrovně Lichess.}
+translate C WoodpeckerPresetRating {Úrovně se vztahují k vašemu Lichess hodnocení puzzle (%s).}
+translate C WoodpeckerPresetNoRating {Úrovně jsou relativní k vašemu Lichess hodnocení puzzle.}
+translate C WoodpeckerRatingAsk {Vaše Lichess hodnocení hádanky}
+translate C WoodpeckerBadRating {Zadejte své Lichess hodnocení hádanek (400-3200): je na vašem profilu Lichess v části Hádanky.}
+translate C WoodpeckerPresetStated {Úrovně se vztahují k vámi zadanému hodnocení (%s).}
+translate C WoodpeckerDataDir {Složka dat metody datel (prázdná: vlastní Scid)}
+translate C WoodpeckerNoDataDir {Složku dat datel nelze nalézt:\n%s\n\nJe disk připojen? Složka se nastavuje v Možnosti > Prostředky.}
+translate C WoodpeckerDataDirMove {%d Sady datelů jsou v předchozí složce dat:\n%s\n\nPřesunout je do nové?\n%s\n\nNe: nová složka začne prázdná a sady zůstanou tam, kde jsou.}
+translate C WoodpeckerDataDirHasSets {Nová datová složka již obsahuje sady %d (synchronizované z jiného počítače?):\n%s\n\nScid je používá. Sady předchozí složky zůstávají v:\n%s}
 
 # Board screenshot
 menuText C ToolsScreenshot "Snímek obrazovky desky" 0 \

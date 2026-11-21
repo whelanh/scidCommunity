@@ -265,6 +265,7 @@ menuText B ToolsCaptureBoard "Capturar posição atual..." 5  {Salva uma imagem 
 # Play menu
 menuText B Play "Jogar" 0
 menuText B LichessPuzzles "Quebra-cabeças de Lichess" 0 {Resolva quebra-cabeças Lichess interativamente}
+menuText B Woodpecker "Método do pica-pau" 0 {Treine táticas em ciclos: o mesmo conjunto, cada vez mais rápido}
 
 # --- Correspondence Chess
 menuText B CCResign "Abandonar" 0 {Aceita a derrota (no via eMail)}
@@ -487,6 +488,176 @@ translate B LichessPuzzlesClock {Relógio}
 translate B LichessPuzzlesRated {Avaliado}
 translate B LichessPuzzlesGame {Jogo}
 translate B LichessPuzzlesNoNew {Não foram encontrados novos quebra-cabeças para essas configurações.\n\nTente alterar o tema, a dificuldade ou a cor do quebra-cabeça.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate B WoodpeckerTitle {Método do pica-pau}
+translate B WoodpeckerColName {Definir}
+translate B WoodpeckerColExercises {Exercícios}
+translate B WoodpeckerColCycle {Ciclo}
+translate B WoodpeckerColProgress {Este ciclo}
+translate B WoodpeckerColLast {Última sessão}
+translate B WoodpeckerColDays {Dias}
+translate B WoodpeckerColTime {Tempo de resolução}
+translate B WoodpeckerColResults {resolvido/falhou}
+translate B WoodpeckerColPct {Pontuação}
+translate B WoodpeckerColDate {Data}
+translate B WoodpeckerColDuration {Duração}
+translate B WoodpeckerColPoints {Pontos}
+translate B WoodpeckerNew {Novo conjunto...}
+translate B WoodpeckerTrain {Trem}
+translate B WoodpeckerEvaluate {Avaliar...}
+translate B WoodpeckerStats {Estatísticas}
+translate B WoodpeckerDelete {Excluir}
+translate B WoodpeckerContinue {Continuar (Entrar)}
+translate B WoodpeckerPause {Pausa}
+translate B WoodpeckerResume {Retomar}
+translate B WoodpeckerEnd {Encerrar sessão}
+translate B WoodpeckerNoSets {Ainda sem conjunto: pressione Novo conjunto para começar com os quebra-cabeças incluídos no Scid, para baixar mais de Lichess, ou para usar um livro PGN.}
+translate B WoodpeckerUnrated {%d de %d exercícios não têm ! / !! notas: avalie o conjunto para ganhar esses bônus (as sessões anteriores também são reavaliadas).}
+translate B WoodpeckerCycleOver {O ciclo %d está completo. Descanse até %s, depois começa o próximo ciclo, com metade dos dias.}
+translate B WoodpeckerCycleLine {Ciclo %d: %d/%d concluído, %d dias planejados, prazo %s.}
+translate B WoodpeckerQuotaLine {Hoje: %d de %d exercícios.}
+translate B WoodpeckerQuotaRaised {Você está um pouco atrasado: a meta de hoje é %d em vez de %d.}
+translate B WoodpeckerDeadlineMoved {Após o intervalo o prazo passou de %d dias, para %s; a meta diária é %d.}
+translate B WoodpeckerOverStretch {O ciclo atingiu o dobro da duração planejada: o prazo permanece em %s e a meta diária é %d.}
+translate B WoodpeckerDeleteAsk {Excluir o conjunto "%s" com seu banco de dados e estatísticas?}
+translate B WoodpeckerNewTitle {Novo conjunto de pica-pau}
+translate B WoodpeckerName {Nome}
+translate B WoodpeckerFromLichess {Quebra-cabeças de Lichess}
+translate B WoodpeckerFromPuzzles {Quebra-cabeças incluídos no Scid (quebra-cabeças classificados Lichess)}
+translate B WoodpeckerAdvanced {Avançado}
+translate B WoodpeckerUseLichess {Obtenha quebra-cabeças de Lichess em vez dos conjuntos incluídos}
+translate B WoodpeckerPicking {Escolhendo os quebra-cabeças...}
+translate B WoodpeckerShortAsk {Apenas %d dos %d quebra-cabeças solicitados permanecem no seu nível entre aqueles incluídos no Scid.
+
+Baixe o outro %d de Lichess?
+
+Não: o conjunto é criado com os quebra-cabeças encontrados.}
+translate B WoodpeckerNoPuzzles {Nenhum quebra-cabeça resta para este nível, tema e lado.}
+translate B WoodpeckerCount {Exercícios}
+translate B WoodpeckerDifficulty {Dificuldade}
+translate B WoodpeckerTheme {Tema}
+translate B WoodpeckerThemeMix {Misto (recomendado)}
+translate B WoodpeckerColor {Lado}
+translate B WoodpeckerColor_both {Ambos}
+translate B WoodpeckerColor_white {Branco}
+translate B WoodpeckerColor_black {Preto}
+translate B WoodpeckerToken {Token Lichess}
+translate B WoodpeckerFromFile {Banco de dados PGN ou Scid (por exemplo, um livro)}
+translate B WoodpeckerFileHelp {Cada jogo que parte de uma posição preparada torna-se um exercício: sua linha principal é a solução, as variações são ignoradas. Do autor! e !! são mantidos.}
+translate B WoodpeckerDays1 {Primeiro ciclo (dias)}
+translate B WoodpeckerRestDays {Descanse entre os ciclos (dias)}
+translate B WoodpeckerDaysHelp {Cada ciclo posterior ocupa metade dos dias do anterior: o objetivo é reduzir pela metade o tempo de resolução de cada ciclo.}
+translate B WoodpeckerCreate {Criar}
+translate B WoodpeckerBadNumber {Número inválido: %s}
+translate B WoodpeckerNoDifficulty {Escolha pelo menos uma dificuldade e vários exercícios.}
+translate B WoodpeckerDownloading {Baixando quebra-cabeças de Lichess...}
+translate B WoodpeckerBuilding {Construindo o banco de dados do conjunto...}
+translate B WoodpeckerCreateFailed {Não foi possível criar o conjunto:
+%s}
+translate B WoodpeckerCreated {Conjunto criado: %d exercícios.}
+translate B WoodpeckerFewer {Lichess deu %d dos %d quebra-cabeças solicitados.}
+translate B WoodpeckerNoFile {Não consigo ler %s}
+translate B WoodpeckerSkipped {%d jogos foram pulados (sem posição de preparação ou sem movimentos).}
+translate B WoodpeckerMarksIncluded {A chave se move! e !! já estão marcados, então você pode começar. Você ainda pode avaliar o conjunto com seu próprio motor em seu menu.}
+translate B WoodpeckerEvalRecommended {Avaliar agora com a revisão? Fortemente recomendado: marca os movimentos principais! e !!, que ganham pontos de bônus. Demora cerca de um segundo por exercício e também pode ser feito mais tarde.}
+translate B WoodpeckerLevel_easiest {Mais fácil}
+translate B WoodpeckerLevel_easier {Mais fácil}
+translate B WoodpeckerLevel_normal {Normal}
+translate B WoodpeckerLevel_harder {Mais difícil}
+translate B WoodpeckerLevel_hardest {Mais difícil}
+translate B WoodpeckerEvalBusy {Uma avaliação já está em execução.}
+translate B WoodpeckerSomeAnnotated {As anotações já estão presentes em %d dos exercícios %d. Completar os outros com a revisão ou substituir tudo pela revisão?}
+translate B WoodpeckerComplete {Conclua com a revisão}
+translate B WoodpeckerOverwrite {Substituir com a revisão}
+translate B WoodpeckerAllAnnotated {Todos os exercícios %d já estão anotados, portanto a revisão é opcional. Substituir as notas do autor pelas da crítica?}
+translate B WoodpeckerKeep {Mantenha as anotações}
+translate B WoodpeckerEvaluating {Avaliando o conjunto...}
+translate B WoodpeckerEvalPhase_deep {Revisão: buscando as soluções}
+translate B WoodpeckerEvalPhase_shallow {Revisão: quais movimentos são óbvios}
+translate B WoodpeckerEvalPhase_write {Escrevendo as marcas}
+translate B WoodpeckerEvalDone {Avaliação realizada: exercícios %d; %d movimentos marcados! e %d marcado !!, de %d movimentos para encontrar.}
+translate B WoodpeckerNoEngine {Nenhum mecanismo UCI está configurado (Ferramentas > Motores).}
+translate B WoodpeckerEvalAsk {Avalie exercícios %d com este mecanismo:}
+translate B WoodpeckerOtherMode {Outro treino ou jogo é usar o tabuleiro.}
+translate B WoodpeckerNoSlot {Nenhum slot de banco de dados livre para a sessão: feche um banco de dados e tente novamente.
+(%s)}
+translate B WoodpeckerRestAsk {Os dias de descanso terminam em %s. Iniciar ciclo %d mesmo assim?}
+translate B WoodpeckerUnratedShort {Os exercícios %d não são avaliados: ali apenas a linha conta.}
+translate B WoodpeckerRes1 {resolvido}
+translate B WoodpeckerRes2 {fracassado}
+translate B WoodpeckerPacePer {por exercício}
+translate B WoodpeckerPaceTarget {alvo %s s}
+translate B WoodpeckerCardStreak {Onda}
+translate B WoodpeckerCardPoints {Pontos}
+translate B WoodpeckerCardDeadline {Prazo final}
+translate B WoodpeckerStreakSub {limpar em uma fileira}
+translate B WoodpeckerPointsSub {do possível}
+translate B WoodpeckerDaysLeft {dias restantes}
+translate B WoodpeckerExercise {Exercício %d de %d}
+translate B WoodpeckerWhiteToMove {Branco para mover}
+translate B WoodpeckerBlackToMove {Preto para se mover}
+translate B WoodpeckerYourMove {Sua jogada.}
+translate B WoodpeckerSolved {Resolvido!}
+translate B WoodpeckerFailed {Fracassado.}
+translate B WoodpeckerPoints {+%s / %s}
+translate B WoodpeckerNoMarks {(não avaliado: não ! / !! bônus ainda)}
+translate B WoodpeckerQuotaDone {Meta de hoje alcançada! Continue ou encerre a sessão.}
+translate B WoodpeckerSolutionShown {Percorra a solução no quadro ou no cartão e pressione Enter.}
+translate B WoodpeckerPaused {Pausado.}
+translate B WoodpeckerAutoPaused {Pausa: nenhum movimento por dois minutos. O tempo afastado não conta.}
+translate B WoodpeckerSessionOver {Sessão encerrada}
+translate B WoodpeckerCycleComplete {Ciclo %d concluído!}
+translate B WoodpeckerSumDate {Data}
+translate B WoodpeckerSumDuration {Duração}
+translate B WoodpeckerSumExercises {Exercícios concluídos}
+translate B WoodpeckerSumPoints {%s de %s pontos}
+translate B WoodpeckerSumAvg {Média por exercício}
+translate B WoodpeckerSumQuota {A meta de hoje}
+translate B WoodpeckerSumCompare {Em relação ao ciclo anterior: %d mais rápido, %d mais lento, %d erros corrigidos, %d novos erros.}
+translate B WoodpeckerSumReview {Para revisar: exercícios %s}
+translate B WoodpeckerCyclesTitle {Ciclos}
+translate B WoodpeckerSessionsTitle {Sessões}
+translate B WoodpeckerStatsNote {Os pontos utilizam as notas de avaliação %d. As sessões anteriores são reavaliadas com as mesmas notas, de modo que os ciclos são comparados de forma justa.}
+translate B WoodpeckerNoData {Ainda não há ciclo}
+translate B WoodpeckerChartLegend {barras: tempo de resolução tracejado: meta (ciclo anterior reduzido pela metade)}
+translate B WoodpeckerTagline {Resolva o mesmo conjunto repetidamente, cada vez mais rápido.}
+translate B WoodpeckerExit {Sair da sessão}
+translate B WoodpeckerMore {Mais exercícios}
+translate B WoodpeckerToday {Hoje}
+translate B WoodpeckerCycleShort {Ciclo %d}
+translate B WoodpeckerDaysPlanned {%d dias planejados}
+translate B WoodpeckerExercisesShort {exercícios}
+translate B WoodpeckerDeadline {prazo %s}
+translate B WoodpeckerHidden {A solução aparecerá aqui.}
+translate B WoodpeckerSumCycle {Ciclo}
+translate B WoodpeckerTokenSave {Salve e verifique}
+translate B WoodpeckerTokenCreate {Crie um token (quebra-cabeça de escopo: leia)}
+translate B WoodpeckerTokenOk {✓ O token funciona: %s.}
+translate B WoodpeckerTokenRating {Classificação do quebra-cabeça %s.}
+translate B WoodpeckerTokenNoScope {Este token não possui o escopo puzzle:read: crie um com o link acima.}
+translate B WoodpeckerTokenInvalid {Lichess não conhece este token.}
+translate B WoodpeckerTokenUnchecked {O token não pôde ser verificado (sem conexão?). Ele será usado como está.}
+translate B WoodpeckerTokenChecking {Verificando o token...}
+translate B WoodpeckerTokenMissing {Nenhum token? Também funciona, com a classificação do quebra-cabeça inserida acima (perfil Lichess, Quebra-cabeças). O download é mais lento e podem surgir quebra-cabeças que você já resolveu em Lichess; com um token é mais rápido.}
+translate B WoodpeckerPreset_automatic {Automático (mais fácil)}
+translate B WoodpeckerPreset_standard {Padrão (recomendado)}
+translate B WoodpeckerPreset_challenge {Desafiante}
+translate B WoodpeckerPreset_tough {Difícil (principalmente acima do seu nível)}
+translate B WoodpeckerPreset_custom {Personalizado...}
+translate B WoodpeckerPresetHelp_automatic {Táticas principalmente simples, para vê-las de uma vez: o primeiro objetivo do livro.}
+translate B WoodpeckerPresetHelp_standard {Um quarto mais fácil, a maioria em torno do seu nível, um pouco mais difícil - a proporção das seções Fácil e Intermediária do livro.}
+translate B WoodpeckerPresetHelp_challenge {Perto e acima do seu nível, para jogadores fortes (como a seção Avançado do livro).}
+translate B WoodpeckerPresetHelp_tough {Principalmente bem acima do seu nível, para jogadores fortes que querem se expandir.}
+translate B WoodpeckerPresetHelp_custom {Escolha você mesmo a participação de cada nível Lichess.}
+translate B WoodpeckerPresetRating {Os níveis são relativos à sua classificação do quebra-cabeça Lichess (%s).}
+translate B WoodpeckerPresetNoRating {Os níveis são relativos à sua classificação do quebra-cabeça Lichess.}
+translate B WoodpeckerRatingAsk {Sua classificação do quebra-cabeça Lichess}
+translate B WoodpeckerBadRating {Insira sua classificação de quebra-cabeça Lichess (400-3200): ela está em seu perfil Lichess, em Quebra-cabeças.}
+translate B WoodpeckerPresetStated {Os níveis são relativos à classificação que você inseriu (%s).}
+translate B WoodpeckerDataDir {Pasta de dados do Método Woodpecker (vazia: do próprio Scid)}
+translate B WoodpeckerNoDataDir {A pasta de dados do Woodpecker não foi encontrada:\n%s\n\nA unidade está conectada? A pasta é definida em Opções > Recursos.}
+translate B WoodpeckerDataDirMove {%d Os conjuntos do Pica-Pau estão na pasta de dados anterior:\n%s\n\nMova-os para a nova?\n%s\n\nNão: a nova pasta começa vazia e os conjuntos permanecem onde estão.}
+translate B WoodpeckerDataDirHasSets {A nova pasta de dados já contém conjuntos %d (sincronizados de outro computador?):\n%s\n\nScid os usa. Os conjuntos da pasta anterior ficam em:\n%s}
 
 # Board screenshot
 menuText B ToolsScreenshot "Captura de tela do quadro" 0 \

@@ -267,6 +267,7 @@ menuText W ToolsCaptureBoard "Spara aktuellt schackbräde..." 0  {Spara det aktu
 # Play menu
 menuText W Play "Spela" 0
 menuText W LichessPuzzles "Lichess pussel" 0 {Lös Lichess-pussel interaktivt}
+menuText W Woodpecker "Hackspettmetod" 0 {Träna taktik i cykler: samma set, snabbare varje gång}
 
 # --- Correspondence Chess
 menuText W CCResign "Ge upp" 0 {Ge upp (inte via eMail)}
@@ -489,6 +490,176 @@ translate W LichessPuzzlesClock {Klocka}
 translate W LichessPuzzlesRated {Betygsatt}
 translate W LichessPuzzlesGame {Spel}
 translate W LichessPuzzlesNoNew {Inga nya pussel hittades för dessa inställningar.\n\nFörsök att ändra tema, svårighetsgrad eller pusselfärg.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate W WoodpeckerTitle {Hackspettmetod}
+translate W WoodpeckerColName {Uppsättning}
+translate W WoodpeckerColExercises {Övningar}
+translate W WoodpeckerColCycle {Cykel}
+translate W WoodpeckerColProgress {Denna cykel}
+translate W WoodpeckerColLast {Sista sessionen}
+translate W WoodpeckerColDays {dagar}
+translate W WoodpeckerColTime {Lösningstid}
+translate W WoodpeckerColResults {löst/misslyckat}
+translate W WoodpeckerColPct {Göra}
+translate W WoodpeckerColDate {Datum}
+translate W WoodpeckerColDuration {Varaktighet}
+translate W WoodpeckerColPoints {Poäng}
+translate W WoodpeckerNew {Nytt set...}
+translate W WoodpeckerTrain {Tåg}
+translate W WoodpeckerEvaluate {Utvärdera...}
+translate W WoodpeckerStats {Statistik}
+translate W WoodpeckerDelete {Radera}
+translate W WoodpeckerContinue {Fortsätt (Enter)}
+translate W WoodpeckerPause {Paus}
+translate W WoodpeckerResume {Resume}
+translate W WoodpeckerEnd {Avsluta sessionen}
+translate W WoodpeckerNoSets {Inget set ännu: tryck på Ny uppsättning för att börja med pussel som ingår i Scid, för att ladda ner fler från Lichess, eller för att använda en PGN-bok.}
+translate W WoodpeckerUnrated {%d av %d övningar har inga ! /!! poäng: utvärdera setet för att tjäna dessa bonusar (tidigare sessioner tas också om).}
+translate W WoodpeckerCycleOver {Cykeln %d är klar. Vila tills %s, sedan startar nästa cykel, med halva dagarna.}
+translate W WoodpeckerCycleLine {Cykel %d: %d/%d klar, %d dagar planerade, deadline %s.}
+translate W WoodpeckerQuotaLine {Idag: %d av %d övningar.}
+translate W WoodpeckerQuotaRaised {Du ligger lite efter: dagens mål är %d istället för %d.}
+translate W WoodpeckerDeadlineMoved {Efter pausen flyttades deadline med %d dagar till %s; det dagliga målet är %d.}
+translate W WoodpeckerOverStretch {Cykeln har nått dubbla sin planerade längd: deadline är %s och det dagliga målet är %d.}
+translate W WoodpeckerDeleteAsk {Ta bort uppsättningen "%s" med dess databas och statistik?}
+translate W WoodpeckerNewTitle {Nytt hackspettset}
+translate W WoodpeckerName {Namn}
+translate W WoodpeckerFromLichess {Pussel från Lichess}
+translate W WoodpeckerFromPuzzles {Pussel som ingår i Scid (betygsatta Lichess pussel)}
+translate W WoodpeckerAdvanced {Avancerad}
+translate W WoodpeckerUseLichess {Få pussel från Lichess istället för de medföljande seten}
+translate W WoodpeckerPicking {Att välja pussel...}
+translate W WoodpeckerShortAsk {Endast %d av de %d pussel som efterfrågas finns kvar på din nivå bland de som ingår i Scid.
+
+Ladda ner den andra %d från Lichess?
+
+Nej: setet skapas med pussel som hittats.}
+translate W WoodpeckerNoPuzzles {Inget pussel finns kvar för denna nivå, tema och sida.}
+translate W WoodpeckerCount {Övningar}
+translate W WoodpeckerDifficulty {Svårighet}
+translate W WoodpeckerTheme {Tema}
+translate W WoodpeckerThemeMix {Blandat (rekommenderas)}
+translate W WoodpeckerColor {Sida}
+translate W WoodpeckerColor_both {Både}
+translate W WoodpeckerColor_white {Vit}
+translate W WoodpeckerColor_black {Svart}
+translate W WoodpeckerToken {Lichess token}
+translate W WoodpeckerFromFile {PGN- eller Scid-databas (t.ex. en bok)}
+translate W WoodpeckerFileHelp {Varje spel som startar från en uppställningsposition blir en övning: dess huvudlinje är lösningen, variationer ignoreras. Författarens! och!! hålls.}
+translate W WoodpeckerDays1 {Första cykeln (dagar)}
+translate W WoodpeckerRestDays {Vila mellan cyklerna (dagar)}
+translate W WoodpeckerDaysHelp {Varje senare cykel får hälften av dagarna av den föregående: målet är att halvera lösningstiden varje cykel.}
+translate W WoodpeckerCreate {Skapa}
+translate W WoodpeckerBadNumber {Inte ett giltigt nummer: %s}
+translate W WoodpeckerNoDifficulty {Välj minst en svårighetsgrad och ett antal övningar.}
+translate W WoodpeckerDownloading {Laddar ner pussel från Lichess...}
+translate W WoodpeckerBuilding {Bygga uppsättningens databas...}
+translate W WoodpeckerCreateFailed {Uppsättningen kunde inte skapas:
+%s}
+translate W WoodpeckerCreated {Set skapat: %d övningar.}
+translate W WoodpeckerFewer {Lichess gav %d av de %d pussel som bad om.}
+translate W WoodpeckerNoFile {Kan inte läsa %s}
+translate W WoodpeckerSkipped {%d spel hoppades över (ingen uppställningsposition eller inga drag).}
+translate W WoodpeckerMarksIncluded {Nyckeln rör sig! och!! är redan markerade, så du kan börja. Du kan fortfarande utvärdera setet med din egen motor från dess meny.}
+translate W WoodpeckerEvalRecommended {Utvärdera det nu med recensionen? Rekommenderas starkt: det markerar nyckelrörelserna! och !!, som tjänar bonuspoäng. Det tar ungefär en sekund per övning och kan även göras senare.}
+translate W WoodpeckerLevel_easiest {Enklast}
+translate W WoodpeckerLevel_easier {Lättare}
+translate W WoodpeckerLevel_normal {Normal}
+translate W WoodpeckerLevel_harder {Hårdare}
+translate W WoodpeckerLevel_hardest {Svårast}
+translate W WoodpeckerEvalBusy {En utvärdering pågår redan.}
+translate W WoodpeckerSomeAnnotated {Anteckningar finns redan på %d av %d övningar. Komplettera de andra med recensionen, eller skriva över allt med recensionen?}
+translate W WoodpeckerComplete {Komplett med recensionen}
+translate W WoodpeckerOverwrite {Skriv över med recensionen}
+translate W WoodpeckerAllAnnotated {Alla %d övningarna är redan kommenterade, så granskningen är valfri. Skriva över författarens märken med recensionens?}
+translate W WoodpeckerKeep {Behåll anteckningarna}
+translate W WoodpeckerEvaluating {Utvärderar uppsättningen...}
+translate W WoodpeckerEvalPhase_deep {Recension: leta efter lösningarna}
+translate W WoodpeckerEvalPhase_shallow {Recension: vilka drag är uppenbara}
+translate W WoodpeckerEvalPhase_write {Skriver märkena}
+translate W WoodpeckerEvalDone {Utvärdering gjord: %d övningar; %d drag markerade ! och %d markerade !!, av %d flyttar för att hitta.}
+translate W WoodpeckerNoEngine {Ingen UCI-motor är konfigurerad (Verktyg > Motorer).}
+translate W WoodpeckerEvalAsk {Utvärdera %d övningar med denna motor:}
+translate W WoodpeckerOtherMode {En annan träning eller ett spel är att använda brädan.}
+translate W WoodpeckerNoSlot {Ingen ledig databasplats för sessionen: stäng en databas och försök igen.
+(%s)}
+translate W WoodpeckerRestAsk {Vilodagarna slutar den %s. Starta cykeln %d ändå?}
+translate W WoodpeckerUnratedShort {%d övningar utvärderas inte: där räknas bara raden.}
+translate W WoodpeckerRes1 {löst}
+translate W WoodpeckerRes2 {misslyckades}
+translate W WoodpeckerPacePer {per övning}
+translate W WoodpeckerPaceTarget {mål %s s}
+translate W WoodpeckerCardStreak {Strimma}
+translate W WoodpeckerCardPoints {Poäng}
+translate W WoodpeckerCardDeadline {Tidsfrist}
+translate W WoodpeckerStreakSub {städa i rad}
+translate W WoodpeckerPointsSub {av det möjliga}
+translate W WoodpeckerDaysLeft {dagar kvar}
+translate W WoodpeckerExercise {Övning %d av %d}
+translate W WoodpeckerWhiteToMove {Vit att flytta}
+translate W WoodpeckerBlackToMove {Svart att flytta}
+translate W WoodpeckerYourMove {Ditt drag.}
+translate W WoodpeckerSolved {Löst!}
+translate W WoodpeckerFailed {Misslyckades.}
+translate W WoodpeckerPoints {+%s / %s}
+translate W WoodpeckerNoMarks {(ej utvärderad: nej! / !! bonus ännu)}
+translate W WoodpeckerQuotaDone {Dagens mål nått! Fortsätt eller avsluta sessionen.}
+translate W WoodpeckerSolutionShown {Gå igenom lösningen på tavlan eller på kortet och tryck sedan på Enter.}
+translate W WoodpeckerPaused {Pausad.}
+translate W WoodpeckerAutoPaused {Pausad: ingen rörelse på två minuter. Tiden borta räknas inte.}
+translate W WoodpeckerSessionOver {Session över}
+translate W WoodpeckerCycleComplete {Cykeln %d är klar!}
+translate W WoodpeckerSumDate {Datum}
+translate W WoodpeckerSumDuration {Varaktighet}
+translate W WoodpeckerSumExercises {Övningar genomförda}
+translate W WoodpeckerSumPoints {%s av %s poäng}
+translate W WoodpeckerSumAvg {Genomsnitt per övning}
+translate W WoodpeckerSumQuota {Dagens mål}
+translate W WoodpeckerSumCompare {Mot föregående cykel: %d snabbare, %d långsammare, %d fel fixade, %d nya fel.}
+translate W WoodpeckerSumReview {Att granska: övningar %s}
+translate W WoodpeckerCyclesTitle {Cyklar}
+translate W WoodpeckerSessionsTitle {Sessioner}
+translate W WoodpeckerStatsNote {Poäng använder betygen för utvärdering %d. Tidigare sessioner räknas om med samma poäng, så cyklerna jämförs ganska bra.}
+translate W WoodpeckerNoData {Ingen cykel ännu}
+translate W WoodpeckerChartLegend {staplar: lösa tid streckad: mål (föregående cykel halverad)}
+translate W WoodpeckerTagline {Lös samma uppsättning om och om igen, snabbare varje gång.}
+translate W WoodpeckerExit {Lämna sessionen}
+translate W WoodpeckerMore {Fler övningar}
+translate W WoodpeckerToday {I dag}
+translate W WoodpeckerCycleShort {Cykla %d}
+translate W WoodpeckerDaysPlanned {%d dagar planerade}
+translate W WoodpeckerExercisesShort {övningar}
+translate W WoodpeckerDeadline {deadline %s}
+translate W WoodpeckerHidden {Lösningen kommer att visas här.}
+translate W WoodpeckerSumCycle {Cykel}
+translate W WoodpeckerTokenSave {Spara och kontrollera}
+translate W WoodpeckerTokenCreate {Skapa en token (scope puzzle:read)}
+translate W WoodpeckerTokenOk {✓ Token fungerar: %s.}
+translate W WoodpeckerTokenRating {Pusselbetyg %s.}
+translate W WoodpeckerTokenNoScope {Denna token saknar pusslet:läs omfattning: skapa en med länken ovan.}
+translate W WoodpeckerTokenInvalid {Lichess känner inte till denna token.}
+translate W WoodpeckerTokenUnchecked {Token kunde inte kontrolleras (ingen anslutning?). Den kommer att användas som den är.}
+translate W WoodpeckerTokenChecking {Kontrollerar token...}
+translate W WoodpeckerTokenMissing {Ingen token? Det fungerar också, med pusselbetyget som anges ovan (Lichess profil, pussel). Nedladdningen går långsammare och pussel du redan löst på Lichess kan dyka upp; med en token går det snabbare.}
+translate W WoodpeckerPreset_automatic {Automatisk (enklare)}
+translate W WoodpeckerPreset_standard {Standard (rekommenderas)}
+translate W WoodpeckerPreset_challenge {Utmaning}
+translate W WoodpeckerPreset_tough {Tuff (för det mesta över din nivå)}
+translate W WoodpeckerPreset_custom {Beställnings...}
+translate W WoodpeckerPresetHelp_automatic {Mestadels enkel taktik, att se dem på en gång: bokens första mål.}
+translate W WoodpeckerPresetHelp_standard {En fjärdedel lättare, mest runt din nivå, några svårare - andelen av bokens Lätt- och Mellanliggande avsnitt.}
+translate W WoodpeckerPresetHelp_challenge {Runt och över din nivå, för starka spelare (som bokens avsnitt Avancerat).}
+translate W WoodpeckerPresetHelp_tough {Mestadels långt över din nivå, för starka spelare som vill stretcha.}
+translate W WoodpeckerPresetHelp_custom {Välj andelen för varje Lichess nivå själv.}
+translate W WoodpeckerPresetRating {Nivåerna är relativa till ditt Lichess pusselbetyg (%s).}
+translate W WoodpeckerPresetNoRating {Nivåerna är relativa till ditt Lichess pusselbetyg.}
+translate W WoodpeckerRatingAsk {Ditt Lichess pusselbetyg}
+translate W WoodpeckerBadRating {Ange ditt Lichess pusselbetyg (400-3200): det finns på din Lichess-profil, under Pussel.}
+translate W WoodpeckerPresetStated {Nivåerna är relativa till det betyg du angett (%s).}
+translate W WoodpeckerDataDir {Datamapp för hackspettmetod (tom: Scids egen)}
+translate W WoodpeckerNoDataDir {Det går inte att hitta hackspettens datamapp:\n%s\n\nÄr enheten ansluten? Mappen ställs in i Alternativ > Resurser.}
+translate W WoodpeckerDataDirMove {%d Hackspettuppsättningar finns i den tidigare datamappen:\n%s\n\nFlytta dem till den nya?\n%s\n\nNej: den nya mappen börjar tom och uppsättningarna stannar där de är.}
+translate W WoodpeckerDataDirHasSets {Den nya datamappen innehåller redan %d uppsättningar (synkroniserad från en annan dator?):\n%s\n\nScid använder dessa. Uppsättningarna från föregående mapp stannar i:\n%s}
 
 # Board screenshot
 menuText W ToolsScreenshot "Styrelsens skärmdump" 0 \

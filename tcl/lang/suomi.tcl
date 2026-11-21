@@ -297,6 +297,7 @@ menuText U ToolsCaptureBoard "Kuvakaappaus asemasta..." 1  {Tallenna asema kuvan
 # Play menu
 menuText U Play "Pelaa" 0
 menuText U LichessPuzzles "Lichess palapelit" 0 {Ratkaise Lichess-pulmia interaktiivisesti}
+menuText U Woodpecker "Tikka-menetelmä" 0 {Harjoittele taktiikkaa sykleissä: sama sarja, joka kerta nopeampi}
 
 # --- Correspondence Chess
 menuText U CCResign "Luovuta" 0 {Luovuta (ei sähköposti)}
@@ -517,6 +518,176 @@ translate U LichessPuzzlesClock {Kello}
 translate U LichessPuzzlesRated {Arvioitu}
 translate U LichessPuzzlesGame {Peli}
 translate U LichessPuzzlesNoNew {Näille asetuksille ei löytynyt uusia pulmia.\n\nKokeile vaihtaa teemaa, vaikeusastetta tai pulman väriä.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate U WoodpeckerTitle {Tikka-menetelmä}
+translate U WoodpeckerColName {Sarja}
+translate U WoodpeckerColExercises {Harjoitukset}
+translate U WoodpeckerColCycle {Kierrä}
+translate U WoodpeckerColProgress {Tämä sykli}
+translate U WoodpeckerColLast {Viimeinen istunto}
+translate U WoodpeckerColDays {päivää}
+translate U WoodpeckerColTime {Ratkaisuaika}
+translate U WoodpeckerColResults {ratkaistu/epäonnistunut}
+translate U WoodpeckerColPct {Pisteet}
+translate U WoodpeckerColDate {Päivämäärä}
+translate U WoodpeckerColDuration {Kesto}
+translate U WoodpeckerColPoints {Pisteet}
+translate U WoodpeckerNew {Uusi setti...}
+translate U WoodpeckerTrain {Kouluttaa}
+translate U WoodpeckerEvaluate {Arvioida...}
+translate U WoodpeckerStats {Tilastot}
+translate U WoodpeckerDelete {Poistaa}
+translate U WoodpeckerContinue {Jatka (Enter)}
+translate U WoodpeckerPause {Tauko}
+translate U WoodpeckerResume {Jatkaa}
+translate U WoodpeckerEnd {Lopeta istunto}
+translate U WoodpeckerNoSets {Ei vielä asetettuja: paina Uusi sarja aloittaaksesi Scidin mukana tulevilla pulmilla, ladataksesi lisää Lichess:sta tai käyttääksesi PGN-kirjaa.}
+translate U WoodpeckerUnrated {%d / %d harjoituksista ei ole ! / !! pisteet: arvioi sarja ansaitaksesi nämä bonukset (myös aikaisemmat istunnot pisteytetään uudelleen).}
+translate U WoodpeckerCycleOver {Jakso %d on valmis. Lepää %s asti, sitten alkaa seuraava sykli puolet päivistä.}
+translate U WoodpeckerCycleLine {Jakso %d: %d/%d valmis, %d päivää suunniteltu, määräaika %s.}
+translate U WoodpeckerQuotaLine {Tänään: %d / %d harjoitukset.}
+translate U WoodpeckerQuotaRaised {Olet hieman jäljessä: tämän päivän tavoite on %d %d sijaan.}
+translate U WoodpeckerDeadlineMoved {Tauon jälkeen määräaika siirtyi %d päivällä %s:iin; päivittäinen tavoite on %d.}
+translate U WoodpeckerOverStretch {Jakso on saavuttanut kaksinkertaisen pituuden: määräaika on %s ja päivätavoite on %d.}
+translate U WoodpeckerDeleteAsk {Poistetaanko joukko "%s" tietokantansa ja tilastoineen?}
+translate U WoodpeckerNewTitle {Uusi Woodpecker setti}
+translate U WoodpeckerName {Nimi}
+translate U WoodpeckerFromLichess {Palapelit käyttäjältä Lichess}
+translate U WoodpeckerFromPuzzles {Scidin mukana tulevat palapelit (arvostetut Lichess-pulmat)}
+translate U WoodpeckerAdvanced {Edistynyt}
+translate U WoodpeckerUseLichess {Hanki pulmia Lichess:sta mukana tulevien sarjojen sijaan}
+translate U WoodpeckerPicking {Palapelien valinta...}
+translate U WoodpeckerShortAsk {Vain %d -lta %d pyydetyt palapelit jätetään tasollesi Scidiin sisältyvien joukossa.
+
+Lataa toinen %d Lichessiltä?
+
+Ei: sarja luodaan löydetyistä arvoimista.}
+translate U WoodpeckerNoPuzzles {Tälle tasolle, teemalle ja puolelle ei jää palapeliä.}
+translate U WoodpeckerCount {Harjoitukset}
+translate U WoodpeckerDifficulty {Vaikeus}
+translate U WoodpeckerTheme {Teema}
+translate U WoodpeckerThemeMix {Sekoitettu (suositus)}
+translate U WoodpeckerColor {Sivu}
+translate U WoodpeckerColor_both {Molemmat}
+translate U WoodpeckerColor_white {Valkoinen}
+translate U WoodpeckerColor_black {Musta}
+translate U WoodpeckerToken {Lichess merkki}
+translate U WoodpeckerFromFile {PGN- tai Scid-tietokanta (esim. kirja)}
+translate U WoodpeckerFileHelp {Jokaisesta asetuspaikalta alkavasta pelistä tulee harjoitus: sen päälinja on ratkaisu, muunnelmat jätetään huomiotta. kirjoittajan! ja!! pidetään.}
+translate U WoodpeckerDays1 {Ensimmäinen sykli (päiviä)}
+translate U WoodpeckerRestDays {Lepo syklien välillä (päiviä)}
+translate U WoodpeckerDaysHelp {Jokainen myöhempi sykli saa puolet edellisen päivän päivistä: tavoitteena on puolittaa jokaisen syklin ratkaisuaika.}
+translate U WoodpeckerCreate {Luoda}
+translate U WoodpeckerBadNumber {Ei kelvollinen numero: %s}
+translate U WoodpeckerNoDifficulty {Valitse vähintään yksi vaikeusaste ja useita harjoituksia.}
+translate U WoodpeckerDownloading {Ladataan pulmia osoitteesta Lichess...}
+translate U WoodpeckerBuilding {Sarjan tietokannan rakentaminen...}
+translate U WoodpeckerCreateFailed {Joukkoa ei voitu luoda:
+%s}
+translate U WoodpeckerCreated {Sarja luotu: %d harjoituksia.}
+translate U WoodpeckerFewer {Lichess antoi %d pyydetyistä %d arvoimista.}
+translate U WoodpeckerNoFile {Ei voi lukea %s}
+translate U WoodpeckerSkipped {%d pelit ohitettiin (ei asetusasentoa tai ei liikkeitä).}
+translate U WoodpeckerMarksIncluded {Avain liikkuu! ja!! on jo merkitty, joten voit aloittaa. Voit silti arvioida sarjaa omalla moottorillasi sen valikosta.}
+translate U WoodpeckerEvalRecommended {Arvioi se nyt arvostelun avulla? Vahva suositus: se merkitsee avaimen liikkeet ! ja !!, jotka ansaitsevat bonuspisteitä. Se kestää noin sekunnin per harjoitus ja voidaan tehdä myös myöhemmin.}
+translate U WoodpeckerLevel_easiest {Helpoin}
+translate U WoodpeckerLevel_easier {Helpompi}
+translate U WoodpeckerLevel_normal {Normaali}
+translate U WoodpeckerLevel_harder {Kovempi}
+translate U WoodpeckerLevel_hardest {Vaikein}
+translate U WoodpeckerEvalBusy {Arviointi on jo käynnissä.}
+translate U WoodpeckerSomeAnnotated {Huomautukset ovat jo olemassa %d / %d harjoitukset. Täydennetäänkö muut arvostelulla vai korvataanko kaikki arvostelulla?}
+translate U WoodpeckerComplete {Täydennä arvostelu}
+translate U WoodpeckerOverwrite {Korvaa arvostelu}
+translate U WoodpeckerAllAnnotated {Kaikki %d harjoitukset on jo merkitty, joten tarkistus on valinnainen. Korvaako kirjoittajan merkit arvostelun arvoilla?}
+translate U WoodpeckerKeep {Säilytä merkinnät}
+translate U WoodpeckerEvaluating {Arvioidaan sarjaa...}
+translate U WoodpeckerEvalPhase_deep {Arvio: ratkaisujen etsiminen}
+translate U WoodpeckerEvalPhase_shallow {Tarkista: mitkä liikkeet ovat ilmeisiä}
+translate U WoodpeckerEvalPhase_write {Merkkien kirjoittaminen}
+translate U WoodpeckerEvalDone {Arviointi tehty: %d harjoitukset; %d liikkeet merkitty! ja %d merkitty!!, ulos %d liikkuu löytääkseen.}
+translate U WoodpeckerNoEngine {UCI-moottoria ei ole määritetty (Työkalut > Moottorit).}
+translate U WoodpeckerEvalAsk {Arvioida %d harjoitukset tällä moottorilla:}
+translate U WoodpeckerOtherMode {Toinen harjoitus tai peli on laudan käyttö.}
+translate U WoodpeckerNoSlot {Ei vapaata tietokantapaikkaa istunnolle: sulje tietokanta ja yritä uudelleen.
+(%s)}
+translate U WoodpeckerRestAsk {Lepopäivät päättyvät %s. Aloitetaanko sykli %d kuitenkin?}
+translate U WoodpeckerUnratedShort {%d harjoituksia ei arvioida: siellä vain rivi laskee.}
+translate U WoodpeckerRes1 {ratkaistu}
+translate U WoodpeckerRes2 {epäonnistunut}
+translate U WoodpeckerPacePer {harjoitusta kohti}
+translate U WoodpeckerPaceTarget {kohde %s s}
+translate U WoodpeckerCardStreak {Viiva}
+translate U WoodpeckerCardPoints {Pisteet}
+translate U WoodpeckerCardDeadline {Määräaika}
+translate U WoodpeckerStreakSub {puhdistaa peräkkäin}
+translate U WoodpeckerPointsSub {mahdollisista}
+translate U WoodpeckerDaysLeft {päivää jäljellä}
+translate U WoodpeckerExercise {Käyttää %d / %d}
+translate U WoodpeckerWhiteToMove {Valkoinen liikkua}
+translate U WoodpeckerBlackToMove {Musta liikkua}
+translate U WoodpeckerYourMove {Sinun siirtosi.}
+translate U WoodpeckerSolved {Ratkaistu!}
+translate U WoodpeckerFailed {Epäonnistui.}
+translate U WoodpeckerPoints {+%s / %s}
+translate U WoodpeckerNoMarks {(ei arvioitu: ei ! / !! bonus vielä)}
+translate U WoodpeckerQuotaDone {Tämän päivän tavoite saavutettu! Jatka tai lopeta istunto.}
+translate U WoodpeckerSolutionShown {Selaa ratkaisun läpi taululla tai kortilla ja paina sitten Enter.}
+translate U WoodpeckerPaused {Keskeytetty.}
+translate U WoodpeckerAutoPaused {Keskeytetty: ei liikettä kahteen minuuttiin. Poissaoloaikaa ei lasketa.}
+translate U WoodpeckerSessionOver {Istunto ohi}
+translate U WoodpeckerCycleComplete {Kierros %d valmis!}
+translate U WoodpeckerSumDate {Päivämäärä}
+translate U WoodpeckerSumDuration {Kesto}
+translate U WoodpeckerSumExercises {Harjoitukset suoritettu}
+translate U WoodpeckerSumPoints {%s / %s pisteitä}
+translate U WoodpeckerSumAvg {Keskiarvo per harjoitus}
+translate U WoodpeckerSumQuota {Tämän päivän tavoite}
+translate U WoodpeckerSumCompare {Edelliseen sykliin verrattuna: %d nopeampi, %d hitaampi, %d virheet korjattu, %d uusia virheitä.}
+translate U WoodpeckerSumReview {Tarkasteltavaksi: harjoitukset %s}
+translate U WoodpeckerCyclesTitle {Pyörät}
+translate U WoodpeckerSessionsTitle {Istunnot}
+translate U WoodpeckerStatsNote {Pisteet käyttävät arviointipisteitä %d. Aiemmat istunnot pisteytetään uudelleen samoilla pisteillä, joten jaksot vertautuvat reilusti.}
+translate U WoodpeckerNoData {Ei kiertoa vielä}
+translate U WoodpeckerChartLegend {palkit: ratkaisuaika katkoviivalla: tavoite (edellinen jakso puolitettu)}
+translate U WoodpeckerTagline {Ratkaise sama sarja uudestaan ​​ja uudestaan, joka kerta nopeammin.}
+translate U WoodpeckerExit {Poistu istunnosta}
+translate U WoodpeckerMore {Lisää harjoituksia}
+translate U WoodpeckerToday {Tänään}
+translate U WoodpeckerCycleShort {Kierrä %d}
+translate U WoodpeckerDaysPlanned {%d päivää suunniteltu}
+translate U WoodpeckerExercisesShort {harjoitukset}
+translate U WoodpeckerDeadline {määräaika %s}
+translate U WoodpeckerHidden {Ratkaisu näkyy täällä.}
+translate U WoodpeckerSumCycle {Kierrä}
+translate U WoodpeckerTokenSave {Tallenna ja tarkista}
+translate U WoodpeckerTokenCreate {Luo tunnus (laajuuspalapeli: lue)}
+translate U WoodpeckerTokenOk {✓ Token toimii: %s.}
+translate U WoodpeckerTokenRating {Palapelin arvosana %s.}
+translate U WoodpeckerTokenNoScope {Tästä tunnuksesta puuttuu arvoitus: lue laajuus: luo sellainen yllä olevan linkin avulla.}
+translate U WoodpeckerTokenInvalid {Lichess ei tunne tätä merkkiä.}
+translate U WoodpeckerTokenUnchecked {Tunnusta ei voitu tarkistaa (ei yhteyttä?). Sitä käytetään sellaisenaan.}
+translate U WoodpeckerTokenChecking {Tarkistetaan merkkiä...}
+translate U WoodpeckerTokenMissing {Ei merkkiä? Se toimii myös yllä annetulla arvoitusarvolla (Lichess profiili, Palapelit). Lataus on hitaampaa ja Lichess:lla ratkaistut pulmat saattavat ilmaantua; tokenilla se on nopeampi.}
+translate U WoodpeckerPreset_automatic {Automaattinen (helppo)}
+translate U WoodpeckerPreset_standard {Vakio (suositus)}
+translate U WoodpeckerPreset_challenge {Haastava}
+translate U WoodpeckerPreset_tough {Kova (enimmäkseen tasosi yläpuolella)}
+translate U WoodpeckerPreset_custom {Mukautettu...}
+translate U WoodpeckerPresetHelp_automatic {Enimmäkseen yksinkertaisia ​​taktiikoita, nähdä ne kerralla: kirjan ensimmäinen tavoite.}
+translate U WoodpeckerPresetHelp_standard {Neljänneksen helpompaa, suurin osa tasostasi, muutama vaikeampi – kirjan Helppo- ja Keskitason osien osuus.}
+translate U WoodpeckerPresetHelp_challenge {Tasosi ympärillä ja sen yläpuolella vahvoille pelaajille (kuten kirjan Advanced-osio).}
+translate U WoodpeckerPresetHelp_tough {Useimmiten selvästi tasosi yläpuolella vahvoille pelaajille, jotka haluavat venytellä.}
+translate U WoodpeckerPresetHelp_custom {Valitse itse kunkin Lichess-tason osuus.}
+translate U WoodpeckerPresetRating {Tasot ovat suhteessa Lichess arvoitukseen (%s).}
+translate U WoodpeckerPresetNoRating {Tasot ovat suhteessa Lichess arvoitukseen.}
+translate U WoodpeckerRatingAsk {Arvosanasi Lichess}
+translate U WoodpeckerBadRating {Anna Lichess-arvosanasi (400-3200): se on Lichess-profiilissasi Palapelit-kohdassa.}
+translate U WoodpeckerPresetStated {Tasot ovat suhteessa antamaasi arvosanaan (%s).}
+translate U WoodpeckerDataDir {Woodpecker Method -tietokansio (tyhjä: Scidin oma)}
+translate U WoodpeckerNoDataDir {Woodpecker-tietokansiota ei löydy:\n%s\n\nOnko asema kytketty? Kansio asetetaan kohdassa Asetukset > Resurssit.}
+translate U WoodpeckerDataDirMove {%d Tikkajoukot ovat edellisessä tietokansiossa:\n%s\n\nSiirretäänkö ne uuteen?\n%s\n\nEi: uusi kansio alkaa tyhjänä ja sarjat pysyvät paikoillaan.}
+translate U WoodpeckerDataDirHasSets {Uudessa tietokansiossa on jo %d sarjaa (synkronoitu toisesta tietokoneesta?):\n%s\n\nScid käyttää niitä. Edellisen kansion joukot pysyvät:\n%s}
 
 # Board screenshot
 menuText U ToolsScreenshot "Board Screenshot" 0 \

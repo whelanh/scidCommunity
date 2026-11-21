@@ -299,6 +299,7 @@ menuText A ToolsCaptureBoard "現在のボードをキャプチャ..." 5  {現�
 # Play menu
 menuText A Play "遊ぶ" 0
 menuText A LichessPuzzles "リチェスパズル" 0 {Lichess パズルをインタラクティブに解く}
+menuText A Woodpecker "キツツキ法" 0 {サイクルで戦術を訓練する: 同じセットで、毎回より速く}
 
 # --- Correspondence Chess
 menuText A CCResign "投了" 1 {辞任（電子メールではない）}
@@ -519,6 +520,176 @@ translate A LichessPuzzlesClock {クロック}
 translate A LichessPuzzlesRated {評価済み}
 translate A LichessPuzzlesGame {ゲーム}
 translate A LichessPuzzlesNoNew {これらの設定では新しいパズルが見つかりません。\n\nテーマ、難易度、またはパズルの色を変更してみてください。}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate A WoodpeckerTitle {キツツキ法}
+translate A WoodpeckerColName {セット}
+translate A WoodpeckerColExercises {演習}
+translate A WoodpeckerColCycle {サイクル}
+translate A WoodpeckerColProgress {このサイクル}
+translate A WoodpeckerColLast {最後のセッション}
+translate A WoodpeckerColDays {日数}
+translate A WoodpeckerColTime {解決時間}
+translate A WoodpeckerColResults {解決/失敗}
+translate A WoodpeckerColPct {スコア}
+translate A WoodpeckerColDate {日付}
+translate A WoodpeckerColDuration {間隔}
+translate A WoodpeckerColPoints {ポイント}
+translate A WoodpeckerNew {新しいセット...}
+translate A WoodpeckerTrain {電車}
+translate A WoodpeckerEvaluate {評価する...}
+translate A WoodpeckerStats {統計}
+translate A WoodpeckerDelete {消去}
+translate A WoodpeckerContinue {続行（入力）}
+translate A WoodpeckerPause {一時停止}
+translate A WoodpeckerResume {再開する}
+translate A WoodpeckerEnd {セッションを終了する}
+translate A WoodpeckerNoSets {まだセットがありません: Lichess] からさらにダウンロードするか、PGN ブックを使用するには、Scid に含まれるパズルから始めるには、[新しいセット] を押します。}
+translate A WoodpeckerUnrated {%d/%d の演習には ! がありません。 /!!マーク: セットを評価してボーナスを獲得します (以前のセッションも再スコアされます)。}
+translate A WoodpeckerCycleOver {サイクル %d が完了しました。 %sまで休憩し、その後、半日の次のサイクルが始まります。}
+translate A WoodpeckerCycleLine {サイクル %d: %d/%d 完了、予定日数 %d、期限 %s。}
+translate A WoodpeckerQuotaLine {今日: %d/%d の演習。}
+translate A WoodpeckerQuotaRaised {少し遅れています。今日の目標は %d の代わりに %d。}
+translate A WoodpeckerDeadlineMoved {休憩の後、期限は %d 日移動し、%s になりました。 1 日の目標は %d です。}
+translate A WoodpeckerOverStretch {サイクルは計画の長さの 2 倍に達しました。期限は %s のままで、1 日の目標は %d です。}
+translate A WoodpeckerDeleteAsk {セット「%s」をデータベースと統計とともに削除しますか?}
+translate A WoodpeckerNewTitle {新しいキツツキセット}
+translate A WoodpeckerName {名前}
+translate A WoodpeckerFromLichess {Lichess のパズル}
+translate A WoodpeckerFromPuzzles {Scid に含まれるパズル (グレード付き Lichess パズル)}
+translate A WoodpeckerAdvanced {高度な}
+translate A WoodpeckerUseLichess {付属のセットの代わりに Lichess からパズルを入手してください}
+translate A WoodpeckerPicking {パズルを選択中...}
+translate A WoodpeckerShortAsk {のみ %d の %d 要求されたパズルは、Scid に含まれているパズルの中からあなたのレベルに応じて残されます。
+
+もう一方をダウンロード %d リッチスから？
+
+いいえ: セットは見つかったパズルを使用して作成されます。}
+translate A WoodpeckerNoPuzzles {このレベル、テーマ、サイドにはパズルはありません。}
+translate A WoodpeckerCount {演習}
+translate A WoodpeckerDifficulty {困難}
+translate A WoodpeckerTheme {テーマ}
+translate A WoodpeckerThemeMix {混合（推奨）}
+translate A WoodpeckerColor {側}
+translate A WoodpeckerColor_both {両方}
+translate A WoodpeckerColor_white {白}
+translate A WoodpeckerColor_black {黒}
+translate A WoodpeckerToken {Lichess トークン}
+translate A WoodpeckerFromFile {PGN または Scid データベース (書籍など)}
+translate A WoodpeckerFileHelp {セットアップポジションから始まる各ゲームは練習になります。メインラインが解決策であり、バリエーションは無視されます。著者の！そして ！！保管されています。}
+translate A WoodpeckerDays1 {最初のサイクル (日)}
+translate A WoodpeckerRestDays {サイクル間の休憩（日）}
+translate A WoodpeckerDaysHelp {後の各サイクルでは、前のサイクルの半分の日数が取得されます。目的は、各サイクルの解決時間を半分にすることです。}
+translate A WoodpeckerCreate {作成する}
+translate A WoodpeckerBadNumber {有効な数値ではありません: %s}
+translate A WoodpeckerNoDifficulty {少なくとも 1 つの難易度と演習の数を選択してください。}
+translate A WoodpeckerDownloading {Lichess からパズルをダウンロードしています...}
+translate A WoodpeckerBuilding {セットのデータベースを構築しています...}
+translate A WoodpeckerCreateFailed {セットを作成できませんでした:
+%s}
+translate A WoodpeckerCreated {作成されたセット: %d 演習。}
+translate A WoodpeckerFewer {リッチスがくれた %d の %d パズルを求められました。}
+translate A WoodpeckerNoFile {%s を読み取れません}
+translate A WoodpeckerSkipped {%d ゲームがスキップされました (セットアップ ポジションなし、または移動なし)。}
+translate A WoodpeckerMarksIncluded {キーが動く！そして ！！はすでにマークされているので、開始できます。メニューから独自のエンジンを使用してセットを評価することもできます。}
+translate A WoodpeckerEvalRecommended {今すぐレビューで評価してみませんか？強くお勧めします: キーの動きをマークします。と !! でボーナスポイントが獲得できます。エクササイズごとに約 1 秒かかりますが、後で行うこともできます。}
+translate A WoodpeckerLevel_easiest {最も簡単な}
+translate A WoodpeckerLevel_easier {より簡単に}
+translate A WoodpeckerLevel_normal {普通}
+translate A WoodpeckerLevel_harder {もっと強く}
+translate A WoodpeckerLevel_hardest {最も難しい}
+translate A WoodpeckerEvalBusy {評価はすでに実行されています。}
+translate A WoodpeckerSomeAnnotated {注釈はすでに存在します %d の %d 演習。他の項目をレビューで完了しますか、それともすべてをレビューで上書きしますか?}
+translate A WoodpeckerComplete {レビューを完了する}
+translate A WoodpeckerOverwrite {レビューで上書き}
+translate A WoodpeckerAllAnnotated {すべての %d 演習にはすでに注釈が付けられているため、レビューはオプションです。著者のマークをレビューのマークで上書きしますか?}
+translate A WoodpeckerKeep {注釈を保存しておく}
+translate A WoodpeckerEvaluating {セットを評価しています...}
+translate A WoodpeckerEvalPhase_deep {復習：解決策を探す}
+translate A WoodpeckerEvalPhase_shallow {復習：どの動きが明らかか}
+translate A WoodpeckerEvalPhase_write {マークを書く}
+translate A WoodpeckerEvalDone {評価完了: %d 演習。 %d はマーク付きで移動します!および %d に !! マークが付いているものは、%d のうち移動して見つけます。}
+translate A WoodpeckerNoEngine {UCI エンジンが構成されていません ([ツール] > [エンジン])。}
+translate A WoodpeckerEvalAsk {このエンジンを使用して %d 演習を評価します。}
+translate A WoodpeckerOtherMode {もう一つのトレーニングやゲームはボードを使用することです。}
+translate A WoodpeckerNoSlot {セッション用の空きデータベース スロットがありません。データベースを閉じて、再試行してください。
+(%s)}
+translate A WoodpeckerRestAsk {残りの日は %s に終了します。とにかくサイクル %d を開始しますか?}
+translate A WoodpeckerUnratedShort {%d の演習は評価されません。そこでは行数のみがカウントされます。}
+translate A WoodpeckerRes1 {解決しました}
+translate A WoodpeckerRes2 {失敗した}
+translate A WoodpeckerPacePer {エクササイズごとに}
+translate A WoodpeckerPaceTarget {ターゲット %s s}
+translate A WoodpeckerCardStreak {ストリーク}
+translate A WoodpeckerCardPoints {ポイント}
+translate A WoodpeckerCardDeadline {締め切り}
+translate A WoodpeckerStreakSub {連続して掃除する}
+translate A WoodpeckerPointsSub {可能性のあるものの}
+translate A WoodpeckerDaysLeft {残り日数}
+translate A WoodpeckerExercise {演習 %d/%d}
+translate A WoodpeckerWhiteToMove {移動する白}
+translate A WoodpeckerBlackToMove {移動する黒}
+translate A WoodpeckerYourMove {あなたの動き。}
+translate A WoodpeckerSolved {解決しました！}
+translate A WoodpeckerFailed {失敗した。}
+translate A WoodpeckerPoints {+%s / %s}
+translate A WoodpeckerNoMarks {(未評価: !/!! ボーナスはまだありません)}
+translate A WoodpeckerQuotaDone {今日の目標達成しました！続行するか、セッションを終了します。}
+translate A WoodpeckerSolutionShown {ボードまたはカード上のソリューションをステップ実行し、Enter キーを押します。}
+translate A WoodpeckerPaused {一時停止しました。}
+translate A WoodpeckerAutoPaused {一時停止: 2 分間動きません。離れている時間はカウントされません。}
+translate A WoodpeckerSessionOver {セッション終了}
+translate A WoodpeckerCycleComplete {サイクル %d が完了しました!}
+translate A WoodpeckerSumDate {日付}
+translate A WoodpeckerSumDuration {間隔}
+translate A WoodpeckerSumExercises {演習が完了しました}
+translate A WoodpeckerSumPoints {%s/%s ポイント}
+translate A WoodpeckerSumAvg {エクササイズごとの平均}
+translate A WoodpeckerSumQuota {今日の目標}
+translate A WoodpeckerSumCompare {前のサイクルに対して: %d 高速化、%d 低速化、%d エラー修正、%d 新規エラー。}
+translate A WoodpeckerSumReview {復習するには: 演習 %s}
+translate A WoodpeckerCyclesTitle {サイクル}
+translate A WoodpeckerSessionsTitle {セッション}
+translate A WoodpeckerStatsNote {ポイントは評価マークを使用します %d。以前のセッションは同じマークで再スコアされるため、サイクルは公平に比較​​されます。}
+translate A WoodpeckerNoData {まだサイクルがありません}
+translate A WoodpeckerChartLegend {バー: 解決時間 破線: ターゲット (前のサイクルの半分)}
+translate A WoodpeckerTagline {同じセットを何度も繰り返し、毎回速く解きます。}
+translate A WoodpeckerExit {セッションから退出する}
+translate A WoodpeckerMore {さらなる演習}
+translate A WoodpeckerToday {今日}
+translate A WoodpeckerCycleShort {サイクル %d}
+translate A WoodpeckerDaysPlanned {%d 日の予定}
+translate A WoodpeckerExercisesShort {演習}
+translate A WoodpeckerDeadline {期限 %s}
+translate A WoodpeckerHidden {解決策はここに表示されます。}
+translate A WoodpeckerSumCycle {サイクル}
+translate A WoodpeckerTokenSave {保存して確認する}
+translate A WoodpeckerTokenCreate {トークンの作成 (スコープ パズル:読み取り)}
+translate A WoodpeckerTokenOk {✓ トークンの動作: %s。}
+translate A WoodpeckerTokenRating {パズルの評価は %s。}
+translate A WoodpeckerTokenNoScope {このトークンには、puzzle:read スコープがありません。上記のリンクを使用してスコープを作成してください。}
+translate A WoodpeckerTokenInvalid {Lichess はこのトークンを知りません。}
+translate A WoodpeckerTokenUnchecked {トークンを確認できませんでした (接続されていません?)。そのまま使用されます。}
+translate A WoodpeckerTokenChecking {トークンを確認しています...}
+translate A WoodpeckerTokenMissing {トークンがありませんか?上で入力したパズルの評価 (Lichess プロフィール、パズル) を使用しても機能します。ダウンロードは遅くなり、Lichess ですでに解決したパズルが出てくる可能性があります。トークンを使用すると高速になります。}
+translate A WoodpeckerPreset_automatic {自動 (より簡単)}
+translate A WoodpeckerPreset_standard {標準（推奨）}
+translate A WoodpeckerPreset_challenge {挑戦的}
+translate A WoodpeckerPreset_tough {厳しい（ほとんどが自分のレベルを超えている）}
+translate A WoodpeckerPreset_custom {カスタム...}
+translate A WoodpeckerPresetHelp_automatic {ほとんどが単純な戦術であり、それらを一度に理解することが、この本の最初の目的です。}
+translate A WoodpeckerPresetHelp_standard {4 分の 1 は簡単で、ほとんどが自分のレベルに近いもので、少し難しくなります。この本の初級セクションと中級セクションの割合です。}
+translate A WoodpeckerPresetHelp_challenge {自分のレベルとほぼ同等、またはそれ以上の、強いプレイヤー向け (本の上級セクションなど)。}
+translate A WoodpeckerPresetHelp_tough {ほとんどの場合、自分のレベルをはるかに上回っており、ストレッチをしたい強いプレーヤー向けです。}
+translate A WoodpeckerPresetHelp_custom {各Lichessレベルのシェアは自分で選択してください。}
+translate A WoodpeckerPresetRating {レベルはあなたの Lichess パズルの評価 (%s) に関連します。}
+translate A WoodpeckerPresetNoRating {レベルはあなたのLichessパズルの評価に比例します。}
+translate A WoodpeckerRatingAsk {あなたの Lichess パズルの評価}
+translate A WoodpeckerBadRating {Lichess パズルの評価 (400-3200) を入力してください。これは Lichess のプロフィールの [パズル] にあります。}
+translate A WoodpeckerPresetStated {レベルは、入力した評価 (%s) に関連します。}
+translate A WoodpeckerDataDir {Woodpecker Method データフォルダー (空: Scid 独自)}
+translate A WoodpeckerNoDataDir {Woodpecker データ フォルダが見つかりません:\n%s\n\nドライブは接続されていますか?フォルダーは [オプション] > [リソース] で設定します。}
+translate A WoodpeckerDataDirMove {%d キツツキ セットは前のデータ フォルダにあります:\n%s\n\n新しいフォルダに移動しますか?\n%s\n\nいいえ: 新しいフォルダは空から始まり、セットはそのまま残ります。}
+translate A WoodpeckerDataDirHasSets {新しいデータ フォルダには既に %d セットが含まれています (別のコンピュータから同期されていますか?):\n%s\n\nScid はそれらを使用します。前のフォルダのセットは次の場所に残ります:\n%s}
 
 # Board screenshot
 menuText A ToolsScreenshot "ボードのスクリーンショット" 0 \

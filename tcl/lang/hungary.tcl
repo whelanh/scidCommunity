@@ -264,6 +264,7 @@ menuText H ToolsCaptureBoard "Az aktuális tábla rögzítése..." 0  {Mentse el
 # Play menu
 menuText H Play "Játék" 0
 menuText H LichessPuzzles "Lichess rejtvények" 0 {Oldja meg a Lichess rejtvényeket interaktívan}
+menuText H Woodpecker "Harkály módszer" 0 {Tanítási taktika ciklusokban: ugyanaz a készlet, minden alkalommal gyorsabb}
 
 # --- Correspondence Chess
 menuText H CCResign "Feladás" 0 {Feladás (nem eMail útján)}
@@ -486,6 +487,176 @@ translate H LichessPuzzlesClock {Óra}
 translate H LichessPuzzlesRated {Névleges}
 translate H LichessPuzzlesGame {Játék}
 translate H LichessPuzzlesNoNew {Nem találhatók új rejtvények ezekhez a beállításokhoz.\n\nMódosítsa a témát, a nehézségi fokot vagy a rejtvény színét.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate H WoodpeckerTitle {Harkály módszer}
+translate H WoodpeckerColName {Készlet}
+translate H WoodpeckerColExercises {Gyakorlatok}
+translate H WoodpeckerColCycle {Ciklus}
+translate H WoodpeckerColProgress {Ezt a ciklust}
+translate H WoodpeckerColLast {Utolsó ülés}
+translate H WoodpeckerColDays {Napok}
+translate H WoodpeckerColTime {Megoldási idő}
+translate H WoodpeckerColResults {megoldva/nem sikerült}
+translate H WoodpeckerColPct {Pontszám}
+translate H WoodpeckerColDate {Dátum}
+translate H WoodpeckerColDuration {Időtartam}
+translate H WoodpeckerColPoints {Pontok}
+translate H WoodpeckerNew {Új készlet...}
+translate H WoodpeckerTrain {Vonat}
+translate H WoodpeckerEvaluate {Értékeld...}
+translate H WoodpeckerStats {Statisztika}
+translate H WoodpeckerDelete {Töröl}
+translate H WoodpeckerContinue {Folytatás (Enter)}
+translate H WoodpeckerPause {Szünet}
+translate H WoodpeckerResume {Folytatás}
+translate H WoodpeckerEnd {Munkamenet befejezése}
+translate H WoodpeckerNoSets {Még nincs beállítva: nyomja meg az Új készlet gombot a Scid-hez mellékelt rejtvények elindításához, további letöltéshez az Lichess oldalról, vagy PGN-könyv használatához.}
+translate H WoodpeckerUnrated {%d a %d gyakorlatoknak nincs ! / !! pontok: értékelje a készletet, hogy megszerezze ezeket a bónuszokat (a korábbi munkameneteket is újra pontozzák).}
+translate H WoodpeckerCycleOver {A %d ciklus befejeződött. Pihenjen %s-ig, majd kezdődik a következő ciklus, a napok felével.}
+translate H WoodpeckerCycleLine {Ciklus %d: %d/%d kész, %d nap tervezett, határidő %s.}
+translate H WoodpeckerQuotaLine {Ma: %d a %d gyakorlatokat.}
+translate H WoodpeckerQuotaRaised {Kicsit lemaradtál: a mai cél az %d helyett %d.}
+translate H WoodpeckerDeadlineMoved {A szünet után a határidő %d nappal, %s-ra tolódott; a napi cél %d.}
+translate H WoodpeckerOverStretch {A ciklus elérte a tervezett hosszának kétszeresét: a határidő %s marad, a napi cél pedig %d.}
+translate H WoodpeckerDeleteAsk {Törli a "%s" készletet az adatbázisával és a statisztikákkal együtt?}
+translate H WoodpeckerNewTitle {Új Woodpecker készlet}
+translate H WoodpeckerName {Név}
+translate H WoodpeckerFromLichess {Rejtvények a következőtől: Lichess}
+translate H WoodpeckerFromPuzzles {Rejtvények a Scid-ben (osztályozott Lichess rejtvények)}
+translate H WoodpeckerAdvanced {Fejlett}
+translate H WoodpeckerUseLichess {Szerezzen rejtvényeket a Lichess-tól a mellékelt készletek helyett}
+translate H WoodpeckerPicking {A rejtvények kiválasztása...}
+translate H WoodpeckerShortAsk {Csak %d a %d a kért rejtvények a te szinteden maradnak a Scid-ben szereplők között.
+
+Töltse le a másikat %d Lichesstől?
+
+Nem: a készlet a talált feladványokkal jön létre.}
+translate H WoodpeckerNoPuzzles {Ehhez a szinthez, témához és oldalhoz nem maradt rejtvény.}
+translate H WoodpeckerCount {Gyakorlatok}
+translate H WoodpeckerDifficulty {Nehézség}
+translate H WoodpeckerTheme {Téma}
+translate H WoodpeckerThemeMix {Vegyes (ajánlott)}
+translate H WoodpeckerColor {Oldal}
+translate H WoodpeckerColor_both {Mindkét}
+translate H WoodpeckerColor_white {Fehér}
+translate H WoodpeckerColor_black {Fekete}
+translate H WoodpeckerToken {Lichess token}
+translate H WoodpeckerFromFile {PGN vagy Scid adatbázis (pl. könyv)}
+translate H WoodpeckerFileHelp {Minden játék, amely egy beállított pozícióból indul, gyakorlattá válik: fő vonala a megoldás, a variációkat figyelmen kívül hagyjuk. A szerzőé! és !! tartják.}
+translate H WoodpeckerDays1 {Első ciklus (napok)}
+translate H WoodpeckerRestDays {Pihenés a ciklusok között (napok)}
+translate H WoodpeckerDaysHelp {Minden későbbi ciklus az előző napok felét kapja: a cél az, hogy minden ciklusban felére csökkenjen a megoldási idő.}
+translate H WoodpeckerCreate {Teremt}
+translate H WoodpeckerBadNumber {Érvénytelen szám: %s}
+translate H WoodpeckerNoDifficulty {Válasszon legalább egy nehézséget és több gyakorlatot.}
+translate H WoodpeckerDownloading {Rejtvények letöltése innen: Lichess...}
+translate H WoodpeckerBuilding {A készlet adatbázisának felépítése...}
+translate H WoodpeckerCreateFailed {A készlet nem hozható létre:
+%s}
+translate H WoodpeckerCreated {Készlet készült: %d gyakorlatok.}
+translate H WoodpeckerFewer {Lichess adta %d a %d rejtvényeket kértek.}
+translate H WoodpeckerNoFile {Nem olvasható %s}
+translate H WoodpeckerSkipped {%d a játékokat kihagyták (nincs beállítási pozíció vagy nincs mozgás).}
+translate H WoodpeckerMarksIncluded {A kulcs mozog! és !! már meg vannak jelölve, így elkezdheti. A készletet továbbra is saját motorral értékelheti annak menüjéből.}
+translate H WoodpeckerEvalRecommended {Értékelje most a felülvizsgálattal? Erősen ajánlott: jelöli a kulcsmozgásokat! és !!, amelyek bónuszpontokat szereznek. Gyakorlatonként körülbelül egy másodpercet vesz igénybe, és később is elvégezhető.}
+translate H WoodpeckerLevel_easiest {A legkönnyebb}
+translate H WoodpeckerLevel_easier {Könnyebb}
+translate H WoodpeckerLevel_normal {Normál}
+translate H WoodpeckerLevel_harder {Nehezebben}
+translate H WoodpeckerLevel_hardest {A legnehezebb}
+translate H WoodpeckerEvalBusy {Az értékelés már folyamatban van.}
+translate H WoodpeckerSomeAnnotated {A megjegyzések már jelen vannak a következő napon %d a %d gyakorlatokat. Kiegészíti a többit az ismertetővel, vagy felülír mindent az ismertetővel?}
+translate H WoodpeckerComplete {Kiegészítve a felülvizsgálattal}
+translate H WoodpeckerOverwrite {Felülírás az ismertetővel}
+translate H WoodpeckerAllAnnotated {Az összes %d gyakorlat már jegyzett, így az áttekintés nem kötelező. Felülírja a szerző jelzéseit a recenzióéval?}
+translate H WoodpeckerKeep {Tartsa meg a megjegyzéseket}
+translate H WoodpeckerEvaluating {A készlet értékelése...}
+translate H WoodpeckerEvalPhase_deep {Áttekintés: a megoldások keresése}
+translate H WoodpeckerEvalPhase_shallow {Áttekintés: mely lépések nyilvánvalóak}
+translate H WoodpeckerEvalPhase_write {A jelek írása}
+translate H WoodpeckerEvalDone {Elkészült az értékelés: %d gyakorlatok; %d mozog jelölt ! és %d megjelölve !!, ki %d mozog, hogy megtalálja.}
+translate H WoodpeckerNoEngine {Nincs konfigurálva UCI-motor (Eszközök > Motorok).}
+translate H WoodpeckerEvalAsk {Értékelje %d gyakorlatok ezzel a motorral:}
+translate H WoodpeckerOtherMode {Egy másik edzés vagy játék a tábla használata.}
+translate H WoodpeckerNoSlot {Nincs szabad adatbázis-hely a munkamenethez: zárjon be egy adatbázist, és próbálja újra.
+(%s)}
+translate H WoodpeckerRestAsk {A pihenőnapok a következő napon érnek véget: %s. Egyébként elindítja a ciklust %d?}
+translate H WoodpeckerUnratedShort {%d a gyakorlatokat nem értékelik: ott csak a sor számít.}
+translate H WoodpeckerRes1 {megoldva}
+translate H WoodpeckerRes2 {sikertelen}
+translate H WoodpeckerPacePer {gyakorlatonként}
+translate H WoodpeckerPaceTarget {cél %s s}
+translate H WoodpeckerCardStreak {Csík}
+translate H WoodpeckerCardPoints {Pontok}
+translate H WoodpeckerCardDeadline {Határidő}
+translate H WoodpeckerStreakSub {sorban tiszta}
+translate H WoodpeckerPointsSub {a lehetséges}
+translate H WoodpeckerDaysLeft {napok vannak hátra}
+translate H WoodpeckerExercise {Gyakorlat %d a %d}
+translate H WoodpeckerWhiteToMove {Fehér a mozgáshoz}
+translate H WoodpeckerBlackToMove {Fekete a mozgáshoz}
+translate H WoodpeckerYourMove {A te lépésed.}
+translate H WoodpeckerSolved {Megoldva!}
+translate H WoodpeckerFailed {Sikertelen.}
+translate H WoodpeckerPoints {+%s / %s}
+translate H WoodpeckerNoMarks {(nincs értékelve: nem ! / !! bónusz még)}
+translate H WoodpeckerQuotaDone {A mai cél elérve! Folytasd, vagy fejezd be az ülést.}
+translate H WoodpeckerSolutionShown {Lépjen végig a megoldáson a táblán vagy a kártyán, majd nyomja meg az Enter billentyűt.}
+translate H WoodpeckerPaused {Szüneteltetve.}
+translate H WoodpeckerAutoPaused {Szünet: két percig nem mozdul. A távollét nem számít.}
+translate H WoodpeckerSessionOver {Az ülés vége}
+translate H WoodpeckerCycleComplete {A ciklus %d kész!}
+translate H WoodpeckerSumDate {Dátum}
+translate H WoodpeckerSumDuration {Időtartam}
+translate H WoodpeckerSumExercises {Gyakorlatok befejezve}
+translate H WoodpeckerSumPoints {%s a %s pontokat}
+translate H WoodpeckerSumAvg {Gyakorlatonkénti átlag}
+translate H WoodpeckerSumQuota {A mai cél}
+translate H WoodpeckerSumCompare {Az előző ciklushoz képest: %d gyorsabb, %d lassabb, %d hibák javítva, %d új hibák.}
+translate H WoodpeckerSumReview {Áttekintéshez: gyakorlatok %s}
+translate H WoodpeckerCyclesTitle {Ciklusok}
+translate H WoodpeckerSessionsTitle {Munkamenetek}
+translate H WoodpeckerStatsNote {A pontok az értékelési jegyeket %d használják. A korábbi munkamenetek ugyanazokkal a pontokkal vannak újraértékelve, így a ciklusok tisztességesen összehasonlíthatók.}
+translate H WoodpeckerNoData {Még nincs ciklus}
+translate H WoodpeckerChartLegend {oszlopok: megoldási idő szaggatott: cél (az előző ciklus felére csökkentve)}
+translate H WoodpeckerTagline {Oldja meg újra és újra ugyanazt a készletet, minden alkalommal gyorsabban.}
+translate H WoodpeckerExit {Hagyja el az ülést}
+translate H WoodpeckerMore {További gyakorlatok}
+translate H WoodpeckerToday {Ma}
+translate H WoodpeckerCycleShort {Ciklus %d}
+translate H WoodpeckerDaysPlanned {%d nap tervezett}
+translate H WoodpeckerExercisesShort {gyakorlatokat}
+translate H WoodpeckerDeadline {határidő %s}
+translate H WoodpeckerHidden {A megoldás itt fog megjelenni.}
+translate H WoodpeckerSumCycle {Ciklus}
+translate H WoodpeckerTokenSave {Mentse el és ellenőrizze}
+translate H WoodpeckerTokenCreate {Hozzon létre egy tokent (hatóköri rejtvény: olvassa el)}
+translate H WoodpeckerTokenOk {✓ A token működik: %s.}
+translate H WoodpeckerTokenRating {Rejtvény értékelése %s.}
+translate H WoodpeckerTokenNoScope {Ebből a tokenből hiányzik a puzzle:read hatókör: hozzon létre egyet a fenti hivatkozással.}
+translate H WoodpeckerTokenInvalid {Lichess nem ismeri ezt a tokent.}
+translate H WoodpeckerTokenUnchecked {A tokent nem lehetett ellenőrizni (nincs kapcsolat?). Úgy fogják használni, ahogy van.}
+translate H WoodpeckerTokenChecking {A token ellenőrzése...}
+translate H WoodpeckerTokenMissing {Nincs token? Ez is működik, a fent megadott rejtvényértékeléssel (Lichess profil, Rejtvények). A letöltés lassabb, és előkerülhetnek a Lichess-en már megoldott rejtvények; tokennel gyorsabb.}
+translate H WoodpeckerPreset_automatic {Automatikus (egyszerűbb)}
+translate H WoodpeckerPreset_standard {Normál (ajánlott)}
+translate H WoodpeckerPreset_challenge {Kihívó}
+translate H WoodpeckerPreset_tough {Kemény (többnyire a szint feletti)}
+translate H WoodpeckerPreset_custom {Szokás...}
+translate H WoodpeckerPresetHelp_automatic {Többnyire egyszerű taktikák, egyszerre látni őket: a könyv első célja.}
+translate H WoodpeckerPresetHelp_standard {Negyeddel könnyebb, a legtöbb a szinted körül, néhány nehezebb – a könyv Könnyű és Középhaladó részeinek aránya.}
+translate H WoodpeckerPresetHelp_challenge {A szinted körül és felett, erős játékosoknak (például a könyv Haladó része).}
+translate H WoodpeckerPresetHelp_tough {Többnyire jóval a szint felett, erős játékosoknak, akik szeretnének nyújtani.}
+translate H WoodpeckerPresetHelp_custom {Válaszd ki magad az egyes Lichess szintek részesedését.}
+translate H WoodpeckerPresetRating {A szintek a Lichess rejtvény értékeléséhez (%s) vonatkoznak.}
+translate H WoodpeckerPresetNoRating {A szintek a Lichess rejtvény értékeléséhez viszonyítva vannak.}
+translate H WoodpeckerRatingAsk {Az Ön Lichess rejtvényértékelése}
+translate H WoodpeckerBadRating {Adja meg Lichess rejtvény értékelését (400-3200): ez a Lichess profilodon, a Rejtvények alatt található.}
+translate H WoodpeckerPresetStated {A szintek az Ön által megadott értékeléshez (%s) vonatkoznak.}
+translate H WoodpeckerDataDir {Woodpecker Method adatmappa (üres: Scid saját)}
+translate H WoodpeckerNoDataDir {A Woodpecker adatmappa nem található:\n%s\n\nA meghajtó csatlakoztatva van? A mappa beállítása az Opciók > Erőforrások menüpontban.}
+translate H WoodpeckerDataDirMove {%d A harkálykészletek az előző adatmappában vannak:\n%s\n\nÁthelyezi őket az újba?\n%s\n\nNem: az új mappa üresen kezdődik, és a halmazok ott maradnak, ahol vannak.}
+translate H WoodpeckerDataDirHasSets {Az új adatmappa már tartalmazza a %d készleteket (más számítógépről szinkronizálva?):\n%s\n\nA Scid ezeket használja. Az előző mappa készletei itt maradnak:\n%s}
 
 # Board screenshot
 menuText H ToolsScreenshot "Board Screenshot" 0 \

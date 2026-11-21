@@ -266,6 +266,7 @@ menuText O ToolsCaptureBoard "Ta opp gjeldende tavle..." 0  {Lagre gjeldende tav
 # Play menu
 menuText O Play "Spille" 0
 menuText O LichessPuzzles "Lichess gåter" 0 {Løs Lichess-oppgaver interaktivt}
+menuText O Woodpecker "Hakkespett metode" 0 {Tren taktikk i sykluser: samme sett, raskere hver gang}
 
 # --- Correspondence Chess
 menuText O CCResign "Si opp" 0 {Si opp (ikke via e-post)}
@@ -488,6 +489,176 @@ translate O LichessPuzzlesClock {Klokke}
 translate O LichessPuzzlesRated {Vurdert}
 translate O LichessPuzzlesGame {Spill}
 translate O LichessPuzzlesNoNew {Fant ingen nye oppgaver for disse innstillingene.\n\nPrøv å endre tema, vanskelighetsgrad eller puslespillfarge.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate O WoodpeckerTitle {Hakkespett metode}
+translate O WoodpeckerColName {Sett}
+translate O WoodpeckerColExercises {Øvelser}
+translate O WoodpeckerColCycle {Syklus}
+translate O WoodpeckerColProgress {Denne syklusen}
+translate O WoodpeckerColLast {Siste økt}
+translate O WoodpeckerColDays {Dager}
+translate O WoodpeckerColTime {Løse tid}
+translate O WoodpeckerColResults {løst/mislyktes}
+translate O WoodpeckerColPct {Score}
+translate O WoodpeckerColDate {Dato}
+translate O WoodpeckerColDuration {Varighet}
+translate O WoodpeckerColPoints {Poeng}
+translate O WoodpeckerNew {Nytt sett...}
+translate O WoodpeckerTrain {Tog}
+translate O WoodpeckerEvaluate {Evaluere...}
+translate O WoodpeckerStats {Statistikk}
+translate O WoodpeckerDelete {Slett}
+translate O WoodpeckerContinue {Fortsett (Enter)}
+translate O WoodpeckerPause {Pause}
+translate O WoodpeckerResume {Gjenoppta}
+translate O WoodpeckerEnd {Avslutt økten}
+translate O WoodpeckerNoSets {Ikke satt ennå: trykk Nytt sett for å starte med gåtene som følger med Scid, for å laste ned mer fra Lichess, eller for å bruke en PGN-bok.}
+translate O WoodpeckerUnrated {%d av %d øvelser har ingen ! /!! karakterer: evaluer settet for å tjene disse bonusene (tidligere økter blir også gjentatt).}
+translate O WoodpeckerCycleOver {Syklus %d er fullført. Hvil til %s, så starter neste syklus, med halve dagene.}
+translate O WoodpeckerCycleLine {Syklus %d: %d/%d ferdig, %d dager planlagt, frist %s.}
+translate O WoodpeckerQuotaLine {I dag: %d av %d øvelser.}
+translate O WoodpeckerQuotaRaised {Du er litt bak: dagens mål er %d i stedet for %d.}
+translate O WoodpeckerDeadlineMoved {Etter pausen flyttet fristen med %d dager til %s; det daglige målet er %d.}
+translate O WoodpeckerOverStretch {Syklusen har nådd det dobbelte av den planlagte lengden: fristen forblir på %s og det daglige målet er %d.}
+translate O WoodpeckerDeleteAsk {Vil du slette settet "%s" med dets database og statistikk?}
+translate O WoodpeckerNewTitle {Nytt spettsett}
+translate O WoodpeckerName {Navn}
+translate O WoodpeckerFromLichess {Gåter fra Lichess}
+translate O WoodpeckerFromPuzzles {Puslespill inkludert med Scid (graderte Lichess puslespill)}
+translate O WoodpeckerAdvanced {Avansert}
+translate O WoodpeckerUseLichess {Få puslespill fra Lichess i stedet for de inkluderte settene}
+translate O WoodpeckerPicking {Velger gåtene...}
+translate O WoodpeckerShortAsk {Bare %d av %d-oppgavene du blir bedt om er igjen på ditt nivå blant de som er inkludert i Scid.
+
+Last ned den andre %d fra Lichess?
+
+Nei: settet er laget med puslespillene som er funnet.}
+translate O WoodpeckerNoPuzzles {Ingen puslespill er igjen for dette nivået, temaet og siden.}
+translate O WoodpeckerCount {Øvelser}
+translate O WoodpeckerDifficulty {Vanskelighet}
+translate O WoodpeckerTheme {Tema}
+translate O WoodpeckerThemeMix {Blandet (anbefalt)}
+translate O WoodpeckerColor {Side}
+translate O WoodpeckerColor_both {Både}
+translate O WoodpeckerColor_white {Hvit}
+translate O WoodpeckerColor_black {Svart}
+translate O WoodpeckerToken {Lichess token}
+translate O WoodpeckerFromFile {PGN- eller Scid-database (f.eks. en bok)}
+translate O WoodpeckerFileHelp {Hvert spill som starter fra en oppsettposisjon blir en øvelse: hovedlinjen er løsningen, variasjoner ignoreres. Forfatterens! og!! holdes.}
+translate O WoodpeckerDays1 {Første syklus (dager)}
+translate O WoodpeckerRestDays {Hvile mellom sykluser (dager)}
+translate O WoodpeckerDaysHelp {Hver senere syklus får halvparten av dagene av den forrige: Målet er å halvere løsningstiden hver syklus.}
+translate O WoodpeckerCreate {Skape}
+translate O WoodpeckerBadNumber {Ikke et gyldig nummer: %s}
+translate O WoodpeckerNoDifficulty {Velg minst én vanskelighetsgrad og et antall øvelser.}
+translate O WoodpeckerDownloading {Laster ned puslespill fra Lichess...}
+translate O WoodpeckerBuilding {Bygger settets database...}
+translate O WoodpeckerCreateFailed {Settet kunne ikke opprettes:
+%s}
+translate O WoodpeckerCreated {Sett opprettet: %d øvelser.}
+translate O WoodpeckerFewer {Lichess ga %d av %d oppgaver som ble bedt om.}
+translate O WoodpeckerNoFile {Kan ikke lese %s}
+translate O WoodpeckerSkipped {%d spill ble hoppet over (ingen oppsettposisjon, eller ingen trekk).}
+translate O WoodpeckerMarksIncluded {Nøkkelen beveger seg! og!! er allerede merket, så du kan starte. Du kan fortsatt vurdere settet med din egen motor fra menyen.}
+translate O WoodpeckerEvalRecommended {Vurdere det nå med anmeldelsen? Anbefales på det sterkeste: det markerer nøkkelbevegelsene! og !!, som tjener bonuspoeng. Det tar omtrent ett sekund per øvelse og kan også gjøres senere.}
+translate O WoodpeckerLevel_easiest {Enkleste}
+translate O WoodpeckerLevel_easier {Enklere}
+translate O WoodpeckerLevel_normal {Normal}
+translate O WoodpeckerLevel_harder {Hardere}
+translate O WoodpeckerLevel_hardest {Hardest}
+translate O WoodpeckerEvalBusy {En evaluering pågår allerede.}
+translate O WoodpeckerSomeAnnotated {Merknader er allerede til stede på %d av %d øvelser. Fullføre de andre med anmeldelsen, eller overskrive alt med anmeldelsen?}
+translate O WoodpeckerComplete {Komplett med anmeldelsen}
+translate O WoodpeckerOverwrite {Overskriv med anmeldelsen}
+translate O WoodpeckerAllAnnotated {Alle %d øvelsene er allerede kommentert, så gjennomgangen er valgfri. Overskrive forfatterens karakterer med anmeldelsens?}
+translate O WoodpeckerKeep {Behold merknadene}
+translate O WoodpeckerEvaluating {Evaluerer settet...}
+translate O WoodpeckerEvalPhase_deep {Gjennomgang: søker etter løsningene}
+translate O WoodpeckerEvalPhase_shallow {Gjennomgang: hvilke trekk er åpenbare}
+translate O WoodpeckerEvalPhase_write {Å skrive merkene}
+translate O WoodpeckerEvalDone {Evaluering utført: %d øvelser; %d trekk merket ! og %d merket !!, av %d trekk for å finne.}
+translate O WoodpeckerNoEngine {Ingen UCI-motor er konfigurert (Verktøy > Motorer).}
+translate O WoodpeckerEvalAsk {Evaluer %d øvelser med denne motoren:}
+translate O WoodpeckerOtherMode {En annen trening eller et spill er å bruke brettet.}
+translate O WoodpeckerNoSlot {Ingen ledig databaseplass for økten: lukk en database og prøv igjen.
+(%s)}
+translate O WoodpeckerRestAsk {Hviledagene slutter på %s. Starte syklusen %d uansett?}
+translate O WoodpeckerUnratedShort {%d øvelser blir ikke evaluert: der er det bare linjen som teller.}
+translate O WoodpeckerRes1 {løst}
+translate O WoodpeckerRes2 {mislyktes}
+translate O WoodpeckerPacePer {per øvelse}
+translate O WoodpeckerPaceTarget {mål %s s}
+translate O WoodpeckerCardStreak {Streke}
+translate O WoodpeckerCardPoints {Poeng}
+translate O WoodpeckerCardDeadline {Frist}
+translate O WoodpeckerStreakSub {rent på rekke og rad}
+translate O WoodpeckerPointsSub {av det mulige}
+translate O WoodpeckerDaysLeft {dager igjen}
+translate O WoodpeckerExercise {Øvelse %d av %d}
+translate O WoodpeckerWhiteToMove {Hvit å flytte}
+translate O WoodpeckerBlackToMove {Svart å bevege seg}
+translate O WoodpeckerYourMove {Ditt trekk.}
+translate O WoodpeckerSolved {Løst!}
+translate O WoodpeckerFailed {Mislyktes.}
+translate O WoodpeckerPoints {+%s / %s}
+translate O WoodpeckerNoMarks {(ikke evaluert: nei! / !! bonus ennå)}
+translate O WoodpeckerQuotaDone {Dagens mål nådd! Fortsett, eller avslutt økten.}
+translate O WoodpeckerSolutionShown {Gå gjennom løsningen på tavlen eller på kortet, og trykk deretter på Enter.}
+translate O WoodpeckerPaused {Pause.}
+translate O WoodpeckerAutoPaused {Pause: ingen bevegelse på to minutter. Tiden borte teller ikke.}
+translate O WoodpeckerSessionOver {Økt over}
+translate O WoodpeckerCycleComplete {Syklus %d fullført!}
+translate O WoodpeckerSumDate {Dato}
+translate O WoodpeckerSumDuration {Varighet}
+translate O WoodpeckerSumExercises {Øvelser gjennomført}
+translate O WoodpeckerSumPoints {%s av %s poeng}
+translate O WoodpeckerSumAvg {Gjennomsnitt per øvelse}
+translate O WoodpeckerSumQuota {Dagens mål}
+translate O WoodpeckerSumCompare {Mot forrige syklus: %d raskere, %d tregere, %d feil fikset, %d nye feil.}
+translate O WoodpeckerSumReview {For å se gjennom: øvelser %s}
+translate O WoodpeckerCyclesTitle {Sykluser}
+translate O WoodpeckerSessionsTitle {Økter}
+translate O WoodpeckerStatsNote {Poeng bruker karakterene for evaluering %d. Tidligere økter scores på nytt med de samme karakterene, så sykluser sammenlignes ganske.}
+translate O WoodpeckerNoData {Ingen syklus ennå}
+translate O WoodpeckerChartLegend {søyler: løse tid stiplet: mål (forrige syklus halvert)}
+translate O WoodpeckerTagline {Løs det samme settet igjen og igjen, raskere hver gang.}
+translate O WoodpeckerExit {Gå ut av økten}
+translate O WoodpeckerMore {Flere øvelser}
+translate O WoodpeckerToday {I dag}
+translate O WoodpeckerCycleShort {Syklus %d}
+translate O WoodpeckerDaysPlanned {%d dager planlagt}
+translate O WoodpeckerExercisesShort {øvelser}
+translate O WoodpeckerDeadline {frist %s}
+translate O WoodpeckerHidden {Løsningen vises her.}
+translate O WoodpeckerSumCycle {Syklus}
+translate O WoodpeckerTokenSave {Lagre og sjekk}
+translate O WoodpeckerTokenCreate {Lag et token (omfangspuslespill:les)}
+translate O WoodpeckerTokenOk {✓ Token fungerer: %s.}
+translate O WoodpeckerTokenRating {Puslespillvurdering %s.}
+translate O WoodpeckerTokenNoScope {Dette tokenet mangler puslespillet: les omfang: lag et med lenken ovenfor.}
+translate O WoodpeckerTokenInvalid {Lichess kjenner ikke til dette tokenet.}
+translate O WoodpeckerTokenUnchecked {Tokenet kunne ikke kontrolleres (ingen tilkobling?). Den skal brukes som den er.}
+translate O WoodpeckerTokenChecking {Sjekker tokenet...}
+translate O WoodpeckerTokenMissing {Ingen token? Det fungerer også, med puslespillvurderingen angitt ovenfor (Lichess-profil, puslespill). Nedlastingen går tregere og gåter du allerede har løst på Lichess kan dukke opp; med en token er det raskere.}
+translate O WoodpeckerPreset_automatic {Automatisk (enklere)}
+translate O WoodpeckerPreset_standard {Standard (anbefalt)}
+translate O WoodpeckerPreset_challenge {Utfordrende}
+translate O WoodpeckerPreset_tough {Tøff (for det meste over ditt nivå)}
+translate O WoodpeckerPreset_custom {Skikk...}
+translate O WoodpeckerPresetHelp_automatic {For det meste enkle taktikker, for å se dem med en gang: bokens første mål.}
+translate O WoodpeckerPresetHelp_standard {En fjerdedel lettere, de fleste rundt nivået ditt, noen få vanskeligere - andelen av bokens Lett- og Middels-seksjoner.}
+translate O WoodpeckerPresetHelp_challenge {Rundt og over nivået ditt, for sterke spillere (som bokens Avansert-seksjon).}
+translate O WoodpeckerPresetHelp_tough {Stort sett godt over nivået ditt, for sterke spillere som ønsker å strekke seg.}
+translate O WoodpeckerPresetHelp_custom {Velg andelen av hvert Lichess nivå selv.}
+translate O WoodpeckerPresetRating {Nivåene er i forhold til din Lichess puslespillvurdering (%s).}
+translate O WoodpeckerPresetNoRating {Nivåene er i forhold til din Lichess puslespillvurdering.}
+translate O WoodpeckerRatingAsk {Din Lichess puslespillvurdering}
+translate O WoodpeckerBadRating {Skriv inn din Lichess puslespillvurdering (400-3200): den er på Lichess-profilen din, under Puslespill.}
+translate O WoodpeckerPresetStated {Nivåene er i forhold til vurderingen du skrev inn (%s).}
+translate O WoodpeckerDataDir {Hakkespettmetode-datamappe (tom: Scids egen)}
+translate O WoodpeckerNoDataDir {Hakkespett-datamappen finnes ikke:\n%s\n\nEr stasjonen tilkoblet? Mappen er angitt i Alternativer > Ressurser.}
+translate O WoodpeckerDataDirMove {%d Hakkespettsett er i den forrige datamappen:\n%s\n\nFlytte dem til den nye?\n%s\n\nNei: den nye mappen starter tom og settene blir der de er.}
+translate O WoodpeckerDataDirHasSets {Den nye datamappen inneholder allerede %d sett (synkronisert fra en annen datamaskin?):\n%s\n\nScid bruker disse. Settene til forrige mappe blir i:\n%s}
 
 # Board screenshot
 menuText O ToolsScreenshot "Skjermbilde av bord" 0 \

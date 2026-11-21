@@ -299,6 +299,7 @@ menuText L ToolsCaptureBoard "Capturați tabloul curent..." 5  {Salvați tabloul
 # Play menu
 menuText L Play "Juca" 0
 menuText L LichessPuzzles "Puzzle-uri Lichess" 0 {Rezolvați puzzle-uri Lichess în mod interactiv}
+menuText L Woodpecker "Metoda ciocănitoarei" 0 {Antrenează tactici în cicluri: același set, mai rapid de fiecare dată}
 
 # --- Correspondence Chess
 menuText L CCResign "Demisiona" 1 {Demisia (nu prin e-mail)}
@@ -519,6 +520,176 @@ translate L LichessPuzzlesClock {Ceas}
 translate L LichessPuzzlesRated {Evaluat}
 translate L LichessPuzzlesGame {Joc}
 translate L LichessPuzzlesNoNew {Nu s-au găsit puzzle-uri noi pentru aceste setări.\n\nÎncercați să schimbați tema, dificultatea sau culoarea puzzle-ului.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate L WoodpeckerTitle {Metoda ciocănitoarei}
+translate L WoodpeckerColName {Set}
+translate L WoodpeckerColExercises {Exerciții}
+translate L WoodpeckerColCycle {Ciclu}
+translate L WoodpeckerColProgress {Acest ciclu}
+translate L WoodpeckerColLast {Ultima sesiune}
+translate L WoodpeckerColDays {Zile}
+translate L WoodpeckerColTime {Rezolvarea timpului}
+translate L WoodpeckerColResults {rezolvat/esuat}
+translate L WoodpeckerColPct {Scor}
+translate L WoodpeckerColDate {Data}
+translate L WoodpeckerColDuration {Durată}
+translate L WoodpeckerColPoints {Puncte}
+translate L WoodpeckerNew {Set nou...}
+translate L WoodpeckerTrain {Tren}
+translate L WoodpeckerEvaluate {Evalua...}
+translate L WoodpeckerStats {Statistici}
+translate L WoodpeckerDelete {Şterge}
+translate L WoodpeckerContinue {Continuați (Enter)}
+translate L WoodpeckerPause {Pauză}
+translate L WoodpeckerResume {Relua}
+translate L WoodpeckerEnd {Încheiați sesiunea}
+translate L WoodpeckerNoSets {Nu este încă setată: apăsați Set nou pentru a începe cu puzzle-urile incluse în Scid, pentru a descărca mai multe de pe Lichess sau pentru a folosi o carte PGN.}
+translate L WoodpeckerUnrated {%d de %d exercițiile nu au! / !! note: evaluați setul pentru a câștiga acele bonusuri (sesiunile anterioare sunt și ele remarcate).}
+translate L WoodpeckerCycleOver {Ciclu %d este completă. Odihnește-te până %s, apoi începe următorul ciclu, cu jumătate de zile.}
+translate L WoodpeckerCycleLine {Ciclu %d: %d/%d făcut, %d zile planificate, termen %s.}
+translate L WoodpeckerQuotaLine {Astăzi: %d de %d exercitii.}
+translate L WoodpeckerQuotaRaised {Sunteți puțin în urmă: ținta de astăzi este %d în loc de %d.}
+translate L WoodpeckerDeadlineMoved {După pauză, termenul a trecut %d zile, la %s; obiectivul zilnic este %d.}
+translate L WoodpeckerOverStretch {Ciclul a atins de două ori durata planificată: termenul limită rămâne la %s și obiectivul zilnic este %d.}
+translate L WoodpeckerDeleteAsk {Ștergeți setul „%s” cu baza de date și statisticile sale?}
+translate L WoodpeckerNewTitle {Set de ciocănitoare nou}
+translate L WoodpeckerName {Nume}
+translate L WoodpeckerFromLichess {Puzzle-uri de la Lichess}
+translate L WoodpeckerFromPuzzles {Puzzle-uri incluse cu Scid (puzzle-uri clasificate Lichess)}
+translate L WoodpeckerAdvanced {Avansat}
+translate L WoodpeckerUseLichess {Obțineți puzzle-uri de la Lichess în loc de seturile incluse}
+translate L WoodpeckerPicking {Alegerea puzzle-urilor...}
+translate L WoodpeckerShortAsk {Numai %d al %d puzzle-urile cerute sunt lăsate la nivelul tău printre cele incluse în Scid.
+
+Descărcați celălalt %d de la Lichess?
+
+Nu: setul este creat cu puzzle-urile găsite.}
+translate L WoodpeckerNoPuzzles {Nu a mai rămas niciun puzzle pentru acest nivel, temă și latură.}
+translate L WoodpeckerCount {Exerciții}
+translate L WoodpeckerDifficulty {Dificultate}
+translate L WoodpeckerTheme {Temă}
+translate L WoodpeckerThemeMix {Mixt (recomandat)}
+translate L WoodpeckerColor {Latura}
+translate L WoodpeckerColor_both {ambele}
+translate L WoodpeckerColor_white {Alb}
+translate L WoodpeckerColor_black {Negru}
+translate L WoodpeckerToken {Jeton de lichess}
+translate L WoodpeckerFromFile {Baza de date PGN sau Scid (de exemplu, o carte)}
+translate L WoodpeckerFileHelp {Fiecare joc care începe dintr-o poziție de pregătire devine un exercițiu: linia sa principală este soluția, variațiile sunt ignorate. Al autorului! si!! sunt păstrate.}
+translate L WoodpeckerDays1 {Primul ciclu (zile)}
+translate L WoodpeckerRestDays {Odihnă între cicluri (zile)}
+translate L WoodpeckerDaysHelp {Fiecare ciclu ulterior primește jumătate din zilele celui precedent: scopul este de a reduce la jumătate timpul de rezolvare pentru fiecare ciclu.}
+translate L WoodpeckerCreate {Crea}
+translate L WoodpeckerBadNumber {Nu este un număr valid: %s}
+translate L WoodpeckerNoDifficulty {Alegeți cel puțin o dificultate și un număr de exerciții.}
+translate L WoodpeckerDownloading {Se descarcă puzzle-uri de pe Lichess...}
+translate L WoodpeckerBuilding {Construirea bazei de date a setului...}
+translate L WoodpeckerCreateFailed {Setul nu a putut fi creat:
+%s}
+translate L WoodpeckerCreated {Setul creat: %d exercitii.}
+translate L WoodpeckerFewer {Lichess a dat %d dintre %d puzzle-uri cerute.}
+translate L WoodpeckerNoFile {Nu se poate citi %s}
+translate L WoodpeckerSkipped {%d jocurile au fost omise (nicio poziție de configurare sau nicio mișcare).}
+translate L WoodpeckerMarksIncluded {Cheia se mișcă! si!! sunt deja marcate, așa că puteți începe. Puteți evalua în continuare setul cu propriul motor din meniul său.}
+translate L WoodpeckerEvalRecommended {Evaluați-l acum cu recenzia? Recomandat cu tărie: marchează mișcările cheie! și !!, care câștigă puncte bonus. Durează aproximativ o secundă per exercițiu și poate fi făcut și mai târziu.}
+translate L WoodpeckerLevel_easiest {Cel mai usor}
+translate L WoodpeckerLevel_easier {Mai uşor}
+translate L WoodpeckerLevel_normal {Normal}
+translate L WoodpeckerLevel_harder {Mai tare}
+translate L WoodpeckerLevel_hardest {Cel mai greu}
+translate L WoodpeckerEvalBusy {Se execută deja o evaluare.}
+translate L WoodpeckerSomeAnnotated {Adnotările sunt deja prezente pe %d dintre exercițiile %d]. Completați-le pe celelalte cu recenzia sau suprascrieți totul cu recenzia?}
+translate L WoodpeckerComplete {Completați cu recenzia}
+translate L WoodpeckerOverwrite {Suprascrie cu recenzia}
+translate L WoodpeckerAllAnnotated {Toate exercițiile %d sunt deja adnotate, deci revizuirea este opțională. Suprascrieți notele autorului cu cele ale recenziei?}
+translate L WoodpeckerKeep {Păstrați adnotările}
+translate L WoodpeckerEvaluating {Evaluarea setului...}
+translate L WoodpeckerEvalPhase_deep {Revizuire: căutarea soluțiilor}
+translate L WoodpeckerEvalPhase_shallow {Recenzie: care mișcări sunt evidente}
+translate L WoodpeckerEvalPhase_write {Scrierea semnelor}
+translate L WoodpeckerEvalDone {Evaluare facuta: %d exerciții; %d miscari marcate! şi %d marcat !!, din %d se mișcă pentru a găsi.}
+translate L WoodpeckerNoEngine {Nu este configurat niciun motor UCI (Instrumente > Motoare).}
+translate L WoodpeckerEvalAsk {Evaluați %d exerciții cu acest motor:}
+translate L WoodpeckerOtherMode {Un alt antrenament sau joc este folosirea tablei.}
+translate L WoodpeckerNoSlot {Nu există slot gratuit pentru baze de date pentru sesiune: închideți o bază de date și încercați din nou.
+(%s)}
+translate L WoodpeckerRestAsk {Zilele de odihnă se termină %s. Începe ciclul %d oricum?}
+translate L WoodpeckerUnratedShort {%d exercițiile nu sunt evaluate: acolo contează doar linia.}
+translate L WoodpeckerRes1 {rezolvate}
+translate L WoodpeckerRes2 {a eșuat}
+translate L WoodpeckerPacePer {pe exercițiu}
+translate L WoodpeckerPaceTarget {ţintă %s s}
+translate L WoodpeckerCardStreak {Streak}
+translate L WoodpeckerCardPoints {Puncte}
+translate L WoodpeckerCardDeadline {Termen limită}
+translate L WoodpeckerStreakSub {curat la rand}
+translate L WoodpeckerPointsSub {a posibilului}
+translate L WoodpeckerDaysLeft {zile rămase}
+translate L WoodpeckerExercise {Exercita %d de %d}
+translate L WoodpeckerWhiteToMove {Alb să se miște}
+translate L WoodpeckerBlackToMove {Negru să se miște}
+translate L WoodpeckerYourMove {Mișcarea ta.}
+translate L WoodpeckerSolved {Rezolvat!}
+translate L WoodpeckerFailed {A eșuat.}
+translate L WoodpeckerPoints {+%s / %s}
+translate L WoodpeckerNoMarks {(neevaluat: nu ! / !! bonus încă)}
+translate L WoodpeckerQuotaDone {Obiectivul de azi atins! Continuați sau terminați sesiunea.}
+translate L WoodpeckerSolutionShown {Treceți prin soluția de pe tablă sau de pe card, apoi apăsați Enter.}
+translate L WoodpeckerPaused {Întrerupt.}
+translate L WoodpeckerAutoPaused {Întrerupt: fără mișcare timp de două minute. Timpul de plecare nu contează.}
+translate L WoodpeckerSessionOver {Sesiune terminată}
+translate L WoodpeckerCycleComplete {Ciclu %d complet!}
+translate L WoodpeckerSumDate {Data}
+translate L WoodpeckerSumDuration {Durată}
+translate L WoodpeckerSumExercises {Exerciții finalizate}
+translate L WoodpeckerSumPoints {%s de %s puncte}
+translate L WoodpeckerSumAvg {Media pe exercițiu}
+translate L WoodpeckerSumQuota {Ținta de azi}
+translate L WoodpeckerSumCompare {Față de ciclul anterior: %d Mai repede, %d Mai lent, %d erori remediate, %d noi erori.}
+translate L WoodpeckerSumReview {Pentru a revizui: exerciții %s}
+translate L WoodpeckerCyclesTitle {Cicluri}
+translate L WoodpeckerSessionsTitle {Sesiuni}
+translate L WoodpeckerStatsNote {Punctele folosesc notele de evaluare %d. Sesiunile anterioare sunt renotate cu aceleași note, astfel încât ciclurile se compară în mod echitabil.}
+translate L WoodpeckerNoData {Niciun ciclu încă}
+translate L WoodpeckerChartLegend {bare: timp de rezolvare punctat: țintă (ciclul anterior înjumătățit)}
+translate L WoodpeckerTagline {Rezolvați același set din nou și din nou, mai repede de fiecare dată.}
+translate L WoodpeckerExit {Părăsiți sesiunea}
+translate L WoodpeckerMore {Mai multe exerciții}
+translate L WoodpeckerToday {Astăzi}
+translate L WoodpeckerCycleShort {Ciclu %d}
+translate L WoodpeckerDaysPlanned {%d zile planificate}
+translate L WoodpeckerExercisesShort {exercitii}
+translate L WoodpeckerDeadline {Termen limită %s}
+translate L WoodpeckerHidden {Soluția va apărea aici.}
+translate L WoodpeckerSumCycle {Ciclu}
+translate L WoodpeckerTokenSave {Salvați și verificați}
+translate L WoodpeckerTokenCreate {Creați un token (puzzle de domeniu: citiți)}
+translate L WoodpeckerTokenOk {✓ Token funcționează: %s.}
+translate L WoodpeckerTokenRating {Evaluare puzzle %s.}
+translate L WoodpeckerTokenNoScope {Acest simbol nu are puzzle: citiți domeniul de aplicare: creați unul cu linkul de mai sus.}
+translate L WoodpeckerTokenInvalid {Lichess nu cunoaște acest simbol.}
+translate L WoodpeckerTokenUnchecked {Jetonul nu a putut fi verificat (nici o conexiune?). Va fi folosit așa cum este.}
+translate L WoodpeckerTokenChecking {Se verifică jetonul...}
+translate L WoodpeckerTokenMissing {Nici un simbol? Funcționează și, cu ratingul puzzle introdus mai sus (profil Lichess, Puzzles). Descărcarea este mai lentă și pot apărea puzzle-uri pe care le-ați rezolvat deja pe Lichess; cu un jeton este mai rapid.}
+translate L WoodpeckerPreset_automatic {automat (mai usor)}
+translate L WoodpeckerPreset_standard {Standard (recomandat)}
+translate L WoodpeckerPreset_challenge {Provocator}
+translate L WoodpeckerPreset_tough {Dur (mai ales peste nivelul tău)}
+translate L WoodpeckerPreset_custom {Personalizat...}
+translate L WoodpeckerPresetHelp_automatic {În mare parte tactici simple, pentru a le vedea deodată: primul scop al cărții.}
+translate L WoodpeckerPresetHelp_standard {Cu un sfert mai ușor, cel mai mult în jurul nivelului dvs., câteva mai greu - proporția dintre secțiunile Ușoare și Intermediare ale cărții.}
+translate L WoodpeckerPresetHelp_challenge {În jurul și peste nivelul tău, pentru jucători puternici (cum ar fi secțiunea Avansată a cărții).}
+translate L WoodpeckerPresetHelp_tough {În mare parte mult peste nivelul tău, pentru jucătorii puternici care vor să se întindă.}
+translate L WoodpeckerPresetHelp_custom {Alegeți singur cota fiecărui nivel de Lichess.}
+translate L WoodpeckerPresetRating {Nivelurile sunt raportate la evaluarea puzzle-ului dvs. Lichess (%s).}
+translate L WoodpeckerPresetNoRating {Nivelurile sunt relativ la evaluarea puzzle-ului dvs. Lichess.}
+translate L WoodpeckerRatingAsk {Evaluarea puzzle-ului tău Lichess}
+translate L WoodpeckerBadRating {Introduceți evaluarea puzzle-ului dvs. Lichess (400-3200): este în profilul dvs. Lichess, sub Puzzle-uri.}
+translate L WoodpeckerPresetStated {Nivelurile sunt raportate la evaluarea pe care ați introdus-o (%s).}
+translate L WoodpeckerDataDir {Dosarul de date Woodpecker Method (gol: al lui Scid)}
+translate L WoodpeckerNoDataDir {Dosarul de date Woodpecker nu poate fi găsit:\n%s\n\nUnitatea este conectată? Dosarul este setat în Opțiuni > Resurse.}
+translate L WoodpeckerDataDirMove {%d Seturile de ciocănitoare sunt în dosarul de date anterior:\n%s\n\nLe mutați în cel nou?\n%s\n\nNu: noul folder începe gol și seturile rămân acolo unde sunt.}
+translate L WoodpeckerDataDirHasSets {Noul folder de date conține deja seturi %d (sincronizate de la alt computer?):\n%s\n\nScid le folosește. Seturile dosarului anterior rămân în:\n%s}
 
 # Board screenshot
 menuText L ToolsScreenshot "Captură de ecran de la bord" 0 \

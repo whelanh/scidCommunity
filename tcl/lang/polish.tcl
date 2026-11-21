@@ -159,7 +159,7 @@ menuText P GameNovelty "Znajdź nowinkę..." 7 \
   {Znajdź pierwsze posunięcie tej partii, które nie było wcześniej grane}
 menuText P PlayTournament "Rozegraj turniej silników..." 0 \
     {Rozegraj turniej silników}
-	
+
 # Search Menu:
 menuText P Search "Szukaj" 0
 menuText P SearchReset "Wyczyść filtr" 0 {Wyczyść filtr, aby uwzględnić wszystkie partie}
@@ -207,8 +207,8 @@ translate P EpdStripOpcodes {Usuń kody operacyjne...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
-# Analiza EPD bez interfejsu graficznego: tekst statusu i przyczyny zgłaszane przez sesję.
-# Ciągi EpdEngine* to fragmenty wyświetlane po znajdującym się nad nimi "%s".
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
 translate P EpdAnalysisTitle {Analiza EPD}
 translate P EpdAnalysisRunning {Inna analiza EPD jest już uruchomiona.}
 translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
@@ -298,6 +298,7 @@ menuText P ToolsCaptureBoard "Zapisz aktualną pozycję jako obraz..." 5  {Zapis
 # Play menu
 menuText P Play "Graj" 0
 menuText P LichessPuzzles "Zadania Lichess" 0 {Rozwiązuj interaktywnie zadania taktyczne z Lichess}
+menuText P Woodpecker "Metoda Dzięcioła" 0 {Trenuj taktykę w cyklach: ten sam zestaw, za każdym razem szybciej}
 
 # --- Correspondence Chess
 menuText P CCResign "Poddaj partię" 1 {Poddaj partię (nie przez e-mail)}
@@ -382,7 +383,7 @@ translate P OptionsThemeOmarchy {Dopasuj do motywu Omarchy}
 menuText P OptionsSave "Zapisz opcje" 0 "Zapisz wszystkie ustawienia do pliku $::optionsFile"
 menuText P OptionsAutoSave "Zapisz opcje przy zamykaniu" 0 \
   {Automatycznie zapisuj wszystkie opcje przy zamykaniu Scid}
-  
+
 # Help menu:
 menuText P Help "Pomoc" 0
 menuText P HelpContents "Spis treści" 0 {Pokaż stronę ze spisem treści pomocy}
@@ -406,10 +407,10 @@ translate P UpdateDownloading "Pobieranie scidCommunity %s..."
 translate P UpdateDownloaded "Pobrano %s"
 translate P UpdateDownloadFailed "Nie udało się pobrać aktualizacji. Spróbuj ponownie później."
 
- # Toolbar tooltips:
+# Toolbar tooltips:
  menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
- 
- # Game info box popup menu:
+
+# Game info box popup menu:
  menuText P GInfoHideNext "Ukryj następne posunięcie" 0
 menuText P GInfoMaterial "Pokaż wartości materialne" 0
 menuText P GInfoFEN "Pokaż FEN" 5
@@ -518,6 +519,176 @@ translate P LichessPuzzlesClock {Zegar}
 translate P LichessPuzzlesRated {Rankingowe}
 translate P LichessPuzzlesGame {Partia}
 translate P LichessPuzzlesNoNew {Nie znaleziono nowych zadań dla tych ustawień.\n\nSpróbuj zmienić motyw, poziom trudności lub kolor figur.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate P WoodpeckerTitle {Metoda Dzięcioła}
+translate P WoodpeckerColName {Ustawić}
+translate P WoodpeckerColExercises {Ćwiczenia}
+translate P WoodpeckerColCycle {Cykl}
+translate P WoodpeckerColProgress {Ten cykl}
+translate P WoodpeckerColLast {Ostatnia sesja}
+translate P WoodpeckerColDays {Dni}
+translate P WoodpeckerColTime {Czas rozwiązywania}
+translate P WoodpeckerColResults {rozwiązany/nie powiodło się}
+translate P WoodpeckerColPct {Wynik}
+translate P WoodpeckerColDate {Data}
+translate P WoodpeckerColDuration {Czas trwania}
+translate P WoodpeckerColPoints {Zwrotnica}
+translate P WoodpeckerNew {Nowy zestaw...}
+translate P WoodpeckerTrain {Pociąg}
+translate P WoodpeckerEvaluate {Oceniać...}
+translate P WoodpeckerStats {Statystyka}
+translate P WoodpeckerDelete {Usuwać}
+translate P WoodpeckerContinue {Kontynuuj (Enter)}
+translate P WoodpeckerPause {Pauza}
+translate P WoodpeckerResume {Wznawiać}
+translate P WoodpeckerEnd {Zakończ sesję}
+translate P WoodpeckerNoSets {Jeszcze nie ma zestawu: naciśnij Nowy zestaw, aby rozpocząć od puzzli dołączonych do Scid, pobrać więcej z Lichess lub skorzystać z książki PGN.}
+translate P WoodpeckerUnrated {%d z %d ćwiczeń nie ma ! / !! oceny: oceń set, aby zdobyć te bonusy (wcześniejsze sesje również są ponownie punktowane).}
+translate P WoodpeckerCycleOver {Cykl %d został zakończony. Odpocznij do %s, po czym rozpoczyna się kolejny cykl, trwający połowę dni.}
+translate P WoodpeckerCycleLine {Cykl %d: %d/%d wykonany, %d zaplanowane dni, ostateczny termin %s.}
+translate P WoodpeckerQuotaLine {Dzisiaj: %d z %d ćwiczenia.}
+translate P WoodpeckerQuotaRaised {Jesteś trochę w tyle: dzisiejszy cel to %d zamiast %d.}
+translate P WoodpeckerDeadlineMoved {Po przerwie termin przesunięto o %d dni, na %s; dzienny cel to %d.}
+translate P WoodpeckerOverStretch {Cykl osiągnął dwukrotność planowanej długości: ostateczny termin pozostaje na poziomie %s, a dzienny cel wynosi %d.}
+translate P WoodpeckerDeleteAsk {Usuń zestaw "%s" z jego bazą danych i statystykami?}
+translate P WoodpeckerNewTitle {Nowy zestaw Dzięcioła}
+translate P WoodpeckerName {Nazwa}
+translate P WoodpeckerFromLichess {Puzzle od Lichess}
+translate P WoodpeckerFromPuzzles {Puzzle zawarte w Scid (stopniowane łamigłówki Lichess)}
+translate P WoodpeckerAdvanced {Zaawansowany}
+translate P WoodpeckerUseLichess {Zdobądź puzzle z Lichess zamiast dołączonych zestawów}
+translate P WoodpeckerPicking {Wybór puzzli...}
+translate P WoodpeckerShortAsk {Tylko %d z %d puzzli, o które prosiłeś, pozostało na twoim poziomie spośród tych zawartych w Scid.
+
+Pobrać drugi %d z Lichess?
+
+Nie: zestaw tworzony jest ze znalezionych puzzli.}
+translate P WoodpeckerNoPuzzles {Dla tego poziomu, tematu i strony nie pozostała żadna zagadka.}
+translate P WoodpeckerCount {Ćwiczenia}
+translate P WoodpeckerDifficulty {Trudność}
+translate P WoodpeckerTheme {Temat}
+translate P WoodpeckerThemeMix {Mieszane (zalecane)}
+translate P WoodpeckerColor {Strona}
+translate P WoodpeckerColor_both {Obydwa}
+translate P WoodpeckerColor_white {Biały}
+translate P WoodpeckerColor_black {Czarny}
+translate P WoodpeckerToken {token Lichess.}
+translate P WoodpeckerFromFile {Baza PGN lub Scid (np. książka)}
+translate P WoodpeckerFileHelp {Każda gra rozpoczynająca się z ustawionej pozycji staje się ćwiczeniem: jej głównym założeniem jest rozwiązanie, różnice są ignorowane. Autora! I !! są zachowane.}
+translate P WoodpeckerDays1 {Pierwszy cykl (dni)}
+translate P WoodpeckerRestDays {Odpoczynek między cyklami (dni)}
+translate P WoodpeckerDaysHelp {Każdy kolejny cykl obejmuje połowę dni poprzedniego: celem jest skrócenie o połowę czasu rozwiązywania każdego cyklu.}
+translate P WoodpeckerCreate {Tworzyć}
+translate P WoodpeckerBadNumber {Nieprawidłowy numer: %s}
+translate P WoodpeckerNoDifficulty {Wybierz przynajmniej jedną trudność i liczbę ćwiczeń.}
+translate P WoodpeckerDownloading {Pobieranie puzzli z Lichess...}
+translate P WoodpeckerBuilding {Budowa bazy danych zestawu...}
+translate P WoodpeckerCreateFailed {Nie można utworzyć zestawu:
+%s}
+translate P WoodpeckerCreated {Utworzono zestaw: %d ćwiczeń.}
+translate P WoodpeckerFewer {Lichess dał %d z %d zagadek, o które prosiłem.}
+translate P WoodpeckerNoFile {Nie można odczytać %s}
+translate P WoodpeckerSkipped {%d partie zostały pominięte (brak ustawionej pozycji lub brak ruchów).}
+translate P WoodpeckerMarksIncluded {Klucz się rusza! I !! są już zaznaczone, więc możesz zaczynać. Nadal możesz ocenić zestaw z własnym silnikiem z jego menu.}
+translate P WoodpeckerEvalRecommended {Ocenić to teraz za pomocą recenzji? Zdecydowanie zalecane: oznacza kluczowe ruchy! i !!, które zdobywają dodatkowe punkty. Każde ćwiczenie zajmuje około sekundy i można je wykonać także później.}
+translate P WoodpeckerLevel_easiest {Najłatwiej}
+translate P WoodpeckerLevel_easier {Łatwiejsze}
+translate P WoodpeckerLevel_normal {Normalna}
+translate P WoodpeckerLevel_harder {Trudniej}
+translate P WoodpeckerLevel_hardest {Najtrudniejsze}
+translate P WoodpeckerEvalBusy {Ocena już trwa.}
+translate P WoodpeckerSomeAnnotated {Adnotacje są już obecne w %d z %d ćwiczeń. Uzupełnić pozostałe recenzją, czy nadpisać recenzją wszystko?}
+translate P WoodpeckerComplete {W komplecie z recenzją}
+translate P WoodpeckerOverwrite {Zastąp recenzją}
+translate P WoodpeckerAllAnnotated {Wszystkie ćwiczenia %d są już opatrzone adnotacjami, więc ich powtórka jest opcjonalna. Zastąpić oznaczenia autora znakami recenzji?}
+translate P WoodpeckerKeep {Zachowaj adnotacje}
+translate P WoodpeckerEvaluating {Ocena zestawu...}
+translate P WoodpeckerEvalPhase_deep {Przegląd: poszukiwanie rozwiązań}
+translate P WoodpeckerEvalPhase_shallow {Przegląd: które ruchy są oczywiste}
+translate P WoodpeckerEvalPhase_write {Zapisywanie znaków}
+translate P WoodpeckerEvalDone {Ocena przeprowadzona: %d ćwiczenia; %d ruchy oznaczone ! i %d zaznaczono !!, z %d porusza się, aby znaleźć.}
+translate P WoodpeckerNoEngine {Nie skonfigurowano żadnego silnika UCI (Narzędzia > Silniki).}
+translate P WoodpeckerEvalAsk {Oceń ćwiczenia %d za pomocą tego silnika:}
+translate P WoodpeckerOtherMode {Kolejnym treningiem lub zabawą jest korzystanie z planszy.}
+translate P WoodpeckerNoSlot {Brak wolnego miejsca w bazie danych na sesję: zamknij bazę danych i spróbuj ponownie.
+(%s)}
+translate P WoodpeckerRestAsk {Pozostałe dni kończą się %s. Rozpocząć cykl %d mimo to?}
+translate P WoodpeckerUnratedShort {Ćwiczenia %d nie są oceniane: tam liczy się tylko linia.}
+translate P WoodpeckerRes1 {rozwiązany}
+translate P WoodpeckerRes2 {przegrany}
+translate P WoodpeckerPacePer {na ćwiczenie}
+translate P WoodpeckerPaceTarget {cel %s s}
+translate P WoodpeckerCardStreak {Pasemko}
+translate P WoodpeckerCardPoints {Zwrotnica}
+translate P WoodpeckerCardDeadline {Termin ostateczny}
+translate P WoodpeckerStreakSub {sprzątać z rzędu}
+translate P WoodpeckerPointsSub {z możliwych}
+translate P WoodpeckerDaysLeft {pozostało dni}
+translate P WoodpeckerExercise {Ćwiczenie %d z %d}
+translate P WoodpeckerWhiteToMove {Biały do ​​ruchu}
+translate P WoodpeckerBlackToMove {Czarny do ruchu}
+translate P WoodpeckerYourMove {Twój ruch.}
+translate P WoodpeckerSolved {Rozwiązany!}
+translate P WoodpeckerFailed {Przegrany.}
+translate P WoodpeckerPoints {+%s / %s}
+translate P WoodpeckerNoMarks {(nie ocenione: jeszcze nie ! / !! bonus)}
+translate P WoodpeckerQuotaDone {Dzisiejszy cel osiągnięty! Kontynuuj lub zakończ sesję.}
+translate P WoodpeckerSolutionShown {Przejdź przez rozwiązanie na tablicy lub na karcie, a następnie naciśnij Enter.}
+translate P WoodpeckerPaused {Wstrzymano.}
+translate P WoodpeckerAutoPaused {Pauza: brak ruchu przez dwie minuty. Czas spędzony poza domem się nie liczy.}
+translate P WoodpeckerSessionOver {Sesja skończona}
+translate P WoodpeckerCycleComplete {Cykl %d zakończony!}
+translate P WoodpeckerSumDate {Data}
+translate P WoodpeckerSumDuration {Czas trwania}
+translate P WoodpeckerSumExercises {Ćwiczenia zakończone}
+translate P WoodpeckerSumPoints {%s z %s punktów}
+translate P WoodpeckerSumAvg {Średnia na ćwiczenie}
+translate P WoodpeckerSumQuota {Dzisiejszy cel}
+translate P WoodpeckerSumCompare {W stosunku do poprzedniego cyklu: %d szybciej, %d wolniej, %d naprawiono błędy, %d nowe błędy.}
+translate P WoodpeckerSumReview {Do przeglądu: ćwiczenia %s}
+translate P WoodpeckerCyclesTitle {Cykle}
+translate P WoodpeckerSessionsTitle {Sesje}
+translate P WoodpeckerStatsNote {Punkty wykorzystują oceny oceny %d. Wcześniejsze sesje są ponownie oceniane z tymi samymi ocenami, więc cykle są sprawiedliwie porównywane.}
+translate P WoodpeckerNoData {Jeszcze nie ma cyklu}
+translate P WoodpeckerChartLegend {słupki: czas rozwiązania kreskowana: cel (poprzedni cykl skrócony o połowę)}
+translate P WoodpeckerTagline {Rozwiązuj ten sam zestaw wielokrotnie, za każdym razem szybciej.}
+translate P WoodpeckerExit {Opuść sesję}
+translate P WoodpeckerMore {Więcej ćwiczeń}
+translate P WoodpeckerToday {Dzisiaj}
+translate P WoodpeckerCycleShort {Cykl %d}
+translate P WoodpeckerDaysPlanned {Zaplanowano %d dni}
+translate P WoodpeckerExercisesShort {ćwiczenia}
+translate P WoodpeckerDeadline {ostateczny termin %s}
+translate P WoodpeckerHidden {Rozwiązanie pojawi się tutaj.}
+translate P WoodpeckerSumCycle {Cykl}
+translate P WoodpeckerTokenSave {Zapisz i sprawdź}
+translate P WoodpeckerTokenCreate {Utwórz token (zagadka zakresu: czytaj)}
+translate P WoodpeckerTokenOk {✓ Token działa: %s.}
+translate P WoodpeckerTokenRating {Ocena łamigłówki %s.}
+translate P WoodpeckerTokenNoScope {W tym tokenie brakuje łamigłówki: przeczytaj zakres: utwórz za pomocą powyższego linku.}
+translate P WoodpeckerTokenInvalid {Lichess nie zna tego tokena.}
+translate P WoodpeckerTokenUnchecked {Nie można sprawdzić tokena (brak połączenia?). Będzie używany tak jak jest.}
+translate P WoodpeckerTokenChecking {Sprawdzanie tokena...}
+translate P WoodpeckerTokenMissing {Brak tokena? To też działa, z wpisaną powyżej oceną puzzli (profil Lichess, Puzzle). Pobieranie jest wolniejsze i mogą pojawić się zagadki, które już rozwiązałeś na Lichess; z tokenem jest szybciej.}
+translate P WoodpeckerPreset_automatic {Automatyczny (łatwiejszy)}
+translate P WoodpeckerPreset_standard {Standardowy (zalecany)}
+translate P WoodpeckerPreset_challenge {Wyzywający}
+translate P WoodpeckerPreset_tough {Trudny (przeważnie powyżej twojego poziomu)}
+translate P WoodpeckerPreset_custom {Zwyczaj...}
+translate P WoodpeckerPresetHelp_automatic {Przeważnie proste taktyki, aby zobaczyć je od razu: pierwszy cel książki.}
+translate P WoodpeckerPresetHelp_standard {Jedna czwarta łatwiejsza, większość na twoim poziomie, kilka trudniejszych – proporcjonalnie do części łatwych i średniozaawansowanych w książce.}
+translate P WoodpeckerPresetHelp_challenge {Mniej więcej na twoim poziomie, dla silnych graczy (jak w części dla zaawansowanych w książce).}
+translate P WoodpeckerPresetHelp_tough {Przeważnie znacznie powyżej Twojego poziomu, dla silnych graczy, którzy chcą się rozciągnąć.}
+translate P WoodpeckerPresetHelp_custom {Sam wybierz udział w każdym poziomie Lichess.}
+translate P WoodpeckerPresetRating {Poziomy są zależne od twojej Lichess oceny łamigłówki (%s).}
+translate P WoodpeckerPresetNoRating {Poziomy odnoszą się do Twojej oceny puzzli Lichess.}
+translate P WoodpeckerRatingAsk {Twoja Lichess ocena łamigłówki}
+translate P WoodpeckerBadRating {Wpisz swoją ocenę puzzli Lichess (400-3200): znajduje się ona na Twoim profilu Lichess, w sekcji Łamigłówki.}
+translate P WoodpeckerPresetStated {Poziomy odnoszą się do wprowadzonej oceny (%s).}
+translate P WoodpeckerDataDir {Folder danych metody Woodpecker (pusty: własność Scida)}
+translate P WoodpeckerNoDataDir {Nie można znaleźć folderu danych Woodpecker:\n%s\n\nCzy dysk jest podłączony? Folder ustawia się w Opcje > Zasoby.}
+translate P WoodpeckerDataDirMove {%d Zestawy Woodpecker znajdują się w poprzednim folderze danych:\n%s\n\nPrzenieść je do nowego?\n%s\n\nNie: nowy folder zaczyna się pusty, a zestawy pozostają tam, gdzie są.}
+translate P WoodpeckerDataDirHasSets {Nowy folder danych zawiera już zestawy %d (zsynchronizowane z innego komputera?):\n%s\n\nScid ich używa. Zestawy z poprzedniego folderu pozostają w:\n%s}
 
 # Board screenshot
 menuText P ToolsScreenshot "Zapisz obraz szachownicy..." 0 \
@@ -2314,9 +2485,7 @@ translate P CQLQueryEmpty {Przed rozpoczęciem wyszukiwania wpisz zapytanie CQL.
 translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
 translate P CQLUnreadableGames {Nie udało się odczytać %d partii}
 }
-# end of polish.tcl
-
-
+# end of english.tcl
 
 
 ############################################################
@@ -2540,4 +2709,3 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
-###########################################

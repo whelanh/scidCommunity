@@ -262,6 +262,7 @@ menuText T ToolsCaptureBoard "Mevcut Panoyu Yakala..." 5  {Geçerli panoyu resim
 # Play menu
 menuText T Play "Oynamak" 0
 menuText T LichessPuzzles "Lichess Bulmacaları" 0 {Lichess bulmacalarını etkileşimli olarak çözün}
+menuText T Woodpecker "Ağaçkakan Yöntemi" 0 {Taktikleri döngüler halinde eğitin: aynı set, her seferinde daha hızlı}
 
 # --- Correspondence Chess
 menuText T CCResign "İstifa etmek" 1 {İstifa (e-posta yoluyla değil)}
@@ -482,6 +483,176 @@ translate T LichessPuzzlesClock {Saat}
 translate T LichessPuzzlesRated {derecelendirildi}
 translate T LichessPuzzlesGame {Oyun}
 translate T LichessPuzzlesNoNew {Bu ayarlar için yeni bulmaca bulunamadı.\n\nTemayı, zorluğu veya bulmaca rengini değiştirmeyi deneyin.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate T WoodpeckerTitle {Ağaçkakan Yöntemi}
+translate T WoodpeckerColName {Ayarlamak}
+translate T WoodpeckerColExercises {Egzersizler}
+translate T WoodpeckerColCycle {Döngü}
+translate T WoodpeckerColProgress {Bu döngü}
+translate T WoodpeckerColLast {Son oturum}
+translate T WoodpeckerColDays {Günler}
+translate T WoodpeckerColTime {Çözme zamanı}
+translate T WoodpeckerColResults {çözüldü/başarısız oldu}
+translate T WoodpeckerColPct {Gol}
+translate T WoodpeckerColDate {Tarih}
+translate T WoodpeckerColDuration {Süre}
+translate T WoodpeckerColPoints {Puanlar}
+translate T WoodpeckerNew {Yeni set...}
+translate T WoodpeckerTrain {Tren}
+translate T WoodpeckerEvaluate {Değerlendirmek...}
+translate T WoodpeckerStats {İstatistikler}
+translate T WoodpeckerDelete {Silmek}
+translate T WoodpeckerContinue {Devam et (Giriş)}
+translate T WoodpeckerPause {Duraklat}
+translate T WoodpeckerResume {Sürdürmek}
+translate T WoodpeckerEnd {Oturumu sonlandır}
+translate T WoodpeckerNoSets {Henüz set yok: Scid'deki bulmacalarla başlamak, Lichess'dan daha fazlasını indirmek veya bir PGN kitabı kullanmak için Yeni set'e basın.}
+translate T WoodpeckerUnrated {%d / %d egzersizlerin hiçbirinde ! / !! puanlar: Bu bonusları kazanmak için seti değerlendirin (önceki oturumlar da yeniden puanlanır).}
+translate T WoodpeckerCycleOver {%d döngüsü tamamlandı. %s'a kadar dinlenin, ardından yarım günle bir sonraki döngü başlar.}
+translate T WoodpeckerCycleLine {Döngü %d: %d/%d tamamlandı, %d gün planlandı, son tarih %s.}
+translate T WoodpeckerQuotaLine {Bugün: %d / %d alıştırmalar.}
+translate T WoodpeckerQuotaRaised {Biraz geridesiniz: bugünün hedefi %d yerine %d.}
+translate T WoodpeckerDeadlineMoved {Aradan sonra son tarih %d gün kaydırılarak %s'e kaydırıldı; günlük hedef %d'dir.}
+translate T WoodpeckerOverStretch {Döngü planlanan uzunluğunun iki katına ulaştı: son tarih %s'da kaldı ve günlük hedef %d'dir.}
+translate T WoodpeckerDeleteAsk {"%s" kümesi veritabanı ve istatistikleriyle birlikte silinsin mi?}
+translate T WoodpeckerNewTitle {Yeni Ağaçkakan seti}
+translate T WoodpeckerName {İsim}
+translate T WoodpeckerFromLichess {Lichess'dan Bulmacalar}
+translate T WoodpeckerFromPuzzles {Scid'e dahil bulmacalar (derecelendirilmiş Lichess bulmacalar)}
+translate T WoodpeckerAdvanced {Gelişmiş}
+translate T WoodpeckerUseLichess {Dahil edilen setler yerine Lichess'dan bulmacalar alın}
+translate T WoodpeckerPicking {Bulmacaları seçiyorum...}
+translate T WoodpeckerShortAsk {Sadece %d arasında %d İstenilen bulmacalar Scid'in içerdiği bulmacalar arasında sizin seviyenizde bırakılmıştır.
+
+Diğerini indir %d Lichess'ten mi?
+
+Hayır: Bulunan bulmacalarla set oluşturulur.}
+translate T WoodpeckerNoPuzzles {Bu seviye, tema ve taraf için hiçbir bulmaca kalmadı.}
+translate T WoodpeckerCount {Egzersizler}
+translate T WoodpeckerDifficulty {Zorluk}
+translate T WoodpeckerTheme {Tema}
+translate T WoodpeckerThemeMix {Karışık (önerilir)}
+translate T WoodpeckerColor {Taraf}
+translate T WoodpeckerColor_both {İkisi birden}
+translate T WoodpeckerColor_white {Beyaz}
+translate T WoodpeckerColor_black {Siyah}
+translate T WoodpeckerToken {Lichess jetonu}
+translate T WoodpeckerFromFile {PGN veya Scid veritabanı (örneğin bir kitap)}
+translate T WoodpeckerFileHelp {Bir kurulum pozisyonundan başlayan her oyun bir alıştırma haline gelir: Ana çizgisi çözümdür, varyasyonlar göz ardı edilir. Yazarın! Ve !! tutulur.}
+translate T WoodpeckerDays1 {İlk döngü (günler)}
+translate T WoodpeckerRestDays {Döngüler (günler) arasında dinlenme}
+translate T WoodpeckerDaysHelp {Daha sonraki her döngü bir öncekinin günlerinin yarısını alır: amaç her döngüde çözüm süresini yarıya indirmektir.}
+translate T WoodpeckerCreate {Yaratmak}
+translate T WoodpeckerBadNumber {Geçerli bir numara değil: %s}
+translate T WoodpeckerNoDifficulty {En az bir zorluk derecesi ve bir dizi alıştırma seçin.}
+translate T WoodpeckerDownloading {Lichess adresinden bulmacalar indiriliyor...}
+translate T WoodpeckerBuilding {Setin veritabanı oluşturuluyor...}
+translate T WoodpeckerCreateFailed {Küme oluşturulamadı:
+%s}
+translate T WoodpeckerCreated {Oluşturulan set: %d alıştırmalar.}
+translate T WoodpeckerFewer {Lichess verdi %d arasında %d bulmacalar istendi.}
+translate T WoodpeckerNoFile {%s okunamıyor}
+translate T WoodpeckerSkipped {%d oyun atlandı (kurulum konumu yok veya hareket yok).}
+translate T WoodpeckerMarksIncluded {Anahtar hareket ediyor! Ve !! zaten işaretlenmiş olduğundan başlayabilirsiniz. Seti yine kendi menüsünden kendi motorunuzla değerlendirebilirsiniz.}
+translate T WoodpeckerEvalRecommended {Şimdi incelemeyle birlikte değerlendirelim mi? Şiddetle tavsiye edilir: önemli hamleleri işaretler! ve !!, bonus puan kazandırır. Egzersiz başına yaklaşık bir saniye sürer ve daha sonra da yapılabilir.}
+translate T WoodpeckerLevel_easiest {En kolay}
+translate T WoodpeckerLevel_easier {Daha kolay}
+translate T WoodpeckerLevel_normal {Normal}
+translate T WoodpeckerLevel_harder {Daha güçlü}
+translate T WoodpeckerLevel_hardest {En zor}
+translate T WoodpeckerEvalBusy {Bir değerlendirme zaten çalışıyor.}
+translate T WoodpeckerSomeAnnotated {Ek açıklamalar zaten mevcut %d ile ilgili %d egzersizler. Diğerlerini incelemeyle tamamlamak mı yoksa incelemeyle her şeyin üzerine yazmak mı istiyorsunuz?}
+translate T WoodpeckerComplete {İncelemeyi tamamlayın}
+translate T WoodpeckerOverwrite {İncelemenin üzerine yaz}
+translate T WoodpeckerAllAnnotated {Tüm %d alıştırmalara zaten açıklama eklenmiştir, dolayısıyla inceleme isteğe bağlıdır. İncelemenin notları yazarın işaretlerinin üzerine yazılsın mı?}
+translate T WoodpeckerKeep {Ek açıklamaları saklayın}
+translate T WoodpeckerEvaluating {Seti değerlendiriyoruz...}
+translate T WoodpeckerEvalPhase_deep {İnceleme: çözümleri arama}
+translate T WoodpeckerEvalPhase_shallow {İnceleme: hangi hareketler açıktır}
+translate T WoodpeckerEvalPhase_write {İşaretlerin yazılması}
+translate T WoodpeckerEvalDone {Yapılan değerlendirme: %d alıştırmalar; %d işaretli hamleler ! ve %d işaretli !!, bulunacak %d hareketlerden.}
+translate T WoodpeckerNoEngine {Hiçbir UCI motoru yapılandırılmamış (Araçlar > Motorlar).}
+translate T WoodpeckerEvalAsk {Bu motorla %d alıştırmaları değerlendirin:}
+translate T WoodpeckerOtherMode {Başka bir eğitim veya oyun tahtayı kullanmaktır.}
+translate T WoodpeckerNoSlot {Oturum için boş veritabanı yuvası yok: veritabanını kapatın ve yeniden deneyin.
+(%s)}
+translate T WoodpeckerRestAsk {Dinlenme günleri %s tarihinde bitiyor. Yine de %d döngüsü başlatılsın mı?}
+translate T WoodpeckerUnratedShort {%d egzersizleri değerlendirilmez: orada yalnızca satır sayılır.}
+translate T WoodpeckerRes1 {çözüldü}
+translate T WoodpeckerRes2 {arızalı}
+translate T WoodpeckerPacePer {egzersiz başına}
+translate T WoodpeckerPaceTarget {hedef %s s}
+translate T WoodpeckerCardStreak {Rüzgâr gibi geçmek}
+translate T WoodpeckerCardPoints {Puanlar}
+translate T WoodpeckerCardDeadline {Son teslim tarihi}
+translate T WoodpeckerStreakSub {art arda temizlemek}
+translate T WoodpeckerPointsSub {mümkün olanın}
+translate T WoodpeckerDaysLeft {kalan günler}
+translate T WoodpeckerExercise {Egzersiz yapmak %d ile ilgili %d}
+translate T WoodpeckerWhiteToMove {Hareket etmek için beyaz}
+translate T WoodpeckerBlackToMove {Hareket etmek için siyah}
+translate T WoodpeckerYourMove {Hareketin.}
+translate T WoodpeckerSolved {Çözüldü!}
+translate T WoodpeckerFailed {Arızalı.}
+translate T WoodpeckerPoints {+%s / %s}
+translate T WoodpeckerNoMarks {(değerlendirilmedi: henüz ! / !! bonus yok)}
+translate T WoodpeckerQuotaDone {Bugünkü hedefe ulaşıldı! Devam edin veya oturumu sonlandırın.}
+translate T WoodpeckerSolutionShown {Çözümü tahtada veya kartta adım adım ilerleyin ve ardından Enter tuşuna basın.}
+translate T WoodpeckerPaused {Duraklatıldı.}
+translate T WoodpeckerAutoPaused {Duraklatıldı: iki dakika boyunca hareket yok. Uzakta geçirilen süre sayılmaz.}
+translate T WoodpeckerSessionOver {Oturum bitti}
+translate T WoodpeckerCycleComplete {%d döngüsü tamamlandı!}
+translate T WoodpeckerSumDate {Tarih}
+translate T WoodpeckerSumDuration {Süre}
+translate T WoodpeckerSumExercises {Tamamlanan egzersizler}
+translate T WoodpeckerSumPoints {%s / %s nokta}
+translate T WoodpeckerSumAvg {Egzersiz başına ortalama}
+translate T WoodpeckerSumQuota {Bugünkü hedef}
+translate T WoodpeckerSumCompare {Önceki döngüye göre: %d daha hızlı, %d daha yavaş, %d hatalar düzeltildi, %d yeni hatalar.}
+translate T WoodpeckerSumReview {İncelemek için: alıştırmalar %s}
+translate T WoodpeckerCyclesTitle {Döngüler}
+translate T WoodpeckerSessionsTitle {Oturumlar}
+translate T WoodpeckerStatsNote {Puanlar değerlendirme notlarını %d kullanır. Önceki oturumlar aynı puanlarla yeniden puanlanır, böylece döngüler adil bir şekilde karşılaştırılır.}
+translate T WoodpeckerNoData {Henüz döngü yok}
+translate T WoodpeckerChartLegend {çubuklar: çözüm süresi kesikli: hedef (önceki döngü yarıya indirildi)}
+translate T WoodpeckerTagline {Aynı seti her seferinde daha hızlı, tekrar tekrar çözün.}
+translate T WoodpeckerExit {Oturumdan ayrıl}
+translate T WoodpeckerMore {Daha fazla egzersiz}
+translate T WoodpeckerToday {Bugün}
+translate T WoodpeckerCycleShort {%d döngüsü}
+translate T WoodpeckerDaysPlanned {%d gün planlandı}
+translate T WoodpeckerExercisesShort {egzersizler}
+translate T WoodpeckerDeadline {son tarih %s}
+translate T WoodpeckerHidden {Çözüm burada görünecek.}
+translate T WoodpeckerSumCycle {Döngü}
+translate T WoodpeckerTokenSave {Kaydet ve kontrol et}
+translate T WoodpeckerTokenCreate {Bir jeton oluşturun (kapsam bulmacası:oku)}
+translate T WoodpeckerTokenOk {✓ Token çalışıyor: %s.}
+translate T WoodpeckerTokenRating {Bulmaca derecelendirmesi %s.}
+translate T WoodpeckerTokenNoScope {Bu belirteçte bulmaca:okuma kapsamı yok: yukarıdaki bağlantıyla bir tane oluşturun.}
+translate T WoodpeckerTokenInvalid {Lichess bu jetonu bilmiyor.}
+translate T WoodpeckerTokenUnchecked {Belirteç kontrol edilemedi (bağlantı yok mu?). Olduğu gibi kullanılacaktır.}
+translate T WoodpeckerTokenChecking {Jeton kontrol ediliyor...}
+translate T WoodpeckerTokenMissing {Jeton yok mu? Yukarıda girilen bulmaca derecelendirmesi (Lichess profili, Bulmacalar) ile de çalışır. İndirme işlemi daha yavaştır ve Lichess'da çözdüğünüz bulmacalar karşınıza çıkabilir; jetonla daha hızlıdır.}
+translate T WoodpeckerPreset_automatic {Otomatik (daha kolay)}
+translate T WoodpeckerPreset_standard {Standart (önerilen)}
+translate T WoodpeckerPreset_challenge {Zorlu}
+translate T WoodpeckerPreset_tough {Zorlu (çoğunlukla seviyenizin üzerinde)}
+translate T WoodpeckerPreset_custom {Gelenek...}
+translate T WoodpeckerPresetHelp_automatic {Çoğunlukla basit taktikler, bunları bir kerede görmek: Kitabın ilk amacı.}
+translate T WoodpeckerPresetHelp_standard {Dörtte biri daha kolay, çoğu sizin seviyenize yakın, birkaçı daha zor - kitabın Kolay ve Orta bölümlerinin oranı.}
+translate T WoodpeckerPresetHelp_challenge {Güçlü oyuncular için seviyenizin civarında ve üstünde (kitabın Gelişmiş bölümü gibi).}
+translate T WoodpeckerPresetHelp_tough {Çoğunlukla sizin seviyenizin çok üstünde, esnemek isteyen güçlü oyuncular için.}
+translate T WoodpeckerPresetHelp_custom {Her Lichess seviyenin payını kendiniz seçin.}
+translate T WoodpeckerPresetRating {Seviyeler Lichess bulmaca puanınıza (%s) bağlıdır.}
+translate T WoodpeckerPresetNoRating {Seviyeler Lichess bulmaca puanınıza bağlıdır.}
+translate T WoodpeckerRatingAsk {Lichess bulmaca puanınız}
+translate T WoodpeckerBadRating {Lichess bulmaca puanınızı (400-3200) girin: Bu, Lichess profilinizde, Bulmacalar altında bulunur.}
+translate T WoodpeckerPresetStated {Seviyeler girdiğiniz derecelendirmeye bağlıdır (%s).}
+translate T WoodpeckerDataDir {Ağaçkakan Yöntemi veri klasörü (boş: Scid'inki)}
+translate T WoodpeckerNoDataDir {Ağaçkakan veri klasörü bulunamıyor:\n%s\n\nSürücü bağlı mı? Klasör Seçenekler > Kaynaklar'da ayarlanır.}
+translate T WoodpeckerDataDirMove {%d Ağaçkakan kümeleri önceki veri klasöründe:\n%s\n\nBunlar yenisine taşınsın mı?\n%s\n\nHayır: yeni klasör boş başlar ve kümeler oldukları yerde kalır.}
+translate T WoodpeckerDataDirHasSets {Yeni veri klasörü zaten %d kümeleri içeriyor (başka bir bilgisayardan senkronize edilmiş mi?):\n%s\n\nScid bunları kullanıyor. Önceki klasörün kümeleri şu konumda kalır:\n%s}
 
 # Board screenshot
 menuText T ToolsScreenshot "Pano Ekran Görüntüsü" 0 \

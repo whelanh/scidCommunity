@@ -299,6 +299,7 @@ menuText g ToolsCaptureBoard "Заснемане на текущата дъск�
 # Play menu
 menuText g Play "Играйте" 0
 menuText g LichessPuzzles "Пъзели за шах" 0 {Решавайте пъзелите Lichess интерактивно}
+menuText g Woodpecker "Метод на кълвача" 0 {Тренирайте тактики на цикли: един и същ набор, всеки път по-бързо}
 
 # --- Correspondence Chess
 menuText g CCResign "Подай си оставката" 1 {Подайте оставка (не чрез имейл)}
@@ -519,6 +520,176 @@ translate g LichessPuzzlesClock {Часовник}
 translate g LichessPuzzlesRated {Оценен}
 translate g LichessPuzzlesGame {Игра}
 translate g LichessPuzzlesNoNew {Няма намерени нови пъзели за тези настройки.\n\nОпитайте да промените темата, трудността или цвета на пъзела.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate g WoodpeckerTitle {Метод на кълвача}
+translate g WoodpeckerColName {Комплект}
+translate g WoodpeckerColExercises {Упражнения}
+translate g WoodpeckerColCycle {Цикъл}
+translate g WoodpeckerColProgress {Този цикъл}
+translate g WoodpeckerColLast {Последна сесия}
+translate g WoodpeckerColDays {Дни}
+translate g WoodpeckerColTime {Време за решаване}
+translate g WoodpeckerColResults {решен/неуспешен}
+translate g WoodpeckerColPct {резултат}
+translate g WoodpeckerColDate {Дата}
+translate g WoodpeckerColDuration {Продължителност}
+translate g WoodpeckerColPoints {Точки}
+translate g WoodpeckerNew {Нов комплект...}
+translate g WoodpeckerTrain {влак}
+translate g WoodpeckerEvaluate {Оценете...}
+translate g WoodpeckerStats {Статистика}
+translate g WoodpeckerDelete {Изтриване}
+translate g WoodpeckerContinue {Продължи (Въведете)}
+translate g WoodpeckerPause {Пауза}
+translate g WoodpeckerResume {Резюме}
+translate g WoodpeckerEnd {Край на сесията}
+translate g WoodpeckerNoSets {Все още няма набор: натиснете Нов набор, за да започнете с пъзелите, включени в Scid, за да изтеглите още от Lichess или да използвате PGN книга.}
+translate g WoodpeckerUnrated {%d от %d упражнения нямат ! / !! точки: оценете набора, за да спечелите тези бонуси (по-ранните сесии също се оценяват отново).}
+translate g WoodpeckerCycleOver {Цикъл %d е завършен. Починете до %s, след което започва следващият цикъл с половината дни.}
+translate g WoodpeckerCycleLine {Цикъл %d: %d/%d готов, %d дни планирани, краен срок %s.}
+translate g WoodpeckerQuotaLine {Днес: %d от %d упражнения.}
+translate g WoodpeckerQuotaRaised {Малко изоставате: днешната цел е %d вместо %d.}
+translate g WoodpeckerDeadlineMoved {След прекъсването крайният срок се премести с %d дни до %s; дневната цел е %d.}
+translate g WoodpeckerOverStretch {Цикълът е достигнал два пъти планираната дължина: крайният срок остава %s, а дневната цел е %d.}
+translate g WoodpeckerDeleteAsk {Изтриване на набора "%s" с неговата база данни и статистика?}
+translate g WoodpeckerNewTitle {Нов комплект Кълвач}
+translate g WoodpeckerName {Име}
+translate g WoodpeckerFromLichess {Пъзели от Lichess}
+translate g WoodpeckerFromPuzzles {Пъзели, включени в Scid (степенни Lichess пъзели)}
+translate g WoodpeckerAdvanced {Разширено}
+translate g WoodpeckerUseLichess {Вземете пъзели от Lichess вместо включените комплекти}
+translate g WoodpeckerPicking {Избор на пъзели...}
+translate g WoodpeckerShortAsk {Само %d от поисканите %d пъзели са останали на вашето ниво сред включените в Scid.
+
+Изтегляне на другия %d от Lichess?
+
+Не: комплектът е създаден с намерените пъзели.}
+translate g WoodpeckerNoPuzzles {За това ниво, тема и страна не е останал пъзел.}
+translate g WoodpeckerCount {Упражнения}
+translate g WoodpeckerDifficulty {Трудност}
+translate g WoodpeckerTheme {Тема}
+translate g WoodpeckerThemeMix {Смесени (препоръчително)}
+translate g WoodpeckerColor {отстрани}
+translate g WoodpeckerColor_both {И двете}
+translate g WoodpeckerColor_white {Бяло}
+translate g WoodpeckerColor_black {черен}
+translate g WoodpeckerToken {Lichess токен}
+translate g WoodpeckerFromFile {PGN или Scid база данни (напр. книга)}
+translate g WoodpeckerFileHelp {Всяка игра, която започва от позиция за настройка, се превръща в упражнение: нейната основна линия е решението, вариантите се игнорират. На автора! и !! се пазят.}
+translate g WoodpeckerDays1 {Първи цикъл (дни)}
+translate g WoodpeckerRestDays {Почивка между циклите (дни)}
+translate g WoodpeckerDaysHelp {Всеки следващ цикъл получава половината дни от предишния: целта е да се намали наполовина времето за решаване на всеки цикъл.}
+translate g WoodpeckerCreate {Създавайте}
+translate g WoodpeckerBadNumber {Невалиден номер: %s}
+translate g WoodpeckerNoDifficulty {Изберете поне една трудност и брой упражнения.}
+translate g WoodpeckerDownloading {Изтегляне на пъзели от Lichess...}
+translate g WoodpeckerBuilding {Изграждане на базата данни на комплекта...}
+translate g WoodpeckerCreateFailed {Комплектът не може да бъде създаден:
+%s}
+translate g WoodpeckerCreated {Създаден комплект: %d упражнения.}
+translate g WoodpeckerFewer {Lichess даде %d от поисканите %d пъзели.}
+translate g WoodpeckerNoFile {Не може да се прочете %s}
+translate g WoodpeckerSkipped {%d игри бяха пропуснати (без позиция за настройка или без ходове).}
+translate g WoodpeckerMarksIncluded {Ключът се движи! и !! вече са маркирани, така че можете да започнете. Все още можете да оцените комплекта с вашия собствен двигател от неговото меню.}
+translate g WoodpeckerEvalRecommended {Оценете го сега с прегледа? Силно препоръчително: маркира ключовите ходове! и !!, които печелят бонус точки. Отнема около секунда на упражнение и може да се направи и по-късно.}
+translate g WoodpeckerLevel_easiest {Най-лесно}
+translate g WoodpeckerLevel_easier {по-лесно}
+translate g WoodpeckerLevel_normal {нормално}
+translate g WoodpeckerLevel_harder {по-трудно}
+translate g WoodpeckerLevel_hardest {Най-трудно}
+translate g WoodpeckerEvalBusy {Вече тече оценка.}
+translate g WoodpeckerSomeAnnotated {Анотациите вече присъстват в %d от %d упражнения. Да довърша ли останалите с рецензията или да презапиша всичко с рецензията?}
+translate g WoodpeckerComplete {В комплект с прегледа}
+translate g WoodpeckerOverwrite {Презапишете с прегледа}
+translate g WoodpeckerAllAnnotated {Всички %d упражнения вече са анотирани, така че прегледът не е задължителен. Да се ​​заменят ли оценките на автора с тези на рецензията?}
+translate g WoodpeckerKeep {Запазете анотациите}
+translate g WoodpeckerEvaluating {Оценяване на комплекта...}
+translate g WoodpeckerEvalPhase_deep {Преглед: търсене на решения}
+translate g WoodpeckerEvalPhase_shallow {Преглед: кои ходове са очевидни}
+translate g WoodpeckerEvalPhase_write {Писане на знаците}
+translate g WoodpeckerEvalDone {Извършена оценка: %d упражнения; %d ходове са маркирани ! и %d маркирани !!, от %d се движат за намиране.}
+translate g WoodpeckerNoEngine {Не е конфигуриран UCI двигател (Инструменти > Двигатели).}
+translate g WoodpeckerEvalAsk {Оценете %d упражнения с тази машина:}
+translate g WoodpeckerOtherMode {Друго обучение или игра е използването на дъската.}
+translate g WoodpeckerNoSlot {Няма свободен слот за база данни за сесията: затворете база данни и опитайте отново.
+(%s)}
+translate g WoodpeckerRestAsk {Останалите дни приключват на %s. Стартиране на цикъл %d въпреки това?}
+translate g WoodpeckerUnratedShort {%d упражнения не се оценяват: там се брои само линията.}
+translate g WoodpeckerRes1 {решен}
+translate g WoodpeckerRes2 {неуспешно}
+translate g WoodpeckerPacePer {на упражнение}
+translate g WoodpeckerPaceTarget {цел %s s}
+translate g WoodpeckerCardStreak {Ивица}
+translate g WoodpeckerCardPoints {Точки}
+translate g WoodpeckerCardDeadline {Краен срок}
+translate g WoodpeckerStreakSub {чисти подред}
+translate g WoodpeckerPointsSub {от възможното}
+translate g WoodpeckerDaysLeft {остават дни}
+translate g WoodpeckerExercise {Упражнение %d от %d}
+translate g WoodpeckerWhiteToMove {Бяло за движение}
+translate g WoodpeckerBlackToMove {Черно за движение}
+translate g WoodpeckerYourMove {Вашият ход.}
+translate g WoodpeckerSolved {Решено!}
+translate g WoodpeckerFailed {Неуспешно.}
+translate g WoodpeckerPoints {+%s / %s}
+translate g WoodpeckerNoMarks {(не е оценен: все още не ! / !! бонус)}
+translate g WoodpeckerQuotaDone {Днешната цел е постигната! Продължете или прекратете сесията.}
+translate g WoodpeckerSolutionShown {Преминете през решението на дъската или на картата, след което натиснете Enter.}
+translate g WoodpeckerPaused {На пауза.}
+translate g WoodpeckerAutoPaused {Пауза: без движение в продължение на две минути. Времето далеч не се брои.}
+translate g WoodpeckerSessionOver {Сесията приключи}
+translate g WoodpeckerCycleComplete {Цикъл %d завършен!}
+translate g WoodpeckerSumDate {Дата}
+translate g WoodpeckerSumDuration {Продължителност}
+translate g WoodpeckerSumExercises {Завършени упражнения}
+translate g WoodpeckerSumPoints {%s от %s точки}
+translate g WoodpeckerSumAvg {Средно на упражнение}
+translate g WoodpeckerSumQuota {Днешната цел}
+translate g WoodpeckerSumCompare {Спрямо предишния цикъл: %d по-бързо, %d по-бавно, %d грешки коригирани, %d нови грешки.}
+translate g WoodpeckerSumReview {За преглед: упражнения %s}
+translate g WoodpeckerCyclesTitle {Цикли}
+translate g WoodpeckerSessionsTitle {Сесии}
+translate g WoodpeckerStatsNote {Точките използват оценките за оценка %d. По-ранните сесии се оценяват със същите оценки, така че циклите се сравняват справедливо.}
+translate g WoodpeckerNoData {Все още няма цикъл}
+translate g WoodpeckerChartLegend {ленти: време за решаване пунктирано: цел (предишен цикъл намален наполовина)}
+translate g WoodpeckerTagline {Решете един и същи набор отново и отново, по-бързо всеки път.}
+translate g WoodpeckerExit {Напуснете сесията}
+translate g WoodpeckerMore {Още упражнения}
+translate g WoodpeckerToday {Днес}
+translate g WoodpeckerCycleShort {Цикъл %d}
+translate g WoodpeckerDaysPlanned {%d планирани дни}
+translate g WoodpeckerExercisesShort {упражнения}
+translate g WoodpeckerDeadline {краен срок %s}
+translate g WoodpeckerHidden {Решението ще се появи тук.}
+translate g WoodpeckerSumCycle {Цикъл}
+translate g WoodpeckerTokenSave {Запазете и проверете}
+translate g WoodpeckerTokenCreate {Създайте токен (обхват пъзел:четете)}
+translate g WoodpeckerTokenOk {✓ Токенът работи: %s.}
+translate g WoodpeckerTokenRating {Рейтинг на пъзела %s.}
+translate g WoodpeckerTokenNoScope {На този токен липсва пъзелът:четете обхват: създайте такъв с връзката по-горе.}
+translate g WoodpeckerTokenInvalid {Lichess не познава този токен.}
+translate g WoodpeckerTokenUnchecked {Токенът не можа да бъде проверен (няма връзка?). Ще се използва такъв, какъвто е.}
+translate g WoodpeckerTokenChecking {Проверка на токена...}
+translate g WoodpeckerTokenMissing {Няма жетон? Работи и с въведената по-горе оценка на пъзела (Lichess профил, Пъзели). Изтеглянето е по-бавно и може да се появят пъзели, които вече сте решили на Lichess; с жетон е по-бързо.}
+translate g WoodpeckerPreset_automatic {Автоматично (по-лесно)}
+translate g WoodpeckerPreset_standard {Стандартен (препоръчително)}
+translate g WoodpeckerPreset_challenge {Предизвикателство}
+translate g WoodpeckerPreset_tough {Трудно (предимно над вашето ниво)}
+translate g WoodpeckerPreset_custom {Персонализирано...}
+translate g WoodpeckerPresetHelp_automatic {Предимно прости тактики, за да ги видите веднага: първата цел на книгата.}
+translate g WoodpeckerPresetHelp_standard {Една четвърт по-лесни, повечето около вашето ниво, няколко по-трудни - съотношението на лесните и средно напредналите секции на книгата.}
+translate g WoodpeckerPresetHelp_challenge {Около и над вашето ниво, за силни играчи (като раздела за напреднали в книгата).}
+translate g WoodpeckerPresetHelp_tough {Предимно доста над вашето ниво, за силни играчи, които искат да се разтягат.}
+translate g WoodpeckerPresetHelp_custom {Изберете сами дела на всяко Lichess ниво.}
+translate g WoodpeckerPresetRating {Нивата са относителни към вашия Lichess рейтинг на пъзел (%s).}
+translate g WoodpeckerPresetNoRating {Нивата са относителни към вашия Lichess рейтинг на пъзела.}
+translate g WoodpeckerRatingAsk {Вашият Lichess рейтинг на пъзел}
+translate g WoodpeckerBadRating {Въведете вашия Lichess рейтинг на пъзела (400-3200): той е във вашия Lichess профил, под Пъзели.}
+translate g WoodpeckerPresetStated {Нивата са относителни към оценката, която сте въвели (%s).}
+translate g WoodpeckerDataDir {Папка с данни на метода Woodpecker (празна: собствена на Scid)}
+translate g WoodpeckerNoDataDir {Папката с данни на Woodpecker не може да бъде намерена:\n%s\n\nУстройството свързано ли е? Папката е зададена в Опции > Ресурси.}
+translate g WoodpeckerDataDirMove {Комплектите %d Woodpecker са в предишната папка с данни:\n%s\n\nДа ги преместите ли в новата?\n%s\n\nНе: новата папка започва празна и комплектите остават там, където са.}
+translate g WoodpeckerDataDirHasSets {Новата папка с данни вече съдържа %d набори (синхронизирани от друг компютър?):\n%s\n\nScid ги използва. Наборите от предишната папка остават в:\n%s}
 
 # Board screenshot
 menuText g ToolsScreenshot "Екранна снимка на борда" 0 \

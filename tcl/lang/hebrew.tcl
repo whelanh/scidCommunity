@@ -259,6 +259,7 @@ menuText V ToolsCaptureBoard "לכידת לוח נוכחי..." 5  {שמור את
 # Play menu
 menuText V Play "לְשַׂחֵק" 0
 menuText V LichessPuzzles "פאזלים של ליצ'ס" 0 {פתור חידות ליצ'ס באופן אינטראקטיבי}
+menuText V Woodpecker "שיטת נקר" 0 {אימון טקטיקות במחזוריות: אותו סט, מהיר יותר בכל פעם}
 
 # --- Correspondence Chess
 menuText V CCResign "לְהִתְפַּטֵר" 1 {התפטר (לא באמצעות דואר אלקטרוני)}
@@ -479,6 +480,176 @@ translate V LichessPuzzlesClock {שָׁעוֹן}
 translate V LichessPuzzlesRated {מדורג}
 translate V LichessPuzzlesGame {מִשְׂחָק}
 translate V LichessPuzzlesNoNew {לא נמצאו פאזלים חדשים עבור ההגדרות האלה.\n\nנסה לשנות את הנושא, הקושי או צבע הפאזל.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate V WoodpeckerTitle {שיטת נקר}
+translate V WoodpeckerColName {מַעֲרֶכֶת}
+translate V WoodpeckerColExercises {תרגילים}
+translate V WoodpeckerColCycle {מַחזוֹר}
+translate V WoodpeckerColProgress {המחזור הזה}
+translate V WoodpeckerColLast {מפגש אחרון}
+translate V WoodpeckerColDays {ימים}
+translate V WoodpeckerColTime {פתרון זמן}
+translate V WoodpeckerColResults {נפתר/נכשל}
+translate V WoodpeckerColPct {צִיוּן}
+translate V WoodpeckerColDate {תַאֲרִיך}
+translate V WoodpeckerColDuration {מֶשֶׁך}
+translate V WoodpeckerColPoints {נקודות}
+translate V WoodpeckerNew {סט חדש...}
+translate V WoodpeckerTrain {רַכֶּבֶת}
+translate V WoodpeckerEvaluate {לְהַעֲרִיך...}
+translate V WoodpeckerStats {סטָטִיסטִיקָה}
+translate V WoodpeckerDelete {לִמְחוֹק}
+translate V WoodpeckerContinue {המשך (Enter)}
+translate V WoodpeckerPause {הַפסָקָה}
+translate V WoodpeckerResume {קוֹרוֹת חַיִים}
+translate V WoodpeckerEnd {סיום הפגישה}
+translate V WoodpeckerNoSets {עדיין אין הגדרה: לחץ על קבוצה חדשה כדי להתחיל עם הפאזלים הכלולים ב-Scid, כדי להוריד עוד מ-Lichess, או כדי להשתמש בספר PGN.}
+translate V WoodpeckerUnrated {%d מתוך %d תרגילים אין ! /!! ציונים: הערך את הסט כדי להרוויח את הבונוסים האלה (גם למפגשים קודמים יש ניקוד).}
+translate V WoodpeckerCycleOver {מחזור %d הושלם. מנוחה עד %s, ואז מתחיל המחזור הבא, עם חצי מהימים.}
+translate V WoodpeckerCycleLine {מחזור %d: %d/%d בוצע, %d ימים מתוכננים, דדליין %s.}
+translate V WoodpeckerQuotaLine {היום: %d מתוך %d תרגילים.}
+translate V WoodpeckerQuotaRaised {אתה קצת בפיגור: היעד של היום הוא %d במקום %d.}
+translate V WoodpeckerDeadlineMoved {לאחר ההפסקה הדדליין עבר %d ימים, ל %s; היעד היומי הוא %d.}
+translate V WoodpeckerOverStretch {המחזור הגיע פי שניים מאורכו המתוכנן: המועד האחרון נשאר ב-%s והיעד היומי הוא %d.}
+translate V WoodpeckerDeleteAsk {האם למחוק את הסט "%s" עם מסד הנתונים והסטטיסטיקות שלו?}
+translate V WoodpeckerNewTitle {סט נקר חדש}
+translate V WoodpeckerName {שֵׁם}
+translate V WoodpeckerFromLichess {חידות מ-Lichess}
+translate V WoodpeckerFromPuzzles {פאזלים הכלולים עם Scid (פאזלים מדורגים Lichess)}
+translate V WoodpeckerAdvanced {מִתקַדֵם}
+translate V WoodpeckerUseLichess {קבל פאזלים מ-Lichess במקום הסטים הכלולים}
+translate V WoodpeckerPicking {בחירת החידות...}
+translate V WoodpeckerShortAsk {רק %d מהפאזלים %d שהתבקשו נותרו ברמה שלך מבין אלה הכלולים ב-Scid.
+
+להוריד את %d האחרים מ-Lichess?
+
+לא: הסט נוצר עם הפאזלים שנמצאו.}
+translate V WoodpeckerNoPuzzles {לא נשאר פאזל עבור הרמה, הנושא והצד הזה.}
+translate V WoodpeckerCount {תרגילים}
+translate V WoodpeckerDifficulty {קוֹשִׁי}
+translate V WoodpeckerTheme {נוֹשֵׂא}
+translate V WoodpeckerThemeMix {מעורב (מומלץ)}
+translate V WoodpeckerColor {צַד}
+translate V WoodpeckerColor_both {שְׁנֵיהֶם}
+translate V WoodpeckerColor_white {לָבָן}
+translate V WoodpeckerColor_black {שָׁחוֹר}
+translate V WoodpeckerToken {Lichess אסימון}
+translate V WoodpeckerFromFile {מסד נתונים PGN או Scid (למשל ספר)}
+translate V WoodpeckerFileHelp {כל משחק שמתחיל מעמדת הגדרה הופך לתרגיל: הקו העיקרי שלו הוא הפתרון, מתעלמים מהווריאציות. של המחבר! ו!! נשמרים.}
+translate V WoodpeckerDays1 {מחזור ראשון (ימים)}
+translate V WoodpeckerRestDays {מנוחה בין מחזורים (ימים)}
+translate V WoodpeckerDaysHelp {כל מחזור מאוחר יותר מקבל מחצית מהימים מקודמו: המטרה היא להפחית בחצי את זמן הפתרון בכל מחזור.}
+translate V WoodpeckerCreate {לִיצוֹר}
+translate V WoodpeckerBadNumber {מספר לא חוקי: %s}
+translate V WoodpeckerNoDifficulty {בחרו לפחות קושי אחד ומספר תרגילים.}
+translate V WoodpeckerDownloading {מוריד פאזלים מ-Lichess...}
+translate V WoodpeckerBuilding {בניית מסד הנתונים של הסט...}
+translate V WoodpeckerCreateFailed {לא ניתן ליצור את הסט:
+%s}
+translate V WoodpeckerCreated {סט נוצר: %d תרגילים.}
+translate V WoodpeckerFewer {Lichess נתן %d מהחידות %d שביקשו.}
+translate V WoodpeckerNoFile {לא יכול לקרוא %s}
+translate V WoodpeckerSkipped {%d משחקים דילגו (ללא עמדת הגדרה, או ללא מהלכים).}
+translate V WoodpeckerMarksIncluded {המפתח זז! ו!! כבר מסומנים, אז אתה יכול להתחיל. אתה עדיין יכול להעריך את הסט עם המנוע שלך מהתפריט שלו.}
+translate V WoodpeckerEvalRecommended {להעריך את זה עכשיו עם הביקורת? מומלץ בחום: זה מסמן את מהלכי המפתח! ו!!, אשר צוברים נקודות בונוס. זה לוקח בערך שניה לכל תרגיל וניתן לעשות אותו גם מאוחר יותר.}
+translate V WoodpeckerLevel_easiest {הכי קל}
+translate V WoodpeckerLevel_easier {קל יותר}
+translate V WoodpeckerLevel_normal {נוֹרמָלִי}
+translate V WoodpeckerLevel_harder {קשה יותר}
+translate V WoodpeckerLevel_hardest {הכי קשה}
+translate V WoodpeckerEvalBusy {הערכה כבר פועלת.}
+translate V WoodpeckerSomeAnnotated {הערות כבר קיימות ב- %d שֶׁל %d תרגילים. להשלים את האחרים עם הביקורת, או להחליף הכל עם הביקורת?}
+translate V WoodpeckerComplete {השלם עם הסקירה}
+translate V WoodpeckerOverwrite {החלף עם הביקורת}
+translate V WoodpeckerAllAnnotated {כל התרגילים %d כבר מוערים, כך שהסקירה היא אופציונלית. להחליף את סימני המחבר בסימני הביקורת?}
+translate V WoodpeckerKeep {שמור את ההערות}
+translate V WoodpeckerEvaluating {מעריך את הסט...}
+translate V WoodpeckerEvalPhase_deep {סקירה: חיפוש הפתרונות}
+translate V WoodpeckerEvalPhase_shallow {סקירה: אילו מהלכים ברורים}
+translate V WoodpeckerEvalPhase_write {כתיבת הסימנים}
+translate V WoodpeckerEvalDone {הערכה שנעשתה: %d תרגילים; %d מהלכים מסומנים! ו %d מסומן !!, מתוך %d מהלכים למצוא.}
+translate V WoodpeckerNoEngine {לא מוגדר מנוע UCI (כלים > מנועים).}
+translate V WoodpeckerEvalAsk {הערכת %d תרגילים עם המנוע הזה:}
+translate V WoodpeckerOtherMode {אימון או משחק אחר הוא שימוש בלוח.}
+translate V WoodpeckerNoSlot {אין משבצת מסד נתונים פנוי עבור ההפעלה: סגור מסד נתונים ונסה שוב.
+(%s)}
+translate V WoodpeckerRestAsk {ימי המנוחה מסתיימים %s. התחל מחזור %d בכל מקרה?}
+translate V WoodpeckerUnratedShort {%d תרגילים אינם מוערכים: שם רק השורה נחשבת.}
+translate V WoodpeckerRes1 {נפתרה}
+translate V WoodpeckerRes2 {נִכשָׁל}
+translate V WoodpeckerPacePer {לכל תרגיל}
+translate V WoodpeckerPaceTarget {יעד %s שניות}
+translate V WoodpeckerCardStreak {פַּס}
+translate V WoodpeckerCardPoints {נקודות}
+translate V WoodpeckerCardDeadline {מוֹעֵד אַחֲרוֹן}
+translate V WoodpeckerStreakSub {לנקות ברצף}
+translate V WoodpeckerPointsSub {של האפשרי}
+translate V WoodpeckerDaysLeft {ימים שנותרו}
+translate V WoodpeckerExercise {תרגיל %d מתוך %d}
+translate V WoodpeckerWhiteToMove {לבן לזוז}
+translate V WoodpeckerBlackToMove {שחור לזוז}
+translate V WoodpeckerYourMove {המהלך שלך.}
+translate V WoodpeckerSolved {נפתרה!}
+translate V WoodpeckerFailed {נִכשָׁל.}
+translate V WoodpeckerPoints {+%s / %s}
+translate V WoodpeckerNoMarks {(לא הוערך: לא ! / !! בונוס עדיין)}
+translate V WoodpeckerQuotaDone {היעד של היום הושג! המשך, או סיים את הפגישה.}
+translate V WoodpeckerSolutionShown {עבור על הפתרון על הלוח או על הכרטיס, ולאחר מכן הקש Enter.}
+translate V WoodpeckerPaused {מושהה.}
+translate V WoodpeckerAutoPaused {מושהה: אין תנועה במשך שתי דקות. הזמן מחוץ לא נחשב.}
+translate V WoodpeckerSessionOver {הסשן הסתיים}
+translate V WoodpeckerCycleComplete {מחזור %d הושלם!}
+translate V WoodpeckerSumDate {תַאֲרִיך}
+translate V WoodpeckerSumDuration {מֶשֶׁך}
+translate V WoodpeckerSumExercises {תרגילים הושלמו}
+translate V WoodpeckerSumPoints {%s מתוך %s נקודות}
+translate V WoodpeckerSumAvg {ממוצע לתרגיל}
+translate V WoodpeckerSumQuota {היעד של היום}
+translate V WoodpeckerSumCompare {מול המחזור הקודם: %d מהר יותר, %d לאט יותר, %d שגיאות תוקנה, %d שגיאות חדשות.}
+translate V WoodpeckerSumReview {לסקירה: תרגילים %s}
+translate V WoodpeckerCyclesTitle {מחזורים}
+translate V WoodpeckerSessionsTitle {הפעלות}
+translate V WoodpeckerStatsNote {נקודות משתמשות בסימני ההערכה %d. מפגשים מוקדמים יותר נמדדים עם אותם סימנים, כך שהמחזורים משתווים בצורה הוגנת.}
+translate V WoodpeckerNoData {עדיין אין מחזור}
+translate V WoodpeckerChartLegend {עמודות: פתרון זמן מקווקו: יעד (מחזור קודם חצוי)}
+translate V WoodpeckerTagline {פתור את אותה סט שוב ​​ושוב, מהר יותר בכל פעם.}
+translate V WoodpeckerExit {עזוב את הפגישה}
+translate V WoodpeckerMore {עוד תרגילים}
+translate V WoodpeckerToday {הַיוֹם}
+translate V WoodpeckerCycleShort {מחזור %d}
+translate V WoodpeckerDaysPlanned {%d ימים מתוכננים}
+translate V WoodpeckerExercisesShort {תרגילים}
+translate V WoodpeckerDeadline {דדליין %s}
+translate V WoodpeckerHidden {הפתרון יופיע כאן.}
+translate V WoodpeckerSumCycle {מַחזוֹר}
+translate V WoodpeckerTokenSave {שמור ובדוק}
+translate V WoodpeckerTokenCreate {צור אסימון (פאזל היקף:קריאה)}
+translate V WoodpeckerTokenOk {✓ אסימון עובד: %s.}
+translate V WoodpeckerTokenRating {דירוג פאזל %s.}
+translate V WoodpeckerTokenNoScope {האסימון הזה חסר את הפאזל: היקף לקרוא: צור אחד עם הקישור למעלה.}
+translate V WoodpeckerTokenInvalid {Lichess לא מכיר את האסימון הזה.}
+translate V WoodpeckerTokenUnchecked {לא ניתן היה לבדוק את האסימון (אין חיבור?). זה ישמש כמו שהוא.}
+translate V WoodpeckerTokenChecking {בודק את האסימון...}
+translate V WoodpeckerTokenMissing {אין אסימון? זה עובד גם, עם דירוג הפאזל שהוזן למעלה (פרופיל Lichess, פאזלים). ההורדה איטית יותר וייתכנו חידות שכבר פתרת ב-Lichess. עם אסימון זה מהיר יותר.}
+translate V WoodpeckerPreset_automatic {אוטומטי (קל יותר)}
+translate V WoodpeckerPreset_standard {סטנדרטי (מומלץ)}
+translate V WoodpeckerPreset_challenge {מאתגר}
+translate V WoodpeckerPreset_tough {קשוח (בעיקר מעל הרמה שלך)}
+translate V WoodpeckerPreset_custom {מִנְהָג...}
+translate V WoodpeckerPresetHelp_automatic {בעיקר טקטיקות פשוטות, לראות אותן בבת אחת: המטרה הראשונה של הספר.}
+translate V WoodpeckerPresetHelp_standard {רבע קל יותר, רובם סביב הרמה שלך, כמה קשים יותר - הפרופורציה של החלקים הקלים והבינוניים של הספר.}
+translate V WoodpeckerPresetHelp_challenge {סביב הרמה שלך ומעליה, לשחקנים חזקים (כמו הקטע המתקדם של הספר).}
+translate V WoodpeckerPresetHelp_tough {בעיקר הרבה מעל הרמה שלך, לשחקנים חזקים שרוצים להימתח.}
+translate V WoodpeckerPresetHelp_custom {בחר את הנתח של כל רמה Lichess בעצמך.}
+translate V WoodpeckerPresetRating {הרמות הן יחסית לדירוג הפאזל Lichess שלך (%s).}
+translate V WoodpeckerPresetNoRating {הרמות הן יחסית לדירוג הפאזל Lichess שלך.}
+translate V WoodpeckerRatingAsk {דירוג הפאזל ה-Lichess שלך}
+translate V WoodpeckerBadRating {הזן את דירוג הפאזל Lichess שלך (400-3200): הוא נמצא בפרופיל Lichess שלך, תחת פאזלים.}
+translate V WoodpeckerPresetStated {הרמות הן יחסית לדירוג שהזנת (%s).}
+translate V WoodpeckerDataDir {תיקיית הנתונים של שיטת נקר (ריקה: של Scid משלו)}
+translate V WoodpeckerNoDataDir {לא ניתן למצוא את תיקיית הנתונים של נקר:\n%s\n\nהאם הכונן מחובר? התיקיה מוגדרת באפשרויות > משאבים.}
+translate V WoodpeckerDataDirMove {%d ערכות נקר נמצאות בתיקיית הנתונים הקודמת:\n%s\n\nהעבר אותם לחדשה?\n%s\n\nלא: התיקיה החדשה מתחילה ריקה והסטים נשארים היכן שהם נמצאים.}
+translate V WoodpeckerDataDirHasSets {תיקיית הנתונים החדשה כבר מכילה ערכות %d (מסונכרן ממחשב אחר?):\n%s\n\nScid משתמש באלו. הקבוצות של התיקיה הקודמת נשארות ב:\n%s}
 
 # Board screenshot
 menuText V ToolsScreenshot "צילום מסך של לוח" 0 \

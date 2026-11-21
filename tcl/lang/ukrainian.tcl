@@ -259,6 +259,7 @@ menuText Q ToolsCaptureBoard "Захопити поточну плату..." 5  
 # Play menu
 menuText Q Play "грати" 0
 menuText Q LichessPuzzles "Головоломки Lichess" 0 {Вирішуйте головоломки Lichess в інтерактивному режимі}
+menuText Q Woodpecker "Метод Дятла" 0 {Тренуйте тактику циклами: той самий набір, щоразу швидше}
 
 # --- Correspondence Chess
 menuText Q CCResign "Здатися" 1 {Здатися (не електронною поштою)}
@@ -479,6 +480,176 @@ translate Q LichessPuzzlesClock {Годинник}
 translate Q LichessPuzzlesRated {Оцінений}
 translate Q LichessPuzzlesGame {Гра}
 translate Q LichessPuzzlesNoNew {Для цих налаштувань не знайдено нових головоломок.\n\nСпробуйте змінити тему, складність або колір головоломки.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate Q WoodpeckerTitle {Метод Дятла}
+translate Q WoodpeckerColName {встановити}
+translate Q WoodpeckerColExercises {вправи}
+translate Q WoodpeckerColCycle {Цикл}
+translate Q WoodpeckerColProgress {Цей цикл}
+translate Q WoodpeckerColLast {Остання сесія}
+translate Q WoodpeckerColDays {днів}
+translate Q WoodpeckerColTime {Час вирішення}
+translate Q WoodpeckerColResults {вирішено/невдало}
+translate Q WoodpeckerColPct {Оцінка}
+translate Q WoodpeckerColDate {Дата}
+translate Q WoodpeckerColDuration {Тривалість}
+translate Q WoodpeckerColPoints {Очки}
+translate Q WoodpeckerNew {Новий комплект...}
+translate Q WoodpeckerTrain {поїзд}
+translate Q WoodpeckerEvaluate {Оцінити...}
+translate Q WoodpeckerStats {Статистика}
+translate Q WoodpeckerDelete {Видалити}
+translate Q WoodpeckerContinue {Продовжити (Enter)}
+translate Q WoodpeckerPause {Пауза}
+translate Q WoodpeckerResume {Резюме}
+translate Q WoodpeckerEnd {Завершити сеанс}
+translate Q WoodpeckerNoSets {Ще немає набору: натисніть «Новий набір», щоб почати з головоломок, які входять до складу Scid, щоб завантажити більше з Lichess або використовувати книгу PGN.}
+translate Q WoodpeckerUnrated {%d з %d вправ не мають ! / !! бали: оцініть набір, щоб заробити ці бонуси (попередні сесії також перераховуються).}
+translate Q WoodpeckerCycleOver {Цикл %d завершено. Відпочивайте до %s, потім починається наступний цикл із половиною днів.}
+translate Q WoodpeckerCycleLine {Цикл %d: %d/%d виконано, %d днів заплановано, кінцевий термін %s.}
+translate Q WoodpeckerQuotaLine {Сьогодні: %d з %d вправ.}
+translate Q WoodpeckerQuotaRaised {Ви трохи відстали: сьогоднішня мета %d замість %d.}
+translate Q WoodpeckerDeadlineMoved {Після перерви кінцевий термін перенесено на %d днів до %s; щоденна мета %d.}
+translate Q WoodpeckerOverStretch {Тривалість циклу вдвічі перевищує заплановану: крайній термін залишається на %s, а щоденна ціль – %d.}
+translate Q WoodpeckerDeleteAsk {Видалити набір "%s" із його базою даних і статистикою?}
+translate Q WoodpeckerNewTitle {Новий набір Дятел}
+translate Q WoodpeckerName {Ім'я}
+translate Q WoodpeckerFromLichess {Пазли від Lichess}
+translate Q WoodpeckerFromPuzzles {Головоломки, що входять до Scid (головоломки з оцінкою Lichess)}
+translate Q WoodpeckerAdvanced {Просунутий}
+translate Q WoodpeckerUseLichess {Отримайте головоломки з Lichess замість наборів, що входять у комплект}
+translate Q WoodpeckerPicking {Вибір пазлів...}
+translate Q WoodpeckerShortAsk {Лише %d із запропонованих %d головоломок залишилися на вашому рівні серед тих, що включені до Scid.
+
+Завантажити інший %d із Lichess?
+
+Ні: набір створено зі знайдених пазлів.}
+translate Q WoodpeckerNoPuzzles {Для цього рівня, теми та сторони не залишилося жодної головоломки.}
+translate Q WoodpeckerCount {вправи}
+translate Q WoodpeckerDifficulty {Складність}
+translate Q WoodpeckerTheme {Тема}
+translate Q WoodpeckerThemeMix {Змішаний (рекомендовано)}
+translate Q WoodpeckerColor {сторона}
+translate Q WoodpeckerColor_both {Обидва}
+translate Q WoodpeckerColor_white {Білий}
+translate Q WoodpeckerColor_black {чорний}
+translate Q WoodpeckerToken {Lichess маркер}
+translate Q WoodpeckerFromFile {База даних PGN або Scid (наприклад, книга)}
+translate Q WoodpeckerFileHelp {Кожна гра, яка починається з підготовчої позиції, стає вправою: її основною лінією є рішення, варіанти ігноруються. Авторська! і !! зберігаються.}
+translate Q WoodpeckerDays1 {Перший цикл (днів)}
+translate Q WoodpeckerRestDays {Відпочинок між циклами (дні)}
+translate Q WoodpeckerDaysHelp {Кожен наступний цикл отримує половину днів попереднього: мета полягає в тому, щоб удвічі скоротити час вирішення кожного циклу.}
+translate Q WoodpeckerCreate {Створити}
+translate Q WoodpeckerBadNumber {Недійсний номер: %s}
+translate Q WoodpeckerNoDifficulty {Виберіть хоча б одну складність і кілька вправ.}
+translate Q WoodpeckerDownloading {Завантаження головоломок з Lichess...}
+translate Q WoodpeckerBuilding {Створення бази даних набору...}
+translate Q WoodpeckerCreateFailed {Набір не вдалося створити:
+%s}
+translate Q WoodpeckerCreated {Створено набір: %d вправи.}
+translate Q WoodpeckerFewer {Lichess дав %d із запропонованих %d головоломок.}
+translate Q WoodpeckerNoFile {Неможливо прочитати %s}
+translate Q WoodpeckerSkipped {%d ігор було пропущено (без попередньої позиції або без ходів).}
+translate Q WoodpeckerMarksIncluded {Ключ рухається! і !! уже позначені, тож можна починати. Ви все ще можете оцінити набір за допомогою власного двигуна з його меню.}
+translate Q WoodpeckerEvalRecommended {Оцініть це зараз з оглядом? Настійно рекомендується: він позначає ключові ходи! та !!, які заробляють бонусні бали. Кожна вправа займає приблизно секунду, і її можна виконати пізніше.}
+translate Q WoodpeckerLevel_easiest {Найпростіший}
+translate Q WoodpeckerLevel_easier {Легше}
+translate Q WoodpeckerLevel_normal {нормальний}
+translate Q WoodpeckerLevel_harder {Важче}
+translate Q WoodpeckerLevel_hardest {Найважче}
+translate Q WoodpeckerEvalBusy {Оцінка вже триває.}
+translate Q WoodpeckerSomeAnnotated {Анотації вже присутні на %d з %d вправ. Доповнити рецензією інші чи переписати рецензією все?}
+translate Q WoodpeckerComplete {У комплекті з оглядом}
+translate Q WoodpeckerOverwrite {Замінити оглядом}
+translate Q WoodpeckerAllAnnotated {Усі %d вправи вже анотовані, тому перегляд необов’язковий. Замінити авторські оцінки рецензіями?}
+translate Q WoodpeckerKeep {Зберігайте анотації}
+translate Q WoodpeckerEvaluating {Оцінка набору...}
+translate Q WoodpeckerEvalPhase_deep {Огляд: пошук рішень}
+translate Q WoodpeckerEvalPhase_shallow {Огляд: які ходи очевидні}
+translate Q WoodpeckerEvalPhase_write {Написання позначок}
+translate Q WoodpeckerEvalDone {Виконано оцінювання: %d вправи; %d ходи позначені ! і %d позначено !!, з %d рухається, щоб знайти.}
+translate Q WoodpeckerNoEngine {Механізм UCI не налаштовано (Інструменти > Механізми).}
+translate Q WoodpeckerEvalAsk {Оцініть %d вправи за допомогою цієї системи:}
+translate Q WoodpeckerOtherMode {Ще одне тренування або гра – використання дошки.}
+translate Q WoodpeckerNoSlot {Немає вільного місця для бази даних для сеансу: закрийте базу даних і повторіть спробу.
+(%s)}
+translate Q WoodpeckerRestAsk {Решта днів закінчується %s. Усе одно почати цикл %d?}
+translate Q WoodpeckerUnratedShort {%d вправи не оцінюються: тут зараховується лише лінія.}
+translate Q WoodpeckerRes1 {вирішено}
+translate Q WoodpeckerRes2 {не вдалося}
+translate Q WoodpeckerPacePer {за вправу}
+translate Q WoodpeckerPaceTarget {мета %s с}
+translate Q WoodpeckerCardStreak {Смуга}
+translate Q WoodpeckerCardPoints {Очки}
+translate Q WoodpeckerCardDeadline {Дедлайн}
+translate Q WoodpeckerStreakSub {чистий підряд}
+translate Q WoodpeckerPointsSub {з можливого}
+translate Q WoodpeckerDaysLeft {залишилося днів}
+translate Q WoodpeckerExercise {Вправа %d з %d}
+translate Q WoodpeckerWhiteToMove {Білий рухатися}
+translate Q WoodpeckerBlackToMove {Чорний для руху}
+translate Q WoodpeckerYourMove {Ваш хід.}
+translate Q WoodpeckerSolved {Вирішено!}
+translate Q WoodpeckerFailed {Не вдалося.}
+translate Q WoodpeckerPoints {+%s / %s}
+translate Q WoodpeckerNoMarks {(не оцінено: немає ! / !! бонус ще)}
+translate Q WoodpeckerQuotaDone {Сьогоднішня мета досягнута! Продовжуйте або закінчіть сеанс.}
+translate Q WoodpeckerSolutionShown {Перегляньте рішення на дошці або картці, а потім натисніть Enter.}
+translate Q WoodpeckerPaused {Призупинено.}
+translate Q WoodpeckerAutoPaused {Пауза: без руху протягом двох хвилин. Час, проведений у відпустці, не зараховується.}
+translate Q WoodpeckerSessionOver {Сесія завершена}
+translate Q WoodpeckerCycleComplete {Цикл %d завершено!}
+translate Q WoodpeckerSumDate {Дата}
+translate Q WoodpeckerSumDuration {Тривалість}
+translate Q WoodpeckerSumExercises {Вправи виконано}
+translate Q WoodpeckerSumPoints {%s з %s балів}
+translate Q WoodpeckerSumAvg {Середнє за вправу}
+translate Q WoodpeckerSumQuota {Сьогоднішня мета}
+translate Q WoodpeckerSumCompare {Порівняно з попереднім циклом: %d швидше, %d повільніше, %d помилок виправлено, %d нових помилок.}
+translate Q WoodpeckerSumReview {Для перегляду: вправи %s}
+translate Q WoodpeckerCyclesTitle {Цикли}
+translate Q WoodpeckerSessionsTitle {Сеанси}
+translate Q WoodpeckerStatsNote {Бали використовують бали оцінки %d. Попередні сесії перераховуються з однаковими оцінками, тому цикли справедливо порівнюються.}
+translate Q WoodpeckerNoData {Ще немає циклу}
+translate Q WoodpeckerChartLegend {смужки: час розв’язування пунктиром: ціль (попередній цикл зменшено вдвічі)}
+translate Q WoodpeckerTagline {Вирішуйте один і той же набір знову і знову, щоразу швидше.}
+translate Q WoodpeckerExit {Залишити сеанс}
+translate Q WoodpeckerMore {Більше вправ}
+translate Q WoodpeckerToday {Сьогодні}
+translate Q WoodpeckerCycleShort {Цикл %d}
+translate Q WoodpeckerDaysPlanned {Заплановано %d днів}
+translate Q WoodpeckerExercisesShort {вправи}
+translate Q WoodpeckerDeadline {кінцевий термін %s}
+translate Q WoodpeckerHidden {Рішення з’явиться тут.}
+translate Q WoodpeckerSumCycle {Цикл}
+translate Q WoodpeckerTokenSave {Збережіть і перевірте}
+translate Q WoodpeckerTokenCreate {Створіть жетон (головоломка масштабу:читати)}
+translate Q WoodpeckerTokenOk {✓ Токен працює: %s.}
+translate Q WoodpeckerTokenRating {Рейтинг головоломки %s.}
+translate Q WoodpeckerTokenNoScope {У цьому маркері немає puzzle:read scope: create one за посиланням вище.}
+translate Q WoodpeckerTokenInvalid {Lichess не знає цей маркер.}
+translate Q WoodpeckerTokenUnchecked {Не вдалося перевірити маркер (немає з’єднання?). Його використовуватимуть як є.}
+translate Q WoodpeckerTokenChecking {Перевірка токена...}
+translate Q WoodpeckerTokenMissing {Немає жетона? Це також працює з рейтингом головоломок, введеним вище (профіль Lichess, Пазли). Завантаження відбувається повільніше, і можуть з’явитися головоломки, які ви вже розгадали на Lichess; з жетоном швидше.}
+translate Q WoodpeckerPreset_automatic {Автоматичний (простіше)}
+translate Q WoodpeckerPreset_standard {Стандарт (рекомендовано)}
+translate Q WoodpeckerPreset_challenge {Виклик}
+translate Q WoodpeckerPreset_tough {Жорсткий (здебільшого вище вашого рівня)}
+translate Q WoodpeckerPreset_custom {Спеціальний...}
+translate Q WoodpeckerPresetHelp_automatic {Переважно проста тактика, побачити їх відразу: перша мета книги.}
+translate Q WoodpeckerPresetHelp_standard {На чверть легше, здебільшого приблизно на вашому рівні, на кілька складніше – пропорція легких і середніх розділів книги.}
+translate Q WoodpeckerPresetHelp_challenge {Приблизно та вище вашого рівня, для сильних гравців (наприклад, розділ «Додаткові» в книзі).}
+translate Q WoodpeckerPresetHelp_tough {Здебільшого значно вище вашого рівня, для сильних гравців, які хочуть розтягнутися.}
+translate Q WoodpeckerPresetHelp_custom {Частку кожного рівня Lichess обирайте самостійно.}
+translate Q WoodpeckerPresetRating {Рівні відносяться до вашого Lichess рейтингу головоломки (%s).}
+translate Q WoodpeckerPresetNoRating {Рівні відносяться до вашого Lichess рейтингу головоломки.}
+translate Q WoodpeckerRatingAsk {Ваш рейтинг головоломки Lichess.}
+translate Q WoodpeckerBadRating {Введіть свій Lichess рейтинг головоломки (400-3200): він знаходиться у вашому профілі Lichess у розділі Головоломки.}
+translate Q WoodpeckerPresetStated {Рівні відносяться до введеного вами рейтингу (%s).}
+translate Q WoodpeckerDataDir {Папка даних методу Woodpecker (порожня: власний Scid)}
+translate Q WoodpeckerNoDataDir {Не вдається знайти папку з даними Woodpecker:\n%s\n\nЧи підключено диск? Папка встановлюється в меню «Параметри» > «Ресурси».}
+translate Q WoodpeckerDataDirMove {%d Набори Woodpecker знаходяться в попередній папці даних:\n%s\n\nПеремістити їх у нову?\n%s\n\nНі: нова папка спочатку пуста, а набори залишаються там, де вони є.}
+translate Q WoodpeckerDataDirHasSets {Нова папка даних уже містить набори %d (синхронізовані з іншого комп’ютера?):\n%s\n\nScid використовує їх. Набори попередньої папки залишаються в:\n%s}
 
 # Board screenshot
 menuText Q ToolsScreenshot "Скріншот дошки" 0 \

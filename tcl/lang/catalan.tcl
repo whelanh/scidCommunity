@@ -277,6 +277,7 @@ menuText K ToolsCaptureBoard "Desa posició actual" 0  {Desa la posició del tau
 # Play menu
 menuText K Play "Jugar" 0
 menuText K LichessPuzzles "Trencaclosques de Lichess" 0 {Resoldre trencaclosques de Lichess de manera interactiva}
+menuText K Woodpecker "Mètode del picot" 0 {Tàctiques d'entrenament en cicles: el mateix conjunt, cada vegada més ràpid}
 
 # --- Correspondence Chess
 menuText K CCResign "Abandonar" 0 {Abandonar}
@@ -501,6 +502,176 @@ translate K LichessPuzzlesClock {Rellotge}
 translate K LichessPuzzlesRated {Valorat}
 translate K LichessPuzzlesGame {Joc}
 translate K LichessPuzzlesNoNew {No s'han trobat trencaclosques nous per a aquesta configuració.\n\nProva de canviar el tema, la dificultat o el color del trencaclosques.}
+# Woodpecker Method trainer (tcl/tools/woodpecker_ui.tcl)
+translate K WoodpeckerTitle {Mètode del picot}
+translate K WoodpeckerColName {Set}
+translate K WoodpeckerColExercises {Exercicis}
+translate K WoodpeckerColCycle {Cicle}
+translate K WoodpeckerColProgress {Aquest cicle}
+translate K WoodpeckerColLast {Última sessió}
+translate K WoodpeckerColDays {Dies}
+translate K WoodpeckerColTime {Temps de resolució}
+translate K WoodpeckerColResults {resolt/fallit}
+translate K WoodpeckerColPct {Puntuació}
+translate K WoodpeckerColDate {Data}
+translate K WoodpeckerColDuration {Durada}
+translate K WoodpeckerColPoints {Punts}
+translate K WoodpeckerNew {Nou conjunt...}
+translate K WoodpeckerTrain {Tren}
+translate K WoodpeckerEvaluate {Avaluar...}
+translate K WoodpeckerStats {Estadístiques}
+translate K WoodpeckerDelete {Suprimeix}
+translate K WoodpeckerContinue {Continuar (Entrar)}
+translate K WoodpeckerPause {Pausa}
+translate K WoodpeckerResume {Currículum}
+translate K WoodpeckerEnd {Finalització de la sessió}
+translate K WoodpeckerNoSets {Encara no està definit: premeu Conjunt nou per començar amb els trencaclosques inclosos amb Scid, per baixar-ne més de Lichess o per utilitzar un llibre PGN.}
+translate K WoodpeckerUnrated {%d de %d els exercicis no tenen! /!! notes: avalueu el conjunt per guanyar aquestes bonificacions (les sessions anteriors també es tornen a puntuar).}
+translate K WoodpeckerCycleOver {Cicle %d està completa. Descansa fins %s, llavors comença el següent cicle, amb la meitat dels dies.}
+translate K WoodpeckerCycleLine {Cicle %d: %d/%d fet, %d dies prevists, data límit %s.}
+translate K WoodpeckerQuotaLine {Avui: %d de %d exercicis.}
+translate K WoodpeckerQuotaRaised {Esteu una mica endarrerits: l'objectiu d'avui és %d en comptes de %d.}
+translate K WoodpeckerDeadlineMoved {Després del descans el termini es va avançar %d dies, a %s; l'objectiu diari és %d.}
+translate K WoodpeckerOverStretch {El cicle ha assolit el doble de la durada prevista: la data límit es manté a %s i l'objectiu diari és %d.}
+translate K WoodpeckerDeleteAsk {Vols suprimir el conjunt "%s" amb la seva base de dades i les seves estadístiques?}
+translate K WoodpeckerNewTitle {Nou joc de picot}
+translate K WoodpeckerName {Nom}
+translate K WoodpeckerFromLichess {Trencaclosques de Lichess}
+translate K WoodpeckerFromPuzzles {Trencaclosques inclosos amb Scid (puzles classificats Lichess)}
+translate K WoodpeckerAdvanced {Avançat}
+translate K WoodpeckerUseLichess {Obteniu trencaclosques de Lichess en comptes dels conjunts inclosos}
+translate K WoodpeckerPicking {Triant els trencaclosques...}
+translate K WoodpeckerShortAsk {Només %d de la %d els trencaclosques sol·licitats es deixen al vostre nivell entre els inclosos amb Scid.
+
+Descarrega l'altre %d de Lichess?
+
+No: el conjunt es crea amb els trencaclosques trobats.}
+translate K WoodpeckerNoPuzzles {No queda cap trencaclosques per a aquest nivell, tema i costat.}
+translate K WoodpeckerCount {Exercicis}
+translate K WoodpeckerDifficulty {Dificultat}
+translate K WoodpeckerTheme {Tema}
+translate K WoodpeckerThemeMix {Mixt (recomanat)}
+translate K WoodpeckerColor {lateral}
+translate K WoodpeckerColor_both {Tots dos}
+translate K WoodpeckerColor_white {Blanc}
+translate K WoodpeckerColor_black {Negre}
+translate K WoodpeckerToken {Fitxa de lichess}
+translate K WoodpeckerFromFile {Base de dades PGN o Scid (p. ex., un llibre)}
+translate K WoodpeckerFileHelp {Cada joc que parteix d'una posició de preparació es converteix en un exercici: la seva línia principal és la solució, les variacions s'ignoren. De l'autor! i!! es guarden.}
+translate K WoodpeckerDays1 {Primer cicle (dies)}
+translate K WoodpeckerRestDays {Descans entre cicles (dies)}
+translate K WoodpeckerDaysHelp {Cada cicle posterior aconsegueix la meitat dels dies de l'anterior: l'objectiu és reduir a la meitat el temps de resolució de cada cicle.}
+translate K WoodpeckerCreate {Crear}
+translate K WoodpeckerBadNumber {No és un número vàlid: %s}
+translate K WoodpeckerNoDifficulty {Trieu almenys una dificultat i una sèrie d'exercicis.}
+translate K WoodpeckerDownloading {S'estan baixant trencaclosques de Lichess...}
+translate K WoodpeckerBuilding {Construint la base de dades del conjunt...}
+translate K WoodpeckerCreateFailed {No s'ha pogut crear el conjunt:
+%s}
+translate K WoodpeckerCreated {Conjunt creat: %d exercicis.}
+translate K WoodpeckerFewer {Lichess va donar %d dels %d trencaclosques demanats.}
+translate K WoodpeckerNoFile {No es pot llegir %s}
+translate K WoodpeckerSkipped {%d s'han omès jocs (sense posició de configuració o cap moviment).}
+translate K WoodpeckerMarksIncluded {La clau es mou! i!! ja estan marcats, així que podeu començar. Encara podeu avaluar el conjunt amb el vostre propi motor des del seu menú.}
+translate K WoodpeckerEvalRecommended {Ho avalueu ara amb la revisió? Molt recomanable: marca els moviments clau! i !!, que guanyen punts de bonificació. Es triga aproximadament un segon per exercici i també es pot fer més tard.}
+translate K WoodpeckerLevel_easiest {El més fàcil}
+translate K WoodpeckerLevel_easier {Més fàcil}
+translate K WoodpeckerLevel_normal {Normal}
+translate K WoodpeckerLevel_harder {Més difícil}
+translate K WoodpeckerLevel_hardest {El més difícil}
+translate K WoodpeckerEvalBusy {Ja està en marxa una avaluació.}
+translate K WoodpeckerSomeAnnotated {Ja hi ha anotacions a %d dels %d exercicis. Completar els altres amb la revisió o sobreescriure-ho tot?}
+translate K WoodpeckerComplete {Completa amb la revisió}
+translate K WoodpeckerOverwrite {Sobreescriu amb la ressenya}
+translate K WoodpeckerAllAnnotated {Tots els exercicis %d ja estan anotats, de manera que la revisió és opcional. Sobreescriu les notes de l'autor amb les de la ressenya?}
+translate K WoodpeckerKeep {Conserveu les anotacions}
+translate K WoodpeckerEvaluating {Avaluant el conjunt...}
+translate K WoodpeckerEvalPhase_deep {Revisió: cerca de solucions}
+translate K WoodpeckerEvalPhase_shallow {Revisió: quins moviments són evidents}
+translate K WoodpeckerEvalPhase_write {Escriure les marques}
+translate K WoodpeckerEvalDone {Avaluació feta: %d exercicis; %d moviments marcats! i %d marcat!!, fora de %d es mou per trobar.}
+translate K WoodpeckerNoEngine {No s'ha configurat cap motor UCI (Eines > Motors).}
+translate K WoodpeckerEvalAsk {Avaluar %d exercicis amb aquest motor:}
+translate K WoodpeckerOtherMode {Un altre entrenament o joc és utilitzar el tauler.}
+translate K WoodpeckerNoSlot {No hi ha espai de base de dades lliure per a la sessió: tanqueu una base de dades i torneu-ho a provar.
+(%s)}
+translate K WoodpeckerRestAsk {Els dies de descans s'acaben %s. Inici cicle %d de totes maneres?}
+translate K WoodpeckerUnratedShort {%d els exercicis no s'avaluen: allà només compta la línia.}
+translate K WoodpeckerRes1 {resolt}
+translate K WoodpeckerRes2 {fracassat}
+translate K WoodpeckerPacePer {per exercici}
+translate K WoodpeckerPaceTarget {objectiu %s s}
+translate K WoodpeckerCardStreak {Ratxa}
+translate K WoodpeckerCardPoints {Punts}
+translate K WoodpeckerCardDeadline {Data límit}
+translate K WoodpeckerStreakSub {netejar en fila}
+translate K WoodpeckerPointsSub {del possible}
+translate K WoodpeckerDaysLeft {queden dies}
+translate K WoodpeckerExercise {Exercici %d de %d}
+translate K WoodpeckerWhiteToMove {Blanc per moure's}
+translate K WoodpeckerBlackToMove {Negre per moure's}
+translate K WoodpeckerYourMove {El teu moviment.}
+translate K WoodpeckerSolved {Solucionat!}
+translate K WoodpeckerFailed {Ha fallat.}
+translate K WoodpeckerPoints {+%s / %s}
+translate K WoodpeckerNoMarks {(no avaluat: no! /!! bonificació encara)}
+translate K WoodpeckerQuotaDone {L'objectiu d'avui assolit! Continua o acaba la sessió.}
+translate K WoodpeckerSolutionShown {Passeu per la solució al tauler o a la targeta i, a continuació, premeu Intro.}
+translate K WoodpeckerPaused {En pausa.}
+translate K WoodpeckerAutoPaused {Pausa: sense moviment durant dos minuts. El temps fora no compta.}
+translate K WoodpeckerSessionOver {Sessió acabada}
+translate K WoodpeckerCycleComplete {Cicle %d completa!}
+translate K WoodpeckerSumDate {Data}
+translate K WoodpeckerSumDuration {Durada}
+translate K WoodpeckerSumExercises {Exercicis realitzats}
+translate K WoodpeckerSumPoints {%s de %s punts}
+translate K WoodpeckerSumAvg {Mitjana per exercici}
+translate K WoodpeckerSumQuota {L'objectiu d'avui}
+translate K WoodpeckerSumCompare {Contra el cicle anterior: %d més ràpid, %d més lent, %d errors corregits, %d errors nous.}
+translate K WoodpeckerSumReview {Per revisar: exercicis %s}
+translate K WoodpeckerCyclesTitle {Cicles}
+translate K WoodpeckerSessionsTitle {Sessions}
+translate K WoodpeckerStatsNote {Els punts utilitzen les notes d'avaluació %d. Les sessions anteriors es tornen a puntuar amb les mateixes notes, de manera que els cicles es comparen de manera justa.}
+translate K WoodpeckerNoData {Encara no hi ha cicle}
+translate K WoodpeckerChartLegend {barres: temps de resolució puntejat: objectiu (cicle anterior reduït a la meitat)}
+translate K WoodpeckerTagline {Resol el mateix conjunt una i altra vegada, cada vegada més ràpidament.}
+translate K WoodpeckerExit {Abandonar la sessió}
+translate K WoodpeckerMore {Més exercicis}
+translate K WoodpeckerToday {Avui}
+translate K WoodpeckerCycleShort {Cicle %d}
+translate K WoodpeckerDaysPlanned {%d dies previstos}
+translate K WoodpeckerExercisesShort {exercicis}
+translate K WoodpeckerDeadline {termini %s}
+translate K WoodpeckerHidden {La solució apareixerà aquí.}
+translate K WoodpeckerSumCycle {Cicle}
+translate K WoodpeckerTokenSave {Guardar i comprovar}
+translate K WoodpeckerTokenCreate {Crear un testimoni (enigma d'abast: llegir)}
+translate K WoodpeckerTokenOk {✓ Obres de testimoni: %s.}
+translate K WoodpeckerTokenRating {Valoració del trencaclosques %s.}
+translate K WoodpeckerTokenNoScope {Aquest testimoni no té el trencaclosques: llegiu l'abast: creeu-ne un amb l'enllaç anterior.}
+translate K WoodpeckerTokenInvalid {Lichess no coneix aquest testimoni.}
+translate K WoodpeckerTokenUnchecked {No s'ha pogut comprovar el testimoni (no hi ha connexió?). S'utilitzarà tal com està.}
+translate K WoodpeckerTokenChecking {S'està comprovant el testimoni...}
+translate K WoodpeckerTokenMissing {Sense testimoni? També funciona, amb la qualificació del trencaclosques introduïda més amunt (Lichess perfil, Trencaclosques). La descàrrega és més lenta i poden sorgir trencaclosques que ja heu resolt a Lichess; amb un testimoni és més ràpid.}
+translate K WoodpeckerPreset_automatic {Automàtic (més fàcil)}
+translate K WoodpeckerPreset_standard {Estàndard (recomanat)}
+translate K WoodpeckerPreset_challenge {Desafiant}
+translate K WoodpeckerPreset_tough {Dur (sobretot per sobre del vostre nivell)}
+translate K WoodpeckerPreset_custom {Personalitzat...}
+translate K WoodpeckerPresetHelp_automatic {Tàctiques majoritàriament senzilles, per veure-les alhora: el primer objectiu del llibre.}
+translate K WoodpeckerPresetHelp_standard {Una quarta part més fàcil, la majoria al voltant del vostre nivell, uns quants més difícils: la proporció de les seccions Fàcil i Intermedi del llibre.}
+translate K WoodpeckerPresetHelp_challenge {Al voltant i per sobre del vostre nivell, per a jugadors forts (com la secció Avançada del llibre).}
+translate K WoodpeckerPresetHelp_tough {Majoritàriament molt per sobre del teu nivell, per a jugadors forts que volen estirar-se.}
+translate K WoodpeckerPresetHelp_custom {Tria tu mateix la quota de cada Lichess nivell.}
+translate K WoodpeckerPresetRating {Els nivells són relatius a la teva puntuació del trencaclosques Lichess (%s).}
+translate K WoodpeckerPresetNoRating {Els nivells són relatius a la teva puntuació de trencaclosques Lichess.}
+translate K WoodpeckerRatingAsk {La teva puntuació de trencaclosques de Lichess}
+translate K WoodpeckerBadRating {Introduïu la vostra puntuació de trencaclosques Lichess (400-3200): es troba al vostre perfil Lichess, a Puzles.}
+translate K WoodpeckerPresetStated {Els nivells són relatius a la puntuació que heu introduït (%s).}
+translate K WoodpeckerDataDir {Carpeta de dades del mètode Woodpecker (buida: pròpia de Scid)}
+translate K WoodpeckerNoDataDir {No es pot trobar la carpeta de dades de Woodpecker:\n%s\n\nLa unitat està connectada? La carpeta està configurada a Opcions > Recursos.}
+translate K WoodpeckerDataDirMove {%d Els conjunts de picot es troben a la carpeta de dades anterior:\n%s\n\nEls moure a la nova?\n%s\n\nNo: la carpeta nova comença buida i els conjunts es queden on són.}
+translate K WoodpeckerDataDirHasSets {La nova carpeta de dades ja conté conjunts %d (sincronitzats des d'un altre ordinador?):\n%s\n\nScid els fa servir. Els conjunts de la carpeta anterior es mantenen a:\n%s}
 
 # Board screenshot
 menuText K ToolsScreenshot "Captura de pantalla del tauler" 0 \
