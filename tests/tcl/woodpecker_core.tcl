@@ -35,8 +35,6 @@ set m {"!" "!!"}
 set s [::woodpecker::score $m {1 1} clean]
 checkEq "perfect line: V + 1 + 2 + C" [dict get $s points] 5.0
 checkEq "its maximum" [dict get $s max] 5.0
-set s [::woodpecker::score $m {1 1} second]
-checkEq "one error, then completed: V*0.75 + bonuses" [dict get $s points] 3.75
 set s [::woodpecker::score {"!!" "!"} {1 0} failed]
 checkEq "failed after the !!: the bonus is kept, minus the malus" [dict get $s points] 1.5
 set s [::woodpecker::score $m {0 0} failed]
@@ -51,6 +49,7 @@ checkEq "an unrated exercise is worth the line only" [list [dict get $s points] 
 set s [::woodpecker::score {- "!"} {1 1} clean]
 checkEq "'-' is no mark" [dict get $s points] 3.0
 check "an unknown result is refused" {[catch {::woodpecker::score {} {} bogus}]}
+check "the old second-attempt result is gone" {[catch {::woodpecker::score {} {} second}]}
 
 # --------------------------------------------------------------- attempts ----
 set st [::woodpecker::exStart 3]
@@ -63,21 +62,18 @@ checkEq "no error is clean" [dict get $st result] clean
 checkEq "all found" [::woodpecker::foundString $st] 111
 check "a finished exercise takes no more answers" {[catch {::woodpecker::exAnswer $st 1}]}
 
-set st [::woodpecker::exStart 2]
-lassign [::woodpecker::exAnswer $st 1] st what
-lassign [::woodpecker::exAnswer $st 0] st what
-checkEq "the first error asks again" $what retry
-lassign [::woodpecker::exAnswer $st 1] st what
-checkEq "right on the second attempt solves" $what solved
-checkEq "... as a second-attempt result" [dict get $st result] second
-checkEq "... and the move counts as found" [::woodpecker::foundString $st] 11
-
+# One attempt, as on Lichess: the first error fails the exercise.
 set st [::woodpecker::exStart 3]
 lassign [::woodpecker::exAnswer $st 0] st what
+checkEq "the first error fails the exercise" $what failed
+checkEq "failed result" [dict get $st result] failed
+checkEq "nothing was found" [::woodpecker::foundString $st] 000
+check "a failed exercise takes no more answers" {[catch {::woodpecker::exAnswer $st 1}]}
+
+set st [::woodpecker::exStart 3]
 lassign [::woodpecker::exAnswer $st 1] st what
 lassign [::woodpecker::exAnswer $st 0] st what
-checkEq "the second error fails the exercise" $what failed
-checkEq "failed result" [dict get $st result] failed
+checkEq "an error later in the line fails it too" $what failed
 checkEq "the moves before the failure are kept" [::woodpecker::foundString $st] 100
 
 # ------------------------------------------------------------------ marks ----
@@ -171,7 +167,7 @@ set t0 [clock scan "2026-11-01 10:00" -format "%Y-%m-%d %H:%M"]
 ::woodpecker::logExercise $tmp $t0 1 1 1 clean 11 30000
 ::woodpecker::logExercise $tmp [expr {$t0 + 60}] 1 1 2 failed 0 50000
 ::woodpecker::logSession $tmp [expr {$t0 + 120}] 1 1 $t0 120000
-::woodpecker::logExercise $tmp [expr {$t0 + 86400}] 1 2 3 second 1 20000
+::woodpecker::logExercise $tmp [expr {$t0 + 86400}] 1 2 3 failed 0 20000
 ::woodpecker::logExercise $tmp [expr {$t0 + 2*86400}] 2 3 1 clean 11 10000
 set f [open [file join $tmp log.tsv] a]; puts $f "X\tbroken"; puts $f "garbage line"; close $f
 lassign [::woodpecker::readLog $tmp] xs ss
@@ -189,7 +185,7 @@ checkEq "mid-cycle: next and before" [list [dict get $pr next] [dict get $pr don
 set pr [::woodpecker::progress {} 3 2026-11-02]
 checkEq "an empty log starts at 1" [list [dict get $pr cycle] [dict get $pr next] [dict get $pr done]] {1 1 0}
 
-# Unrated: exercise 1 clean = 2, ex 2 failed = 0 (max 2*1.4), ex 3 second = 0.75.
+# Unrated: exercise 1 clean = 2, ex 2 failed = 0 (max 2*1.4).
 set table [::woodpecker::marksAt [::woodpecker::readMarks $tmp] 0]
 set st [::woodpecker::sessionStats $xs $ss $back $table]
 checkEq "three sessions" [llength $st] 3
@@ -226,8 +222,8 @@ set cs [::woodpecker::cycleStats $xs $back $table]
 checkEq "two cycles" [llength $cs] 2
 set c1 [lindex $cs 0]
 checkEq "cycle 1: days, exercises, solving time, results" \
-    [list [dict get $c1 start] [dict get $c1 end] [dict get $c1 exercises] [dict get $c1 ms] [dict get $c1 clean] [dict get $c1 second] [dict get $c1 failed]] \
-    {2026-11-01 2026-11-02 3 100000 1 1 1}
+    [list [dict get $c1 start] [dict get $c1 end] [dict get $c1 exercises] [dict get $c1 ms] [dict get $c1 clean] [dict get $c1 failed]] \
+    {2026-11-01 2026-11-02 3 100000 1 2}
 
 set cmp [::woodpecker::compareCycles $xs 2 {1 2 3}]
 checkEq "exercise 1 was faster in cycle 2" [list [dict get $cmp compared] [dict get $cmp faster] [dict get $cmp slower]] {1 1 0}

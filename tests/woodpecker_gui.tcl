@@ -5,8 +5,8 @@
 # plugin, so it runs after scidCommunity has started, and drives the board the
 # way a user does (addMoveUCI, the same entry point as a dropped piece):
 #
-#   exercise 1: right, wrong, right, right  -> solved at the second attempt
-#   exercise 2: wrong, wrong                -> failed, solution on the board
+#   exercise 1: right, wrong                -> failed (one attempt), solution on the board
+#   exercise 2: wrong                       -> failed, solution on the board
 #   exercise 3: right, right                -> solved cleanly
 #
 # Run it with tests/woodpecker_gui.sh, which gives it a clean profile and reads
@@ -128,41 +128,33 @@ proc ::wpgui::run {} {
     checkEq "an options save in a session keeps the user's layout as auto" \
         $::docking::layout_list(auto) $::docking::layout_list(woodpecker_user)
     checkEq "exercise 1 is on the board" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 1 fen]
-    checkEq "two attempts" [::woodpecker::ui::attemptsLeft] 2
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
 
-    # Exercise 1: e6e1 (right), reply, a wrong move, e1f1, reply, f1f8.
+    # Exercise 1: e6e1 (right), reply, then a wrong move: one attempt, so it fails.
     addMoveUCI e6e1
     wait 600
     checkEq "the opponent replied by itself" [sc_game info previousMoveUCI] g1f2
-    set bad [wrongMove e1f1]
-    set fenBefore [sc_pos fen]
-    addMoveUCI $bad
-    wait 200
-    checkEq "a wrong move is taken back" [sc_pos fen] $fenBefore
-    checkEq "one attempt left" [::woodpecker::ui::attemptsLeft] 1
-    check "the card says so" [string match "*[tr WoodpeckerWrong]*" [.woodpeckerWin.sess.card.t get 1.0 end]]
     shot session
     check "the board is not moved back by the arrows" \
         [expr {[::woodpecker::ui::callback moveBack] == 0}]
-    addMoveUCI e1f1
-    wait 600
-    addMoveUCI f1f8
-    wait 300
+    set bad [wrongMove e1f1]
+    set fenBefore [sc_pos fen]
+    addMoveUCI $bad
+    wait 500
+    checkEq "the first error fails the exercise: the solution is shown" $::woodpecker::ui::run(wait) solution
+    checkEq "the wrong move is not on the board" [sc_pos fen] $fenBefore
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card shows the result and the marked line" [string match "*Re1+!*" $card] $card
-    wait 1500
-    checkEq "exercise 2 follows by itself" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 2 fen]
+    ::woodpecker::ui::keyContinue
+    wait 300
+    checkEq "exercise 2 follows" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 2 fen]
 
-    # Exercise 2: two wrong moves.
-    set bad [wrongMove b8c7]
-    addMoveUCI $bad
-    wait 200
+    # Exercise 2: a wrong first move.
     set bad [wrongMove b8c7]
     addMoveUCI $bad
     wait 500
-    checkEq "after two errors the solution is shown" $::woodpecker::ui::run(wait) solution
+    checkEq "after the error the solution is shown" $::woodpecker::ui::run(wait) solution
     check "the solution is in the game" [expr {[sc_pos isAt start] && ![sc_pos isAt end]}]
     check "and can be stepped through" [expr {[::woodpecker::ui::callback moveForward] == 1}]
     ::move::Forward
@@ -204,16 +196,16 @@ proc ::wpgui::run {} {
     shot summary
 
     lassign [::woodpecker::readLog $dir] xs ss
-    checkEq "three exercises logged" [lmap x $xs { dict get $x result }] {second failed clean}
-    checkEq "what was found" [lmap x $xs { dict get $x found }] {111 00 11}
+    checkEq "three exercises logged" [lmap x $xs { dict get $x result }] {failed failed clean}
+    checkEq "what was found" [lmap x $xs { dict get $x found }] {100 00 11}
     checkEq "one session row" [llength $ss] 1
     checkEq "the summary counts three exercises" $::woodpecker::ui::txt(sumEx.now) 3
-    check "the summary lists the failed exercise" [string match "*2*" $::woodpecker::ui::txt(sumNotes)] $::woodpecker::ui::txt(sumNotes)
-    # Points: ex1 second = (0.75 + 1 + 2) * 1466/1500; ex2 failed with nothing found = 0;
-    # ex3 clean = (1 + 1 + 1) * 1597/1500.
+    check "the summary lists the failed exercises" [string match "*1, 2*" $::woodpecker::ui::txt(sumNotes)] $::woodpecker::ui::txt(sumNotes)
+    # Points: ex1 failed after finding its "!" = (1 - 0.5) * 1466/1500; ex2 failed with
+    # nothing found = 0; ex3 clean = (1 + 1 + 1) * 1597/1500.
     set st [lindex [::woodpecker::sessionStats $xs $ss [::woodpecker::readExercises $dir] \
         [::woodpecker::marksAt [::woodpecker::readMarks $dir] 1]] 0]
-    set want [expr {3.75 * 1466 / 1500.0 + 0.0 + 3.0 * 1597 / 1500.0}]
+    set want [expr {0.5 * 1466 / 1500.0 + 0.0 + 3.0 * 1597 / 1500.0}]
     check "session points" [expr {abs([dict get $st points] - $want) < 1e-6}] "[dict get $st points] vs $want"
 
     ::woodpecker::ui::exitSession

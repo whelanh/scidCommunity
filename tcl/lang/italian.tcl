@@ -496,7 +496,7 @@ translate I WoodpeckerColProgress {Ciclo attuale}
 translate I WoodpeckerColLast {Ultima sessione}
 translate I WoodpeckerColDays {Giorni}
 translate I WoodpeckerColTime {Tempo di soluzione}
-translate I WoodpeckerColResults {1°/2°/falliti}
+translate I WoodpeckerColResults {risolti/falliti}
 translate I WoodpeckerColPct {Punteggio}
 translate I WoodpeckerColDate {Data}
 translate I WoodpeckerColDuration {Durata}
@@ -581,9 +581,8 @@ translate I WoodpeckerNoSlot {Nessuno spazio libero per un database della sessio
 (%s)}
 translate I WoodpeckerRestAsk {Il riposo finisce il %s. Iniziare comunque il ciclo %d?}
 translate I WoodpeckerUnratedShort {%d esercizi non sono valutati: lì conta solo la linea.}
-translate I WoodpeckerRes1 {1°}
-translate I WoodpeckerRes2 {2°}
-translate I WoodpeckerRes3 {falliti}
+translate I WoodpeckerRes1 {risolti}
+translate I WoodpeckerRes2 {falliti}
 translate I WoodpeckerPacePer {per esercizio}
 translate I WoodpeckerPaceTarget {obiettivo %s s}
 translate I WoodpeckerCardStreak {Serie}
@@ -596,9 +595,7 @@ translate I WoodpeckerExercise {Esercizio %d di %d}
 translate I WoodpeckerWhiteToMove {Muove il Bianco}
 translate I WoodpeckerBlackToMove {Muove il Nero}
 translate I WoodpeckerYourMove {Tocca a te.}
-translate I WoodpeckerWrong {Ti resta un tentativo.}
 translate I WoodpeckerSolved {Risolto!}
-translate I WoodpeckerSolvedSecond {Risolto al secondo tentativo.}
 translate I WoodpeckerFailed {Fallito.}
 translate I WoodpeckerPoints {+%s / %s}
 translate I WoodpeckerNoMarks {(non valutato: ancora nessun bonus ! / !!)}
@@ -612,7 +609,6 @@ translate I WoodpeckerSumDate {Data}
 translate I WoodpeckerSumDuration {Durata}
 translate I WoodpeckerSumExercises {Esercizi completati}
 translate I WoodpeckerSumPoints {%s punti su %s}
-translate I WoodpeckerSumResults {1° tentativo / 2° / falliti}
 translate I WoodpeckerSumAvg {Media per esercizio}
 translate I WoodpeckerSumQuota {Obiettivo di oggi}
 translate I WoodpeckerSumCompare {Rispetto al ciclo precedente: %d più veloci, %d più lenti, %d errori corretti, %d errori nuovi.}
@@ -630,7 +626,6 @@ translate I WoodpeckerCycleShort {Ciclo %d}
 translate I WoodpeckerDaysPlanned {%d giorni previsti}
 translate I WoodpeckerExercisesShort {esercizi}
 translate I WoodpeckerDeadline {scadenza %s}
-translate I WoodpeckerWrongHead {Non è questa}
 translate I WoodpeckerHidden {La soluzione comparirà qui.}
 translate I WoodpeckerSumCycle {Ciclo}
 translate I WoodpeckerTokenSave {Salva e verifica}

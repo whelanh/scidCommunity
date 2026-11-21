@@ -28,8 +28,7 @@ namespace eval ::woodpecker {
         bonus1   1.0
         bonus2   2.0
         clean    1.0
-        malus1   0.25
-        malus2   0.5
+        malus    0.5
         weightRef 1500.0
         weightMin 0.5
         weightMax 2.0
@@ -65,13 +64,12 @@ proc ::woodpecker::markValue {mark} {
 
 # The points of one exercise.
 #   marks   one mark per solver move ("" / "-" for none); {} when unrated
-#   found   one 0/1 per solver move: found within the two attempts
-#   result  clean (no error) | second (completed after one error) | failed
+#   found   one 0/1 per solver move: found before the mistake
+#   result  clean (no error) | failed (one mistake ends the exercise)
 #   weight  ::woodpecker::weight of the puzzle
 # Returns {points P max M bonus B}: everything scaled by the weight.
 #   clean   V + bonuses + C
-#   second  V*(1 - malus1) + bonuses
-#   failed  bonuses - V*malus2, never below 0 (the bonuses found are kept)
+#   failed  bonuses - V*malus, never below 0 (the bonuses found are kept)
 proc ::woodpecker::score {marks found result {weight 1.0}} {
     variable P
     set bonus 0.0
@@ -85,8 +83,7 @@ proc ::woodpecker::score {marks found result {weight 1.0}} {
     }
     switch -- $result {
         clean  { set pts [expr {$P(base) + $bonus + $P(clean)}] }
-        second { set pts [expr {$P(base) * (1.0 - $P(malus1)) + $bonus}] }
-        failed { set pts [expr {max(0.0, $bonus - $P(base) * $P(malus2))}] }
+        failed { set pts [expr {max(0.0, $bonus - $P(base) * $P(malus))}] }
         default { error "unknown result '$result'" }
     }
     set max [expr {$P(base) + $bmax + $P(clean)}]
@@ -95,33 +92,30 @@ proc ::woodpecker::score {marks found result {weight 1.0}} {
 }
 
 ################################################################################
-# Attempts (Decision 7): two per exercise, the exercise's state as a dict.
+# One attempt per exercise, as on Lichess (Decision 7): the first wrong move
+# fails it. The exercise's state is a dict.
 
 proc ::woodpecker::exStart {n} {
-    return [dict create n $n idx 0 errors 0 found [lrepeat $n 0] result ""]
+    return [dict create n $n idx 0 found [lrepeat $n 0] result ""]
 }
 
 # Record one answer to the current solver move. Returns the new state and what
-# happens next: continue | solved | retry | failed.
+# happens next: continue | solved | failed.
 proc ::woodpecker::exAnswer {state correct} {
     if {[dict get $state result] ne ""} { error "exercise already finished" }
-    set idx [dict get $state idx]
-    if {$correct} {
-        dict set state found [lreplace [dict get $state found] $idx $idx 1]
-        incr idx
-        dict set state idx $idx
-        if {$idx >= [dict get $state n]} {
-            dict set state result [expr {[dict get $state errors] == 0 ? "clean" : "second"}]
-            return [list $state solved]
-        }
-        return [list $state continue]
-    }
-    dict incr state errors
-    if {[dict get $state errors] >= 2} {
+    if {!$correct} {
         dict set state result failed
         return [list $state failed]
     }
-    return [list $state retry]
+    set idx [dict get $state idx]
+    dict set state found [lreplace [dict get $state found] $idx $idx 1]
+    incr idx
+    dict set state idx $idx
+    if {$idx >= [dict get $state n]} {
+        dict set state result clean
+        return [list $state solved]
+    }
+    return [list $state continue]
 }
 
 proc ::woodpecker::foundString {state} { return [join [dict get $state found] ""] }
@@ -412,7 +406,7 @@ proc ::woodpecker::readLog {dir} {
         switch -- [lindex $row 0] {
             X {
                 lassign $row - ts cycle session ex result found ms
-                if {![string is integer -strict $ex] || $result ni {clean second failed}} { continue }
+                if {![string is integer -strict $ex] || $result ni {clean failed}} { continue }
                 lappend xs [dict create ts $ts cycle $cycle session $session ex $ex \
                     result $result found $found ms $ms]
             }
@@ -489,7 +483,7 @@ proc ::woodpecker::sessionStats {xs ss exMeta marksTable} {
         if {![dict exists $by $id]} {
             dict set by $id [dict create session $id cycle [dict get $x cycle] \
                 date [today [dict get $x ts]] exercises 0 points 0.0 max 0.0 ms 0 \
-                clean 0 second 0 failed 0 unrated 0 dur ""]
+                clean 0 failed 0 unrated 0 dur ""]
         }
         set s [rowScore $x $exMeta $marksTable]
         dict with by $id {
@@ -528,7 +522,7 @@ proc ::woodpecker::cycleStats {xs exMeta marksTable} {
         set day [today [dict get $x ts]]
         if {![dict exists $by $c]} {
             dict set by $c [dict create cycle $c start $day end $day exercises 0 ms 0 \
-                clean 0 second 0 failed 0 points 0.0 max 0.0]
+                clean 0 failed 0 points 0.0 max 0.0]
         }
         set s [rowScore $x $exMeta $marksTable]
         dict with by $c {

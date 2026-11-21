@@ -528,7 +528,7 @@ translate E WoodpeckerColProgress {This cycle}
 translate E WoodpeckerColLast {Last session}
 translate E WoodpeckerColDays {Days}
 translate E WoodpeckerColTime {Solving time}
-translate E WoodpeckerColResults {1st/2nd/failed}
+translate E WoodpeckerColResults {solved/failed}
 translate E WoodpeckerColPct {Score}
 translate E WoodpeckerColDate {Date}
 translate E WoodpeckerColDuration {Duration}
@@ -613,9 +613,8 @@ translate E WoodpeckerNoSlot {No free database slot for the session: close a dat
 (%s)}
 translate E WoodpeckerRestAsk {The rest days end on %s. Start cycle %d anyway?}
 translate E WoodpeckerUnratedShort {%d exercises are not evaluated: there only the line counts.}
-translate E WoodpeckerRes1 {1st}
-translate E WoodpeckerRes2 {2nd}
-translate E WoodpeckerRes3 {failed}
+translate E WoodpeckerRes1 {solved}
+translate E WoodpeckerRes2 {failed}
 translate E WoodpeckerPacePer {per exercise}
 translate E WoodpeckerPaceTarget {target %s s}
 translate E WoodpeckerCardStreak {Streak}
@@ -628,9 +627,7 @@ translate E WoodpeckerExercise {Exercise %d of %d}
 translate E WoodpeckerWhiteToMove {White to move}
 translate E WoodpeckerBlackToMove {Black to move}
 translate E WoodpeckerYourMove {Your move.}
-translate E WoodpeckerWrong {One attempt left.}
 translate E WoodpeckerSolved {Solved!}
-translate E WoodpeckerSolvedSecond {Solved at the second attempt.}
 translate E WoodpeckerFailed {Failed.}
 translate E WoodpeckerPoints {+%s / %s}
 translate E WoodpeckerNoMarks {(not evaluated: no ! / !! bonus yet)}
@@ -644,7 +641,6 @@ translate E WoodpeckerSumDate {Date}
 translate E WoodpeckerSumDuration {Duration}
 translate E WoodpeckerSumExercises {Exercises completed}
 translate E WoodpeckerSumPoints {%s of %s points}
-translate E WoodpeckerSumResults {1st attempt / 2nd / failed}
 translate E WoodpeckerSumAvg {Average per exercise}
 translate E WoodpeckerSumQuota {Today's target}
 translate E WoodpeckerSumCompare {Against the previous cycle: %d faster, %d slower, %d errors fixed, %d new errors.}
@@ -662,7 +658,6 @@ translate E WoodpeckerCycleShort {Cycle %d}
 translate E WoodpeckerDaysPlanned {%d days planned}
 translate E WoodpeckerExercisesShort {exercises}
 translate E WoodpeckerDeadline {deadline %s}
-translate E WoodpeckerWrongHead {Not that one}
 translate E WoodpeckerHidden {The solution will appear here.}
 translate E WoodpeckerSumCycle {Cycle}
 translate E WoodpeckerTokenSave {Save and check}
