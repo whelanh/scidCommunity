@@ -156,7 +156,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Ctg2Obr>Konwersja książki CTG na OBR</a></li>
   <li><a Annotating>Komentowanie partii</a> (własne komentarze))</li>
   <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a> (przycisk w oknie silnika)</li>
-  <li><a BatchAnnotate>Komentarz do partii -AI</a> (Wybór partii z Listy partii)</li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
   </ul>
   
@@ -206,7 +205,6 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Options>Menu <b>Opcje</b></a></li>
   <li><a GameList>Okno listy partii</a></li>
   <li><a Tree><b>Okno drzewa wariantów</b></a></li>
-  <li><a Analysis>Okno <b>analizy</b></a></li>
   </ul> 
   
   <h3>P</h3>
@@ -2827,64 +2825,6 @@ set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Jakie jest zagrożenie?</h1>
 </p>
 
 <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
-}
-
-
-####################
-### Batch annotation help:
-###
-### The live path: the Game List's selection menu calls
-### ::batch_annotate::config, and each finished game is written by
-### ::reviewdriver::writeResults - the engine window's review writer - so this
-### page describes Review Settings and has no checkboxes of its own. The
-### script-only annotator this page used to document was retired in #437 §8.
-  
-set helpTitle(P,BatchAnnotate) "Adnotacja zbiorcza partii"
-set helpText(P,BatchAnnotate) {<h1>Adnotacja zbiorcza partii</h1>
-  <p>
-  <term>Adnotacja zbiorcza</term> uruchamia jedną serię analiz silnika dla kilku partii i zapisuje
-  w każdej z nich adnotacje tworzone przez funkcję analizy w oknie silnika. Jest to polecenie
-  dostępne na Liście partii: zaznacz partie, otwórz menu zaznaczenia (kliknij prawym przyciskiem myszy
-  lub naciśnij klawisz Menu) i wybierz <b>Adnotacja zbiorcza</b>.
-  </p>
-  <p>
-  Okno dialogowe zawiera dwa ustawienia. Wybrany <b>silnik</b> analizuje każde posunięcie we
-  wszystkich partiach. <b>Liczba instancji</b> określa, ile kopii silnika działa jednocześnie.
-  Każda instancja analizuje jedną partię naraz, więc przy dwóch instancjach można analizować równolegle
-  dwie partie, jeśli komputer ma wystarczającą liczbę rdzeni. Przycisk <b>Rozpocznij</b> rozpoczyna analizę.
-  </p>
-  
-  <h3>Co zapisuje analiza</h3>
-  <p>
-  Każda zakończona partia jest wczytywana i zapisywana za pomocą tej samej funkcji, której używa
-  <a ReviewGameButton>analiza</a> w oknie silnika. Dlatego zapisywane adnotacje zależą od ustawień w
-  <a ReviewSettings>Ustaw parametry analizy</a>: oceny słownej posunięcia, znacznika <b>[%eval]</b>,
-  symbolu NAG odpowiadającego ocenie, oceny pozycji przy oznaczonych posunięciach,
-  znacznika diagramu <b>D</b> oraz wariantu pokazującego, jak można było zagrać lepiej.
-  Oznaczenia błędów debiutowych i ćwiczeń taktycznych również zależą od odpowiednich opcji. Adnotacja
-  zbiorcza nie ma własnych pól wyboru.
-  </p>
-  <p>
-  Analiza nie korzysta z dostawcy AI: wyszukuje posunięcia za pomocą silnika
-  i zapisuje wyniki analizy — nic więcej. Komentarze AI są dostępne w funkcji
-  Analiza partii, w której trener generuje komentarze dla jednej partii naraz.
- </p>
-  
-  <h3>Podczas analizy</h3>
-  <p>
-  Plansza postępu pokazuje aktualnie analizowaną partię i jej miejsce w całej
-  serii. Przycisk <b>Anuluj</b> zatrzymuje analizę zbiorczą: silniki zostają
-  zamknięte, partie już zapisane pozostają bez zmian, a partie, których
-  jeszcze nie zapisano, zachowują swój pierwotny stan.
-</p>
-<p>
-  Jeśli analiza posunięcia zakończy się bez uzyskania choć jednej ocenionej linii — najczęściej
-  z powodu limitu czasu — posunięcie zostanie zapisane bez oceny. Końcowy komunikat podaje
-  liczbę takich posunięć obok liczby ukończonych partii, dzięki czemu niepełna analiza partii nie jest
-  przedstawiana jako zakończona.
-</p>
-  
-   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 
