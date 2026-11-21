@@ -195,12 +195,18 @@ proc ::woodpecker::set::httpRequest {method url {token ""} {body ""}} {
     }
     set headers [list Accept application/json]
     if {$token ne ""} { lappend headers Authorization "Bearer $token" }
+    # The package-wide agent is swapped for this request and put back.
+    set savedAgent [::http::config -useragent]
     ::http::config -useragent $UA
-    if {$method eq "POST"} {
-        set tok [::http::geturl $url -timeout 30000 -headers $headers -type text/plain -query $body]
-    } else {
-        set tok [::http::geturl $url -timeout 30000 -headers $headers]
-    }
+    set failed [catch {
+        if {$method eq "POST"} {
+            ::http::geturl $url -timeout 30000 -headers $headers -type text/plain -query $body
+        } else {
+            ::http::geturl $url -timeout 30000 -headers $headers
+        }
+    } tok]
+    ::http::config -useragent $savedAgent
+    if {$failed} { error $tok }
     set status [::http::ncode $tok]
     set body [::http::data $tok]
     ::http::cleanup $tok
