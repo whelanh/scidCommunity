@@ -256,8 +256,8 @@ $m add checkbutton -label WindowsECO -accelerator "Ctrl+Shift+E" -variable ::win
 $m add checkbutton -label WindowsStats -variable ::windows::stats::isOpen -accelerator "Ctrl+I" -command ::windows::stats::Open
 $m add checkbutton -label WindowsTree -variable treeWin -command ::tree::make -accelerator "Ctrl+T"
 $m add checkbutton -label WindowsBook -variable ::book::isOpen -command ::book::open -accelerator "F6"
-$m add checkbutton -label [tr TablebaseWindow] -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
-$m add checkbutton -label [tr Board3D] -variable ::windows::game3d::isOpen -command ::windows::game3d::toggle -accelerator "F12"
+$m add checkbutton -label TablebaseWindow -variable ::tablebase::window::isOpen -command ::tablebase::window::Open -accelerator "Ctrl+="
+$m add checkbutton -label Board3D -variable ::windows::game3d::isOpen -command ::windows::game3d::toggle -accelerator "F12"
 $m add checkbutton -label WindowsPresentationBoard -variable ::windows::present::isOpen -command ::windows::present::toggle -accelerator "Ctrl+Shift+W"
 $m add checkbutton -label WindowsPresentationFreeze -variable ::windows::present::frozen -command ::windows::present::freeze -accelerator "Ctrl+Shift+F"
 $m add command -label WindowsGraph -command ::tools::graphs::time::Open
@@ -327,15 +327,15 @@ set ::menuThemeListIdx [expr [$m.theme index end] +1]
 $m add cascade -label OptionsTheme -menu $m.theme
 menu $m.savelayout
 menu $m.restorelayout
-    foreach i {"1 (default)" "2" "3"} slot {1 2 3} {
+    foreach i {OptionsLayoutDefault 2 3} slot {1 2 3} {
       $m.savelayout add command -label $i -command "::docking::layout_save $slot"
       $m.restorelayout add command -label $i -command "::docking::layout_restore $slot"
     }
 $m add command -label ConfigureScid -command { ::preferences::Open toggle }
 $m add command -label OptionsResources -command ::preferences::resources
 menu $m.export
-  $m.export add command -label "PGN file text" -underline 0 -command "setExportText PGN"
-  $m.export add command -label "HTML file text" -underline 0 -command "setExportText HTML"
+  $m.export add command -label OptionsExportPGNText -underline 0 -command "setExportText PGN"
+  $m.export add command -label OptionsExportHTMLText -underline 0 -command "setExportText HTML"
 $m add cascade -label OptionsExport -menu $m.export
 $m add command -label OptionsBoardNames -command editMyPlayerNames
 $m add separator
@@ -537,21 +537,24 @@ proc menuUpdateBases {} {
   .menu.db.importfile delete 0 end
 
   foreach i [sc_base list] {
-    set fname [::file::BaseName $i]
+    set fname [expr {$i == $::clipbase_db ? [tr clipbase] : [::file::BaseName $i]}]
     set readonly [sc_base isReadOnly $i]
 
+    set baseLabel [format [tr MenuDatabaseSlot] $i $fname]
+    set underline [string first $i $baseLabel]
+
     .menu.db add radiobutton -variable currentSlot -value $i \
-        -label "Base $i: $fname" \
-        -underline 5 -accelerator "Ctrl+$i"\
+        -label $baseLabel \
+        -underline $underline -accelerator "Ctrl+$i"\
         -command [list ::file::SwitchToBase $i]
 
     if {$i != $::curr_db && ! $readonly} {
-        .menu.db.copygames add command -label "Base $i: $fname" \
+        .menu.db.copygames add command -label $baseLabel \
             -command "::windows::gamelist::CopyGames {} $::curr_db $i all"
     }
 
     if {! $readonly} {
-        .menu.db.importfile add command -label "into $i: $fname" \
+        .menu.db.importfile add command -label [format [tr MenuImportIntoSlot] $i $fname] \
             -command "importPgnFile $i"
     }
   }
@@ -631,6 +634,7 @@ proc setLanguageMenus {} {
       $m entryconfig $idx -label [tr $lbl] -underline $under
   }
 
+  menuUpdateBases
   ::optable::ConfigMenus
   ::preport::ConfigMenus
   ::tools::graphs::rating::ConfigMenus

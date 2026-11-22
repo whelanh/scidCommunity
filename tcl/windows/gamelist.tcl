@@ -1486,7 +1486,7 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
         $w.game_menu.filter add command -label $::tr(GlistRemoveGameAndBelowFromFilter) \
           -command "glist.removeFromFilter_ $w $idx +"
       } else {
-        $w.game_menu.filter add command -label "Remove Selected Games From Filter" \
+        $w.game_menu.filter add command -label [tr GlistRemoveSelectedFromFilter] \
           -command [list apply {{w sel_list} {
               foreach s $sel_list {
                 lassign [split $s "_"] i p
@@ -1505,7 +1505,7 @@ proc glist.popupmenu_ {{w} {x} {y} {abs_x} {abs_y} {layout}} {
       menu $w.game_menu.export
       $w.game_menu.export add command -label [tr ToolsExpFilter] \
         -command "::windows::gamelist::FilterExport $w_top"
-      $w.game_menu.export add command -label "Export Selected Games..." \
+      $w.game_menu.export add command -label [tr GlistExportSelected] \
         -command "::windows::gamelist::ExportSelected $w_top $w"
       $w.game_menu.export add separator
       $w.game_menu add cascade -label [tr CopyGames] -menu $w.game_menu.export

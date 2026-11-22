@@ -502,7 +502,7 @@ proc ::reviewcoach::answerLanguage {} {
     set lang ""
     catch { set lang $::language }
     set names {
-        K Catalan   C Czech      D German     F French     G Greek
+        d Danish    K Catalan   C Czech      D German     F French     G Greek
         H Hungarian I Italian    N Dutch      O Norwegian  P Polish
         B Portuguese R Russian   Y Serbian    S Spanish    U Finnish
         W Swedish   M Chinese    T Turkish    J Serbian    A Japanese
