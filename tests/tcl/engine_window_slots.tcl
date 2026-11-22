@@ -141,6 +141,37 @@ checkEq "F2 is empty" [::enginecfg::shortcutEngine 1] {}
 ::enginecfg::clearShortcut NotThere
 checkEq "clearing an unknown name is harmless" [::enginecfg::shortcutEngine 1] {}
 
+puts "the keys are configurable"
+checkEq "the default first key" [::enginecfg::keySequence 1] F2
+checkEq "the default second key" [::enginecfg::keySequence 2] F3
+checkEq "a function key needs no rewriting" [::enginecfg::keyFromEvent F5 0] F5
+checkEq "Control is recorded from the state" [::enginecfg::keyFromEvent 2 4] Control-2
+checkEq "Shift is recorded too" [::enginecfg::keyFromEvent A 5] Control-Shift-A
+checkEq "Alt is Tk's Mod1" [::enginecfg::keyFromEvent a 8] Mod1-a
+checkEq "a bare modifier is not a key" [::enginecfg::keyFromEvent Shift_L 1] {}
+checkEq "a written Ctrl+2 becomes Tk's spelling" \
+    [::enginecfg::normalizeKey {Ctrl+2}] Control-2
+checkEq "a written <F5> loses its brackets" [::enginecfg::normalizeKey {<F5>}] F5
+checkEq "a written Alt becomes Mod1" [::enginecfg::normalizeKey {Alt+2}] Mod1-2
+checkEq "and is shown as Alt" [::enginecfg::keyLabel 1 {Alt+2}] Alt+2
+checkEq "the display form" [::enginecfg::keyLabel 1 Control-Shift-Key-2] Ctrl+Shift+2
+check "a function key is safe" [::enginecfg::keyUsable F5]
+check "Ctrl+2 is safe" [::enginecfg::keyUsable Control-2]
+check "Alt+2 is safe" [::enginecfg::keyUsable Mod1-2]
+check "a plain letter is not safe" [expr {![::enginecfg::keyUsable a]}]
+checkEq "a plain letter is refused" [::enginecfg::setKey 1 a] false
+checkEq "and the old key is kept" [::enginecfg::keySequence 1] F2
+checkEq "changing a key" [::enginecfg::setKey 1 F5] true
+checkEq "the sequence follows" [::enginecfg::keySequence 1] F5
+checkEq "the display follows" [::enginecfg::keyLabel 1] F5
+checkEq "and so does the list column" [::enginecfg::shortcutLabel 1] F5
+checkEq "a key written by hand is accepted" [::enginecfg::setKey 2 {Ctrl+2}] true
+checkEq "and normalised" [::enginecfg::keySequence 2] Control-2
+checkEq "an unknown window has no key" [::enginecfg::setKey 3 F6] false
+::enginecfg::resetKeys
+checkEq "reset puts the first default back" [::enginecfg::keySequence 1] F2
+checkEq "and the second" [::enginecfg::keySequence 2] F3
+
 puts "a missing preset is not started"
 ::enginecfg::assignShortcut 1 Gone
 checkEq "an assignment to a name not in the list reads as empty" \
@@ -243,6 +274,21 @@ check "with F2, F3 and None" \
             [string match {*variable engines(newShortcut) -value 2*} $dialogSrc]}]
 check "it passes the choice to saveEdit" \
     [expr {[string first {$engines(newShortcut)]} $dialogSrc] >= 0}]
+check "the list has a Shortcut Keys button" \
+    [string match {*::enginelist::editKeys*} $dialogSrc]
+check "the edit dialog names each window's key" \
+    [string match {*format \[tr EngineShortcutWindow\] 1*} $dialogSrc]
+check "the capture reads the key event" \
+    [string match {*keyFromEvent $sym $state*} $dialogSrc]
+
+# The main window installs the configurable pair rather than a fixed F2/F3.
+set fh [open [file join $root tcl keyboard.tcl] r]
+set keysSrc [read $fh]
+close $fh
+check "the main window installs the current engine keys" \
+    [string match {*::keyboard::bindEngineShortcuts*} $keysSrc]
+check "no fixed F2 line is left" \
+    [expr {[string first {bind $w <F2>} $keysSrc] < 0}]
 
 # Where a window takes its engine from: the assignment first, then the
 # remembered name. The engine window itself needs Tk, so this checks the source

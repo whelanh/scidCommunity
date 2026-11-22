@@ -1273,6 +1273,14 @@ translate E EngineDelete {Delete the current engine}
 translate E EngineOpenWindow {Open Engine Window}
 translate E EngineShortcut {Shortcut}
 translate E EngineShortcutNone {None}
+translate E EngineShortcutWindow {Window %s (%s)}
+translate E EngineShortcutKeys {Shortcut Keys}
+translate E EngineShortcutKeysHelp {Choose the key that starts each engine window. Press Change..., then the key combination you want. A key already used by another command is refused.}
+translate E EngineShortcutChange {Change...}
+translate E EngineShortcutReset {Reset to F2 and F3}
+translate E EngineShortcutPress {Press the new key combination for Engine Window %s.\nEscape cancels.}
+translate E EngineShortcutInUse {The key %s is already used by another command. Choose another.}
+translate E EngineShortcutUnsafe {Choose a function key, or a key combination that includes Ctrl or Alt.}
 
 # PGN window menus:
 menuText E PgnFile "File" 0

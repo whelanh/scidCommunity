@@ -273,10 +273,10 @@ menu $m
 .menu add cascade -label Tools -menu $m
 $m  add command -label ToolsConfigureEngines -command ::enginelist::choose
 $m  add command -label ToolsStartEngine1 \
-    -command "::enginewin::start 1" -accelerator "F2"
+    -command "::enginewin::start 1" -accelerator [::enginecfg::keyLabel 1]
 set ::menuEngineStart(1) [$m index end]
 $m  add command -label ToolsStartEngine2 \
-    -command "::enginewin::start 2" -accelerator "F3"
+    -command "::enginewin::start 2" -accelerator [::enginecfg::keyLabel 2]
 set ::menuEngineStart(2) [$m index end]
 $m  add command -label ToolsRapidAnnotate \
     -accelerator "Ctrl+Shift+A" -command ::rapid_annotate::commit
@@ -435,7 +435,10 @@ proc ::menus::engineShortcutLabels {} {
         set label [tr $tag]
         set name [::enginecfg::shortcutEngine $id]
         if {$name ne ""} { append label ": $name" }
-        catch { .menu.tools entryconfig $::menuEngineStart($id) -label $label }
+        catch {
+            .menu.tools entryconfig $::menuEngineStart($id) -label $label \
+                -accelerator [::enginecfg::keyLabel $id]
+        }
     }
 }
 translateMenuLabels .menu

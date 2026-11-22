@@ -19,7 +19,34 @@
 # include ".". Ctrl+Q is not used for text editing.
 bind all <Control-q> { ::file::Exit }
 
+# Engine shortcut keys. The keys themselves are configurable in
+# Tools -> Configure Engines -> Shortcut Keys; this installs the current pair on
+# the main window. The old binding is removed first, so changing a key does not
+# leave the previous one working.
+namespace eval keyboard {}
+array set ::keyboard::engineBound {}
+if {![info exists ::keyboard::mainWindow]} { set ::keyboard::mainWindow . }
+
+proc ::keyboard::bindEngineShortcut {id} {
+    if {[info exists ::keyboard::engineBound($id)]} {
+        set old $::keyboard::engineBound($id)
+        if {$old ne ""} { catch { bind $::keyboard::mainWindow <$old> {} } }
+    }
+    set seq [::enginecfg::keySequence $id]
+    if {$seq ne "" && [winfo exists $::keyboard::mainWindow]} {
+        if {[catch { bind $::keyboard::mainWindow <$seq> [list ::enginewin::toggleStartStop $id] }]} {
+            set seq ""
+        }
+    }
+    set ::keyboard::engineBound($id) $seq
+}
+
+proc ::keyboard::bindEngineShortcuts {} {
+    foreach id {1 2} { ::keyboard::bindEngineShortcut $id }
+}
+
 proc keyboardShortcuts {w} {
+	set ::keyboard::mainWindow $w
 	# Go back/forward
 	bind $w <Left>  { excludeTextWidget %W; ::move::Back }
 	bind $w <Right> { excludeTextWidget %W; ::move::Forward }
@@ -88,9 +115,9 @@ proc keyboardShortcuts {w} {
 	# Open the help window
 	bind $w <F1> { helpWindowPertinent %W }
 
-	# Engines
-	bind $w <F2> "::enginewin::toggleStartStop 1"
-	bind $w <F3> "::enginewin::toggleStartStop 2"
+	# Engines. The key pair is configurable (Configure Engines > Shortcut Keys);
+	# F2/F3 are only the defaults.
+	::keyboard::bindEngineShortcuts
 
 	# Write the engine score graph and the annotations it implies into the
 	# current game. Engine windows bind the same key to their own widgets.

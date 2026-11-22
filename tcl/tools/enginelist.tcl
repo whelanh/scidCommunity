@@ -180,6 +180,20 @@ proc ::enginelist::sort {{type ""}} {
         $w.list.list selection set $firstItem
     }
 }
+
+# ::enginelist::refreshShortcuts
+#   Repaint the Key column from the current assignments and key names, without
+#   re-sorting the list. Called when a key or assignment changes while the
+#   dialog is open.
+proc ::enginelist::refreshShortcuts {} {
+    set w .enginelist.list.list
+    if {![winfo exists $w]} { return }
+    foreach engine $::engines(list) row [$w children {}] {
+        set name [lindex $engine 0]
+        set key [::enginecfg::shortcutLabel [::enginecfg::shortcutOf $name]]
+        catch { $w set $row Key $key }
+    }
+}
 ################################################################################
 # ::enginelist::choose
 #   Select an engine from the Engine List.
@@ -256,6 +270,8 @@ proc ::enginelist::choose {} {
     dialogbutton $f.delete -text $::tr(Delete...) -command {
         ::enginelist::delete [lindex [.enginelist.list.list selection] 0]
     }
+    dialogbutton $f.keys -text $::tr(EngineShortcutKeys...) \
+        -command { ::enginelist::editKeys }
     dialogbutton $f.lucaschess -text "Lucas Chess" -command { ::lucaschess::choose }
     if {$::macOS} {
         # Lucas Chess R provides no macOS engine binaries
@@ -272,7 +288,8 @@ proc ::enginelist::choose {} {
         destroy .enginelist
     }
     packbuttons right $f.close $f.open
-    pack $f.lucaschess $f.add $f.edit $f.duplicate $f.delete -side left -padx 1
+    pack $f.lucaschess $f.add $f.edit $f.duplicate $f.delete $f.keys \
+        -side left -padx 1
 
     ::enginelist::sort
     focus $w.list.list
@@ -280,6 +297,90 @@ proc ::enginelist::choose {} {
     bind $w <F1> { helpWindow Engine Configure }
     bind $w <Escape> "destroy $w"
     bind $w.list.list <Return> "$w.buttons.open invoke; break"
+}
+
+# ::enginelist::editKeys
+#   Choose the key combinations that start the two engine windows. The keys
+#   belong to the windows, not to a preset: the presets assigned to a window
+#   follow its key when it changes.
+proc ::enginelist::editKeys {} {
+    set w .engineKeys
+    if {[winfo exists $w]} { raise $w; return }
+    win::createDialog $w
+    ::setTitle $w "scidCommunity: [tr EngineShortcutKeys]"
+    ttk::label $w.info -text [tr EngineShortcutKeysHelp] \
+        -wraplength 420 -justify left
+    pack $w.info -side top -anchor w -padx 8 -pady {8 4}
+    foreach id {1 2} {
+        ttk::frame $w.row$id
+        set ::enginelist::keysText($id) \
+            [format [tr EngineShortcutWindow] $id [::enginecfg::keyLabel $id]]
+        ttk::label $w.row$id.l -textvariable ::enginelist::keysText($id) \
+            -anchor w -width 26
+        ttk::button $w.row$id.change -text [tr EngineShortcutChange] \
+            -command [list ::enginelist::captureKey $id]
+        pack $w.row$id.l $w.row$id.change -side left -padx 4 -pady 2
+        pack $w.row$id -side top -fill x -padx 8
+    }
+    ttk::frame $w.buttons
+    dialogbutton $w.buttons.reset -text [tr EngineShortcutReset] -command {
+        ::enginecfg::resetKeys
+        ::enginelist::refreshKeysLabels
+    }
+    dialogbutton $w.buttons.close -text [tr Close] -command "destroy $w"
+    pack $w.buttons.close $w.buttons.reset -side right -padx 4 -pady 6
+    pack $w.buttons -side bottom -fill x
+    bind $w <Escape> "destroy $w"
+    focus $w
+}
+
+# Redraw the two key labels after a change, if the dialog is open.
+proc ::enginelist::refreshKeysLabels {} {
+    if {![winfo exists .engineKeys]} { return }
+    foreach id {1 2} {
+        set ::enginelist::keysText($id) \
+            [format [tr EngineShortcutWindow] $id [::enginecfg::keyLabel $id]]
+    }
+}
+
+# Take the next key press as window id's shortcut. A bare modifier is ignored
+# until an actual key is pressed; Escape cancels.
+proc ::enginelist::captureKey {id} {
+    set w .engineKeyCapture
+    if {[winfo exists $w]} { destroy $w }
+    win::createDialog $w
+    ::setTitle $w "scidCommunity: [tr EngineShortcutKeys]"
+    ttk::label $w.l -text [format [tr EngineShortcutPress] $id] \
+        -wraplength 360 -justify center
+    pack $w.l -padx 12 -pady 12
+    bind $w <KeyPress> "::enginelist::keyCaptured $id %K %s; break"
+    focus $w
+    catch { grab $w }
+}
+
+proc ::enginelist::keyCaptured {id sym state} {
+    if {$sym eq "Escape"} {
+        catch { destroy .engineKeyCapture }
+        return
+    }
+    set seq [::enginecfg::keyFromEvent $sym $state]
+    if {$seq eq ""} { return }
+    if {![::enginecfg::keyUsable $seq]} {
+        tk_messageBox -title scidCommunity -icon warning -type ok \
+            -message [tr EngineShortcutUnsafe]
+        return
+    }
+    if {![::enginecfg::keyAvailable $id $seq]} {
+        tk_messageBox -title scidCommunity -icon warning -type ok \
+            -message [format [tr EngineShortcutInUse] \
+                [::enginecfg::keyLabel $id $seq]]
+        return
+    }
+    if {[::enginecfg::setKey $id $seq]} {
+        ::enginelist::refreshKeysLabels
+        catch { destroy .engineKeyCapture }
+        catch { raise .engineKeys; focus .engineKeys }
+    }
 }
 
 # ::enginelist::setTime
@@ -550,9 +651,11 @@ proc ::enginelist::edit {index} {
     ttk::frame $f.shortcut
     ttk::radiobutton $f.shortcut.none -text $::tr(EngineShortcutNone) \
         -variable engines(newShortcut) -value none
-    ttk::radiobutton $f.shortcut.f2 -text "F2" \
+    ttk::radiobutton $f.shortcut.f2 \
+        -text [format [tr EngineShortcutWindow] 1 [::enginecfg::keyLabel 1]] \
         -variable engines(newShortcut) -value 1
-    ttk::radiobutton $f.shortcut.f3 -text "F3" \
+    ttk::radiobutton $f.shortcut.f3 \
+        -text [format [tr EngineShortcutWindow] 2 [::enginecfg::keyLabel 2]] \
         -variable engines(newShortcut) -value 2
     pack $f.shortcut.none $f.shortcut.f2 $f.shortcut.f3 -side left -padx {0 12}
     grid $f.lShortcut -row $row -column 0 -sticky w
