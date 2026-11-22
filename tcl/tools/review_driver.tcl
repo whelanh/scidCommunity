@@ -37,6 +37,8 @@ namespace eval ::reviewdriver {
 }
 
 set ::reviewdriver::ENGINE_ID 20
+# Extra connections for callers that run several passes at once (the Woodpecker evaluation): ids 21..28.
+set ::reviewdriver::LAST_ID 28
 
 # Whether an engine window may take this connection id. Window ids come from the
 # same pool as every other engine connection, and ::engine::connect closes
@@ -44,7 +46,7 @@ set ::reviewdriver::ENGINE_ID 20
 # would take the pass's engine - and the pass would take the window's.
 # ::enginewin::Open asks this before it takes an id.
 proc ::reviewdriver::reservedId {id} {
-    return [expr {[string equal $id $::reviewdriver::ENGINE_ID]}]
+    return [expr {[string is integer -strict $id] && $id >= $::reviewdriver::ENGINE_ID && $id <= $::reviewdriver::LAST_ID}]
 }
 
 # Start one pass. `cloud` is the cloud pre-pass switch, and it defaults to OFF:
@@ -53,10 +55,10 @@ proc ::reviewdriver::reservedId {id} {
 # ::review::effective's answer for the engine config; the verifier passes 0 on
 # purpose (a stored evaluation is not a second opinion - ::reviewverify::begin
 # says why).
-proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 0} {variant standard}} {
+proc ::reviewdriver::start {enginecfg positions mpv lim onprogress ondone {cloud 0} {variant standard} {id ""}} {
     variable job
     variable seq
-    set id $::reviewdriver::ENGINE_ID
+    if {$id eq ""} { set id $::reviewdriver::ENGINE_ID }
     if {[::reviewdriver::busy $id]} {
         error "engine $id is already running a pass"
     }
