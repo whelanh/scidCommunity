@@ -3680,7 +3680,20 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   The engine list shows the presets this session has. Select one and press
   <b>Open Engine Window</b> (or double-click it, or press Return) to open an
   Engine Window for that preset. <b>Add</b>, <b>Edit</b>, <b>Duplicate</b> and
-  <b>Delete</b> manage the presets; F2 and F3 remain the direct routes.
+  <b>Delete</b> manage the presets.
+  </p>
+  <p>
+  The <term>Shortcut</term> column shows which preset <b>F2</b> or <b>F3</b>
+  starts. To choose it, select the preset, open <b>Edit</b> and pick
+  <b>None</b>, <b>F2</b> or <b>F3</b>. The assignment is kept by the preset's
+  name, so editing that preset, opening another one, or sorting the list never
+  changes which engine a shortcut starts. A preset can be assigned to one
+  shortcut at a time; deleting it clears the assignment.
+  </p>
+  <p>
+  The two <menu>Tools</menu> entries name the engine they start. If a keyboard
+  or desktop reserves <b>F2</b> (some map it to sleep), use the menu entry
+  instead; the shortcut itself is unchanged.
   </p>
 
   <h3>Buttons</h3>

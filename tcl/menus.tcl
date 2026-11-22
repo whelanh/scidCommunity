@@ -274,8 +274,10 @@ menu $m
 $m  add command -label ToolsConfigureEngines -command ::enginelist::choose
 $m  add command -label ToolsStartEngine1 \
     -command "::enginewin::start 1" -accelerator "F2"
+set ::menuEngineStart(1) [$m index end]
 $m  add command -label ToolsStartEngine2 \
     -command "::enginewin::start 2" -accelerator "F3"
+set ::menuEngineStart(2) [$m index end]
 $m  add command -label ToolsRapidAnnotate \
     -accelerator "Ctrl+Shift+A" -command ::rapid_annotate::commit
 # What's the threat? asks the engine about the board in front of the reader, on
@@ -421,7 +423,23 @@ proc menuConfig {{m} {label} {cmd} args} {
         }
     }
 }
+# Show which preset each engine shortcut starts at the point of use. The
+# assignment lives in ::enginecfg and changes while the app is running, so the
+# Tools menu is repainted after an edit and after a language change, not only
+# when it is built.
+namespace eval menus {}
+proc ::menus::engineShortcutLabels {} {
+    if {![info exists ::menuEngineStart]} { return }
+    foreach id {1 2} {
+        set tag [expr {$id == 1 ? "ToolsStartEngine1" : "ToolsStartEngine2"}]
+        set label [tr $tag]
+        set name [::enginecfg::shortcutEngine $id]
+        if {$name ne ""} { append label ": $name" }
+        catch { .menu.tools entryconfig $::menuEngineStart($id) -label $label }
+    }
+}
 translateMenuLabels .menu
+::menus::engineShortcutLabels
 set fileExitHack [.menu.file index end]
 set ::MenuLabels(.menu.file,end) $::MenuLabels(.menu.file,$fileExitHack)
 array unset ::MenuLabels ".menu.file,$fileExitHack"
@@ -634,6 +652,7 @@ proc setLanguageMenus {} {
   ::optable::ConfigMenus
   ::preport::ConfigMenus
   ::tools::graphs::rating::ConfigMenus
+  ::menus::engineShortcutLabels
 
   # Check for duplicate menu underline characters in this language:
   # set ::verifyMenus 1

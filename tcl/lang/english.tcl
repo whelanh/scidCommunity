@@ -1271,6 +1271,8 @@ translate E EngineClone {Create a copy of the current engine}
 translate E EngineDuplicate {Duplicate}
 translate E EngineDelete {Delete the current engine}
 translate E EngineOpenWindow {Open Engine Window}
+translate E EngineShortcut {Shortcut}
+translate E EngineShortcutNone {None}
 
 # PGN window menus:
 menuText E PgnFile "File" 0

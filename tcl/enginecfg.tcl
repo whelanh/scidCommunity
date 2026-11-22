@@ -10,6 +10,133 @@
 
 namespace eval enginecfg {}
 
+# The presets assigned to the two engine-window shortcuts (F2 and F3).
+#
+# The value is a preset *name*, not its position in ::engines(list). The
+# Configure Engines list is sorted by last use, so editing or opening any preset
+# reorders it; an index would then start a different engine. A name is the key
+# every other lookup already uses, and rename/delete keep it up to date.
+if {![info exists ::enginecfg::shortcut]} {
+    array set ::enginecfg::shortcut {1 "" 2 ""}
+}
+# Register the association for the options file. The guard keeps this file
+# loadable by the Tcl test harnesses, which source it without options.tcl.
+if {[llength [info commands ::options.store]]} {
+    ::options.store ::enginecfg::shortcut(1) ""
+    ::options.store ::enginecfg::shortcut(2) ""
+}
+
+# Return the preset assigned to window id (1 or 2), or "".
+proc ::enginecfg::shortcutEngine {id} {
+    if {[info exists ::enginecfg::shortcut($id)]} {
+        set name $::enginecfg::shortcut($id)
+        if {$name ne "" && [::enginecfg::get $name] ne ""} {
+            return $name
+        }
+    }
+    return ""
+}
+
+# The preset a window opens when no preset was named explicitly: the preset
+# assigned to its shortcut, else the one it used last. An explicit request -
+# "Open Engine Window" from the list, or a re-open with a name - never comes
+# through here, so it still wins over the assignment.
+proc ::enginecfg::windowEngine {id last} {
+    set assigned [::enginecfg::shortcutEngine $id]
+    if {$assigned ne ""} { return $assigned }
+    return $last
+}
+
+# Return the shortcut id (1 or 2) a preset name is assigned to, or "".
+# The comparison is by name, whether or not the preset still exists: this is
+# what a rename and a delete need in order to move or drop the association.
+proc ::enginecfg::shortcutOf {name} {
+    if {$name eq ""} { return "" }
+    foreach id {1 2} {
+        if {[info exists ::enginecfg::shortcut($id)] &&
+            $::enginecfg::shortcut($id) eq $name} {
+            return $id
+        }
+    }
+    return ""
+}
+
+# The key that starts a slot, for display ("F2"/"F3"), or "".
+proc ::enginecfg::shortcutLabel {id} {
+    switch -- $id {
+        1 { return "F2" }
+        2 { return "F3" }
+    }
+    return ""
+}
+
+# Assign a preset to a window. One preset per window: assigning it to the
+# other window removes it there first, so the two shortcuts never start the
+# same engine by accident.
+proc ::enginecfg::assignShortcut {id name} {
+    if {$id ni {1 2} || $name eq ""} { return }
+    foreach other {1 2} {
+        if {$other ne $id && [info exists ::enginecfg::shortcut($other)] &&
+            $::enginecfg::shortcut($other) eq $name} {
+            set ::enginecfg::shortcut($other) ""
+        }
+    }
+    set ::enginecfg::shortcut($id) $name
+    ::enginecfg::refreshShortcutMenus
+}
+
+# Repaint the Tools menu's two Start Engine entries when a shortcut changes.
+# Before menus.tcl is sourced (and in the Tcl test harnesses) there is nothing
+# to repaint.
+proc ::enginecfg::refreshShortcutMenus {} {
+    if {[llength [info commands ::menus::engineShortcutLabels]]} {
+        catch { ::menus::engineShortcutLabels }
+    }
+}
+
+# Remove a preset from whichever window it is assigned to.
+proc ::enginecfg::clearShortcut {name} {
+    set id [::enginecfg::shortcutOf $name]
+    if {$id ne ""} {
+        set ::enginecfg::shortcut($id) ""
+        ::enginecfg::refreshShortcutMenus
+    }
+}
+
+# Follow a preset rename in every name-keyed reference.
+#
+# Besides the explicit F2/F3 assignments, each engine window remembers the last
+# preset it opened (::enginewin_lastengine). That is what a window with no
+# assignment starts, so a rename has to carry it over too - otherwise the name
+# no longer resolves and the window silently falls back to the most recently
+# used engine, which is exactly the "association was not retained" report.
+proc ::enginecfg::renameRefs {old new} {
+    if {$old eq "" || $old eq $new} { return }
+    set shortcut [::enginecfg::shortcutOf $old]
+    if {$shortcut ne ""} { set ::enginecfg::shortcut($shortcut) $new }
+    if {[info exists ::enginewin_lastengine]} {
+        foreach id [array names ::enginewin_lastengine] {
+            if {$::enginewin_lastengine($id) eq $old} {
+                set ::enginewin_lastengine($id) $new
+            }
+        }
+    }
+    if {$shortcut ne ""} { ::enginecfg::refreshShortcutMenus }
+}
+
+# Drop every name-keyed reference to a preset that has been removed.
+proc ::enginecfg::dropRefs {name} {
+    if {$name eq ""} { return }
+    ::enginecfg::clearShortcut $name
+    if {[info exists ::enginewin_lastengine]} {
+        foreach id [array names ::enginewin_lastengine] {
+            if {$::enginewin_lastengine($id) eq $name} {
+                set ::enginewin_lastengine($id) ""
+            }
+        }
+    }
+}
+
 # Return a list containing the engine's names sorted by last use.
 proc ::enginecfg::names {} {
     return [lmap elem [lsort -integer -decreasing -index 5 $::engines(list)] {
@@ -40,6 +167,9 @@ proc ::enginecfg::rename {oldname newname} {
     }
     set newname [::enginecfg::uniquename $newname]
     lset ::engines(list) $idx 0 $newname
+    # A window association follows the preset through a rename, or F2/F3 would
+    # fall back to the most recently used engine and start a different one.
+    ::enginecfg::renameRefs $oldname $newname
     ::enginecfg::write
     return $newname
 }
@@ -91,6 +221,7 @@ proc ::enginecfg::remove {name} {
     if {$answer ne "yes"} { return false }
 
     set ::engines(list) [lreplace $::engines(list) $idx $idx]
+    ::enginecfg::dropRefs $name
     ::enginecfg::write
     return true
 }

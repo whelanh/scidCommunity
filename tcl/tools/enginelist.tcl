@@ -170,7 +170,8 @@ proc ::enginelist::sort {{type ""}} {
         set elo [lindex $engine 4]
         set time [lindex $engine 5]
         set date [::enginelist::date $time]
-        $w.list.list insert {} end -id $count -values [list $name $elo $date]
+        set key [::enginecfg::shortcutLabel [::enginecfg::shortcutOf $name]]
+        $w.list.list insert {} end -id $count -values [list $name $key $elo $date]
         incr count
     }
     set children [$w.list.list children {}]
@@ -189,7 +190,11 @@ proc engine.singleclick_ {{w} {x} {y}} {
     lassign [$w identify $x $y] what
     if {$what == "heading"} {
         set col [$w identify column $x $y]
-        ::enginelist::sort [$w column $col -id]
+        # The shortcut column has no sort order of its own: its entries are
+        # F2, F3 or empty, and reordering the list would only hide the presets.
+        if {[$w column $col -id] ne "Key"} {
+            ::enginelist::sort [$w column $col -id]
+        }
     }
 }
 # ::enginelist::openSelected
@@ -220,11 +225,13 @@ proc ::enginelist::choose {} {
     ttk::frame $w.buttons
     ttk::frame $w.list
     # Set up enginelist
-    ttk::treeview $w.list.list -columns { "Name" "Elo" "Time" } -height 12 \
+    ttk::treeview $w.list.list -columns { "Name" "Key" "Elo" "Time" } -height 12 \
         -show headings -selectmode browse -yscrollcommand "$w.list.ybar set"
     set wid [font measure font_Regular W]
     $w.list.list column Name -width [expr 12 * $wid]
     $w.list.list heading Name -text [tr EngineName]
+    $w.list.list column Key -width [expr 4 * $wid]
+    $w.list.list heading Key -text [tr EngineShortcut]
     $w.list.list column Elo -anchor e -width [expr 4 * $wid]
     $w.list.list heading Elo -text [tr EngineElo]
     $w.list.list column Time -width [expr 12 * $wid]
@@ -302,6 +309,10 @@ proc ::enginelist::delete {index} {
     set answer [tk_messageBox -title scidCommunity -icon question -type yesno \
             -message $msg]
     if {$answer == "yes"} {
+        # A deleted preset cannot be what a shortcut starts any more. Without
+        # this, F2/F3 would fall back to the most recently used engine - the
+        # behaviour that made the association look like it was not retained.
+        ::enginecfg::dropRefs [lindex $e 0]
         set engines(list) [lreplace $engines(list) $index $index]
         ::enginelist::sort
         ::enginecfg::write
@@ -353,7 +364,7 @@ proc ::enginelist::nameTaken {index name} {
 #   one preset onto another's name is exactly how a duplicate becomes one. The
 #   dialog offers the name duplicating would have picked instead; declining
 #   leaves both the list and the file as they were.
-proc ::enginelist::saveEdit {index fields} {
+proc ::enginelist::saveEdit {index fields {shortcut ""}} {
     global engines
     # The list is read by name, and two names that differ only in surrounding
     # space read as one: store the trimmed form and check that.
@@ -366,6 +377,19 @@ proc ::enginelist::saveEdit {index fields} {
                 -type yesno -message [format $::tr(EngineNameInUse) $name $suggestion]]
         if {$answer ne "yes"} { return false }
         lset fields 0 $suggestion
+        set name $suggestion
+    }
+    # The assignment is by name, so it must follow a rename before the old name
+    # is replaced. Clearing first also handles a preset moved from one window to
+    # the other: assigning the new key would otherwise leave the old name in
+    # the slot it came from.
+    set oldName [lindex [lindex $engines(list) $index] 0]
+    if {$oldName ne $name} {
+        ::enginecfg::renameRefs $oldName $name
+    }
+    ::enginecfg::clearShortcut $name
+    if {$shortcut in {1 2}} {
+        ::enginecfg::assignShortcut $shortcut $name
     }
     # applyEdit adds back whatever the dialog does not show (element 9).
     ::enginelist::applyEdit $index $fields
@@ -430,6 +454,10 @@ proc ::enginelist::edit {index} {
     set engines(newURL) [lindex $e 6]
     set engines(newUCI) [lindex $e 7]
     set engines(newOptions) [lindex $e 8]
+    # Which shortcut starts this preset. The value is the shortcut id, or
+    # "none"; the association itself is kept by ::enginecfg and keyed by name.
+    set engines(newShortcut) [::enginecfg::shortcutOf [lindex $e 0]]
+    if {$engines(newShortcut) eq ""} { set engines(newShortcut) none }
 
     set engines(newDate) $::tr(None)
     if {$engines(newTime) > 0 } {
@@ -518,6 +546,19 @@ proc ::enginelist::edit {index} {
     grid $f.cbUci -row $row -column 1 -sticky e
     incr row
 
+    ttk::label $f.lShortcut -text $::tr(EngineShortcut)
+    ttk::frame $f.shortcut
+    ttk::radiobutton $f.shortcut.none -text $::tr(EngineShortcutNone) \
+        -variable engines(newShortcut) -value none
+    ttk::radiobutton $f.shortcut.f2 -text "F2" \
+        -variable engines(newShortcut) -value 1
+    ttk::radiobutton $f.shortcut.f3 -text "F3" \
+        -variable engines(newShortcut) -value 2
+    pack $f.shortcut.none $f.shortcut.f2 $f.shortcut.f3 -side left -padx {0 12}
+    grid $f.lShortcut -row $row -column 0 -sticky w
+    grid $f.shortcut -row $row -column 1 -sticky w
+    incr row
+
     ttk::label $f.lTime -text $::tr(EngineTime)
     ttk::label $f.eTime -textvariable engines(newDate) -anchor w -width 1
     grid $f.lTime -row $row -column 0 -sticky w
@@ -544,7 +585,8 @@ proc ::enginelist::edit {index} {
                 $engines(newName) $engines(newCmd) \
                 $engines(newArgs) $engines(newDir) \
                 $engines(newElo) $engines(newTime) \
-                $engines(newURL) $engines(newUCI) $engines(newOptions) ]]} {
+                $engines(newURL) $engines(newUCI) $engines(newOptions) ] \
+                $engines(newShortcut)]} {
             destroy .engineEdit
         }
     }
