@@ -48,14 +48,26 @@ proc ::enginecfg::defaultKey {id} {
     return ""
 }
 
+# The windowing system, in Tk's spelling. The test harnesses run without Tk,
+# so they see "x11" unless they supply a tk command of their own.
+proc ::enginecfg::platform {} {
+    if {[catch {tk windowingsystem} ws]} { return "x11" }
+    return $ws
+}
+
 # Turn a hand-written key into the form ::bind wants: no angle brackets, Tk's
 # modifier names ("Ctrl" is "Control"), and "-" between the parts.
 proc ::enginecfg::normalizeKey {seq} {
     set seq [string trim $seq]
     if {[string match <*> $seq]} { set seq [string range $seq 1 end-1] }
-    # Store the platform-neutral modifier name. "Alt" and "Cmd" both mean
-    # Mod1 to Tk; ::enginecfg::keyLabel turns it back into the familiar name.
-    set seq [string map {+ - Ctrl Control Option Mod1 Cmd Mod1 Command Mod1 Alt Mod1} $seq]
+    # Store the platform-neutral modifier names. Mod1 is Alt on Windows/X11 and
+    # Command on macOS; Mod2 is Option on macOS. keyLabel turns them back into
+    # the familiar names. On macOS a typed "Alt" means Option, as it does to Tk.
+    if {[::enginecfg::platform] eq "aqua"} {
+        set seq [string map {+ - Ctrl Control Option Mod2 Alt Mod2 Cmd Mod1 Command Mod1} $seq]
+    } else {
+        set seq [string map {+ - Ctrl Control Option Mod1 Cmd Mod1 Command Mod1 Alt Mod1} $seq]
+    }
     # "Key-a" and "a" are the same binding.
     set out {}
     foreach tok [split $seq -] {
@@ -84,7 +96,7 @@ proc ::enginecfg::keySequence {id} {
     if {[info exists ::enginecfg::key($id)]} {
         set seq [::enginecfg::normalizeKey $::enginecfg::key($id)]
     }
-    if {$seq eq "" || ![::enginecfg::keyUsable $seq]} {
+    if {$seq eq "" || ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
         return [::enginecfg::defaultKey $id]
     }
     return $seq
@@ -93,8 +105,8 @@ proc ::enginecfg::keySequence {id} {
 # The key as it is shown to the user ("F2", "Ctrl+Shift+2").
 proc ::enginecfg::keyLabel {id {seq ""}} {
     if {$seq eq ""} { set seq [::enginecfg::keySequence $id] }
-    set alt "Alt"
-    if {![catch {tk windowingsystem} ws] && $ws eq "aqua"} { set alt "Cmd" }
+    set ws [::enginecfg::platform]
+    set alt [expr {$ws eq "aqua" ? "Cmd" : "Alt"}]
     set out {}
     foreach tok [split [::enginecfg::normalizeKey $seq] -] {
         switch -- $tok {
@@ -102,6 +114,7 @@ proc ::enginecfg::keyLabel {id {seq ""}} {
             Control { lappend out Ctrl }
             Key     { }
             Mod1    { lappend out $alt }
+            Mod2    { lappend out [expr {$ws eq "aqua" ? "Option" : "Mod2"}] }
             default { lappend out $tok }
         }
     }
@@ -115,20 +128,86 @@ proc ::enginecfg::keyFromEvent {sym state} {
         [regexp {^(Shift|Control|Alt|Meta|Super)_[LR]$} $sym]} {
         return ""
     }
+    # Mod4/Mod5 are the Windows/Super keys. The OS consumes them, and silently
+    # dropping them would bind the plain key instead of the combination.
+    if {$state & 0x40 || $state & 0x80} { return "" }
     set mods {}
     if {$state & 0x4} { lappend mods Control }
     if {$state & 0x8} { lappend mods Mod1 }
+    if {[::enginecfg::platform] eq "aqua" && ($state & 0x10)} { lappend mods Mod2 }
     if {$state & 0x1} { lappend mods Shift }
     if {$sym eq ""} { return "" }
     lappend mods $sym
     return [join $mods -]
 }
 
+# A key that is safe to take as an engine shortcut: a function key, or a
+# combination that includes Ctrl or Alt/Command (Mod1). A plain letter or digit
+# would fire while the reader is typing, because a toplevel binding runs after
+# the widget's own class binding.
+proc ::enginecfg::keyUsable {seq} {
+    set parts [split [::enginecfg::normalizeKey $seq] -]
+    set key [lindex $parts end]
+    if {[regexp {^F([1-9]|1[0-9]|2[0-4])$} $key]} { return true }
+    foreach mod [lrange $parts 0 end-1] {
+        if {$mod in {Control Mod1}} { return true }
+    }
+    # Option alone is a text-input modifier on macOS (Option+a types a), so it
+    # only takes part through a function key, which the first test accepted.
+    return false
+}
+
+# A combination the operating system or Tk reserves before the application
+# can see it. The key would do the system action (quit, hide, switch apps,
+# close the window) or edit text, and never - or not only - start an engine.
+proc ::enginecfg::keyReserved {seq} {
+    set parts [split [::enginecfg::normalizeKey $seq] -]
+    set key [string tolower [lindex $parts end]]
+    set mods [lrange $parts 0 end-1]
+    set ctrl [expr {"Control" in $mods}]
+    set mod1 [expr {"Mod1" in $mods}]
+    set shift [expr {"Shift" in $mods}]
+    set ws [::enginecfg::platform]
+
+    # Text editing and cursor movement: the widget's own class binding comes
+    # before the toplevel binding, so an engine key here would copy/cut/paste
+    # or move the caret and also start the search. These are not visible to
+    # [bind .] and [bind all].
+    if {($ctrl || ($ws eq "aqua" && $mod1)) &&
+        $key in {a c v x z y left right up down home end prior next backspace delete}} {
+        return true
+    }
+
+    # Window-system keys shared by X11 and Windows (the Mac equivalents are
+    # handled below). They are harmless to refuse on macOS too.
+    if {$mod1 && $key in {f4 tab escape space}} { return true }
+    if {$ctrl && $key eq "escape"} { return true }
+    if {$ctrl && $mod1 && $key in {delete backspace}} { return true }
+
+    switch -- $ws {
+        aqua {
+            # Quit, hide, minimize, close, app/window switching, Spotlight,
+            # screenshots and lock screen are taken by macOS.
+            if {$mod1 && $key in {q h m w tab space escape grave}} { return true }
+            if {$mod1 && $shift && $key in {q 3 4 5}} { return true }
+            if {$ctrl && $mod1 && $key eq "q"} { return true }
+        }
+        win32 {
+            # Task Manager and the menu bar.
+            if {$ctrl && $shift && $key eq "escape"} { return true }
+            if {$key eq "f10"} { return true }
+        }
+    }
+    return false
+}
+
 # Is this key free for window id? A key used by another command in the main
 # window, or by the application's global bindings, is refused rather than
 # silently overriding it. The two engine windows' own bindings may be replaced.
 proc ::enginecfg::keyAvailable {id seq} {
-    if {![::enginecfg::keyUsable $seq]} { return false }
+    if {![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+        return false
+    }
     foreach other {1 2} {
         if {$other ne $id && [::enginecfg::keySequence $other] eq $seq} {
             return false
@@ -149,7 +228,9 @@ proc ::enginecfg::keyAvailable {id seq} {
 proc ::enginecfg::setKey {id seq} {
     if {$id ni {1 2}} { return false }
     set seq [::enginecfg::normalizeKey $seq]
-    if {$seq eq "" || ![::enginecfg::keyUsable $seq]} { return false }
+    if {$seq eq "" || ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+        return false
+    }
     if {[llength [info commands bind]] && [winfo exists .]} {
         if {[catch { bind . <$seq> }]} { return false }
         if {![::enginecfg::keyAvailable $id $seq]} { return false }

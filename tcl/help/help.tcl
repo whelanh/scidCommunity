@@ -3694,12 +3694,15 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   The keys themselves are <b>Shortcut Keys...</b> in the Configure Engines
   dialog. The defaults are <b>F2</b> for Window 1 and <b>F3</b> for Window 2;
   <b>Change...</b> takes the next key combination you press. Only a function
-  key or a combination that includes <b>Ctrl</b> or <b>Alt</b> is accepted, so
-  an engine never starts while you are typing; a key already used by another
-  command is refused, and <b>Reset to F2 and F3</b> puts the defaults back. The
-  two <menu>Tools</menu> entries name the engine they start and show the key.
-  If a keyboard or desktop reserves <b>F2</b> (some map it to sleep), choose
-  another key or use the menu entry.
+  key or a combination that includes <b>Ctrl</b>, <b>Alt</b> or <b>Command</b>
+  is accepted, so an engine never starts while you are typing; a key already
+  used by another command, or reserved by the operating system, is refused, and
+  <b>Reset to F2 and F3</b> puts the defaults back. The two <menu>Tools</menu>
+  entries name the engine they start and show the key. If a keyboard or desktop
+  reserves <b>F2</b> (some map it to sleep), choose another key or use the menu
+  entry. On a Mac laptop the function keys may need <b>Fn</b> unless standard
+  function keys are enabled, so a <b>Command</b> combination is often easier
+  there.
   </p>
 
   <h3>Buttons</h3>

@@ -149,6 +149,7 @@ checkEq "Control is recorded from the state" [::enginecfg::keyFromEvent 2 4] Con
 checkEq "Shift is recorded too" [::enginecfg::keyFromEvent A 5] Control-Shift-A
 checkEq "Alt is Tk's Mod1" [::enginecfg::keyFromEvent a 8] Mod1-a
 checkEq "a bare modifier is not a key" [::enginecfg::keyFromEvent Shift_L 1] {}
+checkEq "a Windows/Super combo is not captured" [::enginecfg::keyFromEvent F5 64] {}
 checkEq "a written Ctrl+2 becomes Tk's spelling" \
     [::enginecfg::normalizeKey {Ctrl+2}] Control-2
 checkEq "a written <F5> loses its brackets" [::enginecfg::normalizeKey {<F5>}] F5
@@ -159,6 +160,12 @@ check "a function key is safe" [::enginecfg::keyUsable F5]
 check "Ctrl+2 is safe" [::enginecfg::keyUsable Control-2]
 check "Alt+2 is safe" [::enginecfg::keyUsable Mod1-2]
 check "a plain letter is not safe" [expr {![::enginecfg::keyUsable a]}]
+check "Ctrl+C is reserved for copying" [::enginecfg::keyReserved Control-c]
+check "Ctrl+Z is reserved for undo" [::enginecfg::keyReserved Control-z]
+check "Ctrl+Left is word movement" [::enginecfg::keyReserved Control-Left]
+check "Alt+F4 closes the window" [::enginecfg::keyReserved Mod1-F4]
+check "F5 is not reserved" [expr {![::enginecfg::keyReserved F5]}]
+checkEq "a reserved key is refused" [::enginecfg::setKey 1 Control-c] false
 checkEq "a plain letter is refused" [::enginecfg::setKey 1 a] false
 checkEq "and the old key is kept" [::enginecfg::keySequence 1] F2
 checkEq "changing a key" [::enginecfg::setKey 1 F5] true
@@ -171,6 +178,22 @@ checkEq "an unknown window has no key" [::enginecfg::setKey 3 F6] false
 ::enginecfg::resetKeys
 checkEq "reset puts the first default back" [::enginecfg::keySequence 1] F2
 checkEq "and the second" [::enginecfg::keySequence 2] F3
+
+puts "the platform names its own modifiers"
+# tclsh has no tk command, so the harness supplies one: the code path a Mac
+# build uses, where Mod1 is Command and Mod2 is Option.
+proc tk {args} { return aqua }
+checkEq "Command+Option is Mod1+Mod2" [::enginecfg::keyFromEvent F5 24] Mod1-Mod2-F5
+checkEq "Mod1 is shown as Command" [::enginecfg::keyLabel 1 Mod1-F5] Cmd+F5
+checkEq "Mod2 is shown as Option" [::enginecfg::keyLabel 1 Mod2-F5] Option+F5
+check "Option+F5 is accepted" [::enginecfg::keyUsable Mod2-F5]
+check "Option+a is text input, not a key" [expr {![::enginecfg::keyUsable Mod2-a]}]
+check "Command+Q is reserved by macOS" [::enginecfg::keyReserved Mod1-q]
+check "Command+Shift+4 is a screenshot" [::enginecfg::keyReserved Mod1-Shift-4]
+check "Command+W closes the window" [::enginecfg::keyReserved Mod1-w]
+checkEq "a typed Alt means Option on a Mac" [::enginecfg::normalizeKey {Alt+2}] Mod2-2
+checkEq "and Command means Mod1" [::enginecfg::normalizeKey {Cmd+2}] Mod1-2
+rename tk {}
 
 puts "a missing preset is not started"
 ::enginecfg::assignShortcut 1 Gone

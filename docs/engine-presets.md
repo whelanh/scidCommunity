@@ -100,9 +100,9 @@ presets were used most recently or where the list currently sorts them.
 The keys belong to the windows, not to the presets. **Shortcut Keys...** in the
 same dialog changes them; the defaults are **F2** and **F3**. The dialog captures
 the next key combination pressed, accepts only a function key or a combination
-with Ctrl/Alt (so typing cannot start an engine), refuses a key another command
-already uses, and can reset the pair to the defaults. The Tools menu shows each
-window's key and the preset it starts.
+with Ctrl, Alt or Command (so typing cannot start an engine), refuses a key
+another command or the operating system already uses, and can reset the pair to
+the defaults. The Tools menu shows each window's key and the preset it starts.
 
 The assignment is by preset *name*, not by position:
 

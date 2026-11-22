@@ -370,6 +370,11 @@ proc ::enginelist::keyCaptured {id sym state} {
             -message [tr EngineShortcutUnsafe]
         return
     }
+    if {[::enginecfg::keyReserved $seq]} {
+        tk_messageBox -title scidCommunity -icon warning -type ok \
+            -message [tr EngineShortcutReserved]
+        return
+    }
     if {![::enginecfg::keyAvailable $id $seq]} {
         tk_messageBox -title scidCommunity -icon warning -type ok \
             -message [format [tr EngineShortcutInUse] \

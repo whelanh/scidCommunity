@@ -1280,7 +1280,8 @@ translate E EngineShortcutChange {Change...}
 translate E EngineShortcutReset {Reset to F2 and F3}
 translate E EngineShortcutPress {Press the new key combination for Engine Window %s.\nEscape cancels.}
 translate E EngineShortcutInUse {The key %s is already used by another command. Choose another.}
-translate E EngineShortcutUnsafe {Choose a function key, or a key combination that includes Ctrl or Alt.}
+translate E EngineShortcutUnsafe {Choose a function key, or a key combination that includes Ctrl, Alt or Command.}
+translate E EngineShortcutReserved {That key is reserved by the operating system or by text editing. Choose another.}
 
 # PGN window menus:
 menuText E PgnFile "File" 0
