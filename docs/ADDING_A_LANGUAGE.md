@@ -70,8 +70,8 @@ tclsh propagatelang.tcl <name>
 ```
 
 `tcl/lang/removedeadlang.tcl` removes entries whose key is no longer in
-`english.tcl`, and `tcl/lang/checklangs.tcl` reports missing or out-of-order
-entries. Both can be run from the repository root:
+`english.tcl`, and `tcl/lang/checklangs.tcl` reports missing, out-of-order and
+duplicate entries. Both can be run from the repository root:
 
 ```sh
 tclsh tcl/lang/checklangs.tcl <name>
@@ -137,6 +137,10 @@ tclsh tests/tcl/training_menu.tcl         # the Training menu keys
 tclsh tcl/lang/checklangs.tcl <name>
 tclsh tcl/lang/removedeadlang.tcl <name>
 ```
+
+`checklangs.tcl` and `removedeadlang.tcl` resolve the catalogues beside their own
+script, so the commands above work from any directory. Only
+`propagatelang.tcl` has to be run from `tcl/lang`.
 
 `tests/tcl/tactics_trainer.tcl` also reads every catalogue; it needs Tk, so run
 it under `xvfb-run -a wish` on a machine without a display.

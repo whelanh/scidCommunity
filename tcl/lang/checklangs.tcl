@@ -98,6 +98,17 @@ proc checkfile {code langfile} {
       lappend langNames $command:$name
     }
   }
+
+  # The English walk below visits each key once, so a second copy of a valid
+  # entry appended after the last English entry is invisible to it.
+  array set seen {}
+  foreach name $langNames {
+    if {[info exists seen($name)]} {
+      puts "$langfile - DUPLICATE: $name"
+    } else {
+      set seen($name) 1
+    }
+  }
   
   set lastMatch -1
   foreach line $englishData {
