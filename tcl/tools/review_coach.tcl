@@ -507,7 +507,7 @@ proc ::reviewcoach::answerLanguage {} {
         B Portuguese R Russian   Y Serbian    S Spanish    U Finnish
         W Swedish   M Chinese    T Turkish    J Serbian    A Japanese
         L Romanian  V Hebrew     Z Swahili    h Hindi      Q Ukrainian
-        b Bengali   k Korean     g Bulgarian
+        b Bengali   k Korean     g Bulgarian  d Danish
     }
     if {[dict exists $names $lang]} { return [dict get $names $lang] }
     return ""

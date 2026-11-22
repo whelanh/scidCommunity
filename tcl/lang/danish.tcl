@@ -180,12 +180,12 @@ menuText d ToolsPInfo "Spilleroplysninger" 0 {Åbn eller opdater oplysninger om 
 menuText d ToolsPlayerReport "Spillerrapport..." 5 {Lav en rapport om en spiller}
 menuText d ToolsRating "Ratingudvikling" 6 {Vis ratingudviklingen for begge spillere i partiet}
 menuText d ToolsExpCurrent "Eksporter det aktuelle parti" 10 {Skriv det aktuelle parti til en tekstfil}
-menuText d ToolsExpCurrentPGN "Eksporter som PGN..." 13 {Gem partiet i PGN-format}
+menuText d ToolsExpCurrentPGN "Eksporter som PGN..." 14 {Gem partiet i PGN-format}
 menuText d ToolsExpCurrentHTML "Eksporter som HTML..." 0 {Gem partiet som en HTML-fil}
 menuText d ToolsExpCurrentHTMLJS "Eksporter som HTML med JavaScript..." 23 {Gem partiet som en interaktiv HTML-fil med JavaScript}
 menuText d ToolsExpCurrentRTF "Eksporter som RTF..." 10 {Gem partiet i RTF-format med formaterede kommentarer}
 menuText d ToolsExpFilter "Eksporter alle partier i filteret" 0 {Skriv alle partier i filteret til en tekstfil}
-menuText d ToolsExpFilterPGN "Eksporter som PGN..." 13 {Gem partierne i filteret i PGN-format}
+menuText d ToolsExpFilterPGN "Eksporter som PGN..." 14 {Gem partierne i filteret i PGN-format}
 menuText d ToolsExpFilterHTML "Eksporter som HTML..." 0 {Gem partierne i filteret som en HTML-fil}
 menuText d ToolsExpFilterHTMLJS "Eksporter som HTML med JavaScript..." 23 {Gem partierne i filteret som en interaktiv HTML-fil med JavaScript}
 menuText d ToolsExpFilterRTF "Eksporter som RTF..." 10 {Gem partierne i filteret i RTF-format med formaterede kommentarer}
