@@ -14,6 +14,7 @@
 # a "TODO translate me" is appended at each line needing it
 
 array set encodings {
+  danish utf-8
   czech utf-8
   deutsch utf-8
   francais utf-8
@@ -44,6 +45,7 @@ array set encodings {
 }
 
 array set codes {
+  danish d
   czech C
   deutsch D
   francais F
@@ -73,7 +75,7 @@ array set codes {
   bulgarian g
 }
 
-set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
+set languages {danish czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish russian catalan suomi greek turkish SerbCyr
   japanese romanian hebrew swahili hindi ukrainian bengali korean bulgarian
 }

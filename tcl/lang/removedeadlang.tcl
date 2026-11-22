@@ -28,6 +28,7 @@
 # (and reverted with your version control if needed).
 
 array set encodings {
+  danish utf-8
   czech utf-8
   deutsch utf-8
   francais utf-8
@@ -59,6 +60,7 @@ array set encodings {
 }
 
 array set codes {
+  danish d
   czech C
   deutsch D
   francais F
@@ -92,7 +94,7 @@ array set codes {
 # "serbian" (Latin script) is kept out of sync on purpose and is skipped by
 # the default list below. It can still be processed by naming it explicitly,
 # e.g. "tclsh removedeadlang.tcl serbian".
-set languages {czech deutsch francais hungary italian chinese nederlan norsk
+set languages {danish czech deutsch francais hungary italian chinese nederlan norsk
   polish portbr spanish swedish russian catalan suomi greek turkish
   SerbCyr japanese romanian hebrew swahili hindi ukrainian bengali korean
   bulgarian

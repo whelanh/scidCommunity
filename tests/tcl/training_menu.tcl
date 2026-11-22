@@ -167,8 +167,9 @@ check "help/Menus.html still lists Tactics Training" \
 # ------------------------------------------------------------- the catalogues --
 # The two surviving entries must stay translated in every catalogue, and no
 # catalogue may keep a key whose text was retired (a key nothing reads is dead
-# weight in 29 files).
+# weight in every file).
 puts "\nlanguage catalogues"
+source [file join $root tests tcl lang_registry.tcl]
 set catalogs {}
 foreach f [lsort [glob [file join $root tcl lang *.tcl]]] {
     switch -- [file tail $f] {
@@ -176,7 +177,10 @@ foreach f [lsort [glob [file join $root tcl lang *.tcl]]] {
     }
     lappend catalogs $f
 }
-checkEq "there are 29 catalogues" [llength $catalogs] 29
+set onDisk {}
+foreach f $catalogs { lappend onDisk [file tail $f] }
+checkEq "the catalogues on disk are the registered ones" \
+    [lsort $onDisk] [languageFiles $root]
 set missing {}
 foreach f $catalogs {
     set text [readText $f]

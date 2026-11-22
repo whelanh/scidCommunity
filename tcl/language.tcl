@@ -68,6 +68,8 @@ set transPieces(Z)   { P a K K Q M R N B A N F }
 set untransPieces(Z) { a P K K M Q N R A B F N }
 set transPieces(g)   { P п K Ц Q Д R Т B О N К }
 set untransPieces(g) { п P Ц K Д Q Т R О B К N }
+set transPieces(d)   { P B K K Q D R T B L N S }
+set untransPieces(d) { B P K K D Q T R L B S N }
 
 ################################################################################
 proc trans { msg } {
@@ -348,6 +350,7 @@ proc setLanguage {} {
       b {sc_info language bn}
       k {sc_info language ko}
       g {sc_info language bg}
+      d {sc_info language da}
       default {sc_info language en}
     }
   } else {
@@ -475,6 +478,7 @@ proc setLanguageTemp { lang } {
     b {sc_info language bn}
     k {sc_info language ko}
     g {sc_info language bg}
+    d {sc_info language da}
     default {sc_info language en}
   }
 }
@@ -482,6 +486,7 @@ proc setLanguageTemp { lang } {
 addLanguage E English 0 utf-8 english.tcl
 addLanguage K Català 2 utf-8 catalan.tcl
 addLanguage C Čeština 0 utf-8 czech.tcl
+addLanguage d Dansk 1 utf-8 danish.tcl
 addLanguage D Deutsch 0 utf-8 deutsch.tcl
 addLanguage F Francais 0 utf-8 francais.tcl
 addLanguage G Ελληνικά 0 utf-8 greek.tcl

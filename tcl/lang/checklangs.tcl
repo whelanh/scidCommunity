@@ -8,6 +8,7 @@
 # translation commands in the same order as english.tcl.
 
 array set codes {
+  danish d
   czech C
   deutsch D
   francais F
@@ -30,7 +31,7 @@ array set codes {
   japanese A
 }
 
-set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
+set languages {danish czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish russian catalan suomi greek SerbCyr romanian japanese
 }
 
@@ -67,16 +68,17 @@ proc multiLines {tmp} {
 }
 ################################################################################
 proc checkfile {code langfile} {
-  # Read this language file and the english file:
-  
-  set f [open english.tcl r]
+  # Read this language file and the english file. Resolve them beside this
+  # script so checklangs.tcl can be run from any directory.
+  set dir [file dirname [info script]]
+  set f [open [file join $dir english.tcl] r]
   fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
   set tmp [split $data "\n"]
   set englishData [multiLines $tmp]
   
-  set f [open $langfile.tcl r]
+  set f [open [file join $dir $langfile.tcl] r]
   fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
@@ -94,6 +96,17 @@ proc checkfile {code langfile} {
     set name [lindex $line 2]
     if {$lang == $code  &&  ($command == "menuText" || $command == "translate" || $command == "helpMsg")} {
       lappend langNames $command:$name
+    }
+  }
+
+  # The English walk below visits each key once, so a second copy of a valid
+  # entry appended after the last English entry is invisible to it.
+  array set seen {}
+  foreach name $langNames {
+    if {[info exists seen($name)]} {
+      puts "$langfile - DUPLICATE: $name"
+    } else {
+      set seen($name) 1
     }
   }
   

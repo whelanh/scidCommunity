@@ -49,6 +49,12 @@ jobs:
       - name: Move labels
         run: tclsh tests/tcl/move_labels.tcl
 
+      # The catalogue files and addLanguage must agree: a language added to one
+      # but not the other never appears in the Language menu, and the other
+      # harnesses read this list instead of keeping their own copy of it.
+      - name: Language catalogues
+        run: tclsh tests/tcl/language_catalogues.tcl
+
       # Woodpecker trainer: scoring, the single attempt, the puzzle marks, the cycle
       # schedule (quota, moved deadline) and the record files.
       - name: Woodpecker core
