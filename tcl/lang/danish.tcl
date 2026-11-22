@@ -1161,6 +1161,17 @@ translate d EngineClone {Opret en kopi af den aktuelle motor}
 translate d EngineDuplicate {Dupliker}
 translate d EngineDelete {Slet den aktuelle motor}
 translate d EngineOpenWindow {Åbn motorvindue}
+translate d EngineShortcut {Genvej}
+translate d EngineShortcutNone {Ingen}
+translate d EngineShortcutWindow {Vindue %s (%s)}
+translate d EngineShortcutKeys {Genvejstaster}
+translate d EngineShortcutKeysHelp {Vælg den tast, der starter hvert motorvindue. Tryk på Skift..., og tryk derefter på den ønskede tastekombination. En tast, der allerede bruges af en anden kommando, afvises.}
+translate d EngineShortcutChange {Skift...}
+translate d EngineShortcutReset {Nulstil til F2 og F3}
+translate d EngineShortcutPress {Tryk på den nye tastekombination til motorvindue %s.\nEscape annullerer.}
+translate d EngineShortcutInUse {Tasten %s bruges allerede af en anden kommando. Vælg en anden.}
+translate d EngineShortcutUnsafe {Vælg en funktionstast eller en tastekombination med Ctrl, Alt eller Command.}
+translate d EngineShortcutReserved {Tasten er reserveret af styresystemet eller af tekstredigering. Vælg en anden.}
 
 # PGN window menus:
 menuText d PgnFile {Fil} 0
