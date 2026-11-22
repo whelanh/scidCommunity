@@ -109,7 +109,9 @@ The assignment is by preset *name*, not by position:
 - one preset per window — assigning it to Window 2 removes it from Window 1;
 - a rename carries the assignment, and each window's remembered last preset,
   to the new name;
-- a delete clears both, rather than leaving a name that no longer resolves.
+- a delete clears the assignment; an engine window that is already open keeps
+  running the preset it has (Game Review reads that window's live config), and a
+  later F2/F3 falls back because the name no longer resolves.
 
 It lives in `options.dat` as `::enginecfg::shortcut(1)` / `(2)`, with the keys as
 `::enginecfg::key(1)` / `(2)`. A window with no assignment keeps the old

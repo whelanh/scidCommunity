@@ -14,7 +14,7 @@
 #
 #   * one preset per shortcut - assigning it to F3 removes it from F2;
 #   * a rename carries the assignment (and each window's remembered preset);
-#   * a delete drops both, rather than leaving a name that no longer resolves.
+#   * a delete drops the assignment; an already-open window keeps its live preset.
 #
 # The dialog end (the Key column and the radio buttons) needs Tk, so its wiring
 # is checked against the source at the end, the way engine_duplicate.tcl does.
@@ -234,14 +234,17 @@ checkEq "the window memory follows" $::enginewin_lastengine(1) Renamed
 checkEq "the list has the new name" [call {lindex [::enginecfg::get Renamed] 0}] Renamed
 checkEq "and not the old one" [call {::enginecfg::get A}] {}
 
-puts "a delete drops both references"
+puts "a delete drops the assignment"
 set ::engines(list) [list [entry A] [entry B]]
 set ::enginecfg::shortcut(1) A
 set ::enginewin_lastengine(1) A
 set ::enginewin_lastengine(2) B
 checkEq "delete writes" [::enginelist::delete 0] true
 checkEq "the shortcut is free" [::enginecfg::shortcutEngine 1] {}
-checkEq "the window memory is cleared" $::enginewin_lastengine(1) {}
+# An engine window may still be running the deleted preset; Game Review reads
+# that window's live config, so the per-window memory is left for the fallback
+# in ::enginewin::Open (which ignores a name that no longer resolves).
+checkEq "the open window's engine is left alone" $::enginewin_lastengine(1) A
 checkEq "the other window keeps its engine" $::enginewin_lastengine(2) B
 
 puts "the edit dialog's shortcut is applied with the rest of the edit"

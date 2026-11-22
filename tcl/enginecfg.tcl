@@ -354,17 +354,15 @@ proc ::enginecfg::renameRefs {old new} {
     if {$shortcut ne ""} { ::enginecfg::refreshShortcutMenus }
 }
 
-# Drop every name-keyed reference to a preset that has been removed.
+# Drop the shortcut assignment to a preset that has been removed.
+#
+# The per-window remembered engine is deliberately left alone: a window that is
+# still open on that preset keeps its live configuration, which is what Game
+# Review reads, and ::enginewin::Open already ignores a name that no longer
+# resolves and falls back to the most recently used preset.
 proc ::enginecfg::dropRefs {name} {
     if {$name eq ""} { return }
     ::enginecfg::clearShortcut $name
-    if {[info exists ::enginewin_lastengine]} {
-        foreach id [array names ::enginewin_lastengine] {
-            if {$::enginewin_lastengine($id) eq $name} {
-                set ::enginewin_lastengine($id) ""
-            }
-        }
-    }
 }
 
 # Return a list containing the engine's names sorted by last use.
