@@ -3680,7 +3680,29 @@ set helpText(Engine) {<h1>The Engine windows</h1>
   The engine list shows the presets this session has. Select one and press
   <b>Open Engine Window</b> (or double-click it, or press Return) to open an
   Engine Window for that preset. <b>Add</b>, <b>Edit</b>, <b>Duplicate</b> and
-  <b>Delete</b> manage the presets; F2 and F3 remain the direct routes.
+  <b>Delete</b> manage the presets.
+  </p>
+  <p>
+  The <term>Shortcut</term> column shows which preset starts <b>Engine Window
+  1</b> or <b>2</b>. To choose it, select the preset, open <b>Edit</b> and pick
+  <b>None</b>, <b>Window 1</b> or <b>Window 2</b>. The assignment is kept by the
+  preset's name, so editing that preset, opening another one, or sorting the
+  list never changes which engine a window starts. A preset can be assigned to
+  one window at a time; deleting it clears the assignment.
+  </p>
+  <p>
+  The keys themselves are <b>Shortcut Keys...</b> in the Configure Engines
+  dialog. The defaults are <b>F2</b> for Window 1 and <b>F3</b> for Window 2;
+  <b>Change...</b> takes the next key combination you press. Only a function
+  key or a combination that includes <b>Ctrl</b>, <b>Alt</b> or <b>Command</b>
+  is accepted, so an engine never starts while you are typing; a key already
+  used by another command, or reserved by the operating system, is refused, and
+  <b>Reset to F2 and F3</b> puts the defaults back. The two <menu>Tools</menu>
+  entries name the engine they start and show the key. If a keyboard or desktop
+  reserves <b>F2</b> (some map it to sleep), choose another key or use the menu
+  entry. On a Mac laptop the function keys may need <b>Fn</b> unless standard
+  function keys are enabled, so a <b>Command</b> combination is often easier
+  there.
   </p>
 
   <h3>Buttons</h3>

@@ -176,6 +176,11 @@ jobs:
       - name: Engine preset duplicate
         run: tclsh tests/tcl/engine_duplicate.tcl
 
+      # Discussion #535: F2/F3 start an explicitly assigned preset, by name, so
+      # editing or sorting the engine list cannot change which one they open.
+      - name: Engine window shortcuts
+        run: tclsh tests/tcl/engine_window_slots.tcl
+
       # Item 3 of #436 and §5 of #437: no UI path reaches makeAnalysisWin, the
       # engine chooser opens an Engine Window, and the module itself is gone.
       - name: Analysis UI doors
