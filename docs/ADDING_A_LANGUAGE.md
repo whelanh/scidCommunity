@@ -60,8 +60,9 @@ Rules that matter:
 
 `tcl/lang/propagatelang.tcl` fills in every key the catalogue is missing,
 copying the English entry in the right position under a
-`# ====== TODO To be translated ======` line. Register the language in its
-`encodings`, `codes` and `languages` arrays first, then run:
+`# ====== TODO To be translated ======` line. It needs the language in its
+`encodings`, `codes` and `languages` arrays first, and is run from `tcl/lang`
+because it reads the catalogues from the current directory:
 
 ```sh
 cd tcl/lang
@@ -70,15 +71,21 @@ tclsh propagatelang.tcl <name>
 
 `tcl/lang/removedeadlang.tcl` removes entries whose key is no longer in
 `english.tcl`, and `tcl/lang/checklangs.tcl` reports missing or out-of-order
-entries:
+entries. Both can be run from the repository root:
 
 ```sh
-tclsh checklangs.tcl <name>
-tclsh removedeadlang.tcl <name>
+tclsh tcl/lang/checklangs.tcl <name>
+tclsh tcl/lang/removedeadlang.tcl <name>
 ```
 
-Add the language to both tools' arrays (`encodings`, `codes`, `languages`) so
-that the default all-language runs include it too.
+Register the language in all three maintenance tools so their default
+all-language runs include it:
+
+| Tool | Arrays to extend |
+| --- | --- |
+| `propagatelang.tcl` | `encodings`, `codes`, `languages` |
+| `removedeadlang.tcl` | `encodings`, `codes`, `languages` |
+| `checklangs.tcl` | `codes`, `languages` |
 
 ## 3. Register it in the program
 

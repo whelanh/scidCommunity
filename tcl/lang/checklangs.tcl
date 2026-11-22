@@ -68,16 +68,17 @@ proc multiLines {tmp} {
 }
 ################################################################################
 proc checkfile {code langfile} {
-  # Read this language file and the english file:
-  
-  set f [open english.tcl r]
+  # Read this language file and the english file. Resolve them beside this
+  # script so checklangs.tcl can be run from any directory.
+  set dir [file dirname [info script]]
+  set f [open [file join $dir english.tcl] r]
   fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
   set tmp [split $data "\n"]
   set englishData [multiLines $tmp]
   
-  set f [open $langfile.tcl r]
+  set f [open [file join $dir $langfile.tcl] r]
   fconfigure $f -encoding iso8859-1
   set data [read $f]
   close $f
