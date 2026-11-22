@@ -8,6 +8,7 @@
 # translation commands in the same order as english.tcl.
 
 array set codes {
+  danish d
   czech C
   deutsch D
   francais F
@@ -30,7 +31,7 @@ array set codes {
   japanese A
 }
 
-set languages {czech deutsch francais hungary italian chinese nederlan norsk polish
+set languages {danish czech deutsch francais hungary italian chinese nederlan norsk polish
   portbr spanish swedish russian catalan suomi greek SerbCyr romanian japanese
 }
 
