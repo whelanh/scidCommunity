@@ -12,6 +12,9 @@ A scidCommunity version has three numbers and a build number, for example **5.1.
 The latest downloads are on the [Releases page](https://github.com/whelanh/scidCommunity/releases).
 
 ---
+## 5.1.4.74 - 22 November 2026
+ - Danish language option added -- thanks to @eborgbjerg ([#538](https://github.com/whelanh/scidCommunity/pull/538))
+ - Explicit assignment of engines to Engine Windows 1 and 2 in the Engine Configure window; F2 and F3 hotkeys can be customized -- thanks to @whelanh ([#536](https://github.com/whelanh/scidCommunity/pull/536))
 
 ## 5.1.4.73 - 21 November 2026
 
