@@ -494,18 +494,14 @@ check "and asks for its own line instead of the preset's" \
     [expr {[string first "SetOptions" $tacticsSrc] >= 0}]
 
 puts "\nthe new messages are translated everywhere"
-set langCount 0
-foreach path [lsort [glob -nocomplain -directory [file join $root tcl lang] *.tcl]] {
-    set name [file tail $path]
-    if {$name in {checklangs.tcl propagatelang.tcl removedeadlang.tcl removetoken.tcl}} { continue }
-    set text [readText $path]
-    check "$name carries every tactics message" \
+source [file join $root tests tcl lang_registry.tcl]
+foreach file [languageFiles $root] {
+    set text [readText [file join $root tcl lang $file]]
+    check "$file carries every tactics message" \
         [expr {[string first "TacticsEngineStartFail" $text] >= 0
             && [string first "TacticsEngineGone" $text] >= 0
             && [string first "TacticsNoAssessment" $text] >= 0}]
-    incr langCount
 }
-checkEq "all 29 catalogues were checked" $langCount 29
 
 ##############################################################################
 ##############################################################################

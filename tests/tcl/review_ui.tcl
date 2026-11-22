@@ -509,18 +509,15 @@ puts "the keys every language file must carry"
 # Scid ships one file per language, and a string that reaches only English
 # leaves every other user with an English button in a translated window. The
 # check is written from ::NEWKEYS so the list here cannot drift from the module,
-# and the file list is read from the tree so a new language file fails loudly
-# instead of being silently untranslated.
+# and the codes come from addLanguage so a new catalogue is checked without
+# editing this test. The files on disk are compared with that list, so a file
+# added without registering it fails loudly instead of being silently ignored.
 set langDir [file join $root tcl lang]
-set langCodes [dict create \
-    english.tcl E    czech.tcl C      deutsch.tcl D    francais.tcl F \
-    greek.tcl G      hungary.tcl H    italian.tcl I    nederlan.tcl N \
-    norsk.tcl O      polish.tcl P     portbr.tcl B     russian.tcl R \
-    serbian.tcl Y    spanish.tcl S    suomi.tcl U      swedish.tcl W \
-    chinese.tcl M    turkish.tcl T    SerbCyr.tcl J    japanese.tcl A \
-    romanian.tcl L   hebrew.tcl V     swahili.tcl Z    hindi.tcl h \
-    ukrainian.tcl Q  bengali.tcl b    korean.tcl k     bulgarian.tcl g \
-    catalan.tcl K]
+source [file join $root tests tcl lang_registry.tcl]
+set langCodes [dict create]
+foreach pair [languageCatalogues $root] {
+    dict set langCodes [lindex $pair 1] [lindex $pair 0]
+}
 # Not language files: the tools that maintain them.
 set langTools {checklangs.tcl propagatelang.tcl removedeadlang.tcl removetoken.tcl}
 set langOnDisk {}

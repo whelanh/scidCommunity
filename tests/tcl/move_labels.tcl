@@ -391,19 +391,15 @@ rename tr {}
 
 # Translation completeness. A missing key falls back to English through tr(),
 # which is correct behaviour but would silently ship an untranslated label, so
-# every language file is checked for all six. The language tables are procs
+# every language file is checked for all eleven. The language tables are procs
 # (setLanguage_<code>) that read application globals, so the keys are read from
 # the files rather than by executing them.
 set langDir [file join $root tcl lang]
-set langFiles {
-    E english.tcl   K catalan.tcl   C czech.tcl     D deutsch.tcl
-    F francais.tcl  G greek.tcl     H hungary.tcl   I italian.tcl
-    N nederlan.tcl  O norsk.tcl     P polish.tcl    B portbr.tcl
-    R russian.tcl   Y serbian.tcl   S spanish.tcl   U suomi.tcl
-    W swedish.tcl   M chinese.tcl   T turkish.tcl   J SerbCyr.tcl
-    A japanese.tcl  L romanian.tcl  V hebrew.tcl    Z swahili.tcl
-    h hindi.tcl     Q ukrainian.tcl b bengali.tcl   k korean.tcl
-    g bulgarian.tcl
+source [file join $root tests tcl lang_registry.tcl]
+set langFiles {}
+foreach pair [languageCatalogues $root] {
+    lassign $pair code file
+    lappend langFiles $code $file
 }
 proc langText {file} {
     set fh [open $file r]
