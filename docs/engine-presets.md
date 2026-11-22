@@ -90,16 +90,50 @@ the copy above would stop being unique. `::enginelist::saveEdit` checks the name
 first and offers the one `::enginecfg::uniquename` would have picked instead;
 declining writes neither the list nor the file.
 
+## Window shortcuts (Engine Window 1 and 2)
+
+`Tools → Configure Engines` can assign a preset to either engine window. The
+list's **Shortcut** column shows the assignment and **Edit** sets it (None,
+Window 1 or Window 2). Each window opens its assigned preset regardless of which
+presets were used most recently or where the list currently sorts them.
+
+The keys belong to the windows, not to the presets. **Shortcut Keys...** in the
+same dialog changes them; the defaults are **F2** and **F3**. The dialog captures
+the next key combination pressed, accepts only a function key or a combination
+with Ctrl, Alt or Command (so typing cannot start an engine), refuses a key
+another command or the operating system already uses, and can reset the pair to
+the defaults. The Tools menu shows each window's key and the preset it starts.
+
+The assignment is by preset *name*, not by position:
+
+- one preset per window — assigning it to Window 2 removes it from Window 1;
+- a rename carries the assignment, and each window's remembered last preset,
+  to the new name;
+- a delete clears the assignment; an engine window that is already open keeps
+  running the preset it has (Game Review reads that window's live config), and a
+  later F2/F3 falls back because the name no longer resolves.
+
+It lives in `options.dat` as `::enginecfg::shortcut(1)` / `(2)`, with the keys as
+`::enginecfg::key(1)` / `(2)`. A window with no assignment keeps the old
+behaviour: it opens the preset it last used, or the most recently used preset if
+it has none.
+
 ## Where the code lives
 
 - `tcl/tools/engine_limits.tcl` — the entry layout, validation, `Go` limit
   building and preset lookup (`::enginelimits::forName`).
 - `tcl/tools/enginelist.tcl` — reads the file; accepts `Limits` as a dict, or a
-  bare integer as the depth.
-- `tcl/enginecfg.tcl` — writes the file, preserving element 9, and
-  `::enginecfg::duplicate` copies a preset as a complete spec.
+  bare integer as the depth; the list's Shortcut column and edit dialog's
+  None/F2/F3 choice.
+- `tcl/enginecfg.tcl` — writes the file, preserving element 9,
+  `::enginecfg::duplicate` copies a preset as a complete spec, and the
+  name-keyed shortcut assignment (`assignShortcut`, `renameRefs`, `dropRefs`)
+  plus the configurable keys (`keySequence`, `setKey`, `keyFromEvent`).
+- `tcl/keyboard.tcl` — installs the two configurable engine keys on the main
+  window and removes the old binding when a key changes.
 - `tcl/windows/engine.tcl` — `::enginewin::loadLimits` takes a window's limits
-  from its preset; `applyLimits` stores them back.
+  from its preset; `applyLimits` stores them back; `Open` starts the window's
+  assigned preset before its remembered one.
 
 ## What the review does
 

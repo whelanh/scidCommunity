@@ -875,7 +875,14 @@ proc ::enginewin::Open { {id ""} {enginename ""} {pgnviewer 0} } {
     set ::enginewin::m_(currentDepth,$id) 0
 
     if {$enginename eq ""} {
-        set enginename $::enginewin_lastengine($id)
+        # The shortcut's assigned preset wins over the last engine used in the
+        # slot: that is the point of the assignment. Only the two top-level
+        # windows take part - an embedded PGN viewer's id is not a slot.
+        if {$pgnviewer == 0} {
+            set enginename [::enginecfg::windowEngine $id $::enginewin_lastengine($id)]
+        } else {
+            set enginename $::enginewin_lastengine($id)
+        }
     }
     # A slot that has never been used (or whose last engine was renamed or
     # deleted) has no remembered engine. Start the most recently used

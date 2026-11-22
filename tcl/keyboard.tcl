@@ -19,7 +19,59 @@
 # include ".". Ctrl+Q is not used for text editing.
 bind all <Control-q> { ::file::Exit }
 
+# Engine shortcut keys. The keys themselves are configurable in
+# Tools -> Configure Engines -> Shortcut Keys; this installs the current pair on
+# the main window. The old binding is removed first, so changing a key does not
+# leave the previous one working.
+namespace eval keyboard {}
+array set ::keyboard::engineBound {}
+if {![info exists ::keyboard::mainWindow]} { set ::keyboard::mainWindow . }
+
+proc ::keyboard::unbindEngineShortcut {id} {
+    if {[info exists ::keyboard::engineBound($id)]} {
+        set old $::keyboard::engineBound($id)
+        if {$old ne ""} { catch { bind $::keyboard::mainWindow <$old> {} } }
+    }
+    set ::keyboard::engineBound($id) ""
+}
+
+proc ::keyboard::bindEngineShortcut {id} {
+    ::keyboard::unbindEngineShortcut $id
+    set seq [::enginecfg::keySequence $id]
+    if {$seq ne "" && [winfo exists $::keyboard::mainWindow]} {
+        # excludeTextWidget keeps an engine from starting while the reader is
+        # typing (or while a text widget already owns the combination); it
+        # returns -code continue for an editable widget, which aborts this
+        # binding script before the toggle.
+        if {[catch {
+            bind $::keyboard::mainWindow <$seq> \
+                "excludeTextWidget %W; ::enginewin::toggleStartStop $id"
+        }]} {
+            set seq ""
+        }
+    }
+    set ::keyboard::engineBound($id) $seq
+}
+
+# Two-phase: remove both old bindings, then install both new ones. A one-phase
+# reset from exchanged keys would have the second cleanup delete the first new
+# binding.
+proc ::keyboard::rebindEngineShortcuts {} {
+    foreach id {1 2} { ::keyboard::unbindEngineShortcut $id }
+    foreach id {1 2} { ::keyboard::bindEngineShortcut $id }
+}
+
+proc ::keyboard::bindEngineShortcuts {} {
+    # Resolve duplicates and keys another command already owns before the first
+    # binding goes in.
+    if {[llength [info commands ::enginecfg::resolveKeys]]} {
+        catch { ::enginecfg::resolveKeys }
+    }
+    ::keyboard::rebindEngineShortcuts
+}
+
 proc keyboardShortcuts {w} {
+	set ::keyboard::mainWindow $w
 	# Go back/forward
 	bind $w <Left>  { excludeTextWidget %W; ::move::Back }
 	bind $w <Right> { excludeTextWidget %W; ::move::Forward }
@@ -88,10 +140,6 @@ proc keyboardShortcuts {w} {
 	# Open the help window
 	bind $w <F1> { helpWindowPertinent %W }
 
-	# Engines
-	bind $w <F2> "::enginewin::toggleStartStop 1"
-	bind $w <F3> "::enginewin::toggleStartStop 2"
-
 	# Write the engine score graph and the annotations it implies into the
 	# current game. Engine windows bind the same key to their own widgets.
 	# Shift is named explicitly: <Control-A> also matches Ctrl+A with Caps Lock
@@ -149,6 +197,11 @@ proc keyboardShortcuts {w} {
 	bind $w <Control-u> ::game::GotoMoveNumber
 	bind $w <Control-Y> findNovelty
 	bind $w <Control-N> nameEditor
+
+	# Engines last: resolveKeys must see every main-window binding above (F9,
+	# F6, F12, the Control combinations) so a saved key cannot be installed here
+	# and then replaced by one of them. F2/F3 are only the defaults.
+	::keyboard::bindEngineShortcuts
 }
 
 proc excludeTextWidget {w} {
