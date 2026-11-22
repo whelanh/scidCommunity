@@ -166,6 +166,10 @@ check "Ctrl+K is reserved for kill-line" [::enginecfg::keyReserved Control-k]
 check "Ctrl+B is reserved for text navigation" [::enginecfg::keyReserved Control-b]
 check "Ctrl+Left is word movement" [::enginecfg::keyReserved Control-Left]
 check "Alt+F4 closes the window" [::enginecfg::keyReserved Mod1-F4]
+check "Ctrl+Alt+F1 switches virtual terminal" [::enginecfg::keyReserved Control-Mod1-F1]
+check "Ctrl+Alt+F12 switches virtual terminal" [::enginecfg::keyReserved Control-Mod1-F12]
+check "Ctrl+Alt+F13 is not a virtual terminal" \
+    [expr {![::enginecfg::keyReserved Control-Mod1-F13]}]
 check "F5 is not reserved" [expr {![::enginecfg::keyReserved F5]}]
 checkEq "a reserved key is refused" [::enginecfg::setKey 1 Control-c] false
 checkEq "a plain letter is refused" [::enginecfg::setKey 1 a] false

@@ -229,6 +229,11 @@ proc ::enginecfg::keyReserved {seq} {
             if {$ctrl && $shift && $key eq "escape"} { return true }
             if {$key eq "f10"} { return true }
         }
+        default {
+            # X11 virtual-terminal switching: the server takes Ctrl+Alt+F1..F12
+            # before Tk sees the event, so such a shortcut could never fire.
+            if {$ctrl && $primary && [regexp {^f([1-9]|1[0-2])$} $key]} { return true }
+        }
     }
     return false
 }
