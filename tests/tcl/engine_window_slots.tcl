@@ -162,6 +162,7 @@ check "Alt+2 is safe" [::enginecfg::keyUsable Mod1-2]
 check "a plain letter is not safe" [expr {![::enginecfg::keyUsable a]}]
 check "Ctrl+C is reserved for copying" [::enginecfg::keyReserved Control-c]
 check "Ctrl+Z is reserved for undo" [::enginecfg::keyReserved Control-z]
+check "Ctrl+K is reserved for kill-line" [::enginecfg::keyReserved Control-k]
 check "Ctrl+Left is word movement" [::enginecfg::keyReserved Control-Left]
 check "Alt+F4 closes the window" [::enginecfg::keyReserved Mod1-F4]
 check "F5 is not reserved" [expr {![::enginecfg::keyReserved F5]}]
@@ -194,6 +195,45 @@ check "Command+W closes the window" [::enginecfg::keyReserved Mod1-w]
 checkEq "a typed Alt means Option on a Mac" [::enginecfg::normalizeKey {Alt+2}] Mod2-2
 checkEq "and Command means Mod1" [::enginecfg::normalizeKey {Cmd+2}] Mod1-2
 rename tk {}
+
+puts "a saved key is validated as a whole pattern"
+check "a valid pattern" [::enginecfg::keyValid Control-F5]
+check "an unknown modifier is not a pattern" [expr {![::enginecfg::keyValid Bogus-F5]}]
+set ::enginecfg::key(1) Bogus-F5
+checkEq "an invalid saved key falls back to the default" [::enginecfg::keySequence 1] F2
+::enginecfg::resetKeys
+checkEq "Ctrl+Shift+N is the same physical key as Ctrl+N" \
+    [lsort [::enginecfg::keyVariants Control-Shift-N]] \
+    [lsort {Control-Shift-N Control-Shift-n Control-N Control-n}]
+checkEq "plain Ctrl+n is a different key" [::enginecfg::keyVariants Control-n] Control-n
+
+puts "Windows uses Alt, not Num Lock"
+proc tk {args} { return win32 }
+checkEq "Num Lock alone is not a modifier" [::enginecfg::keyFromEvent b 8] b
+check "and does not make a shortcut" [expr {![::enginecfg::keyUsable [::enginecfg::keyFromEvent b 8]]}]
+checkEq "Alt is Tk's Alt pattern" [::enginecfg::keyFromEvent F5 0x20000] Alt-F5
+checkEq "Num Lock does not disturb Alt" [::enginecfg::keyFromEvent F5 0x20008] Alt-F5
+check "Alt+2 is usable" [::enginecfg::keyUsable Alt-2]
+checkEq "a typed Alt stays Alt" [::enginecfg::normalizeKey {Alt+2}] Alt-2
+checkEq "a typed Mod1 becomes Alt" [::enginecfg::normalizeKey {Mod1+2}] Alt-2
+check "Alt+F4 is reserved on Windows too" [::enginecfg::keyReserved Alt-F4]
+rename tk {}
+
+puts "overlapping key patterns are seen"
+# A tiny Tk stand-in: the app binds Control-N (uppercase) to nameEditor. The
+# conflict must be found for a candidate that is the same physical shortcut.
+proc bind {args} {
+    if {[lindex $args 0] eq "." && [lindex $args 1] eq "<Control-N>"} {
+        return "nameEditor"
+    }
+    return ""
+}
+proc winfo {args} { return 1 }
+check "Ctrl+Shift+N sees the Ctrl+N binding" \
+    [expr {![::enginecfg::keyAvailable 2 Control-Shift-N]}]
+check "plain Ctrl+n is a different key" [::enginecfg::keyAvailable 2 Control-n]
+rename bind {}
+rename winfo {}
 
 puts "a missing preset is not started"
 ::enginecfg::assignShortcut 1 Gone
@@ -306,6 +346,10 @@ check "the edit dialog names each window's key" \
     [string match {*format \[tr EngineShortcutWindow\] 1*} $dialogSrc]
 check "the capture reads the key event" \
     [string match {*keyFromEvent $sym $state*} $dialogSrc]
+set applyAt [string first {::enginelist::applyEdit $index $fields} $dialogSrc]
+check "the menu refreshes after the rename is stored" \
+    [expr {$applyAt >= 0 &&
+            [string first "::enginecfg::refreshShortcutMenus" $dialogSrc $applyAt] > $applyAt}]
 
 # The main window installs the configurable pair rather than a fixed F2/F3.
 set fh [open [file join $root tcl keyboard.tcl] r]
@@ -315,6 +359,15 @@ check "the main window installs the current engine keys" \
     [string match {*::keyboard::bindEngineShortcuts*} $keysSrc]
 check "no fixed F2 line is left" \
     [expr {[string first {bind $w <F2>} $keysSrc] < 0}]
+check "editable widgets do not dispatch an engine" \
+    [string match {*excludeTextWidget %W; ::enginewin::toggleStartStop*} $keysSrc]
+check "reset removes both bindings first" \
+    [string match {*proc ::keyboard::rebindEngineShortcuts*} $keysSrc]
+set fh [open [file join $root tcl enginecfg.tcl] r]
+set enginecfgSrc [read $fh]
+close $fh
+check "reset calls the two-phase rebind" \
+    [string match {*keyboard::rebindEngineShortcuts*} $enginecfgSrc]
 
 # Where a window takes its engine from: the assignment first, then the
 # remembered name. The engine window itself needs Tk, so this checks the source

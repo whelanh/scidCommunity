@@ -27,22 +27,42 @@ namespace eval keyboard {}
 array set ::keyboard::engineBound {}
 if {![info exists ::keyboard::mainWindow]} { set ::keyboard::mainWindow . }
 
-proc ::keyboard::bindEngineShortcut {id} {
+proc ::keyboard::unbindEngineShortcut {id} {
     if {[info exists ::keyboard::engineBound($id)]} {
         set old $::keyboard::engineBound($id)
         if {$old ne ""} { catch { bind $::keyboard::mainWindow <$old> {} } }
     }
+    set ::keyboard::engineBound($id) ""
+}
+
+proc ::keyboard::bindEngineShortcut {id} {
+    ::keyboard::unbindEngineShortcut $id
     set seq [::enginecfg::keySequence $id]
     if {$seq ne "" && [winfo exists $::keyboard::mainWindow]} {
-        if {[catch { bind $::keyboard::mainWindow <$seq> [list ::enginewin::toggleStartStop $id] }]} {
+        # excludeTextWidget keeps an engine from starting while the reader is
+        # typing (or while a text widget already owns the combination); it
+        # returns -code continue for an editable widget, which aborts this
+        # binding script before the toggle.
+        if {[catch {
+            bind $::keyboard::mainWindow <$seq> \
+                "excludeTextWidget %W; ::enginewin::toggleStartStop $id"
+        }]} {
             set seq ""
         }
     }
     set ::keyboard::engineBound($id) $seq
 }
 
-proc ::keyboard::bindEngineShortcuts {} {
+# Two-phase: remove both old bindings, then install both new ones. A one-phase
+# reset from exchanged keys would have the second cleanup delete the first new
+# binding.
+proc ::keyboard::rebindEngineShortcuts {} {
+    foreach id {1 2} { ::keyboard::unbindEngineShortcut $id }
     foreach id {1 2} { ::keyboard::bindEngineShortcut $id }
+}
+
+proc ::keyboard::bindEngineShortcuts {} {
+    ::keyboard::rebindEngineShortcuts
 }
 
 proc keyboardShortcuts {w} {

@@ -499,6 +499,10 @@ proc ::enginelist::saveEdit {index fields {shortcut ""}} {
     }
     # applyEdit adds back whatever the dialog does not show (element 9).
     ::enginelist::applyEdit $index $fields
+    # The earlier refreshes ran while ::engines(list) still held the old name.
+    # Repaint once the renamed preset is actually stored so shortcutEngine can
+    # resolve it and the Tools entry keeps the engine's name.
+    ::enginecfg::refreshShortcutMenus
     ::engineNoWin::saveEngineSetup editEngine
     ::enginelist::sort
     ::enginecfg::write

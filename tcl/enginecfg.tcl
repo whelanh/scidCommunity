@@ -60,11 +60,14 @@ proc ::enginecfg::platform {} {
 proc ::enginecfg::normalizeKey {seq} {
     set seq [string trim $seq]
     if {[string match <*> $seq]} { set seq [string range $seq 1 end-1] }
-    # Store the platform-neutral modifier names. Mod1 is Alt on Windows/X11 and
-    # Command on macOS; Mod2 is Option on macOS. keyLabel turns them back into
-    # the familiar names. On macOS a typed "Alt" means Option, as it does to Tk.
+    # Store the platform-neutral modifier names. Mod1 is Alt on X11 and
+    # Command on macOS; on Windows Alt is Tk's own Alt pattern (ALT_MASK) and
+    # Mod1 is Num Lock, which a shortcut must never use. keyLabel turns them
+    # back into the familiar names.
     if {[::enginecfg::platform] eq "aqua"} {
         set seq [string map {+ - Ctrl Control Option Mod2 Alt Mod2 Cmd Mod1 Command Mod1} $seq]
+    } elseif {[::enginecfg::platform] eq "win32"} {
+        set seq [string map {+ - Ctrl Control Cmd Alt Command Alt Option Alt Mod1 Alt Mod2 Alt} $seq]
     } else {
         set seq [string map {+ - Ctrl Control Option Mod1 Cmd Mod1 Command Mod1 Alt Mod1} $seq]
     }
@@ -76,18 +79,28 @@ proc ::enginecfg::normalizeKey {seq} {
     return [join $out -]
 }
 
-# A key that is safe to take as an engine shortcut: a function key, or a
-# combination that includes Ctrl/Command or Alt. A plain letter or digit would
-# fire while the reader is typing, because a toplevel binding runs after the
-# widget's own class binding.
-proc ::enginecfg::keyUsable {seq} {
-    set parts [split [::enginecfg::normalizeKey $seq] -]
+# Is seq a complete Tk binding pattern? The modifier names are checked here
+# even when Tk is absent (the test harnesses); with Tk the whole pattern is
+# parsed by bind, which also validates the keysym. A value hand-written into
+# options.dat as "Bogus-F5" must fall back to the default, not leave the menu
+# showing a shortcut that could never be bound.
+proc ::enginecfg::keyValid {seq} {
+    set seq [::enginecfg::normalizeKey $seq]
+    if {$seq eq ""} { return false }
+    set parts [split $seq -]
     set key [lindex $parts end]
-    if {[regexp {^F([1-9]|1[0-9]|2[0-4])$} $key]} { return true }
-    foreach mod [lrange $parts 0 end-1] {
-        if {$mod in {Control Mod1}} { return true }
+    if {$key eq ""} { return false }
+    set allowed {
+        Control Shift Lock Alt Meta M Extended
+        Mod1 Mod2 Mod3 Mod4 Mod5 M1 M2 M3 M4 M5 Command Option
     }
-    return false
+    foreach mod [lrange $parts 0 end-1] {
+        if {$mod ni $allowed} { return false }
+    }
+    if {[llength [info commands bind]] && [winfo exists .]} {
+        if {[catch { bind . <$seq> }]} { return false }
+    }
+    return true
 }
 
 # The binding sequence for a window, without angle brackets.
@@ -96,7 +109,8 @@ proc ::enginecfg::keySequence {id} {
     if {[info exists ::enginecfg::key($id)]} {
         set seq [::enginecfg::normalizeKey $::enginecfg::key($id)]
     }
-    if {$seq eq "" || ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+    if {$seq eq "" || ![::enginecfg::keyValid $seq] ||
+        ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
         return [::enginecfg::defaultKey $id]
     }
     return $seq
@@ -128,13 +142,29 @@ proc ::enginecfg::keyFromEvent {sym state} {
         [regexp {^(Shift|Control|Alt|Meta|Super)_[LR]$} $sym]} {
         return ""
     }
-    # Mod4/Mod5 are the Windows/Super keys. The OS consumes them, and silently
+    set ws [::enginecfg::platform]
+    # On X11 Mod4/Mod5 are the Super keys. The OS consumes them, and silently
     # dropping them would bind the plain key instead of the combination.
-    if {$state & 0x40 || $state & 0x80} { return "" }
+    if {$ws ne "win32" && ($state & 0x40 || $state & 0x80)} { return "" }
     set mods {}
     if {$state & 0x4} { lappend mods Control }
-    if {$state & 0x8} { lappend mods Mod1 }
-    if {[::enginecfg::platform] eq "aqua" && ($state & 0x10)} { lappend mods Mod2 }
+    switch -- $ws {
+        win32 {
+            # Windows: Alt is Tk's ALT_MASK (0x20000). Bit 0x8 is Num Lock and
+            # must never become a shortcut modifier, or an unmodified letter
+            # with Num Lock on would look like an Alt combination.
+            if {$state & 0x20000} { lappend mods Alt }
+        }
+        aqua {
+            # Command is Mod1, Option is Mod2.
+            if {$state & 0x8} { lappend mods Mod1 }
+            if {$state & 0x10} { lappend mods Mod2 }
+        }
+        default {
+            # X11: Alt is Mod1; Mod2 is Num Lock and is ignored.
+            if {$state & 0x8} { lappend mods Mod1 }
+        }
+    }
     if {$state & 0x1} { lappend mods Shift }
     if {$sym eq ""} { return "" }
     lappend mods $sym
@@ -150,7 +180,7 @@ proc ::enginecfg::keyUsable {seq} {
     set key [lindex $parts end]
     if {[regexp {^F([1-9]|1[0-9]|2[0-4])$} $key]} { return true }
     foreach mod [lrange $parts 0 end-1] {
-        if {$mod in {Control Mod1}} { return true }
+        if {$mod in {Control Mod1 Alt}} { return true }
     }
     # Option alone is a text-input modifier on macOS (Option+a types a), so it
     # only takes part through a function key, which the first test accepted.
@@ -165,32 +195,35 @@ proc ::enginecfg::keyReserved {seq} {
     set key [string tolower [lindex $parts end]]
     set mods [lrange $parts 0 end-1]
     set ctrl [expr {"Control" in $mods}]
-    set mod1 [expr {"Mod1" in $mods}]
+    # The platform's primary shortcut modifier: Alt on Windows/X11, Command on
+    # macOS. Windows reports Alt as Tk's Alt pattern, not as Mod1.
+    set primary [expr {"Mod1" in $mods || "Alt" in $mods}]
     set shift [expr {"Shift" in $mods}]
     set ws [::enginecfg::platform]
 
     # Text editing and cursor movement: the widget's own class binding comes
     # before the toplevel binding, so an engine key here would copy/cut/paste
     # or move the caret and also start the search. These are not visible to
-    # [bind .] and [bind all].
-    if {($ctrl || ($ws eq "aqua" && $mod1)) &&
-        $key in {a c v x z y left right up down home end prior next backspace delete}} {
+    # [bind .] and [bind all]. The keyboard binding also skips editable widgets,
+    # which covers the Meta/Alt forms this list cannot enumerate.
+    if {($ctrl || ($ws eq "aqua" && $primary)) &&
+        $key in {a c v x z y d h i k o t space tab left right up down home end prior next backspace delete}} {
         return true
     }
 
     # Window-system keys shared by X11 and Windows (the Mac equivalents are
     # handled below). They are harmless to refuse on macOS too.
-    if {$mod1 && $key in {f4 tab escape space}} { return true }
+    if {$primary && $key in {f4 tab escape space}} { return true }
     if {$ctrl && $key eq "escape"} { return true }
-    if {$ctrl && $mod1 && $key in {delete backspace}} { return true }
+    if {$ctrl && $primary && $key in {delete backspace}} { return true }
 
     switch -- $ws {
         aqua {
             # Quit, hide, minimize, close, app/window switching, Spotlight,
             # screenshots and lock screen are taken by macOS.
-            if {$mod1 && $key in {q h m w tab space escape grave}} { return true }
-            if {$mod1 && $shift && $key in {q 3 4 5}} { return true }
-            if {$ctrl && $mod1 && $key eq "q"} { return true }
+            if {$primary && $key in {q h m w tab space escape grave}} { return true }
+            if {$primary && $shift && $key in {q 3 4 5}} { return true }
+            if {$ctrl && $primary && $key eq "q"} { return true }
         }
         win32 {
             # Task Manager and the menu bar.
@@ -201,11 +234,42 @@ proc ::enginecfg::keyReserved {seq} {
     return false
 }
 
+# The spellings that describe the same physical letter shortcut. Tk keysyms
+# are case-sensitive: <Control-N> (uppercase, no Shift) matches Ctrl+Shift+n,
+# while <Control-n> matches Ctrl+n. Normalising a letter candidate to the
+# equivalent spellings makes the conflict check neither miss an overlap nor
+# invent one.
+proc ::enginecfg::keyVariants {seq} {
+    set seq [::enginecfg::normalizeKey $seq]
+    set parts [split $seq -]
+    set key [lindex $parts end]
+    set out [list $seq]
+    if {[string length $key] == 1 && [string is alpha -strict $key]} {
+        set noShift {}
+        set hadShift 0
+        foreach mod [lrange $parts 0 end-1] {
+            if {$mod eq "Shift"} { set hadShift 1 } else { lappend noShift $mod }
+        }
+        set lower [string tolower $key]
+        set upper [string toupper $key]
+        if {$hadShift || $key eq $upper} {
+            lappend out [join [concat $noShift [list Shift $upper]] -]
+            lappend out [join [concat $noShift [list $upper]] -]
+            lappend out [join [concat $noShift [list Shift $lower]] -]
+            lappend out [join [concat $noShift [list $lower]] -]
+        } else {
+            lappend out [join [concat $noShift [list $lower]] -]
+        }
+    }
+    return [lsort -unique $out]
+}
+
 # Is this key free for window id? A key used by another command in the main
 # window, or by the application's global bindings, is refused rather than
 # silently overriding it. The two engine windows' own bindings may be replaced.
 proc ::enginecfg::keyAvailable {id seq} {
-    if {![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+    if {![::enginecfg::keyValid $seq] || ![::enginecfg::keyUsable $seq] ||
+        [::enginecfg::keyReserved $seq]} {
         return false
     }
     foreach other {1 2} {
@@ -216,11 +280,20 @@ proc ::enginecfg::keyAvailable {id seq} {
     if {[llength [info commands bind]] == 0 || ![winfo exists .]} {
         return true
     }
-    set script [bind . <$seq>]
-    if {$script ne "" && [string first "::enginewin::toggleStartStop" $script] < 0} {
-        return false
+    foreach variant [::enginecfg::keyVariants $seq] {
+        if {[catch { bind . <$variant> } script]} { return false }
+        if {$script ne ""} {
+            # The candidate's own current binding is the one this change
+            # replaces; any other script, including the other engine's, is a
+            # conflict.
+            if {![regexp {::enginewin::toggleStartStop\s+(\d+)} $script -> bound] ||
+                $bound ne $id} {
+                return false
+            }
+        }
+        if {[catch { bind all <$variant> } script]} { return false }
+        if {$script ne ""} { return false }
     }
-    if {[bind all <$seq>] ne ""} { return false }
     return true
 }
 
@@ -228,7 +301,8 @@ proc ::enginecfg::keyAvailable {id seq} {
 proc ::enginecfg::setKey {id seq} {
     if {$id ni {1 2}} { return false }
     set seq [::enginecfg::normalizeKey $seq]
-    if {$seq eq "" || ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+    if {$seq eq "" || ![::enginecfg::keyValid $seq] ||
+        ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
         return false
     }
     if {[llength [info commands bind]] && [winfo exists .]} {
@@ -243,12 +317,16 @@ proc ::enginecfg::setKey {id seq} {
     return true
 }
 
-# Put the standard keys back.
+# Put the standard keys back. Rebinding is two-phase: both old bindings are
+# removed before either default is installed. Otherwise resetting from a state
+# where the keys exchanged owners removes the F2 that was just installed.
 proc ::enginecfg::resetKeys {} {
     foreach id {1 2} {
         set ::enginecfg::key($id) [::enginecfg::defaultKey $id]
     }
-    if {[llength [info commands ::keyboard::bindEngineShortcut]]} {
+    if {[llength [info commands ::keyboard::rebindEngineShortcuts]]} {
+        catch { ::keyboard::rebindEngineShortcuts }
+    } elseif {[llength [info commands ::keyboard::bindEngineShortcut]]} {
         foreach id {1 2} { catch { ::keyboard::bindEngineShortcut $id } }
     }
     ::enginecfg::refreshShortcutMenus
