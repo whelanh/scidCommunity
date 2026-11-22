@@ -284,6 +284,8 @@ translate W OptionsBGW {Välj textur för rutor}
 translate W OptionsBoardGraphicsText {Välj grafikfiler för vita och svarta rutor:}
 menuText W OptionsBoardNames "Spelarnamn..." 0 {Redigera spelares namn}
 menuText W OptionsExport "Export" 0 {Ändra exportalternativ}
+menuText W OptionsExportPGNText "PGN-filtext" 0
+menuText W OptionsExportHTMLText "HTML-filtext" 0
 menuText W OptionsFonts "Typsnitt" 0 {Ändra typsnitt}
 menuText W OptionsFontsRegular "Normal" 0 {Ändra det normala typsnittet}
 menuText W OptionsFontsMenu "Menu" 0 {Ändra menytypsnittet}
@@ -336,6 +338,7 @@ menuText W OptionsResources "Resurser..." 0 {Välj resursfiler och mappar}
 menuText W OptionsWindowsDock "Dockningsfönster" 0 {Dockningsfönster}
 menuText W OptionsWindowsSaveLayout "Spara layout" 0 {Sparar layout}
 menuText W OptionsWindowsRestoreLayout "Återställ layout" 0 {Återställer layout}
+menuText W OptionsLayoutDefault "1 (standard)" 0
 menuText W OptionsWindowsShowGameInfo "Visa partiinformation" 0 {Visar partiinformation}
 menuText W OptionsWindowsAutoLoadLayout "Automatiskt öppna första layouten" 0 {Öppnar automatiskt första layouten vid uppstart}
 menuText W OptionsECO "Ladda ECO fil" 7 {Ladda ECO-klassificeringen vid start}
@@ -833,6 +836,8 @@ translate W Deleted {Raderad}
 translate W SearchResults {Sökresultat}
 translate W OpeningTheDatabase {Öppnar databas}
 translate W Database {Databas}
+translate W MenuDatabaseSlot {Bas %d: %s}
+translate W MenuImportIntoSlot {till %d: %s}
 translate W Filter {Filter}
 translate W noGames {inga partier}
 translate W allGames {alla partier}
@@ -1242,6 +1247,17 @@ translate W EngineClone {Skapa en kopia av den aktuella motorn}
 translate W EngineDuplicate {Duplicera}
 translate W EngineDelete {Ta bort den aktuella motorn}
 translate W EngineOpenWindow {Öppna motorfönstret}
+translate W EngineShortcut {Genväg}
+translate W EngineShortcutNone {Ingen}
+translate W EngineShortcutWindow {Fönster %s (%s)}
+translate W EngineShortcutKeys {Genvägstangenter}
+translate W EngineShortcutKeysHelp {Välj nyckeln som startar varje motorfönster. Tryck på Ändra... och sedan på tangentkombinationen du vill ha. En nyckel som redan används av ett annat kommando nekas.}
+translate W EngineShortcutChange {Ändra...}
+translate W EngineShortcutReset {Återställ till F2 och F3}
+translate W EngineShortcutPress {Tryck på den nya tangentkombinationen för Engine Window %s.\nEscape avbryts.}
+translate W EngineShortcutInUse {Nyckeln %s används redan av ett annat kommando. Välj en annan.}
+translate W EngineShortcutUnsafe {Välj en funktionstangent eller en tangentkombination som inkluderar Ctrl, Alt eller Kommando.}
+translate W EngineShortcutReserved {Den nyckeln är reserverad av operativsystemet eller genom textredigering. Välj en annan.}
 
 # PGN window menus:
 menuText W PgnFile "Fil" 0
@@ -1435,6 +1451,8 @@ translate W GsortStore {Spara}
 translate W GsortLoad {Öppna}
 
 # menu shown with right mouse button down on game list.
+translate W GlistRemoveSelectedFromFilter {Ta bort valda spel från filter}
+translate W GlistExportSelected {Exportera valda spel...}
 translate W GlistRemoveThisGameFromFilter  {Ta bort detta parti från Filter}
 translate W GlistRemoveGameAndAboveFromFilter  {Ta bort parti (och alla ovanför det) från Filter}
 translate W GlistRemoveGameAndBelowFromFilter  {Ta bort parti (och alla nedanför det) från Filter}
@@ -1630,6 +1648,7 @@ translate W PatternDarkFian {Mörk-Ruta Fianchetton (Löpare-b2 mot Löpare-g7)}
 translate W PatternFourFian {Fyra Fianchetton (Löpare på b2,g2,b7,g7)}
 
 # Game saving:
+translate W SaveExtraTagsHint {Extra Taggar: (exempelformat: Annotator "Anand, V")}
 translate W Today {Idag}
 translate W ClassifyGame {Klassificera parti}
 

@@ -289,6 +289,8 @@ translate F OptionsBGW {Sélectionner les textures des cases}
 translate F OptionsBoardGraphicsText {Sélection des images pour les cases blanches et noires:}
 menuText F OptionsBoardNames "Mes noms de joueurs..." 0 {Éditer mes noms de joueurs}
 menuText F OptionsExport "Exportation" 1 {Changer les options d'exportation}
+menuText F OptionsExportPGNText "Texte du fichier PGN" 0
+menuText F OptionsExportHTMLText "Texte du fichier HTML" 0
 menuText F OptionsFonts "Polices" 0 {Changer les polices}
 menuText F OptionsFontsRegular "Normales" 0 {Changer les polices normales}
 menuText F OptionsFontsMenu "Menu" 0 {Changer la police des menus}
@@ -341,6 +343,7 @@ menuText F OptionsResources "Ressources..." 0 {Choose resource files and folders
 menuText F OptionsWindowsDock "Fenêtres groupées" 0 {Fenêtres groupées (nécessite un redémarrage)}
 menuText F OptionsWindowsSaveLayout "Enregistrer disposition" 0 {Enregistrer disposition}
 menuText F OptionsWindowsRestoreLayout "Remettre disposition" 0 {Remettre disposition}
+menuText F OptionsLayoutDefault "1 (par défaut)" 0
 menuText F OptionsWindowsShowGameInfo "Montrer le panneau d'info" 0 {Montrer le panneau d'information}
 menuText F OptionsWindowsAutoLoadLayout "Chargement auto 1ère disposition" 0 {Chargement auto de la première disposition au démarrage}
 menuText F OptionsECO "Charger le fichier ECO" 19 \
@@ -838,6 +841,8 @@ translate F Deleted {Éliminé}
 translate F SearchResults {Résultats de la recherche}
 translate F OpeningTheDatabase {Ouverture de la base}
 translate F Database {Base}
+translate F MenuDatabaseSlot {Base %d : %s}
+translate F MenuImportIntoSlot {dans %d : %s}
 translate F Filter {Filtre}
 translate F noGames {pas de parties}
 translate F allGames {toutes les parties}
@@ -1244,6 +1249,17 @@ translate F EngineClone {Créer une copie du moteur actuel}
 translate F EngineDuplicate {Dupliquer}
 translate F EngineDelete {Supprimer le moteur actuel}
 translate F EngineOpenWindow {Ouvrir la fenêtre du moteur}
+translate F EngineShortcut {Raccourci}
+translate F EngineShortcutNone {Aucun}
+translate F EngineShortcutWindow {Fenêtre %s (%s)}
+translate F EngineShortcutKeys {Touches de raccourci}
+translate F EngineShortcutKeysHelp {Choisissez la clé qui démarre chaque fenêtre du moteur. Appuyez sur Modifier..., puis sur la combinaison de touches souhaitée. Une clé déjà utilisée par une autre commande est refusée.}
+translate F EngineShortcutChange {Changement...}
+translate F EngineShortcutReset {Réinitialiser à F2 et F3}
+translate F EngineShortcutPress {Appuyez sur la nouvelle combinaison de touches pour Engine Window %s.\nEscape est annulé.}
+translate F EngineShortcutInUse {La clé %s est déjà utilisée par une autre commande. Choisissez-en un autre.}
+translate F EngineShortcutUnsafe {Choisissez une touche de fonction ou une combinaison de touches comprenant Ctrl, Alt ou Commande.}
+translate F EngineShortcutReserved {Cette clé est réservée par le système d'exploitation ou par l'édition de texte. Choisissez-en un autre.}
 
 # PGN window menus:
 menuText F PgnFile "Fichier" 0
@@ -1437,6 +1453,8 @@ translate F GsortStore {Magasin}
 translate F GsortLoad {Charger}
 
 # menu shown with right mouse button down on game list.
+translate F GlistRemoveSelectedFromFilter {Supprimer les jeux sélectionnés du filtre}
+translate F GlistExportSelected {Exporter les jeux sélectionnés...}
 translate F GlistRemoveThisGameFromFilter  {Enlever cette partie du filtre}
 translate F GlistRemoveGameAndAboveFromFilter  {Enlever cette partie (et celles au-dessus) du filtre}
 translate F GlistRemoveGameAndBelowFromFilter  {Enlever cette partie (et celles en-dessous) du filtre}
@@ -1632,6 +1650,7 @@ translate F PatternDarkFian {Dark-Square Fianchettos (Bishop-b2 vs. Bishop-g7)} 
 translate F PatternFourFian {Four Fianchettos (Bishops on b2,g2,b7,g7)} ;# ***
 
 # Game saving:
+translate F SaveExtraTagsHint {Balises supplémentaires : (exemple de format : Annotateur "Anand, V")}
 translate F Today {Aujourd'hui}
 translate F ClassifyGame {Classer la partie}
 

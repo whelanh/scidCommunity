@@ -281,6 +281,8 @@ translate I OptionsBGW {Seleziona l'aspetto delle caselle}
 translate I OptionsBoardGraphicsText {Seleziona i file grafici per le caselle bianche e nere:}
 menuText I OptionsBoardNames "I nomi dei miei giocatori ..." 0 {Edita i nomi dei miei giocatori}
 menuText I OptionsExport "Esportazione" 2 {Cambia le opzioni di importazione testo}
+menuText I OptionsExportPGNText "Testo del file PGN" 0
+menuText I OptionsExportHTMLText "Testo del file HTML" 0
 menuText I OptionsFonts "Font" 0 {Cambia font}
 menuText I OptionsFontsRegular "Regolare" 0 {Cambia il font normale}
 menuText I OptionsFontsMenu "Menu" 0 {Cambia il font dei menu}
@@ -333,6 +335,7 @@ menuText I OptionsResources "Risorse..." 0 {Scegli file e cartelle di risorse}
 menuText I OptionsWindowsDock "Aggancia le finestre" 0 {Aggancia le finestre}
 menuText I OptionsWindowsSaveLayout "Salva layout" 0 {Salva il layout}
 menuText I OptionsWindowsRestoreLayout "Ripristina layout" 0 {Ripristina il layout}
+menuText I OptionsLayoutDefault "1 (predefinito)" 0
 menuText I OptionsWindowsShowGameInfo "Mostra informazioni partita" 0 {Mostra le informazioni sulla partita}
 menuText I OptionsWindowsAutoLoadLayout "Carica automaticamente il primo layout" 0 {Carica automaticamente il primo layout all'avvio}
 menuText I OptionsECO "Carica il file ECO..." 15 {Carica il file di classificazione ECO}
@@ -830,6 +833,8 @@ translate I Deleted {Cancellato}
 translate I SearchResults {Risultati della ricerca}
 translate I OpeningTheDatabase {Apertura del database}
 translate I Database {Database}
+translate I MenuDatabaseSlot {Base %d: %s}
+translate I MenuImportIntoSlot {in %d: %s}
 translate I Filter {Filtro}
 translate I noGames {nessuna partita}
 translate I allGames {tutte le partite}
@@ -1242,6 +1247,17 @@ translate I EngineClone {Crea una copia del motore corrente}
 translate I EngineDuplicate {Duplica}
 translate I EngineDelete {Elimina il motore corrente}
 translate I EngineOpenWindow {Apri la finestra del motore}
+translate I EngineShortcut {Scorciatoia}
+translate I EngineShortcutNone {Nessuno}
+translate I EngineShortcutWindow {Finestra %s (%s)}
+translate I EngineShortcutKeys {Tasti di scelta rapida}
+translate I EngineShortcutKeysHelp {Scegli la chiave che avvia ciascuna finestra del motore. Premi Cambia..., quindi la combinazione di tasti desiderata. Una chiave già utilizzata da un altro comando viene rifiutata.}
+translate I EngineShortcutChange {Modifica...}
+translate I EngineShortcutReset {Ripristinare su F2 e F3}
+translate I EngineShortcutPress {Premi la nuova combinazione di tasti per la finestra del motore %s.\nEscape annulla.}
+translate I EngineShortcutInUse {La chiave %s è già utilizzata da un altro comando. Scegline un altro.}
+translate I EngineShortcutUnsafe {Scegli un tasto funzione o una combinazione di tasti che includa Ctrl, Alt o Comando.}
+translate I EngineShortcutReserved {Quella chiave è riservata dal sistema operativo o dalla modifica del testo. Scegline un altro.}
 
 # PGN window menus:
 menuText I PgnFile "File" 0
@@ -1435,6 +1451,8 @@ translate I GsortStore {Salva}
 translate I GsortLoad {Carica}
 
 # menu shown with right mouse button down on game list.
+translate I GlistRemoveSelectedFromFilter {Rimuovi i giochi selezionati dal filtro}
+translate I GlistExportSelected {Esporta giochi selezionati...}
 translate I GlistRemoveThisGameFromFilter  {Rimuovi questa partita dal filtro}
 translate I GlistRemoveGameAndAboveFromFilter  {Rimuovi la partita (e le precedenti) dal filtro}
 translate I GlistRemoveGameAndBelowFromFilter  {Rimuovi la partita (e le seguenti) dal filtro}
@@ -1626,6 +1644,7 @@ translate I PatternDarkFian {Fianchetti sulle case scure (Alfiere b2 contro Alfi
 translate I PatternFourFian {Quattro fianchetti (Alfieri in b2,g2,b7,g7)}
 
 # Game saving:
+translate I SaveExtraTagsHint {Tag extra: (formato di esempio: Annotatore "Anand, V")}
 translate I Today {Oggi}
 translate I ClassifyGame {Classifica la partita}
 

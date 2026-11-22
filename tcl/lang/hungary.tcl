@@ -281,6 +281,8 @@ translate H OptionsBGW {A mezõk rajzolatának kiválasztása}
 translate H OptionsBoardGraphicsText {A világos és sötét mezõk grafikus fájljai:}
 menuText H OptionsBoardNames "Játékosnevek..." 0 {Játékosnevek átszerkesztése}
 menuText H OptionsExport "Exportálás" 1 {Exportálási beállítások változtatása}
+menuText H OptionsExportPGNText "PGN fájl szövege" 0
+menuText H OptionsExportHTMLText "HTML fájl szövege" 0
 menuText H OptionsFonts "Karakterkészlet" 0 {Karakterkészlet változtatása}
 menuText H OptionsFontsRegular "Szokásos" 0 {A szokásos karakterkészlet változtatása}
 menuText H OptionsFontsMenu "Menü" 0 {A menük karakterkészletének a változtatása}
@@ -333,6 +335,7 @@ menuText H OptionsResources "Erõforrás..." 0 {Válasszon erõforrásfájlokat 
 menuText H OptionsWindowsDock "Ablakok helyhez rögzítése" 8 {Dock windows}
 menuText H OptionsWindowsSaveLayout "Elrendezés mentése" 11 {Ablakelrendezés mentése}
 menuText H OptionsWindowsRestoreLayout "Elrendezés visszaállítása" 11 {Ablakelrendezés visszaállítása}
+menuText H OptionsLayoutDefault "1 (alapértelmezett)" 0
 menuText H OptionsWindowsShowGameInfo "Játszmainformáció" 0 {Játszma adatainak megjelenítése ablakban}
 menuText H OptionsWindowsAutoLoadLayout "Az elsõ elrendezés automatikus betöltése" 19 {Induláskor automatikusan betölti az elsõ ablakelrendezést.}
 menuText H OptionsECO "ECO-fájl betöltése" 2 {Betölti az ECO-osztályozó fájlt.}
@@ -830,6 +833,8 @@ translate H Deleted {törölt}
 translate H SearchResults {A keresés eredménye}
 translate H OpeningTheDatabase {Adatbázis megnyitása}
 translate H Database {Adatbázis}
+translate H MenuDatabaseSlot {Alap %d: %s}
+translate H MenuImportIntoSlot {ide: %d: %s}
 translate H Filter {Szûrõ}
 translate H noGames {Nincs találat}
 translate H allGames {Összes játszma}
@@ -1239,6 +1244,17 @@ translate H EngineClone {Készítsen másolatot az aktuális motorról}
 translate H EngineDuplicate {Duplikálás}
 translate H EngineDelete {Törölje az aktuális motort}
 translate H EngineOpenWindow {Nyissa meg a motor ablakot}
+translate H EngineShortcut {Parancsikon}
+translate H EngineShortcutNone {Egyik sem}
+translate H EngineShortcutWindow {Ablak %s (%s)}
+translate H EngineShortcutKeys {Gyorsbillentyűk}
+translate H EngineShortcutKeysHelp {Válassza ki a kulcsot, amely elindítja az egyes motorablakokat. Nyomja meg a Módosítás... gombot, majd a kívánt billentyűkombinációt. Egy másik parancs által már használt kulcs elutasításra kerül.}
+translate H EngineShortcutChange {Változás...}
+translate H EngineShortcutReset {Állítsa vissza az F2-re és az F3-ra}
+translate H EngineShortcutPress {Nyomja meg az Engine Window %s új billentyűkombinációját.\nAz Escape törli.}
+translate H EngineShortcutInUse {A %s kulcsot már használja egy másik parancs. Válassz másikat.}
+translate H EngineShortcutUnsafe {Válasszon egy funkcióbillentyűt vagy egy Ctrl, Alt vagy Command billentyűkombinációt.}
+translate H EngineShortcutReserved {Ezt a kulcsot az operációs rendszer vagy a szövegszerkesztés lefoglalja. Válassz másikat.}
 
 # PGN window menus:
 menuText H PgnFile "Fájl" 0
@@ -1432,6 +1448,8 @@ translate H GsortStore {Bolt}
 translate H GsortLoad {Terhelés}
 
 # menu shown with right mouse button down on game list.
+translate H GlistRemoveSelectedFromFilter {Távolítsa el a kiválasztott játékokat a szűrőből}
+translate H GlistExportSelected {Kiválasztott játékok exportálása...}
 translate H GlistRemoveThisGameFromFilter  {Vedd ki ezt a játszmát a szûrõbõl}
 translate H GlistRemoveGameAndAboveFromFilter  {Vedd ki a játszmát és az összes fölötte lévõt a szûrõbõl}
 translate H GlistRemoveGameAndBelowFromFilter  {Vedd ki a játszmát és az összes alatta lévõt a szûrõbõl}
@@ -1627,6 +1645,7 @@ translate H PatternDarkFian {Sötét mezejû fianchetto (b2 futó g7 futó ellen
 translate H PatternFourFian {Négyes fianchetto (futók b2-n, g2-n, b7-en és g7-en)}
 
 # Game saving:
+translate H SaveExtraTagsHint {Extra címkék: (példa formátum: Annotátor "Anand, V")}
 translate H Today {Ma}
 translate H ClassifyGame {Játszma osztályozása}
 

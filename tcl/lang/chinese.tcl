@@ -252,6 +252,8 @@ translate M OptionsBGW {选择格子纹理}
 translate M OptionsBoardGraphicsText {为白色和黑色格子选择图形文件：}
 menuText M OptionsBoardNames "我的棋手名称..." 0 {编辑我的棋手名称}
 menuText M OptionsExport "导出" 0 {更改文本导出选项}
+menuText M OptionsExportPGNText "PGN 文件文本" 0
+menuText M OptionsExportHTMLText "HTML 文件文本" 0
 menuText M OptionsFonts "字体" 0 {更改字体}
 menuText M OptionsFontsRegular "常规" 0 {更改常规字体}
 menuText M OptionsFontsMenu "菜单" 0 {更改菜单字体}
@@ -304,6 +306,7 @@ menuText M OptionsResources "资源..." 0 {选择资源文件和文件夹}
 menuText M OptionsWindowsDock "停靠窗口" 0 {停靠窗口（需要重启）}
 menuText M OptionsWindowsSaveLayout "保存布局" 0 {保存布局}
 menuText M OptionsWindowsRestoreLayout "恢复布局" 0 {恢复布局}
+menuText M OptionsLayoutDefault "1（默认）" 0
 menuText M OptionsWindowsShowGameInfo "显示对局信息" 0 {显示对局信息}
 menuText M OptionsWindowsAutoLoadLayout "自动加载第一个布局" 0 {启动时自动加载第一个布局}
 menuText M OptionsECO "ECO文件" 7 {加载ECO分类文件}
@@ -799,6 +802,8 @@ translate M Deleted {Deleted}
 translate M SearchResults {Search Results}
 translate M OpeningTheDatabase {Opening database}
 translate M Database {数据库}
+translate M MenuDatabaseSlot {基数 %d: %s}
+translate M MenuImportIntoSlot {进入 %d: %s}
 translate M Filter {过滤器}
 translate M noGames {no games}
 translate M allGames {all games}
@@ -1208,6 +1213,17 @@ translate M EngineClone {Create a copy of the current engine}
 translate M EngineDuplicate {复制}
 translate M EngineDelete {Delete the current engine}
 translate M EngineOpenWindow {打开发动机窗口}
+translate M EngineShortcut {捷径}
+translate M EngineShortcutNone {没有任何}
+translate M EngineShortcutWindow {窗口 %s (%s)}
+translate M EngineShortcutKeys {快捷键}
+translate M EngineShortcutKeysHelp {选择启动每个引擎窗口的键。按更改...，然后按您想要的组合键。另一个命令已使用的密钥将被拒绝。}
+translate M EngineShortcutChange {改变...}
+translate M EngineShortcutReset {重置为 F2 和 F3}
+translate M EngineShortcutPress {按引擎窗口 %s 的新组合键。\n退出取消。}
+translate M EngineShortcutInUse {键 %s 已被另一个命令使用。选择另一个。}
+translate M EngineShortcutUnsafe {选择功能键或包含 Ctrl、Alt 或 Command 的组合键。}
+translate M EngineShortcutReserved {该键由操作系统或文本编辑保留。选择另一个。}
 
 # PGN window menus:
 menuText M PgnFile "直线" 0
@@ -1401,6 +1417,8 @@ translate M GsortStore {店铺}
 translate M GsortLoad {加载}
 
 # menu shown with right mouse button down on game list.
+translate M GlistRemoveSelectedFromFilter {从过滤器中删除选定的游戏}
+translate M GlistExportSelected {导出选定的游戏...}
 translate M GlistRemoveThisGameFromFilter  {从过滤器中删除该游戏}
 translate M GlistRemoveGameAndAboveFromFilter  {从过滤器中删除游戏（及其之上的所有游戏）}
 translate M GlistRemoveGameAndBelowFromFilter  {从过滤器中删除游戏（及其下面的所有游戏）}
@@ -1589,6 +1607,7 @@ translate M PatternDarkFian {暗方 Fianchettos（Bishop-b2 与 Bishop-g7）}
 translate M PatternFourFian {四个 Fianchettos（b2、g2、b7、g7 上的主教）}
 
 # Game saving:
+translate M SaveExtraTagsHint {额外标签：（示例格式：注释器“Anand，V”）}
 translate M Today {今天}
 translate M ClassifyGame {分类游戏}
 

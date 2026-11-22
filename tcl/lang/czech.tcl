@@ -277,6 +277,8 @@ translate C OptionsBGW {Vybrat vzorek pro pole}
 translate C OptionsBoardGraphicsText {Vybrat grafick soubory pro bl a ern pole:}
 menuText C OptionsBoardNames "Jmna mch hr..." 0 {Editovat jmna mch hr}
 menuText C OptionsExport "Volby exportu" 7 {Zmnit volby pro textov export}
+menuText C OptionsExportPGNText "Text souboru PGN" 0
+menuText C OptionsExportHTMLText "text souboru HTML" 0
 menuText C OptionsFonts "Fonty" 2 {Zmnit fonty}
 menuText C OptionsFontsRegular "Zkladn" 0 {Zmnit zkladn font}
 menuText C OptionsFontsMenu "Menu" 1 {Zmnit font pro menu}
@@ -329,6 +331,7 @@ menuText C OptionsResources "Zdroje..." 0 {Vyberte zdrojov soubory a sloky}
 menuText C OptionsWindowsDock "Zaparkovat okna" 0 {Zaparkovat okna}
 menuText C OptionsWindowsSaveLayout "Uloit rozloen" 0 {Uloit rozloen}
 menuText C OptionsWindowsRestoreLayout "Obnovit rozloen" 0 {Obnovit rozloen}
+menuText C OptionsLayoutDefault "1 (výchozí)" 0
 menuText C OptionsWindowsShowGameInfo "Ukzat informace o partii" 0 {Ukzat informace o partii}
 menuText C OptionsWindowsAutoLoadLayout "Automaticky nathnout prvn rozloen" 0 {Automaticky na zatku nathnout prvn rozloen}
 menuText C OptionsECO "Nathnout ECO soubor" 10 {Nathnout soubor s klasifikac ECO}
@@ -826,6 +829,8 @@ translate C Deleted {Vymazn(a)}
 translate C SearchResults {Hledat vsledky}
 translate C OpeningTheDatabase {Databze zahjen}
 translate C Database {Databze}
+translate C MenuDatabaseSlot {Základ %d: %s}
+translate C MenuImportIntoSlot {do %d: %s}
 translate C Filter {Filtr}
 translate C noGames {dn partie}
 translate C allGames {vechny partie}
@@ -1236,6 +1241,17 @@ translate C EngineClone {Vytvote kopii aktulnho motoru}
 translate C EngineDuplicate {Duplikovat}
 translate C EngineDelete {Smazat aktuln motor}
 translate C EngineOpenWindow {Otevřete okno motoru}
+translate C EngineShortcut {Zkratka}
+translate C EngineShortcutNone {Žádný}
+translate C EngineShortcutWindow {Okno %s (%s)}
+translate C EngineShortcutKeys {Klávesové zkratky}
+translate C EngineShortcutKeysHelp {Vyberte klíč, který spustí každé okno motoru. Stiskněte Změnit... a poté požadovanou kombinaci kláves. Klávesa již použitá jiným příkazem je odmítnuta.}
+translate C EngineShortcutChange {Přeměna...}
+translate C EngineShortcutReset {Resetujte na F2 a F3}
+translate C EngineShortcutPress {Stiskněte novou kombinaci kláves pro okno Engine %s.\nEscape se zruší.}
+translate C EngineShortcutInUse {Klávesa %s je již používána jiným příkazem. Vyberte jiný.}
+translate C EngineShortcutUnsafe {Vyberte funkční klávesu nebo kombinaci kláves, která zahrnuje Ctrl, Alt nebo Command.}
+translate C EngineShortcutReserved {Tento klíč je vyhrazen operačním systémem nebo úpravou textu. Vyberte jiný.}
 
 # PGN window menus:
 menuText C PgnFile "Soubor" 0
@@ -1429,6 +1445,8 @@ translate C GsortStore {Obchod}
 translate C GsortLoad {Zaten}
 
 # menu shown with right mouse button down on game list.
+translate C GlistRemoveSelectedFromFilter {Odebrat vybrané hry z filtru}
+translate C GlistExportSelected {Exportovat vybrané hry...}
 translate C GlistRemoveThisGameFromFilter  {Odstranit tuto partii z filtru}
 translate C GlistRemoveGameAndAboveFromFilter  {Odstranit partii (a vechny nad n) z filtru}
 translate C GlistRemoveGameAndBelowFromFilter  {Odstranit partii (a vechny pod n) z filtru}
@@ -1624,6 +1642,7 @@ translate C PatternDarkFian {Fianchetta na ernch polch (stelec b2 proti stelci g
 translate C PatternFourFian {tyi fianchetta (stelci na b2,g2,b7,g7)}
 
 # Game saving:
+translate C SaveExtraTagsHint {Extra značky: (příklad formátu: anotátor "Anand, V")}
 translate C Today {Dnes}
 translate C ClassifyGame {Klasifikovat partii}
 

@@ -307,6 +307,8 @@ translate G OptionsBGW {Επιλέξτε την υφή των τετραγώνω
 translate G OptionsBoardGraphicsText {Επιλέξτε το αρχείο γραφικών για τα λευκά και τα μαύρα τετράγωνα:}
 menuText G OptionsBoardNames "Τα ονόματά μου..." 0 {Επεξεργαστείτε τα ονόματά σας στις παρτίδες}
 menuText G OptionsExport "Εξαγωγές" 0 {Αλλάξτε τις επιλογές εξαγωγής κειμένου}
+menuText G OptionsExportPGNText "Κείμενο αρχείου PGN" 0
+menuText G OptionsExportHTMLText "Κείμενο αρχείου HTML" 0
 menuText G OptionsFonts "Γραμματοσειρές" 0 {Αλλάξτε τις γραμματοσειρές}
 menuText G OptionsFontsRegular "Συνήθης" 0 {Αλλάξτε την τακτική γραμματοσειρά}
 menuText G OptionsFontsMenu "Μενού" 0 {Αλλάξτε την γραμματοσειρά των μενού}
@@ -359,6 +361,7 @@ menuText G OptionsResources "Πόροι..." 0 {Επιλέξτε αρχεία π�
 menuText G OptionsWindowsDock "Προσκόληση παραθύρων" 0 {Προσκολήστε τα παράθυρα (χρειάζεται επανεκκίνηση)}
 menuText G OptionsWindowsSaveLayout "Αποθήκευση διάταξης" 0 {Αποθηκεύστε την διάταξη των παραθύρων}
 menuText G OptionsWindowsRestoreLayout "Αποκατάσταση διάταξης" 0 {Αποκαταστήστε προηγούμενη διάταξη παραθύρων}
+menuText G OptionsLayoutDefault "1 (προεπιλογή)" 0
 menuText G OptionsWindowsShowGameInfo "Εμφάνιση πληροφοριών παρτίδας" 0 {Εμφανίστε τις πληροφορίες για την παρτίδα}
 menuText G OptionsWindowsAutoLoadLayout "Αυτόματη φόρτωση της πρώτης διάταξης" 0 {Αυτόματη φόρτωση κατά την εκκίνηση της πρώτης διάταξης}
 menuText G OptionsECO "Φόρτωση αρχείου ECO..." 7 {Φορτώστε το αρχείο ταξινόμησης κατά ECO}
@@ -854,6 +857,8 @@ translate G Deleted {Διαγράφηκε}
 translate G SearchResults {Αναζήτηση αποτελεσμάτων}
 translate G OpeningTheDatabase {Βάση δεδομένων ανοιγμάτων}
 translate G Database {Βάση δεδομένων}
+translate G MenuDatabaseSlot {Βάση %d: %s}
+translate G MenuImportIntoSlot {σε %d: %s}
 translate G Filter {Φίλτρο}
 translate G noGames {καμία παρτίδα}
 translate G allGames {όλες οι παρτίδες}
@@ -1263,6 +1268,17 @@ translate G EngineClone {Δημιουργήστε ένα αντίγραφο το
 translate G EngineDuplicate {Αντιγραφή}
 translate G EngineDelete {Διαγράψτε τον τρέχοντα κινητήρα}
 translate G EngineOpenWindow {Ανοίξτε το παράθυρο του κινητήρα}
+translate G EngineShortcut {Συντομότερος τρόπος}
+translate G EngineShortcutNone {Κανένας}
+translate G EngineShortcutWindow {Παράθυρο %s (%s)}
+translate G EngineShortcutKeys {Πλήκτρα συντόμευσης}
+translate G EngineShortcutKeysHelp {Επιλέξτε το κλειδί που εκκινεί κάθε παράθυρο κινητήρα. Πατήστε Αλλαγή... και μετά τον συνδυασμό πλήκτρων που θέλετε. Ένα κλειδί που χρησιμοποιείται ήδη από άλλη εντολή απορρίπτεται.}
+translate G EngineShortcutChange {Αλλαγή...}
+translate G EngineShortcutReset {Επαναφορά σε F2 και F3}
+translate G EngineShortcutPress {Πατήστε το νέο συνδυασμό πλήκτρων για το παράθυρο κινητήρα %s.\nΤο Escape ακυρώνεται.}
+translate G EngineShortcutInUse {Το κλειδί %s χρησιμοποιείται ήδη από άλλη εντολή. Επιλέξτε άλλο.}
+translate G EngineShortcutUnsafe {Επιλέξτε ένα πλήκτρο λειτουργίας ή έναν συνδυασμό πλήκτρων που περιλαμβάνει Ctrl, Alt ή Command.}
+translate G EngineShortcutReserved {Αυτό το κλειδί δεσμεύεται από το λειτουργικό σύστημα ή από την επεξεργασία κειμένου. Επιλέξτε άλλο.}
 
 # PGN window menus:
 menuText G PgnFile "Αρχείο" 0
@@ -1456,6 +1472,8 @@ translate G GsortStore {Κατάστημα}
 translate G GsortLoad {Φορτίο}
 
 # menu shown with right mouse button down on game list.
+translate G GlistRemoveSelectedFromFilter {Αφαιρέστε τα επιλεγμένα παιχνίδια από το φίλτρο}
+translate G GlistExportSelected {Εξαγωγή επιλεγμένων παιχνιδιών...}
 translate G GlistRemoveThisGameFromFilter  {Απομάκρυνση αυτής της παρτίδας από το φίλτρο}
 translate G GlistRemoveGameAndAboveFromFilter  {Απομάκρυνση παρτίδας (και όλων των από πάνω) από το φίλτρο}
 translate G GlistRemoveGameAndBelowFromFilter  {Απομάκρυνση παρτίδας (και όλων των από κάτω) από το φίλτρο}
@@ -1651,6 +1669,7 @@ translate G PatternDarkFian {Φιανκέττο μαύρου τετραγώνο�
 translate G PatternFourFian {Τέσσερα Φιανκέττα (Αξιωματικοί στα b2,g2,b7,g7)}
 
 # Game saving:
+translate G SaveExtraTagsHint {Επιπλέον ετικέτες: (παράδειγμα μορφής: Σχολιαστής "Anand, V")}
 translate G Today {Σήμερα}
 translate G ClassifyGame {Ταξινόμηση παρτίδας}
 

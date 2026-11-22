@@ -300,6 +300,8 @@ translate N OptionsBGW {Selecteer het texture voor de vakken}
 translate N OptionsBoardGraphicsText {Selecteer graphische bestanden voor de witte en de zwarte vakken:}
 menuText N OptionsBoardNames "Mijn Spelersnamen ..." 0 {Bewerk mijn spelersnamen} ;
 menuText N OptionsExport "Export" 1 {Wijzig tekst export opties}
+menuText N OptionsExportPGNText "PGN-bestandstekst" 0
+menuText N OptionsExportHTMLText "HTML-bestandstekst" 0
 menuText N OptionsFonts "Lettertypes" 0 {Wijzig lettertype}
 menuText N OptionsFontsRegular "Standaard" 0 {Wijzig het standaard lettertype}
 menuText N OptionsFontsMenu "Menu" 0 {Wijzig het menu lettertype}
@@ -353,6 +355,7 @@ menuText N OptionsResources "Bronnen..." 0 {Kies bronbestanden en -mappen}
 menuText N OptionsWindowsDock "Veranker de vensters" 0 {Veranker de vensters}
 menuText N OptionsWindowsSaveLayout "Opmaak opslaan" 0 {Opmaak opslaan}
 menuText N OptionsWindowsRestoreLayout "Opmaak herstellen" 0 {Opmaak herstellen}
+menuText N OptionsLayoutDefault "1 (standaard)" 0
 menuText N OptionsWindowsShowGameInfo "Toon de informatie over de partij" 0 {Toon de informatie over de partij}
 menuText N OptionsWindowsAutoLoadLayout "Auto laad eerste layout" 0 {Auto laad eerste layout bij opstarten}
 menuText N OptionsECO "ECO data laden" 0 \
@@ -851,6 +854,8 @@ translate N Deleted {Verwijderd}
 translate N SearchResults {Zoekresultaten}
 translate N OpeningTheDatabase {Database aan het Openen}
 translate N Database {Database}
+translate N MenuDatabaseSlot {Basis %d: %s}
+translate N MenuImportIntoSlot {in %d: %s}
 translate N Filter {Filter}
 translate N noGames {Geen partijen}
 translate N allGames {Alle partijen}
@@ -1261,6 +1266,17 @@ translate N EngineClone {Maak een kopie van de huidige engine}
 translate N EngineDuplicate {Dupliceren}
 translate N EngineDelete {Verwijder de huidige engine}
 translate N EngineOpenWindow {Open het motorvenster}
+translate N EngineShortcut {Snelkoppeling}
+translate N EngineShortcutNone {Geen}
+translate N EngineShortcutWindow {Venster %s (%s)}
+translate N EngineShortcutKeys {Sneltoetsen}
+translate N EngineShortcutKeysHelp {Kies de sleutel waarmee elk motorvenster wordt gestart. Druk op Wijzigen... en vervolgens op de gewenste toetsencombinatie. Een sleutel die al door een ander commando wordt gebruikt, wordt geweigerd.}
+translate N EngineShortcutChange {Wijziging...}
+translate N EngineShortcutReset {Resetten naar F2 en F3}
+translate N EngineShortcutPress {Druk op de nieuwe toetsencombinatie voor Engine Window %s.\nEscape wordt geannuleerd.}
+translate N EngineShortcutInUse {De sleutel %s wordt al gebruikt door een ander commando. Kies een andere.}
+translate N EngineShortcutUnsafe {Kies een functietoets of een toetsencombinatie die Ctrl, Alt of Command bevat.}
+translate N EngineShortcutReserved {Die sleutel wordt gereserveerd door het besturingssysteem of door tekstbewerking. Kies een andere.}
 
 # PGN window menus:
 menuText N PgnFile "Bestand" 0
@@ -1454,6 +1470,8 @@ translate N GsortStore {Winkel}
 translate N GsortLoad {Laden}
 
 # menu shown with right mouse button down on game list.
+translate N GlistRemoveSelectedFromFilter {Verwijder geselecteerde games uit het filter}
+translate N GlistExportSelected {Geselecteerde games exporteren...}
 translate N GlistRemoveThisGameFromFilter  {Remove this game from Filter}
 translate N GlistRemoveGameAndAboveFromFilter  {Remove game (and all above it) from Filter}
 translate N GlistRemoveGameAndBelowFromFilter  {Remove game (and all below it) from Filter}
@@ -1649,6 +1667,7 @@ translate N PatternDarkFian {Dark-Square Fianchettos (Loper-b2 vs. Loper-g7)} ;
 translate N PatternFourFian {Four Fianchettos (Lopers op b2,g2,b7,g7)} ;
 
 # Game saving:
+translate N SaveExtraTagsHint {Extra tags: (voorbeeldformaat: Annotator "Anand, V")}
 translate N Today {Nu}
 translate N ClassifyGame {Partij classificeren}
 

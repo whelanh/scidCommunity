@@ -316,6 +316,8 @@ translate k OptionsBGW {키보드의 컨트롤러 선택}
 translate k OptionsBoardGraphicsText {및 검은색 사각형에 대한 흰색 파일을 선택합니다.}
 menuText k OptionsBoardNames "내 플레이어 이름..." 0 {내 플레이어 이름 편집}
 menuText k OptionsExport "." 0 {대응 옵션 변경}
+menuText k OptionsExportPGNText "PGN 파일 텍스트" 0
+menuText k OptionsExportHTMLText "HTML 파일 텍스트" 0
 menuText k OptionsFonts "에" 0 {변경되었습니다}
 menuText k OptionsFontsRegular "행동인" 0 {일반 변경}
 menuText k OptionsFontsMenu "메뉴" 0 {메뉴 변경}
@@ -368,6 +370,7 @@ menuText k OptionsResources "됐습니다..." 0 {파일 및 폴더 선택}
 menuText k OptionsWindowsDock "우창" 0 {Dock Window(다시 시작해야 함)}
 menuText k OptionsWindowsSaveLayout "저장하여" 0 {저장하여}
 menuText k OptionsWindowsRestoreLayout "대체" 0 {대체}
+menuText k OptionsLayoutDefault "1(기본값)" 0
 menuText k OptionsWindowsShowGameInfo "게임 정보 표시" 0 {게임 정보 표시}
 menuText k OptionsWindowsAutoLoadLayout "첫 번째 페이지 자동 로드" 0 {시작 시 첫 번째 항목 자동 로드}
 menuText k OptionsECO "친환경 파일" 7 {ECO 분류 파일 로드}
@@ -863,6 +866,8 @@ translate k Deleted {삭제됨}
 translate k SearchResults {검색결과}
 translate k OpeningTheDatabase {데이터베이스}
 translate k Database {변수}
+translate k MenuDatabaseSlot {베이스 %d: %s}
+translate k MenuImportIntoSlot {%d로: %s}
 translate k Filter {핀}
 translate k noGames {게임 없음}
 translate k allGames {모든 게임}
@@ -1272,6 +1277,17 @@ translate k EngineClone {현재 엔진의 활동을 참여합니다.}
 translate k EngineDuplicate {복제}
 translate k EngineDelete {현재 엔진 삭제}
 translate k EngineOpenWindow {엔진 창 열기}
+translate k EngineShortcut {지름길}
+translate k EngineShortcutNone {없음}
+translate k EngineShortcutWindow {창 %s (%s)}
+translate k EngineShortcutKeys {단축키}
+translate k EngineShortcutKeysHelp {각 엔진 창을 시작하는 키를 선택하세요. 변경...을 누른 다음 원하는 키 조합을 누르세요. 다른 명령에서 이미 사용된 키는 거부됩니다.}
+translate k EngineShortcutChange {변화...}
+translate k EngineShortcutReset {F2 및 F3으로 재설정}
+translate k EngineShortcutPress {엔진 창 %s에 대한 새 키 조합을 누르십시오.\nEscape가 취소됩니다.}
+translate k EngineShortcutInUse {%s 키는 이미 다른 명령에서 사용되었습니다. 다른 것을 선택하세요.}
+translate k EngineShortcutUnsafe {기능 키 또는 Ctrl, Alt 또는 Command가 포함된 키 조합을 선택합니다.}
+translate k EngineShortcutReserved {해당 키는 운영 체제나 텍스트 편집을 위해 예약되어 있습니다. 다른 것을 선택하세요.}
 
 # PGN window menus:
 menuText k PgnFile "파일" 0
@@ -1465,6 +1481,8 @@ translate k GsortStore {가게}
 translate k GsortLoad {잼}
 
 # menu shown with right mouse button down on game list.
+translate k GlistRemoveSelectedFromFilter {필터에서 선택한 게임 제거}
+translate k GlistExportSelected {선택한 게임 내보내기...}
 translate k GlistRemoveThisGameFromFilter  {이 게임을 제거하세요}
 translate k GlistRemoveGameAndAboveFromFilter  {게임에서(및 그 밖의 모든 것)를 제거합니다.}
 translate k GlistRemoveGameAndBelowFromFilter  {게임(그리고 그 아래의 모든 항목)을 제거합니다.}
@@ -1653,6 +1671,7 @@ translate k PatternDarkFian {다크스퀘어 피안체토(Bishop-b2 vs. Bishop-g
 translate k PatternFourFian {네 명의 피안체토(b2,g2,b7,g7의 주교)}
 
 # Game saving:
+translate k SaveExtraTagsHint {추가 태그: (예제 형식: 주석자 "Anand, V")}
 translate k Today {오늘}
 translate k ClassifyGame {게임을 구분하다}
 

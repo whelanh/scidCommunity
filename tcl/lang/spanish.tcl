@@ -299,6 +299,8 @@ translate S OptionsBGW {Elegir textura para escaques}
 translate S OptionsBoardGraphicsText {Elegir fichero gráfico para escaques blancos y negros}
 menuText S OptionsBoardNames "Nombres de jugador..." 0 {Edita lista de nombres de jugador}
 menuText S OptionsExport "Exportación" 0 {Cambia las opciones de exportación de texto}
+menuText S OptionsExportPGNText "Texto del archivo PGN" 0
+menuText S OptionsExportHTMLText "texto del archivo HTML" 0
 menuText S OptionsFonts "Fuentes" 0 {Cambia las fuentes}
 menuText S OptionsFontsRegular "Habitual" 0 {Cambia la fuente habitual}
 menuText S OptionsFontsMenu "Menú" 0 {Cambia la fuente del menú}
@@ -360,6 +362,7 @@ menuText S OptionsWindowsDock "Ventanas en dique" 0 {Ventanas en dique}
 menuText S OptionsWindowsSaveLayout "Salvar disposición" 0 {Salva la disposición}
 menuText S OptionsWindowsRestoreLayout "Restaurar disposición" 0 \
   {Restaura la disposición}
+menuText S OptionsLayoutDefault "1 (predeterminado)" 0
 menuText S OptionsWindowsShowGameInfo "Mostrar información de la partida" 0 \
   {Muestrar información de la partida}
 menuText S OptionsWindowsAutoLoadLayout "Auto cargar primera disposición" 0 \
@@ -863,6 +866,8 @@ translate S Deleted {Borrar}
 translate S SearchResults {Buscar resultados}
 translate S OpeningTheDatabase {Abriendo base de datos}
 translate S Database {Base de datos}
+translate S MenuDatabaseSlot {Base %d: %s}
+translate S MenuImportIntoSlot {en %d: %s}
 translate S Filter {Filtro}
 translate S noGames {no hay partidas}
 translate S allGames {todas las partidas}
@@ -1288,6 +1293,17 @@ translate S EngineClone {Crear una copia del motor actual.}
 translate S EngineDuplicate {Duplicar}
 translate S EngineDelete {Eliminar el motor actual}
 translate S EngineOpenWindow {Abrir ventana del motor}
+translate S EngineShortcut {Atajo}
+translate S EngineShortcutNone {Ninguno}
+translate S EngineShortcutWindow {Ventana %s (%s)}
+translate S EngineShortcutKeys {Teclas de acceso directo}
+translate S EngineShortcutKeysHelp {Elija la tecla que inicia cada ventana del motor. Presione Cambiar..., luego la combinación de teclas que desee. Se rechaza una clave ya utilizada por otro comando.}
+translate S EngineShortcutChange {Cambiar...}
+translate S EngineShortcutReset {Restablecer a F2 y F3}
+translate S EngineShortcutPress {Presione la nueva combinación de teclas para la ventana del motor %s.\nEscape se cancela.}
+translate S EngineShortcutInUse {La clave %s ya está siendo utilizada por otro comando. Elige otro.}
+translate S EngineShortcutUnsafe {Elija una tecla de función o una combinación de teclas que incluya Ctrl, Alt o Comando.}
+translate S EngineShortcutReserved {Esa clave está reservada por el sistema operativo o por edición de texto. Elige otro.}
 
 # PGN window menus:
 menuText S PgnFile "Archivo" 0
@@ -1481,6 +1497,8 @@ translate S GsortStore {Almacenar}
 translate S GsortLoad {Carga}
 
 # menu shown with right mouse button down on game list.
+translate S GlistRemoveSelectedFromFilter {Eliminar juegos seleccionados del filtro}
+translate S GlistExportSelected {Exportar juegos seleccionados...}
 translate S GlistRemoveThisGameFromFilter  {Quita esta partida del filtro}
 translate S GlistRemoveGameAndAboveFromFilter  {Quita esta partida y todas las de arriba del filtro}
 translate S GlistRemoveGameAndBelowFromFilter  {Quita esta partida y todas las de abajo del filtro}
@@ -1678,6 +1696,7 @@ translate S PatternDarkFian {Fianchettos de casillas oscuras (Alfil-b2 vs. Alfil
 translate S PatternFourFian {Cuatro Fianchettos (Alfiles en b2,g2,b7,g7)}
 
 # Game saving:
+translate S SaveExtraTagsHint {Etiquetas adicionales: (formato de ejemplo: anotador "Anand, V")}
 translate S Today {Hoy}
 translate S ClassifyGame {Clasificar partida}
 

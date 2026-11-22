@@ -283,6 +283,8 @@ translate O OptionsBGW {Velg tekstur for ruter}
 translate O OptionsBoardGraphicsText {Velg grafikkfiler for hvite og svarte firkanter:}
 menuText O OptionsBoardNames "My Player Names..." 0 {Edit my player names} ;# ***
 menuText O OptionsExport "Eksport" 0 {Endre innstillinger for eksport av tekst}
+menuText O OptionsExportPGNText "PGN-filtekst" 0
+menuText O OptionsExportHTMLText "HTML-filtekst" 0
 menuText O OptionsFonts "Skrifttyper" 0 {Endre skrifttyper}
 menuText O OptionsFontsRegular "Vanlig" 0 {Endre den vanlige skrifttypen}
 menuText O OptionsFontsMenu "Menu" 0 {Change the menu font} ;# ***
@@ -335,6 +337,7 @@ menuText O OptionsResources "Ressurser..." 0 {Velg ressursfiler og mapper}
 menuText O OptionsWindowsDock "Dock vinduer" 0 {Dock vinduer}
 menuText O OptionsWindowsSaveLayout "Lagre layout" 0 {Lagre layout}
 menuText O OptionsWindowsRestoreLayout "Gjenopprett layout" 0 {Gjenopprett layout}
+menuText O OptionsLayoutDefault "1 (standard)" 0
 menuText O OptionsWindowsShowGameInfo "Vis spillinformasjon" 0 {Vis spillinformasjon}
 menuText O OptionsWindowsAutoLoadLayout "Last inn første layout automatisk" 0 {Last inn første layout automatisk ved oppstart}
 menuText O OptionsECO "Hent ECO-fil" 0 {Henter filen med ECO-klassifiseringer}
@@ -832,6 +835,8 @@ translate O Deleted {Slettet}
 translate O SearchResults {Søk i resultater}
 translate O OpeningTheDatabase {Åpningsdatabase}
 translate O Database {Database}
+translate O MenuDatabaseSlot {Base %d: %s}
+translate O MenuImportIntoSlot {inn i %d: %s}
 translate O Filter {Filter}
 translate O noGames {ingen partier}
 translate O allGames {alle partier}
@@ -1241,6 +1246,17 @@ translate O EngineClone {Lag en kopi av gjeldende motor}
 translate O EngineDuplicate {Dupliser}
 translate O EngineDelete {Slett gjeldende motor}
 translate O EngineOpenWindow {Åpne motorvinduet}
+translate O EngineShortcut {Snarvei}
+translate O EngineShortcutNone {Ingen}
+translate O EngineShortcutWindow {Vindu %s (%s)}
+translate O EngineShortcutKeys {Snarveistaster}
+translate O EngineShortcutKeysHelp {Velg nøkkelen som starter hvert motorvindu. Trykk Endre... og deretter tastekombinasjonen du ønsker. En nøkkel som allerede er brukt av en annen kommando, blir avvist.}
+translate O EngineShortcutChange {Endre...}
+translate O EngineShortcutReset {Tilbakestill til F2 og F3}
+translate O EngineShortcutPress {Trykk på den nye tastekombinasjonen for Engine Window %s.\nEscape avbryter.}
+translate O EngineShortcutInUse {Nøkkelen %s brukes allerede av en annen kommando. Velg en annen.}
+translate O EngineShortcutUnsafe {Velg en funksjonstast, eller en tastekombinasjon som inkluderer Ctrl, Alt eller Kommando.}
+translate O EngineShortcutReserved {Denne nøkkelen er reservert av operativsystemet eller ved tekstredigering. Velg en annen.}
 
 # PGN window menus:
 menuText O PgnFile "Fil" 0
@@ -1434,6 +1450,8 @@ translate O GsortStore {Lager}
 translate O GsortLoad {Laste}
 
 # menu shown with right mouse button down on game list.
+translate O GlistRemoveSelectedFromFilter {Fjern valgte spill fra filter}
+translate O GlistExportSelected {Eksporter utvalgte spill...}
 translate O GlistRemoveThisGameFromFilter  {Fjern dette spillet fra Filter}
 translate O GlistRemoveGameAndAboveFromFilter  {Fjern spillet (og alt over det) fra Filter}
 translate O GlistRemoveGameAndBelowFromFilter  {Fjern spillet (og alt under det) fra Filter}
@@ -1629,6 +1647,7 @@ translate O PatternDarkFian {Dark-Square Fianchettos (Bishop-b2 vs. Bishop-g7)} 
 translate O PatternFourFian {Four Fianchettos (Bishops on b2,g2,b7,g7)} ;# ***
 
 # Game saving:
+translate O SaveExtraTagsHint {Ekstra tagger: (eksempelformat: Annotator "Anand, V")}
 translate O Today {I dag}
 translate O ClassifyGame {Klassifiser parti}
 

@@ -276,6 +276,8 @@ translate V OptionsBGW {בחר מרקם לריבועים}
 translate V OptionsBoardGraphicsText {בחר קבצים גרפיים עבור ריבועים לבנים ושחורים:}
 menuText V OptionsBoardNames "שמות השחקנים שלי..." 0 {ערוך את שמות השחקנים שלי}
 menuText V OptionsExport "מייצא" 0 {שנה אפשרויות ייצוא טקסט}
+menuText V OptionsExportPGNText "טקסט קובץ PGN" 0
+menuText V OptionsExportHTMLText "טקסט קובץ HTML" 0
 menuText V OptionsFonts "גופנים" 0 {שנה גופנים}
 menuText V OptionsFontsRegular "קָבוּעַ" 0 {שנה את הגופן הרגיל}
 menuText V OptionsFontsMenu "תַפרִיט" 0 {שנה את גופן התפריט}
@@ -328,6 +330,7 @@ menuText V OptionsResources "אֶמְצָעִי..." 0 {בחר קבצי משאב�
 menuText V OptionsWindowsDock "חלונות עגינה" 0 {עגינה חלונות (צריך הפעלה מחדש)}
 menuText V OptionsWindowsSaveLayout "שמור פריסה" 0 {שמור פריסה}
 menuText V OptionsWindowsRestoreLayout "שחזר פריסה" 0 {שחזר פריסה}
+menuText V OptionsLayoutDefault "1 (ברירת מחדל)" 0
 menuText V OptionsWindowsShowGameInfo "הצג מידע על המשחק" 0 {הצג מידע על המשחק}
 menuText V OptionsWindowsAutoLoadLayout "טען אוטומטית את הפריסה הראשונה" 0 {טען אוטומטית את הפריסה הראשונה בעת האתחול}
 menuText V OptionsECO "קובץ ECO" 7 {טען את קובץ הסיווג ECO}
@@ -823,6 +826,8 @@ translate V Deleted {נמחק}
 translate V SearchResults {תוצאות חיפוש}
 translate V OpeningTheDatabase {פתיחת מסד נתונים}
 translate V Database {מסד נתונים}
+translate V MenuDatabaseSlot {בסיס %d: %s}
+translate V MenuImportIntoSlot {אל %d: %s}
 translate V Filter {לְסַנֵן}
 translate V noGames {אין משחקים}
 translate V allGames {כל המשחקים}
@@ -1232,6 +1237,17 @@ translate V EngineClone {צור עותק של המנוע הנוכחי}
 translate V EngineDuplicate {שכפל}
 translate V EngineDelete {מחק את המנוע הנוכחי}
 translate V EngineOpenWindow {פתח את חלון המנוע}
+translate V EngineShortcut {קיצור דרך}
+translate V EngineShortcutNone {אַף לֹא אֶחָד}
+translate V EngineShortcutWindow {חלון %s (%s)}
+translate V EngineShortcutKeys {מקשי קיצור}
+translate V EngineShortcutKeysHelp {בחר את המפתח שמתחיל כל חלון מנוע. הקש על שנה... ואז על צירוף המקשים הרצוי. מפתח שכבר נעשה בו שימוש בפקודה אחרת נדחה.}
+translate V EngineShortcutChange {לְשַׁנוֹת...}
+translate V EngineShortcutReset {אפס ל-F2 ו-F3}
+translate V EngineShortcutPress {הקש על צירוף המקשים החדש עבור Engine Window %s.\nEscape מבטל.}
+translate V EngineShortcutInUse {המפתח %s כבר נמצא בשימוש על ידי פקודה אחרת. בחר אחר.}
+translate V EngineShortcutUnsafe {בחר מקש פונקציה, או צירוף מקשים הכולל Ctrl, Alt או Command.}
+translate V EngineShortcutReserved {מפתח זה שמור על ידי מערכת ההפעלה או על ידי עריכת טקסט. בחר אחר.}
 
 # PGN window menus:
 menuText V PgnFile "קוֹבֶץ" 0
@@ -1425,6 +1441,8 @@ translate V GsortStore {חנות}
 translate V GsortLoad {לִטעוֹן}
 
 # menu shown with right mouse button down on game list.
+translate V GlistRemoveSelectedFromFilter {הסר משחקים נבחרים ממסנן}
+translate V GlistExportSelected {ייצא משחקים נבחרים...}
 translate V GlistRemoveThisGameFromFilter  {הסר את המשחק הזה ממסנן}
 translate V GlistRemoveGameAndAboveFromFilter  {הסר את המשחק (וכל מעליו) ממסנן}
 translate V GlistRemoveGameAndBelowFromFilter  {הסר את המשחק (וכל מתחתיו) ממסנן}
@@ -1613,6 +1631,7 @@ translate V PatternDarkFian {Dark-Square Fianchettos (Bishop-b2 נגד Bishop-g7
 translate V PatternFourFian {ארבעה פיאנצ'טו (בישופים על b2,g2,b7,g7)}
 
 # Game saving:
+translate V SaveExtraTagsHint {תגיות נוספות: (פורמט לדוגמא: מציין "Anand, V")}
 translate V Today {הַיוֹם}
 translate V ClassifyGame {סיווג משחק}
 

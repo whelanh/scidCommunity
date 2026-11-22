@@ -275,6 +275,8 @@ translate h OptionsBGW {वर्गों के लिए बनावट क�
 translate h OptionsBoardGraphicsText {सफ़ेद और काले वर्गों के लिए ग्राफ़िक फ़ाइलें चुनें:}
 menuText h OptionsBoardNames "मेरे खिलाड़ियों के नाम..." 0 {मेरे खिलाड़ियों के नाम संपादित करें}
 menuText h OptionsExport "निर्यात" 0 {टेक्स्ट निर्यात विकल्प बदलें}
+menuText h OptionsExportPGNText "पीजीएन फ़ाइल पाठ" 0
+menuText h OptionsExportHTMLText "HTML फ़ाइल पाठ" 0
 menuText h OptionsFonts "फ़ॉन्ट्स" 0 {फ़ॉन्ट बदलें}
 menuText h OptionsFontsRegular "नियमित" 0 {नियमित फ़ॉन्ट बदलें}
 menuText h OptionsFontsMenu "मेनू" 0 {मेनू फ़ॉन्ट बदलें}
@@ -327,6 +329,7 @@ menuText h OptionsResources "संसाधन..." 0 {संसाधन फ़
 menuText h OptionsWindowsDock "डॉक खिड़कियाँ" 0 {डॉक विंडोज़ (पुनः आरंभ करने की आवश्यकता है)}
 menuText h OptionsWindowsSaveLayout "लेआउट सहेजें" 0 {लेआउट सहेजें}
 menuText h OptionsWindowsRestoreLayout "लेआउट पुनर्स्थापित करें" 0 {लेआउट पुनर्स्थापित करें}
+menuText h OptionsLayoutDefault "1 (डिफ़ॉल्ट)" 0
 menuText h OptionsWindowsShowGameInfo "खेल की जानकारी दिखाएँ" 0 {खेल की जानकारी दिखाएँ}
 menuText h OptionsWindowsAutoLoadLayout "पहला लेआउट स्वतः लोड करें" 0 {स्टार्टअप पर पहला लेआउट ऑटो लोड करें}
 menuText h OptionsECO "ईसीओ फ़ाइल" 7 {ईसीओ वर्गीकरण फ़ाइल लोड करें}
@@ -822,6 +825,8 @@ translate h Deleted {हटाए गए}
 translate h SearchResults {खोज के परिणाम}
 translate h OpeningTheDatabase {डेटाबेस खुल रहा है}
 translate h Database {डेटाबेस}
+translate h MenuDatabaseSlot {आधार %d: %s}
+translate h MenuImportIntoSlot {%d में: %s}
 translate h Filter {फ़िल्टर}
 translate h noGames {कोई गेम नहीं}
 translate h allGames {सभी खेल}
@@ -1231,6 +1236,17 @@ translate h EngineClone {वर्तमान इंजन की एक प्
 translate h EngineDuplicate {प्रतिलिपि बनाएँ}
 translate h EngineDelete {वर्तमान इंजन हटाएँ}
 translate h EngineOpenWindow {इंजन विंडो खोलें}
+translate h EngineShortcut {शॉर्टकट}
+translate h EngineShortcutNone {कोई नहीं}
+translate h EngineShortcutWindow {विंडो %s (%s)}
+translate h EngineShortcutKeys {शॉर्टकट कुंजियाँ}
+translate h EngineShortcutKeysHelp {वह कुंजी चुनें जो प्रत्येक इंजन विंडो को प्रारंभ करती है। परिवर्तन... दबाएँ, फिर वह कुंजी संयोजन जो आप चाहते हैं। किसी अन्य कमांड द्वारा पहले से ही उपयोग की गई कुंजी को अस्वीकार कर दिया गया है।}
+translate h EngineShortcutChange {परिवर्तन...}
+translate h EngineShortcutReset {F2 और F3 पर रीसेट करें}
+translate h EngineShortcutPress {इंजन विंडो %s के लिए नया कुंजी संयोजन दबाएँ।\nएस्केप रद्द।}
+translate h EngineShortcutInUse {कुंजी %s पहले से ही किसी अन्य कमांड द्वारा उपयोग की जाती है। दुसरे का चयन करें।}
+translate h EngineShortcutUnsafe {एक फ़ंक्शन कुंजी, या एक कुंजी संयोजन चुनें जिसमें Ctrl, Alt या Command शामिल हो।}
+translate h EngineShortcutReserved {वह कुंजी ऑपरेटिंग सिस्टम या टेक्स्ट संपादन द्वारा आरक्षित है। दुसरे का चयन करें।}
 
 # PGN window menus:
 menuText h PgnFile "फ़ाइल" 0
@@ -1424,6 +1440,8 @@ translate h GsortStore {इकट्ठा करना}
 translate h GsortLoad {भार}
 
 # menu shown with right mouse button down on game list.
+translate h GlistRemoveSelectedFromFilter {चयनित गेम्स को फ़िल्टर से हटाएँ}
+translate h GlistExportSelected {चयनित गेम निर्यात करें...}
 translate h GlistRemoveThisGameFromFilter  {इस गेम को फ़िल्टर से हटाएँ}
 translate h GlistRemoveGameAndAboveFromFilter  {फ़िल्टर से गेम (और उसके ऊपर के सभी) को हटा दें}
 translate h GlistRemoveGameAndBelowFromFilter  {फ़िल्टर से गेम (और उसके नीचे के सभी) को हटा दें}
@@ -1612,6 +1630,7 @@ translate h PatternDarkFian {डार्क-स्क्वायर फिय�
 translate h PatternFourFian {चार फियानचेतोस (बी2,जी2,बी7,जी7 पर बिशप)}
 
 # Game saving:
+translate h SaveExtraTagsHint {अतिरिक्त टैग: (उदाहरण प्रारूप: एनोटेटर "आनंद, वी")}
 translate h Today {आज}
 translate h ClassifyGame {खेल को वर्गीकृत करें}
 

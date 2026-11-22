@@ -316,6 +316,8 @@ translate g OptionsBGW {Изберете текстура за квадрати}
 translate g OptionsBoardGraphicsText {Изберете графични файлове за бели и черни квадрати:}
 menuText g OptionsBoardNames "Моите имена на играчи..." 0 {Редактиране на имената на играчите ми}
 menuText g OptionsExport "Експортиране" 0 {Променете опциите за експортиране на текст}
+menuText g OptionsExportPGNText "PGN текст на файла" 0
+menuText g OptionsExportHTMLText "Текст на HTML файл" 0
 menuText g OptionsFonts "Шрифтове" 0 {Смяна на шрифтове}
 menuText g OptionsFontsRegular "Редовен" 0 {Променете обикновения шрифт}
 menuText g OptionsFontsMenu "Меню" 0 {Променете шрифта на менюто}
@@ -368,6 +370,7 @@ menuText g OptionsResources "ресурси..." 0 {Изберете файлов
 menuText g OptionsWindowsDock "Докинг прозорци" 0 {Док прозорци (необходимо е рестартиране)}
 menuText g OptionsWindowsSaveLayout "Запазване на оформлението" 0 {Запазване на оформлението}
 menuText g OptionsWindowsRestoreLayout "Възстановяване на оформлението" 0 {Възстановяване на оформлението}
+menuText g OptionsLayoutDefault "1 (по подразбиране)" 0
 menuText g OptionsWindowsShowGameInfo "Показване на информация за играта" 0 {Показване на информация за играта}
 menuText g OptionsWindowsAutoLoadLayout "Автоматично зареждане на първото оформление" 0 {Автоматично зареждане на първото оформление при стартиране}
 menuText g OptionsECO "ECO файл" 7 {Заредете файла с ECO класификация}
@@ -863,6 +866,8 @@ translate g Deleted {Изтрито}
 translate g SearchResults {Резултати от търсенето}
 translate g OpeningTheDatabase {Отваряне на база данни}
 translate g Database {База данни}
+translate g MenuDatabaseSlot {База %d: %s}
+translate g MenuImportIntoSlot {в %d: %s}
 translate g Filter {Филтър}
 translate g noGames {без игри}
 translate g allGames {всички игри}
@@ -1272,6 +1277,17 @@ translate g EngineClone {Създайте копие на текущия дви�
 translate g EngineDuplicate {Дублирай}
 translate g EngineDelete {Изтрийте текущия двигател}
 translate g EngineOpenWindow {Отворете прозореца на двигателя}
+translate g EngineShortcut {Пряк път}
+translate g EngineShortcutNone {Няма}
+translate g EngineShortcutWindow {Прозорец %s (%s)}
+translate g EngineShortcutKeys {Клавиши за бърз достъп}
+translate g EngineShortcutKeysHelp {Изберете ключа, който стартира всеки прозорец на двигателя. Натиснете Промяна..., след това клавишната комбинация, която желаете. Ключ, който вече е използван от друга команда, се отказва.}
+translate g EngineShortcutChange {промяна...}
+translate g EngineShortcutReset {Нулирайте до F2 и F3}
+translate g EngineShortcutPress {Натиснете новата клавишна комбинация за прозореца на двигателя %s.\nEscape се отменя.}
+translate g EngineShortcutInUse {Ключът %s вече се използва от друга команда. Изберете друг.}
+translate g EngineShortcutUnsafe {Изберете функционален клавиш или клавишна комбинация, която включва Ctrl, Alt или Command.}
+translate g EngineShortcutReserved {Този ключ е запазен от операционната система или чрез редактиране на текст. Изберете друг.}
 
 # PGN window menus:
 menuText g PgnFile "Файл" 0
@@ -1465,6 +1481,8 @@ translate g GsortStore {Магазин}
 translate g GsortLoad {Заредете}
 
 # menu shown with right mouse button down on game list.
+translate g GlistRemoveSelectedFromFilter {Премахване на избраните игри от филтъра}
+translate g GlistExportSelected {Експортиране на избрани игри...}
 translate g GlistRemoveThisGameFromFilter  {Премахнете тази игра от филтъра}
 translate g GlistRemoveGameAndAboveFromFilter  {Премахнете играта (и всичко над нея) от филтъра}
 translate g GlistRemoveGameAndBelowFromFilter  {Премахнете играта (и всички под нея) от филтъра}
@@ -1653,6 +1671,7 @@ translate g PatternDarkFian {Fianchettos с тъмен квадрат (Bishop-b2
 translate g PatternFourFian {Четири Fianchettos (Епископи на b2,g2,b7,g7)}
 
 # Game saving:
+translate g SaveExtraTagsHint {Допълнителни тагове: (примерен формат: Анотатор „Ананд, V“)}
 translate g Today {Днес}
 translate g ClassifyGame {Игра за класифициране}
 

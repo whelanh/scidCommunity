@@ -275,6 +275,8 @@ translate b OptionsBGW {বর্গক্ষেত্রের জন্য ট
 translate b OptionsBoardGraphicsText {সাদা এবং কালো স্কোয়ারের জন্য গ্রাফিক ফাইল নির্বাচন করুন:}
 menuText b OptionsBoardNames "আমার খেলোয়াড়ের নাম..." 0 {আমার খেলোয়াড়ের নাম সম্পাদনা করুন}
 menuText b OptionsExport "রপ্তানি হচ্ছে" 0 {টেক্সট এক্সপোর্ট বিকল্প পরিবর্তন করুন}
+menuText b OptionsExportPGNText "PGN ফাইলের পাঠ্য" 0
+menuText b OptionsExportHTMLText "HTML ফাইলের পাঠ্য" 0
 menuText b OptionsFonts "হরফ" 0 {ফন্ট পরিবর্তন করুন}
 menuText b OptionsFontsRegular "নিয়মিত" 0 {নিয়মিত ফন্ট পরিবর্তন করুন}
 menuText b OptionsFontsMenu "মেনু" 0 {মেনু ফন্ট পরিবর্তন করুন}
@@ -327,6 +329,7 @@ menuText b OptionsResources "সম্পদ..." 0 {সম্পদ ফাইল
 menuText b OptionsWindowsDock "ডক জানালা" 0 {ডক উইন্ডোজ (পুনরায় চালু করতে হবে)}
 menuText b OptionsWindowsSaveLayout "বিন্যাস সংরক্ষণ করুন" 0 {বিন্যাস সংরক্ষণ করুন}
 menuText b OptionsWindowsRestoreLayout "লেআউট পুনরুদ্ধার করুন" 0 {লেআউট পুনরুদ্ধার করুন}
+menuText b OptionsLayoutDefault "1 (ডিফল্ট)" 0
 menuText b OptionsWindowsShowGameInfo "খেলার তথ্য দেখান" 0 {খেলার তথ্য দেখান}
 menuText b OptionsWindowsAutoLoadLayout "অটো লোড প্রথম লেআউট" 0 {স্টার্টআপে প্রথম লেআউট স্বয়ংক্রিয়ভাবে লোড করুন}
 menuText b OptionsECO "ECO ফাইল" 7 {ECO শ্রেণীবিভাগ ফাইল লোড করুন}
@@ -822,6 +825,8 @@ translate b Deleted {মুছে ফেলা হয়েছে}
 translate b SearchResults {অনুসন্ধান ফলাফল}
 translate b OpeningTheDatabase {ডাটাবেস খোলা হচ্ছে}
 translate b Database {ডাটাবেস}
+translate b MenuDatabaseSlot {ভিত্তি %d: %s}
+translate b MenuImportIntoSlot {%d]: %s}
 translate b Filter {ফিল্টার}
 translate b noGames {কোন খেলা নেই}
 translate b allGames {সব গেম}
@@ -1231,6 +1236,17 @@ translate b EngineClone {বর্তমান ইঞ্জিনের এক�
 translate b EngineDuplicate {অনুলিপি করুন}
 translate b EngineDelete {বর্তমান ইঞ্জিন মুছুন}
 translate b EngineOpenWindow {ইঞ্জিন উইন্ডো খুলুন}
+translate b EngineShortcut {শর্টকাট}
+translate b EngineShortcutNone {কোনোটিই নয়}
+translate b EngineShortcutWindow {উইন্ডো %s (%s)}
+translate b EngineShortcutKeys {শর্টকাট কী}
+translate b EngineShortcutKeysHelp {প্রতিটি ইঞ্জিন উইন্ডো শুরু করে এমন কী চয়ন করুন। চেঞ্জ টিপুন..., তারপর আপনি যে কী সমন্বয় চান। অন্য কমান্ড দ্বারা ইতিমধ্যে ব্যবহৃত একটি কী প্রত্যাখ্যান করা হয়েছে।}
+translate b EngineShortcutChange {পরিবর্তন...}
+translate b EngineShortcutReset {F2 এবং F3 রিসেট করুন}
+translate b EngineShortcutPress {ইঞ্জিন উইন্ডো %s-এর জন্য নতুন কী সমন্বয় টিপুন।\nএস্কেপ বাতিল।}
+translate b EngineShortcutInUse {কী %s ইতিমধ্যেই অন্য কমান্ড দ্বারা ব্যবহৃত হয়। অন্যটি বেছে নিন।}
+translate b EngineShortcutUnsafe {একটি ফাংশন কী বা একটি কী সমন্বয় চয়ন করুন যাতে Ctrl, Alt বা Command অন্তর্ভুক্ত থাকে।}
+translate b EngineShortcutReserved {সেই কীটি অপারেটিং সিস্টেম বা টেক্সট এডিটিং দ্বারা সংরক্ষিত। অন্যটি বেছে নিন।}
 
 # PGN window menus:
 menuText b PgnFile "ফাইল" 0
@@ -1424,6 +1440,8 @@ translate b GsortStore {দোকান}
 translate b GsortLoad {লোড}
 
 # menu shown with right mouse button down on game list.
+translate b GlistRemoveSelectedFromFilter {ফিল্টার থেকে নির্বাচিত গেমগুলি সরান}
+translate b GlistExportSelected {নির্বাচিত গেম রপ্তানি করুন...}
 translate b GlistRemoveThisGameFromFilter  {ফিল্টার থেকে এই গেমটি সরান}
 translate b GlistRemoveGameAndAboveFromFilter  {ফিল্টার থেকে গেম (এবং এর উপরে সব) সরান}
 translate b GlistRemoveGameAndBelowFromFilter  {ফিল্টার থেকে গেম (এবং এর নীচের সমস্ত) সরান}
@@ -1612,6 +1630,7 @@ translate b PatternDarkFian {ডার্ক-স্কোয়ার ফিয�
 translate b PatternFourFian {চার ফিয়ানচেটোস (বিশপস অন b2,g2,b7,g7)}
 
 # Game saving:
+translate b SaveExtraTagsHint {অতিরিক্ত ট্যাগ: (উদাহরণ বিন্যাস: টীকাকার "আনন্দ, ভি")}
 translate b Today {আজ}
 translate b ClassifyGame {খেলা শ্রেণীবদ্ধ করুন}
 

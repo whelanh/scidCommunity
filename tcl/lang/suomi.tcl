@@ -314,6 +314,8 @@ translate U OptionsBGW {Valitse ruuduissa käytettävä tekstuuri}
 translate U OptionsBoardGraphicsText {Valitse ruuduissa käytettävä grafiikkatiedosto:}
 menuText U OptionsBoardNames "Omat nimet" 0 {Lisää ja muokkaa käyttämiäsi pelaajanimiä}
 menuText U OptionsExport "Vientiasetukset" 0 {Muuta eri tekstimuotojen vientiin liittyviä asetuksia}
+menuText U OptionsExportPGNText "PGN-tiedoston teksti" 0
+menuText U OptionsExportHTMLText "HTML-tiedoston teksti" 0
 menuText U OptionsFonts "Fontit" 0 {Muuta fontteja}
 menuText U OptionsFontsRegular "Oletusfontti" 0 {Vaihda oletusfontti}
 menuText U OptionsFontsMenu "Valikko" 0 {Vaihda valikoissa käytetty fontti}
@@ -366,6 +368,7 @@ menuText U OptionsResources "Resurssit..." 0 {Valitse resurssitiedostot ja kansi
 menuText U OptionsWindowsDock "Telakoi ikkunat" 0 {Telakoi irti olevat ikkunat (vaatii uudelleenkäynnistyksen)}
 menuText U OptionsWindowsSaveLayout "Tallenna layout" 0 {Tallenna nimelle ikkunoiden ja työkalupalkkien sijainti}
 menuText U OptionsWindowsRestoreLayout "Palauta layout" 0 {Palauta tallennettu layout}
+menuText U OptionsLayoutDefault "1 (oletus)" 0
 menuText U OptionsWindowsShowGameInfo "Pelin tiedot" 0 {Näytä/piilota pelin tiedot (pelaajanimet, turnaus...)}
 menuText U OptionsWindowsAutoLoadLayout "Ensimmäinen layout automaattisesti" 0 {Lataa ensimmäinen tallennettu layout automaattisesti}
 menuText U OptionsECO "Lataa ECO-tiedosto" 7 {Lataa ECO avausluokittelu tiedostosta}
@@ -861,6 +864,8 @@ translate U Deleted {Poistettu}
 translate U SearchResults {Haun tulokset}
 translate U OpeningTheDatabase {Avaustietokanta}
 translate U Database {Tietokanta}
+translate U MenuDatabaseSlot {Perus %d: %s}
+translate U MenuImportIntoSlot {kohteeseen %d: %s}
 translate U Filter {Suodatin}
 translate U noGames {ei pelejä}
 translate U allGames {kaikki pelit}
@@ -1270,6 +1275,17 @@ translate U EngineClone {Luo kopio nykyisestä moottorista}
 translate U EngineDuplicate {Monista}
 translate U EngineDelete {Poista nykyinen moottori}
 translate U EngineOpenWindow {Avaa moottorin ikkuna}
+translate U EngineShortcut {Pikakuvake}
+translate U EngineShortcutNone {Ei mitään}
+translate U EngineShortcutWindow {Ikkuna %s (%s)}
+translate U EngineShortcutKeys {Pikanäppäimet}
+translate U EngineShortcutKeysHelp {Valitse avain, joka käynnistää jokaisen moottoriikkunan. Paina Muuta... ja sitten haluamaasi näppäinyhdistelmää. Toisen komennon jo käyttämä avain hylätään.}
+translate U EngineShortcutChange {Muuttaa...}
+translate U EngineShortcutReset {Palauta F2 ja F3}
+translate U EngineShortcutPress {Paina moottoriikkunan uutta näppäinyhdistelmää %s.\nEscape peruuttaa.}
+translate U EngineShortcutInUse {Avain %s on jo toisen komennon käytössä. Valitse toinen.}
+translate U EngineShortcutUnsafe {Valitse toimintonäppäin tai näppäinyhdistelmä, joka sisältää Ctrl, Alt tai Command.}
+translate U EngineShortcutReserved {Tämä avain on varattu käyttöjärjestelmällä tai tekstinmuokkauksella. Valitse toinen.}
 
 # PGN window menus:
 menuText U PgnFile "Tiedosto" 0
@@ -1463,6 +1479,8 @@ translate U GsortStore {Varastoi}
 translate U GsortLoad {Lataa}
 
 # menu shown with right mouse button down on game list.
+translate U GlistRemoveSelectedFromFilter {Poista valitut pelit suodattimesta}
+translate U GlistExportSelected {Vie valitut pelit...}
 translate U GlistRemoveThisGameFromFilter  {Tämä peli pois suodattimesta}
 translate U GlistRemoveGameAndAboveFromFilter  {Tämä ja kaikki edeltävät pois suodattimesta}
 translate U GlistRemoveGameAndBelowFromFilter  {Tämä ja kaikki seuraavat pois suodattimesta}
@@ -1658,6 +1676,7 @@ translate U PatternDarkFian {Tummaruutuiset sivustoinnit (lähetti b2 vs. lähet
 translate U PatternFourFian {Neljä sivustointia (Lähetit b2,g2,b7,g7)}
 
 # Game saving:
+translate U SaveExtraTagsHint {Lisätunnisteet: (esimerkkimuoto: Annotaattori "Anand, V")}
 translate U Today {Tänään}
 translate U ClassifyGame {Luokittele peli}
 

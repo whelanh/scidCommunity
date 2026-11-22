@@ -316,6 +316,8 @@ translate L OptionsBGW {Selectați textura pentru pătrate}
 translate L OptionsBoardGraphicsText {Selectați fișierele grafice pentru pătratele albe și negre:}
 menuText L OptionsBoardNames "Numele meu de jucător..." 0 {Editează-mi numele jucătorilor}
 menuText L OptionsExport "Exportator" 0 {Modificați opțiunile de export de text}
+menuText L OptionsExportPGNText "Textul fișierului PGN" 0
+menuText L OptionsExportHTMLText "Textul fișierului HTML" 0
 menuText L OptionsFonts "Fonturi" 0 {Schimbați fonturile}
 menuText L OptionsFontsRegular "Regulat" 0 {Schimbați fontul obișnuit}
 menuText L OptionsFontsMenu "Meniu" 0 {Schimbați fontul meniului}
@@ -368,6 +370,7 @@ menuText L OptionsResources "Resurse..." 0 {Alegeți fișierele de resurse și f
 menuText L OptionsWindowsDock "Ferestre de andocare" 0 {Ferestre de andocare (trebuie repornită)}
 menuText L OptionsWindowsSaveLayout "Salvați aspectul" 0 {Salvați aspectul}
 menuText L OptionsWindowsRestoreLayout "Restaurați aspectul" 0 {Restaurați aspectul}
+menuText L OptionsLayoutDefault "1 (implicit)" 0
 menuText L OptionsWindowsShowGameInfo "Afișează informații despre joc" 0 {Afișează informații despre joc}
 menuText L OptionsWindowsAutoLoadLayout "Încărcați automat primul aspect" 0 {Încărcați automat primul aspect la pornire}
 menuText L OptionsECO "Fișier ECO" 7 {Încărcați fișierul de clasificare ECO}
@@ -863,6 +866,8 @@ translate L Deleted {Șters}
 translate L SearchResults {Rezultatele căutării}
 translate L OpeningTheDatabase {Deschiderea bazei de date}
 translate L Database {Baza de date}
+translate L MenuDatabaseSlot {Baza %d: %s}
+translate L MenuImportIntoSlot {în %d: %s}
 translate L Filter {Filtra}
 translate L noGames {fara jocuri}
 translate L allGames {toate jocurile}
@@ -1272,6 +1277,17 @@ translate L EngineClone {Creați o copie a motorului curent}
 translate L EngineDuplicate {Duplicare}
 translate L EngineDelete {Ștergeți motorul actual}
 translate L EngineOpenWindow {Deschideți fereastra motorului}
+translate L EngineShortcut {Comandă rapidă}
+translate L EngineShortcutNone {Nici unul}
+translate L EngineShortcutWindow {Fereastră %s (%s)}
+translate L EngineShortcutKeys {Tastele de comandă rapidă}
+translate L EngineShortcutKeysHelp {Alegeți cheia care pornește fiecare fereastră de motor. Apăsați Modificare..., apoi combinația de taste dorită. O cheie deja folosită de o altă comandă este refuzată.}
+translate L EngineShortcutChange {Schimba...}
+translate L EngineShortcutReset {Resetați la F2 și F3}
+translate L EngineShortcutPress {Apăsați noua combinație de taste pentru Fereastra Motor %s.\nEscape se anulează.}
+translate L EngineShortcutInUse {Cheia %s este deja folosit de o altă comandă. Alege altul.}
+translate L EngineShortcutUnsafe {Alegeți o tastă funcțională sau o combinație de taste care include Ctrl, Alt sau Command.}
+translate L EngineShortcutReserved {Cheia respectivă este rezervată de sistemul de operare sau de editarea textului. Alege altul.}
 
 # PGN window menus:
 menuText L PgnFile "Fişier" 0
@@ -1465,6 +1481,8 @@ translate L GsortStore {Magazin}
 translate L GsortLoad {Încărca}
 
 # menu shown with right mouse button down on game list.
+translate L GlistRemoveSelectedFromFilter {Eliminați jocurile selectate din filtru}
+translate L GlistExportSelected {Exportați jocurile selectate...}
 translate L GlistRemoveThisGameFromFilter  {Eliminați acest joc din Filtru}
 translate L GlistRemoveGameAndAboveFromFilter  {Eliminați jocul (și toate de mai sus) din Filtru}
 translate L GlistRemoveGameAndBelowFromFilter  {Eliminați jocul (și toate de sub el) din Filtru}
@@ -1653,6 +1671,7 @@ translate L PatternDarkFian {Fianchettos din pătrat întunecat (Bishop-b2 vs. B
 translate L PatternFourFian {Patru Fianchettos (Episcopi pe b2,g2,b7,g7)}
 
 # Game saving:
+translate L SaveExtraTagsHint {Etichete suplimentare: (exemplu format: Adnotator „Anand, V”)}
 translate L Today {Astăzi}
 translate L ClassifyGame {Clasifica jocul}
 

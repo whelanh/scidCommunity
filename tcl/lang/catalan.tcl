@@ -294,6 +294,8 @@ translate K OptionsBGW {Escollir textura per les caselles}
 translate K OptionsBoardGraphicsText {Escollir arxiu gràfic per a les caselles blanques i negres}
 menuText K OptionsBoardNames "Els meus noms..." 0 {Edita els noms amb els que pot aparèixer un jugador}
 menuText K OptionsExport "Exportació" 0 {Canvia les opcions d'exportació de text}
+menuText K OptionsExportPGNText "Text del fitxer PGN" 0
+menuText K OptionsExportHTMLText "Text del fitxer HTML" 0
 menuText K OptionsFonts "Fonts" 0 {Canvia les fonts}
 menuText K OptionsFontsRegular "Habitual" 0 {Canvia la font habitual}
 menuText K OptionsFontsMenu "Menú" 0 {Canvia la font del menú}
@@ -346,6 +348,7 @@ menuText K OptionsResources "Recursos..." 0 {Tria carpetes i fitxers de recursos
 menuText K OptionsWindowsDock "Bloqueja finestres" 0 {Bloqueja i agrupa finestres}
 menuText K OptionsWindowsSaveLayout "Desar disposició" 0 {Desar disposició}
 menuText K OptionsWindowsRestoreLayout "Restaurar disposició" 0 {Restaurar disposició}
+menuText K OptionsLayoutDefault "1 (per defecte)" 0
 menuText K OptionsWindowsShowGameInfo "Mostrar informació de la partida" 0 {Mostrar informació de la partida}
 menuText K OptionsWindowsAutoLoadLayout "Auto carregar primera disposició" 0 {Autocarregar primera disposició en començar}
 menuText K OptionsECO "Cargar arxiu ECO..." 7 \
@@ -845,6 +848,8 @@ translate K Deleted {Esborrar}
 translate K SearchResults {Cercar resultats}
 translate K OpeningTheDatabase {Obrint base de dades}
 translate K Database {Base de dades}
+translate K MenuDatabaseSlot {Base %d: %s}
+translate K MenuImportIntoSlot {a %d: %s}
 translate K Filter {Filtre}
 translate K noGames {no hi ha partides}
 translate K allGames {totes les partides}
@@ -1257,6 +1262,17 @@ translate K EngineClone {Crea una còpia del motor actual}
 translate K EngineDuplicate {Duplica}
 translate K EngineDelete {Esborra el motor actual}
 translate K EngineOpenWindow {Obre la finestra del motor}
+translate K EngineShortcut {Drecera}
+translate K EngineShortcutNone {Cap}
+translate K EngineShortcutWindow {Finestra %s (%s)}
+translate K EngineShortcutKeys {Tecles de drecera}
+translate K EngineShortcutKeysHelp {Trieu la clau que engega cada finestra del motor. Premeu Canvia... i després la combinació de tecles que vulgueu. Es rebutja una clau ja utilitzada per una altra ordre.}
+translate K EngineShortcutChange {Canvia...}
+translate K EngineShortcutReset {Restableix a F2 i F3}
+translate K EngineShortcutPress {Premeu la nova combinació de tecles per a la finestra del motor %s.\nEscape es cancel·la.}
+translate K EngineShortcutInUse {La clau %s ja l'utilitza una altra ordre. Trieu-ne un altre.}
+translate K EngineShortcutUnsafe {Trieu una tecla de funció o una combinació de tecles que inclogui Ctrl, Alt o Command.}
+translate K EngineShortcutReserved {Aquesta clau la reserva el sistema operatiu o l'edició de text. Trieu-ne un altre.}
 
 # PGN window menus:
 menuText K PgnFile "Arxiu" 0
@@ -1450,6 +1466,8 @@ translate K GsortStore {Emmagatzema}
 translate K GsortLoad {Carrega}
 
 # menu shown with right mouse button down on game list.
+translate K GlistRemoveSelectedFromFilter {Elimina els jocs seleccionats del filtre}
+translate K GlistExportSelected {Exporta els jocs seleccionats...}
 translate K GlistRemoveThisGameFromFilter  {Treu aquesta partida del Filtre}
 translate K GlistRemoveGameAndAboveFromFilter  {Treu aquesta partida i totes les de sobre del Filtre}
 translate K GlistRemoveGameAndBelowFromFilter  {Treu aquesta partida i totes les de sota del Filtre}
@@ -1647,6 +1665,7 @@ translate K PatternDarkFian {Fianchettos de caselles negres (Alfil-b2 vs. Alfil-
 translate K PatternFourFian {Quatre Fianchettos (Alfils a b2,g2,b7,g7)}
 
 # Game saving:
+translate K SaveExtraTagsHint {Etiquetes addicionals: (format d'exemple: Anotador "Anand, V")}
 translate K Today {Avui}
 translate K ClassifyGame {Classificar partida}
 

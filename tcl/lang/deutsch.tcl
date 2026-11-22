@@ -307,6 +307,8 @@ translate D OptionsBGW {Grafikdatei für Felder auswählen}
 translate D OptionsBoardGraphicsText {Grafikdateien für helle und dunkle Felder auswählen:}
 menuText D OptionsBoardNames "Meine Spielernamen..." 0 {Editiere meine Spielernamen}
 menuText D OptionsExport "Export" 1 {Textausgabeoptionen ändern}
+menuText D OptionsExportPGNText "PGN-Dateitext" 0
+menuText D OptionsExportHTMLText "HTML-Dateitext" 0
 menuText D OptionsFonts "Schriftarten" 3 {Schriftarten auswählen}
 menuText D OptionsFontsRegular "Normal" 0 {Standardzeichensatz}
 menuText D OptionsFontsMenu "Menü" 0 {Schriftart für Menüs}
@@ -359,6 +361,7 @@ menuText D OptionsResources "Ressourcen..." 0 {Standard Dateien und Verzeichniss
 menuText D OptionsWindowsDock "Fenster anheften" 0 {Fenster in der Hauptanwendung öffnen}
 menuText D OptionsWindowsSaveLayout "Layout speichern" 0 {Speichern des aktuellen Fensterlayout}
 menuText D OptionsWindowsRestoreLayout "Layout laden" 0 {Gespeichertes Fensterlayout wieder herstellen}
+menuText D OptionsLayoutDefault "1 (Standard)" 0
 menuText D OptionsWindowsShowGameInfo "Partieinformationen" 0 {Partieinformation anzeigen}
 menuText D OptionsWindowsAutoLoadLayout "Automatisch laden: 1. Layout" 0 {Lädt das erste definierte Layout automatisch beim Programmstart}
 menuText D OptionsECO "ECO-Datei" 0 {ECO-Klassifikationsdatei laden}
@@ -856,6 +859,8 @@ translate D Deleted {Gelöscht}
 translate D SearchResults {Suchergebnisse}
 translate D OpeningTheDatabase {Datenbank öffnen}
 translate D Database {Datenbank}
+translate D MenuDatabaseSlot {Basis %d: %s}
+translate D MenuImportIntoSlot {in %d: %s}
 translate D Filter {Filter}
 translate D noGames {keine Partien}
 translate D allGames {alle Partien}
@@ -1271,6 +1276,17 @@ translate D EngineClone {Erstellen Sie eine Kopie der aktuellen Engine}
 translate D EngineDuplicate {Duplizieren}
 translate D EngineDelete {Löschen Sie die aktuelle Engine}
 translate D EngineOpenWindow {Öffnen Sie das Engine-Fenster}
+translate D EngineShortcut {Abkürzung}
+translate D EngineShortcutNone {Keiner}
+translate D EngineShortcutWindow {Fenster %s (%s)}
+translate D EngineShortcutKeys {Tastenkombinationen}
+translate D EngineShortcutKeysHelp {Wählen Sie den Schlüssel, der jedes Engine-Fenster startet. Drücken Sie Ändern... und dann die gewünschte Tastenkombination. Ein Schlüssel, der bereits von einem anderen Befehl verwendet wurde, wird abgelehnt.}
+translate D EngineShortcutChange {Ändern...}
+translate D EngineShortcutReset {Zurücksetzen auf F2 und F3}
+translate D EngineShortcutPress {Drücken Sie die neue Tastenkombination für Engine Window %s.\nEscape bricht ab.}
+translate D EngineShortcutInUse {Der Schlüssel %s wird bereits von einem anderen Befehl verwendet. Wählen Sie ein anderes.}
+translate D EngineShortcutUnsafe {Wählen Sie eine Funktionstaste oder eine Tastenkombination, die Strg, Alt oder Befehl enthält.}
+translate D EngineShortcutReserved {Dieser Schlüssel wird vom Betriebssystem oder durch Textbearbeitung reserviert. Wählen Sie ein anderes.}
 
 # PGN window menus:
 menuText D PgnFile "Datei" 0
@@ -1464,6 +1480,8 @@ translate D GsortStore {Speichern}
 translate D GsortLoad {Laden}
 
 # menu shown with right mouse button down on game list.
+translate D GlistRemoveSelectedFromFilter {Ausgewählte Spiele aus dem Filter entfernen}
+translate D GlistExportSelected {Ausgewählte Spiele exportieren...}
 translate D GlistRemoveThisGameFromFilter  {Partie aus Filter entfernen}
 translate D GlistRemoveGameAndAboveFromFilter  {Partie (und alle oberhalb) aus Filter entfernen}
 translate D GlistRemoveGameAndBelowFromFilter  {Partie (und alle darunter) aus Filter entfernen}
@@ -1665,6 +1683,7 @@ translate D PatternDarkFian {Schwarzfeldrige Fianchettos (Läufer b2 gegen Läuf
 translate D PatternFourFian {Beiderseitiges Doppelfianchetto (Läufer auf b2,g2,b7,g7)}
 
 # Game saving:
+translate D SaveExtraTagsHint {Zusätzliche Tags: (Beispielformat: Annotator „Anand, V“)}
 translate D Today {Heute}
 translate D ClassifyGame {Partie klassifizieren}
 

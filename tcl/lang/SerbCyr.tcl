@@ -316,6 +316,8 @@ translate J OptionsBGW {Изаберите текстуру за квадрат�
 translate J OptionsBoardGraphicsText {Изаберите графичке датотеке за беле и црне квадрате:}
 menuText J OptionsBoardNames "Моја имена играча..." 0 {Уреди моја имена играча}
 menuText J OptionsExport "Извоз" 0 {Промените опције извоза текста}
+menuText J OptionsExportPGNText "Текст ПГН датотеке" 0
+menuText J OptionsExportHTMLText "Текст ХТМЛ датотеке" 0
 menuText J OptionsFonts "Фонтови" 0 {Промените фонтове}
 menuText J OptionsFontsRegular "Редовно" 0 {Промените уобичајени фонт}
 menuText J OptionsFontsMenu "Мени" 0 {Промените фонт менија}
@@ -368,6 +370,7 @@ menuText J OptionsResources "Ресурси..." 0 {Изаберите датот
 menuText J OptionsWindowsDock "Прикључите прозоре" 0 {Укључите прозоре (потребно је поново покренути)}
 menuText J OptionsWindowsSaveLayout "Сачувај изглед" 0 {Сачувај изглед}
 menuText J OptionsWindowsRestoreLayout "Врати изглед" 0 {Врати изглед}
+menuText J OptionsLayoutDefault "1 (подразумевано)" 0
 menuText J OptionsWindowsShowGameInfo "Прикажи информације о игри" 0 {Прикажи информације о игри}
 menuText J OptionsWindowsAutoLoadLayout "Аутоматско учитавање првог изгледа" 0 {Аутоматско учитавање првог изгледа при покретању}
 menuText J OptionsECO "ЕЦО Филе" 7 {Учитајте датотеку ЕКО класификације}
@@ -863,6 +866,8 @@ translate J Deleted {Избрисано}
 translate J SearchResults {Сеарцх Ресултс}
 translate J OpeningTheDatabase {Отварање базе података}
 translate J Database {База података}
+translate J MenuDatabaseSlot {База %d: %s}
+translate J MenuImportIntoSlot {инто %d: %s}
 translate J Filter {Филтер}
 translate J noGames {нема игрица}
 translate J allGames {све игре}
@@ -1272,6 +1277,17 @@ translate J EngineClone {Направите копију тренутног мо
 translate J EngineDuplicate {Дуплирај}
 translate J EngineDelete {Избришите тренутни мотор}
 translate J EngineOpenWindow {Отворите прозор мотора}
+translate J EngineShortcut {Пречица}
+translate J EngineShortcutNone {Ниједан}
+translate J EngineShortcutWindow {Прозор %s (%s)}
+translate J EngineShortcutKeys {Пречице}
+translate J EngineShortcutKeysHelp {Изаберите кључ који покреће сваки прозор мотора. Притисните Промени..., а затим жељену комбинацију тастера. Кључ који је већ користила друга команда је одбијен.}
+translate J EngineShortcutChange {Промени...}
+translate J EngineShortcutReset {Ресетујте на Ф2 и Ф3}
+translate J EngineShortcutPress {Притисните нову комбинацију тастера за прозор мотора %s.\нЕсцапе отказује.}
+translate J EngineShortcutInUse {Кључ %s већ користи друга команда. Изабери другу.}
+translate J EngineShortcutUnsafe {Изаберите функцијски тастер или комбинацију тастера која укључује Цтрл, Алт или Цомманд.}
+translate J EngineShortcutReserved {Тај кључ резервише оперативни систем или уређивање текста. Изабери другу.}
 
 # PGN window menus:
 menuText J PgnFile "Филе" 0
@@ -1465,6 +1481,8 @@ translate J GsortStore {Продавница}
 translate J GsortLoad {Учитај}
 
 # menu shown with right mouse button down on game list.
+translate J GlistRemoveSelectedFromFilter {Уклоните изабране игре из филтера}
+translate J GlistExportSelected {Извези изабране игре...}
 translate J GlistRemoveThisGameFromFilter  {Уклоните ову игру из филтера}
 translate J GlistRemoveGameAndAboveFromFilter  {Уклоните игру (и све изнад ње) из филтера}
 translate J GlistRemoveGameAndBelowFromFilter  {Уклоните игру (и све испод ње) из филтера}
@@ -1653,6 +1671,7 @@ translate J PatternDarkFian {Тамни квадратни фианцхетто�
 translate J PatternFourFian {Четири фианкета (бискупи на б2,г2,б7,г7)}
 
 # Game saving:
+translate J SaveExtraTagsHint {Додатне ознаке: (пример формата: Анотатор „Ананд, В“)}
 translate J Today {данас}
 translate J ClassifyGame {Класификујте игру}
 

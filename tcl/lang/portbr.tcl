@@ -282,6 +282,8 @@ translate B OptionsBGW {Seleciona texturas para as casas}
 translate B OptionsBoardGraphicsText {Seleciona arquivos grficos para as casas brancas e pretas:}
 menuText B OptionsBoardNames "Meus nomes de jogadores..." 0 {Edita meus nomes de jogadores} 
 menuText B OptionsExport "Exportação" 0 {Muda as opções de exportação de texto}
+menuText B OptionsExportPGNText "Texto do arquivo PGN" 0
+menuText B OptionsExportHTMLText "Texto do arquivo HTML" 0
 menuText B OptionsFonts "Fontes" 0 {Muda os fontes}
 menuText B OptionsFontsRegular "Normal" 0 {Fonte Normal}
 menuText B OptionsFontsMenu "Menu" 0 {Alterar fontes no menu} 
@@ -334,6 +336,7 @@ menuText B OptionsResources "Recursos..." 0 {Escolher pastas e arquivos de recur
 menuText B OptionsWindowsDock "Estacionar janelas" 0 {Estaciona as janelas}
 menuText B OptionsWindowsSaveLayout "Salvar layout" 0 {Salva o layout das janelas}
 menuText B OptionsWindowsRestoreLayout "Restaurar layout" 0 {Restaura layout}
+menuText B OptionsLayoutDefault "1 (padrão)" 0
 menuText B OptionsWindowsShowGameInfo "Mostrar Informações do Jogo" 0 {Mostra informações do jogo}
 menuText B OptionsWindowsAutoLoadLayout "Carregar primeiro layout na entrada" 0 {Carrega automaticamente o primeiro layout ao entrar na aplicação}
 menuText B OptionsECO "Carregar arquivo ECO" 7 {Carrega o arquivo com a classificação ECO}
@@ -831,6 +834,8 @@ translate B Deleted {Apagado}
 translate B SearchResults {Resultados da Pesquisa}
 translate B OpeningTheDatabase {Abrindo a Base de Dados}
 translate B Database {Base de dados}
+translate B MenuDatabaseSlot {Base %d: %s}
+translate B MenuImportIntoSlot {em %d: %s}
 translate B Filter {Filtro}
 translate B noGames {nenhum jogo}
 translate B allGames {todos os jogos}
@@ -1244,6 +1249,17 @@ translate B EngineClone {Crie uma cópia do mecanismo atual}
 translate B EngineDuplicate {Duplicar}
 translate B EngineDelete {Exclua o mecanismo atual}
 translate B EngineOpenWindow {Abrir janela do mecanismo}
+translate B EngineShortcut {Atalho}
+translate B EngineShortcutNone {Nenhum}
+translate B EngineShortcutWindow {Janela %s (%s)}
+translate B EngineShortcutKeys {Teclas de atalho}
+translate B EngineShortcutKeysHelp {Escolha a chave que inicia cada janela do motor. Pressione Alterar... e depois a combinação de teclas desejada. Uma chave já utilizada por outro comando é recusada.}
+translate B EngineShortcutChange {Mudar...}
+translate B EngineShortcutReset {Redefinir para F2 e F3}
+translate B EngineShortcutPress {Pressione a nova combinação de teclas para Janela do mecanismo %s.\nO escape é cancelado.}
+translate B EngineShortcutInUse {A chave %s já é usada por outro comando. Escolha outro.}
+translate B EngineShortcutUnsafe {Escolha uma tecla de função ou uma combinação de teclas que inclua Ctrl, Alt ou Command.}
+translate B EngineShortcutReserved {Essa chave é reservada pelo sistema operacional ou pela edição de texto. Escolha outro.}
 
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0
@@ -1437,6 +1453,8 @@ translate B GsortStore {Salvar}
 translate B GsortLoad {Carregar}
 
 # menu shown with right mouse button down on game list.
+translate B GlistRemoveSelectedFromFilter {Remover jogos selecionados do filtro}
+translate B GlistExportSelected {Exportar jogos selecionados...}
 translate B GlistRemoveThisGameFromFilter  {Remover este jogo do filtro}
 translate B GlistRemoveGameAndAboveFromFilter  {Remover jogo (e todos antes dele) do filtro}
 translate B GlistRemoveGameAndBelowFromFilter  {Remover jogo (e todos depois dele) do filtro}
@@ -1632,6 +1650,7 @@ translate B PatternDarkFian {Fianchettos nas casas pretas (Bispo-b2 vs. Bispo-g7
 translate B PatternFourFian {Quatro Fianchettos (Bispos em b2,g2,b7,g7)} 
 
 # Game saving:
+translate B SaveExtraTagsHint {Tags extras: (formato de exemplo: Anotador "Anand, V")}
 translate B Today {Hoje}
 translate B ClassifyGame {Classificar Jogo}
 

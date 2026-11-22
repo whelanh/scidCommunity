@@ -159,7 +159,7 @@ menuText P GameNovelty "Znajdź nowinkę..." 7 \
   {Znajdź pierwsze posunięcie tej partii, które nie było wcześniej grane}
 menuText P PlayTournament "Rozegraj turniej silników..." 0 \
     {Rozegraj turniej silników}
-	
+
 # Search Menu:
 menuText P Search "Szukaj" 0
 menuText P SearchReset "Wyczyść filtr" 0 {Wyczyść filtr, aby uwzględnić wszystkie partie}
@@ -207,8 +207,8 @@ translate P EpdStripOpcodes {Usuń kody operacyjne...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
-# Analiza EPD bez interfejsu graficznego: tekst statusu i przyczyny zgłaszane przez sesję.
-# Ciągi EpdEngine* to fragmenty wyświetlane po znajdującym się nad nimi "%s".
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
 translate P EpdAnalysisTitle {Analiza EPD}
 translate P EpdAnalysisRunning {Inna analiza EPD jest już uruchomiona.}
 translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
@@ -315,6 +315,8 @@ translate P OptionsBGW {Wybierz teksturę pól szachownicy}
 translate P OptionsBoardGraphicsText {Wybierz pliki graficzne dla białych i czarnych pól:}
 menuText P OptionsBoardNames "Moje nazwiska graczy..." 0 {Edytuj własne nazwiska graczy}
 menuText P OptionsExport "Eksport" 0 {Zmień opcje eksportu tekstu}
+menuText P OptionsExportPGNText "Tekst pliku PGN" 0
+menuText P OptionsExportHTMLText "Tekst pliku HTML" 0
 menuText P OptionsFonts "Czcionki" 0 {Zmień czcionki}
 menuText P OptionsFontsRegular "Zwykła" 0 {Zmień zwykłą czcionkę}
 menuText P OptionsFontsMenu "Menu" 0 {Zmień czcionkę menu}
@@ -367,6 +369,7 @@ menuText P OptionsResources "Zasoby..." 0 {Wybierz pliki i foldery zasobów}
 menuText P OptionsWindowsDock "Dokuj okna" 0 {Dokuj okna (wymaga ponownego uruchomienia)}
 menuText P OptionsWindowsSaveLayout "Zapisz układ" 0 {Zapisz układ}
 menuText P OptionsWindowsRestoreLayout "Przywróć układ" 0 {Przywróć układ}
+menuText P OptionsLayoutDefault "1 (domyślnie)" 0
 menuText P OptionsWindowsShowGameInfo "Pokaż informacje o partii" 0 {Pokaż informacje o partii}
 menuText P OptionsWindowsAutoLoadLayout "Automatycznie wczytaj pierwszy układ" 0 {Automatycznie wczytaj pierwszy układ przy uruchamianiu}
 menuText P OptionsECO "Plik ECO" 7 {Wczytaj plik klasyfikacji ECO}
@@ -383,7 +386,7 @@ translate P OptionsThemeOmarchy {Dopasuj do motywu Omarchy}
 menuText P OptionsSave "Zapisz opcje" 0 "Zapisz wszystkie ustawienia do pliku $::optionsFile"
 menuText P OptionsAutoSave "Zapisz opcje przy zamykaniu" 0 \
   {Automatycznie zapisuj wszystkie opcje przy zamykaniu Scid}
-  
+
 # Help menu:
 menuText P Help "Pomoc" 0
 menuText P HelpContents "Spis treści" 0 {Pokaż stronę ze spisem treści pomocy}
@@ -409,7 +412,7 @@ translate P UpdateDownloadFailed "Nie udało się pobrać aktualizacji. Spróbuj
 
 # Toolbar tooltips:
  menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
- 
+
 # Game info box popup menu:
  menuText P GInfoHideNext "Ukryj następne posunięcie" 0
 menuText P GInfoMaterial "Pokaż wartości materialne" 0
@@ -862,6 +865,8 @@ translate P Deleted {Usunięte}
 translate P SearchResults {Wyniki wyszukiwania}
 translate P OpeningTheDatabase {Otwieranie bazy danych}
 translate P Database {Baza danych}
+translate P MenuDatabaseSlot {Baza %d: %s}
+translate P MenuImportIntoSlot {w %d: %s}
 translate P Filter {Filtr}
 translate P noGames {brak partii}
 translate P allGames {wszystkie partie}
@@ -1271,6 +1276,17 @@ translate P EngineClone {Utwórz kopię bieżącego silnika}
 translate P EngineDuplicate {Powiel}
 translate P EngineDelete {Usuń bieżący silnik}
 translate P EngineOpenWindow {Otwórz okno silnika}
+translate P EngineShortcut {Skrót}
+translate P EngineShortcutNone {Nic}
+translate P EngineShortcutWindow {Okno %s (%s)}
+translate P EngineShortcutKeys {Klawisze skrótów}
+translate P EngineShortcutKeysHelp {Wybierz klawisz uruchamiający każde okno silnika. Naciśnij Zmień..., a następnie żądaną kombinację klawiszy. Klucz już używany przez inne polecenie zostaje odrzucony.}
+translate P EngineShortcutChange {Zmiana...}
+translate P EngineShortcutReset {Zresetuj do F2 i F3}
+translate P EngineShortcutPress {Naciśnij nową kombinację klawiszy okna silnika %s.\nEscape anuluje.}
+translate P EngineShortcutInUse {Klawisz %s jest już używany przez inną komendę. Wybierz inny.}
+translate P EngineShortcutUnsafe {Wybierz klawisz funkcyjny lub kombinację klawiszy obejmującą Ctrl, Alt lub Command.}
+translate P EngineShortcutReserved {Klucz ten jest zarezerwowany przez system operacyjny lub przez edycję tekstu. Wybierz inny.}
 
 # PGN window menus:
 menuText P PgnFile "Plik" 0
@@ -1464,6 +1480,8 @@ translate P GsortStore {Zapisz}
 translate P GsortLoad {Wczytaj}
 
 # menu shown with right mouse button down on game list.
+translate P GlistRemoveSelectedFromFilter {Usuń wybrane gry z filtra}
+translate P GlistExportSelected {Eksportuj wybrane gry...}
 translate P GlistRemoveThisGameFromFilter {Usuń tę partię z filtra}
 translate P GlistRemoveGameAndAboveFromFilter {Usuń tę partię i wszystkie powyżej z filtra}
 translate P GlistRemoveGameAndBelowFromFilter {Usuń tę partię i wszystkie poniżej z filtra}
@@ -1658,6 +1676,7 @@ translate P PatternDarkFian {Fiancetto na ciemnych polach (gońce na b2 i g7)}
 translate P PatternFourFian {Cztery fiancetta (gońce na b2, g2, b7 i g7)}
 
 # Game saving:
+translate P SaveExtraTagsHint {Dodatkowe tagi: (przykładowy format: Adnotator „Anand, V”)}
 translate P Today {Dzisiaj}
 translate P ClassifyGame {Przypisz kod ECO partii}
 
@@ -2485,9 +2504,7 @@ translate P CQLQueryEmpty {Przed rozpoczęciem wyszukiwania wpisz zapytanie CQL.
 translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
 translate P CQLUnreadableGames {Nie udało się odczytać %d partii}
 }
-# end of polish.tcl
-
-
+# end of english.tcl
 
 
 ############################################################
@@ -2711,4 +2728,3 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
-###########################################

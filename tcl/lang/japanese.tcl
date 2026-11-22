@@ -316,6 +316,8 @@ translate A OptionsBGW {正方形のテクスチャを選択する}
 translate A OptionsBoardGraphicsText {白と黒の四角形のグラフィック ファイルを選択します。}
 menuText A OptionsBoardNames "私のプレイヤー名..." 0 {プレイヤー名を編集する}
 menuText A OptionsExport "輸出中" 0 {テキストエクスポートオプションを変更する}
+menuText A OptionsExportPGNText "PGN ファイルのテキスト" 0
+menuText A OptionsExportHTMLText "HTMLファイルのテキスト" 0
 menuText A OptionsFonts "フォント" 0 {フォントを変更する}
 menuText A OptionsFontsRegular "通常" 0 {通常のフォントを変更する}
 menuText A OptionsFontsMenu "メニュー" 0 {メニューのフォントを変更する}
@@ -368,6 +370,7 @@ menuText A OptionsResources "リソース..." 0 {リソース ファイルとフ
 menuText A OptionsWindowsDock "ドックウィンドウ" 0 {ウィンドウをドックします (再起動が必要です)}
 menuText A OptionsWindowsSaveLayout "レイアウトの保存" 0 {レイアウトの保存}
 menuText A OptionsWindowsRestoreLayout "レイアウトを復元する" 0 {レイアウトを復元する}
+menuText A OptionsLayoutDefault "1 (デフォルト)" 0
 menuText A OptionsWindowsShowGameInfo "ゲーム情報を表示" 0 {ゲーム情報を表示}
 menuText A OptionsWindowsAutoLoadLayout "最初のレイアウトを自動ロードする" 0 {起動時に最初のレイアウトを自動ロードする}
 menuText A OptionsECO "ECOファイル" 7 {ECO分類ファイルをロードする}
@@ -863,6 +866,8 @@ translate A Deleted {削除されました}
 translate A SearchResults {検索結果}
 translate A OpeningTheDatabase {データベースを開く}
 translate A Database {データベース}
+translate A MenuDatabaseSlot {ベース %d: %s}
+translate A MenuImportIntoSlot {%d: %s に}
 translate A Filter {フィルター}
 translate A noGames {ゲームはありません}
 translate A allGames {すべてのゲーム}
@@ -1272,6 +1277,17 @@ translate A EngineClone {現在のエンジンのコピーを作成する}
 translate A EngineDuplicate {複製}
 translate A EngineDelete {現在のエンジンを削除します}
 translate A EngineOpenWindow {エンジンウィンドウを開く}
+translate A EngineShortcut {ショートカット}
+translate A EngineShortcutNone {なし}
+translate A EngineShortcutWindow {ウィンドウ %s (%s)}
+translate A EngineShortcutKeys {ショートカットキー}
+translate A EngineShortcutKeysHelp {各エンジン ウィンドウを開始するキーを選択します。 [変更...] を押してから、必要なキーの組み合わせを押します。別のコマンドですでに使用されているキーは拒否されます。}
+translate A EngineShortcutChange {変化...}
+translate A EngineShortcutReset {F2 と F3 にリセット}
+translate A EngineShortcutPress {エンジン ウィンドウ %s の新しいキーの組み合わせを押します。\nエスケープはキャンセルされます。}
+translate A EngineShortcutInUse {キー %s は別のコマンドによってすでに使用されています。別のものを選択してください。}
+translate A EngineShortcutUnsafe {ファンクション キー、または Ctrl、Alt、Command を含むキーの組み合わせを選択します。}
+translate A EngineShortcutReserved {そのキーは、オペレーティング システムまたはテキスト編集によって予約されています。別のものを選択してください。}
 
 # PGN window menus:
 menuText A PgnFile "ファイル" 0
@@ -1465,6 +1481,8 @@ translate A GsortStore {店}
 translate A GsortLoad {負荷}
 
 # menu shown with right mouse button down on game list.
+translate A GlistRemoveSelectedFromFilter {選択したゲームをフィルターから削除}
+translate A GlistExportSelected {選択したゲームをエクスポート...}
 translate A GlistRemoveThisGameFromFilter  {このゲームをフィルターから削除します}
 translate A GlistRemoveGameAndAboveFromFilter  {ゲーム (およびその上のすべて) をフィルターから削除します}
 translate A GlistRemoveGameAndBelowFromFilter  {ゲーム (およびその下のすべて) をフィルターから削除します}
@@ -1653,6 +1671,7 @@ translate A PatternDarkFian {ダークスクエア フィアンケット (ビシ
 translate A PatternFourFian {4 人のフィアンケット (b2、g2、b7、g7 のビショップ)}
 
 # Game saving:
+translate A SaveExtraTagsHint {追加タグ: (形式例: アノテーター「Anand, V」)}
 translate A Today {今日}
 translate A ClassifyGame {ゲームの分類}
 

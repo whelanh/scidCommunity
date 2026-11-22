@@ -275,6 +275,8 @@ translate Z OptionsBGW {Chagua muundo wa miraba}
 translate Z OptionsBoardGraphicsText {Chagua faili za picha za miraba nyeupe na nyeusi:}
 menuText Z OptionsBoardNames "Majina yangu ya wachezaji..." 0 {Hariri majina ya wachezaji wangu}
 menuText Z OptionsExport "Inasafirisha nje" 0 {Badilisha chaguo za kuhamisha maandishi}
+menuText Z OptionsExportPGNText "Nakala ya faili ( PGN)." 0
+menuText Z OptionsExportHTMLText "Nakala ya faili ya HTML" 0
 menuText Z OptionsFonts "Fonti" 0 {Badilisha fonti}
 menuText Z OptionsFontsRegular "Kawaida" 0 {Badilisha fonti ya kawaida}
 menuText Z OptionsFontsMenu "Menyu" 0 {Badilisha fonti ya menyu}
@@ -327,6 +329,7 @@ menuText Z OptionsResources "Rasilimali..." 0 {Chagua faili za rasilimali na fol
 menuText Z OptionsWindowsDock "Dirisha la kizimbani" 0 {Madirisha ya kituo (inahitaji kuanza tena)}
 menuText Z OptionsWindowsSaveLayout "Hifadhi mpangilio" 0 {Hifadhi mpangilio}
 menuText Z OptionsWindowsRestoreLayout "Rejesha mpangilio" 0 {Rejesha mpangilio}
+menuText Z OptionsLayoutDefault "1 (chaguo-msingi)" 0
 menuText Z OptionsWindowsShowGameInfo "Onyesha habari za mchezo" 0 {Onyesha habari za mchezo}
 menuText Z OptionsWindowsAutoLoadLayout "Pakia mpangilio wa kwanza kiotomatiki" 0 {Pakia mpangilio wa kwanza kiotomatiki wakati wa kuanza}
 menuText Z OptionsECO "Faili ya ECO" 7 {Pakia faili ya uainishaji wa ECO}
@@ -822,6 +825,8 @@ translate Z Deleted {Imefutwa}
 translate Z SearchResults {Matokeo ya Utafutaji}
 translate Z OpeningTheDatabase {Kufungua hifadhidata}
 translate Z Database {Hifadhidata}
+translate Z MenuDatabaseSlot {Msingi %d: %s}
+translate Z MenuImportIntoSlot {ndani ya %d: %s}
 translate Z Filter {Chuja}
 translate Z noGames {hakuna michezo}
 translate Z allGames {michezo yote}
@@ -1231,6 +1236,17 @@ translate Z EngineClone {Unda nakala ya injini ya sasa}
 translate Z EngineDuplicate {Nakili}
 translate Z EngineDelete {Futa injini ya sasa}
 translate Z EngineOpenWindow {Fungua Dirisha la Injini}
+translate Z EngineShortcut {Njia ya mkato}
+translate Z EngineShortcutNone {Hakuna}
+translate Z EngineShortcutWindow {Dirisha %s (%s)}
+translate Z EngineShortcutKeys {Vifunguo vya njia ya mkato}
+translate Z EngineShortcutKeysHelp {Chagua ufunguo unaoanza kila dirisha la injini. Bonyeza Badilisha ..., kisha mchanganyiko muhimu unayotaka. Kitufe ambacho tayari kimetumiwa na amri nyingine kimekataliwa.}
+translate Z EngineShortcutChange {Badilisha...}
+translate Z EngineShortcutReset {Weka upya kwa F2 na F3}
+translate Z EngineShortcutPress {Bonyeza mchanganyiko mpya wa vitufe kwa Dirisha la Injini %s.\nEscape inaghairi.}
+translate Z EngineShortcutInUse {Ufunguo %s tayari unatumiwa na amri nyingine. Chagua nyingine.}
+translate Z EngineShortcutUnsafe {Chagua kitufe cha kukokotoa, au mseto wa vitufe unaojumuisha Ctrl, Alt au Amri.}
+translate Z EngineShortcutReserved {Ufunguo huo umehifadhiwa na mfumo wa uendeshaji au kwa uhariri wa maandishi. Chagua nyingine.}
 
 # PGN window menus:
 menuText Z PgnFile "Faili" 0
@@ -1424,6 +1440,8 @@ translate Z GsortStore {Hifadhi}
 translate Z GsortLoad {Mzigo}
 
 # menu shown with right mouse button down on game list.
+translate Z GlistRemoveSelectedFromFilter {Ondoa Michezo Iliyochaguliwa Kutoka kwa Kichujio}
+translate Z GlistExportSelected {Hamisha Michezo Uliyochaguliwa...}
 translate Z GlistRemoveThisGameFromFilter  {Ondoa mchezo huu kwenye Kichujio}
 translate Z GlistRemoveGameAndAboveFromFilter  {Ondoa mchezo (na yote yaliyo juu yake) kutoka kwa Kichujio}
 translate Z GlistRemoveGameAndBelowFromFilter  {Ondoa mchezo (na yote chini yake) kutoka kwa Kichujio}
@@ -1612,6 +1630,7 @@ translate Z PatternDarkFian {Fianchetto za Mraba Mweusi (Bishop-b2 dhidi ya Bish
 translate Z PatternFourFian {Fianchetto wanne (Maaskofu kwenye b2,g2,b7,g7)}
 
 # Game saving:
+translate Z SaveExtraTagsHint {Lebo za Ziada: (muundo wa mfano: Annotator "Anand, V")}
 translate Z Today {Leo}
 translate Z ClassifyGame {Kuainisha mchezo}
 

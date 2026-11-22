@@ -276,6 +276,8 @@ translate Q OptionsBGW {Виберіть текстуру для квадрат�
 translate Q OptionsBoardGraphicsText {Виберіть графічні файли для білих і чорних квадратів:}
 menuText Q OptionsBoardNames "Мої імена гравців..." 0 {Редагувати імена гравців}
 menuText Q OptionsExport "Експорт" 0 {Змінити параметри експорту тексту}
+menuText Q OptionsExportPGNText "Текст файлу PGN" 0
+menuText Q OptionsExportHTMLText "Текст файлу HTML" 0
 menuText Q OptionsFonts "Шрифти" 0 {Змінити шрифти}
 menuText Q OptionsFontsRegular "Регулярний" 0 {Змініть звичайний шрифт}
 menuText Q OptionsFontsMenu "Меню" 0 {Змінити шрифт меню}
@@ -328,6 +330,7 @@ menuText Q OptionsResources "Ресурси..." 0 {Виберіть файли �
 menuText Q OptionsWindowsDock "Док-вікна" 0 {Закріпити вікна (потрібно перезапустити)}
 menuText Q OptionsWindowsSaveLayout "Зберегти макет" 0 {Зберегти макет}
 menuText Q OptionsWindowsRestoreLayout "Відновити макет" 0 {Відновити макет}
+menuText Q OptionsLayoutDefault "1 (за замовчуванням)" 0
 menuText Q OptionsWindowsShowGameInfo "Показати інформацію про гру" 0 {Показати інформацію про гру}
 menuText Q OptionsWindowsAutoLoadLayout "Автоматичне завантаження першого макета" 0 {Автоматичне завантаження першого макета під час запуску}
 menuText Q OptionsECO "Файл ECO" 7 {Завантажте файл класифікації ECO}
@@ -823,6 +826,8 @@ translate Q Deleted {Видалено}
 translate Q SearchResults {Результати пошуку}
 translate Q OpeningTheDatabase {Відкриття бази даних}
 translate Q Database {База даних}
+translate Q MenuDatabaseSlot {База %d: %s}
+translate Q MenuImportIntoSlot {в %d: %s}
 translate Q Filter {фільтр}
 translate Q noGames {немає ігор}
 translate Q allGames {всі ігри}
@@ -1232,6 +1237,17 @@ translate Q EngineClone {Створіть копію поточного движ
 translate Q EngineDuplicate {Дублювати}
 translate Q EngineDelete {Видалити поточний механізм}
 translate Q EngineOpenWindow {Відкрийте вікно двигуна}
+translate Q EngineShortcut {ярлик}
+translate Q EngineShortcutNone {Жодного}
+translate Q EngineShortcutWindow {Вікно %s (%s)}
+translate Q EngineShortcutKeys {Комбінації клавіш}
+translate Q EngineShortcutKeysHelp {Виберіть ключ, який запускає кожне вікно двигуна. Натисніть Змінити..., а потім потрібну комбінацію клавіш. Ключ, який уже використовується іншою командою, відхиляється.}
+translate Q EngineShortcutChange {змінити...}
+translate Q EngineShortcutReset {Скинути на F2 і F3}
+translate Q EngineShortcutPress {Натисніть нову комбінацію клавіш для вікна двигуна %s.\nEsc скасовує.}
+translate Q EngineShortcutInUse {Ключ %s уже використовується іншою командою. Виберіть інший.}
+translate Q EngineShortcutUnsafe {Виберіть функціональну клавішу або комбінацію клавіш, яка включає Ctrl, Alt або Command.}
+translate Q EngineShortcutReserved {Цей ключ зарезервовано операційною системою або редагуванням тексту. Виберіть інший.}
 
 # PGN window menus:
 menuText Q PgnFile "Файл" 0
@@ -1425,6 +1441,8 @@ translate Q GsortStore {Магазин}
 translate Q GsortLoad {навантаження}
 
 # menu shown with right mouse button down on game list.
+translate Q GlistRemoveSelectedFromFilter {Видалити вибрані ігри з фільтра}
+translate Q GlistExportSelected {Експорт вибраних ігор...}
 translate Q GlistRemoveThisGameFromFilter  {Видалити цю гру з фільтра}
 translate Q GlistRemoveGameAndAboveFromFilter  {Видалити гру (і все вище) із фільтра}
 translate Q GlistRemoveGameAndBelowFromFilter  {Видалити гру (і всі під нею) з фільтра}
@@ -1613,6 +1631,7 @@ translate Q PatternDarkFian {Фіанкеттос з темним полем (В
 translate Q PatternFourFian {Чотири Фіанкетто (слони на b2,g2,b7,g7)}
 
 # Game saving:
+translate Q SaveExtraTagsHint {Додаткові теги: (приклад формату: анотатор "Ананд, V")}
 translate Q Today {Сьогодні}
 translate Q ClassifyGame {Гра «Класифікація».}
 

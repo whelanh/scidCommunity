@@ -282,6 +282,8 @@ translate R OptionsBGW {Выбор текстур для полей}
 translate R OptionsBoardGraphicsText {Выбор графических файлов для белых и чёрных полей:}
 menuText R OptionsBoardNames "Имя моего игрока..." 0 {Редактировать имя моего игрока}
 menuText R OptionsExport "Экспорт" 0 {Изменить установки экспорта}
+menuText R OptionsExportPGNText "Текст файла PGN" 0
+menuText R OptionsExportHTMLText "Текст HTML-файла" 0
 menuText R OptionsFonts "Шрифты" 0 {Изменить шрифты}
 menuText R OptionsFontsRegular "Обычные" 0 {Изменить обычные шрифты}
 menuText R OptionsFontsMenu "Меню" 0 {Изменить шрифты меню}
@@ -334,6 +336,7 @@ menuText R OptionsResources "Ресурсы..." 0 {Выбрать ресурсн
 menuText R OptionsWindowsDock "Закрепить окна" 0 {Закрепить окна}
 menuText R OptionsWindowsSaveLayout "Сохранить расположение" 0 {Сохранить расположение}
 menuText R OptionsWindowsRestoreLayout "Восстановить расположение" 0 {Восстановить расположение}
+menuText R OptionsLayoutDefault "1 (по умолчанию)" 0
 menuText R OptionsWindowsShowGameInfo "Показать информацию о партии" 0 {Показать информацию о партии}
 menuText R OptionsWindowsAutoLoadLayout "Автозагрузка первого расположения" 0 {Автозагрузка первого расположения на старте}
 menuText R OptionsECO "Загрузить файл ECO" 2 {Загрузить файл классификации ECO}
@@ -829,6 +832,8 @@ translate R Deleted {Удалена}
 translate R SearchResults {Поиск результатов}
 translate R OpeningTheDatabase {Открытие базы данных}
 translate R Database {База данных}
+translate R MenuDatabaseSlot {База %d: %s}
+translate R MenuImportIntoSlot {в %d: %s}
 translate R Filter {Фильтр}
 translate R noGames {Нет партий}
 translate R allGames {Все партии}
@@ -1238,6 +1243,17 @@ translate R EngineClone {Создать действующую движку}
 translate R EngineDuplicate {Дублировать}
 translate R EngineDelete {Удалить текущий движок}
 translate R EngineOpenWindow {Открыть окно двигателя}
+translate R EngineShortcut {Ярлык}
+translate R EngineShortcutNone {Никто}
+translate R EngineShortcutWindow {Окно %s (%s)}
+translate R EngineShortcutKeys {Сочетания клавиш}
+translate R EngineShortcutKeysHelp {Выберите ключ, который запускает каждое окно двигателя. Нажмите «Изменить...», затем нужную комбинацию клавиш. Ключ, уже используемый другой командой, отклоняется.}
+translate R EngineShortcutChange {Изменять...}
+translate R EngineShortcutReset {Сброс на F2 и F3.}
+translate R EngineShortcutPress {Нажмите новую комбинацию клавиш для окна Engine %s.\nEscape отменяет.}
+translate R EngineShortcutInUse {Ключ %s уже используется другой командой. Выберите другой.}
+translate R EngineShortcutUnsafe {Выберите функциональную клавишу или комбинацию клавиш, включающую Ctrl, Alt или Command.}
+translate R EngineShortcutReserved {Этот ключ зарезервирован операционной системой или редактированием текста. Выберите другой.}
 
 # PGN window menus:
 menuText R PgnFile "Файл" 0
@@ -1431,6 +1447,8 @@ translate R GsortStore {Сохранить}
 translate R GsortLoad {Загрузить}
 
 # menu shown with right mouse button down on game list.
+translate R GlistRemoveSelectedFromFilter {Удалить выбранные игры из фильтра}
+translate R GlistExportSelected {Экспортировать выбранные игры...}
 translate R GlistRemoveThisGameFromFilter  {Удалить эту партию из фильтра}
 translate R GlistRemoveGameAndAboveFromFilter  {Удалить партию (и все другие выше неё) из фильтра}
 translate R GlistRemoveGameAndBelowFromFilter  {Удалить партию (и все другие ниже неё) из фильтра}
@@ -1626,6 +1644,7 @@ translate R PatternDarkFian {Фианкеттирование на чёрных 
 translate R PatternFourFian {Четыре фианкеттирования (слоны на b2, g2, b7, g7)}
 
 # Game saving:
+translate R SaveExtraTagsHint {Дополнительные теги: (пример формата: Аннотатор «Ананд, В»)}
 translate R Today {Сегодня}
 translate R ClassifyGame {Классификационная игра}
 

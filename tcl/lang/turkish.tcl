@@ -279,6 +279,8 @@ translate T OptionsBGW {Kareler için doku seçin}
 translate T OptionsBoardGraphicsText {Beyaz ve siyah kareler için grafik dosyalarını seçin:}
 menuText T OptionsBoardNames "Oyuncu İsimlerim..." 0 {Oyuncu adlarımı düzenle}
 menuText T OptionsExport "Dışa aktarma" 0 {Metin dışa aktarma seçeneklerini değiştirme}
+menuText T OptionsExportPGNText "PGN dosya metni" 0
+menuText T OptionsExportHTMLText "HTML dosya metni" 0
 menuText T OptionsFonts "Yazı tipleri" 0 {Yazı tiplerini değiştir}
 menuText T OptionsFontsRegular "Düzenli" 0 {Normal yazı tipini değiştirin}
 menuText T OptionsFontsMenu "Menü" 0 {Menü yazı tipini değiştirme}
@@ -331,6 +333,7 @@ menuText T OptionsResources "Kaynaklar..." 0 {Kaynak dosyalarını ve klasörler
 menuText T OptionsWindowsDock "Pencereleri yerleştirme" 0 {Pencereleri yerleştirme (yeniden başlatılması gerekiyor)}
 menuText T OptionsWindowsSaveLayout "Düzeni kaydet" 0 {Düzeni kaydet}
 menuText T OptionsWindowsRestoreLayout "Düzeni geri yükle" 0 {Düzeni geri yükle}
+menuText T OptionsLayoutDefault "1 (varsayılan)" 0
 menuText T OptionsWindowsShowGameInfo "Oyun bilgilerini göster" 0 {Oyun bilgilerini göster}
 menuText T OptionsWindowsAutoLoadLayout "İlk düzeni otomatik yükle" 0 {Başlangıçta ilk düzeni otomatik yükle}
 menuText T OptionsECO "EKO Dosyası" 7 {ECO sınıflandırma dosyasını yükleyin}
@@ -826,6 +829,8 @@ translate T Deleted {Silindi}
 translate T SearchResults {Arama Sonuçları}
 translate T OpeningTheDatabase {Veritabanı açılıyor}
 translate T Database {Veritabanı}
+translate T MenuDatabaseSlot {Temel %d: %s}
+translate T MenuImportIntoSlot {%d içine: %s}
 translate T Filter {Filtre}
 translate T noGames {oyun yok}
 translate T allGames {tüm oyunlar}
@@ -1235,6 +1240,17 @@ translate T EngineClone {Geçerli motorun bir kopyasını oluşturun}
 translate T EngineDuplicate {Çoğalt}
 translate T EngineDelete {Mevcut motoru sil}
 translate T EngineOpenWindow {Motor Penceresini Aç}
+translate T EngineShortcut {Kısayol}
+translate T EngineShortcutNone {Hiçbiri}
+translate T EngineShortcutWindow {Pencere %s (%s)}
+translate T EngineShortcutKeys {Kısayol Tuşları}
+translate T EngineShortcutKeysHelp {Her motor penceresini başlatan anahtarı seçin. Değiştir...'e, ardından istediğiniz tuş kombinasyonuna basın. Zaten başka bir komut tarafından kullanılan bir anahtar reddedildi.}
+translate T EngineShortcutChange {Değiştirmek...}
+translate T EngineShortcutReset {F2 ve F3'e sıfırla}
+translate T EngineShortcutPress {Motor Penceresi için yeni tuş kombinasyonuna basın %s.\nÇış iptal edilir.}
+translate T EngineShortcutInUse {%s anahtarı zaten başka bir komut tarafından kullanılıyor. Başka birini seç.}
+translate T EngineShortcutUnsafe {Bir işlev tuşu veya Ctrl, Alt veya Command içeren bir tuş birleşimini seçin.}
+translate T EngineShortcutReserved {Bu anahtar işletim sistemi veya metin düzenleme tarafından ayrılmıştır. Başka birini seç.}
 
 # PGN window menus:
 menuText T PgnFile "Dosya" 0
@@ -1428,6 +1444,8 @@ translate T GsortStore {Mağaza}
 translate T GsortLoad {Yük}
 
 # menu shown with right mouse button down on game list.
+translate T GlistRemoveSelectedFromFilter {Seçilen Oyunları Filtreden Kaldır}
+translate T GlistExportSelected {Seçilen Oyunları Dışa Aktar...}
 translate T GlistRemoveThisGameFromFilter  {Bu oyunu Filtreden kaldır}
 translate T GlistRemoveGameAndAboveFromFilter  {Oyunu (ve üzerindeki her şeyi) Filtreden kaldır}
 translate T GlistRemoveGameAndBelowFromFilter  {Oyunu (ve altındakilerin tamamını) Filtreden kaldır}
@@ -1616,6 +1634,7 @@ translate T PatternDarkFian {Karanlık Kare Fianchettos (Fil-b2 ve Piskopos-g7)}
 translate T PatternFourFian {Dört Fianchetto (b2,g2,b7,g7'deki Filler)}
 
 # Game saving:
+translate T SaveExtraTagsHint {Ekstra Etiketler: (örnek format: Açıklayıcı "Anand, V")}
 translate T Today {Bugün}
 translate T ClassifyGame {Oyunu sınıflandır}
 
