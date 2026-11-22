@@ -315,6 +315,8 @@ translate E OptionsBGW {Select texture for squares}
 translate E OptionsBoardGraphicsText {Select graphic files for white and black squares:}
 menuText E OptionsBoardNames "My Player Names..." 0 {Edit my player names}
 menuText E OptionsExport "Exporting" 0 {Change text export options}
+menuText E OptionsExportPGNText "PGN file text" 0
+menuText E OptionsExportHTMLText "HTML file text" 0
 menuText E OptionsFonts "Fonts" 0 {Change fonts}
 menuText E OptionsFontsRegular "Regular" 0 {Change the regular font}
 menuText E OptionsFontsMenu "Menu" 0 {Change the menu font}
@@ -367,6 +369,7 @@ menuText E OptionsResources "Resources..." 0 {Choose resource files and folders}
 menuText E OptionsWindowsDock "Dock windows" 0 {Dock windows (needs restart)}
 menuText E OptionsWindowsSaveLayout "Save layout" 0 {Save layout}
 menuText E OptionsWindowsRestoreLayout "Restore layout" 0 {Restore layout}
+menuText E OptionsLayoutDefault "1 (default)" 0
 menuText E OptionsWindowsShowGameInfo "Show game info" 0 {Show game info}
 menuText E OptionsWindowsAutoLoadLayout "Auto load first layout" 0 {Auto load first layout at startup}
 menuText E OptionsECO "ECO File" 7 {Load the ECO classification file}
@@ -862,6 +865,8 @@ translate E Deleted {Deleted}
 translate E SearchResults {Search Results}
 translate E OpeningTheDatabase {Opening database}
 translate E Database {Database}
+translate E MenuDatabaseSlot {Base %d: %s}
+translate E MenuImportIntoSlot {into %d: %s}
 translate E Filter {Filter}
 translate E noGames {no games}
 translate E allGames {all games}
@@ -1475,6 +1480,8 @@ translate E GsortStore {Store}
 translate E GsortLoad {Load}
 
 # menu shown with right mouse button down on game list.
+translate E GlistRemoveSelectedFromFilter {Remove Selected Games From Filter}
+translate E GlistExportSelected {Export Selected Games...}
 translate E GlistRemoveThisGameFromFilter  {Remove this game from Filter}
 translate E GlistRemoveGameAndAboveFromFilter  {Remove game (and all above it) from Filter}
 translate E GlistRemoveGameAndBelowFromFilter  {Remove game (and all below it) from Filter}
@@ -1669,6 +1676,7 @@ translate E PatternDarkFian {Dark-Square Fianchettos (Bishop-b2 vs. Bishop-g7)}
 translate E PatternFourFian {Four Fianchettos (Bishops on b2,g2,b7,g7)}
 
 # Game saving:
+translate E SaveExtraTagsHint {Extra Tags: (example format: Annotator "Anand, V")}
 translate E Today {Today}
 translate E ClassifyGame {Classify game}
 

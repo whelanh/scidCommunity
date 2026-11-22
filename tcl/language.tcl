@@ -389,9 +389,10 @@ proc setLanguage {} {
   # topic a translation omits. Each file is sourced at most once.
   loadTranslatedHelp $lang
 
-  # If using Tk, translate all menus:
-  if {[winfo exists .menu]} { setLanguageMenus }
-  
+  # Refresh the translation table before rebuilding anything that reads it
+  # through tr(): a menu entry that formats a translated pattern (the database
+  # slots, for example) must see the language just selected, not the one it is
+  # replacing.
   foreach i [array names ::tr] {
     if {[info exists ::translations($lang,$i)]} {
       set ::tr($i) $::translations($lang,$i)
@@ -399,6 +400,9 @@ proc setLanguage {} {
       set ::tr($i) $::translations(E,$i)
     }
   }
+
+  # If using Tk, translate all menus:
+  if {[winfo exists .menu]} { setLanguageMenus }
 
   # Automatically switch sound folder when language changes
   updateSoundFolderForLanguage $lang
