@@ -207,7 +207,7 @@ proc ::enginecfg::keyReserved {seq} {
     # [bind .] and [bind all]. The keyboard binding also skips editable widgets,
     # which covers the Meta/Alt forms this list cannot enumerate.
     if {($ctrl || ($ws eq "aqua" && $primary)) &&
-        $key in {a c v x z y d h i k o t space tab left right up down home end prior next backspace delete}} {
+        $key in {a b c v x z y d h i k o t space tab left right up down home end prior next backspace delete}} {
         return true
     }
 
@@ -293,6 +293,13 @@ proc ::enginecfg::keyAvailable {id seq} {
         }
         if {[catch { bind all <$variant> } script]} { return false }
         if {$script ne ""} { return false }
+        # Tk's widget classes (Text, Entry, the ttk entries, Listbox) run before
+        # the toplevel binding and are invisible to [bind all]. A key one of
+        # them already uses is not a reliable engine shortcut.
+        foreach class {Text Entry TEntry TCombobox TSpinbox Spinbox Listbox} {
+            if {[catch { bind $class <$variant> } script]} { return false }
+            if {$script ne ""} { return false }
+        }
     }
     return true
 }

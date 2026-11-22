@@ -163,6 +163,7 @@ check "a plain letter is not safe" [expr {![::enginecfg::keyUsable a]}]
 check "Ctrl+C is reserved for copying" [::enginecfg::keyReserved Control-c]
 check "Ctrl+Z is reserved for undo" [::enginecfg::keyReserved Control-z]
 check "Ctrl+K is reserved for kill-line" [::enginecfg::keyReserved Control-k]
+check "Ctrl+B is reserved for text navigation" [::enginecfg::keyReserved Control-b]
 check "Ctrl+Left is word movement" [::enginecfg::keyReserved Control-Left]
 check "Alt+F4 closes the window" [::enginecfg::keyReserved Mod1-F4]
 check "F5 is not reserved" [expr {![::enginecfg::keyReserved F5]}]
@@ -226,12 +227,17 @@ proc bind {args} {
     if {[lindex $args 0] eq "." && [lindex $args 1] eq "<Control-N>"} {
         return "nameEditor"
     }
+    if {[lindex $args 0] eq "Text" && [lindex $args 1] eq "<Control-m>"} {
+        return "tkTextInsert"
+    }
     return ""
 }
 proc winfo {args} { return 1 }
 check "Ctrl+Shift+N sees the Ctrl+N binding" \
     [expr {![::enginecfg::keyAvailable 2 Control-Shift-N]}]
 check "plain Ctrl+n is a different key" [::enginecfg::keyAvailable 2 Control-n]
+check "a Text class binding is a conflict" \
+    [expr {![::enginecfg::keyAvailable 2 Control-m]}]
 rename bind {}
 rename winfo {}
 
