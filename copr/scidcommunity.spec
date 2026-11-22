@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 2ae3eb67f57762025db1bd4159e56a7848d5f4d4
+%global commit 5b619f4a933fd20633413cf15ab403c64ff71cb5
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.73
+Version:        5.1.4.74
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sun Nov 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-74
+- "Danish translation added by eborgbjerg; assign engines to Engine Windows"
 * Sat Nov 21, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-73
 - "New Woodpecker training method feature under the Play menu"
 * Thu Nov 19, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-72
