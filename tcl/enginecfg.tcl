@@ -241,10 +241,9 @@ proc ::enginecfg::keyLoadable {seq} {
 }
 
 # The spellings that describe the same physical letter shortcut. Tk keysyms
-# are case-sensitive: <Control-N> (uppercase, no Shift) matches Ctrl+Shift+n,
-# while <Control-n> matches Ctrl+n. Normalising a letter candidate to the
-# equivalent spellings makes the conflict check neither miss an overlap nor
-# invent one.
+# are case-sensitive: <Control-N> and <Control-Shift-N> both match Ctrl+Shift+n,
+# while <Control-n> matches Ctrl+n. Keep only the genuinely equivalent
+# spellings, so the conflict check neither misses an overlap nor invents one.
 proc ::enginecfg::keyVariants {seq} {
     set seq [::enginecfg::normalizeKey $seq]
     set parts [split $seq -]
@@ -261,13 +260,32 @@ proc ::enginecfg::keyVariants {seq} {
         if {$hadShift || $key eq $upper} {
             lappend out [join [concat $noShift [list Shift $upper]] -]
             lappend out [join [concat $noShift [list $upper]] -]
-            lappend out [join [concat $noShift [list Shift $lower]] -]
-            lappend out [join [concat $noShift [list $lower]] -]
         } else {
             lappend out [join [concat $noShift [list $lower]] -]
         }
     }
     return [lsort -unique $out]
+}
+
+# The physical shortcut a spelling describes, for comparing two slots. Upper
+# case implies Shift and the keysym is folded to lower case, so
+# Control-Shift-N, Control-N and Control-Shift-n are one key, while Control-n
+# is the unshifted one.
+proc ::enginecfg::keyCanonical {seq} {
+    set parts [split [::enginecfg::normalizeKey $seq] -]
+    set key [lindex $parts end]
+    set shift 0
+    set mods {}
+    foreach mod [lrange $parts 0 end-1] {
+        if {$mod eq "Shift"} { set shift 1 } else { lappend mods $mod }
+    }
+    if {[string length $key] == 1 && [string is alpha -strict $key]} {
+        if {$key eq [string toupper $key]} { set shift 1 }
+        set key [string tolower $key]
+    }
+    if {$shift} { lappend mods Shift }
+    lappend mods $key
+    return [join $mods -]
 }
 
 # Does seq collide with a binding the application already owns? Engine bindings
@@ -296,12 +314,15 @@ proc ::enginecfg::keyConflicts {seq} {
     return false
 }
 
-# Are seq and the other window's key the same physical shortcut?
+# Are seq and the other window's key the same physical shortcut? The comparison
+# is canonical and symmetric: Control-N and Control-Shift-N are one key, while
+# Control-n is the unshifted one.
 proc ::enginecfg::slotConflict {id seq} {
+    set canonical [::enginecfg::keyCanonical $seq]
     foreach other {1 2} {
         if {$other eq $id} { continue }
         set otherSeq [::enginecfg::keySequence $other]
-        if {$otherSeq ne "" && [lsearch -exact [::enginecfg::keyVariants $seq] $otherSeq] >= 0} {
+        if {$otherSeq ne "" && [::enginecfg::keyCanonical $otherSeq] eq $canonical} {
             return true
         }
     }
@@ -354,11 +375,11 @@ proc ::enginecfg::resolveKeys {} {
     ::enginecfg::refreshShortcutMenus
 }
 
-# Is seq already in the accepted list, in any of its equivalent spellings?
+# Is seq already in the accepted list, as the same physical shortcut?
 proc ::enginecfg::seqTaken {seq accepted} {
-    set variants [::enginecfg::keyVariants $seq]
+    set canonical [::enginecfg::keyCanonical $seq]
     foreach other $accepted {
-        if {[lsearch -exact $variants $other] >= 0} { return true }
+        if {[::enginecfg::keyCanonical $other] eq $canonical} { return true }
     }
     return false
 }

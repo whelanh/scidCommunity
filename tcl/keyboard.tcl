@@ -140,10 +140,6 @@ proc keyboardShortcuts {w} {
 	# Open the help window
 	bind $w <F1> { helpWindowPertinent %W }
 
-	# Engines. The key pair is configurable (Configure Engines > Shortcut Keys);
-	# F2/F3 are only the defaults.
-	::keyboard::bindEngineShortcuts
-
 	# Write the engine score graph and the annotations it implies into the
 	# current game. Engine windows bind the same key to their own widgets.
 	# Shift is named explicitly: <Control-A> also matches Ctrl+A with Caps Lock
@@ -201,6 +197,11 @@ proc keyboardShortcuts {w} {
 	bind $w <Control-u> ::game::GotoMoveNumber
 	bind $w <Control-Y> findNovelty
 	bind $w <Control-N> nameEditor
+
+	# Engines last: resolveKeys must see every main-window binding above (F9,
+	# F6, F12, the Control combinations) so a saved key cannot be installed here
+	# and then replaced by one of them. F2/F3 are only the defaults.
+	::keyboard::bindEngineShortcuts
 }
 
 proc excludeTextWidget {w} {

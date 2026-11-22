@@ -203,10 +203,17 @@ check "an unknown modifier is not a pattern" [expr {![::enginecfg::keyValid Bogu
 set ::enginecfg::key(1) Bogus-F5
 checkEq "an invalid saved key falls back to the default" [::enginecfg::keySequence 1] F2
 ::enginecfg::resetKeys
-checkEq "Ctrl+Shift+N is the same physical key as Ctrl+N" \
+checkEq "Ctrl+Shift+N has two equivalent spellings" \
     [lsort [::enginecfg::keyVariants Control-Shift-N]] \
-    [lsort {Control-Shift-N Control-Shift-n Control-N Control-n}]
+    [lsort {Control-Shift-N Control-N}]
+checkEq "so does uppercase Ctrl+N" \
+    [lsort [::enginecfg::keyVariants Control-N]] \
+    [lsort {Control-Shift-N Control-N}]
 checkEq "plain Ctrl+n is a different key" [::enginecfg::keyVariants Control-n] Control-n
+checkEq "the shifted spellings canonicalise together" \
+    [::enginecfg::keyCanonical Control-Shift-N] [::enginecfg::keyCanonical Control-N]
+check "plain and shifted canonicalise apart" \
+    [expr {[::enginecfg::keyCanonical Control-n] ne [::enginecfg::keyCanonical Control-Shift-N]}]
 
 puts "Windows uses Alt, not Num Lock"
 proc tk {args} { return win32 }
@@ -238,6 +245,16 @@ check "Ctrl+Shift+N sees the Ctrl+N binding" \
 check "plain Ctrl+n is a different key" [::enginecfg::keyAvailable 2 Control-n]
 check "a Text class binding is a conflict" \
     [expr {![::enginecfg::keyAvailable 2 Control-m]}]
+
+# The slot comparison is symmetric and uses the physical key: the shifted
+# spellings collide, the unshifted one does not.
+set ::enginecfg::key(1) Control-N
+set ::enginecfg::key(2) F3
+check "the other slot's shifted spelling collides" \
+    [::enginecfg::slotConflict 2 Control-Shift-N]
+check "the other slot's unshifted key does not" \
+    [expr {![::enginecfg::slotConflict 2 Control-n]}]
+::enginecfg::resetKeys
 
 # A hand-edited file can put the same key in both slots, or use one the app
 # already binds. Startup resolution keeps the first valid key and falls back.
@@ -381,6 +398,10 @@ check "no fixed F2 line is left" \
     [expr {[string first {bind $w <F2>} $keysSrc] < 0}]
 check "saved keys are resolved before binding" \
     [string match {*::enginecfg::resolveKeys*} $keysSrc]
+set f9At [string first {bind $w <F9>} $keysSrc]
+check "engine keys are installed after the other bindings" \
+    [expr {$f9At >= 0 &&
+            [string first {::keyboard::bindEngineShortcuts} $keysSrc $f9At] > $f9At}]
 check "editable widgets do not dispatch an engine" \
     [string match {*excludeTextWidget %W; ::enginewin::toggleStartStop*} $keysSrc]
 check "reset removes both bindings first" \
