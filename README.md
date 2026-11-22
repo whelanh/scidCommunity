@@ -172,6 +172,17 @@ with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 - **[David Crandall](https://github.com/Triquetra)** — AI provider channels for Game Comment (local, OpenAI-compatible and OpenCode models) and the game review feature.  He has also added other new features like CQL search, and he has taken the lead on simplifying scidCommunity to use one engine mode protocol. Along the way he has cleaned up a significant amount of obsolete and/or inconsistent code.
 - **[Tommaso Bergamasco](https://github.com/TBergh98)** — designed the Lichess study publishing feature, the OpenBook Rich (.obr) opening-book reader, and the CTG to .obr converter. He is also the creator of the "Woodpecker" training module under the **Play** menu and has contributed to Tree View loading speedups.
 - **[Szustan](https://github.com/Szustan)** - Has faithfully maintained the Polish language translation file throughout the many changes in scidCommunity.
+- **[Ejner Borgbjerg](https://github.com/eborgbjerg)** — Danish interface translation.
+
+### Translations
+
+The interface is translated in `tcl/lang/`, one catalogue per language, and the
+language is added to the **Options → Language** menu by `addLanguage` in
+`tcl/language.tcl`. A catalogue does not have to be complete: any key it leaves
+out falls back to English, so a language can grow over time. If you would like
+to add a language or keep an existing one in step, see
+[docs/ADDING_A_LANGUAGE.md](docs/ADDING_A_LANGUAGE.md) for the files to change,
+the maintenance tools and the checks to run.
 
 
 ### Acknowledgements
