@@ -216,6 +216,8 @@ translate d OptionsBGW {Vælg tekstur til felterne}
 translate d OptionsBoardGraphicsText {Vælg billedfiler til de lyse og mørke felter:}
 menuText d OptionsBoardNames "Mine spillernavne..." 0 {Rediger de navne, du spiller under}
 menuText d OptionsExport "Eksport" 0 {Vælg den tekst, der skal med ved eksport}
+menuText d OptionsExportPGNText "Tekst i PGN-filer" 8
+menuText d OptionsExportHTMLText "Tekst i HTML-filer" 8
 menuText d OptionsFonts {Skrifttyper} 4 {Skift skrifttyper}
 menuText d OptionsFontsRegular {Normal} 2 {Skift den normale skrifttype}
 menuText d OptionsFontsMenu {Menu} 0 {Skift menuernes skrifttype}
@@ -263,6 +265,7 @@ menuText d OptionsResources "Ressourcer..." 0 {Vælg ressourcefiler og mapper}
 menuText d OptionsWindowsDock "Fastgør vinduer" 5 {Fastgør vinduer i hovedvinduet (kræver genstart)}
 menuText d OptionsWindowsSaveLayout "Gem vindueslayout" 4 {Gem den aktuelle placering af vinduerne}
 menuText d OptionsWindowsRestoreLayout "Gendan vindueslayout" 2 {Gendan en gemt placering af vinduerne}
+menuText d OptionsLayoutDefault "1 (standard)" 0
 menuText d OptionsWindowsShowGameInfo "Vis partioplysninger" 0 {Vis oplysninger om det aktuelle parti}
 menuText d OptionsWindowsAutoLoadLayout {Indlæs automatisk første layout} 7 {Indlæs automatisk første layout ved opstart}
 menuText d OptionsECO {ECO-fil} 0 {Indlæs filen med ECO-klassifikationer}
@@ -757,6 +760,8 @@ translate d Deleted {Slettet}
 translate d SearchResults {Søgeresultater}
 translate d OpeningTheDatabase {Åbner databasen}
 translate d Database {Database}
+translate d MenuDatabaseSlot {Database %d: %s}
+translate d MenuImportIntoSlot {Til database %d: %s}
 translate d Filter {Filter}
 translate d noGames {ingen partier}
 translate d allGames {alle partier}
@@ -1365,6 +1370,8 @@ translate d GsortStore {Gem}
 translate d GsortLoad {Indlæs}
 
 # menu shown with right mouse button down on game list.
+translate d GlistRemoveSelectedFromFilter {Fjern de valgte partier fra filteret}
+translate d GlistExportSelected {Eksporter valgte partier...}
 translate d GlistRemoveThisGameFromFilter {Fjern dette parti fra filteret}
 translate d GlistRemoveGameAndAboveFromFilter {Fjern dette parti og alle ovenfor fra filteret}
 translate d GlistRemoveGameAndBelowFromFilter {Fjern dette parti og alle nedenfor fra filteret}
@@ -1561,6 +1568,7 @@ translate d PatternDarkFian {Fianchetto på mørke felter (Lb2 mod Lg7)}
 translate d PatternFourFian {Fire fianchetterede løbere (b2, g2, b7 og g7)}
 
 # Game saving:
+translate d SaveExtraTagsHint {Ekstra PGN-felter (eksempel: Annotator "Anand, V")}
 translate d Today {I dag}
 translate d ClassifyGame {Klassificer partiet}
 

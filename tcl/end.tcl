@@ -932,7 +932,7 @@ proc gameSave { gnum } {
   grid $f.brtype -row 9 -column 1 -sticky w
   grid $f.beloentry -row 9 -column 2 -sticky w
 
-  ttk::label $f.ecolabel -text "ECO Code:"
+  ttk::label $f.ecolabel -textvar ::tr(ECOCode:)
   ttk::entry $f.ecoentry -width 6 -textvariable eco
   grid $f.ecolabel -row 10 -column 0 -sticky w
   grid $f.ecoentry -row 10 -column 1 -sticky w
@@ -943,7 +943,7 @@ proc gameSave { gnum } {
   grid $f.title -row 0 -column 8 -sticky w  -padx "10 0"
   grid $f.list -row 1 -column 8 -rowspan 9 -sticky nw -padx "10 0"
 
-  ttk::labelframe .save.extrafr -text "Extra Tags: (example format: Annotator \"Anand, V\") "
+  ttk::labelframe .save.extrafr -text [tr SaveExtraTagsHint]
   ttk::frame .save.extra
   ttk_text .save.extra.text -height 4 -width 40 -wrap none
   autoscrollBars y .save.extra .save.extra.text
