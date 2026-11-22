@@ -109,8 +109,7 @@ proc ::enginecfg::keySequence {id} {
     if {[info exists ::enginecfg::key($id)]} {
         set seq [::enginecfg::normalizeKey $::enginecfg::key($id)]
     }
-    if {$seq eq "" || ![::enginecfg::keyValid $seq] ||
-        ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
+    if {![::enginecfg::keyLoadable $seq]} {
         return [::enginecfg::defaultKey $id]
     }
     return $seq
@@ -234,6 +233,13 @@ proc ::enginecfg::keyReserved {seq} {
     return false
 }
 
+# Is a saved sequence something this build can bind at all?
+proc ::enginecfg::keyLoadable {seq} {
+    set seq [::enginecfg::normalizeKey $seq]
+    return [expr {$seq ne "" && [::enginecfg::keyValid $seq] &&
+        [::enginecfg::keyUsable $seq] && ![::enginecfg::keyReserved $seq]}]
+}
+
 # The spellings that describe the same physical letter shortcut. Tk keysyms
 # are case-sensitive: <Control-N> (uppercase, no Shift) matches Ctrl+Shift+n,
 # while <Control-n> matches Ctrl+n. Normalising a letter candidate to the
@@ -264,58 +270,108 @@ proc ::enginecfg::keyVariants {seq} {
     return [lsort -unique $out]
 }
 
-# Is this key free for window id? A key used by another command in the main
-# window, or by the application's global bindings, is refused rather than
-# silently overriding it. The two engine windows' own bindings may be replaced.
-proc ::enginecfg::keyAvailable {id seq} {
-    if {![::enginecfg::keyValid $seq] || ![::enginecfg::keyUsable $seq] ||
-        [::enginecfg::keyReserved $seq]} {
+# Does seq collide with a binding the application already owns? Engine bindings
+# are ignored here: they are ours and will be replaced, and a collision between
+# the two slots is checked separately by ::enginecfg::slotConflict.
+proc ::enginecfg::keyConflicts {seq} {
+    if {[llength [info commands bind]] == 0 || ![winfo exists .]} {
         return false
     }
-    foreach other {1 2} {
-        if {$other ne $id && [::enginecfg::keySequence $other] eq $seq} {
-            return false
-        }
-    }
-    if {[llength [info commands bind]] == 0 || ![winfo exists .]} {
-        return true
-    }
     foreach variant [::enginecfg::keyVariants $seq] {
-        if {[catch { bind . <$variant> } script]} { return false }
-        if {$script ne ""} {
-            # The candidate's own current binding is the one this change
-            # replaces; any other script, including the other engine's, is a
-            # conflict.
-            if {![regexp {::enginewin::toggleStartStop\s+(\d+)} $script -> bound] ||
-                $bound ne $id} {
-                return false
-            }
+        if {[catch { bind . <$variant> } script]} { return true }
+        if {$script ne "" &&
+            [string first "::enginewin::toggleStartStop" $script] < 0} {
+            return true
         }
-        if {[catch { bind all <$variant> } script]} { return false }
-        if {$script ne ""} { return false }
+        if {[catch { bind all <$variant> } script]} { return true }
+        if {$script ne ""} { return true }
         # Tk's widget classes (Text, Entry, the ttk entries, Listbox) run before
         # the toplevel binding and are invisible to [bind all]. A key one of
         # them already uses is not a reliable engine shortcut.
         foreach class {Text Entry TEntry TCombobox TSpinbox Spinbox Listbox} {
-            if {[catch { bind $class <$variant> } script]} { return false }
-            if {$script ne ""} { return false }
+            if {[catch { bind $class <$variant> } script]} { return true }
+            if {$script ne ""} { return true }
         }
     }
+    return false
+}
+
+# Are seq and the other window's key the same physical shortcut?
+proc ::enginecfg::slotConflict {id seq} {
+    foreach other {1 2} {
+        if {$other eq $id} { continue }
+        set otherSeq [::enginecfg::keySequence $other]
+        if {$otherSeq ne "" && [lsearch -exact [::enginecfg::keyVariants $seq] $otherSeq] >= 0} {
+            return true
+        }
+    }
+    return false
+}
+
+# Is this key free for window id? A key used by another command in the main
+# window, by a widget class, or by the other engine window is refused rather
+# than silently overriding it.
+proc ::enginecfg::keyAvailable {id seq} {
+    if {![::enginecfg::keyLoadable $seq]} { return false }
+    if {[::enginecfg::slotConflict $id $seq] || [::enginecfg::keyConflicts $seq]} {
+        return false
+    }
     return true
+}
+
+# Resolve the keys saved in options.dat before the bindings are installed.
+# keySequence has already rejected syntax, unsafe keys and reserved keys; this
+# catches the two remaining ways a saved pair can misbehave: the same key in
+# both slots, and a key another command already owns. The first slot wins, and
+# a rejected value falls back to the default (then the other default, then a
+# free function key) so both windows still get a working shortcut.
+proc ::enginecfg::resolveKeys {} {
+    set accepted {}
+    foreach id {1 2} {
+        set seq [::enginecfg::keySequence $id]
+        if {[::enginecfg::seqTaken $seq $accepted] || [::enginecfg::keyConflicts $seq]} {
+            set candidates [list [::enginecfg::defaultKey $id] \
+                [::enginecfg::defaultKey [expr {$id == 1 ? 2 : 1}]] \
+                F2 F3 F4 F5 F7 F8 F10 F11 \
+                F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24]
+            set fallback ""
+            foreach candidate $candidates {
+                set candidate [::enginecfg::normalizeKey $candidate]
+                if {![::enginecfg::keyLoadable $candidate]} { continue }
+                if {[::enginecfg::seqTaken $candidate $accepted]} { continue }
+                if {[::enginecfg::keyConflicts $candidate]} { continue }
+                set fallback $candidate
+                break
+            }
+            # The defaults are the last resort when every candidate is taken;
+            # they are at least bindable, which the old value was not.
+            if {$fallback eq ""} { set fallback [::enginecfg::defaultKey $id] }
+            set seq $fallback
+        }
+        set ::enginecfg::key($id) $seq
+        lappend accepted $seq
+    }
+    ::enginecfg::refreshShortcutMenus
+}
+
+# Is seq already in the accepted list, in any of its equivalent spellings?
+proc ::enginecfg::seqTaken {seq accepted} {
+    set variants [::enginecfg::keyVariants $seq]
+    foreach other $accepted {
+        if {[lsearch -exact $variants $other] >= 0} { return true }
+    }
+    return false
 }
 
 # Change a window's key and rebind it at once.
 proc ::enginecfg::setKey {id seq} {
     if {$id ni {1 2}} { return false }
     set seq [::enginecfg::normalizeKey $seq]
-    if {$seq eq "" || ![::enginecfg::keyValid $seq] ||
-        ![::enginecfg::keyUsable $seq] || [::enginecfg::keyReserved $seq]} {
-        return false
-    }
+    if {$seq eq ""} { return false }
     if {[llength [info commands bind]] && [winfo exists .]} {
         if {[catch { bind . <$seq> }]} { return false }
-        if {![::enginecfg::keyAvailable $id $seq]} { return false }
     }
+    if {![::enginecfg::keyAvailable $id $seq]} { return false }
     set ::enginecfg::key($id) $seq
     if {[llength [info commands ::keyboard::bindEngineShortcut]]} {
         catch { ::keyboard::bindEngineShortcut $id }

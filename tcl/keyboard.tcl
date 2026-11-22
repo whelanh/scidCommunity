@@ -62,6 +62,11 @@ proc ::keyboard::rebindEngineShortcuts {} {
 }
 
 proc ::keyboard::bindEngineShortcuts {} {
+    # Resolve duplicates and keys another command already owns before the first
+    # binding goes in.
+    if {[llength [info commands ::enginecfg::resolveKeys]]} {
+        catch { ::enginecfg::resolveKeys }
+    }
     ::keyboard::rebindEngineShortcuts
 }
 

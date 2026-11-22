@@ -238,6 +238,20 @@ check "Ctrl+Shift+N sees the Ctrl+N binding" \
 check "plain Ctrl+n is a different key" [::enginecfg::keyAvailable 2 Control-n]
 check "a Text class binding is a conflict" \
     [expr {![::enginecfg::keyAvailable 2 Control-m]}]
+
+# A hand-edited file can put the same key in both slots, or use one the app
+# already binds. Startup resolution keeps the first valid key and falls back.
+set ::enginecfg::key(1) F5
+set ::enginecfg::key(2) F5
+::enginecfg::resolveKeys
+checkEq "the first saved key is kept" [::enginecfg::keySequence 1] F5
+checkEq "a duplicate saved key falls back" [::enginecfg::keySequence 2] F3
+set ::enginecfg::key(1) Control-N
+set ::enginecfg::key(2) F3
+::enginecfg::resolveKeys
+checkEq "a saved key the app owns falls back" [::enginecfg::keySequence 1] F2
+checkEq "the other saved key is kept" [::enginecfg::keySequence 2] F3
+::enginecfg::resetKeys
 rename bind {}
 rename winfo {}
 
@@ -365,6 +379,8 @@ check "the main window installs the current engine keys" \
     [string match {*::keyboard::bindEngineShortcuts*} $keysSrc]
 check "no fixed F2 line is left" \
     [expr {[string first {bind $w <F2>} $keysSrc] < 0}]
+check "saved keys are resolved before binding" \
+    [string match {*::enginecfg::resolveKeys*} $keysSrc]
 check "editable widgets do not dispatch an engine" \
     [string match {*excludeTextWidget %W; ::enginewin::toggleStartStop*} $keysSrc]
 check "reset removes both bindings first" \
