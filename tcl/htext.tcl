@@ -381,6 +381,9 @@ proc ::htext::spanTagFor {w tagName} {
       }
     }
   }
+  # A comment loaded from elsewhere can carry a colour Tk does not know.
+  # Drop it rather than aborting the whole display.
+  if {$color ne "" && [catch {winfo rgb $w $color}]} { set color "" }
   set spanTag "span_[incr ::htext::spanCounter]"
   set opts {}
   if {$color ne ""} { lappend opts -foreground $color }

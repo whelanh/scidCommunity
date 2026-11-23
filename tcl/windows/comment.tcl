@@ -585,6 +585,21 @@ namespace eval ::windows::commenteditor {
 		return $colorTags_($key)
 	}
 
+	# Drop colour tags for this widget that no text uses any more. The Info
+	# Bar outlives the comments shown in it, so without this browsing through
+	# many custom colours would leave one tag behind for each.
+	proc pruneColorTags_ {t} {
+		variable colorTags_
+		foreach key [array names colorTags_] {
+			if {[lindex $key 0] ne $t} { continue }
+			set tag $colorTags_($key)
+			if {[catch {$t tag ranges $tag} ranges] || [llength $ranges] == 0} {
+				catch { $t tag delete $tag }
+				unset colorTags_($key)
+			}
+		}
+	}
+
 	# Insert comment markup into a plain text widget: the runs the editor
 	# shows, coloured as there, and no tags on screen. Text without a span
 	# takes defaultColor (the reader's own comment colour). extraTags are
@@ -606,6 +621,7 @@ namespace eval ::windows::commenteditor {
 			if {$colorTag ne ""} { lappend tags $colorTag }
 			$t insert end $text $tags
 		}
+		pruneColorTags_ $t
 	}
 
 	proc chooseCustomColor_ {} {

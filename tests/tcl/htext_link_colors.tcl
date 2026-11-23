@@ -134,6 +134,15 @@ checkEq "leaving restores the dark-theme link colour" \
     [linkFg .dark Index] "LightSkyBlue"
 checkEq "and drops the highlight" [.dark tag cget $tag -background] ""
 
+puts "\n== an unknown span colour does not abort the display =="
+text .span
+::htext::init .span
+set err [catch {
+    ::htext::display .span {Before <span style="color:notacolour">note</span> after}
+} msg]
+check "the display survives an unknown span colour" [expr {$err == 0}] $msg
+checkEq "the text is still shown" [.span get 1.0 end-1c] "Before note after"
+
 puts "\n== a theme change recolours the links already drawn =="
 .dark configure -background white -foreground black
 ::htext::configureColors .dark

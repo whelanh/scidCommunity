@@ -164,5 +164,11 @@ foreach tag [$t tag names $badAt] {
 check "the invalid colour falls back to the comment colour" \
     [expr {[lsearch -exact $badTags $::pgnColor(Comment)] >= 0}] $badTags
 
+set leftover {}
+foreach tag [$t tag names] {
+    if {[string match "commentcolor_*" $tag]} { lappend leftover $tag }
+}
+check "unused colour tags are pruned" [expr {[llength $leftover] == 1}] $leftover
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]
