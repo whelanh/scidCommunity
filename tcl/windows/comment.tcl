@@ -543,11 +543,21 @@ namespace eval ::windows::commenteditor {
 		# setting, which the user may have changed since the last time.
 		if {[winfo exists $m]} { destroy $m }
 		menu $m -tearoff 0
-		foreach color [::utils::annotationColors] {
+		set colors [::utils::annotationColors]
+		# Two columns of squares keep the chooser compact; Tk fills a menu
+		# column top to bottom, so the break goes on the first entry of the
+		# second column.
+		set rows [expr {([llength $colors] + 1) / 2}]
+		set i 0
+		foreach color $colors {
 			set value [::utils::annotationColorValue $color]
 			if {$value eq ""} { set value $color }
-			$m add command -image [colorSwatchImage_ $color] \
-				-command "::windows::commenteditor::setStyleDim_ color $value"
+			set opts [list \
+				-image [colorSwatchImage_ $color] \
+				-command "::windows::commenteditor::setStyleDim_ color $value"]
+			if {$i == $rows} { lappend opts -columnbreak 1 }
+			$m add command {*}$opts
+			incr i
 		}
 		$m add separator
 		$m add command -label "[tr CustomColor]" -command "::windows::commenteditor::chooseCustomColor_"
@@ -556,6 +566,7 @@ namespace eval ::windows::commenteditor {
 
 	# A tag for one colour. The Info Bar under the board is a plain text
 	# widget, not htext, so each colour a comment runs in needs its own tag.
+	# A colour Tk rejects returns "" so the caller can use the default.
 	proc colorTagFor_ {t color} {
 		variable colorTags_
 		variable colorTagIds_
@@ -565,7 +576,10 @@ namespace eval ::windows::commenteditor {
 		if {![info exists colorTags_($key)] ||
 				[lsearch -exact [$t tag names] $colorTags_($key)] < 0} {
 			set tag "commentcolor_[incr colorTagIds_]"
-			$t tag configure $tag -foreground $color
+			if {[catch {$t tag configure $tag -foreground $color}]} {
+				catch { $t tag delete $tag }
+				return ""
+			}
 			set colorTags_($key) $tag
 		}
 		return $colorTags_($key)
@@ -581,8 +595,15 @@ namespace eval ::windows::commenteditor {
 			lassign $run text style
 			set color [styleGet_ $style color]
 			if {$color eq ""} { set color $defaultColor }
+			set colorTag ""
+			if {$color ne ""} { set colorTag [colorTagFor_ $t $color] }
+			# A span colour Tk rejects falls back to the default, as an
+			# uncoloured run does.
+			if {$colorTag eq "" && $defaultColor ne "" && $color ne $defaultColor} {
+				set colorTag [colorTagFor_ $t $defaultColor]
+			}
 			set tags $extraTags
-			if {$color ne ""} { lappend tags [colorTagFor_ $t $color] }
+			if {$colorTag ne ""} { lappend tags $colorTag }
 			$t insert end $text $tags
 		}
 	}

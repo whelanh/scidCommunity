@@ -86,6 +86,12 @@ checkEq "every colour has a swatch command" $squareCommands $expected
 checkEq "the last entry is the custom colour" \
     [$m entrycget [lindex $entries end] -label] "CustomColor"
 
+set rows [expr {([llength $palette] + 1) / 2}]
+check "the first column starts without a break" \
+    [expr {[$m entrycget [lindex $entries 0] -columnbreak] == 0}]
+check "the second column starts after $rows rows" \
+    [expr {[$m entrycget [lindex $entries $rows] -columnbreak] == 1}]
+
 # --------------------------------------------------------------- the Info Bar --
 puts "\nthe Info Bar shows the comment, not its markup"
 
@@ -136,6 +142,27 @@ foreach tag [$t tag names $ideaAt] {
 }
 check "the unspanned text takes the comment colour" \
     [expr {[lsearch -exact $ideaTags $::pgnColor(Comment)] >= 0}] $ideaTags
+
+# A comment imported from elsewhere can carry a colour Tk does not know. It
+# must not abort the Info Bar update; it falls back to the comment colour.
+set err [catch {
+    ::board::setInfoAlert .main.board "Comment" \
+        {Bad <span style="color:notacolour">colour</span> end} \
+        $::pgnColor(Comment) "" 1
+} msg]
+check "an invalid span colour does not abort the Info Bar" [expr {$err == 0}] $msg
+set shownBad [$t get 1.0 end-1c]
+checkEq "the invalid run still shows its text" $shownBad "Comment Bad colour end"
+
+set badAt [$t search -exact "colour" 1.0]
+set badTags {}
+foreach tag [$t tag names $badAt] {
+    if {![catch {$t tag cget $tag -foreground} fg] && $fg ne ""} {
+        lappend badTags $fg
+    }
+}
+check "the invalid colour falls back to the comment colour" \
+    [expr {[lsearch -exact $badTags $::pgnColor(Comment)] >= 0}] $badTags
 
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

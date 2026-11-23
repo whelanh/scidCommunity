@@ -42,5 +42,23 @@ check "an entity is shown as its character" [expr {[string first "A & B" $info] 
 check "a literal angle bracket is left for htext to display" \
     [expr {[string first "4 <lt> 5" $info] >= 0}] $info
 
+# A bare <span> would make htext read an unset spanTag when it sees the
+# closing tag, so it is normalized to an empty attributed span.
+sc_game new
+sc_pos setComment {Before <span>note</span> after}
+set bareSpan [sc_game info -cfull 1]
+check "a bare span is given an empty style" \
+    [expr {[string first {<span style="">note</span>} $bareSpan] >= 0}] $bareSpan
+check "no bare span reaches htext" \
+    [expr {[string first "<span>" $bareSpan] < 0}] $bareSpan
+
+# A width-cut line must keep the words after the cut for the next wrapped
+# line, as the old renderer did.
+sc_game new
+sc_pos setComment "[string repeat a 70] tail"
+set compact [sc_game info -cfull 0]
+check "a width-cut line keeps the word after the cut" \
+    [expr {[string first "tail" $compact] >= 0}] $compact
+
 puts "\n$checks checks, $fails failures"
 exit [expr {$fails ? 1 : 0}]

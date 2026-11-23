@@ -52,7 +52,8 @@ proc ::utils::annotationColors {} {
 #   The #rrggbb a palette name stands for. The board draws arrows with Tk's
 #   colour names; a comment stores a hex value, which the RTF export needs and
 #   every reader of the markup understands. Resolve through Tk so the comment
-#   square is the exact colour the arrow is.
+#   square is the exact colour the arrow is. Returns "" with no window to
+#   resolve against; the caller then keeps the name.
 proc ::utils::annotationColorValue {color} {
   if {[regexp {^#[0-9a-fA-F]{6}$} $color]} { return [string tolower $color] }
   set hex ""
@@ -60,15 +61,6 @@ proc ::utils::annotationColorValue {color} {
     lassign [winfo rgb . $color] r g b
     set hex [format "#%02x%02x%02x" \
       [expr {$r / 257}] [expr {$g / 257}] [expr {$b / 257}]]
-  }
-  if {$hex eq ""} {
-    # No window to resolve against: Tk's values for the palette names.
-    array set known {
-      green #008000 red #ff0000 orange #ffa500 yellow #ffff00
-      blue #0000ff cyan #00ffff purple #800080 white #ffffff
-      black #000000 gray #808080
-    }
-    if {[info exists known($color)]} { set hex $known($color) }
   }
   return $hex
 }

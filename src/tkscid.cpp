@@ -3087,7 +3087,13 @@ static void appendCommentAsHtext(Tcl_Interp *ti, char *comment, uint width,
   std::vector<CommentToken> tokens = commentTokens(comment);
   std::vector<std::string> openTags;
   auto appendTag = [&](const std::string &tag) {
-    Tcl_AppendResult(ti, "<", tag.c_str(), ">", nullptr);
+    // htext only knows an attributed <span ...>; a bare <span> leaves its
+    // closing tag reading an unset spanTag. Give it an empty style.
+    if (tag == "span") {
+      Tcl_AppendResult(ti, "<span style=\"\">", nullptr);
+    } else {
+      Tcl_AppendResult(ti, "<", tag.c_str(), ">", nullptr);
+    }
     if (tag[0] == '/') {
       if (!openTags.empty()) { openTags.pop_back(); }
     } else {
@@ -3134,16 +3140,16 @@ static void appendCommentAsHtext(Tcl_Interp *ti, char *comment, uint width,
         ++i;
       }
       Tcl_AppendResult(ti, "...", nullptr);
-      // The rest of this line is what the width hid.
-      while (i < tokens.size()) {
-        if (tokens[i].isTag) {
-          appendTag(tokens[i].text);
-          ++i;
-          continue;
-        }
-        char ch = tokens[i].text[0];
+      // The old renderer dropped only the space or newline that ended the
+      // word, then kept wrapping the rest of the line. Dropping to the
+      // newline here would hide everything after the cut.
+      while (i < tokens.size() && tokens[i].isTag) {
+        appendTag(tokens[i].text);
         ++i;
-        if (ch == '\n') { break; }
+      }
+      if (i < tokens.size()) {
+        char ch = tokens[i].text[0];
+        if (ch == ' ' || ch == '\n') { ++i; }
       }
     } else {
       // Consume the trailing tags and the line break, if any.
