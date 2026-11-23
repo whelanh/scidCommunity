@@ -611,6 +611,16 @@ translate E WoodpeckerCircleNote {Inner circle: %d exercises in the cycle, %d lo
 translate E WoodpeckerCircleOpening {From cycle %d the %d locked exercises come back, first in the order.}
 translate E WoodpeckerCircleNone {This cycle has too few exercises for an inner circle.}
 translate E WoodpeckerCircleMoved {%d exercises moved to the new set "%s".}
+translate E WoodpeckerDanger {Danger zone}
+translate E WoodpeckerReset {Reset statistics...}
+translate E WoodpeckerResetTitle {Reset statistics}
+translate E WoodpeckerResetAsk {Start "%s" again from cycle 1, as a new set?
+
+The %d exercises you played and your sessions are put aside in the set's folder, like a tree's growth rings, and can be brought back with Restore. The exercises and their ! and !! stay. An inner circle is removed: the cycle is the whole set again.}
+translate E WoodpeckerResetDo {Reset}
+translate E WoodpeckerRestore {Restore statistics of %s...}
+translate E WoodpeckerRestoreAsk {Bring back the statistics put aside on %s?}
+translate E WoodpeckerRestoreSwap {The current ones (%d exercises played) are put aside in their place, so you can switch back.}
 translate E WoodpeckerCreate {Create}
 translate E WoodpeckerBadNumber {Not a valid number: %s}
 translate E WoodpeckerNoDifficulty {Choose at least one difficulty and a number of exercises.}

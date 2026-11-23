@@ -22,6 +22,8 @@
 ###                  S ts cycle session start dur_ms
 ###                  C ts cycle order days1 from   (the scope of the cycles from
 ###                                                 `cycle` on: an inner circle)
+###   ring-<date>.tsv  a log put aside by a reset, like a tree's growth ring:
+###                  it can be brought back
 
 namespace eval ::woodpecker {
     variable P
@@ -460,11 +462,11 @@ proc ::woodpecker::logScope {dir now cycle order days1 {from ""}} {
 }
 
 # The log as three lists of dicts: exercises, sessions and scopes.
-proc ::woodpecker::readLog {dir} {
+proc ::woodpecker::readLog {dir {file log.tsv}} {
     set xs {}
     set ss {}
     set cs {}
-    foreach row [readLines [file join $dir log.tsv]] {
+    foreach row [readLines [file join $dir $file]] {
         switch -- [lindex $row 0] {
             X {
                 lassign $row - ts cycle session ex result found ms
@@ -543,6 +545,75 @@ proc ::woodpecker::scopeAt {cs cycle exs {retired {}} {days1 28}} {
 # Planned days of cycle `k` under a scope from ::woodpecker::scopeAt.
 proc ::woodpecker::scopeDays {scope k} {
     return [cycleDays [expr {max(1, $k - [dict get $scope from] + 1)}] [dict get $scope days1]]
+}
+
+################################################################################
+# Resetting the statistics (Decision 9): the log is put aside as a "ring", a
+# dated copy in the set's folder, never deleted, and the next reset or a
+# restore swaps them.
+
+# The set's rings, newest first: a list of {path day}.
+proc ::woodpecker::rings {dir} {
+    set out {}
+    foreach path [glob -nocomplain -types f -directory $dir ring-*.tsv] {
+        if {![regexp {^ring-(\d{4}-\d{2}-\d{2})(?:-(\d+))?\.tsv$} [file tail $path] -> day n]} { continue }
+        if {$n eq ""} { set n 1 }
+        lappend out [list $path $day $n]
+    }
+    set out [lsort -decreasing -command {apply {{a b} {
+        set c [string compare [lindex $a 1] [lindex $b 1]]
+        if {$c} { return $c }
+        return [expr {[lindex $a 2] - [lindex $b 2]}]
+    }}} $out]
+    return [lmap r $out { lrange $r 0 1 }]
+}
+
+# Put log.tsv aside as ring-<today>.tsv (-2, -3 ... when taken). A log with
+# nothing played (missing, empty, or only a scope row) is not worth a ring: it
+# is removed. Returns the ring's path, or "".
+proc ::woodpecker::archiveLog {dir now} {
+    set log [file join $dir log.tsv]
+    if {![file exists $log]} { return "" }
+    lassign [readLog $dir] xs ss
+    if {![llength $xs] && ![llength $ss]} {
+        file delete $log
+        return ""
+    }
+    set day [today $now]
+    set ring [file join $dir ring-$day.tsv]
+    set n 1
+    while {[file exists $ring]} { set ring [file join $dir ring-$day-[incr n].tsv] }
+    file rename $log $ring
+    return $ring
+}
+
+# Start the set again from cycle 1: the log becomes a ring, the exercises and
+# their marks stay. `days1`, when given and not the set's own, is the new
+# first cycle's length. An inner circle goes with the log (its C rows are
+# there); exercises moved or given back stay out (set.tsv). Returns the ring.
+proc ::woodpecker::resetLog {dir now {days1 ""} {setDays1 ""}} {
+    set ring [archiveLog $dir $now]
+    if {[string is integer -strict $days1] && $days1 >= 1 && $days1 ne $setDays1} {
+        logScope $dir $now 1 * $days1
+    }
+    return $ring
+}
+
+# Bring back the newest ring as the log; the current log, unless empty,
+# becomes a ring in its place, so a second restore undoes the first. Returns
+# the restored ring's day, "" when there is none.
+proc ::woodpecker::restoreRing {dir now} {
+    set rings [rings $dir]
+    if {![llength $rings]} { return "" }
+    lassign [lindex $rings 0] path day
+    set tmp [file join $dir ring-restoring.tmp]
+    file rename -force $path $tmp
+    if {[catch { archiveLog $dir $now } err]} {
+        file rename $tmp $path
+        error $err
+    }
+    file rename $tmp [file join $dir log.tsv]
+    return $day
 }
 
 ################################################################################

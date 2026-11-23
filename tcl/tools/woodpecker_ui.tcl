@@ -257,9 +257,14 @@ proc ::woodpecker::ui::build {} {
     ttk::button $h.b.eval -text [tr WoodpeckerEvaluate] -command ${v}::evaluate
     ttk::button $h.b.stats -text [tr WoodpeckerStats] -command ${v}::stats
     ttk::button $h.b.circle -text [tr WoodpeckerCircle] -command ${v}::circleDialog
-    ttk::button $h.b.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
     pack $h.b.train $h.b.db $h.b.new $h.b.eval $h.b.stats $h.b.circle -side left -padx {0 6}
-    pack $h.b.del -side right
+    # What cannot be undone from the window, or only with Restore, apart.
+    set z [ttk::labelframe $h.danger -text [tr WoodpeckerDanger] -padding {8 4 8 6}]
+    ttk::button $z.reset -text [tr WoodpeckerReset] -command ${v}::resetDialog
+    ttk::button $z.restore -textvariable ${v}::txt(restore) -command ${v}::restoreStats
+    ttk::button $z.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
+    pack $z.reset $z.restore -side left -padx {0 6}
+    pack $z.del -side right
     grid $h.title -row 0 -column 0 -columnspan 2 -sticky w
     grid $h.sub -row 1 -column 0 -columnspan 2 -sticky w -pady {0 8}
     grid $h.sets -row 2 -column 0 -sticky nsew
@@ -268,6 +273,7 @@ proc ::woodpecker::ui::build {} {
     grid $h.info -row 4 -column 0 -columnspan 2 -sticky w -pady {6 10}
     grid $h.opts -row 5 -column 0 -columnspan 2 -sticky w -pady {0 8}
     grid $h.b -row 6 -column 0 -columnspan 2 -sticky ew
+    grid $h.danger -row 7 -column 0 -columnspan 2 -sticky ew -pady {14 0}
     grid rowconfigure $h 2 -weight 1
     grid columnconfigure $h 0 -weight 1
 
@@ -725,10 +731,12 @@ proc ::woodpecker::ui::selected {} {
     if {$dir eq ""} {
         foreach k {hCycle hToday hDeadline} { set txt($k.now) "–" }
         set txt(info) [tr WoodpeckerNoSets]
+        restoreShow ""
         return
     }
     set info [dayPlan $dir]
     set notes [dict get $info notes]
+    restoreShow $dir
     set st [::woodpecker::set::markStatus $dir]
     set marked [expr {[dict get $st annotated] + [dict get $st reviewed]}]
     if {$marked < [dict get $st total]} {
@@ -828,6 +836,104 @@ proc ::woodpecker::ui::deleteSet {} {
     }]
     if {$err || $blocked} { return }
     file delete -force $dir
+    refresh
+}
+
+################################################################################
+# Reset statistics (Decision 9): the log is put aside as a ring and the set
+# starts again from cycle 1; Restore brings the newest ring back.
+
+# The Restore button, only when the set has a ring.
+proc ::woodpecker::ui::restoreShow {dir} {
+    variable w
+    variable txt
+    set b $w.home.danger.restore
+    if {![winfo exists $b]} { return }
+    set rings [expr {$dir eq "" ? {} : [::woodpecker::rings $dir]}]
+    if {[llength $rings]} {
+        set txt(restore) [T WoodpeckerRestore [fmtDay [lindex $rings 0 1]]]
+        if {![winfo ismapped $b]} { pack $b -side left -padx {0 6} -after $w.home.danger.reset }
+    } else {
+        pack forget $b
+    }
+}
+
+proc ::woodpecker::ui::fmtDay {ymd} {
+    return [clock format [clock scan $ymd -format %Y-%m-%d] -format "%d %b %Y"]
+}
+
+proc ::woodpecker::ui::resetDialog {} {
+    variable run
+    variable reset
+    set dir [current]
+    if {$dir eq "" || $run(on)} { return }
+    set d .woodpeckerReset
+    if {[winfo exists $d]} { raise $d; return }
+    set dp [dayPlan $dir]
+    set meta [dict get $dp meta]
+    array unset reset
+    array set reset [list dir $dir days [expr {[dict exists $meta days1] ? [dict get $meta days1] : 28}] \
+        n [llength [dict get [::woodpecker::scopeAt {} 1 [dict get $dp all] [dict get $dp retired]] order]]]
+    set reset(setDays) $reset(days)
+    win::createDialog $d
+    ::setTitle $d [tr WoodpeckerResetTitle]
+    fonts
+    set v ::woodpecker::ui
+    set f [ttk::frame $d.f -padding 8]
+    pack $f -fill both -expand 1
+    set logged [llength [dict get $dp xs]]
+    ttk::label $f.m -text [T WoodpeckerResetAsk [dict get $meta name] $logged] -wraplength 440 -justify left
+    ttk::label $f.ldays -text [tr WoodpeckerDays1]
+    ttk::spinbox $f.days -from 1 -to 365 -width 6 -textvariable ${v}::reset(days)
+    ttk::label $f.load -textvariable ${v}::reset(load) -wraplength 440 -justify left
+    grid $f.m - -sticky w -pady {0 8}
+    grid $f.ldays $f.days -sticky w -pady 2
+    grid configure $f.ldays -padx {0 10}
+    grid $f.load - -sticky w -pady {2 4}
+    ttk::frame $d.b -padding {10 6 10 10}
+    ttk::button $d.b.ok -text [tr WoodpeckerResetDo] -command ${v}::resetApply
+    ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d] -default active
+    pack $d.b.cancel $d.b.ok -side right -padx 4
+    pack $d.b -fill x
+    resetLoad
+    trace add variable ${v}::reset(days) write ${v}::resetLoad
+    bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::reset(days) write ${v}::resetLoad }"
+    focus $d.b.cancel
+}
+
+proc ::woodpecker::ui::resetLoad {args} {
+    variable reset
+    set reset(load) [loadText $reset(n) $reset(days)]
+}
+
+proc ::woodpecker::ui::resetApply {} {
+    variable reset
+    set d .woodpeckerReset
+    if {![string is integer -strict $reset(days)] || $reset(days) < 1} {
+        tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $reset(days)]
+        return
+    }
+    destroy $d
+    if {[catch { ::woodpecker::resetLog $reset(dir) [clock seconds] $reset(days) $reset(setDays) } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -message $err
+    }
+    refresh
+}
+
+proc ::woodpecker::ui::restoreStats {} {
+    variable run
+    set dir [current]
+    if {$dir eq "" || $run(on)} { return }
+    set rings [::woodpecker::rings $dir]
+    if {![llength $rings]} { return }
+    lassign [::woodpecker::readLog $dir] xs
+    set msg [T WoodpeckerRestoreAsk [fmtDay [lindex $rings 0 1]]]
+    if {[llength $xs]} { append msg "\n\n" [T WoodpeckerRestoreSwap [llength $xs]] }
+    if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+            -message $msg] ne "yes"} { return }
+    if {[catch { ::woodpecker::restoreRing $dir [clock seconds] } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -message $err
+    }
     refresh
 }
 

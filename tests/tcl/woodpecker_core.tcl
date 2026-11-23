@@ -453,6 +453,48 @@ lassign [::woodpecker::readLog $ct] - - cs
 checkEq "a row ending in * is read" [dict get [lindex $cs end] order] "7-8 1-6 *"
 file delete -force $ct
 
+# ------------------------------------------------------- reset and restore ----
+set rt [file join [file dirname $tmp] wp_ring_[pid]]
+file delete -force $rt
+file mkdir $rt
+set r0 [clock scan "2026-11-20 10:00" -format "%Y-%m-%d %H:%M"]
+checkEq "no log: nothing to reset" [::woodpecker::resetLog $rt $r0] ""
+checkEq "no rings yet" [::woodpecker::rings $rt] {}
+foreach ex {1 2} { ::woodpecker::logExercise $rt $r0 1 1 $ex clean 1 1000 }
+::woodpecker::logScope $rt $r0 1 "1" 7
+set ring [::woodpecker::resetLog $rt $r0 14 28]
+checkEq "the log becomes a dated ring" [file tail $ring] ring-2026-11-20.tsv
+lassign [::woodpecker::readLog $rt] xs ss cs
+checkEq "the new log has no exercise" [llength $xs] 0
+checkEq "the inner circle went with it; the new days are a C row for the whole set" \
+    [list [llength $cs] [dict get [lindex $cs 0] order] [dict get [lindex $cs 0] days1]] {1 * 14}
+checkEq "so cycle 1 lasts 14 days over the whole set" [dict get [::woodpecker::progress $xs 3 2026-11-20 $cs {} 28] days] 14
+::woodpecker::logExercise $rt [expr {$r0 + 60}] 1 1 3 failed 0 2000
+::woodpecker::resetLog $rt $r0 28 28
+checkEq "a second reset the same day: a second ring" [lmap r [::woodpecker::rings $rt] { file tail [lindex $r 0] }] \
+    {ring-2026-11-20-2.tsv ring-2026-11-20.tsv}
+check "the set's own days need no C row" {![file exists [file join $rt log.tsv]]}
+# Restore: the newest ring comes back; with nothing logged since, no ring is made.
+set day [::woodpecker::restoreRing $rt [expr {$r0 + 86400}]]
+checkEq "restore names the ring's day" $day 2026-11-20
+lassign [::woodpecker::readLog $rt] xs ss cs
+checkEq "the newest ring is the log again" [lmap x $xs { dict get $x ex }] 3
+checkEq "one ring left" [llength [::woodpecker::rings $rt]] 1
+set day [::woodpecker::restoreRing $rt [expr {$r0 + 86400}]]
+lassign [::woodpecker::readLog $rt] xs ss cs
+checkEq "restoring again brings the older one" [lmap x $xs { dict get $x ex }] {1 2}
+checkEq "... and puts the current log aside, dated today" [lmap r [::woodpecker::rings $rt] { file tail [lindex $r 0] }] \
+    {ring-2026-11-21.tsv}
+::woodpecker::restoreRing $rt [expr {$r0 + 86400}]
+lassign [::woodpecker::readLog $rt] xs ss cs
+checkEq "a restore is undone by another" [lmap x $xs { dict get $x ex }] 3
+# A reset log with only its days (a C row) and nothing played: no ring for it.
+::woodpecker::resetLog $rt $r0 10 28
+set before [llength [::woodpecker::rings $rt]]
+::woodpecker::restoreRing $rt $r0
+checkEq "nothing played since the reset: restoring makes no ring" [llength [::woodpecker::rings $rt]] [expr {$before - 1}]
+file delete -force $rt
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

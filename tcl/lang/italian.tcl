@@ -579,6 +579,16 @@ translate I WoodpeckerCircleNote {Cerchio interno: %d esercizi nel ciclo, %d blo
 translate I WoodpeckerCircleOpening {Dal ciclo %d tornano i %d esercizi bloccati, per primi nell'ordine.}
 translate I WoodpeckerCircleNone {Questo ciclo ha troppo pochi esercizi per un cerchio interno.}
 translate I WoodpeckerCircleMoved {%d esercizi spostati nel nuovo set "%s".}
+translate I WoodpeckerDanger {Zona pericolosa}
+translate I WoodpeckerReset {Azzera statistiche...}
+translate I WoodpeckerResetTitle {Azzera statistiche}
+translate I WoodpeckerResetAsk {Ricominciare "%s" dal ciclo 1, come un set nuovo?
+
+I %d esercizi giocati e le tue sessioni vengono messi da parte nella cartella del set, come gli anelli di un tronco, e si possono riportare con Ripristina. Gli esercizi e i loro ! e !! restano. Un cerchio interno viene tolto: il ciclo torna a essere l'intero set.}
+translate I WoodpeckerResetDo {Azzera}
+translate I WoodpeckerRestore {Ripristina statistiche del %s...}
+translate I WoodpeckerRestoreAsk {Riportare le statistiche messe da parte il %s?}
+translate I WoodpeckerRestoreSwap {Quelle attuali (%d esercizi giocati) vengono messe da parte al loro posto, così puoi tornare indietro.}
 translate I WoodpeckerCreate {Crea}
 translate I WoodpeckerBadNumber {Numero non valido: %s}
 translate I WoodpeckerNoDifficulty {Scegli almeno una difficoltà e un numero di esercizi.}

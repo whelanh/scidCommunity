@@ -236,6 +236,12 @@ file mkdir $idset
 ::woodpecker::logExercise $idset 100 1 1 7 clean 1 1000
 checkEq "a new number skips the history" \
     [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 7
+::woodpecker::resetLog $idset 100
+checkEq "and the history a reset put aside" \
+    [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 7
+::woodpecker::logScope $idset 200 1 "1 9 *" 7
+checkEq "and the numbers an inner circle names" \
+    [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 9
 
 # ------------------------------------------------ a file's exercise count ----
 set pgn [file join $tmp book.pgn]

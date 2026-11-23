@@ -77,6 +77,8 @@ In each set folder:
   marks.tsv                 the ! and !! of every evaluation, versioned
   log.tsv                   every exercise played and every session: the
                             statistics are computed from this file
+  ring-<date>.tsv           statistics put aside by Reset statistics, like a
+                            tree's growth rings; Restore brings the newest back
   set.tsv                   the set's name, source and schedule
 
 Open the database from the sets page (Open Puzzle Database) to study the
@@ -763,10 +765,14 @@ proc ::woodpecker::set::maxExerciseId {dir old} {
     foreach ex [dict keys $old] {
         if {$ex > $max} { set max $ex }
     }
-    lassign [::woodpecker::readLog $dir] xs ss cs
-    set named [lmap x $xs { dict get $x ex }]
-    foreach c $cs {
-        lappend named {*}[::woodpecker::rangesParse [lsearch -all -inline -not -exact [dict get $c order] *]]
+    # Restore can bring a ring back, so the rings count as history too.
+    set named {}
+    foreach file [concat log.tsv [lmap r [::woodpecker::rings $dir] { file tail [lindex $r 0] }]] {
+        lassign [::woodpecker::readLog $dir $file] xs ss cs
+        lappend named {*}[lmap x $xs { dict get $x ex }]
+        foreach c $cs {
+            lappend named {*}[::woodpecker::rangesParse [lsearch -all -inline -not -exact [dict get $c order] *]]
+        }
     }
     foreach ex $named {
         if {$ex > $max} { set max $ex }
