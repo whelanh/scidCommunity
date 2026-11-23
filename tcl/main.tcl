@@ -268,7 +268,12 @@ proc updateStatusBar {} {
         if {$move eq "" || ($::gamePlayers(movetime) eq "" && $eco eq "")} {
             set headermsg "[tr Comment]"
         }
-        ::board::setInfoAlert .main.board $headermsg "$comment" "green" "::makeCommentWin"
+        # Uncoloured comment text takes the reader's own comment colour, the
+        # same one the Comment Window and the Game Info panel use. Spans in
+        # the comment keep their own colours.
+        set commentColor "green"
+        catch { if {$::pgnColor(Comment) ne ""} { set commentColor $::pgnColor(Comment) } }
+        ::board::setInfoAlert .main.board $headermsg "$comment" $commentColor "::makeCommentWin" 1
         # A non-empty header replaces the whole bar, so put the repetition back.
         if {$headermsg ne "" && $repMsg ne ""} {
             ::board::addInfo .main.board $repMsg header
@@ -954,6 +959,9 @@ proc updateGameInfo {} {
 
     .main.gameInfo.text configure -state normal
     .main.gameInfo.text delete 0.0 end
+    # Configured before the display so the per-span colours htext creates
+    # later still take priority over this default.
+    catch { .main.gameInfo.text tag configure commenttext -foreground $::pgnColor(Comment) }
     ::htext::display .main.gameInfo.text [sc_game info -hide $gameInfo(hideNextMove) \
             -material $gameInfo(showMaterial) \
             -cfull $gameInfo(fullComment) \
@@ -1854,9 +1862,9 @@ proc selectMarker {} {
     }
     ttk::frame $w_.colors
     set i 0
-    set markColors { green red orange yellow blue cyan }
-    if { ! $::lichessFormat } { append markColors { purple white black gray } }
-    foreach color $markColors {
+    # The same palette the Comment Window offers for text, so an arrow and a
+    # comment can be given one colour.
+    foreach color [::utils::annotationColors] {
         radiobutton $w_.colors.col_$color \
             -indicatoron "false" \
             -background "$color" -selectcolor "$color" \

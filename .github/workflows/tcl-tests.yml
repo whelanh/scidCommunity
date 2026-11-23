@@ -305,6 +305,12 @@ jobs:
       - name: Comment default colour
         run: xvfb-run -a wish tests/tcl/comment_default_color_tk.tcl
 
+      # #542: the Format menu's colours are the board marker palette, shown as
+      # squares, and the Info Bar prints a coloured comment rather than its
+      # span tags.
+      - name: Comment Info Bar and palette
+        run: xvfb-run -a wish tests/tcl/comment_infobar_tk.tcl
+
       # The repetition banner must not grab or take focus, and a second one
       # replaces the first rather than stacking.
       - name: Repetition notice

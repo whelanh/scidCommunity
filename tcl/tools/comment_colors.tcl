@@ -21,7 +21,7 @@
 
 namespace eval ::commentcolors {
     # The review's verdicts: the same green the comment editor offers as its
-    # Green preset, so a reader can recolour one and stay in the palette.
+    # Green square, so a reader can recolour one and stay in the palette.
     variable reviewColor "#008000"
     # The coach's prose. This blue is chosen to read on the dark themes (#1e1e2e)
     # as well as the light ones; no single blue reaches 4.5:1 on both, and this

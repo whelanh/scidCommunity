@@ -34,6 +34,37 @@ proc ::utils::getClipboardText {{varName ""}} {
   return ""
 }
 
+# annotationColors:
+#   The colours an annotation can take: the arrows and square markers drawn on
+#   the board, and the text the Comment Window colours. One list, so a comment
+#   can be coloured to match the arrow beside it. With the Lichess/ChessBase
+#   annotation format on, the palette is the six colours Lichess uses; the
+#   ChessBase palette adds four.
+proc ::utils::annotationColors {} {
+  set colors {green red orange yellow blue cyan}
+  if {![info exists ::lichessFormat] || !$::lichessFormat} {
+    lappend colors purple white black gray
+  }
+  return $colors
+}
+
+# annotationColorValue:
+#   The #rrggbb a palette name stands for. The board draws arrows with Tk's
+#   colour names; a comment stores a hex value, which the RTF export needs and
+#   every reader of the markup understands. Resolve through Tk so the comment
+#   square is the exact colour the arrow is. Returns "" with no window to
+#   resolve against; the caller then keeps the name.
+proc ::utils::annotationColorValue {color} {
+  if {[regexp {^#[0-9a-fA-F]{6}$} $color]} { return [string tolower $color] }
+  set hex ""
+  catch {
+    lassign [winfo rgb . $color] r g b
+    set hex [format "#%02x%02x%02x" \
+      [expr {$r / 257}] [expr {$g / 257}] [expr {$b / 257}]]
+  }
+  return $hex
+}
+
 # isWayland:
 #   True when the app is running under a Wayland compositor. Tk itself is an
 #   X11 toolkit, so on those desktops it runs through XWayland and its
