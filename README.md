@@ -182,7 +182,9 @@ language is added to the **Options → Language** menu by `addLanguage` in
 out falls back to English, so a language can grow over time. If you would like
 to add a language or keep an existing one in step, see
 [docs/ADDING_A_LANGUAGE.md](docs/ADDING_A_LANGUAGE.md) for the files to change,
-the maintenance tools and the checks to run.
+the maintenance tools and the checks to run. Native speakers can review their
+catalogue in one spreadsheet instead of editing Tcl: see
+[tcl/lang/LANGTOOL.md](tcl/lang/LANGTOOL.md).
 
 
 ### Acknowledgements

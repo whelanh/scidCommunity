@@ -149,6 +149,13 @@ The harnesses read the language list from `addLanguage`, so a new catalogue is
 covered without editing the tests. `tests/tcl/lang_registry.tcl` is the shared
 reader they use.
 
+For a native speaker reviewing an existing catalogue, the CSV workbench is
+easier than editing Tcl by hand: see
+[LANGTOOL](../tcl/lang/LANGTOOL.md) and run
+`python3 tcl/lang/langtool.py generate <name>`. It exports every section to one
+sheet, imports changes by `command:key`, and records reviewed rows. The tool's
+own tests run with `python3 tcl/lang/langtool.py selftest`.
+
 ## 6. Reviewing a new catalogue
 
 A quick local review catches most mistakes:

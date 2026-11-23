@@ -240,7 +240,7 @@ menuText N ToolsTimeAnalysis "Tijdanalyse" 0 {Toon de kloktijdgrafiek voor het h
 menuText N ToolsBookTuning "Openingenboek afstemming " 0 {Openingenboek afstemming}
 menuText N ToolsCtgConvert "Converteer CTG naar OBR..." 0 {Converteer een ChessBase CTG-boek naar een OpenBook Rich (.obr)-boek}
 menuText N ToolsRapidAnnotate "Annoteer vanuit de scoregrafiek" 0 {Schrijf de evaluaties en annotaties van de enginescoregrafiek in het huidige spel (Ctrl+Shift+A)}
-menuText NL ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
+menuText N ToolsDownloadTWIC "Download TWIC-spelletjes" 0 {Download de nieuwste The Week In Chess (TWIC)-partijen}
 menuText N ToolsConnectHardware "Verbind Hardware" 0 {Verbind externe hardware}
 menuText N ToolsConnectHardwareConfigure "Configureer..." 0 {Configureer externe hardware en verbinding}
 menuText N ToolsConnectHardwareNovagCitrineConnect "Verbind Novag Citrine" 0 {Verbind Novag Citrine}

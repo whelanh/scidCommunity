@@ -29,10 +29,22 @@ array set codes {
   SerbCyr J
   romanian L
   japanese A
+  turkish T
+  hebrew V
+  swahili Z
+  hindi h
+  ukrainian Q
+  bengali b
+  korean k
+  bulgarian g
+  serbian Y
 }
 
+# Serbian is kept out of the default run on purpose, as in removedeadlang.tcl:
+# it is deliberately out of sync. Name it explicitly to check it.
 set languages {danish czech deutsch francais hungary italian chinese nederlan norsk polish
-  portbr spanish swedish russian catalan suomi greek SerbCyr romanian japanese
+  portbr spanish swedish russian catalan suomi greek turkish hebrew swahili hindi
+  ukrainian bengali korean bulgarian SerbCyr romanian japanese
 }
 
 ################################################################################
