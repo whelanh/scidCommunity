@@ -68,3 +68,6 @@ lucaschess/
 # Python bytecode left by the translation helpers in tcl/lang/.
 __pycache__/
 *.pyc
+
+# Generated translation workbooks (python3 tcl/lang/langtool.py generate).
+translations-*.csv
