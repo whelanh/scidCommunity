@@ -264,7 +264,6 @@ set helpText(W,Index) {<h1>scidCommunity Hjälpämnesindex</h1>
   <li><a FICS Training>Träning: FICS-föreläsningar</a></li>
   <li><a Tree>Trädfönster</a></li>
   <li><a TreeMasks> Masker för träd</a></li>
-  <li><a Moves Trial>Provläge</a></li>
   <li><a Maintenance Twins>Tvillingspel (dubbletter)</a></li>
   </ul>
   
@@ -873,15 +872,6 @@ set helpText(W,Moves) {<h1>In i schackdrag</h1>
   Ctrl-klicka på käll- och målrutorna. Vänster musknapp
   återigen resulterar i en grön, mitten i en gul och höger mus
   knappen i en röd pil.
-  </p>
-  
-  <h4><name Trial>Provläge</name></h4>
-  <p>
-  Om du studerar ett spel och når en position där du vill prova
-  en alternativ variant på brädet utan att ändra spelet, välj
-  <b>Prova variation</b> från <menu>Redigera</menu> menyn för att gå in i provversionen
-  läge. I det här läget kan du göra tillfälliga rörelser och ändringar i
-  spelet och återgå sedan till den ursprungliga positionen när du lämnar provläget.
   </p>
   
   <h3><name Mistakes>Rätta misstag</name></h3>

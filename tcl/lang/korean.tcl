@@ -102,8 +102,6 @@ menuText k EditFirst "첫 번째 변형 만들기" 5 \
   {변형을 목록의 첫 번째 항목으로 승격}
 menuText k EditMain "변형을 메인 라인으로 승격" 21 \
   {변형을 메인 라인으로 승격}
-menuText k EditTrial "변형을 실시한다" 0 \
-  {보드에서 아이디어를 테스트하기 평가판 모드 시작/중지}
 menuText k EditStrip "조각" 3 {이 게임의 댓글이나 변형을 제거하세요.}
 menuText k EditUndo "실행 취소" 0 {현재 변경 취소}
 menuText k EditRedo "다시 실행" 0 {마지막 게임 변경 다시 실행}

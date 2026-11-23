@@ -65,8 +65,6 @@ menuText W EditFirst "Skapa huvudvariant" 6 \
   {Gör en av varianterna till huvudvariant}
 menuText W EditMain "Skapa nytt textdrag" 11 \
   {Gör en av varianterna till partifortsättning}
-menuText W EditTrial "Prova Variation" 0 \
-  {Start/stopp testläge, för att testa en idé på tavlan}
 menuText W EditStrip "Ta bort" 3 {Avlägsna kommentarer eller varianter från partiet}
 menuText W EditUndo "Ångra" 0 {Ångra senaste ändring i parti}
 menuText W EditRedo "Göra om" 0 {Gör om senaste spelbyte}

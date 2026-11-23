@@ -67,8 +67,6 @@ menuText I EditFirst "Variante principale" 5 \
   {Promuove a variante principale nella lista}
 menuText I EditMain "Promuove una variante a linea principale" 9 \
   {Promuove una variante a linea principale}
-menuText I EditTrial "Prova la variazione" 0 \
-  {Avvia/interrompi la modalità di prova, per testare un'idea sulla lavagna}
 menuText I EditStrip "Pulisci" 2 {Elimina commenti o varianti dalla partita corrente}
 menuText I EditUndo "Annulla" 0 {Annulla l'ultima modifica della partita}
 menuText I EditRedo "Ripeti" 0 {Ripete l'ultima modifica della partita}

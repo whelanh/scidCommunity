@@ -101,8 +101,6 @@ menuText P EditFirst "Ustaw wariant jako pierwszy" 5 \
   {Przenieś wariant na pierwsze miejsce na liście}
 menuText P EditMain "Ustaw wariant jako główną linię" 21 \
   {Ustaw wariant jako główną linię}
-menuText P EditTrial "Wypróbuj wariant" 0 \
-  {Włącz lub wyłącz tryb próbny, aby sprawdzić pomysł na szachownicy}
 menuText P EditStrip "Usuń" 3 {Usuń komentarze lub warianty z tej partii}
 menuText P EditUndo "Cofnij" 0 {Cofnij ostatnią zmianę w partii}
 menuText P EditRedo "Ponów" 0 {Ponów ostatnią zmianę w partii}

@@ -67,9 +67,6 @@ menuText Y EditFirst "Postavi prvu varijantu" 5 \
   {Postavi varijantu kao prvu u listi}
 menuText Y EditMain "Postavi varijantu na glavnu liniju" 21 \
   {Postavi varijantu na glavnu liniju}
-# ====== TODO To be translated ======
-menuText Y EditTrial "Try Variation" 0 \
-  {Start/stop trial mode, for testing an idea on the board}
 menuText Y EditStrip "Ukloni" 2 {Ukloni komentare ili varijante iz ove partije}
 # ====== TODO To be translated ======
 menuText Y EditUndo "Undo" 0 {Undo last game change}

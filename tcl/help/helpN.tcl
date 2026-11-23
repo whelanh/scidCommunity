@@ -263,7 +263,6 @@ set helpText(N,Index) {<h1>scidCommunity Help-onderwerpenindex</h1>
   <li><a FICS Training>Training: FICS-lezingen</a></li>
   <li><a Tree>Boomvenster</a></li>
   <li><a TreeMasks>Maskers voor bomen</a></li>
-  <li><a Moves Trial>Proefmodus</a></li>
   <li><a Maintenance Twins>Twee (dubbele) spellen</a></li>
   </ul>
   
@@ -872,15 +871,6 @@ set helpText(N,Moves) {<h1>Schaakzetten invoeren</h1>
   Ctrl-klik op de bron- en doelvierkanten. De linkermuisknop
   resulteert opnieuw in een groene, het midden in een gele en de rechtermuisknop
   knop in een rode pijl.
-  </p>
-  
-  <h4><name Trial>Proefmodus</name></h4>
-  <p>
-  Als je een spel bestudeert en een positie bereikt waar je het wilt proberen
-  een alternatieve variant op het bord zonder het spel te veranderen, selecteer
-  <b>Probeer variatie</b> van de <menu>Bewerking</menu> menu om naar de proefversie te gaan
-  modus. In deze modus kunt u tijdelijke bewegingen en wijzigingen aanbrengen in de
-  spel en keer dan terug naar de oorspronkelijke positie wanneer u de proefmodus verlaat.
   </p>
   
   <h3><name Mistakes>Fouten corrigeren</name></h3>

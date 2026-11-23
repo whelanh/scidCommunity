@@ -263,7 +263,6 @@ set helpText(M,Index) {<h1>scid社区帮助主题索引</h1>
   <li><a FICS Training>培训：FICS讲座</a></li>
   <li><a Tree>树形窗口</a></li>
   <li><a TreeMasks>树木面具</a></li>
-  <li><a Moves Trial>试用模式</a></li>
   <li><a Maintenance Twins>双胞胎（重复）游戏</a></li>
   </ul>
   
@@ -874,15 +873,6 @@ set helpText(M,Moves) {<h1>输入国际象棋走法</h1>
   按住 Ctrl 键并单击源方块和目标方块。鼠标左键
   再次结果是绿色，中间是黄色，鼠标右键
   红色箭头中的按钮。
-  </p>
-  
-  <h4><name Trial>试用模式</name></h4>
-  <p>
-  如果你正在研究一款游戏并达到了你想尝试的位置
-  棋盘上的另一种变化而不改变游戏，选择
-  <b>尝试变化</b> 从 <menu>编辑</menu> 进入试用菜单
-  模式。在此模式下，您可以对
-  游戏，然后退出试玩模式时返回原始位置。
   </p>
   
   <h3><name Mistakes>纠正错误</name></h3>

@@ -264,7 +264,6 @@ set helpText(F,Index) {<h1>index des rubriques d'aide de la communauté scid</h1
   <li><a FICS Training>Formation : conférences FICS</a></li>
   <li><a Tree>Fenêtre arborescente</a></li>
   <li><a TreeMasks>Masques pour arbres</a></li>
-  <li><a Moves Trial>Mode d'essai </a></li>
   <li><a Maintenance Twins>Jeux jumeaux (en double) </a></li>
   </ul>
   
@@ -875,15 +874,6 @@ set helpText(F,Moves) {<h1>Saisir des coups d'échecs</h1>
   Ctrl-clic sur les carrés source et cible. Le bouton gauche de la souris
   donne à nouveau un vert, le milieu un jaune et le bouton droit de la souris
   bouton dans une flèche rouge.
-  </p>
-  
-  <h4><name Trial>Mode d'essai</name></h4>
-  <p>
-  Si vous étudiez un jeu et atteignez une position où vous voulez essayer
-  une variante alternative sur le plateau sans altérer le jeu, sélectionnez
-  <b>Essayez une variante</b> de la <menu>Modifier</menu> menu pour accéder à l'essai
-  mode. Dans ce mode, vous pouvez effectuer des déplacements et des modifications temporaires
-  jeu, puis revenez à la position d'origine lorsque vous quittez le mode d'essai.
   </p>
   
   <h3><name Mistakes>Corriger les erreurs</name></h3>

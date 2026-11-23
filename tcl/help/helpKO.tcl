@@ -264,7 +264,6 @@ set helpText(k,Index) {<h1>scid커뮤니티 도움말 항목 색인</h1>
   <li><a FICS Training>훈련: FICS 강의</a></li>
   <li><a Tree>트리 윈도우</a></li>
   <li><a TreeMasks>나무용 마스크</a></li>
-  <li><a Moves Trial>체험 모드</a></li>
   <li><a Maintenance Twins>트윈(중복) 게임</a></li>
   </ul>
   
@@ -873,15 +872,6 @@ set helpText(k,Moves) {<h1>체스 동작 입력하기</h1>
   소스 및 대상 사각형을 Ctrl 키를 누른 채 클릭합니다. 마우스 왼쪽 버튼
   다시 녹색, 가운데는 노란색, 마우스 오른쪽 버튼은 결과가 나타납니다.
   빨간색 화살표 버튼입니다.
-  </p>
-  
-  <h4><name Trial>평가판 모드</name></h4>
-  <p>
-  게임을 공부하다가 해보고 싶은 위치에 도달했다면
-  게임을 변경하지 않고 보드에서 대체 변형을 선택합니다.
-  <b>변형해 보세요</b> 에서 <menu>편집하다</menu> 체험판 참여 메뉴
-  모드. 이 모드에서는 임시로 이동하고 변경할 수 있습니다.
-  게임을 종료한 후 평가판 모드를 종료하면 원래 위치로 돌아갑니다.
   </p>
   
   <h3><name Mistakes>실수 수정</name></h3>

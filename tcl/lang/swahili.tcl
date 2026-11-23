@@ -61,8 +61,6 @@ menuText Z EditFirst "Fanya Tofauti ya Kwanza" 5 \
   {Tangaza tofauti ili uwe wa kwanza kwenye orodha}
 menuText Z EditMain "Kuza Tofauti kwa Mstari Mkuu" 21 \
   {Kuza tofauti kuwa mstari mkuu}
-menuText Z EditTrial "Jaribu Tofauti" 0 \
-  {Anza/simamisha hali ya majaribio, kwa ajili ya kujaribu wazo ubaoni}
 menuText Z EditStrip "Ukanda" 3 {Ondoa maoni au tofauti kutoka kwa mchezo huu}
 menuText Z EditUndo "Tendua" 0 {Tendua mabadiliko ya mchezo uliopita}
 menuText Z EditRedo "Rudia" 0 {Rudia mabadiliko ya mchezo uliopita}

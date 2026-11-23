@@ -263,7 +263,6 @@ set helpText(Z,Index) {<h1>scidMada ya Msaada wa Jamii</h1>
   <li><a FICS Training>Mafunzo: Mihadhara ya FICS</a></li>
   <li><a Tree>Dirisha la mti</a></li>
   <li><a TreeMasks>Masks kwa ajili ya Miti</a></li>
-  <li><a Moves Trial>Njia ya majaribio</a></li>
   <li><a Maintenance Twins>Michezo pacha (rudufu)</a></li>
   </ul>
   
@@ -874,15 +873,6 @@ set helpText(Z,Moves) {<h1>Kuingia kwa harakati za chess</h1>
   Ctrl-bofya kwenye chanzo na miraba inayolengwa. Kitufe cha kushoto cha panya
   tena husababisha kijani, katikati ya njano na panya ya kulia
   kifungo katika mshale mwekundu.
-  </p>
-  
-  <h4><name Trial>Hali ya majaribio</name></h4>
-  <p>
-  Ikiwa unasoma mchezo na kufikia nafasi ambayo unataka kujaribu
-  tofauti mbadala kwenye ubao bila kubadilisha mchezo, chagua
-  <b>Jaribu tofauti</b> kutoka kwa <menu>Hariri</menu> menyu ya kuingiza jaribio
-  hali. Katika hali hii, unaweza kufanya hatua za muda na mabadiliko ya
-  mchezo, kisha urudi kwenye nafasi ya awali unapoondoka kwenye hali ya majaribio.
   </p>
   
   <h3><name Mistakes>Kurekebisha makosa</name></h3>

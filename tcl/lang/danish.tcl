@@ -40,7 +40,6 @@ menuText d EditAdd {Tilføj variant} 8 {Tilføj en variant ved dette træk}
 menuText d EditDelete "Slet variant" 0 {Slet en variant ved dette træk}
 menuText d EditFirst {Gør til første variant} 8 {Flyt varianten øverst på listen}
 menuText d EditMain {Gør variant til hovedvariant} 0 {Brug varianten som hovedvariant}
-menuText d EditTrial {Afprøv variant} 13 {Slå prøvetilstand til eller fra for at afprøve en idé på brættet}
 menuText d EditStrip "Fjern fra partiet" 1 {Fjern kommentarer, varianter eller træk fra partiet}
 menuText d EditUndo "Fortryd" 0 {Fortryd den seneste ændring i partiet}
 menuText d EditRedo "Gentag" 0 {Gentag den senest fortrudte ændring}

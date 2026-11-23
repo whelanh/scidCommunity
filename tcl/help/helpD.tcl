@@ -263,7 +263,6 @@ set helpText(D,Index) {<h1>scidCommunity-Hilfethemenindex</h1>
   <li><a FICS Training>Schulung: FICS-Vorlesungen</a></li>
   <li><a Tree>Baumfenster</a></li>
   <li><a TreeMasks>Masken für Bäume</a></li>
-  <li><a Moves Trial>Testmodus</a></li>
   <li><a Maintenance Twins>Zwillingsspiele (doppelt)</a></li>
   </ul>
   
@@ -872,15 +871,6 @@ set helpText(D,Moves) {<h1>Eingabe von Schachzügen</h1>
   Klicken Sie bei gedrückter Strg-Taste auf die Quell- und Zielquadrate. Die linke Maustaste
   ergibt wiederum ein Grün, die Mitte ein Gelb und die rechte Maus
   Schaltfläche in einem roten Pfeil.
-  </p>
-  
-  <h4><name Trial>Testmodus</name></h4>
-  <p>
-  Wenn Sie ein Spiel studieren und eine Position erreichen, an der Sie es versuchen möchten
-  Wählen Sie eine alternative Variante auf dem Spielbrett aus, ohne das Spiel zu verändern
-  <b>Versuchen Sie es mit Abwechslung</b> aus dem <menu>Bearbeiten</menu> Menü, um zur Testversion zu gelangen
-  Modus. In diesem Modus können Sie vorübergehende Verschiebungen und Änderungen am vornehmen
-  Spielen Sie das Spiel und kehren Sie dann zur ursprünglichen Position zurück, wenn Sie den Testmodus verlassen.
   </p>
   
   <h3><name Mistakes>Fehler korrigieren</name></h3>

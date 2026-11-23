@@ -263,7 +263,6 @@ set helpText(O,Index) {<h1>scidCommunity Hjelp Emneindeks </h1>
   <li><a FICS Training>Opplæring: FICS-forelesninger</a></li>
   <li><a Tree>Trevindu</a></li>
   <li><a TreeMasks>Masker for trær</a></li>
-  <li><a Moves Trial>Prøvingsmodus</a></li>
   <li><a Maintenance Twins>Tvilling (duplikat) spill</a></li>
   </ul>
   
@@ -871,15 +870,6 @@ set helpText(O,Moves) {<h1>Å legge inn sjakktrekk</h1>
   Ctrl-klikk på kilde- og målrutene. Venstre museknapp
   igjen resulterer i en grønn, midten i en gul og høyre mus
   knappen i en rød pil.
-  </p>
-  
-  <h4><name Trial>Prøvemodus</name></h4>
-  <p>
-  Hvis du studerer et spill og når en posisjon der du vil prøve
-  en alternativ variant på brettet uten å endre spillet, velg
-  <b>Prøv variasjon</b> fra <menu>Redigere</menu> menyen for å gå inn i prøveversjonen
-  modus. I denne modusen kan du gjøre midlertidige bevegelser og endringer i
-  spillet, og gå deretter tilbake til den opprinnelige posisjonen når du avslutter prøvemodus.
   </p>
   
   <h3><name Mistakes>Retting av feil</name></h3>

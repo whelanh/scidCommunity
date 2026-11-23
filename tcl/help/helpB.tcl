@@ -264,7 +264,6 @@ set helpText(B,Index) {<h1>scidÍndice de tópicos de ajuda da comunidade </h1>
   <li><a FICS Training>Treinamento: Palestras FICS</a></li>
   <li><a Tree>Janela de árvore</a></li>
   <li><a TreeMasks>Máscaras para árvores</a></li>
-  <li><a Moves Trial>Modo de teste</a></li>
   <li><a Maintenance Twins>Jogos gêmeos (duplicados)</a></li>
   </ul>
   
@@ -875,15 +874,6 @@ set helpText(B,Moves) {<h1>Entrando em movimentos de xadrez</h1>
   Ctrl-clique nos quadrados de origem e destino. O botão esquerdo do mouse
   novamente resulta em verde, o meio em amarelo e o botão direito do mouse
   botão em uma seta vermelha.
-  </p>
-  
-  <h4><name Trial>Modo de teste</name></h4>
-  <p>
-  Se você está estudando um jogo e chega a uma posição em que deseja tentar
-  uma variação alternativa no tabuleiro sem alterar o jogo, selecione
-  <b>Experimente a variação</b> do <menu>Editar</menu> menu para entrar no teste
-  modo. Neste modo, você pode fazer movimentos temporários e alterações no
-  jogo e retorne à posição original ao sair do modo de teste.
   </p>
   
   <h3><name Mistakes>Corrigindo erros</name></h3>

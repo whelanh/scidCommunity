@@ -263,7 +263,6 @@ set helpText(L,Index) {<h1>scidCommunity Index subiect de ajutor</h1>
   <li><a FICS Training>Instruire: prelegeri FICS</a></li>
   <li><a Tree>Fereastra arborescentă </a></li>
   <li><a TreeMasks>Măști pentru copaci</a></li>
-  <li><a Moves Trial>Mod de încercare</a></li>
   <li><a Maintenance Twins>Jocuri duble (duble)</a></li>
   </ul>
   
@@ -874,15 +873,6 @@ set helpText(L,Moves) {<h1>Intrarea în mișcări de șah</h1>
   Ctrl-clic pe pătratele sursă și țintă. Butonul stâng al mouse-ului
   din nou rezultă un verde, mijlocul într-un galben și mouse-ul drept
   butonul într-o săgeată roșie.
-  </p>
-  
-  <h4><name Trial>Modul de probă</name></h4>
-  <p>
-  Dacă studiezi un joc și ajungi într-o poziție în care vrei să încerci
-  o variantă alternativă pe tablă fără a modifica jocul, selectați
-  <b>Încercați variația</b> din <menu>Edita</menu> meniu pentru a intra în probă
-  modul. În acest mod, puteți face mișcări și modificări temporare la
-  joc, apoi reveniți la poziția inițială când părăsiți modul de încercare.
   </p>
   
   <h3><name Mistakes>Corectarea greselilor</name></h3>

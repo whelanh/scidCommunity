@@ -318,7 +318,6 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 - Comments in the **Comment Editor** can be formatted with bold, italic, underline, fonts, sizes and colors, and the formatting is kept when the game is shown again. — thanks to @whelanh ([#290](https://github.com/whelanh/scidCommunity/pull/290)).
 - Exported HTML keeps that comment formatting ([help page](help/Export.html)). — thanks to @whelanh ([#290](https://github.com/whelanh/scidCommunity/pull/290)).
-- A Try Variation editing mode lets you try out a variation on the board. — thanks to @whelanh ([#290](https://github.com/whelanh/scidCommunity/pull/290)).
 - Games can be exported to RTF, one game or all filtered games, and imported back from an RTF file, with comment formatting preserved. — thanks to @whelanh ([#291](https://github.com/whelanh/scidCommunity/pull/291)).
 
 ## 5.1.4.19 — 22 September 2026

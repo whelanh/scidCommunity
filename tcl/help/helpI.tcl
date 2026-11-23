@@ -264,7 +264,6 @@ set helpText(I,Index) {<h1>scidIndice degli argomenti della guida della communit
   <li><a FICS Training>Formazione: lezioni FICS</a></li>
   <li><a Tree>Finestra ad albero</a></li>
   <li><a TreeMasks>Maschere per Alberi</a></li>
-  <li><a Moves Trial>Modalità di prova</a></li>
   <li><a Maintenance Twins>Giochi gemelli (duplicati)</a></li>
   </ul>
   
@@ -875,15 +874,6 @@ set helpText(I,Moves) {<h1>Immissione delle mosse degli scacchi</h1>
   Fai clic tenendo premuto Ctrl sui quadrati di origine e di destinazione. Il pulsante sinistro del mouse
   ancora una volta si ottiene un verde, il centro un giallo e il mouse destro
   pulsante in una freccia rossa.
-  </p>
-  
-  <h4><name Trial>Modalità di prova</name></h4>
-  <p>
-  Se stai studiando un gioco e raggiungi una posizione in cui vuoi provare
-  seleziona una variazione alternativa sul tabellone senza alterare il gioco
-  <b>Prova la variazione</b> dal <menu>Modificare</menu> menu per accedere alla prova
-  modalità. In questa modalità è possibile effettuare spostamenti e modifiche temporanee al file
-  gioco, quindi torna alla posizione originale quando esci dalla modalità di prova.
   </p>
   
   <h3><name Mistakes>Correggere gli errori</name></h3>

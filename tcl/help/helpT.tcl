@@ -264,7 +264,6 @@ set helpText(T,Index) {<h1>scidTopluluk Yardımı Konu Dizini</h1>
   <li><a FICS Training>Eğitim: FICS dersleri</a></li>
   <li><a Tree>Ağaç penceresi</a></li>
   <li><a TreeMasks>Ağaç Maskeleri</a></li>
-  <li><a Moves Trial>Deneme modu</a></li>
   <li><a Maintenance Twins>İkiz (kopya) oyunlar</a></li>
   </ul>
   
@@ -873,15 +872,6 @@ set helpText(T,Moves) {<h1>Satranç hamlelerine giriş</h1>
   Kaynak ve hedef karelere Ctrl tuşuna basarak tıklayın. Sol fare düğmesi
   yine yeşil, ortası sarı ve sağ fareyle sonuçlanır
   kırmızı oklu düğmeye basın.
-  </p>
-  
-  <h4><name Trial>Deneme modu</name></h4>
-  <p>
-  Bir oyun üzerinde çalışıyorsanız ve denemek istediğiniz bir konuma ulaştıysanız
-  oyunu değiştirmeden tahtadaki alternatif bir varyasyonu seçin
-  <b>Varyasyonu deneyin</b> itibaren <menu>Düzenlemek</menu> denemeye girmek için menü
-  modu. Bu modda geçici hareketler ve değişiklikler yapabilirsiniz.
-  deneme modundan çıktığınızda orijinal konumuna geri dönün.
   </p>
   
   <h3><name Mistakes>Hataları düzeltmek</name></h3>

@@ -102,8 +102,6 @@ menuText A EditFirst "最初のバリエーションを作る" 5 \
   {バリエーションをリストの先頭に昇格させる}
 menuText A EditMain "メインラインへのバリエーション推進" 21 \
   {バリエーションをメインラインとして推進する}
-menuText A EditTrial "バリエーションを試す" 0 \
-  {ボード上のアイデアをテストするためのトライアルモードの開始/停止}
 menuText A EditStrip "ストリップ" 3 {このゲームからコメントやバリエーションを削除する}
 menuText A EditUndo "元に戻す" 0 {最後のゲーム変更を元に戻す}
 menuText A EditRedo "やり直し" 0 {最後のゲーム変更をやり直す}

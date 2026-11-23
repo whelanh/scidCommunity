@@ -101,8 +101,6 @@ menuText E EditFirst "Make First Variation" 5 \
   {Promote a variation to be first in the list}
 menuText E EditMain "Promote Variation to Main Line" 21 \
   {Promote a variation to be the main line}
-menuText E EditTrial "Try Variation" 0 \
-  {Start/stop trial mode, for testing an idea on the board}
 menuText E EditStrip "Strip" 3 {Strip comments or variations from this game}
 menuText E EditUndo "Undo" 0 {Undo last game change}
 menuText E EditRedo "Redo" 0 {Redo last game change}

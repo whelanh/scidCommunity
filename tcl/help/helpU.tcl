@@ -264,7 +264,6 @@ set helpText(U,Index) {<h1>scidCommunity Ohjeaihehakemisto</h1>
   <li><a FICS Training>Koulutus: FICS-luennot</a></li>
   <li><a Tree>Puuikkuna </a></li>
   <li><a TreeMasks> Puiden naamarit </a> </li>
-  <li><a Moves Trial>Kokeilutila </a></li>
   <li><a Maintenance Twins> Kaksoispelit (kaksoispelit) </a> </li>
   </ul>
   
@@ -873,15 +872,6 @@ set helpText(U,Moves) {<h1>Shakkiliikkeiden syöttäminen</h1>
   Ctrl-napsauta lähde- ja kohderuutuja. Hiiren vasen painike
   tuloksena on jälleen vihreä, keskimmäinen keltainen ja oikea hiiri
   painiketta punaisessa nuolessa.
-  </p>
-  
-  <h4><name Trial>Kokeilutila</name></h4>
-  <p>
-  Jos opiskelet peliä ja saavutat aseman, jossa haluat kokeilla
-  vaihtoehtoinen muunnelma laudalla muuttamatta peliä, valitse
-  <b>Kokeile variaatiota</b> alkaen <menu>Muokata</menu> valikosta päästäksesi kokeiluun
-  tila. Tässä tilassa voit tehdä tilapäisiä liikkeitä ja muutoksia
-  peliin ja palaa sitten alkuperäiseen asentoon, kun poistut kokeilutilasta.
   </p>
   
   <h3><name Mistakes>Virheiden korjaaminen</name></h3>

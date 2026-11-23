@@ -60,7 +60,6 @@ menuText M EditAdd "添加变化" 0 {为此棋步添加变化}
 menuText M EditDelete "删除变化" 0 {删除此着法的变化}
 menuText M EditFirst "提升为第一变化" 0 {将变化提升为列表中的第一个}
 menuText M EditMain "将变化提升为主线" 0 {将变化提升为主线}
-menuText M EditTrial "尝试变化" 0 {开始/停止尝试模式，用于在棋盘上测试想法}
 menuText M EditStrip "删除" 0 {从此游戏中删除注释或变化}
 menuText M EditUndo "撤销" 0 {撤销上次游戏更改}
 menuText M EditRedo "重做" 0 {重做上次游戏更改}

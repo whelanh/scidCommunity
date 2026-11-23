@@ -264,7 +264,6 @@ set helpText(S,Index) {<h1>scidÍndice de temas de ayuda de la comunidad</h1>
   <li><a FICS Training>Capacitación: Conferencias FICS</a></li>
   <li><a Tree>Ventana del árbol</a></li>
   <li><a TreeMasks>Máscaras para Árboles</a></li>
-  <li><a Moves Trial>Modo de prueba</a></li>
   <li><a Maintenance Twins>Juegos gemelos (duplicados)</a></li>
   </ul>
   
@@ -888,15 +887,6 @@ set helpText(S,Moves) {<h1>Introducir movimientos de ajedrez</h1>
   <p>
   La combinación de clic derecho con Ctrl+Mayús o Ctrl+Mayús+Alt queda
   intencionadamente sin asignar.
-  </p>
-  
-  <h4><name Trial>Modo de prueba</name></h4>
-  <p>
-  Si estás estudiando un juego y llegas a una posición en la que quieres probar
-  una variación alternativa en el tablero sin alterar el juego, selecciona
-  <b>Pruebe la variación</b> desde <menu>Editar</menu> menú para entrar a prueba
-  modo. En este modo, puedes realizar movimientos temporales y cambios en el
-  juego, luego regrese a la posición original cuando salga del modo de prueba.
   </p>
   
   <h3><name Mistakes>Corregir errores</name></h3>

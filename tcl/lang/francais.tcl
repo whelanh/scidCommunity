@@ -65,8 +65,6 @@ menuText F EditFirst "Déplacer en tête" 0 \
   {Déplacer cette variante en tête de liste des variantes}
 menuText F EditMain "Variante vers ligne principale" 13 \
    {Promouvoir une variante en ligne principale}
-menuText F EditTrial "Essayez la variante" 0 \
-  {Démarrer/arrêter le mode essai, pour tester une idée sur l’échiquier}
 menuText F EditStrip "Supprimer" 1 {Supprimer les commentaires ou les variantes de cette partie}
 menuText F EditUndo "Annuler" 0 {Annuler la dernière modification de cette partie}
 menuText F EditRedo "Rétablir" 0 {Rétablir la dernière modification de cette partie}

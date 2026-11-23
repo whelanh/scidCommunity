@@ -67,8 +67,6 @@ menuText K EditFirst "Convertir a primera variant" 0 \
   {Fa que una variant sigui la primera a la llista}
 menuText K EditMain "Variant a línia principal" 0 \
    {Promou una variant per a que sigui la línia principal}
-menuText K EditTrial "Prova la variació" 0 \
-  {Inicia/atura el mode de prova, per provar una idea a la pissarra}
 menuText K EditStrip "Eliminar" 2 \
   {Eliminar comentaris o variants d'aquesta partida}
 menuText K EditUndo "Desfés" 0 {Desfés l'últim canvi de la partida}

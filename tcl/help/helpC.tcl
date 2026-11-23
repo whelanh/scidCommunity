@@ -263,7 +263,6 @@ set helpText(C,Index) {<h1>scidCommunity Rejstřík témat nápovědy </h1>
   <li><a FICS Training>Školení: FICS přednášky</a></li>
   <li><a Tree>Stromové okno </a></li>
   <li><a TreeMasks>Masky pro stromy</a></li>
-  <li><a Moves Trial>Zkušební režim </a></li>
   <li><a Maintenance Twins>Dvojité (duplicitní) hry </a></li>
   </ul>
   
@@ -874,15 +873,6 @@ set helpText(C,Moves) {<h1>Zadávání šachových tahů</h1>
   Klepněte se stisknutou klávesou Ctrl na zdrojový a cílový čtverec. Levé tlačítko myši
   opět výsledkem je zelená, prostřední žlutá a pravá myš
   tlačítko v červené šipce.
-  </p>
-  
-  <h4><name Trial>Zkušební režim</name></h4>
-  <p>
-  Pokud studujete hru a dosáhnete pozice, kterou chcete vyzkoušet
-  alternativní variaci na herním plánu beze změny hry, vyberte
-  <b>Zkuste variaci</b> z <menu>Upravit</menu> menu pro vstup do zkušební verze
-  režimu. V tomto režimu můžete provádět dočasné přesuny a změny
-  hru a poté se po ukončení zkušebního režimu vraťte do původní polohy.
   </p>
   
   <h3><name Mistakes>Opravování chyb</name></h3>

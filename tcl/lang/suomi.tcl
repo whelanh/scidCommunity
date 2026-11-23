@@ -99,8 +99,6 @@ menuText U EditFirst "Ensimmäiseksi" 0 \
   {Ylennä muunnelma ensimmäiseksi sivumuunnelmaksi}
 menuText U EditMain "Päälinjaksi" 1 \
   {Ylennä muuunnelma päälinjaksi}
-menuText U EditTrial "Kokeile Variaatiota" 0 \
-  {Aloita/pysäytä kokeilutila idean testaamiseen laudalla}
 menuText U EditStrip "Poista" 2 {Poista siirtoja, kommentteja tai muunnelmia}
 menuText U EditUndo "Kumoa" 1 {Peruuta viimeisin muutos}
 menuText U EditRedo "Tee uudelleen" 0 {Tee uudelleen viimeisin muutos}

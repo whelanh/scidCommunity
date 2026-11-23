@@ -264,7 +264,6 @@ set helpText(K,Index) {<h1>Índex de temes d'ajuda de scidCommunity</h1>
   <li><a FICS Training>Formació: conferències FICS</a></li>
   <li><a Tree>Finestra d'arbre</a></li>
   <li><a TreeMasks>Màscares per a arbres</a></li>
-  <li><a Moves Trial>Mode de prova </a></li>
   <li><a Maintenance Twins>Jocs bessons (duplicats)</a></li>
   </ul>
   
@@ -875,15 +874,6 @@ set helpText(K,Moves) {<h1>Entrant moviments d'escacs</h1>
   Feu clic amb Ctrl sobre els quadrats d'origen i de destinació. El botó esquerre del ratolí
   de nou resulta en un verd, el mig en un groc i el ratolí dret
   botó en una fletxa vermella.
-  </p>
-  
-  <h4><name Trial>Mode de prova</name></h4>
-  <p>
-  Si estàs estudiant un joc i arribes a una posició on vols provar
-  una variació alternativa al tauler sense alterar el joc, seleccioneu
-  <b>Proveu la variació</b> des del <menu>Edita</menu> menú per entrar a la prova
-  mode. En aquest mode, podeu fer moviments i canvis temporals al
-  joc i, a continuació, torneu a la posició original quan sortiu del mode de prova.
   </p>
   
   <h3><name Mistakes>Correcció d'errors</name></h3>

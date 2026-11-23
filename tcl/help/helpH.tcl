@@ -263,7 +263,6 @@ set helpText(H,Index) {<h1>scidCommunity súgótéma index </h1>
   <li><a FICS Training> Képzés: FICS előadások </a> </li>
   <li><a Tree> Fa ablak </a> </li>
   <li><a TreeMasks> Maszkok fáknak </a> </li>
-  <li><a Moves Trial> Próba mód </a> </li>
   <li><a Maintenance Twins> Ikerjátékok (duplikált) </a> </li>
   </ul>
   
@@ -872,15 +871,6 @@ set helpText(H,Moves) {<h1>Sakklépések beírása</h1>
   Ctrl-kattintás a forrás- és célnégyzetekre. Az egér bal gombja
   ismét zöldet, a középső sárgát és a jobb egérgombot eredményez
   gombot egy piros nyílban.
-  </p>
-  
-  <h4><name Trial>Próba mód</name></h4>
-  <p>
-  Ha egy játékot tanulsz, és elérsz egy olyan pozíciót, ahol ki szeretnéd próbálni
-  egy alternatív változat a táblán a játék megváltoztatása nélkül, válasszon
-  <b>Próbáld ki a variációt</b> a <menu>Szerkesztés</menu> menüt a próbaverzióba való belépéshez
-  módban. Ebben a módban ideiglenes mozgásokat és módosításokat hajthat végre a
-  játékot, majd térjen vissza az eredeti helyzetbe, amikor kilép a próba módból.
   </p>
   
   <h3><name Mistakes>A hibák kijavítása</name></h3>
