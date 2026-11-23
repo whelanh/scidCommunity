@@ -653,7 +653,7 @@ translate P WoodpeckerCyclesTitle {Cykle}
 translate P WoodpeckerSessionsTitle {Sesje}
 translate P WoodpeckerStatsNote {Punkty są obliczane na podstawie oznaczeń z oceny nr %d. Wcześniejsze sesje są ponownie oceniane według tych samych oznaczeń, dzięki czemu można uczciwie porównywać cykle.}
 translate P WoodpeckerNoData {Brak ukończonych cykli}
-translate E WoodpeckerChartLegend {słupki: czas   linia przerywana: cel (50% poprzedniego cyklu)}
+translate P WoodpeckerChartLegend {słupki: czas   linia przerywana: cel (50% poprzedniego cyklu)}
 translate P WoodpeckerTagline {Rozwiązuj ten sam zestaw wielokrotnie, za każdym razem szybciej.}
 translate P WoodpeckerExit {Opuść sesję}
 translate P WoodpeckerMore {Więcej zadań}

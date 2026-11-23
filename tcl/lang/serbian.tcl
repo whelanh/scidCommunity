@@ -247,9 +247,7 @@ menuText Y ToolsTimeAnalysis "Time Analysis" 0 {Show clock time graph for the cu
 menuText Y ToolsBookTuning "Book tuning" 0 {Book tuning}
 # ====== TODO To be translated ======
 menuText Y ToolsRapidAnnotate "Annotate from score graph" 0 {Write the engine score graph's evaluations and annotations into the current game (Ctrl+Shift+A)}
-# ====== TODO To be translated ======
-menuText Y ToolsDownloadTWIC "Download TWIC Games" 0 {Download the latest The Week In Chess (TWIC) games}
-menuText SR ToolsDownloadTWIC "Preuzmi TWIC igre" 0 {Preuzmi najnovije The Week In Chess (TWIC) igre}
+menuText Y ToolsDownloadTWIC "Preuzmi TWIC igre" 0 {Preuzmi najnovije The Week In Chess (TWIC) igre}
 # ====== TODO To be translated ======
 menuText Y ToolsConnectHardware "Connect Hardware" 0 {Connect external hardware}
 # ====== TODO To be translated ======

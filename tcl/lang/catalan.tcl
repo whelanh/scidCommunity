@@ -234,7 +234,7 @@ menuText K ToolsTimeAnalysis "Anàlisi del temps" 0 {Mostra el gràfic del temps
 menuText K ToolsBookTuning "Ajustar Llibre d'obertures" 0 {Ajustar Llibre (Book)}
 menuText K ToolsCtgConvert "Convertir CTG a OBR..." 0 {Converteix un llibre ChessBase CTG en un llibre OpenBook Rich (.obr).}
 menuText K ToolsRapidAnnotate "Anotar a partir del gràfic de puntuació" 0 {Escriu les avaluacions i anotacions del gràfic de puntuació del motor al joc actual (Ctrl+Maj+A)}
-menuText CA ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides mÃ©s recents The Week In Chess (TWIC)}
+menuText K ToolsDownloadTWIC "Descarrega partides TWIC" 0 {Descarrega les partides més recents The Week In Chess (TWIC)}
 menuText K ToolsConnectHardware "Connectar maquinari" 0 {Connectar maquinari extern}
 menuText K ToolsConnectHardwareConfigure "Configuració" 1 {Configuració}
 menuText K ToolsConnectHardwareNovagCitrineConnect "Connectar Novag" 0 {Connectar Novag}
