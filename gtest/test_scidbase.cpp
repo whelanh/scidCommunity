@@ -879,5 +879,24 @@ TEST_F(Test_Scidbase, compactPgnHonorsTagOrder) {
 	EXPECT_LT(order_of(*compacted, "[Annotator "),
 	          order_of(*compacted, "[Zeta "));
 
+	// An order that omits a data tag must not lose it: a hand-edited options
+	// file or a direct sc_game setTagOrder call can omit keys, and compaction
+	// must stay lossless.
+	Game::SetTagOrder("Others ECO");
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_NE(std::string::npos, order_of(*compacted, "[WhiteElo "))
+	    << *compacted;
+
+	Game::SetTagOrder("");
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_NE(std::string::npos, order_of(*compacted, "[WhiteElo "))
+	    << *compacted;
+	EXPECT_NE(std::string::npos, order_of(*compacted, "[ECO "))
+	    << *compacted;
+	EXPECT_NE(std::string::npos, order_of(*compacted, "[Annotator "))
+	    << *compacted;
+
 	std::filesystem::remove(path);
 }

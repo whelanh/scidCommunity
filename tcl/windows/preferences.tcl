@@ -185,6 +185,15 @@ proc ::preferences::eolChanged {cb} {
     set ::exportFlags(eol) [lindex {native crlf lf} [$cb current]]
 }
 
+# Show the stored line ending. The Export dialog writes the same value, so the
+# page follows it while both are open.
+proc ::preferences::syncEolDisplay {args} {
+    set labels [list [tr OptionsExportEolNative] "CRLF" "LF"]
+    set idx [lsearch -exact {native crlf lf} $::exportFlags(eol)]
+    if {$idx < 0} { set idx 0 }
+    set ::preferences::eolDisplay [lindex $labels $idx]
+}
+
 proc ::preferences::pgnExport { t } {
     ttk::label $t.intro -text [tr OptionsTagOrderIntro] -wraplength 380 -anchor w -justify left
     pack $t.intro -side top -anchor w -pady "2 0"
@@ -211,9 +220,9 @@ proc ::preferences::pgnExport { t } {
     ttk::frame $t.eol
     ttk::label $t.eol.l -text "[tr OptionsExportEol]:"
     set eolLabels [list [tr OptionsExportEolNative] "CRLF" "LF"]
-    set eolIdx [lsearch -exact {native crlf lf} $::exportFlags(eol)]
-    if {$eolIdx < 0} { set eolIdx 0 }
-    set ::preferences::eolDisplay [lindex $eolLabels $eolIdx]
+    catch {trace remove variable ::exportFlags(eol) write ::preferences::syncEolDisplay}
+    trace add variable ::exportFlags(eol) write ::preferences::syncEolDisplay
+    ::preferences::syncEolDisplay
     ttk::combobox $t.eol.c -state readonly -width 8 -values $eolLabels \
         -textvariable ::preferences::eolDisplay
     bind $t.eol.c <<ComboboxSelected>> [list ::preferences::eolChanged $t.eol.c]

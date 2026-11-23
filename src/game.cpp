@@ -2647,10 +2647,8 @@ bool Game::moveNumSpace_ = false;
 
 void Game::SetTagOrder(const char *order) {
   tagOrder_.clear();
-  if (order == nullptr)
-    return;
   const char *p = order;
-  while (*p != '\0') {
+  while (p != nullptr && *p != '\0') {
     while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')
       p++;
     if (*p == '\0')
@@ -2660,6 +2658,24 @@ void Game::SetTagOrder(const char *order) {
       q++;
     tagOrder_.emplace_back(p, q - p);
     p = q;
+  }
+
+  // The tags that hold game data are always written, whatever the order says:
+  // an edited options file or a direct sc_game setTagOrder call must not make
+  // PGN encoding drop them. Missing keys go just before the "Others"
+  // catch-all, or at the end, in their canonical order.
+  static const char *const known[] = {"WhiteElo", "BlackElo", "ECO",
+                                      "EventDate", "ScidFlags"};
+  auto pos = tagOrder_.size();
+  auto it_others = std::find(tagOrder_.begin(), tagOrder_.end(), "Others");
+  if (it_others != tagOrder_.end())
+    pos = it_others - tagOrder_.begin();
+  for (const char *key : known) {
+    if (std::find(tagOrder_.begin(), tagOrder_.end(), key) ==
+        tagOrder_.end()) {
+      tagOrder_.insert(tagOrder_.begin() + pos, key);
+      ++pos;
+    }
   }
 }
 

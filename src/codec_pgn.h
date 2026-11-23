@@ -150,8 +150,7 @@ public:
 		} while (game->MoveForwardInPGN() == OK);
 
 		buf_.clear();
-		bool move_num_space =
-		    (game->GetPgnStyle() & PGN_STYLE_MOVENUM_SPACE) != 0;
+		bool move_num_space = Game::pgnMoveNumSpace();
 		bool crlf = Game::pgnEolIsCrlf();
 		pgn::encode(*game, buf_, move_num_space, crlf ? "\r\n" : "\n");
 		if (crlf)

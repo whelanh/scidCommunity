@@ -323,34 +323,40 @@ void encode_game(TGame const& game, TCont& dest, bool move_num_space = false) {
 	dest.push_back('\n');
 }
 
-// Replace every newline in @e dest, from position @e pos to its end, with the
-// terminator @e eol. The encoders above always produce '\n', so the only
-// terminators used are "\n" itself and the two-byte "\r\n". The rewrite walks
-// backwards after one resize, so encoding stays linear in the game's length.
+// Replace the line breaks in @e dest, from position @e pos to its end, with
+// the terminator @e eol. The encoders produce '\n', but a comment can carry a
+// text file's own "\r\n": each pair is one line break, so it becomes exactly
+// one @e eol and its '\r' is dropped.
 template <typename TCont>
 void replace_newlines(TCont& dest, typename TCont::size_type pos,
                       std::string_view eol) {
-	if (eol.size() < 2 || eol[0] == '\n')
-		return; // LF: nothing to do
-
-	const auto old_size = dest.size();
-	const auto n_newlines = std::count(dest.begin() + pos, dest.end(), '\n');
-	if (n_newlines == 0)
+	if (eol.empty())
 		return;
 
-	const auto extra = static_cast<typename TCont::size_type>(
-	    n_newlines * (eol.size() - 1));
-	dest.resize(old_size + extra);
-	auto src = old_size;
-	auto dst = dest.size();
-	while (src > pos) {
-		const char ch = dest[--src];
-		if (ch != '\n') {
-			dest[--dst] = ch;
+	const TCont src(dest.begin() + pos, dest.end());
+	typename TCont::size_type n_lf = 0;
+	typename TCont::size_type n_crlf = 0;
+	for (typename TCont::size_type i = 0; i < src.size(); ++i) {
+		if (src[i] != '\n')
 			continue;
-		}
-		for (auto k = eol.size(); k > 0; --k)
-			dest[--dst] = eol[k - 1];
+		++n_lf;
+		if (i > 0 && src[i - 1] == '\r')
+			++n_crlf;
+	}
+	if (n_lf == 0 || (n_crlf == 0 && eol == "\n"))
+		return; // already the requested form
+
+	// Each break becomes eol; each "\r\n" also loses its '\r'.
+	dest.resize(pos + src.size() - n_crlf + n_lf * (eol.size() - 1));
+	auto out = dest.begin() + pos;
+	for (typename TCont::size_type i = 0; i < src.size(); ++i) {
+		const char ch = src[i];
+		if (ch == '\r' && i + 1 < src.size() && src[i + 1] == '\n')
+			continue; // paired with the '\n' that follows it
+		if (ch == '\n')
+			out = std::copy(eol.begin(), eol.end(), out);
+		else
+			*out++ = ch;
 	}
 }
 

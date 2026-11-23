@@ -515,16 +515,17 @@ public:
 
   // Global PGN tag-order preference (see WritePGN). A whitespace-separated
   // list of canonical keys, where "Others" stands for every non-standard tag.
-  // It is shared by all game instances and set once from the preferences.
+  // The keys of the tags that hold game data are always included, so an order
+  // that omits one cannot drop that data from a PGN.
   static void SetTagOrder(const char *order);
   static void SetSortOtherTags(bool sort);
 
   // Global PGN move-number spacing preference: when true, every move number
   // is followed by a space ("1. e4" instead of "1.e4"). It is shared by all
-  // game instances, used as the default PGN style, and set from the
-  // preferences so that every PGN writer (export, display and the PGN codec
-  // that rewrites a PGN database when it is compacted) agrees on it.
+  // game instances, seeds the default PGN style, and is read by the PGN codec,
+  // so export, display and a compacted PGN database agree on it.
   static void SetMoveNumSpace(bool space);
+  static bool pgnMoveNumSpace() { return moveNumSpace_; }
 
   // Global PGN line-ending preference: PGN_EOL_NATIVE writes the platform's
   // own terminator, PGN_EOL_CRLF and PGN_EOL_LF force one. Like the

@@ -412,4 +412,27 @@ TEST(Test_PgnEncode, encode_line_endings) {
 		if (crlf[i] == '\n')
 			EXPECT_TRUE(i > 0 && crlf[i - 1] == '\r') << crlf;
 	}
+
+	// A comment can carry the source file's own CRLF. It is one line break,
+	// so it must not become "\r\r\n", and an LF file must not keep the '\r'.
+	{
+		Game withComment;
+		simpleMoveT sm;
+		withComment.currentPos()->makeMove(E2, E4, EMPTY, sm);
+		withComment.AddMove(sm);
+		withComment.SetMoveComment("first\r\nsecond");
+		SAN_hack(withComment);
+
+		std::string crlfComment, lfComment;
+		pgn::encode(withComment, crlfComment, false, "\r\n");
+		pgn::encode(withComment, lfComment, false, "\n");
+		EXPECT_NE(std::string::npos,
+		          crlfComment.find("{first\r\nsecond}"))
+		    << crlfComment;
+		EXPECT_EQ(std::string::npos, crlfComment.find("\r\r\n"))
+		    << crlfComment;
+		EXPECT_NE(std::string::npos, lfComment.find("{first\nsecond}"))
+		    << lfComment;
+		EXPECT_EQ(std::string::npos, lfComment.find('\r')) << lfComment;
+	}
 }

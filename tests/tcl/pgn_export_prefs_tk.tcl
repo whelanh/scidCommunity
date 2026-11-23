@@ -85,6 +85,11 @@ $cb current $idx
 ::preferences::eolChanged $cb
 checkEq "choosing Native stores native" $::exportFlags(eol) native
 
+# The Export dialog writes the same shared value; while this page is open the
+# combobox must follow it rather than keep showing the old choice.
+set ::exportFlags(eol) crlf
+checkEq "an outside change refreshes the page" $::preferences::eolDisplay CRLF
+
 # An options file may hold a value this build does not know; the page then
 # shows Native rather than breaking.
 set ::exportFlags(eol) ""
