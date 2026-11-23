@@ -25,6 +25,7 @@ import hashlib
 import json
 import os
 import re
+import stat
 import sys
 import tempfile
 from dataclasses import dataclass
@@ -853,12 +854,19 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             expected = row.get("english_hash") or ""
             actual = entry_hash(command, key, english_entry.english_text(),
                                 english_entry.english_tooltip())
-            if expected and expected != actual and not force:
-                errors.append(
-                    f"{ident}: English changed since the CSV was generated; "
-                    f"not applied (use --force to override)")
-                skipped += 1
-                continue
+            if not force:
+                if not expected:
+                    errors.append(
+                        f"{ident}: no english_hash column value; keep the "
+                        f"generated sheet's hash or use --force")
+                    skipped += 1
+                    continue
+                if expected != actual:
+                    errors.append(
+                        f"{ident}: English changed since the CSV was generated; "
+                        f"not applied (use --force to override)")
+                    skipped += 1
+                    continue
             # A key English has but the catalogue lacks: insert it, in the
             # English order, using the supplied translation (or English).
             if new_text == "":
@@ -902,12 +910,19 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             expected = row.get("english_hash") or ""
             actual = entry_hash(command, key, english_entry.english_text(),
                                 english_entry.english_tooltip())
-            if expected and expected != actual and not force:
-                errors.append(
-                    f"{ident}: English changed since the CSV was generated; "
-                    f"not applied (use --force to override)")
-                skipped += 1
-                continue
+            if not force:
+                if not expected:
+                    errors.append(
+                        f"{ident}: no english_hash column value; keep the "
+                        f"generated sheet's hash or use --force")
+                    skipped += 1
+                    continue
+                if expected != actual:
+                    errors.append(
+                        f"{ident}: English changed since the CSV was generated; "
+                        f"not applied (use --force to override)")
+                    skipped += 1
+                    continue
             current_cell = row.get("current") or ""
             if not force:
                 if not current_cell:
@@ -985,13 +1000,24 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             already_applied = (has_new or has_tooltip) and \
                 (not has_new or new_text == current_text) and \
                 (not has_tooltip or new_tooltip == current_tooltip)
-            if not already_applied and (
+            expected = row.get("english_hash") or ""
+            actual = entry_hash(command, key, english_entry.english_text(),
+                                english_entry.english_tooltip())
+            if not force and not expected:
+                errors.append(
+                    f"{ident}: no english_hash column value; keep the generated "
+                    f"sheet's hash or use --force")
+                skipped += 1
+                continue
+            if not force and expected != actual:
+                errors.append(
+                    f"{ident}: English changed since the CSV was generated; "
+                    f"review not recorded (use --force to override)")
+                skipped += 1
+                continue
+            if not force and not already_applied and (
                     (row.get("current") or "") != current_text or
-                    (row.get("current_tooltip") or "") != current_tooltip or
-                    ((row.get("english_hash") or "") and
-                     row.get("english_hash") != entry_hash(
-                         command, key, english_entry.english_text(),
-                         english_entry.english_tooltip()))):
+                    (row.get("current_tooltip") or "") != current_tooltip):
                 errors.append(
                     f"{ident}: the current translation changed since the CSV "
                     f"was generated; review not recorded")
@@ -1083,6 +1109,7 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
         tmp_name = fh.name
         fh.write(candidate)
     try:
+        os.chmod(tmp_name, stat.S_IMODE(target_path.stat().st_mode))
         os.replace(tmp_name, target_path)
     except BaseException:
         if os.path.exists(tmp_name):

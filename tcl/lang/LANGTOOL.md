@@ -49,7 +49,8 @@ work on any rows they like.
 | `reviewer` | The person who reviewed the row |
 | `notes` | Free text; ignored by the importer |
 | `flags` | `missing`, `identical`, `unknown`, `bad-underline`; informational |
-| `source_line`, `english_hash` | Technical; do not edit |
+| `source_line` | Technical; do not edit |
+| `english_hash` | Technical stale-basis check; keep it, do not edit |
 
 The `english_hash` column is how the importer knows a row was translated
 against an older English string. If English changed after the CSV was
@@ -60,9 +61,9 @@ translation that changed while the reviewer was working. Use `--force` only
 when you have checked that the old basis still applies.
 
 The reviewer may send the whole sheet or only the rows they changed. Both work,
-but a filtered copy must keep the `current` cells: they are how the importer
-notices that a translation changed while the reviewer was working. Row order
-does not matter. New keys added to `english.tcl` after the sheet was
+but a filtered copy must keep the `current` and `english_hash` cells: they are
+how the importer notices that the English or the translation changed while the
+reviewer was working. Row order does not matter. New keys added to `english.tcl` after the sheet was
 generated are not in it and are left untouched. Keys the catalogue has but
 English no longer has appear at the bottom flagged `unknown`; the importer
 warns about them and never writes them.
