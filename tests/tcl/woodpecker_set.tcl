@@ -237,6 +237,29 @@ file mkdir $idset
 checkEq "a new number skips the history" \
     [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 7
 
+# ------------------------------------------------ a file's exercise count ----
+set pgn [file join $tmp book.pgn]
+set f [open $pgn w]
+puts $f {[Event "1"]
+[SetUp "1"]
+[FEN "6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1"]
+
+1. Ra8# 1-0
+
+[Event "2"]
+
+1. e4 e5 1-0
+
+[Event "3"]
+[FEN "6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1"]
+
+1. Ra8# 1-0
+}
+close $f
+checkEq "a PGN counts its games with a set-up position" [::woodpecker::set::countFileExercises $pgn] 2
+checkEq "a Scid database is not read" [::woodpecker::set::countFileExercises [file join $tmp book.si5]] ""
+checkEq "a missing file counts nothing" [::woodpecker::set::countFileExercises [file join $tmp none.pgn]] ""
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

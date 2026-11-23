@@ -119,6 +119,15 @@ checkEq "across a DST change" [expr {[::woodpecker::dayNum 2026-03-30] - [::wood
 # --------------------------------------------------------------- schedule ----
 checkEq "cycle lengths halve" [lmap k {1 2 3 4 5 6 7} {::woodpecker::cycleDays $k 28}] {28 14 7 4 2 1 1}
 checkEq "a one-day cycle stays one day" [::woodpecker::cycleDays 3 1] 1
+# The daily load the new-set dialog announces.
+set load [::woodpecker::dailyLoad 1000 28]
+checkEq "1000 in 28 days: 36, 72, 143 a day" [lmap c $load { dict get $c perDay }] {36 72 143}
+checkEq "... over 28, 14, 7 days" [lmap c $load { dict get $c days }] {28 14 7}
+checkEq "the load stops doubling at one day" [lmap c [::woodpecker::dailyLoad 100 2 3] { dict get $c perDay }] {50 100 100}
+checkEq "the first day's load is the plan's base quota" [dict get [lindex $load 0] perDay] \
+    [dict get [::woodpecker::plan 1000 28 2026-11-01 0 2026-11-01] base]
+checkEq "no load without a count" [::woodpecker::dailyLoad "" 28] {}
+checkEq "no load without days" [::woodpecker::dailyLoad 100 0] {}
 
 # 600 exercises in 28 days from 2026-11-01: base quota 22, cap 33.
 set p [::woodpecker::plan 600 28 2026-11-01 0 2026-11-01]

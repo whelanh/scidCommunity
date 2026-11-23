@@ -552,6 +552,8 @@ translate I WoodpeckerFileHelp {Ogni partita che parte da una posizione impostat
 translate I WoodpeckerDays1 {Primo ciclo (giorni)}
 translate I WoodpeckerRestDays {Riposo tra i cicli (giorni)}
 translate I WoodpeckerDaysHelp {Ogni ciclo successivo ha metà dei giorni del precedente: l'obiettivo è dimezzare il tempo di soluzione a ogni ciclo.}
+translate I WoodpeckerLoad {Circa %d esercizi al giorno per %d giorni. I giorni si dimezzano e gli esercizi restano, quindi il carico raddoppia: circa %d al giorno nel ciclo 2, %d nel ciclo 3.}
+translate I WoodpeckerLoadOneDay {Tutti i %d esercizi in un giorno, a ogni ciclo.}
 translate I WoodpeckerCreate {Crea}
 translate I WoodpeckerBadNumber {Numero non valido: %s}
 translate I WoodpeckerNoDifficulty {Scegli almeno una difficoltà e un numero di esercizi.}

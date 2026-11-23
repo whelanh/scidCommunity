@@ -216,6 +216,21 @@ proc ::woodpecker::cycleDays {k days1} {
     return [expr {max(1, $d)}]
 }
 
+# What a plan asks of the trainee, before a set exists: for the first `cycles`
+# cycles of `n` exercises, {cycle days perDay}. perDay is rounded up, as the
+# base quota of ::woodpecker::plan. Since the days halve and the exercises do
+# not, the daily load doubles every cycle until a cycle fits in a day.
+proc ::woodpecker::dailyLoad {n days1 {cycles 3}} {
+    set out {}
+    if {![string is integer -strict $n] || $n < 1 \
+            || ![string is integer -strict $days1] || $days1 < 1} { return $out }
+    for {set k 1} {$k <= $cycles} {incr k} {
+        set d [cycleDays $k $days1]
+        lappend out [dict create cycle $k days $d perDay [expr {int(ceil(double($n) / $d))}]]
+    }
+    return $out
+}
+
 # Today's quota for a cycle.
 #   n           exercises in the set
 #   days        planned days of this cycle

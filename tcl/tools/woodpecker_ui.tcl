@@ -923,6 +923,8 @@ proc ::woodpecker::ui::newDialog {} {
     ttk::label $f.lrest -text [tr WoodpeckerRestDays]
     ttk::spinbox $f.rest -from 0 -to 14 -width 5 -textvariable ${v}::newCfg(restDays)
     ttk::label $f.dayshelp -text [tr WoodpeckerDaysHelp] -wraplength 440 -justify left -foreground [color muted]
+    # What the plan asks every day, before the set exists.
+    ttk::label $f.load -textvariable ${v}::newCfg(loadText) -wraplength 440 -justify left
     grid $f.lname $f.name -sticky w -pady 3
     grid $f.rl - -sticky w -pady {8 2}
     grid $f.lich - -sticky w
@@ -933,6 +935,7 @@ proc ::woodpecker::ui::newDialog {} {
     grid $f.ldays $f.days -sticky w -pady 2
     grid $f.lrest $f.rest -sticky w -pady 2
     grid $f.dayshelp - -sticky w -pady 2
+    grid $f.load - -sticky w -pady {4 2}
     ttk::frame $d.b -padding {10 6 10 10}
     ttk::button $d.b.ok -text [tr WoodpeckerCreate] -command ${v}::create -default active
     ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d]
@@ -940,7 +943,39 @@ proc ::woodpecker::ui::newDialog {} {
     pack $d.b -fill x
     presetChosen
     tokenShow
+    set newCfg(fileCount) ""
+    set newCfg(fileCounted) ""
+    loadUpdate
+    trace add variable ${v}::newCfg write ${v}::loadUpdate
+    bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::newCfg write ${v}::loadUpdate }"
     if {$newCfg(token) ne ""} { after idle ::woodpecker::ui::tokenVerify }
+}
+
+# The daily load of the plan being chosen, as one sentence (empty while the
+# number of exercises is unknown: a Scid database not yet read).
+proc ::woodpecker::ui::loadText {n days1} {
+    set load [::woodpecker::dailyLoad $n $days1 3]
+    if {![llength $load]} { return "" }
+    lassign $load c1 c2 c3
+    if {[dict get $c1 days] == 1} { return [T WoodpeckerLoadOneDay $n] }
+    return [T WoodpeckerLoad [dict get $c1 perDay] [dict get $c1 days] \
+        [dict get $c2 perDay] [dict get $c3 perDay]]
+}
+
+proc ::woodpecker::ui::loadUpdate {args} {
+    variable newCfg
+    if {![info exists newCfg(days1)]} { return }
+    set n ""
+    if {$newCfg(source) eq "file"} {
+        if {$newCfg(file) ne $newCfg(fileCounted)} {
+            set newCfg(fileCounted) $newCfg(file)
+            set newCfg(fileCount) [::woodpecker::set::countFileExercises $newCfg(file)]
+        }
+        set n $newCfg(fileCount)
+    } else {
+        set n $newCfg(count)
+    }
+    set newCfg(loadText) [loadText $n $newCfg(days1)]
 }
 
 proc ::woodpecker::ui::presetChosen {} {

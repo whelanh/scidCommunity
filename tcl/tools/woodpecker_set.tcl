@@ -945,6 +945,25 @@ proc ::woodpecker::set::readGames {b {strict 0}} {
     return [list $rows $marks $skipped]
 }
 
+# About how many exercises a PGN file holds, for the new-set dialog's daily
+# load: the games with a FEN tag (buildFromFile also skips those without
+# moves). "" when unknown: not a PGN, unreadable, or too big to scan at once.
+proc ::woodpecker::set::countFileExercises {file} {
+    if {[string tolower [file extension $file]] ne ".pgn" || ![file isfile $file]} { return "" }
+    if {[catch { file size $file } size] || $size > 64 * 1024 * 1024} { return "" }
+    if {[catch {
+        set f [open $file r]
+        fconfigure $f -encoding iso8859-1
+        set text [read $f]
+        close $f
+    }]} {
+        catch { close $f }
+        return ""
+    }
+    set n [regexp -all -line {^\s*\[FEN\s+"} $text]
+    return [expr {$n > 0 ? $n : ""}]
+}
+
 # Build a set from a PGN (or .si5/.si4) file. Variations are kept in the
 # database but ignored by the trainer: the main line is the solution.
 # Returns {exercises annotated skipped}.

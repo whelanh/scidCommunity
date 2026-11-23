@@ -584,6 +584,8 @@ translate E WoodpeckerFileHelp {Each game that starts from a set-up position bec
 translate E WoodpeckerDays1 {First cycle (days)}
 translate E WoodpeckerRestDays {Rest between cycles (days)}
 translate E WoodpeckerDaysHelp {Each later cycle gets half the days of the previous one: the aim is to halve the solving time every cycle.}
+translate E WoodpeckerLoad {About %d exercises a day for %d days. The days halve and the exercises stay, so the load doubles: about %d a day in cycle 2, %d in cycle 3.}
+translate E WoodpeckerLoadOneDay {All %d exercises in one day, in every cycle.}
 translate E WoodpeckerCreate {Create}
 translate E WoodpeckerBadNumber {Not a valid number: %s}
 translate E WoodpeckerNoDifficulty {Choose at least one difficulty and a number of exercises.}
