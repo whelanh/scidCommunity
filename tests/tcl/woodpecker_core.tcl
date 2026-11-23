@@ -198,7 +198,7 @@ checkEq "an empty log starts at 1" [list [dict get $pr cycle] [dict get $pr next
 set pr [::woodpecker::progress [lrange $xs 0 2] {1 3} 2026-11-02]
 checkEq "a gap counts by position" [list [dict get $pr complete] [dict get $pr done]] {1 2}
 set pr [::woodpecker::progress [lrange $xs 0 1] {1 3 4} 2026-11-02]
-checkEq "a gap does not stop the plan" [list [dict get $pr next] [dict get $pr done]] {2 1}
+checkEq "a gap does not stop the plan" [list [dict get $pr next] [dict get $pr pos] [dict get $pr done]] {3 2 1}
 
 # Unrated: exercise 1 clean = 2, ex 2 failed = 0 (max 2*1.4).
 set table [::woodpecker::marksAt [::woodpecker::readMarks $tmp] 0]
@@ -361,6 +361,97 @@ set p [::woodpecker::anonPlan 1900 harder]
 checkEq "above the anonymous range: the nearest level only" [list [dict get $p centre] [dict get $p sources]] {2200 hardest}
 set p [::woodpecker::anonPlan 1200 easiest]
 checkEq "below it too" [list [dict get $p centre] [dict get $p sources] [dict get $p window]] {600 easiest 325}
+
+# ------------------------------------------------------------ inner circle ----
+set ten {1 2 3 4 5 6 7 8 9 10}
+checkEq "ranges parse in their order" [::woodpecker::rangesParse "4-6 1 2"] {4 5 6 1 2}
+checkEq "ranges format compactly" [::woodpecker::rangesFormat {4 5 6 1 2 9}] "4-6 1-2 9"
+checkEq "ranges round-trip" [::woodpecker::rangesFormat [::woodpecker::rangesParse "501-1000 1-500"]] "501-1000 1-500"
+check "a reversed range is refused" {[catch {::woodpecker::rangesParse "5-3"}]}
+check "a word is refused" {[catch {::woodpecker::rangesParse "five"}]}
+
+set sc [::woodpecker::scopeAt {} 1 {1 2 3 4 5} {} 28]
+checkEq "no C row: the whole set in order" [list [dict get $sc order] [dict get $sc locked] [dict get $sc days1] [dict get $sc from]] {{1 2 3 4 5} {} 28 1}
+set sc [::woodpecker::scopeAt {} 1 {1 2 3 4 5} {2 4} 28]
+checkEq "retired exercises are neither in the cycle nor locked" [list [dict get $sc order] [dict get $sc locked]] {{1 3 5} {}}
+
+set ct [file join [file dirname $tmp] wp_circle_[pid]]
+file delete -force $ct
+file mkdir $ct
+# Ten exercises; on day 1 the trainee does 1-3 of cycle 1, then narrows the
+# set to the first 6 with 10 days left of the cycle.
+set d1 [clock scan "2026-11-01 10:00" -format "%Y-%m-%d %H:%M"]
+foreach ex {1 2 3} { ::woodpecker::logExercise $ct [expr {$d1 + $ex}] 1 1 $ex clean 1 1000 }
+lassign [::woodpecker::readLog $ct] xs ss cs
+set cp [::woodpecker::circlePlan $xs $cs $ten {} 28 6 2026-11-02]
+checkEq "a circle mid-cycle starts at once" [list [dict get $cp cycle] [dict get $cp from] [dict get $cp daysLeft]] {1 1 1}
+checkEq "... with the first 6, the other 4 locked" [list [dict get $cp order] [dict get $cp locked]] {{1 2 3 4 5 6} {7 8 9 10}}
+check "a circle as big as the cycle is refused" {[catch {::woodpecker::circlePlan $xs $cs $ten {} 28 10 2026-11-02}]}
+check "an empty circle is refused" {[catch {::woodpecker::circlePlan $xs $cs $ten {} 28 0 2026-11-02}]}
+::woodpecker::logScope $ct [expr {$d1 + 86400}] 1 [::woodpecker::rangesFormat [dict get $cp order]] 11
+lassign [::woodpecker::readLog $ct] xs ss cs
+checkEq "the C row is read" [list [llength $cs] [dict get [lindex $cs 0] order] [dict get [lindex $cs 0] days1] [dict get [lindex $cs 0] from]] {1 1-6 11 1}
+checkEq "C rows are not exercises or sessions" [list [llength $xs] [llength $ss]] {3 0}
+set pr [::woodpecker::progress $xs $ten 2026-11-02 $cs {} 28]
+checkEq "the cycle is now the circle" [list [dict get $pr n] [dict get $pr done] [dict get $pr next] [dict get $pr pos] [dict get $pr days]] {6 3 4 4 11}
+checkEq "the rest is locked" [dict get $pr locked] {7 8 9 10}
+foreach ex {4 5 6} { ::woodpecker::logExercise $ct [expr {$d1 + 86400 + $ex}] 1 2 $ex clean 1 1000 }
+lassign [::woodpecker::readLog $ct] xs ss cs
+set pr [::woodpecker::progress $xs $ten 2026-11-03 $cs {} 28]
+checkEq "six done: the circle's cycle is complete" [dict get $pr complete] 1
+# Cycle 2: the circle again, with half the days.
+foreach ex {1 2 3 4 5 6} { ::woodpecker::logExercise $ct [expr {$d1 + 3*86400 + $ex}] 2 3 $ex clean 1 500 }
+lassign [::woodpecker::readLog $ct] xs ss cs
+set pr [::woodpecker::progress $xs $ten 2026-11-04 $cs {} 28]
+checkEq "cycle 2 is the circle, halved" [list [dict get $pr cycle] [dict get $pr n] [dict get $pr complete] [dict get $pr days]] {2 6 1 6}
+# Open the locked exercises: the next cycle has them first, then the circle.
+set op [::woodpecker::openPlan $xs $cs $ten {} 28 2026-11-05]
+checkEq "a finished cycle: they join the next one" [dict get $op cycle] 3
+checkEq "the locked ones first, then the circle" [dict get $op order] {7 8 9 10 1 2 3 4 5 6}
+checkEq "the opened exercises" [dict get $op opened] {7 8 9 10}
+::woodpecker::logScope $ct [expr {$d1 + 4*86400}] 3 [::woodpecker::rangesFormat [dict get $op order]] 20
+lassign [::woodpecker::readLog $ct] xs ss cs
+check "nothing is locked any more" {[catch {::woodpecker::openPlan $xs $cs $ten {} 28 2026-11-05}]}
+::woodpecker::logExercise $ct [expr {$d1 + 5*86400}] 3 4 7 failed 0 9000
+lassign [::woodpecker::readLog $ct] xs ss cs
+set pr [::woodpecker::progress $xs $ten 2026-11-06 $cs {} 28]
+checkEq "cycle 3: ten exercises, unlocked first" [list [dict get $pr cycle] [dict get $pr n] [dict get $pr next] [dict get $pr pos] [dict get $pr days]] {3 10 8 2 20}
+set sc [::woodpecker::scopeAt $cs 4 $ten {} 28]
+checkEq "cycle 4 keeps that order" [dict get $sc order] {7 8 9 10 1 2 3 4 5 6}
+checkEq "... and halves its days" [::woodpecker::scopeDays $sc 4] 10
+set sc [::woodpecker::scopeAt $cs 4 $ten {8 9} 28]
+checkEq "exercises moved away leave the order" [dict get $sc order] {7 10 1 2 3 4 5 6}
+
+# A circle when more than it was already done in the running cycle: the
+# circle is complete at once and the days asked are the next cycle's.
+set cp [::woodpecker::circlePlan [lrange $xs 0 5] {} $ten {} 28 4 2026-11-03]
+checkEq "circle smaller than what is done: it starts next cycle" [list [dict get $cp cycle] [dict get $cp from] [dict get $cp daysLeft]] {1 2 0}
+# During the rest after a complete cycle the circle is the next cycle's.
+set cp [::woodpecker::circlePlan [lrange $xs 0 11] [lrange $cs 0 0] $ten {} 28 3 2026-11-05]
+checkEq "after a complete cycle the circle is the next one" [list [dict get $cp cycle] [dict get $cp order] [dict get $cp daysLeft]] {3 {1 2 3} 0}
+# A cycle already begun keeps its scope; the unlocked join the next one.
+lassign [::woodpecker::readLog $ct] xs ss cs
+set op [::woodpecker::openPlan [lrange $xs 0 8] [lrange $cs 0 0] $ten {} 28 2026-11-04]
+checkEq "a cycle begun is finished first" [dict get $op cycle] 3
+set op [::woodpecker::openPlan [lrange $xs 0 3] [lrange $cs 0 0] $ten {} 28 2026-11-02]
+checkEq "mid-cycle: from the next cycle" [dict get $op cycle] 2
+
+# Puzzles deleted or added in the set's database (Open Puzzle Database).
+set circleRow [list [dict create cycle 1 order 1-6 days1 10 from 1]]
+set sc [::woodpecker::scopeAt $circleRow 1 {1 2 4 5 6 7 8 11} {} 28]
+checkEq "a deleted puzzle leaves the circle, an added one stays outside it" \
+    [list [dict get $sc order] [dict get $sc locked]] {{1 2 4 5 6} {7 8 11}}
+set openRow [list [dict create cycle 1 order "7-8 1-6 *" days1 10 from 1]]
+set sc [::woodpecker::scopeAt $openRow 1 {1 2 4 7 8 11} {} 28]
+checkEq "once all are open, an added puzzle joins at the end" \
+    [list [dict get $sc order] [dict get $sc locked]] {{7 8 1 2 4 11} {}}
+set sc [::woodpecker::scopeAt $circleRow 1 {7 8 11} {} 28]
+checkEq "a circle with every puzzle deleted gives way to the others" \
+    [list [dict get $sc order] [dict get $sc locked]] {{7 8 11} {}}
+::woodpecker::logScope $ct $d1 1 "7-8 1-6 *" 10
+lassign [::woodpecker::readLog $ct] - - cs
+checkEq "a row ending in * is read" [dict get [lindex $cs end] order] "7-8 1-6 *"
+file delete -force $ct
 
 file delete -force $tmp
 puts "$checks checks, $fails failures"

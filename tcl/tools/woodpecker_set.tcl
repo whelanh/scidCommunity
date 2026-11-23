@@ -171,10 +171,15 @@ proc ::woodpecker::set::newDir {name {now ""}} {
 }
 
 # The Lichess puzzle ids already in any set, so a new set never repeats one.
+# Exercises a set gave back (`retired`) are free again; those it moved are in
+# the set they moved to.
 proc ::woodpecker::set::usedIds {} {
     set used [dict create]
     foreach s [all] {
+        set gone [dict create]
+        foreach i [retired [lindex $s 1]] { dict set gone $i 1 }
         dict for {ex e} [::woodpecker::readExercises [lindex $s 0]] {
+            if {[dict exists $gone $ex]} { continue }
             set id [dict get $e puzzleId]
             if {$id ne ""} { dict set used $id 1 }
         }
@@ -758,9 +763,12 @@ proc ::woodpecker::set::maxExerciseId {dir old} {
     foreach ex [dict keys $old] {
         if {$ex > $max} { set max $ex }
     }
-    lassign [::woodpecker::readLog $dir] xs ss
-    foreach x $xs {
-        set ex [dict get $x ex]
+    lassign [::woodpecker::readLog $dir] xs ss cs
+    set named [lmap x $xs { dict get $x ex }]
+    foreach c $cs {
+        lappend named {*}[::woodpecker::rangesParse [lsearch -all -inline -not -exact [dict get $c order] *]]
+    }
+    foreach ex $named {
         if {$ex > $max} { set max $ex }
     }
     set marks [::woodpecker::readMarks $dir]
@@ -1045,6 +1053,81 @@ proc ::woodpecker::set::writeMarks {dir exMarks} {
     if {$opened} { catch { sc_base close $b } }
     restoreBase $prev
     if {$err} { error $msg }
+}
+
+################################################################################
+# Exercises leaving a set (Decision 8): given back or moved to a new set. They
+# stay in the set's files, so the log keeps its meaning, and set.tsv `retired`
+# takes them out of every cycle.
+
+# The retired exercises of a set's meta, as a list.
+proc ::woodpecker::set::retired {meta} {
+    if {![dict exists $meta retired] || [catch { ::woodpecker::rangesParse [dict get $meta retired] } r]} {
+        return {}
+    }
+    return $r
+}
+
+proc ::woodpecker::set::retire {dir exList} {
+    set meta [::woodpecker::readMeta $dir]
+    set all [lsort -integer -unique [concat [retired $meta] $exList]]
+    dict set meta retired [::woodpecker::rangesFormat $all]
+    ::woodpecker::writeMeta $dir $meta
+}
+
+# A new set made of exercises `exList` of the set in `dir`, in that order: their
+# games (with comments, variations and NAGs), their newest marks with their
+# source, and the set's settings under a new name. The original is not
+# changed (the caller retires the exercises). Returns the new set's folder;
+# on failure nothing is left behind.
+proc ::woodpecker::set::splitOff {dir exList name {now ""}} {
+    if {$now eq ""} { set now [clock seconds] }
+    set exs [::woodpecker::readExercises $dir]
+    set marks [::woodpecker::readMarks $dir]
+    set table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]]
+    set meta [::woodpecker::readMeta $dir]
+    foreach ex $exList {
+        if {![dict exists $exs $ex]} { error "no exercise $ex in the set" }
+    }
+    set new [newDir $name $now]
+    set prev [sc_base current]
+    set src ""
+    set opened 0
+    set dst ""
+    set err [catch {
+        lassign [openBase $dir] src opened
+        set dst [sc_base create SCID5 [basePath $new]]
+        set rows [dict create]
+        set newMarks [dict create]
+        set k 0
+        foreach ex $exList {
+            set e [dict get $exs $ex]
+            sc_base copygames $src [dict get $e game] $dst
+            incr k
+            dict set rows $k [::woodpecker::exerciseRow $k $k [dict get $e puzzleId] [dict get $e rating] \
+                [dict get $e fen] [dict get $e solution] [dict get $e lastMove]]
+            if {[dict exists $table $ex]} { dict set newMarks $k [dict get $table $ex] }
+        }
+        if {[sc_base numGames $dst] != $k} { error "the new set has [sc_base numGames $dst] games, expected $k" }
+        sc_base close $dst
+        set dst ""
+        ::woodpecker::writeExercises $new $rows
+        if {[dict size $newMarks]} { ::woodpecker::marksAppend $new $newMarks }
+        set m [newMeta $name [dict get $meta source] [dict get $meta days1] [dict get $meta restDays] $now]
+        foreach key {preset shares angle token rating file} {
+            if {[dict exists $meta $key]} { dict set m $key [dict get $meta $key] }
+        }
+        dict set m from [dict get $meta name]
+        ::woodpecker::writeMeta $new $m
+    } msg]
+    if {$dst ne ""} { catch { sc_base close $dst } }
+    if {$opened} { catch { sc_base close $src } }
+    restoreBase $prev
+    if {$err} {
+        catch { file delete -force $new }
+        error $msg
+    }
+    return $new
 }
 
 ################################################################################

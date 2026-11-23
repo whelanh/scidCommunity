@@ -437,11 +437,12 @@ proc ::wpgui::run {} {
     ::woodpecker::logExercise $dir3 $t 1 1 2 failed 0 1000
     set info [::woodpecker::ui::dayPlan $dir3]
     checkEq "the deleted puzzle does not count" [dict get $info done] 2
-    checkEq "the added puzzle is next" [list [dict get $info next] [dict get $info n]] {3 3}
+    checkEq "the added puzzle is next" \
+        [list [dict get $info next] [dict get $info pos] [dict get $info n]] {4 3 3}
     ::woodpecker::ui::train
     wait 500
     checkEq "the session skips the deleted number" \
-        [list $::woodpecker::ui::run(next) $::woodpecker::ui::run(ex) $::woodpecker::ui::run(n)] {3 4 3}
+        [list $::woodpecker::ui::run(next) $::woodpecker::ui::run(ex) $::woodpecker::ui::run(n)] {4 4 3}
     checkEq "and shows its position, not its number" \
         $::woodpecker::ui::txt(title) [::woodpecker::ui::T WoodpeckerExercise 3 3]
     addMoveUCI e7e5

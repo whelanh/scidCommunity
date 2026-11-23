@@ -20,6 +20,8 @@
 ###   marks.tsv      ver ex marks source        (marks: "-" "!" "!!" joined by spaces)
 ###   log.tsv        X ts cycle session ex result found ms
 ###                  S ts cycle session start dur_ms
+###                  C ts cycle order days1 from   (the scope of the cycles from
+###                                                 `cycle` on: an inner circle)
 
 namespace eval ::woodpecker {
     variable P
@@ -404,6 +406,42 @@ proc ::woodpecker::marksAppend {dir exMarks} {
     return $ver
 }
 
+# Ranges of exercise numbers: "1-500 731 900-902" <-> {1 2 ... 500 731 900 901 902},
+# in the given order (a scope may start in the middle of the set).
+proc ::woodpecker::rangesParse {text} {
+    set out {}
+    foreach part [split [string trim $text] " ,"] {
+        if {$part eq ""} { continue }
+        if {[regexp {^(\d+)-(\d+)$} $part -> a b]} {
+            scan $a %d a
+            scan $b %d b
+            if {$a < 1 || $b < $a} { error "bad range: $part" }
+            for {set i $a} {$i <= $b} {incr i} { lappend out $i }
+        } elseif {[regexp {^\d+$} $part]} {
+            scan $part %d i
+            if {$i < 1} { error "bad exercise number: $part" }
+            lappend out $i
+        } else {
+            error "bad range: $part"
+        }
+    }
+    return $out
+}
+
+proc ::woodpecker::rangesFormat {list} {
+    set out {}
+    set a ""
+    set b ""
+    foreach i $list {
+        if {$a ne "" && $i == $b + 1} { set b $i; continue }
+        if {$a ne ""} { lappend out [expr {$a == $b ? $a : "$a-$b"}] }
+        set a $i
+        set b $i
+    }
+    if {$a ne ""} { lappend out [expr {$a == $b ? $a : "$a-$b"}] }
+    return [join $out " "]
+}
+
 # log.tsv
 proc ::woodpecker::logExercise {dir now cycle session ex result found ms} {
     appendLine [file join $dir log.tsv] [list X $now $cycle $session $ex $result $found $ms]
@@ -413,10 +451,19 @@ proc ::woodpecker::logSession {dir now cycle session start durMs} {
     appendLine [file join $dir log.tsv] [list S $now $cycle $session $start $durMs]
 }
 
-# The log as two lists of dicts: exercises and sessions.
+# A change of scope (Decision 8): from cycle `cycle` on, a cycle is the
+# exercises `order` ("*" = the whole set) in that order; `days1` is the planned
+# length of cycle `from`, halved at every later one.
+proc ::woodpecker::logScope {dir now cycle order days1 {from ""}} {
+    if {$from eq ""} { set from $cycle }
+    appendLine [file join $dir log.tsv] [list C $now $cycle $order $days1 $from]
+}
+
+# The log as three lists of dicts: exercises, sessions and scopes.
 proc ::woodpecker::readLog {dir} {
     set xs {}
     set ss {}
+    set cs {}
     foreach row [readLines [file join $dir log.tsv]] {
         switch -- [lindex $row 0] {
             X {
@@ -430,21 +477,95 @@ proc ::woodpecker::readLog {dir} {
                 if {![string is integer -strict $session]} { continue }
                 lappend ss [dict create ts $ts cycle $cycle session $session start $start dur $dur]
             }
+            C {
+                lassign $row - ts cycle order days1 from
+                if {![string is integer -strict $cycle] || $cycle < 1} { continue }
+                if {[catch { rangesParse [lsearch -all -inline -not -exact $order *] }]} { continue }
+                if {![string is integer -strict $days1] || $days1 < 1} { set days1 "" }
+                if {![string is integer -strict $from] || $from < 1} { set from $cycle }
+                lappend cs [dict create ts $ts cycle $cycle order $order days1 $days1 from $from]
+            }
         }
     }
-    return [list $xs $ss]
+    return [list $xs $ss $cs]
+}
+
+# The exercises of cycle `cycle` and its schedule (Decision 8).
+#   cs       the C rows of the log; the last one (in log order) whose cycle is
+#            at or before `cycle` applies, so the latest decision wins
+#   exs      the set's exercise numbers in set order (gaps once a puzzle was
+#            deleted from its database; an added one comes at the end)
+#   retired  exercises taken out of the set for good (moved, given back)
+#   days1    the set's first-cycle days, for a set never narrowed
+# A "*" in a row's order stands for the set's other exercises: alone it is the
+# whole set, at the end it takes in the puzzles added after the row.
+# Returns {order locked days1 from}: the exercises of the cycle in order, the
+# set's other exercises (locked out of the inner circle), and the plan: cycle
+# k lasts cycleDays(k - from + 1, days1).
+proc ::woodpecker::scopeAt {cs cycle exs {retired {}} {days1 28}} {
+    set row ""
+    foreach c $cs { if {[dict get $c cycle] <= $cycle} { set row $c } }
+    set out [dict create days1 $days1 from 1]
+    set gone [dict create]
+    foreach i $retired { dict set gone $i 1 }
+    set spec "*"
+    if {$row ne ""} {
+        set spec [dict get $row order]
+        if {[dict get $row days1] ne ""} { dict set out days1 [dict get $row days1] }
+        dict set out from [dict get $row from]
+    }
+    set want {}
+    foreach part $spec {
+        lappend want {*}[expr {$part eq "*" ? $exs : [rangesParse $part]}]
+    }
+    set here [dict create]
+    foreach i $exs { dict set here $i 1 }
+    set order {}
+    set in [dict create]
+    foreach i $want {
+        if {![dict exists $here $i] || [dict exists $gone $i] || [dict exists $in $i]} { continue }
+        lappend order $i
+        dict set in $i 1
+    }
+    set locked {}
+    foreach i $exs {
+        if {![dict exists $gone $i] && ![dict exists $in $i]} { lappend locked $i }
+    }
+    # Every exercise of an inner circle was deleted: an empty cycle could never
+    # be completed, so the set's other exercises take its place.
+    if {![llength $order]} {
+        set order $locked
+        set locked {}
+    }
+    return [dict merge $out [dict create order $order locked $locked]]
+}
+
+# Planned days of cycle `k` under a scope from ::woodpecker::scopeAt.
+proc ::woodpecker::scopeDays {scope k} {
+    return [cycleDays [expr {max(1, $k - [dict get $scope from] + 1)}] [dict get $scope days1]]
 }
 
 ################################################################################
 # Progress and statistics
 
-# Where the trainee is: the current cycle, the next exercise position (1-based)
-# and how many of the cycle's exercises were done before `today`.
+# Where the trainee is: the current cycle, the next exercise and how many of
+# the cycle's exercises were done before `today`. The cycle is its scope's
+# exercises in its order (::woodpecker::scopeAt; the whole set when the log
+# has no C row): `next` is the first of them not done in this cycle, `pos`
+# its place (1-based) in the cycle, and only they count as done. Returns
+#   cycle next pos done doneBefore complete start end n order locked days1 from
+# with `n` the exercises of the cycle and `days` its planned length.
 # `exs` is the set's exercise numbers in training order: they have gaps once a
-# puzzle was deleted from the set's database, so the position in `exs`, not the
-# number, is what the session and the plan count.
-proc ::woodpecker::progress {xs exs today} {
+# puzzle was deleted from the set's database, so `pos`, not the number, is
+# what the session and the plan count.
+proc ::woodpecker::progress {xs exs today {cs {}} {retired {}} {days1 28}} {
     set cycle 1
+    foreach x $xs { if {[dict get $x cycle] > $cycle} { set cycle [dict get $x cycle] } }
+    set scope [scopeAt $cs $cycle $exs $retired $days1]
+    set valid [dict create]
+    foreach i $exs { dict set valid $i 1 }
+    set inScope [dict create]
+    foreach i [dict get $scope order] { dict set inScope $i 1 }
     set done [dict create]
     set valid [dict create]
     foreach ex $exs { dict set valid $ex 1 }
@@ -452,33 +573,86 @@ proc ::woodpecker::progress {xs exs today} {
     set firstDay ""
     set lastDay ""
     foreach x $xs {
-        if {[dict get $x cycle] > $cycle} {
-            set cycle [dict get $x cycle]
-            set done [dict create]
-            set before 0
-            set firstDay ""
-        }
-        if {[dict get $x cycle] < $cycle} { continue }
+        if {[dict get $x cycle] != $cycle} { continue }
         set ex [dict get $x ex]
         if {![dict exists $valid $ex]} { continue }
-        dict set done $ex 1
         set day [today [dict get $x ts]]
         if {$firstDay eq ""} { set firstDay $day }
         set lastDay $day
+        if {![dict exists $inScope $ex] || [dict exists $done $ex]} { continue }
+        dict set done $ex 1
         if {$day ne $today} { incr before }
     }
     set n [llength $exs]
     set count [dict size $done]
-    if {$count >= $n && $n > 0} {
-        return [dict create cycle $cycle next 0 done $count doneBefore $before \
-            complete 1 start $firstDay end $lastDay]
+    set size [llength [dict get $scope order]]
+    set out [dict merge $scope [dict create cycle $cycle done $count doneBefore $before \
+        start $firstDay end $lastDay n $size days [scopeDays $scope $cycle]]]
+    if {$count >= $size && $size > 0} {
+        return [dict merge $out [dict create next 0 pos 0 complete 1]]
     }
-    set next 1
-    foreach ex $exs {
-        if {[dict exists $done $ex]} { incr next } else { break }
+    set next 0
+    set pos 0
+    foreach i [dict get $scope order] {
+        incr pos
+        if {![dict exists $done $i]} { set next $i; break }
     }
-    return [dict create cycle $cycle next $next done $count doneBefore $before \
-        complete 0 start $firstDay end $lastDay]
+    return [dict merge $out [dict create next $next pos $pos complete 0]]
+}
+
+# Narrowing a set to an inner circle (Decision 8): the first `size` exercises
+# of the current cycle's order become the cycle, the others are locked.
+#   xs cs     the log's exercise and scope rows
+#   exs       the set's exercise numbers; retired, days1 as for scopeAt
+# The circle starts at once when the current cycle still has some of it to
+# do; when the cycle is over (or the circle is already done in it), the next
+# cycle is the circle's first. Returns {cycle order locked from daysLeft}: the
+# C row to write (cycle, order, from) and whether the days asked for are the
+# days left of the running cycle (daysLeft 1) or the next cycle's (0).
+proc ::woodpecker::circlePlan {xs cs exs retired days1 size today} {
+    set pr [progress $xs $exs $today $cs $retired $days1]
+    set cycle [dict get $pr cycle]
+    set base [dict get $pr order]
+    set started [expr {[dict get $pr start] ne ""}]
+    if {[dict get $pr complete]} {
+        incr cycle
+        set base [dict get [scopeAt $cs $cycle $exs $retired $days1] order]
+        set started 0
+    }
+    if {![string is integer -strict $size] || $size < 1 || $size >= [llength $base]} {
+        error "an inner circle needs between 1 and [expr {[llength $base] - 1}] exercises"
+    }
+    set order [lrange $base 0 [expr {$size - 1}]]
+    set locked [lrange $base $size end]
+    set from $cycle
+    set daysLeft $started
+    if {$started} {
+        # Already done in this cycle: the circle may be complete at once.
+        set done [dict create]
+        foreach x $xs { if {[dict get $x cycle] == $cycle} { dict set done [dict get $x ex] 1 } }
+        set left 0
+        foreach i $order { if {![dict exists $done $i]} { incr left } }
+        if {!$left} {
+            set from [expr {$cycle + 1}]
+            set daysLeft 0
+        }
+    }
+    return [dict create cycle $cycle order $order locked $locked from $from daysLeft $daysLeft]
+}
+
+# Opening the locked exercises again, in the same set: from cycle `cycle` on,
+# the locked ones come first, then the circle, in that order every cycle. A
+# cycle already begun is finished first, so they join from the next one.
+# Returns {cycle order opened} (opened = the exercises unlocked), or an error
+# when nothing is locked.
+proc ::woodpecker::openPlan {xs cs exs retired days1 today} {
+    set pr [progress $xs $exs $today $cs $retired $days1]
+    set cycle [dict get $pr cycle]
+    foreach x $xs { if {[dict get $x cycle] == $cycle} { incr cycle; break } }
+    set scope [scopeAt $cs $cycle $exs $retired $days1]
+    set opened [dict get $scope locked]
+    if {![llength $opened]} { error "no exercise is locked" }
+    return [dict create cycle $cycle order [concat $opened [dict get $scope order]] opened $opened]
 }
 
 # One exercise row's points under a marks table (ex -> {marks source}).
