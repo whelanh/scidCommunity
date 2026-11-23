@@ -526,7 +526,9 @@ def generate(root: Path, stem: str, out: Path) -> None:
             "current_tooltip": target.current_tooltip() if target else "",
             "new": "",
             "new_tooltip": "",
-            "underline": entry.underline if entry.underline is not None else "",
+            "underline": (target.underline
+                          if target is not None and target.underline is not None
+                          else entry.underline if entry.underline is not None else ""),
             "reviewed": reviewed,
             "reviewer": reviews["entries"].get(entry.ident, {}).get("reviewer", ""),
             "notes": "",
@@ -1234,7 +1236,7 @@ translate E Tip {One % de 100 and % games}
         target = '''proc setLanguage_X {} {
 
 # File menu:
-menuText X File "Fichier" 0 {Le fichier}
+menuText X File "Fichier" 2 {Le fichier}
 menuText X TipNoTooltip "Astuce" 0
 translate X Greeting {Bonjour %s\\nBienvenue}
 translate X Quote {Un "guillemet" et un [crochet] et $dollar}
@@ -1251,6 +1253,7 @@ translate X Tip {Un % de 100 et % parties}
         by_id = {f"{r['command']}:{r['key']}": r for r in rows}
         assert by_id["translate:Greeting"]["current"] == "Bonjour %s\nBienvenue"
         assert by_id["menuText:File"]["current"] == "Fichier"
+        assert by_id["menuText:File"]["underline"] == "2"
         # Change a translation, review another, leave one blank.
         by_id["translate:Greeting"]["new"] = "Salut %s\nBienvenue"
         by_id["translate:Greeting"]["reviewed"] = "Y"

@@ -44,7 +44,7 @@ work on any rows they like.
 | `current` | The translation in the catalogue now; keep this cell for changed rows |
 | `new` | **The translator writes here.** Blank means keep `current` |
 | `english_tooltip` / `current_tooltip` / `new_tooltip` | The tooltip for `menuText` entries |
-| `underline` | The menu mnemonic index; the importer recalculates it if the label changes |
+| `underline` | The catalogue’s menu mnemonic index (English if the catalogue lacks the key); the importer recalculates it if the label changes |
 | `reviewed` | `Y` means “I checked this translation”; `N` clears an earlier review; blank keeps it |
 | `reviewer` | The person who reviewed the row |
 | `notes` | Free text; ignored by the importer |
