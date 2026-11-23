@@ -2698,6 +2698,24 @@ bool Game::pgnEolIsCrlf() {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Game::otherTagsInOrder():
+//    The non-standard tags in the order they are written: alphabetically
+//    (case-insensitive) when the preference asks for it, otherwise the order
+//    they were read in.
+//
+std::vector<std::pair<std::string, std::string>>
+Game::otherTagsInOrder() const {
+  if (!sortOtherTags_)
+    return extraTags_;
+
+  auto sorted = extraTags_;
+  std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b) {
+    return strCaseCompare(a.first.c_str(), b.first.c_str()) < 0;
+  });
+  return sorted;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::getPgnTagPairs():
 //    Fill @e dest with the game's tag pairs in the order they are written to
 //    PGN: the Seven Tag Roster first (fixed by the PGN standard), then the
@@ -2748,26 +2766,15 @@ void Game::getPgnTagPairs(
       }
     } else if (key == "Others") {
       othersDone = true;
-      if (sortOtherTags_) {
-        std::vector<std::pair<std::string, std::string>> sorted(
-            extraTags_.begin(), extraTags_.end());
-        std::sort(sorted.begin(), sorted.end(),
-                  [](const auto &a, const auto &b) {
-                    return strCaseCompare(a.first.c_str(), b.first.c_str()) < 0;
-                  });
-        for (const auto &e : sorted)
-          dest.emplace_back(e.first, e.second);
-      } else {
-        for (const auto &e : extraTags_)
-          dest.emplace_back(e.first, e.second);
-      }
+      for (const auto &e : otherTagsInOrder())
+        dest.emplace_back(e.first, e.second);
     }
     // Unknown keys are ignored.
   }
   // Safety net: if the configured order omits "Others", still emit the
   // non-standard tags at the end rather than dropping them.
   if (!othersDone) {
-    for (const auto &e : extraTags_)
+    for (const auto &e : otherTagsInOrder())
       dest.emplace_back(e.first, e.second);
   }
 
@@ -2995,27 +3002,15 @@ errorT Game::WritePGN(TextBuffer *tb) {
                           e.second.c_str(), newline);
             tb->PrintString(temp);
           };
-          if (sortOtherTags_) {
-            std::vector<std::pair<std::string, std::string>> sorted(
-                extraTags_.begin(), extraTags_.end());
-            std::sort(sorted.begin(), sorted.end(),
-                      [](const auto &a, const auto &b) {
-                        return strCaseCompare(a.first.c_str(),
-                                              b.first.c_str()) < 0;
-                      });
-            for (const auto &e : sorted)
-              printOther(e);
-          } else {
-            for (const auto &e : extraTags_)
-              printOther(e);
-          }
+          for (const auto &e : otherTagsInOrder())
+            printOther(e);
         }
         // Unknown keys are ignored.
       }
       // Safety net: if the configured order omits "Others", still emit the
       // non-standard tags at the end rather than dropping them.
       if (!othersDone && !extraTags_.empty()) {
-        for (const auto &e : extraTags_) {
+        for (const auto &e : otherTagsInOrder()) {
           std::snprintf(temp, sizeof(temp), "[%s \"%s\"]%s", e.first.c_str(),
                         e.second.c_str(), newline);
           tb->PrintString(temp);

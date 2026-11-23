@@ -198,6 +198,9 @@ private:
   void ClearMoves();
   errorT DecodeVariation(ByteBuffer &buf, std::vector<moveT *> &comment_marks);
   errorT WritePGN(TextBuffer *tb);
+  // The non-standard tags in the order they are written: by name when
+  // sortOtherTags_ is set, otherwise the order they were read in.
+  std::vector<std::pair<std::string, std::string>> otherTagsInOrder() const;
   std::string *find_std_tag(std::string_view tag) {
     if (tag.size() == 5) {
       if (tag == "Event")

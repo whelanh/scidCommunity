@@ -879,6 +879,15 @@ TEST_F(Test_Scidbase, compactPgnHonorsTagOrder) {
 	EXPECT_LT(order_of(*compacted, "[Annotator "),
 	          order_of(*compacted, "[Zeta "));
 
+	// The fallback for an order without "Others" must sort them too.
+	Game::SetTagOrder("ECO WhiteElo");
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_LT(order_of(*compacted, "[Alpha "),
+	          order_of(*compacted, "[Annotator "));
+	EXPECT_LT(order_of(*compacted, "[Annotator "),
+	          order_of(*compacted, "[Zeta "));
+
 	// An order that omits a data tag must not lose it: a hand-edited options
 	// file or a direct sc_game setTagOrder call can omit keys, and compaction
 	// must stay lossless.
