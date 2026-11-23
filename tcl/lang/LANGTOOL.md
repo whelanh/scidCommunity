@@ -12,14 +12,13 @@ repository root or pass `--root`.
 
 ```sh
 # One file per language, all sections:
-python3 tcl/lang/langtool.py generate francais
-# -> translations-francais-2026-11-23.csv
+python3 tcl/lang/langtool.py generate francais -o francais-review.csv
 
 # See what would change, without writing:
-python3 tcl/lang/langtool.py import francais translations-francais-2026-11-23.csv --dry-run
+python3 tcl/lang/langtool.py import francais francais-review.csv --dry-run
 
 # Apply it:
-python3 tcl/lang/langtool.py import francais translations-francais-2026-11-23.csv \
+python3 tcl/lang/langtool.py import francais francais-review.csv \
     --apply --reviewer "IttacusFc"
 
 # Per-section coverage and review state:
@@ -42,7 +41,7 @@ work on any rows they like.
 | `command` | `menuText`, `translate` or `helpMsg`; do not edit |
 | `key` | The tag, e.g. `FileOpen`; do not edit |
 | `english` | The English label or message |
-| `current` | The translation in the catalogue now |
+| `current` | The translation in the catalogue now; keep this cell for changed rows |
 | `new` | **The translator writes here.** Blank means keep `current` |
 | `english_tooltip` / `current_tooltip` / `new_tooltip` | The tooltip for `menuText` entries |
 | `underline` | The menu mnemonic index; the importer recalculates it if the label changes |
@@ -60,8 +59,10 @@ catalogue is refused too, so a submission cannot silently overwrite a
 translation that changed while the reviewer was working. Use `--force` only
 when you have checked that the old basis still applies.
 
-The reviewer may send the whole sheet or only the rows they changed. Both work.
-Row order does not matter. New keys added to `english.tcl` after the sheet was
+The reviewer may send the whole sheet or only the rows they changed. Both work,
+but a filtered copy must keep the `current` cells: they are how the importer
+notices that a translation changed while the reviewer was working. Row order
+does not matter. New keys added to `english.tcl` after the sheet was
 generated are not in it and are left untouched. Keys the catalogue has but
 English no longer has appear at the bottom flagged `unknown`; the importer
 warns about them and never writes them.
@@ -115,7 +116,9 @@ needs to be split into `pt-BR` and `pt-PT`, the new-language checklist in
 1. Add new English keys and, if desired, a machine-translation draft.
 2. `generate` the language sheet and send it to the owner.
 3. The owner returns the sheet, whole or partial.
-4. `import --dry-run` to review the diff; `--apply` to write.
+4. `import --dry-run` to review the diff; `--apply` to write. Run one import
+   at a time; the catalogue is under git, so a lost run is recoverable, but
+   there is no cross-process lock.
 5. Commit with the owner’s credit (for example `Co-authored-by:`), run
    `tcl/lang/checklangs.tcl <language>` and the Tcl harnesses, then merge.
 

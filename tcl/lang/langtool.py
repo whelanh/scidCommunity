@@ -42,7 +42,7 @@ PLACEHOLDER_RE = re.compile(
 )
 HTML_TAG_RE = re.compile(r"<[^>]+>")
 ENTRY_RE = re.compile(r"^(menuText|translate|helpMsg)\b")
-PROC_RE = re.compile(r"^\s*proc\s+setLanguage_(\S+)\s*\{\}\s*\{")
+PROC_RE = re.compile(r"^[ \t]*proc\s+setLanguage_(\S+)\s*\{\}\s*\{", re.MULTILINE)
 CSV_COLUMNS = [
     "section", "command", "key",
     "english", "english_tooltip",
@@ -281,6 +281,7 @@ def parse_catalogue(path: Path, warnings: Optional[list[str]] = None) -> tuple[s
     section = "(top)"
     comment_block: list[str] = []
     proc_match = PROC_RE.search(text)
+    expected_code = proc_match.group(1) if proc_match else None
     if proc_match:
         nl = text.find("\n", proc_match.end())
         i = len(text) if nl < 0 else nl + 1
@@ -335,6 +336,15 @@ def parse_catalogue(path: Path, warnings: Optional[list[str]] = None) -> tuple[s
         if title and not _is_note(title):
             section = title.strip(" -=")
         comment_block = []
+
+        if expected_code and words[1].value != expected_code:
+            warnings.append(
+                f"{path}:{line}: skipped {command} {words[2].value}: "
+                f"language code {words[1].value!r} does not match "
+                f"setLanguage_{expected_code}")
+            line += text.count("\n", line_start, end)
+            i = end
+            continue
 
         if command == "menuText":
             if len(words) not in (5, 6):
@@ -500,7 +510,7 @@ def generate(root: Path, stem: str, out: Path) -> None:
     for entry in english:
         target = current_by_id.get(entry.ident)
         seen.add(entry.ident)
-        reviewed = "N"
+        reviewed = ""
         if target is not None and review_ok(reviews, entry,
                                            target.current_text(),
                                            target.current_tooltip()):
@@ -569,18 +579,25 @@ def generate(root: Path, stem: str, out: Path) -> None:
 # Serialisation and replacement
 # --------------------------------------------------------------------------
 
-def quote_word(text: str, escape_subst: bool = True) -> str:
+def quote_word(text: str, preserve: Iterable[str] = ()) -> str:
+    """Quote a Tcl word, escaping substitutions except named ones."""
+    tokens: dict[str, str] = {}
+    for index, token in enumerate(sorted(set(preserve), key=len, reverse=True)):
+        if token and token in text:
+            key = f"\ue000{index}\ue001"
+            text = text.replace(token, key)
+            tokens[key] = token
     out = ['"']
     for ch in text:
         if ch == "\\":
             out.append("\\\\")
         elif ch == '"':
             out.append('\\"')
-        elif ch == "$" and escape_subst:
+        elif ch == "$":
             out.append("\\$")
-        elif ch == "[" and escape_subst:
+        elif ch == "[":
             out.append("\\[")
-        elif ch == "]" and escape_subst:
+        elif ch == "]":
             out.append("\\]")
         elif ch == "\n":
             out.append("\\n")
@@ -593,8 +610,10 @@ def quote_word(text: str, escape_subst: bool = True) -> str:
         else:
             out.append(ch)
     out.append('"')
-    return "".join(out)
-
+    quoted = "".join(out)
+    for key, token in tokens.items():
+        quoted = quoted.replace(key, token)
+    return quoted
 
 def brace_word(text: str, command: str) -> str:
     """Serialise a translate/helpMsg value.
@@ -619,10 +638,10 @@ def menu_label(text: str) -> str:
     return quote_word(text)
 
 
-def menu_tooltip(text: str, preserve_subst: bool = False) -> str:
+def menu_tooltip(text: str, preserve: Iterable[str] = ()) -> str:
     text = norm(text)
-    if preserve_subst or "{" in text or "}" in text or text.endswith("\\"):
-        return quote_word(text, escape_subst=not preserve_subst)
+    if preserve or "{" in text or "}" in text or text.endswith("\\"):
+        return quote_word(text, preserve)
     return "{" + text + "}"
 
 
@@ -631,9 +650,10 @@ def choose_underline(label: str, old_label: str, old_underline: Optional[int]) -
         return 0
     if old_underline is not None and 0 <= old_underline < len(old_label):
         wanted = old_label[old_underline]
-        found = label.find(wanted)
-        if found >= 0:
-            return found
+        if wanted.isalpha():
+            found = label.find(wanted)
+            if found >= 0:
+                return found
     for index, ch in enumerate(label):
         if ch.isalpha():
             return index
@@ -650,8 +670,19 @@ def apply_edits(text: str, edits: list[tuple[int, int, str]]) -> str:
 # Validation
 # --------------------------------------------------------------------------
 
+DOLLAR_RE = re.compile(r'\$(?:::[A-Za-z_][A-Za-z0-9_]*|[A-Za-z_][A-Za-z0-9_]*)')
+
+
 def specs(text: str) -> list[str]:
     return PLACEHOLDER_RE.findall(text)
+
+
+def subst_tokens(text: str) -> set[str]:
+    return set(DOLLAR_RE.findall(text))
+
+
+def dollar_markers(text: str) -> set[str]:
+    return subst_tokens(text)
 
 
 def check_value(entry: Entry, new_text: str, new_tooltip: str) -> list[str]:
@@ -664,9 +695,18 @@ def check_value(entry: Entry, new_text: str, new_tooltip: str) -> list[str]:
             errors.append(
                 f"placeholders differ: English {specs(english)!r}, "
                 f"new {specs(new_text)!r}")
+        if specs(english):
+            leftover = PLACEHOLDER_RE.sub("", new_text)
+            if "%" in leftover:
+                errors.append("stray % in a format string")
+        missing_markers = dollar_markers(english) - dollar_markers(new_text)
+        if missing_markers:
+            errors.append("missing substitution(s): " + ", ".join(sorted(missing_markers)))
     if entry.command == "menuText":
         if "\n" in new_text or "\r" in new_text:
             errors.append("menu label contains a newline")
+        if not any(ch.isalpha() for ch in new_text):
+            errors.append("menu label has no letter for an underline")
         if specs(english) and specs(english) != specs(new_text):
             errors.append(
                 f"label placeholders differ: English {specs(english)!r}, "
@@ -676,6 +716,11 @@ def check_value(entry: Entry, new_text: str, new_tooltip: str) -> list[str]:
         if eng_tags and sorted(eng_tags) != sorted(new_tags):
             errors.append(
                 f"tooltip HTML tags differ: English {eng_tags!r}, new {new_tags!r}")
+        missing_markers = (dollar_markers(entry.english_tooltip()) -
+                           dollar_markers(new_tooltip))
+        if missing_markers:
+            errors.append("tooltip is missing substitution(s): " +
+                          ", ".join(sorted(missing_markers)))
     else:
         eng_tags = HTML_TAG_RE.findall(english)
         new_tags = HTML_TAG_RE.findall(new_text)
@@ -726,7 +771,7 @@ def insert_text(entry: Entry, code: str, new_text: str, new_tooltip: str,
                 underline: int) -> str:
     if entry.command == "menuText":
         return (f'menuText {code} {entry.key} {menu_label(new_text)} '
-                f'{underline} {menu_tooltip(new_tooltip)}')
+                f'{underline} {menu_tooltip(new_tooltip, subst_tokens(entry.english_tooltip()))}')
     return f"{entry.command} {code} {entry.key} {brace_word(new_text, entry.command)}"
 
 
@@ -738,6 +783,9 @@ def find_insert_offset(text: str, english: list[Entry], target_by_id: dict[str, 
         if hit is not None:
             nl = text.find("\n", hit.end)
             return len(text) if nl < 0 else nl + 1
+    if target_by_id:
+        first = min(target_by_id.values(), key=lambda entry: entry.start)
+        return text.rfind("\n", 0, first.start) + 1
     match = PROC_RE.search(text)
     if match:
         nl = text.find("\n", match.end())
@@ -756,7 +804,10 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
     for warning in warnings:
         print("warning: " + warning, file=sys.stderr)
     english_by_id = {e.ident: e for e in english}
+    english_order = {e.ident: i for i, e in enumerate(english)}
     target_by_id = {e.ident: e for e in target_entries}
+    before_ids = [e.ident for e in target_entries]
+    inserted_ids: set[str] = set()
     target_code = code_of(target_entries)
     reviews = load_reviews(root, stem)
     rows = read_rows(csv_path)
@@ -825,9 +876,9 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             text_to_insert = insert_text(english_entry, target_code, new_text,
                                          new_tooltip, underline)
             offset = find_insert_offset(text, english, target_by_id, english_entry)
-            order = next(i for i, e in enumerate(english)
-                         if e.ident == english_entry.ident)
-            inserts.setdefault(offset, []).append((order, text_to_insert))
+            inserts.setdefault(offset, []).append(
+                (english_order[english_entry.ident], text_to_insert))
+            inserted_ids.add(ident)
             changed += 1
             reviewed_flag = row_bool(row.get("reviewed"))
             if reviewed_flag:
@@ -857,21 +908,36 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
                     f"not applied (use --force to override)")
                 skipped += 1
                 continue
-            if (row.get("current") or "") and row["current"] != current_text \
-                    and not force:
-                errors.append(
-                    f"{ident}: the current translation changed since the CSV "
-                    f"was generated; re-generate or use --force")
-                skipped += 1
-                continue
-            if command == "menuText" and \
-                    (row.get("current_tooltip") or "") and \
-                    row["current_tooltip"] != current_tooltip and not force:
-                errors.append(
-                    f"{ident}: the current tooltip changed since the CSV was "
-                    f"generated; re-generate or use --force")
-                skipped += 1
-                continue
+            current_cell = row.get("current") or ""
+            if not force:
+                if not current_cell:
+                    where = ("the key was added to the catalogue"
+                             if "missing" in (row.get("flags") or "").split()
+                             else "the current translation cell is empty")
+                    errors.append(
+                        f"{ident}: {where} since the CSV was generated; "
+                        f"re-generate or use --force")
+                    skipped += 1
+                    continue
+                if current_cell != current_text:
+                    errors.append(
+                        f"{ident}: the current translation changed since the "
+                        f"CSV was generated; re-generate or use --force")
+                    skipped += 1
+                    continue
+                tooltip_cell = row.get("current_tooltip") or ""
+                if target_entry.tooltip is not None and not tooltip_cell:
+                    errors.append(
+                        f"{ident}: the current tooltip cell is empty; "
+                        f"re-generate or use --force")
+                    skipped += 1
+                    continue
+                if tooltip_cell and tooltip_cell != current_tooltip:
+                    errors.append(
+                        f"{ident}: the current tooltip changed since the CSV "
+                        f"was generated; re-generate or use --force")
+                    skipped += 1
+                    continue
             problems = check_value(
                 english_entry,
                 new_text if has_new else current_text,
@@ -895,13 +961,15 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
                                       str(underline)))
                 if has_tooltip and tooltip != current_tooltip:
                     if target_entry.tooltip is not None:
-                        preserve = target_entry.tooltip.raw.startswith('"')
+                        preserve = (subst_tokens(current_tooltip) |
+                                    subst_tokens(english_entry.english_tooltip()))
                         edits.append((target_entry.tooltip.start,
                                       target_entry.tooltip.end,
                                       menu_tooltip(tooltip, preserve)))
                     elif target_entry.underline_word is not None:
                         insert_at = target_entry.underline_word.end
-                        inserts.append((insert_at, " " + menu_tooltip(tooltip)))
+                        edits.append((insert_at, insert_at,
+                                      " " + menu_tooltip(tooltip)))
             else:
                 value = new_text if has_new else current_text
                 edits.append((target_entry.value.start, target_entry.value.end,
@@ -911,13 +979,19 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
         reviewed_flag = row_bool(row.get("reviewed"))
         if reviewed_flag is True and not text_changed:
             # A review-only row must describe the translation that is in the
-            # file now; otherwise the reviewer checked an older string.
-            if (row.get("current") or "") != current_text or \
-                    (row.get("current_tooltip") or "") != current_tooltip or \
+            # file now. The exception is a retry after a catalogue write that
+            # succeeded before the review sidecar: the submitted `new` already
+            # equals the file, so the review can still be recorded.
+            already_applied = (has_new or has_tooltip) and \
+                (not has_new or new_text == current_text) and \
+                (not has_tooltip or new_tooltip == current_tooltip)
+            if not already_applied and (
+                    (row.get("current") or "") != current_text or
+                    (row.get("current_tooltip") or "") != current_tooltip or
                     ((row.get("english_hash") or "") and
                      row.get("english_hash") != entry_hash(
                          command, key, english_entry.english_text(),
-                         english_entry.english_tooltip())):
+                         english_entry.english_tooltip()))):
                 errors.append(
                     f"{ident}: the current translation changed since the CSV "
                     f"was generated; review not recorded")
@@ -946,11 +1020,24 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
         elif reviewed_flag is False and ident in reviews["entries"]:
             review_updates[ident] = None
 
+    # Build the candidate once, so a dry run validates exactly what an apply
+    # would write. Replacements and insertions share one coordinate space.
+    operations = list(edits)
+    for offset, block in inserts.items():
+        ordered = [entry for _, entry in sorted(block)]
+        operations.append((offset, offset, "\n".join(ordered) + "\n"))
+    candidate = apply_edits(text, operations) if operations else text
+    if operations:
+        try:
+            validate_candidate(candidate, target_path, before_ids, inserted_ids)
+        except LangError as exc:
+            errors.append(str(exc))
+
     if errors:
         print("\nErrors (rows not applied):")
         for error in errors:
             print("  " + error)
-    if len(warnings):
+    if warnings:
         print("\nWarnings:")
         for warning in warnings:
             print("  " + warning)
@@ -962,20 +1049,21 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             print("\nFirst changed entries:")
             for entry in _preview_edits(edits, text)[:20]:
                 print("  " + entry)
+        if inserts:
+            print("\nEntries to insert:")
+            for offset in sorted(inserts):
+                for _, entry in sorted(inserts[offset]):
+                    print("  " + entry.splitlines()[0])
         return 1 if errors else 0
 
     if errors:
-        print("\nRefusing to write while rows have errors; fix them or use "
-              "--force for stale English only.")
+        print("\nRefusing to write while rows have errors; fix them, or re-run "
+              "with --force only after checking the stale basis.")
         return 2
 
-    if not edits and not inserts:
+    if not operations:
         if review_updates:
-            for ident, state in review_updates.items():
-                if state is None:
-                    reviews["entries"].pop(ident, None)
-                else:
-                    reviews["entries"][ident] = state
+            apply_reviews(reviews, review_updates)
             save_reviews(root, stem, reviews)
             print(f"\nNo text changes; {reviewed_count} review state(s) updated.")
             print(f"wrote {review_path(root, stem)}")
@@ -983,52 +1071,66 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
             print("\nNo changes.")
         return 0
 
-    # Replacements and insertions share one coordinate space, so apply them
-    # together from the end; inserting first would shift every later edit.
-    operations = list(edits)
-    for offset, block in inserts.items():
-        ordered = [entry for _, entry in sorted(block)]
-        operations.append((offset, offset, "\n".join(ordered) + "\n"))
-    text = apply_edits(text, operations)
+    # Save the review state before the catalogue, so a failure leaves the text
+    # unchanged and a retry can still record the review. If the catalogue write
+    # then fails, the hashes do not match and generate will mark the rows
+    # unreviewed again.
+    if review_updates:
+        apply_reviews(reviews, review_updates)
+        save_reviews(root, stem, reviews)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False,
+                                     dir=str(target_path.parent)) as fh:
+        tmp_name = fh.name
+        fh.write(candidate)
+    try:
+        os.replace(tmp_name, target_path)
+    except BaseException:
+        if os.path.exists(tmp_name):
+            os.unlink(tmp_name)
+        raise
 
-    # Re-parse before touching the real file: a broken catalogue is worse than
-    # no import at all.
+    print(f"\nApplied: {changed} changed, {reviewed_count} marked reviewed, "
+          f"{skipped} skipped.")
+    if review_updates:
+        print(f"wrote {review_path(root, stem)}")
+    print(f"wrote {target_path}")
+    return 0
+
+
+def apply_reviews(reviews: dict, updates: dict[str, Optional[dict]]) -> None:
+    for ident, state in updates.items():
+        if state is None:
+            reviews["entries"].pop(ident, None)
+        else:
+            reviews["entries"][ident] = state
+
+
+def validate_candidate(text: str, target_path: Path, before_ids: list[str],
+                       inserted_ids: set[str]) -> None:
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False,
                                      dir=str(target_path.parent)) as fh:
         tmp_name = fh.name
         fh.write(text)
     try:
         _, after = parse_catalogue(Path(tmp_name))
-        ids = [e.ident for e in after]
-        if len(ids) != len(set(ids)):
-            raise LangError("the result would contain duplicate keys")
-        missing = [e.ident for e in english if e.ident not in set(ids)]
-        if missing:
-            raise LangError("the result would lose keys: " + ", ".join(missing[:5]))
-        common_after = [i for i in ids if i in english_by_id]
-        common_english = [e.ident for e in english if e.ident in set(ids)]
-        if common_after != common_english:
-            raise LangError("the result would put English keys out of order")
-        os.replace(tmp_name, target_path)
-    except Exception:
-        os.unlink(tmp_name)
-        raise
     finally:
         if os.path.exists(tmp_name):
             os.unlink(tmp_name)
-
-    for ident, state in review_updates.items():
-        if state is None:
-            reviews["entries"].pop(ident, None)
-        else:
-            reviews["entries"][ident] = state
-    save_reviews(root, stem, reviews)
-
-    print(f"\nApplied: {changed} changed, {reviewed_count} marked reviewed, "
-          f"{skipped} skipped.")
-    print(f"wrote {target_path}")
-    print(f"wrote {review_path(root, stem)}")
-    return 0
+    ids = [e.ident for e in after]
+    if len(ids) != len(set(ids)):
+        raise LangError("the result would contain duplicate keys")
+    before_set = set(before_ids)
+    after_set = set(ids)
+    lost = [ident for ident in before_ids if ident not in after_set]
+    if lost:
+        raise LangError("the result would lose keys: " + ", ".join(lost[:5]))
+    kept = [ident for ident in ids if ident in before_set]
+    if kept != before_ids:
+        raise LangError("the result would reorder existing keys")
+    missing_inserts = sorted(inserted_ids - after_set)
+    if missing_inserts:
+        raise LangError("the result would lose inserted keys: " +
+                        ", ".join(missing_inserts[:5]))
 
 
 def _preview_edits(edits: list[tuple[int, int, str]], text: str) -> list[str]:
@@ -1095,6 +1197,7 @@ def selftest() -> int:
         (root / "tcl" / "lang").mkdir(parents=True)
         english = '''# File menu:
 menuText E File "File" 0 {The game file}
+menuText E TipNoTooltip "Tip" 0 {A tip}
 translate E Greeting {Hello %s\\nWelcome}
 translate E Quote {A "quote" and a [bracket] and $dollar}
 
@@ -1105,6 +1208,7 @@ translate E Tip {One % de 100 and % games}
 
 # File menu:
 menuText X File "Fichier" 0 {Le fichier}
+menuText X TipNoTooltip "Astuce" 0
 translate X Greeting {Bonjour %s\\nBienvenue}
 translate X Quote {Un "guillemet" et un [crochet] et $dollar}
 
@@ -1135,19 +1239,38 @@ translate X Tip {Un % de 100 et % parties}
         assert rc == 0, rc
         text = (root / "tcl" / "lang" / "testlang.tcl").read_text(encoding="utf-8")
         assert "Salut %s\\nBienvenue" in text
-        reviews = load_reviews(root, "testlang")
-        assert "translate:Greeting" in reviews["entries"]
-        assert "translate:Tip" in reviews["entries"]
-        # A placeholder loss is refused.
-        by_id["translate:Greeting"]["new"] = "Salut"
-        by_id["translate:Greeting"]["reviewed"] = ""
+        # A tooltip added to a 5-word menuText entry goes in through an edit,
+        # not an entry block.
+        by_id["menuText:TipNoTooltip"]["new_tooltip"] = "Un conseil"
         with out.open("w", encoding="utf-8-sig", newline="") as fh:
             writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
             writer.writeheader()
             writer.writerows(rows)
         rc = import_csv(root, "testlang", out, apply=True, force=False,
                         reviewer="Tester")
+        assert rc == 0, rc
+        text = (root / "tcl" / "lang" / "testlang.tcl").read_text(encoding="utf-8")
+        assert 'menuText X TipNoTooltip "Astuce" 0 {Un conseil}' in text
+        reviews = load_reviews(root, "testlang")
+        assert "translate:Greeting" in reviews["entries"]
+        assert "translate:Tip" in reviews["entries"]
+        # A placeholder loss is refused. Refresh the row's current cell first,
+        # or the stale-basis check would stop it before the placeholder check.
+        by_id["translate:Greeting"]["new"] = "Salut"
+        by_id["translate:Greeting"]["current"] = "Salut %s\nBienvenue"
+        by_id["translate:Greeting"]["reviewed"] = ""
+        with out.open("w", encoding="utf-8-sig", newline="") as fh:
+            writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
+            writer.writeheader()
+            writer.writerows(rows)
+        import contextlib
+        import io
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = import_csv(root, "testlang", out, apply=True, force=False,
+                            reviewer="Tester")
         assert rc == 2, rc
+        assert "placeholders differ" in buf.getvalue(), buf.getvalue()
         # A missing key is inserted in English order and can be translated.
         (root / "tcl" / "lang" / "english.tcl").write_text(
             english + "translate E Extra {Extra}\n", encoding="utf-8")
