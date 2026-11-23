@@ -895,7 +895,10 @@ proc ::board::setInfo {{w} {msg}} {
 
 # Show an alert message in the infobar.
 # If @e header is empty, append the message at the current infobar.
-proc ::board::setInfoAlert {{w} {header} {msg} {msgcolor} {cmd}} {
+# With @e markup set, @e msg is the Comment Window's markup: its runs are
+# inserted with their own colours instead of being shown as tags, and the
+# text outside a span takes @e msgcolor.
+proc ::board::setInfoAlert {{w} {header} {msg} {msgcolor} {cmd} {markup 0}} {
   if {$msgcolor eq "black" && [ttk::style theme use] in $::darkThemes} {
     set msgcolor [ttk::style lookup . -foreground "" black]
   }
@@ -906,7 +909,11 @@ proc ::board::setInfoAlert {{w} {header} {msg} {msgcolor} {cmd}} {
   } else {
     $w.bar.info.t insert end "\n"
   }
-  $w.bar.info.t insert end "$msg" {color click}
+  if {$markup} {
+    ::windows::commenteditor::insertMarkup_ $w.bar.info.t $msg $msgcolor {click}
+  } else {
+    $w.bar.info.t insert end "$msg" {color click}
+  }
   $w.bar.info.t configure -state disabled
   $w.bar.info.t tag configure color -foreground $msgcolor
   $w.bar.info.t tag bind click <ButtonRelease-1> [list apply {{cmd} {

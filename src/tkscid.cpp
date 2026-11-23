@@ -54,6 +54,7 @@
 #include <thread>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 // Tcl 8.6/9.0 compatibility: Tcl_Size introduced in 9.0
 #ifndef TCL_MAJOR_VERSION
@@ -3004,53 +3005,182 @@ int sc_game_import(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-// stripCommentMarkup:
-//    Remove the comment editor's formatting tags from a comment before the
-//    Game Info panel shows it. The panel escapes any remaining angle brackets,
-//    so a literal '<' in a comment still displays as text; only the tags this
-//    application writes are consumed.
-static void stripCommentMarkup(char *s) {
-  char *out = s;
-  while (*s != 0) {
-    if (*s == '<') {
-      char *gt = std::strchr(s, '>');
+// isCommentFormattingTag:
+//    True for the tags the comment editor writes. htext understands the same
+//    names, so the Game Info panel can pass them through and show the colours,
+//    bold and italic the editor shows instead of one flat green.
+static bool isCommentFormattingTag(const std::string &tag) {
+  return tag == "b" || tag == "/b" || tag == "i" || tag == "/i" ||
+         tag == "u" || tag == "/u" || tag == "span" || tag == "/span" ||
+         tag.rfind("span ", 0) == 0;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// CommentToken:
+//    One item of a comment as the editor writes it: either a formatting tag
+//    (zero width) or one visible character. Entities are decoded and literal
+//    angle brackets stay visible characters.
+struct CommentToken {
+  bool isTag;
+  std::string text;
+};
+
+static std::vector<CommentToken> commentTokens(const char *comment) {
+  static const struct {
+    const char *entity;
+    char ch;
+  } entities[] = {{"&amp;", '&'}, {"&lt;", '<'}, {"&gt;", '>'}, {"&quot;", '"'}};
+  std::vector<CommentToken> tokens;
+  while (*comment != 0) {
+    if (*comment == '<') {
+      const char *gt = std::strchr(comment + 1, '>');
       if (gt != nullptr) {
-        std::string tag(s + 1, gt);
-        if (tag == "b" || tag == "/b" || tag == "i" || tag == "/i" ||
-            tag == "u" || tag == "/u" || tag == "span" ||
-            tag == "/span" || tag.rfind("span ", 0) == 0) {
-          s = gt + 1;
+        std::string tag(comment + 1, gt);
+        if (isCommentFormattingTag(tag)) {
+          tokens.push_back({true, tag});
+          comment = gt + 1;
           continue;
         }
       }
+      tokens.push_back({false, "<"});
+      ++comment;
+      continue;
     }
-    *out++ = *s++;
+    bool decoded = false;
+    for (const auto &entity : entities) {
+      size_t len = std::strlen(entity.entity);
+      if (std::strncmp(comment, entity.entity, len) == 0) {
+        tokens.push_back({false, std::string(1, entity.ch)});
+        comment += len;
+        decoded = true;
+        break;
+      }
+    }
+    if (!decoded) {
+      tokens.push_back({false, std::string(1, *comment++)});
+    }
   }
-  *out = 0;
+  return tokens;
 }
 
-// The comment editor escapes the four markup characters. Undo that after the
-// tags are gone, or a comment containing '&' or '<' would show the entity.
-static void unescapeCommentEntities(char *s) {
-  char *out = s;
-  while (*s != 0) {
-    if (std::strncmp(s, "&amp;", 5) == 0) {
-      *out++ = '&';
-      s += 5;
-    } else if (std::strncmp(s, "&lt;", 4) == 0) {
-      *out++ = '<';
-      s += 4;
-    } else if (std::strncmp(s, "&gt;", 4) == 0) {
-      *out++ = '>';
-      s += 4;
-    } else if (std::strncmp(s, "&quot;", 6) == 0) {
-      *out++ = '"';
-      s += 6;
+// A literal '<' or '>' in a comment is not a tag: htext shows those with its
+// lt/gt tags. Everything else htext takes as plain text.
+static void appendCommentChar(Tcl_Interp *ti, char ch) {
+  if (ch == '<') {
+    Tcl_AppendResult(ti, "<lt>", nullptr);
+  } else if (ch == '>') {
+    Tcl_AppendResult(ti, "<gt>", nullptr);
+  } else {
+    appendCharResult(ti, ch);
+  }
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// appendCommentAsHtext:
+//    Append a comment to the Game Info string as htext markup, keeping the
+//    editor's spans and stripping nothing but their visible text. The first
+//    commentHeight lines wrap at commentWidth, as before; the remainder
+//    follows unwrapped. Any span still open at the end is closed, because
+//    htext only applies a tag when it sees the closing tag.
+static void appendCommentAsHtext(Tcl_Interp *ti, char *comment, uint width,
+                                 uint height) {
+  std::vector<CommentToken> tokens = commentTokens(comment);
+  std::vector<std::string> openTags;
+  auto appendTag = [&](const std::string &tag) {
+    Tcl_AppendResult(ti, "<", tag.c_str(), ">", nullptr);
+    if (tag[0] == '/') {
+      if (!openTags.empty()) { openTags.pop_back(); }
     } else {
-      *out++ = *s++;
+      openTags.push_back(tag.rfind("span ", 0) == 0 ? "span" : tag);
+    }
+  };
+  auto appendVisible = [&](char ch) { appendCommentChar(ti, ch); };
+  auto nextVisible = [&](size_t i) -> char {
+    for (; i < tokens.size(); ++i) {
+      if (!tokens[i].isTag) { return tokens[i].text[0]; }
+    }
+    return 0;
+  };
+
+  size_t i = 0;
+  uint lines = 0;
+  while (lines < height && i < tokens.size()) {
+    uint lineLen = 0;
+    while (i < tokens.size()) {
+      if (tokens[i].isTag) {
+        appendTag(tokens[i].text);
+        ++i;
+        continue;
+      }
+      char ch = tokens[i].text[0];
+      if (ch == '\n' || lineLen >= width) { break; }
+      appendVisible(ch);
+      ++i;
+      ++lineLen;
+    }
+
+    char next = nextVisible(i);
+    if (lineLen >= width && next != '\n' && next != 0) {
+      // Finish the word the width cut, then mark the truncation.
+      while (i < tokens.size()) {
+        if (tokens[i].isTag) {
+          appendTag(tokens[i].text);
+          ++i;
+          continue;
+        }
+        char ch = tokens[i].text[0];
+        if (ch == ' ' || ch == '\n') { break; }
+        appendVisible(ch);
+        ++i;
+      }
+      Tcl_AppendResult(ti, "...", nullptr);
+      // The rest of this line is what the width hid.
+      while (i < tokens.size()) {
+        if (tokens[i].isTag) {
+          appendTag(tokens[i].text);
+          ++i;
+          continue;
+        }
+        char ch = tokens[i].text[0];
+        ++i;
+        if (ch == '\n') { break; }
+      }
+    } else {
+      // Consume the trailing tags and the line break, if any.
+      while (i < tokens.size() && tokens[i].isTag) {
+        appendTag(tokens[i].text);
+        ++i;
+      }
+      if (i < tokens.size() && tokens[i].text[0] == '\n') { ++i; }
+    }
+
+    ++lines;
+    if (i < tokens.size() && lines < height) {
+      Tcl_AppendResult(ti, "<br>", nullptr);
     }
   }
-  *out = 0;
+
+  // The remainder, as the panel has always shown it.
+  if (i < tokens.size()) {
+    Tcl_AppendResult(ti, "<br>", nullptr);
+    for (; i < tokens.size(); ++i) {
+      if (tokens[i].isTag) {
+        appendTag(tokens[i].text);
+        continue;
+      }
+      char ch = tokens[i].text[0];
+      if (ch == '\n') {
+        Tcl_AppendResult(ti, "<br>", nullptr);
+      } else {
+        appendVisible(ch);
+      }
+    }
+  }
+
+  while (!openTags.empty()) {
+    Tcl_AppendResult(ti, "</", openTags.back().c_str(), ">", nullptr);
+    openTags.pop_back();
+  }
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3455,80 +3585,14 @@ int sc_game_info(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   // Check if this move has a comment:
 
   if (db->game->GetMoveComment() != nullptr) {
+    // commenttext is the reader's own comment colour; a span inside the
+    // comment overrides it, so the panel matches the Comment Window.
     Tcl_AppendResult(ti, "<br>", translate(ti, "Comment"),
-                     " <green><run makeCommentWin>", nullptr);
+                     " <commenttext><run makeCommentWin>", nullptr);
     char *str = strDuplicate(db->game->GetMoveComment());
     strTrimMarkCodes(str);
-    stripCommentMarkup(str);
-    unescapeCommentEntities(str);
-    const char *s = str;
-    uint lines = 0;
-
-    // Process up to commentHeight lines, truncating each line at commentWidth
-    while (lines < commentHeight && *s != 0) {
-      uint lineLen = 0;
-      // Process one line
-      while (lineLen < commentWidth && *s != 0 && *s != '\n') {
-        char ch = *s;
-        if (ch == '<') {
-          Tcl_AppendResult(ti, "<lt>", nullptr);
-        } else if (ch == '>') {
-          Tcl_AppendResult(ti, "<gt>", nullptr);
-        } else {
-          appendCharResult(ti, ch);
-        }
-        s++;
-        lineLen++;
-      }
-
-      // Check if we hit the width limit (truncate)
-      if (lineLen == commentWidth && *s != 0 && *s != '\n') {
-        // Complete the current word
-        char ch = *s;
-        while (ch != ' ' && ch != '\n' && ch != 0) {
-          appendCharResult(ti, ch);
-          s++;
-          ch = *s;
-        }
-        Tcl_AppendResult(ti, "...", nullptr);
-        // Skip to the next line if we're at a newline
-        if (*s == '\n') {
-          s++;
-        } else if (*s == ' ') {
-          s++; // Skip the space
-        }
-      } else if (*s == '\n') {
-        s++; // Skip the newline character
-      }
-
-      lines++;
-      if (*s != 0 && lines < commentHeight) {
-        Tcl_AppendResult(ti, "<br>", nullptr);
-      }
-    }
-
-    Tcl_AppendResult(ti, "</run></green>", nullptr);
-
-    // Add continuation of comment if there is more
-    if (*s != 0) {
-      Tcl_AppendResult(ti, "<br><green><run makeCommentWin>", nullptr);
-      // Display the remaining comment
-      while (*s != 0) {
-        char ch = *s;
-        if (ch == '\n') {
-          Tcl_AppendResult(ti, "<br>", nullptr);
-        } else if (ch == '<') {
-          Tcl_AppendResult(ti, "<lt>", nullptr);
-        } else if (ch == '>') {
-          Tcl_AppendResult(ti, "<gt>", nullptr);
-        } else {
-          appendCharResult(ti, ch);
-        }
-        s++;
-      }
-      Tcl_AppendResult(ti, "</run></green>", nullptr);
-    }
-
+    appendCommentAsHtext(ti, str, commentWidth, commentHeight);
+    Tcl_AppendResult(ti, "</run></commenttext>", nullptr);
     delete[] str;
   }
 

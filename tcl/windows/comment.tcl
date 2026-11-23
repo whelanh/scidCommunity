@@ -27,10 +27,11 @@ namespace eval ::windows::commenteditor {
 	variable renderInProgress_ 0
 	variable fontFamilyDlg_ ""
 	variable fontSizeDlg_ ""
-	variable presetColors_ {Green #008000 Blue #0000CD Red #FF0000 Brown #A0522D}
+	variable colorTagIds_ 0
 	array set styleById_ {}
 	array set idByStyle_ {}
 	array set fontCache_ {}
+	array set colorTags_ {}
 
 	proc clearComment_ {} {
 		if {[sc_pos getComment] != ""} {
@@ -520,29 +521,70 @@ namespace eval ::windows::commenteditor {
 		set pendingStyle_ $def
 	}
 
+	# A 16x16 square of the colour, with a thin border so white and yellow
+	# still show against the menu. The same squares the board's marker picker
+	# offers, so the two palettes look alike.
 	proc colorSwatchImage_ {color} {
-		set name "cswatch[regsub -all {#} $color {}]"
+		set name "cswatch[regsub -all {[^A-Za-z0-9]} $color {}]"
 		if {![catch {image type $name}]} { return $name }
-		image create photo $name -width 12 -height 12
-		$name put $color -to 0 0 12 12
+		image create photo $name -width 16 -height 16
+		$name put "#7f7f7f" -to 0 0 16 16
+		if {[catch {$name put $color -to 1 1 15 15}]} {
+			$name put "#7f7f7f" -to 1 1 15 15
+		}
 		return $name
 	}
 
 	proc chooseColor_ {} {
 		variable w_
-		variable presetColors_
 		set t $w_.cf.txtframe.text
 		set m $t.colormenu
-		if {![winfo exists $m]} {
-			menu $m -tearoff 0
-			foreach {label color} $presetColors_ {
-				$m add command -label "[tr $label]" -image [colorSwatchImage_ $color] -compound left \
-					-command "::windows::commenteditor::setStyleDim_ color $color"
-			}
-			$m add separator
-			$m add command -label "[tr CustomColor]" -command "::windows::commenteditor::chooseCustomColor_"
+		# Rebuild it on every use: the palette follows the annotation format
+		# setting, which the user may have changed since the last time.
+		if {[winfo exists $m]} { destroy $m }
+		menu $m -tearoff 0
+		foreach color [::utils::annotationColors] {
+			set value [::utils::annotationColorValue $color]
+			if {$value eq ""} { set value $color }
+			$m add command -image [colorSwatchImage_ $color] \
+				-command "::windows::commenteditor::setStyleDim_ color $value"
 		}
+		$m add separator
+		$m add command -label "[tr CustomColor]" -command "::windows::commenteditor::chooseCustomColor_"
 		tk_popup $m [winfo pointerx $t] [winfo pointery $t]
+	}
+
+	# A tag for one colour. The Info Bar under the board is a plain text
+	# widget, not htext, so each colour a comment runs in needs its own tag.
+	proc colorTagFor_ {t color} {
+		variable colorTags_
+		variable colorTagIds_
+		set key [list $t $color]
+		# A widget path can be recreated (the Comment Window is), so do not
+		# trust a cached name that no longer exists on this widget.
+		if {![info exists colorTags_($key)] ||
+				[lsearch -exact [$t tag names] $colorTags_($key)] < 0} {
+			set tag "commentcolor_[incr colorTagIds_]"
+			$t tag configure $tag -foreground $color
+			set colorTags_($key) $tag
+		}
+		return $colorTags_($key)
+	}
+
+	# Insert comment markup into a plain text widget: the runs the editor
+	# shows, coloured as there, and no tags on screen. Text without a span
+	# takes defaultColor (the reader's own comment colour). extraTags are
+	# added to every run so a caller can keep a click binding on the whole
+	# comment.
+	proc insertMarkup_ {t markup defaultColor {extraTags {}}} {
+		foreach run [parseMarkup_ $markup] {
+			lassign $run text style
+			set color [styleGet_ $style color]
+			if {$color eq ""} { set color $defaultColor }
+			set tags $extraTags
+			if {$color ne ""} { lappend tags [colorTagFor_ $t $color] }
+			$t insert end $text $tags
+		}
 	}
 
 	proc chooseCustomColor_ {} {
@@ -570,7 +612,11 @@ namespace eval ::windows::commenteditor {
 		if {$color eq ""} { return }
 		set ::pgnColor(Comment) $color
 		applyDefaultColor_
+		# Every view of a comment follows the reader's colour: the PGN
+		# window, the Game Info panel and the Info Bar under the board.
 		if {[llength [info commands ::pgn::ResetColors]]} { catch { ::pgn::ResetColors } }
+		if {[llength [info commands ::htext::setCommentColor]]} { catch { ::htext::setCommentColor } }
+		if {[llength [info commands updateStatusBar]]} { catch { updateStatusBar } }
 	}
 
 	proc applyDefaultColor_ {} {

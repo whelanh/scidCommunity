@@ -318,8 +318,13 @@ namespace eval pgn {
   proc ResetColors {} {
     global pgnColor
     # The comment editor paints unspanned text in the same colour, so it follows
-    # a change made here as well as one made in its own Format menu.
+    # a change made here as well as one made in its own Format menu. The other
+    # two views of a comment, the Game Info panel and the Info Bar under the
+    # board, follow it too.
     catch { ::windows::commenteditor::applyDefaultColor_ }
+    catch { ::htext::setCommentColor }
+    catch { updateGameInfo }
+    catch { updateStatusBar }
     if {![winfo exists .pgnWin]} { return }
     set w .pgnWin.text
     set bg $pgnColor(Current)

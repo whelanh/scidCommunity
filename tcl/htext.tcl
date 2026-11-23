@@ -230,6 +230,18 @@ proc ::htext::configureColors {w} {
   }
 }
 
+# The Game Info panel wraps comment text in <commenttext>. A span in the
+# comment carries its own colour; text the reader typed without one takes
+# ::pgnColor(Comment), the same colour the Comment Window and the PGN window
+# give it. Re-run after the reader chooses a new default colour.
+proc ::htext::setCommentColor {} {
+  if {![info exists ::pgnColor(Comment)]} { return }
+  foreach w [array names ::htext::updates] {
+    if {![winfo exists $w]} { continue }
+    catch { $w tag configure commenttext -foreground $::pgnColor(Comment) }
+  }
+}
+
 proc ::htext::init {w {colored 1}} {
   set cyan "\#007000"
   set maroon "\#990000"
@@ -289,6 +301,9 @@ proc ::htext::init {w {colored 1}} {
       $w tag configure var -foreground $::pgnColor(Var)
     }
     $w tag configure nag -foreground $::pgnColor(Nag)
+    if {[info exists ::pgnColor(Comment)] && $::pgnColor(Comment) ne ""} {
+      $w tag configure commenttext -foreground $::pgnColor(Comment)
+    }
   } else {
     $w tag configure var -foreground {}
     $w tag configure nag -foreground {}
