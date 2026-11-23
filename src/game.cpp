@@ -653,7 +653,7 @@ void Game::Clear() {
   ScidFlags[0] = 0;
 
   NumMovesPrinted = 0;
-  PgnStyle = PGN_STYLE_TAGS | PGN_STYLE_VARS | PGN_STYLE_COMMENTS;
+  PgnStyle = DefaultPgnStyle();
   PgnFormat = PGN_FORMAT_Plain;
   HtmlStyle = 0;
 
@@ -2643,13 +2643,12 @@ errorT Game::WriteMoveList(TextBuffer *tb, moveT *oldCurrentMove,
 std::vector<std::string> Game::tagOrder_ = {"WhiteElo", "BlackElo", "ECO",
                                             "EventDate", "ScidFlags", "Others"};
 bool Game::sortOtherTags_ = false;
+bool Game::moveNumSpace_ = false;
 
 void Game::SetTagOrder(const char *order) {
   tagOrder_.clear();
-  if (order == nullptr)
-    return;
   const char *p = order;
-  while (*p != '\0') {
+  while (p != nullptr && *p != '\0') {
     while (*p == ' ' || *p == '\t' || *p == '\n' || *p == '\r')
       p++;
     if (*p == '\0')
@@ -2660,9 +2659,130 @@ void Game::SetTagOrder(const char *order) {
     tagOrder_.emplace_back(p, q - p);
     p = q;
   }
+
+  // The tags that hold game data are always written, whatever the order says:
+  // an edited options file or a direct sc_game setTagOrder call must not make
+  // PGN encoding drop them. Missing keys go just before the "Others"
+  // catch-all, or at the end, in their canonical order.
+  static const char *const known[] = {"WhiteElo", "BlackElo", "ECO",
+                                      "EventDate", "ScidFlags"};
+  auto pos = tagOrder_.size();
+  auto it_others = std::find(tagOrder_.begin(), tagOrder_.end(), "Others");
+  if (it_others != tagOrder_.end())
+    pos = it_others - tagOrder_.begin();
+  for (const char *key : known) {
+    if (std::find(tagOrder_.begin(), tagOrder_.end(), key) ==
+        tagOrder_.end()) {
+      tagOrder_.insert(tagOrder_.begin() + pos, key);
+      ++pos;
+    }
+  }
 }
 
 void Game::SetSortOtherTags(bool sort) { sortOtherTags_ = sort; }
+
+void Game::SetMoveNumSpace(bool space) { moveNumSpace_ = space; }
+
+int Game::pgnEol_ = PGN_EOL_NATIVE;
+
+bool Game::pgnEolIsCrlf() {
+  if (pgnEol_ == PGN_EOL_CRLF)
+    return true;
+  if (pgnEol_ == PGN_EOL_LF)
+    return false;
+#ifdef _WIN32
+  return true; // native on Windows
+#else
+  return false; // native elsewhere
+#endif
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Game::otherTagsInOrder():
+//    The non-standard tags in the order they are written: alphabetically
+//    (case-insensitive) when the preference asks for it, otherwise the order
+//    they were read in.
+//
+std::vector<std::pair<std::string, std::string>>
+Game::otherTagsInOrder() const {
+  if (!sortOtherTags_)
+    return extraTags_;
+
+  auto sorted = extraTags_;
+  std::sort(sorted.begin(), sorted.end(), [](const auto &a, const auto &b) {
+    return strCaseCompare(a.first.c_str(), b.first.c_str()) < 0;
+  });
+  return sorted;
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Game::getPgnTagPairs():
+//    Fill @e dest with the game's tag pairs in the order they are written to
+//    PGN: the Seven Tag Roster first (fixed by the PGN standard), then the
+//    remaining tags in the user's configured order (tagOrder_), where the
+//    special key "Others" stands for every non-standard tag.
+//    Keep the ordering rules in step with Game::WritePGN().
+//
+void Game::getPgnTagPairs(
+    std::vector<std::pair<std::string, std::string>> &dest) const {
+  char strBuf[256];
+  dest.emplace_back("Event", GetEventStr());
+  dest.emplace_back("Site", GetSiteStr());
+  date_DecodeToString(GetDate(), strBuf);
+  dest.emplace_back("Date", strBuf);
+  dest.emplace_back("Round", GetRoundStr());
+  dest.emplace_back("White", GetWhiteStr());
+  dest.emplace_back("Black", GetBlackStr());
+  dest.emplace_back("Result", RESULT_LONGSTR[GetResult()]);
+
+  bool othersDone = false;
+  for (const auto &key : tagOrder_) {
+    if (key == "WhiteElo") {
+      if (WhiteElo > 0) {
+        std::string tag = "White";
+        tag.append(ratingTypeNames[WhiteRatingType]);
+        dest.emplace_back(tag, std::to_string(WhiteElo));
+      }
+    } else if (key == "BlackElo") {
+      if (BlackElo > 0) {
+        std::string tag = "Black";
+        tag.append(ratingTypeNames[BlackRatingType]);
+        dest.emplace_back(tag, std::to_string(BlackElo));
+      }
+    } else if (key == "ECO") {
+      if (EcoCode != 0) {
+        ecoStringT ecoStr;
+        eco_ToExtendedString(EcoCode, ecoStr);
+        dest.emplace_back("ECO", ecoStr);
+      }
+    } else if (key == "EventDate") {
+      if (EventDate != ZERO_DATE) {
+        date_DecodeToString(EventDate, strBuf);
+        dest.emplace_back("EventDate", strBuf);
+      }
+    } else if (key == "ScidFlags") {
+      if ((PgnStyle & PGN_STYLE_SCIDFLAGS) && *ScidFlags != 0) {
+        dest.emplace_back("ScidFlags", ScidFlags);
+      }
+    } else if (key == "Others") {
+      othersDone = true;
+      for (const auto &e : otherTagsInOrder())
+        dest.emplace_back(e.first, e.second);
+    }
+    // Unknown keys are ignored.
+  }
+  // Safety net: if the configured order omits "Others", still emit the
+  // non-standard tags at the end rather than dropping them.
+  if (!othersDone) {
+    for (const auto &e : otherTagsInOrder())
+      dest.emplace_back(e.first, e.second);
+  }
+
+  // Finally, the FEN tag if the game does not start from the standard position.
+  if (HasNonStandardStart(strBuf)) {
+    dest.emplace_back("FEN", strBuf);
+  }
+}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Game::WritePGN():
@@ -2882,27 +3002,15 @@ errorT Game::WritePGN(TextBuffer *tb) {
                           e.second.c_str(), newline);
             tb->PrintString(temp);
           };
-          if (sortOtherTags_) {
-            std::vector<std::pair<std::string, std::string>> sorted(
-                extraTags_.begin(), extraTags_.end());
-            std::sort(sorted.begin(), sorted.end(),
-                      [](const auto &a, const auto &b) {
-                        return strCaseCompare(a.first.c_str(),
-                                              b.first.c_str()) < 0;
-                      });
-            for (const auto &e : sorted)
-              printOther(e);
-          } else {
-            for (const auto &e : extraTags_)
-              printOther(e);
-          }
+          for (const auto &e : otherTagsInOrder())
+            printOther(e);
         }
         // Unknown keys are ignored.
       }
       // Safety net: if the configured order omits "Others", still emit the
       // non-standard tags at the end rather than dropping them.
       if (!othersDone && !extraTags_.empty()) {
-        for (const auto &e : extraTags_) {
+        for (const auto &e : otherTagsInOrder()) {
           std::snprintf(temp, sizeof(temp), "[%s \"%s\"]%s", e.first.c_str(),
                         e.second.c_str(), newline);
           tb->PrintString(temp);

@@ -207,6 +207,32 @@ TEST(Test_Game, viewTagPairs) {
   EXPECT_EQ(it, result_STR.end());
 }
 
+// An order without "Others" falls back to writing the non-standard tags at the
+// end; that fallback must follow the "sort other tags" preference too.
+TEST(Test_Game, writePgnSortsFallbackTags) {
+  struct Restore {
+    ~Restore() {
+      Game::SetTagOrder("WhiteElo BlackElo ECO EventDate ScidFlags Others");
+      Game::SetSortOtherTags(false);
+    }
+  } restore;
+
+  Game game;
+  game.addTag("Zeta", "z");
+  game.addTag("Alpha", "a");
+  Game::SetTagOrder("ECO"); // no "Others": the safety net emits the extras
+  Game::SetSortOtherTags(true);
+  game.ResetPgnStyle(PGN_STYLE_TAGS);
+
+  auto pgn = game.WriteToPGN();
+  std::string text(pgn.first, pgn.second);
+  auto alpha = text.find("[Alpha ");
+  auto zeta = text.find("[Zeta ");
+  ASSERT_NE(std::string::npos, alpha) << text;
+  ASSERT_NE(std::string::npos, zeta) << text;
+  EXPECT_LT(alpha, zeta) << text;
+}
+
 TEST(Test_Game, empty_tag_name) {
   std::vector<unsigned char> encodedGame;
   {

@@ -241,8 +241,11 @@ static void encode_comment(std::string_view comment, TCont& dest) {
 // @param initial_ply: the ply of the initial position.
 //                     Should be even if it is white turn to move.
 // @param dest: the container where movetext section will be appended.
+// @param move_num_space: if true, a space follows every move number
+//                        ("1. e4" instead of "1.e4").
 template <int hard_len = 0, typename Iter, typename TCont>
-void encode_movetext(Iter m, long long initial_ply, TCont& dest) {
+void encode_movetext(Iter m, long long initial_ply, TCont& dest,
+                     bool move_num_space = false) {
 	std::vector<long long> ply = {initial_ply};
 	auto move_end = dest.size();
 	dest.push_back('\n');
@@ -273,7 +276,13 @@ void encode_movetext(Iter m, long long initial_ply, TCont& dest) {
 			auto white_to_move = (ply.back() % 2) == 0;
 			if (white_to_move || move_end != dest.size()) {
 				auto move_number = std::to_string(ply.back() / 2 + 1);
-				move_number.append(white_to_move ? 1 : 3, '.');
+				if (move_num_space) {
+					// Keep the same layout as Game::WritePGN(): a space after
+					// the dots, and "1. ..." for a game starting with Black.
+					move_number.append(white_to_move ? ". " : ". ... ");
+				} else {
+					move_number.append(white_to_move ? 1 : 3, '.');
+				}
 				dest.insert(dest.end(), move_number.begin(), move_number.end());
 			}
 			std::string_view san = m->san;
@@ -300,27 +309,70 @@ void encode_movetext(Iter m, long long initial_ply, TCont& dest) {
 // Encode a game according to the PGN standard.
 // @param game: the game to be encoded.
 // @param dest: the container where the PGN Game will be appended.
+// @param move_num_space: if true, a space follows every move number.
 template <int hard_len = 0, typename TGame, typename TCont>
-void encode_game(TGame const& game, TCont& dest) {
+void encode_game(TGame const& game, TCont& dest, bool move_num_space = false) {
 	game.viewTagPairs(
 	    [&](auto tag, auto value) { encode_tag_pair(tag, value, dest); });
 
-	encode_movetext<hard_len>(game.movetree(), game.initialPlyCounter(), dest);
+	encode_movetext<hard_len>(game.movetree(), game.initialPlyCounter(), dest,
+	                          move_num_space);
 
 	auto result = game.GetResultStr();
 	dest.insert(dest.end(), result.begin(), result.end());
 	dest.push_back('\n');
 }
 
+// Replace the line breaks in @e dest, from position @e pos to its end, with
+// the terminator @e eol. The encoders produce '\n', but a comment can carry a
+// text file's own "\r\n": each pair is one line break, so it becomes exactly
+// one @e eol and its '\r' is dropped.
+template <typename TCont>
+void replace_newlines(TCont& dest, typename TCont::size_type pos,
+                      std::string_view eol) {
+	if (eol.empty())
+		return;
+
+	const TCont src(dest.begin() + pos, dest.end());
+	typename TCont::size_type n_lf = 0;
+	typename TCont::size_type n_crlf = 0;
+	for (typename TCont::size_type i = 0; i < src.size(); ++i) {
+		if (src[i] != '\n')
+			continue;
+		++n_lf;
+		if (i > 0 && src[i - 1] == '\r')
+			++n_crlf;
+	}
+	if (n_lf == 0 || (n_crlf == 0 && eol == "\n"))
+		return; // already the requested form
+
+	// Each break becomes eol; each "\r\n" also loses its '\r'.
+	dest.resize(pos + src.size() - n_crlf + n_lf * (eol.size() - 1));
+	auto out = dest.begin() + pos;
+	for (typename TCont::size_type i = 0; i < src.size(); ++i) {
+		const char ch = src[i];
+		if (ch == '\r' && i + 1 < src.size() && src[i + 1] == '\n')
+			continue; // paired with the '\n' that follows it
+		if (ch == '\n')
+			out = std::copy(eol.begin(), eol.end(), out);
+		else
+			*out++ = ch;
+	}
+}
+
 // Encode a game according to the PGN standard, adding newline chars to make it
 // more readable.
 // @param game: the game to be encoded.
 // @param dest: the container where the PGN Game will be appended.
+// @param move_num_space: if true, a space follows every move number.
+// @param eol: the line terminator, "\n" (the default) or "\r\n".
 template <int desired_len = 80, typename TGame, typename TCont>
-void encode(TGame const& game, TCont& dest) {
+void encode(TGame const& game, TCont& dest, bool move_num_space = false,
+            std::string_view eol = "\n") {
 	auto begin = dest.size();
-	encode_game(game, dest);
+	encode_game(game, dest, move_num_space);
 	break_lines<desired_len>(dest.begin() + begin, dest.end());
+	replace_newlines(dest, begin, eol);
 }
 
 } // namespace pgn

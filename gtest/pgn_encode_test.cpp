@@ -325,3 +325,114 @@ TEST(Test_PgnEncode, color_comment_line_breaks) {
 		EXPECT_NE(std::string::npos, text.find("crlf line<br>second"));
 	}
 }
+
+TEST(Test_PgnEncode, encode_move_number_spaces) {
+	// Issue #534: a PGN database is rewritten with this encoder when it is
+	// compacted, so it must be able to follow the user's "Add spaces after
+	// move number" preference.
+	{
+		Game game;
+		simpleMoveT sm;
+		game.currentPos()->makeMove(E2, E4, EMPTY, sm);
+		game.AddMove(sm);
+		game.currentPos()->makeMove(E7, E5, EMPTY, sm);
+		game.AddMove(sm);
+		game.currentPos()->makeMove(G1, F3, EMPTY, sm);
+		game.AddMove(sm);
+		SAN_hack(game);
+
+		std::string compact, spaced;
+		pgn::encode(game, compact);
+		pgn::encode(game, spaced, true);
+		EXPECT_NE(std::string::npos, compact.find("\n1.e4 e5 2.Nf3\n"))
+		    << compact;
+		EXPECT_NE(std::string::npos, spaced.find("\n1. e4 e5 2. Nf3\n"))
+		    << spaced;
+	}
+	{
+		// A game that starts with Black to move keeps the same layout that
+		// Game::WritePGN() exports with the preference on: "1. ... e5".
+		Game game;
+		ASSERT_EQ(OK, game.SetStartFen(
+		                  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b KQkq "
+		                  "- 0 1"));
+		simpleMoveT sm;
+		game.currentPos()->makeMove(E7, E5, EMPTY, sm);
+		game.AddMove(sm);
+		game.currentPos()->makeMove(G1, F3, EMPTY, sm);
+		game.AddMove(sm);
+		SAN_hack(game);
+
+		std::string compact, spaced;
+		pgn::encode(game, compact);
+		pgn::encode(game, spaced, true);
+		EXPECT_NE(std::string::npos, compact.find("\n1...e5 2.Nf3\n"))
+		    << compact;
+		EXPECT_NE(std::string::npos, spaced.find("\n1. ... e5 2. Nf3\n"))
+		    << spaced;
+	}
+	{
+		// Every move number gets the space, including the one that has to be
+		// repeated after a variation.
+		std::string_view src = "1. e4 e5 2. Nf3 (2. d4 d5) 2... Nc6";
+		Game game;
+		pgn::parse_game({src.data(), src.data() + src.size()},
+		                PgnVisitor{game});
+		SAN_hack(game);
+
+		std::string spaced;
+		pgn::encode(game, spaced, true);
+		EXPECT_NE(std::string::npos,
+		          spaced.find("1. e4 e5 2. Nf3 (2. d4 d5) 2. ... Nc6"))
+		    << spaced;
+	}
+}
+
+TEST(Test_PgnEncode, encode_line_endings) {
+	// Issue #534: a PGN database is rewritten with this encoder when it is
+	// compacted, so its line endings must be selectable too.
+	Game game;
+	simpleMoveT sm;
+	game.currentPos()->makeMove(E2, E4, EMPTY, sm);
+	game.AddMove(sm);
+	game.currentPos()->makeMove(E7, E5, EMPTY, sm);
+	game.AddMove(sm);
+	SAN_hack(game);
+
+	std::string lf, crlf;
+	pgn::encode(game, lf);
+	pgn::encode(game, crlf, false, "\r\n");
+
+	EXPECT_EQ(std::string::npos, lf.find('\r'));
+	EXPECT_NE(std::string::npos, lf.find("\n1.e4 e5\n"));
+
+	EXPECT_NE(std::string::npos, crlf.find("\r\n1.e4 e5\r\n")) << crlf;
+	// Every newline is part of a CRLF pair, comments and tags included.
+	for (size_t i = 0; i < crlf.size(); ++i) {
+		if (crlf[i] == '\n')
+			EXPECT_TRUE(i > 0 && crlf[i - 1] == '\r') << crlf;
+	}
+
+	// A comment can carry the source file's own CRLF. It is one line break,
+	// so it must not become "\r\r\n", and an LF file must not keep the '\r'.
+	{
+		Game withComment;
+		simpleMoveT sm;
+		withComment.currentPos()->makeMove(E2, E4, EMPTY, sm);
+		withComment.AddMove(sm);
+		withComment.SetMoveComment("first\r\nsecond");
+		SAN_hack(withComment);
+
+		std::string crlfComment, lfComment;
+		pgn::encode(withComment, crlfComment, false, "\r\n");
+		pgn::encode(withComment, lfComment, false, "\n");
+		EXPECT_NE(std::string::npos,
+		          crlfComment.find("{first\r\nsecond}"))
+		    << crlfComment;
+		EXPECT_EQ(std::string::npos, crlfComment.find("\r\r\n"))
+		    << crlfComment;
+		EXPECT_NE(std::string::npos, lfComment.find("{first\nsecond}"))
+		    << lfComment;
+		EXPECT_EQ(std::string::npos, lfComment.find('\r')) << lfComment;
+	}
+}
