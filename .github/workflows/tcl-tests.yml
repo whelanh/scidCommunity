@@ -215,6 +215,14 @@ jobs:
       - name: Options file save
         run: tclsh tests/tcl/options_write.tcl
 
+      # Discussion #460: the PGN format preferences must reach the C++ writers,
+      # not just the exporters. Each value travels via a small proc in
+      # options.tcl and a variable trace, which is what makes compacting a PGN
+      # database keep the move-number spacing (#534), the tag order and the
+      # line endings.
+      - name: PGN format preferences reach the writer
+        run: tclsh tests/tcl/pgn_format_prefs.tcl
+
       # Discussion #486: the Tree Options checkbutton, the last used mask
       # opening with the tree, and no modal error when that mask has gone.
       - name: Tree mask auto-load
@@ -278,6 +286,13 @@ jobs:
       # and that the OK button is there to press.
       - name: Review Settings dialog
         run: xvfb-run -a wish tests/tcl/review_settings_dialog.tcl
+
+      # The PGN Export preferences page: the tag-order list, and the
+      # line-ending choice added for #534 so a compacted PGN database follows
+      # the same preferences as an export. A tclsh harness cannot build the
+      # widgets; this one does, and picks each combobox entry.
+      - name: PGN export preferences
+        run: xvfb-run -a wish tests/tcl/pgn_export_prefs_tk.tcl
 
       # The cloud pre-pass switch as engine configuration: the engine options
       # panel draws it, ::enginecfg::save writes it into engines.dat, a second

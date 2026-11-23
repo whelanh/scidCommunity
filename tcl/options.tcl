@@ -1048,6 +1048,29 @@ proc ::pgn::applyTagOrder {} {
 }
 ::pgn::applyTagOrder
 
+# Apply the PGN move-number spacing preference to the C++ writers (also a
+# process-wide setting). It governs "Export to PGN" and the PGN codec, which
+# rewrites every game when a PGN database is compacted. A variable trace keeps
+# it in step with every checkbutton that edits the preference (Preferences >
+# Moves and the PGN window's own Options menu), so no callback can be
+# forgotten.
+proc ::pgn::applyMoveNumSpace {args} {
+  sc_game setMoveNumSpace $::pgn::moveNumberSpaces
+}
+trace add variable ::pgn::moveNumberSpaces write ::pgn::applyMoveNumSpace
+::pgn::applyMoveNumSpace
+
+# Apply the PGN line-ending preference to the PGN codec as well: when a PGN
+# database is compacted, its games are rewritten with the same terminators as
+# "Export to PGN". "native" is resolved in C++, because only it knows the
+# platform. The Export dialog's combobox and Preferences > PGN Export both
+# write ::exportFlags(eol), so a trace keeps the writer in step.
+proc ::pgn::applyPgnEol {args} {
+  sc_game setPgnEol $::exportFlags(eol)
+}
+trace add variable ::exportFlags(eol) write ::pgn::applyPgnEol
+::pgn::applyPgnEol
+
 
 ###
 ### End of file: options.tcl

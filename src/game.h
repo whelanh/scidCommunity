@@ -137,6 +137,10 @@ enum gameFormatT {
 #define PGN_STYLE_UNICODE 4096       // Use U+2654..U+2659 for figurine
 #define PGN_STYLE_DIAGRAM 8192       // Show board diagram
 
+// PGN line-ending preference: the values of the -eol export option, which the
+// Tcl side stores as "native", "crlf" or "lf".
+enum pgnEolT { PGN_EOL_NATIVE = 0, PGN_EOL_CRLF = 1, PGN_EOL_LF = 2 };
+
 void game_printNag(byte nag, char *str, bool asSymbol, gameFormatT format);
 byte game_parseNag(std::pair<const char *, const char *> strview);
 
@@ -164,6 +168,11 @@ class Game {
   // Global PGN tag-order preference (set by SetTagOrder/SetSortOtherTags).
   static std::vector<std::string> tagOrder_;
   static bool sortOtherTags_;
+  // Global PGN move-number spacing preference (set by SetMoveNumSpace).
+  static bool moveNumSpace_;
+  // Global PGN line-ending preference (set by SetPgnEol), used by the PGN
+  // codec when it rewrites a PGN database.
+  static int pgnEol_;
 
   // Position and moves
   byte moveChunkUsed_;
@@ -404,8 +413,12 @@ public:
   // Functions that get/set the tag pairs:
   //
 
-  // Invoke @e visitor for each existing tag pair
+  // Invoke @e visitor for each existing tag pair, in the same order
+  // Game::WritePGN() writes them: the Seven Tag Roster first, then the tags
+  // configured in the preferences.
   template <typename TFunc> void viewTagPairs(TFunc visitor) const;
+  void getPgnTagPairs(
+      std::vector<std::pair<std::string, std::string>> &dest) const;
 
   // Add a tag.
   // For the tags that cannot be duplicated (like Event or White), the
@@ -506,6 +519,28 @@ public:
   static void SetTagOrder(const char *order);
   static void SetSortOtherTags(bool sort);
 
+  // Global PGN move-number spacing preference: when true, every move number
+  // is followed by a space ("1. e4" instead of "1.e4"). It is shared by all
+  // game instances, used as the default PGN style, and set from the
+  // preferences so that every PGN writer (export, display and the PGN codec
+  // that rewrites a PGN database when it is compacted) agrees on it.
+  static void SetMoveNumSpace(bool space);
+
+  // Global PGN line-ending preference: PGN_EOL_NATIVE writes the platform's
+  // own terminator, PGN_EOL_CRLF and PGN_EOL_LF force one. Like the
+  // preference above it is shared by all game instances, so the PGN codec
+  // that rewrites a PGN database when it is compacted writes the same line
+  // endings as "Export to PGN".
+  static void SetPgnEol(int eol) { pgnEol_ = eol; }
+  static bool pgnEolIsCrlf();
+
+  // The default PGN style: every standard section, plus the global
+  // move-number spacing preference.
+  static uint DefaultPgnStyle() {
+    return PGN_STYLE_TAGS | PGN_STYLE_VARS | PGN_STYLE_COMMENTS |
+           (moveNumSpace_ ? PGN_STYLE_MOVENUM_SPACE : 0);
+  }
+
   void SetPgnFormat(gameFormatT gf) { PgnFormat = gf; }
   bool SetPgnFormatFromString(const char *str);
   static bool PgnFormatFromString(const char *str, gameFormatT *fmt);
@@ -546,43 +581,10 @@ public:
 };
 
 template <typename TFunc> void Game::viewTagPairs(TFunc visitor) const {
-  char strBuf[256];
-  visitor("Event", GetEventStr());
-  visitor("Site", GetSiteStr());
-  date_DecodeToString(GetDate(), strBuf);
-  visitor("Date", strBuf);
-  visitor("Round", GetRoundStr());
-  visitor("White", GetWhiteStr());
-  visitor("Black", GetBlackStr());
-  visitor("Result", RESULT_LONGSTR[GetResult()]);
-
-  if (auto elo = GetWhiteElo()) {
-    std::string rType = "White";
-    rType.append(ratingTypeNames[GetWhiteRatingType()]);
-    visitor(rType.c_str(), std::to_string(elo).c_str());
-  }
-  if (auto elo = GetBlackElo()) {
-    std::string rType = "Black";
-    rType.append(ratingTypeNames[GetBlackRatingType()]);
-    visitor(rType.c_str(), std::to_string(elo).c_str());
-  }
-  if (GetEco() != ECO_None) {
-    eco_ToExtendedString(GetEco(), strBuf);
-    visitor("ECO", strBuf);
-  }
-  if (GetEventDate() != ZERO_DATE) {
-    date_DecodeToString(GetEventDate(), strBuf);
-    visitor("EventDate", strBuf);
-  }
-  // TODO?
-  // if (*ScidFlags)
-  //     visitor("ScidFlags", ScidFlags);
-
-  for (auto &e : GetExtraTags()) {
+  std::vector<std::pair<std::string, std::string>> tags;
+  getPgnTagPairs(tags);
+  for (auto &e : tags) {
     visitor(e.first.c_str(), e.second.c_str());
-  }
-  if (HasNonStandardStart(strBuf)) {
-    visitor("FEN", strBuf);
   }
 }
 

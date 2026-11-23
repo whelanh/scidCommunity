@@ -332,9 +332,6 @@ int sc_base_inUse(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   return UI_Result(ti, OK, basePtr->inUse);
 }
 
-// PGN line-ending preference for export: platform native, CRLF or LF.
-enum PgnEol { PGN_EOL_NATIVE = 0, PGN_EOL_CRLF = 1, PGN_EOL_LF = 2 };
-
 // Whether a given EOL mode should be written as CRLF. Non-plain formats keep
 // the historical text-mode behavior (platform native).
 static inline bool eolIsCrlf(int eol, gameFormatT format) {
@@ -2153,7 +2150,7 @@ int sc_filter_old(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       auto old_language = language;
       Game g;
       g.SetPgnFormat(PGN_FORMAT_Plain);
-      g.ResetPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
+      g.ResetPgnStyle(Game::DefaultPgnStyle());
       language = 0;
       if (argc > 7)
         fprintf(exportFile, "%s", argv[7]);
@@ -2201,9 +2198,10 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       "load",           "merge",        "moves",      "new",
       "novelty",        "number",       "pgn",        "pop",
       "push",           "SANtoUCI",     "save",       "startBoard",
-      "strip",          "tags",         "setTagOrder", "truncate",
-      "variant",        "UCI_currentPos", "UCI_mainLine", "undo", "undoAll",
-      "undoPoint",      "redo",         nullptr};
+      "strip",          "tags",         "setTagOrder", "setMoveNumSpace",
+      "setPgnEol",      "truncate",     "variant",    "UCI_currentPos",
+      "UCI_mainLine",   "undo",         "undoAll",    "undoPoint",
+      "redo",           nullptr};
   enum {
     GAME_ALTERED,
     GAME_CLEAR,
@@ -2228,6 +2226,8 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
     GAME_STRIP,
     GAME_TAGS,
     GAME_SETTAGORDER,
+    GAME_SETMOVENUMSPACE,
+    GAME_SETPGNEOL,
     GAME_TRUNCATE,
     GAME_VARIANT,
     GAME_UCI_CURRENTPOS,
@@ -2331,6 +2331,27 @@ int sc_game(ClientData cd, Tcl_Interp *ti, int argc, const char **argv) {
       return TCL_OK;
     }
     return errorResult(ti, "Usage: sc_game setTagOrder <order> <sortOtherTags>");
+
+  case GAME_SETMOVENUMSPACE:
+    if (argc == 3) {
+      Game::SetMoveNumSpace(strGetBoolean(argv[2]));
+      return TCL_OK;
+    }
+    return errorResult(ti, "Usage: sc_game setMoveNumSpace <0|1>");
+
+  case GAME_SETPGNEOL:
+    if (argc != 3)
+      return errorResult(ti, "Usage: sc_game setPgnEol native|crlf|lf");
+    // "native" and any value this build does not know fall back to the
+    // platform's own terminator: a stale preference must not stop the app.
+    if (strCaseCompare(argv[2], "crlf") == 0) {
+      Game::SetPgnEol(PGN_EOL_CRLF);
+    } else if (strCaseCompare(argv[2], "lf") == 0) {
+      Game::SetPgnEol(PGN_EOL_LF);
+    } else {
+      Game::SetPgnEol(PGN_EOL_NATIVE);
+    }
+    return TCL_OK;
 
   case GAME_TRUNCATE:
     old_language = language;
@@ -3893,7 +3914,8 @@ int sc_game_novelty(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
 //    Optional args:
 //      -format (plain|html|latex): output format. Default=plain.
 //      -shortHeader (0|1): short, 3-line (non-PGN) header. Default=0.
-//      -space (0|1): printing a space after move numbers. Default=0.
+//      -space (0|1): printing a space after move numbers. Default is the
+//        global preference (Options/Preferences/Moves).
 //      -tags (0|1): printing (nonstandard) tags. Default=1.
 //      -comments (0|1): printing nags/comments. Default=1.
 //      -variations (0|1): printing variations. Default=1.
@@ -3939,7 +3961,7 @@ int sc_game_pgn(ClientData, Tcl_Interp *ti, int argc, const char **argv) {
   bool english = false;
   g->ResetPgnStyle();
   g->SetPgnFormat(PGN_FORMAT_Plain);
-  g->AddPgnStyle(PGN_STYLE_TAGS | PGN_STYLE_COMMENTS | PGN_STYLE_VARS);
+  g->AddPgnStyle(Game::DefaultPgnStyle());
 
   // Parse all the command options:
   // Note that every option takes a value so options/values always occur

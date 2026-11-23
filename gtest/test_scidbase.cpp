@@ -24,6 +24,9 @@
 #include <memory>
 #include <algorithm>
 #include <tuple>
+#include <iterator>
+#include <optional>
+#include <string_view>
 #include <gtest/gtest.h>
 
 template <typename TCont>
@@ -712,4 +715,169 @@ TEST_F(Test_Scidbase, importGamesNoDup_keepsAnnotatedCopy) {
 
 	std::filesystem::remove(annotatedPath);
 	std::filesystem::remove(finishedPath);
+}
+
+// Compacting a PGN database rewrites every game with the PGN codec, so it must
+// use the same PGN format preferences as the exporters (Issue #534).
+namespace {
+std::optional<std::string>
+writeAndCompactPgn(const std::filesystem::path &path, std::string_view pgn) {
+	{
+		std::ofstream out(path, std::ios::binary | std::ios::trunc);
+		out.write(pgn.data(), pgn.size());
+	}
+	scidBaseT dbase;
+	if (dbase.open("PGN", FMODE_Both, path.string().c_str()) != OK)
+		return std::nullopt;
+	if (dbase.compact(Progress()) != OK)
+		return std::nullopt;
+	dbase.Close();
+
+	std::ifstream in(path, std::ios::binary);
+	return std::string(std::istreambuf_iterator<char>(in), {});
+}
+} // namespace
+
+// Without the preference the spaces a PGN file was imported with are lost.
+TEST_F(Test_Scidbase, compactPgnHonorsMoveNumberSpace) {
+	const std::string pgn = "[Event \"Test\"]\n"
+	                        "[Site \"?\"]\n"
+	                        "[Date \"2026.11.23\"]\n"
+	                        "[Round \"?\"]\n"
+	                        "[White \"alice\"]\n"
+	                        "[Black \"bob\"]\n"
+	                        "[Result \"1-0\"]\n"
+	                        "\n"
+	                        "1. e4 e5 2. Nf3 Nc6 1-0\n";
+	const auto path = std::filesystem::temp_directory_path() /
+	                  "scid_compact_move_num_space.pgn";
+
+	struct Restore {
+		~Restore() { Game::SetMoveNumSpace(false); }
+	} restore;
+
+	Game::SetMoveNumSpace(false);
+	auto compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_NE(std::string::npos, compacted->find("1.e4 e5 2.Nf3 Nc6"))
+	    << *compacted;
+
+	Game::SetMoveNumSpace(true);
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_NE(std::string::npos, compacted->find("1. e4 e5 2. Nf3 Nc6"))
+	    << *compacted;
+
+	std::filesystem::remove(path);
+}
+
+// The line endings are a PGN format preference too: a compacted file must not
+// silently switch to the platform's own terminator.
+TEST_F(Test_Scidbase, compactPgnHonorsLineEndings) {
+	const std::string pgn = "[Event \"Test\"]\n"
+	                        "[Site \"?\"]\n"
+	                        "[Date \"2026.11.23\"]\n"
+	                        "[Round \"?\"]\n"
+	                        "[White \"alice\"]\n"
+	                        "[Black \"bob\"]\n"
+	                        "[Result \"1-0\"]\n"
+	                        "\n"
+	                        "1. e4 e5 2. Nf3 Nc6 1-0\n";
+	const auto path = std::filesystem::temp_directory_path() /
+	                  "scid_compact_line_endings.pgn";
+
+	struct Restore {
+		~Restore() { Game::SetPgnEol(PGN_EOL_NATIVE); }
+	} restore;
+
+	Game::SetPgnEol(PGN_EOL_CRLF);
+	auto compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_NE(std::string::npos, compacted->find("\r\n")) << *compacted;
+	for (size_t i = 0; i < compacted->size(); ++i) {
+		if ((*compacted)[i] == '\n')
+			EXPECT_TRUE(i > 0 && (*compacted)[i - 1] == '\r') << *compacted;
+	}
+
+	// A CRLF file must still parse, or compaction would corrupt the database.
+	{
+		scidBaseT reopened;
+		ASSERT_EQ(OK, reopened.open("PGN", FMODE_ReadOnly,
+		                            path.string().c_str()));
+		EXPECT_EQ(1u, reopened.numGames());
+	}
+
+	Game::SetPgnEol(PGN_EOL_LF);
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_EQ(std::string::npos, compacted->find('\r')) << *compacted;
+
+	std::filesystem::remove(path);
+}
+
+// The tag order is a PGN format preference too: the PGN codec used to write
+// Scid's built-in order whatever the preference said.
+TEST_F(Test_Scidbase, compactPgnHonorsTagOrder) {
+	const std::string pgn = "[Event \"Test\"]\n"
+	                        "[Site \"?\"]\n"
+	                        "[Date \"2026.11.23\"]\n"
+	                        "[Round \"?\"]\n"
+	                        "[White \"alice\"]\n"
+	                        "[Black \"bob\"]\n"
+	                        "[Result \"1-0\"]\n"
+	                        "[Annotator \"me\"]\n"
+	                        "[ECO \"C20\"]\n"
+	                        "[WhiteElo \"2000\"]\n"
+	                        "[Zeta \"z\"]\n"
+	                        "[Alpha \"a\"]\n"
+	                        "\n"
+	                        "1. e4 e5 1-0\n";
+	const auto path = std::filesystem::temp_directory_path() /
+	                  "scid_compact_tag_order.pgn";
+
+	struct Restore {
+		~Restore() {
+			Game::SetTagOrder("WhiteElo BlackElo ECO EventDate ScidFlags Others");
+			Game::SetSortOtherTags(false);
+		}
+	} restore;
+
+	auto order_of = [](const std::string &text, const char *tag) {
+		return text.find(tag);
+	};
+
+	auto compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	ASSERT_NE(std::string::npos, order_of(*compacted, "[WhiteElo "))
+	    << *compacted;
+	ASSERT_NE(std::string::npos, order_of(*compacted, "[ECO "))
+	    << *compacted;
+	ASSERT_NE(std::string::npos, order_of(*compacted, "[Annotator "))
+	    << *compacted;
+	EXPECT_LT(order_of(*compacted, "[WhiteElo "),
+	          order_of(*compacted, "[ECO "));
+	EXPECT_LT(order_of(*compacted, "[ECO "),
+	          order_of(*compacted, "[Annotator "));
+	// With sorting off, the non-standard tags keep the file's order.
+	EXPECT_LT(order_of(*compacted, "[Zeta "),
+	          order_of(*compacted, "[Alpha "));
+
+	Game::SetTagOrder("Others ECO WhiteElo");
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_LT(order_of(*compacted, "[Annotator "),
+	          order_of(*compacted, "[ECO "));
+	EXPECT_LT(order_of(*compacted, "[ECO "),
+	          order_of(*compacted, "[WhiteElo "));
+
+	// "Sort other tags alphabetically" is part of the same preference.
+	Game::SetSortOtherTags(true);
+	compacted = writeAndCompactPgn(path, pgn);
+	ASSERT_TRUE(compacted);
+	EXPECT_LT(order_of(*compacted, "[Alpha "),
+	          order_of(*compacted, "[Annotator "));
+	EXPECT_LT(order_of(*compacted, "[Annotator "),
+	          order_of(*compacted, "[Zeta "));
+
+	std::filesystem::remove(path);
 }

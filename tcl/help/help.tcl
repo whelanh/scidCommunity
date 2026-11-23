@@ -3346,8 +3346,15 @@ set helpText(Compact) {<h1>Database compaction</h1>
   database, to keep the order of the game file consistent with the sorted
   index file.
   </p>
+
+  <p>
+  A database opened from a PGN file is rewritten in PGN format when it is
+  compacted. The games use the same move-number spacing, tag order and line
+  endings as <a Export>Export to PGN</a>, so the file keeps the layout chosen
+  in the preferences rather than whatever layout it had when it was opened.
+  </p>
   
-  <p><footer>(Updated: scidCommunity, April 2026)</footer></p>
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 
