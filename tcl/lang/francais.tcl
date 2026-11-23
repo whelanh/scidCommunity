@@ -15,11 +15,11 @@ menuText F FileClose "Fermer" 0 {Fermer la base de données Scid active}
 menuText F FileFinder "Explorer..." 0 {Ouvrir la fenêtre de recherche de fichier}
 menuText F FileBookmarks "Signets" 0 {Menu des signets (raccourci: Ctrl+B)}
 menuText F FileBookmarksAdd "Ajouter un signet" 0 \
-  {Poser un signet pour la position et partie courante}
-menuText F FileBookmarksFile "Classer un signet" 0 \
-  {Classer un signet pour la position et partie courante}
+  {Créer un signet pour la position et la partie actuelle}
+menuText F FileBookmarksFile "Ajouter et classer un signet" 0 \
+  {Créer un signet pour la position et la partie actuelle et le classer dans un menu}
 menuText F FileBookmarksEdit "Modifier les signets..." 0 \
-  {Modifier les menus de signets}
+  {Ouvre la fenêtre de gestion des signets}
 menuText F FileBookmarksList "Afficher les dossiers comme une simple liste" 0 \
   {Afficher les dossiers comme une simple liste et non comme des sous-menus}
 menuText F FileBookmarksSub "Afficher les dossiers comme des sous-menus" 0 \
@@ -29,15 +29,15 @@ menuText F FileMaintWin "Fenêtre de maintenance" 0 \
   {Ouvrir/Fermer la fenêtre de maintenance}
 menuText F FileMaintCompact "Compacter la base..." 0 \
   {Compacter la base: supprimer les parties effacées et les noms non utilisés}
-menuText F FileMaintClass "Classer les parties suivant ECO" 2 \
+menuText F FileMaintClass "Calculer le code ECO des parties" 1 \
   {Recalculer le code ECO de toutes les parties}
 menuText F FileMaintSort "Trier la base..." 0 {Trier toutes les parties de la base}
-menuText F FileMaintDelete "Purger les doublons..." 0 \
+menuText F FileMaintDelete "Supprimer les doublons" 0 \
   {Trouver les parties en doublons et les marquer pour l'effacement}
 menuText F FileMaintTwin "Trouver les doublons" 0 \
   {Ouvrir/Actualiser la fenêtre de recherche de doublons}
 menuText F FileMaintName "Orthographe des noms" 0 \
-  {correction orthographiques des noms et du classement Elo}
+  {Correction orthographiques des noms et du classement Elo}
 menuText F FileMaintNameEditor "Éditeur de noms" 1 {Ouvrir/Fermer l'éditeur de noms}
 menuText F FileMaintNamePlayer "Corriger les noms de joueurs..." 21 \
   {Vérifier l'orthographe des noms de joueurs}
@@ -62,25 +62,25 @@ menuText F Edit "Édition" 1
 menuText F EditAdd "Ajouter une variante" 0 {Ajouter une variante}
 menuText F EditDelete "Effacer cette variante" 0 {Effacer cette variante}
 menuText F EditFirst "Déplacer en tête" 0 \
-  {Déplacer cette variante en tête de liste}
+  {Déplacer cette variante en tête de liste des variantes}
 menuText F EditMain "Variante vers ligne principale" 13 \
    {Promouvoir une variante en ligne principale}
 menuText F EditTrial "Essayez la variante" 0 \
-  {Mode essai démarrer/arrêter, pour tester une idée sur le tableau}
-menuText F EditStrip "Épurer" 2 {Épurer les commentaires ou les variantes de cette partie}
+  {Démarrer/arrêter le mode essai, pour tester une idée sur l’échiquier}
+menuText F EditStrip "Supprimer" 1 {Supprimer les commentaires ou les variantes de cette partie}
 menuText F EditUndo "Annuler" 0 {Annuler la dernière modification de cette partie}
-menuText F EditRedo "Rétablir" 0 {Refaire la dernière modification de cette partie}
+menuText F EditRedo "Rétablir" 0 {Rétablir la dernière modification de cette partie}
 menuText F EditStripComments "Commentaires" 0 \
-  {Épurer cette partie de tous les commentaires et annotations}
-menuText F EditStripCommentsNotAnnos "Commentaires, pas les annotations" 0 \
-  {Épurer cette partie des commentaires, mais conserver les annotations (NAGs)}
-menuText F EditStripVars "Variantes" 0 {Épurer cette partie des variantes}
+  {Supprimer tous les commentaires et annotations de cette partie}
+menuText F EditStripCommentsNotAnnos "Commentaires, sauf les annotations" 0 \
+  {Supprimer tous les commentaires de cette partie, mais conserver les annotations (NAGs)}
+menuText F EditStripVars "Variantes" 0 {Supprimer toutes les variantes de cette partie}
 menuText F EditStripAll "Commentaires et variantes" 0 \
-  {Supprimez tous les commentaires, annotations et variantes de ce jeu}
+  {Supprimer tous les commentaires, annotations et variantes de cette partie}
 menuText F EditStripBegin "Coups depuis le début" 1 \
-  {Épurer cette partie des coups depuis le début}
+  {Supprimer tous les coups de cette partie depuis le début}
 menuText F EditStripEnd "Coups jusqu'à la fin" 0 \
-  {Épurer cette partie des coups jusqu'à la fin}
+  {Supprimer tous les coups de cette partie jusqu’à la fin}
 menuText F EditReset "Vider la Clipbase" 0 {Vider la base de données Clipbase}
 menuText F EditCopy "Copier dans la Clipbase" 19 \
   {Copier la partie en cours dans la base de données Clipbase}
@@ -117,13 +117,13 @@ menuText F GameAdd "Enregistrer: ajouter nouvelle partie..." 13 \
   {Enregistrer cette partie en tant que nouvelle partie dans la base}
 menuText F GameDelete "Supprimer la partie" 0 {Activer/désactiver le drapeau de suppression de la partie en cours}
 menuText F GameDeepest "Identifier l'ouverture" 13 \
-  {Trouver la partie la plus proche dans la nomenclature ECO}
+  {Trouver la position la plus profonde qui est dans la nomenclature ECO}
 menuText F GameGotoMove "Aller au coup numéro..." 14 \
   {Aller au coup spécifié dans la partie en cours}
 menuText F GameNovelty "Trouver la nouveauté..." 4 \
   {Trouver le premier coup de la partie qui n'a pas été joué auparavant}
 menuText F PlayTournament "Jouer au tournoi..." 0 \
-    {Jouez à un tournoi de moteur}
+    {Lancer un tournoi de moteur}
 
 # Search Menu:
 menuText F Search "Rechercher" 0
@@ -134,14 +134,14 @@ menuText F SearchNegate "Inverser le filtre" 0 \
 menuText F SearchCurrent "Position..." 0 \
   {Rechercher selon la position actuelle}
 menuText F SearchHeader "En-tête..." 0 \
-  {Rechercher par l'information dans l'en-tête (joueur, tournoi, etc.)}
+  {Rechercher par information dans l'en-tête (joueur, tournoi, etc.)}
 menuText F SearchMaterial "Matériel ou motif..." 0 \
   {Rechercher un motif ou un matériel particulier sur l'échiquier}
-menuText F SearchMoves "Se déplace..." 0 {Rechercher une séquence de mouvements dans la ligne principale}
+menuText F SearchMoves "Coups" 0 {Rechercher une séquence de coups dans la ligne principale}
 menuText F SearchCQL "CQL..." 0 {Rechercher avec une requête Chess Query Language}
 menuText F SearchComments "Rechercher des commentaires..." 0 {Rechercher les commentaires des jeux dans le filtre actuel}
 menuText F SearchUsing "En utilisant un fichier d'options..." 3 \
-  {Rechercher en utilisant un fichier d'options de recherche}
+  {Rechercher dans les commentaires des parties dans le filtre actuel}
 
 # Windows menu:
 menuText F Windows "Fenêtres" 1
@@ -164,7 +164,7 @@ menuText F WindowsTree "Fenêtre d'arbre" 10 \
 menuText F WindowsBook "Bibliothèque d'ouvertures" 0 {Ouvrir/Fermer la bibliothèque d'ouverture}
 menuText F WindowsCorrChess "Jeu par correspondance" 0 {Ouvrir/Fermer la fenêtre de jeu par correspondance}
 menuText F WindowsGraph "Graphique d'analyse" 0 {Ouvre la fenêtre Graphique avec les temps et évaluations des mouvements}
-menuText F WindowsPresentationBoard "Tableau de présentation" 0 {Ouvrir/fermer une fenêtre de carte uniquement qui suit la carte principale, pour un projecteur ou un deuxième écran}
+menuText F WindowsPresentationBoard "Tableau de présentation" 0 {Ouvrir/fermer une fenêtre contenant uniquement un échiquier qui suit l’échiquier principal, pour un projecteur ou un deuxième écran}
 menuText F WindowsPresentationFreeze "Tableau de présentation gelé" 0 {Arrêtez/reprenez le tableau de présentation afin que le jeu puisse être parcouru sans que le public ne le voie}
 translate F PresentationFrozen {Gelé - le tableau de présentation ne suit pas}
 
@@ -213,25 +213,25 @@ menuText F ToolsConfigureEngines "Configurer les moteurs" 10 {Gérer la configur
 menuText F ToolsEngineWindow "Fenêtre moteur...." 0 {Ouvrir une fenêtre de moteur d'échecs}
 menuText F ToolsCross "Classement du tournoi" 9 \
   {Montrer le classement du tournoi}
-menuText F ToolsFilterGraph "Graphique de filtre" 6 {Ouvrir/Fermer la fenêtre du graphique de filtre}
-menuText F ToolsAbsFilterGraph "Graphique de filtre absolu" 7 {Ouvrir/Fermer la fenêtre du graphique de filtre absolu}
+menuText F ToolsFilterGraph "Graphique (pourcentage)" 6 {Ouvrir/Fermer la fenêtre du graphique de filtre (en valeur absolue)}
+menuText F ToolsAbsFilterGraph "Graphique (valeur absolue)" 7 {Ouvrir/Fermer la fenêtre du graphique de filtre (en valeur absolue)}
 menuText F ToolsOpReport "Rapport d'ouverture" 0 {Générer un rapport d'ouvertures à partir de la position courante}
-menuText F ToolsOpenBaseAsTree "Ouvrir une base dans l'arbre" 11 {Ouvrir une base dans la fenêtre d'arbre}
-menuText F ToolsOpenRecentBaseAsTree "Ouvrir une base récente dans l'arbre" 16 {Ouvrir une base récente dans la fenêtre d'arbre}
+menuText F ToolsOpenBaseAsTree "Ouvrir une base comme arbre" 11 {Ouvrir une base dans la fenêtre d'arbre}
+menuText F ToolsOpenRecentBaseAsTree "Ouvrir une base récente comme arbre" 3 {Ouvrir une base récente dans la fenêtre d'arbre}
 menuText F ToolsTracker "Suivi de pièce"  3 {Ouvrir la fenêtre de suivi de pièce}
 menuText F ToolsTraining "Entraînement"  0 {Entraînement (tactique, ouvertures, ...) }
-menuText F ToolsPlayVsEngine "Jouer contre Engine"  0 {Jouez à une partie contre un moteur d'échecs}
-menuText F ToolsTrainOpenings "Ouvertures"  0 {Entraînement avec un répertoire d'ouvertures}
+menuText F ToolsPlayVsEngine "Jouer contre un moteur"  0 {Jouez à une partie contre un moteur d'échecs}
+menuText F ToolsTrainOpenings "Ouvertures"  0 {S’entraîner avec un répertoire d'ouvertures}
 menuText F ToolsTrainTactics "Exercices tactiques"  0 {Résoudre des problèmes tactiques}
 menuText F ToolsTrainFindBestMove "Trouver le meilleur coup"  0 {Trouver le meilleur coup}
 menuText F ToolsTrainFics "Jouer sur internet"  10 {Jouer sur freechess.org}
 menuText F ToolsEngineTournament "Tournoi de moteurs"  0 {Démarrer un tournoi entre moteurs d'échecs}
-menuText F ToolsTimeAnalysis "Analyse du temps" 0 {Afficher le graphique de l'heure du jeu en cours}
-menuText F ToolsBookTuning "Config. bibliothèque" 0 {Configuration fine d'une bibliothèque}
+menuText F ToolsTimeAnalysis "Analyse du temps" 0 {Afficher le graphique de la pendule de la partie en cours}
+menuText F ToolsBookTuning "Config. Livre" 0 {Configuration fine d'un livre}
 menuText F ToolsCtgConvert "Convertir CTG en OBR..." 0 {Convertir un livre ChessBase CTG en un livre OpenBook Rich (.obr)}
-menuText F ToolsRapidAnnotate "Annoter à partir du graphique de score" 0 {Écrivez les évaluations et les annotations du graphique de score du moteur dans le jeu en cours (Ctrl+Shift+A)}
-menuText F ToolsDownloadTWIC "Télécharger les jeux TWIC" 0 {Télécharger les derniers jeux The Week In Chess (TWIC)}
-menuText F ToolsConnectHardware "Connecter un matériel" 2 {Connecter un échiquier externe}
+menuText F ToolsRapidAnnotate "Annoter à partir du graphique de score" 0 {Écrivez les évaluations et les annotations du graphique de score du moteur dans la partie en cours (Ctrl+Maj+A)}
+menuText F ToolsDownloadTWIC "Télécharger les parties TWIC" 0 {Télécharger les dernières parties The Week In Chess (TWIC)}
+menuText F ToolsConnectHardware "Connecter du matériel" 2 {Connecter un échiquier externe}
 menuText F ToolsConnectHardwareConfigure "Configurer..." 0 {Configurer la connexion avec un échiquier externe}
 menuText F ToolsConnectHardwareNovagCitrineConnect "Connecter Novag Citrine" 2 {Connecter Novag Citrine}
 menuText F ToolsConnectHardwareInputEngineConnect "Connecter via Input Engine" 1 {Connecter via le protocole Input Engine (par ex. un échiquier DGT)}
@@ -249,22 +249,22 @@ menuText F ToolsExpCurrentPGN "Dans un fichier PGN..." 16 \
 menuText F ToolsExpCurrentHTML "Dans un fichier HTML..." 16 \
   {Exporter la partie en cours dans un fichier HTML}
 menuText F ToolsExpCurrentHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter la partie en cours dans un fichier HTML et JavaScript}
-menuText F ToolsExpCurrentRTF "Exporter le jeu vers un fichier RTF..." 15 \
-  {Écrivez le jeu actuel dans un fichier RTF en préservant le formatage des commentaires}
+menuText F ToolsExpCurrentRTF "Exporter la partie vers un fichier RTF..." 0 \
+  {Exporter la partie actuelle dans un fichier RTF en préservant le formatage des commentaires}
 menuText F ToolsExpFilter "Exporter les parties filtrées" 0
 menuText F ToolsExpFilterPGN "Dans un fichier PGN..." 16 \
-  {Exporter le filtre dans un fichier PGN}
+  {Exporter les parties filtrées dans un fichier PGN}
 menuText F ToolsExpFilterHTML "Dans un fichier HTML..." 16 \
-  {Exporter le filtre dans un fichier HTML}
-menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter le filtre dans un fichier HTML et JavaScript}
-menuText F ToolsExpFilterRTF "Exporter le filtre vers un fichier RTF..." 17 \
-  {Écrivez tous les jeux filtrés dans un fichier RTF en préservant le formatage des commentaires}
+  {Exporter les parties filtrées dans un fichier HTML}
+menuText F ToolsExpFilterHTMLJS "Dans un fichier HTML et JavaScript..." 24 {Exporter les parties filtrées dans un fichier HTML et JavaScript}
+menuText F ToolsExpFilterRTF "Dans un fichier RTF..." 13 \
+  {Exporter les parties filtrées dans un fichier RTF en préservant le formatage des commentaires}
 menuText F ToolsImportOne "Importer une partie en PGN..." 0 \
-  {Importer une partie à partir d'un texte PGN}
+  {Importer une partie à partir d'un fichier PGN}
 menuText F ToolsImportFile "Importer des fichiers PGN..." 0 \
   {Importer des parties à partir d'un ou plusieurs fichiers PGN}
-menuText F FileImportRTF "Importer un jeu RTF..." 0 \
-  {Import a game from an RTF file created by scidCommunity}
+menuText F FileImportRTF "Importer une partie en RTF..." 0 \
+  {Importer une partie à partir d’un fichier RTF}
 menuText F ToolsStartEngine1 "Démarrer moteur 1" 16  {Démarrer moteur 1}
 menuText F ToolsStartEngine2 "Démarrer moteur 2" 16  {Démarrer moteur 2}
 menuText F ToolsCaptureBoard "Capturer l'échiquier..." 0  {Enregistrer la position actuelle de l'échiquier en tant qu'image.}

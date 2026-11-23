@@ -1,0 +1,857 @@
+{
+  "version": 1,
+  "entries": {
+    "menuText:File": {
+      "english": "b8fd73c0a991fcd39140e1bfc844920a6637aaed",
+      "translation": "6eef8578874fcfa9b729367cc98a28c6ce5b059a",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileNew": {
+      "english": "8e647bcb534e4a0ae27382a29c0d7fa83b299306",
+      "translation": "d5c9069859e1bc7457d02e930ef377a3efd729c8",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileOpen": {
+      "english": "33d30054f2b433a8e909a025cad40a5b64889ee6",
+      "translation": "20e7aba83792b3ec2193821a5f3a04e102df923f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileClose": {
+      "english": "5f59c55bf9b8ca3cba80afe9305a335bf5b91fe4",
+      "translation": "a922c2978d8dad823eedbb7999a0dd4226de5a20",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileFinder": {
+      "english": "d8a5ea0b39a4edccb16bf068ad69b7e10951552c",
+      "translation": "3b5003a3148ff00dbed16f54ba00e1ae18130fc3",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarks": {
+      "english": "6402ba7a0ab6546757aee521d162e1a88d2563f9",
+      "translation": "1ca2be3a62e0a5dbbc7cdcee5a049886d3ec83f3",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarksAdd": {
+      "english": "222f77c7b8a14e0e9cf7a60e5c57fbfe9664325c",
+      "translation": "d36c741bb027e62e9dec6775276ff0d4c2532578",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarksFile": {
+      "english": "1274d941883dbb84af4a8983014c65cdfa2a221d",
+      "translation": "949b9165b0852c25a1af12869108023cfbbbcc06",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarksEdit": {
+      "english": "fcb62789945ff7eb092be06e997fe7e4b3c11f87",
+      "translation": "e29a4f259b495bd305cfbb1df15ca67fa33efcfb",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarksList": {
+      "english": "1900de6c965c7cefec462275fc4ae2dcbad62ac8",
+      "translation": "dd0e86a8bcdcd8843d5b9f6fc357cc177df83edb",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileBookmarksSub": {
+      "english": "29645e9a0fa05ab9574ce24ef006670bbca2d248",
+      "translation": "61bd2d73c2e2793ac9d18ad332a170cc107eaf89",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaint": {
+      "english": "e6527ce24582988a682eee4ba6e8f72ff3e7e733",
+      "translation": "4da31ceb2945cafbb7ecb931de67e4e9ce985ff5",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintWin": {
+      "english": "1605a6bbaf9c5d55eca7ab3480337393cceb4620",
+      "translation": "edde07fa5a85b52fc2ef81cedb9c1e38cf3025da",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintCompact": {
+      "english": "43e115a21bcaa74c6531150584edf54a52e5874b",
+      "translation": "326aa7678f266fb1d55585fa3fa8446c11468f05",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintClass": {
+      "english": "d8223238ee4b813bf4f3aca1609e4f2338d96c8c",
+      "translation": "4b0ae0e5f5dcc5109ed0bc0c53aa3f5ce8ce4736",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintSort": {
+      "english": "5645027e3617f634ac30727b0f2581d173e4120a",
+      "translation": "1ae7f12113edf6fe5402a21c24b485c6cace0d25",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintDelete": {
+      "english": "d7ac2e64e75c04a6206914c45b89b972aca45fa9",
+      "translation": "f1c731a7ce802b9f9d108f5675bcda8d54ac7394",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintTwin": {
+      "english": "db1544227f76086f051b5758eb3d4dcf036e36f7",
+      "translation": "93a2268a77bd1052f293928a2d7604ea72b43d02",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintName": {
+      "english": "70e9a7327f826b66f15fae78c69538d6b645b541",
+      "translation": "f1d01d6126d41880e9e462a6daab73b5e6901839",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintNameEditor": {
+      "english": "0a66e1b79008c28b97cb1d606c25b53b232ab712",
+      "translation": "29d54820693cbf852b8b25712695988cd4339219",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintNamePlayer": {
+      "english": "8109347828dcb843ee415c8d8b1bc181a5fca72b",
+      "translation": "7c7e160e0ac18c78311255f961cce0fa02b2810f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintNameEvent": {
+      "english": "01bec26ae3823bfed8fce1a6978e98a1814a517b",
+      "translation": "830e4103e757fa8a50a910a191040f37e51699c0",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintNameSite": {
+      "english": "2a2edcf29149ecc9fa16197d438e28c14638dd3c",
+      "translation": "9d195e639e24e87a2e5a932fea811c8640aac331",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintNameRound": {
+      "english": "73f7f409a8f3657dbe2fdbe557d332cce1fe8429",
+      "translation": "b935764b93698fb176ef2daffbad96dde886a2c5",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileReadOnly": {
+      "english": "94342ae500b4909091c98f70e94c0b1eea34c1be",
+      "translation": "f27f51ba5065138184c35503e212a9cba78a2b42",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileSwitch": {
+      "english": "93b000f97c908ae9d134346ab8550fa586cb2da8",
+      "translation": "4ccb0ecfc9be02f78dc6e19656c3ce864c6f61fa",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileOpenLichessTournament": {
+      "english": "c4dc259c299c024bea1679e2ae2d7ddc9f2b6243",
+      "translation": "9cbf2b238bc2c8cf53774910ecf412989ad055c0",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileImportLichess": {
+      "english": "c0c5c8617481159b76d21d17963aa45f02640d60",
+      "translation": "5641c0a08b78544589d613a5b3d387417ac5364b",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileImportChessCom": {
+      "english": "b4501521b88ca8d47e6644116fdfe3f65c1c8af0",
+      "translation": "73649708a171c48a9337fa2f3e2ac602138872cf",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileExit": {
+      "english": "8ceae3b78ab5fe21b7a3e095bed3eadf5d97fd5d",
+      "translation": "b5729f49b19dc6b33fe6c51cbe575ba71cb21200",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileMaintFixBase": {
+      "english": "3f631e825c786a8e0f2e0a8bab0af297ad8f0df9",
+      "translation": "8d5fcc64420f80a5dcc37cea37d570702e252419",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:Edit": {
+      "english": "1daff459319681bc6778ed1a1fa10375c9d6eed9",
+      "translation": "c658b10ce26ea25d3ef36bef0572e95ca5456fef",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditAdd": {
+      "english": "11b003fee720de54a199a206c2a061389fc9c5a5",
+      "translation": "e44587f2d6e5d1a9d5e401a5c10f8f1161e79b8f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditDelete": {
+      "english": "ca7c808e29591d78ebc7bd75540287ff2e200323",
+      "translation": "d71963a631789a2feab89a7c85074ab48b8168a1",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditFirst": {
+      "english": "e6a32d359290872ebcce8d64a5c9fefd21743b0c",
+      "translation": "eb5bc9bf83009dfac309aac958d8fdfc5d118c73",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditMain": {
+      "english": "b64a8b89da88624c70d5084ca79c92a7bd590945",
+      "translation": "15225dd8b307a733e287c1f10e43cc9259a4b4f7",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditTrial": {
+      "english": "db2afafa020a7641abc92e77d4527185b9246ce0",
+      "translation": "94098fe40cd976190405fcff5f411e93547aea33",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStrip": {
+      "english": "b3e11cb05045f7a13bb69cdf5c5630582ea6356d",
+      "translation": "7e094e61a31bde5f59505bd3074e765f79c6f0a7",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditUndo": {
+      "english": "c51b92fa3b204c1c085f12623164a36926dc8028",
+      "translation": "a793e6a38cb7b844444476f6417fa6b0e24b4310",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditRedo": {
+      "english": "99bf649d4ddf7540b5108f9255e5a9d185e02388",
+      "translation": "1d8c67f398f358691d47ae05c4be65b3010f9aa0",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripComments": {
+      "english": "30337cc8d458ffa0d8298dde3f449a20f3c53c5c",
+      "translation": "8f336ad2c1c97c8ff267ab5ede183a361c23290d",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripCommentsNotAnnos": {
+      "english": "7cf6438fae7b56bba1a95bd77e5266a374506408",
+      "translation": "90770669326bc29c9d239af4111b312b79230f3c",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripVars": {
+      "english": "258fb5042747481bbf0247d5ef16cf552d2ecf8a",
+      "translation": "7e66dd2c5a53299c5680606fa9f563a62e17bc67",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripAll": {
+      "english": "654830c534e047d2b0699066b12d90c8a58235da",
+      "translation": "f7929974980a87314d29c0267ca4cddaed46a4bf",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripBegin": {
+      "english": "956981f64191fbd63acc6cfe91a80ce1ded443ab",
+      "translation": "2c28a33036c25e3bd67d1be7f052e1db9832c932",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditStripEnd": {
+      "english": "ad047832547d962bc2afc0ddec7cb61755ced9cf",
+      "translation": "cf57afdfed58d5475a594cdc82188fdb5a076186",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditReset": {
+      "english": "f80682ed812caf1ff73ad785d6657c1c913e121c",
+      "translation": "ff1408cd2a9a13a90c518eba71a2ad1529a62852",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditCopy": {
+      "english": "8b26b1fb6f37cbda2dcaedd6170c93f9ee6e3ca0",
+      "translation": "eeb262b1fe397e01abdc8d5a7e2f2bc64410d596",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditPaste": {
+      "english": "09dffa5988330dcb717eb8b25cff7dea3e74a0d1",
+      "translation": "63c1313b8ef8cc10be5c10513ff46892f5e081b3",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditPastePGN": {
+      "english": "733f06b048dba492233fa34f26d527726a659e94",
+      "translation": "3af1747526c0e47c1e59d6053cc7dea035e99959",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditNullMove": {
+      "english": "f774ba45b4534f9665319c96870f52281ccbb71a",
+      "translation": "f941fce29b56ac45e168d205f2b74811362d8d0a",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditSetup": {
+      "english": "7470098f291b43d38033f606efeab7f15564400a",
+      "translation": "0355221cef813d0984d5089e173843043ea6ef8d",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditCopyBoard": {
+      "english": "861f27147cfe2fb690f2cfe55f1b031ec53d492e",
+      "translation": "e05b755a37aca03875e828e0c09240fa9169ea89",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:EditPasteBoard": {
+      "english": "7de6a84489ab99d39875a81f2d622fa74b5585b9",
+      "translation": "8bb1510aa3d2f26e6d39c118758651716339ae6f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ConfigureScid": {
+      "english": "fd56ebbfd8084ea62ab76afc962c16ec7c4a4a98",
+      "translation": "daf24ff747d4ccdbab4ae74e2f89bbac24e0fc76",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:Game": {
+      "english": "de590a99626b9f46499c4ef85ddd0557d81c2b99",
+      "translation": "f88a66016e871ba8b283e1fab47e4968f7219af6",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameNew": {
+      "english": "7e56fa7ef335ae2489d941dbd835f4739d2f859f",
+      "translation": "d3410b3fafb69b8f59d1583470453ced69ba4370",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameFirst": {
+      "english": "50a30cecaca30ea83a3d8747ce4ac87c8b0f234b",
+      "translation": "44590d3d6e782d690ab764bd67a0c4b7315faa70",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GamePrev": {
+      "english": "604b7ec796e84a1b0c68df4dd2c3ab66a435e426",
+      "translation": "88516090722aaf91a2f46c4a58b58be76f696df7",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameReload": {
+      "english": "40c732bd91b0847fe3d507d1eae09ee5c0eec001",
+      "translation": "9e295f84d83825996c0513568ef747c142667e3f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameNext": {
+      "english": "af007d134338c0e40ecca2e27ea6b51564165c31",
+      "translation": "bd78d5bf6f71eeedbb828603a933db926392abda",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameLast": {
+      "english": "3b86885a0f96ccbbaa12911b268287599d602a20",
+      "translation": "eca1602e9f8aca35d05f789fbd8a032d7d610ed9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameRandom": {
+      "english": "8b86a8074a9a068f199b7a3a4440495369814258",
+      "translation": "e9e0a3013e2c643621ccab63cb80d7a3557fd23e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameNumber": {
+      "english": "372ff9b503a2681199a8952bc2d70eb436365197",
+      "translation": "75f4c0fc88f6baee8dd89aafe99243766f801abd",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameReplace": {
+      "english": "c9d958a92d5992d5982f3e64efc70e33e8c65d51",
+      "translation": "e2f2005594ba5313cbde888746fcedd1808a27b2",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameAdd": {
+      "english": "4f76011c270672344ba103e652053eb97c12075a",
+      "translation": "ed23c6e6952e820eda23ff493ca388d5da16688e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameDelete": {
+      "english": "c6fc7754f88fbc7a665a1682974d56e825c8fcf0",
+      "translation": "5cca874376939385b92f4eba59399b52f24f2990",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameDeepest": {
+      "english": "8b32493c683d184186d0fe4a5e2dee0039676f0e",
+      "translation": "fa46e2a8b73cb0693cab79972dc3739e20e63291",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameGotoMove": {
+      "english": "4d766764da4b93ca44382fbaedb7fb480db71377",
+      "translation": "2fc99f21bb4d060b7815cef9f54eed0dcb3b3802",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:GameNovelty": {
+      "english": "f9dc132346c2b34472408e57aded93bdd057fb5a",
+      "translation": "367a24995c2d17d95e2cf1a7aa5d59556776a195",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:PlayTournament": {
+      "english": "db055057fbd7cf14c9c81ffb5ef11bff5ec934a2",
+      "translation": "2278b838e99954266321fe6d2fed8d5babcaf40e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:Search": {
+      "english": "0a9ec20d172055723a7c549ff5056ed9591a06f0",
+      "translation": "7d5d723c7353158b1f6f4f7b4583a764c27460f9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchReset": {
+      "english": "775cf1f84d78bd04b318c0e0096825f51889f879",
+      "translation": "1e4bf6d476bec6701df99405aa57796952caf9dc",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchNegate": {
+      "english": "2cbbf5980f3a65711d21a66d50e3e9abf3f394c1",
+      "translation": "d6b2a9e89dd92073886db8fbe5e0539da97dfc24",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchCurrent": {
+      "english": "188475f540f573e473a836367d276eaab9c0e900",
+      "translation": "b6f2347cad238a78df0f60ab2c43bfa797063680",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchHeader": {
+      "english": "c4a38dd5421dc58929b2c80ac820aff8dad05c94",
+      "translation": "d2dd7126337535623f5af8217d1dbf106056bd26",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchMaterial": {
+      "english": "d94bca3f145b920a133f92124e52b21f80533250",
+      "translation": "a0eb101f0e04b46e0104f6da078bdfef4ba8fad6",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchMoves": {
+      "english": "914b487ca3f359ea7db17e997501d0fe835bd2f4",
+      "translation": "470afec43247a8dc64e9c8c8d21bb065b2d6c511",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchCQL": {
+      "english": "c66d98d6e1118535e7a88b59d93367e8058286e3",
+      "translation": "477c333a2e54552e7990de815e2eb7079250e385",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchComments": {
+      "english": "68f7e97806fdf388f4168c25a93ad2e69b6aa927",
+      "translation": "c8e66083c9ac662e4bdc7a2b541ce367c94e3fa9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:SearchUsing": {
+      "english": "ded99b806c1bc6c07e61b29163b1ebc5b55145f5",
+      "translation": "8d8caa323cfa1bf3d8cffee507d334fc945506e1",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:Windows": {
+      "english": "49475768d09a66fb73f0f892005f96d1dcce86ba",
+      "translation": "52bf8a633623c20bf661a3bc2c51a5ca70de9469",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsComment": {
+      "english": "875011e1eb485e506e6786e36eac3f7c04119c1a",
+      "translation": "e91ca26663713435877bc3ef7bdbc43450bedde5",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsGList": {
+      "english": "119cf55a69ef2c3cdb6f6f0723df14aedb9e19af",
+      "translation": "0ac7c4a2ac6c685046aa227013c8030be156ceb9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsPGN": {
+      "english": "07ba1fdf5eef0292f022ff493fd1b75002ef224c",
+      "translation": "88752a093aef4a4dcc7ec152d6a5b83bffe2de9e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsPList": {
+      "english": "71257383aa988e89a08c050dae6320182af867c8",
+      "translation": "73da40b746b1588c6d691072392e7aa740a725ea",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsTmt": {
+      "english": "7cc3130270381f52cf9b8e53dea65c39530a3323",
+      "translation": "4cea8768eaa00faf7a89e3869e41fe3a94fa7473",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsSwitcher": {
+      "english": "881bd7039ed54654a7dd2497cadfc86a68b17046",
+      "translation": "8851b399795cd3e8438b931168c7932c4395e7b5",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsMaint": {
+      "english": "6c1ca01179ef3b290811bfeda1c8c2da8ce2407d",
+      "translation": "9b2abe3d62f973015743a8070cd95bd37ada8bfb",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsECO": {
+      "english": "418977eb223718086093287d3e296a1317197a01",
+      "translation": "2a82c2195237f8924804291de0eba6d88bc5f76f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsStats": {
+      "english": "e8a826604d0f02d37137d320eb8943cc19eb2b5c",
+      "translation": "d59e8044d6a0a7aea28248fa8b8b0cddb49fb3fd",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsTree": {
+      "english": "f68d7634ee029d111f41646566f6aac265519c08",
+      "translation": "9e249e3a5a20b01bb907420dac043936d4b895de",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsBook": {
+      "english": "ff341bb0b24b969a897b9dbf0090d5c0590f63ca",
+      "translation": "ef1ffc706b1853d948f9026704ad723c52f63707",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsCorrChess": {
+      "english": "5fa9578cdea27d70451c4b529c8ab938c5008094",
+      "translation": "bf8c220000943b83adadf5b59333ae89af2874bc",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsGraph": {
+      "english": "3e7915b9828ca77780b5a4417af89ccd96debdab",
+      "translation": "0fafe4f238f02a61a24bca6233b13c673079d85f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsPresentationBoard": {
+      "english": "73fd992865d20b22533a11f91a7c8d1b633bb9ba",
+      "translation": "c37dc17d01abf93a792a8c8517408a1900a3a254",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsPresentationFreeze": {
+      "english": "1b55d4874ae02b7b9b950fc6e51dbc8b7852ef0d",
+      "translation": "da2f2091bb509a4040f9e2e8fae81b7245fd1a78",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "translate:PresentationFrozen": {
+      "english": "556499a69b3513f965f23e009c3052bfb34848a6",
+      "translation": "f4f1183061e25a8d32b68c2d99167b0e24ab61bf",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:WindowsEPD": {
+      "english": "deee669d09b791bb41ee8b74e0b80ab89383df2e",
+      "translation": "d15cedc8c4f02a119506d7925229d833e8e214a9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsConfigureEngines": {
+      "english": "141b2d88aac30abd75e205103755cc09f7647924",
+      "translation": "7418b0aa17b7b9a8554da01c9aaa28e6b5cce11e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsEngineWindow": {
+      "english": "06c188a93b26744cefe5a81bb7e24e9cd5b50efe",
+      "translation": "6f957ea95f16dd7b33c3ce1365788889e1051c4e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsCross": {
+      "english": "c21b31cf19203c9fe0bb667272a4d92986f666b9",
+      "translation": "3cf5ee389e7f138b7702323c6cc4b8dcb11923ac",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsFilterGraph": {
+      "english": "fd2b1cea561b27433a7d6b640152381a83d8f9ea",
+      "translation": "bc85d78aa75f75244eb36a1a39c0098f33297b4e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsAbsFilterGraph": {
+      "english": "0ad00909ab8a8b8ea36b76ac11a3ad412ea6129b",
+      "translation": "a1bd843ea9a0d02697875f6be14f4ed9cade5f2a",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsOpReport": {
+      "english": "8c8b37b162a4e65aac9fcd9ad5e8da65bdfdd67c",
+      "translation": "a879f68bb942097f1ab4bd052a51e849430fbaad",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsOpenBaseAsTree": {
+      "english": "a65f6c73843b1833afaf76b51ec0cb84a3dda6a0",
+      "translation": "aa9a8fcfd235728a346df3cd551aeb89146f2e21",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsOpenRecentBaseAsTree": {
+      "english": "329b0bedfdc57b89dd8ab593a4d2d4259411037b",
+      "translation": "a0e69cf621d4fd9b6d668e6571635bc03226abfd",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTracker": {
+      "english": "35de1fb15254f206465483917292e7a78b4edc75",
+      "translation": "e933dcade7affc4a59c2371e56e312bca29e8ed1",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTraining": {
+      "english": "bf4b1904b4d35abd3b684fa16034df3f3e72803d",
+      "translation": "0298b378cfe507519c6dd39be9b83e78d364d792",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsPlayVsEngine": {
+      "english": "2834d8d091a091b83a1c0bd35a4f5679fec32520",
+      "translation": "6e6d15b34beb334ea96cd2ee551f219ad95baa9b",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTrainOpenings": {
+      "english": "a7e4c9bfc9725a06782cd4b5c9c6bf27184de26d",
+      "translation": "edafcfac28bc6d971065454cb73620fc4deeeae4",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTrainTactics": {
+      "english": "b87c684e3efc521c94f165e2397f361c2707c3de",
+      "translation": "da03cc69079459c79fdf9a7cb99de463ec3d7127",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTrainFindBestMove": {
+      "english": "c23433b337df0361f4092fddbd58ad2f86aa3771",
+      "translation": "776d2977c4b2dfd4604dfe6cafa6dfa597a586bb",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTrainFics": {
+      "english": "dc84b673a20ad7699d33666a50b237d21b0ef623",
+      "translation": "9ddf2fa3307f3a6d46cdb75affffd3937dc7303b",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsEngineTournament": {
+      "english": "041cfe53d2bc5d416b46399066879e824ad9ee33",
+      "translation": "e0276af8526b8fbcb6fe38759a21fea07859b907",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsTimeAnalysis": {
+      "english": "92764b502526160ba37bf83191a68d9f33c3fe95",
+      "translation": "5f9d2b49b075d03428a55febf59861187bdb0121",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsBookTuning": {
+      "english": "b27c41a7c36a570d3d95fcacadb59911b67edb7f",
+      "translation": "f777f366c4020e4f85cb30f6f7947893d16eb3a4",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsCtgConvert": {
+      "english": "af548b6d9b6141700fe555c7e572481c92713d22",
+      "translation": "a6fca28f6b21f9a183fcc44a28640b2948286827",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsRapidAnnotate": {
+      "english": "abcc76ec62d21a794fa6a1e68e17942e91e3ae3e",
+      "translation": "5f4fd7cabd173b12993b4b05d10c64150e0e4dc7",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsDownloadTWIC": {
+      "english": "87b9fe293e594ae7b55e6494ec10d0160dc6df98",
+      "translation": "8433a8c9b58213cfd8a612811d8a2574125b7b4c",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsConnectHardware": {
+      "english": "6fb5d62d1803b01b8f70bd6f872358ec9c6fe14e",
+      "translation": "cd933b365723a3d9f34972a62bcfabfa3ff1403b",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsConnectHardwareConfigure": {
+      "english": "a1f673be0fb633260bfda65188b90aa0562d99d0",
+      "translation": "f859bb4219b1104151c6bf314c46c7b6365e2975",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsConnectHardwareNovagCitrineConnect": {
+      "english": "eba429a28d4793e77f6707332e215dbe3e3eac9c",
+      "translation": "0a6d31f1f4ffc0f311d53a9a68a649ac447e4e9a",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsConnectHardwareInputEngineConnect": {
+      "english": "7db8679d41d303914d22e1e954d0558815854396",
+      "translation": "9460c47850495c7a487edd72f516ea9ebd94adcf",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsPInfo": {
+      "english": "21a5a96e4d5eba1af0d3e875b0288c0b4e331b53",
+      "translation": "341a7ae240bc8e483a97b374b41c04e94d452932",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsPlayerReport": {
+      "english": "89d6beea036eaa4729784dd4c19dd9b9d112086a",
+      "translation": "1f8cf242db92082d13112548e91592ba8eaf3268",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsRating": {
+      "english": "0386ea2c6de9876e65edcd002a8bc2a6cb0278c8",
+      "translation": "12438399d6f8e1e7e1cf6d6a470c558b4a8fac55",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpCurrent": {
+      "english": "9435ce28f56beb4776bec452ea8a4e468bc7d42b",
+      "translation": "1c36ca81c86b33a077b59bdc16420a15a2e869b1",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpCurrentPGN": {
+      "english": "b5d2bf0aea6d7729f065808ebc4f81cdfcd2e515",
+      "translation": "3ef7bc0ebfa18e88f81d7b11339d5e8634b3348e",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpCurrentHTML": {
+      "english": "5816123edbc05552199371d203c1699b3da7e49d",
+      "translation": "0a70898eec4729e51abaf8f2099e31f033f8b7ed",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpCurrentHTMLJS": {
+      "english": "901959b38fdd2ebbe2bb07bea8db60779fb62500",
+      "translation": "a848006ed4c3f2022679f1dd4368fa4d863b930d",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpCurrentRTF": {
+      "english": "62966c09a4838ad6c4cde9f8ab1617d4d1be8acc",
+      "translation": "aeff2db75b428903e93ef851bc96d80ea6e7ae5f",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpFilter": {
+      "english": "f9fb4e3b6a6ec24f33bf0011f37fa3356921cc87",
+      "translation": "cb6423eb4e128ca817e5f0b819c81b01f50948af",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpFilterPGN": {
+      "english": "8e56ac817cdd3728d53c62d725f6e008ed5b740e",
+      "translation": "e353b72d68e8f7c7e223f66b0ee0433de3d865ff",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpFilterHTML": {
+      "english": "91733653cd07424ef883d98430a8a0743f3b2b4c",
+      "translation": "4506f07ccd52e532c247ad94b9d19df0a1687388",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpFilterHTMLJS": {
+      "english": "d476979c6e5d79a3bd574886ae87a98b7fc448a2",
+      "translation": "515dcbe5ff7d2e23551e5474eeebd4c1ebdba225",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsExpFilterRTF": {
+      "english": "12d0af0d5acd6e4394535dcd71145c03e63cdeda",
+      "translation": "3a09b25eedf998ebf6f75bad19808cf0ae67192b",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsImportOne": {
+      "english": "41192a6fac04320870a21ea7e2dd373ddb4aab1c",
+      "translation": "d2b95fda76574a60643bcc378074525662fcc0d5",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsImportFile": {
+      "english": "05c1ea74a8e08bfcee9db738d86316c77e9e77aa",
+      "translation": "ec9c517bd741cb6d23da103cf97fcca57e2fc9a6",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:FileImportRTF": {
+      "english": "7887a1d2d0458aa9be5b07f70c3e53488aa7e660",
+      "translation": "04ef07017d070020d3d6f973d81b0d64bcc4bf26",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsStartEngine1": {
+      "english": "c3cc16341bcb0bfc33f412ed3f12ca36517988cc",
+      "translation": "c3a12ddf45cb6fe53f117650a948bd4442ab48e9",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    },
+    "menuText:ToolsStartEngine2": {
+      "english": "e59bc8cae99cc60493d9302e6eaff7b7a62ad350",
+      "translation": "e4f82e69ca46d4d78e65f3d180add48934fbd5a2",
+      "reviewer": "H. B.",
+      "date": "2026-11-23"
+    }
+  }
+}
