@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit 5b619f4a933fd20633413cf15ab403c64ff71cb5
+%global commit e7539192895c62b42659503e541d401195f71b92
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.74
+Version:        5.1.4.75
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Tue Nov 24, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-75
+- "Improved language translations; bug fixes"
 * Sun Nov 22, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-74
 - "Danish translation added by eborgbjerg; assign engines to Engine Windows"
 * Sat Nov 21, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-73

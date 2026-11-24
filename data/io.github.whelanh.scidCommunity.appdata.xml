@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.75" date="2026-11-24">
+      <description>
+        <p>Improved language translations; bug fixes</p>
+      </description>
+    </release>
  <release version="5.1.4.74" date="2026-11-22">
       <description>
         <p>Danish translation added by eborgbjerg; assign engines to Engine Windows</p>
