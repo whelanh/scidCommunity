@@ -584,20 +584,20 @@ translate E WoodpeckerFileHelp {Each game that starts from a set-up position bec
 translate E WoodpeckerDays1 {First cycle (days)}
 translate E WoodpeckerRestDays {Rest between cycles (days)}
 translate E WoodpeckerDaysHelp {Each later cycle gets half the days of the previous one: the aim is to halve the solving time every cycle.}
-translate E WoodpeckerLoad {About %d exercises a day for %d days. The days halve and the exercises stay, so the load doubles: about %d a day in cycle 2, %d in cycle 3.}
-translate E WoodpeckerLoadOneDay {All %d exercises in one day, in every cycle.}
+translate E WoodpeckerLoad {About %d exercises a day for %d days.}
+translate E WoodpeckerLoadOneDay {All %d exercises in one day.}
 translate E WoodpeckerLoadLeft {About %d exercises a day for the %d days left.}
 translate E WoodpeckerCircle {Inner circle...}
 translate E WoodpeckerCircleTitle {Inner circle}
-translate E WoodpeckerCircleIntro {Too many exercises for the time you have? Train on the first ones only: a smaller cycle inside the set, to repeat as many times as you like. The others wait in the set, with their marks and your statistics, until you open them.}
+translate E WoodpeckerCircleIntro {Not enough time for the whole set? Train on the first exercises only, as many times as you like. The others wait in the set until you open them.}
 translate E WoodpeckerCircleSize {Exercises in the circle}
 translate E WoodpeckerCircleOf {of %d}
 translate E WoodpeckerCircleDaysLeft {Days left in cycle %d}
 translate E WoodpeckerCircleDaysNext {Days for cycle %d}
 translate E WoodpeckerCircleRest {The other %d exercises:}
-translate E WoodpeckerCircleKeep {Stay locked in this set: open them when you are ready}
+translate E WoodpeckerCircleKeep {Stay locked in this set}
 translate E WoodpeckerCircleMove {Move to a new set now}
-translate E WoodpeckerCircleGive {Give back to the included puzzles: a new set can draw them again}
+translate E WoodpeckerCircleGive {Go back to the included puzzles}
 translate E WoodpeckerCircleNewName {Name of the new set}
 translate E WoodpeckerCircleStart {Start the circle}
 translate E WoodpeckerCircleState {Inner circle: %d exercises, %d locked. Open the locked ones:}
@@ -606,17 +606,17 @@ translate E WoodpeckerCircleOpenAfter {In this set: after the circle in this cyc
 translate E WoodpeckerCircleOpenMove {In a new set of their own}
 translate E WoodpeckerCircleOpenGive {Give them back to the included puzzles}
 translate E WoodpeckerCircleOpen {Open}
-translate E WoodpeckerCircleGiveAsk {Give %d exercises back to the included puzzles? They leave this set for good; your statistics on them stay.}
+translate E WoodpeckerCircleGiveAsk {Give %d exercises back to the included puzzles? They leave this set for good (your statistics stay), and a new set can draw them again.}
 translate E WoodpeckerCirclePart {%s, part 2}
-translate E WoodpeckerCircleNote {Inner circle: %d exercises in the cycle, %d locked (Inner circle... opens them).}
+translate E WoodpeckerCircleNote {Inner circle: %d exercises, %d locked.}
 translate E WoodpeckerCircleNone {This cycle has too few exercises for an inner circle.}
 translate E WoodpeckerCircleMoved {%d exercises moved to the new set "%s".}
 translate E WoodpeckerDanger {Danger zone}
 translate E WoodpeckerReset {Reset statistics...}
 translate E WoodpeckerResetTitle {Reset statistics}
-translate E WoodpeckerResetAsk {Start "%s" again from cycle 1, as a new set?
+translate E WoodpeckerResetAsk {Start "%s" again from cycle 1?
 
-The %d exercises you played and your sessions are put aside in the set's folder, like a tree's growth rings, and can be brought back with Restore. The exercises and their ! and !! stay. An inner circle is removed: the cycle is the whole set again.}
+Your statistics (%d exercises played) are put aside in the set's folder and can be restored. The exercises and their ! and !! stay; an inner circle is removed.}
 translate E WoodpeckerResetDo {Reset}
 translate E WoodpeckerRestore {Restore statistics of %s...}
 translate E WoodpeckerRestoreAsk {Bring back the statistics put aside on %s?}

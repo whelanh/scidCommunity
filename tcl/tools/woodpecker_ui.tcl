@@ -1351,15 +1351,15 @@ proc ::woodpecker::ui::newDialog {} {
     if {$newCfg(token) ne ""} { after idle ::woodpecker::ui::tokenVerify }
 }
 
-# The daily load of the plan being chosen, as one sentence (empty while the
-# number of exercises is unknown: a Scid database not yet read).
+# The daily load of a first cycle, as one sentence (empty while the number of
+# exercises is unknown: a Scid database not yet read). Only the first cycle:
+# the later ones have fewer days, but by then the trainee is faster too.
 proc ::woodpecker::ui::loadText {n days1} {
-    set load [::woodpecker::dailyLoad $n $days1 3]
+    set load [::woodpecker::dailyLoad $n $days1 1]
     if {![llength $load]} { return "" }
-    lassign $load c1 c2 c3
+    set c1 [lindex $load 0]
     if {[dict get $c1 days] == 1} { return [T WoodpeckerLoadOneDay $n] }
-    return [T WoodpeckerLoad [dict get $c1 perDay] [dict get $c1 days] \
-        [dict get $c2 perDay] [dict get $c3 perDay]]
+    return [T WoodpeckerLoad [dict get $c1 perDay] [dict get $c1 days]]
 }
 
 proc ::woodpecker::ui::loadUpdate {args} {

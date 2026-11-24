@@ -552,20 +552,20 @@ translate I WoodpeckerFileHelp {Ogni partita che parte da una posizione impostat
 translate I WoodpeckerDays1 {Primo ciclo (giorni)}
 translate I WoodpeckerRestDays {Riposo tra i cicli (giorni)}
 translate I WoodpeckerDaysHelp {Ogni ciclo successivo ha metà dei giorni del precedente: l'obiettivo è dimezzare il tempo di soluzione a ogni ciclo.}
-translate I WoodpeckerLoad {Circa %d esercizi al giorno per %d giorni. I giorni si dimezzano e gli esercizi restano, quindi il carico raddoppia: circa %d al giorno nel ciclo 2, %d nel ciclo 3.}
-translate I WoodpeckerLoadOneDay {Tutti i %d esercizi in un giorno, a ogni ciclo.}
+translate I WoodpeckerLoad {Circa %d esercizi al giorno per %d giorni.}
+translate I WoodpeckerLoadOneDay {Tutti i %d esercizi in un giorno.}
 translate I WoodpeckerLoadLeft {Circa %d esercizi al giorno per i %d giorni rimasti.}
 translate I WoodpeckerCircle {Cerchio interno...}
 translate I WoodpeckerCircleTitle {Cerchio interno}
-translate I WoodpeckerCircleIntro {Troppi esercizi per il tempo che hai? Allenati solo sui primi: un ciclo più piccolo dentro il set, da ripetere quante volte vuoi. Gli altri aspettano nel set, con i loro segni e le tue statistiche, finché non li apri.}
+translate I WoodpeckerCircleIntro {Non hai tempo per tutto il set? Allenati solo sui primi esercizi, quante volte vuoi. Gli altri aspettano nel set finché non li apri.}
 translate I WoodpeckerCircleSize {Esercizi nel cerchio}
 translate I WoodpeckerCircleOf {su %d}
 translate I WoodpeckerCircleDaysLeft {Giorni rimasti nel ciclo %d}
 translate I WoodpeckerCircleDaysNext {Giorni per il ciclo %d}
 translate I WoodpeckerCircleRest {Gli altri %d esercizi:}
-translate I WoodpeckerCircleKeep {Restano bloccati in questo set: aprili quando vuoi}
+translate I WoodpeckerCircleKeep {Restano bloccati in questo set}
 translate I WoodpeckerCircleMove {Spostali subito in un nuovo set}
-translate I WoodpeckerCircleGive {Restituiscili ai puzzle inclusi: un nuovo set potrà ripescarli}
+translate I WoodpeckerCircleGive {Tornano ai puzzle inclusi}
 translate I WoodpeckerCircleNewName {Nome del nuovo set}
 translate I WoodpeckerCircleStart {Avvia il cerchio}
 translate I WoodpeckerCircleState {Cerchio interno: %d esercizi, %d bloccati. Apri quelli bloccati:}
@@ -574,17 +574,17 @@ translate I WoodpeckerCircleOpenAfter {In questo set: dopo il cerchio in questo 
 translate I WoodpeckerCircleOpenMove {In un nuovo set tutto loro}
 translate I WoodpeckerCircleOpenGive {Restituiscili ai puzzle inclusi}
 translate I WoodpeckerCircleOpen {Apri}
-translate I WoodpeckerCircleGiveAsk {Restituire %d esercizi ai puzzle inclusi? Lasciano questo set per sempre; le tue statistiche su di essi restano.}
+translate I WoodpeckerCircleGiveAsk {Restituire %d esercizi ai puzzle inclusi? Lasciano questo set per sempre (le tue statistiche restano) e un nuovo set potrà ripescarli.}
 translate I WoodpeckerCirclePart {%s, parte 2}
-translate I WoodpeckerCircleNote {Cerchio interno: %d esercizi nel ciclo, %d bloccati (Cerchio interno... li apre).}
+translate I WoodpeckerCircleNote {Cerchio interno: %d esercizi, %d bloccati.}
 translate I WoodpeckerCircleNone {Questo ciclo ha troppo pochi esercizi per un cerchio interno.}
 translate I WoodpeckerCircleMoved {%d esercizi spostati nel nuovo set "%s".}
 translate I WoodpeckerDanger {Zona pericolosa}
 translate I WoodpeckerReset {Azzera statistiche...}
 translate I WoodpeckerResetTitle {Azzera statistiche}
-translate I WoodpeckerResetAsk {Ricominciare "%s" dal ciclo 1, come un set nuovo?
+translate I WoodpeckerResetAsk {Ricominciare "%s" dal ciclo 1?
 
-I %d esercizi giocati e le tue sessioni vengono messi da parte nella cartella del set, come gli anelli di un tronco, e si possono riportare con Ripristina. Gli esercizi e i loro ! e !! restano. Un cerchio interno viene tolto: il ciclo torna a essere l'intero set.}
+Le tue statistiche (%d esercizi giocati) vengono messe da parte nella cartella del set e si possono ripristinare. Gli esercizi e i loro ! e !! restano; un cerchio interno viene tolto.}
 translate I WoodpeckerResetDo {Azzera}
 translate I WoodpeckerRestore {Ripristina statistiche del %s...}
 translate I WoodpeckerRestoreAsk {Riportare le statistiche messe da parte il %s?}
