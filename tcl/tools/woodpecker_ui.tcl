@@ -2205,7 +2205,17 @@ proc ::woodpecker::ui::postmove {} {
     set run(wait) reply
     set idx [dict get $run(state) idx]
     set reply [lindex $run(solution) [expr {2 * $idx - 1}]]
-    after $::animateDelay [list ::woodpecker::ui::reply $reply]
+    # The reply waits only for the trainee's own move to finish animating (a
+    # move made by clicks). A dragged move is already on its square: waiting
+    # there kept the opponent to move, so a piece grabbed in that time did not
+    # lift and the next move was lost.
+    after [expr {[animating] ? $::animateDelay : 0}] [list ::woodpecker::ui::reply $reply]
+}
+
+# Is a move still animating on the main board? (the flag ::board::update
+# and ::board::waitForAnimation use)
+proc ::woodpecker::ui::animating {} {
+    return [expr {[info exists ::board::_animate(.main.board,moving)] && $::board::_animate(.main.board,moving)}]
 }
 
 proc ::woodpecker::ui::reply {uci} {

@@ -7,7 +7,8 @@
 #
 #   exercise 1: right, wrong                -> failed (one attempt), solution on the board
 #   exercise 2: wrong                       -> failed, solution on the board
-#   exercise 3: right, right                -> solved cleanly
+#   exercise 3: right, right                -> solved cleanly (dragged moves,
+#                                              the second during the reply)
 #
 # Run it with tests/woodpecker_gui.sh, which gives it a clean profile and reads
 # the result file it writes ($::env(WOODPECKER_GUI_RESULT)).
@@ -234,11 +235,15 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::keyContinue
     wait 300
 
-    # Exercise 3: h7g8, reply, c2h7 mate.
+    # Exercise 3: h7g8, reply, c2h7 mate. Both moves dragged (no animation of
+    # their own), the second one while the reply is still moving: a trainee
+    # who knows the line must not have to wait for the animation.
     checkEq "exercise 3 is on the board" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 3 fen]
-    addMoveUCI h7g8
-    wait 600
-    addMoveUCI c2h7
+    addMoveUCI h7g8 ""
+    wait 40
+    checkEq "after a dragged move the reply is played at once" $::woodpecker::ui::run(wait) ask
+    check "and the next move can be made while it animates" [::woodpecker::ui::animating]
+    addMoveUCI c2h7 ""
     wait 1800
     checkEq "the cycle is over: the summary is shown" [winfo ismapped .woodpeckerWin.sum] 1
     check "the board is free again" [expr {![info exists ::playMode]}]

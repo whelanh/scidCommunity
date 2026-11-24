@@ -455,7 +455,9 @@ click):
   the idea of a Lichess puzzle, where a wrong move is a failed puzzle, and it
   made `second` a third result that the score, the summary and the statistics
   all had to carry;
-- the opponent's reply plays at once; on the last move any mate is accepted
+- the opponent's reply plays at once (after the trainee's own move has
+  finished animating, when it was made by clicks), so the next move can be
+  grabbed while the reply is still moving; on the last move any mate is accepted
   (`::woodpecker::isMateMove`), as on Lichess;
 - the panel: result tile and session clock, pace (average per exercise against
   the target, the previous cycle's time halved), streak, points, days left,
