@@ -549,6 +549,10 @@ choose. Also rejected: putting the opened exercises first from the next cycle
 on, as first designed. Trying it, the familiar exercises moving to the middle
 of the cycle was confusing.
 
+**The dialogs** explain each choice in a grey line under it (what happens to
+the exercises, when they come back), since an inner circle is not a common
+idea in a trainer, while the choices themselves stay short.
+
 ## Decision 9 — reset statistics, and restore them
 
 A curated set is worth solving again months later. **Reset statistics...**

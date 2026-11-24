@@ -1017,39 +1017,54 @@ proc ::woodpecker::ui::circleDialog {} {
     } else {
         set op $circle(plan)
         set opened [llength [dict get $op opened]]
-        ttk::label $f.intro -text [T WoodpeckerCircleState [expr {[llength [dict get $op order]] - $opened}] $opened] \
-            -wraplength 440 -justify left
+        set inCircle [expr {[llength [dict get $op order]] - $opened}]
+        ttk::label $f.intro -text [T WoodpeckerCircleState $inCircle $opened] -wraplength 440 -justify left
         grid $f.intro - - -sticky w -pady {0 8}
         set keep WoodpeckerCircleOpenHere
         set move WoodpeckerCircleOpenMove
         set give WoodpeckerCircleOpenGive
         set ok WoodpeckerCircleOpen
+        # What opening them here does depends on when: during the circle, or
+        # with the next cycle.
+        if {[dict get $op daysLeft]} {
+            set circle(keepHelp) [T WoodpeckerCircleOpenNow $opened]
+        } else {
+            set circle(keepHelp) [T WoodpeckerCircleOpenNext [dict get $op cycle] [llength [dict get $op order]]]
+        }
     }
+    if {$circle(mode) eq "lock"} { set circle(keepHelp) [tr WoodpeckerCircleKeepHelp] }
+    # Each choice: a short label, and under it in grey what it does.
     set r [ttk::frame $f.rest -padding {16 2 0 0}]
-    ttk::radiobutton $r.keep -text [tr $keep] \
-        -variable ${v}::circle(rest) -value keep -command ${v}::circleUpdate
-    grid $r.keep -sticky w
-    if {$circle(mode) eq "open"} {
-        set h [ttk::frame $r.here -padding {22 2 0 4}]
-        ttk::label $h.ldays -textvariable ${v}::circle(daysLabel)
-        ttk::spinbox $h.days -from 1 -to 365 -width 6 -textvariable ${v}::circle(days)
-        ttk::label $h.load -textvariable ${v}::circle(load) -wraplength 400 -justify left
-        grid $h.ldays $h.days -sticky w
-        grid configure $h.ldays -padx {0 10}
-        grid $h.load - -sticky w
-        grid $h -sticky w
-    }
-    ttk::radiobutton $r.move -text [tr $move] -variable ${v}::circle(rest) -value move -command ${v}::circleUpdate
-    set nm [ttk::frame $r.name -padding {22 2 0 4}]
-    ttk::label $nm.l -text [tr WoodpeckerCircleNewName]
-    ttk::entry $nm.e -textvariable ${v}::circle(newName) -width 30
-    grid $nm.l $nm.e -sticky w
-    grid configure $nm.l -padx {0 10}
-    grid $r.move -sticky w
-    grid $nm -sticky w
-    if {$circle(bundled)} {
-        ttk::radiobutton $r.give -text [tr $give] -variable ${v}::circle(rest) -value give -command ${v}::circleUpdate
-        grid $r.give -sticky w
+    foreach {key label help} [list keep $keep "" move $move WoodpeckerCircleMoveHelp give $give WoodpeckerCircleGiveHelp] {
+        if {$key eq "give" && !$circle(bundled)} { continue }
+        ttk::radiobutton $r.$key -text [tr $label] -variable ${v}::circle(rest) -value $key -command ${v}::circleUpdate
+        if {$help eq ""} {
+            ttk::label $r.${key}Help -textvariable ${v}::circle(keepHelp)
+        } else {
+            ttk::label $r.${key}Help -text [tr $help]
+        }
+        $r.${key}Help configure -wraplength 400 -justify left -font woodpeckerSmall -foreground [color muted] \
+            -padding {22 0 0 6}
+        grid $r.$key -sticky w
+        grid $r.${key}Help -sticky w
+        if {$key eq "keep" && $circle(mode) eq "open"} {
+            set h [ttk::frame $r.here -padding {22 0 0 8}]
+            ttk::label $h.ldays -textvariable ${v}::circle(daysLabel)
+            ttk::spinbox $h.days -from 1 -to 365 -width 6 -textvariable ${v}::circle(days)
+            ttk::label $h.load -textvariable ${v}::circle(load) -wraplength 400 -justify left
+            grid $h.ldays $h.days -sticky w
+            grid configure $h.ldays -padx {0 10}
+            grid $h.load - -sticky w
+            grid $h -sticky w
+        }
+        if {$key eq "move"} {
+            set nm [ttk::frame $r.name -padding {22 0 0 8}]
+            ttk::label $nm.l -text [tr WoodpeckerCircleNewName]
+            ttk::entry $nm.e -textvariable ${v}::circle(newName) -width 30
+            grid $nm.l $nm.e -sticky w
+            grid configure $nm.l -padx {0 10}
+            grid $nm -sticky w
+        }
     }
     grid $r - - -sticky w
     ttk::frame $d.b -padding {10 6 10 10}
