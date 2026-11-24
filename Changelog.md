@@ -12,9 +12,15 @@ A scidCommunity version has three numbers and a build number, for example **5.1.
 The latest downloads are on the [Releases page](https://github.com/whelanh/scidCommunity/releases).
 
 ---
+## 5.1.4.75 - 24 November 2026
+- Portuguese, French, and Polish translations thanks to daSilva65, IttacusFc, and Szustan.
+- Preferences for spaces in PGN now honored when compacting PGN files - thanks to @whelanh ([#546](https://github.com/whelanh/scidCommunity/pull/546))
+- More color choices for Comment text; choices match choices available for arrows and square highlights - thanks to @whelanh ([#547](https://github.com/whelanh/scidCommunity/pull/547))
+- New instructions for users who wish to improve their local language translations now [available](https://github.com/whelanh/scidCommunity/blob/github/tcl/lang/LANGTOOL.md). Also see the related [Discussion](https://github.com/whelanh/scidCommunity/discussions/533). 
+
 ## 5.1.4.74 - 22 November 2026
  - Danish language option added -- thanks to @eborgbjerg ([#538](https://github.com/whelanh/scidCommunity/pull/538))
- - Explicit assignment of engines to Engine Windows 1 and 2 in the Engine Configure window; F2 and F3 hotkeys can be customized -- thanks to @whelanh ([#536](https://github.com/whelanh/scidCommunity/pull/536))
+ - Explicit assignment of engines to Engine Windows 1 and 2 in the Engine Configure window; F2 and F3 hotkeys can be customized -- thanks to related code from Scid vs. PC and @whelanh ([#536](https://github.com/whelanh/scidCommunity/pull/536))
 
 ## 5.1.4.73 - 21 November 2026
 
