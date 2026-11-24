@@ -1026,15 +1026,7 @@ proc ::woodpecker::ui::circleDialog {} {
         set ok WoodpeckerCircleOpen
     }
     set r [ttk::frame $f.rest -padding {16 2 0 0}]
-    set keepArg ""
-    if {$circle(mode) eq "open"} {
-        set keepArg [dict get $circle(plan) cycle]
-        if {[dict get $circle(plan) then] ne ""} {
-            set keep WoodpeckerCircleOpenAfter
-            incr keepArg
-        }
-    }
-    ttk::radiobutton $r.keep -text [T $keep $keepArg] \
+    ttk::radiobutton $r.keep -text [tr $keep] \
         -variable ${v}::circle(rest) -value keep -command ${v}::circleUpdate
     grid $r.keep -sticky w
     if {$circle(mode) eq "open"} {
@@ -1195,12 +1187,6 @@ proc ::woodpecker::ui::circleApply {} {
             set length [expr {[dict get $op daysLeft] ? [circleLength $days] : $days}]
             ::woodpecker::logScope $dir $circle(now) [dict get $op cycle] \
                 "[::woodpecker::rangesFormat [dict get $op order]] *" $length
-            # Under way: the circle first in this cycle, the opened first in
-            # the next ones, which keep halving from this cycle's length.
-            if {[dict get $op then] ne ""} {
-                ::woodpecker::logScope $dir $circle(now) [expr {[dict get $op cycle] + 1}] \
-                    "[::woodpecker::rangesFormat [dict get $op then]] *" $length [dict get $op cycle]
-            }
         }
         if {$circle(rest) in {move give}} { ::woodpecker::set::retire $dir $out }
     } err]} {

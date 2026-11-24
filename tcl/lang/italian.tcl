@@ -569,8 +569,7 @@ translate I WoodpeckerCircleGive {Tornano ai puzzle inclusi}
 translate I WoodpeckerCircleNewName {Nome del nuovo set}
 translate I WoodpeckerCircleStart {Avvia il cerchio}
 translate I WoodpeckerCircleState {Cerchio interno: %d esercizi, %d bloccati. Apri quelli bloccati:}
-translate I WoodpeckerCircleOpenHere {In questo set, prima del cerchio (dal ciclo %d in poi)}
-translate I WoodpeckerCircleOpenAfter {In questo set: dopo il cerchio in questo ciclo, prima del cerchio dal ciclo %d in poi}
+translate I WoodpeckerCircleOpenHere {In questo set, dopo il cerchio}
 translate I WoodpeckerCircleOpenMove {In un nuovo set tutto loro}
 translate I WoodpeckerCircleOpenGive {Restituiscili ai puzzle inclusi}
 translate I WoodpeckerCircleOpen {Apri}

@@ -601,8 +601,7 @@ translate E WoodpeckerCircleGive {Go back to the included puzzles}
 translate E WoodpeckerCircleNewName {Name of the new set}
 translate E WoodpeckerCircleStart {Start the circle}
 translate E WoodpeckerCircleState {Inner circle: %d exercises, %d locked. Open the locked ones:}
-translate E WoodpeckerCircleOpenHere {In this set, before the circle (from cycle %d on)}
-translate E WoodpeckerCircleOpenAfter {In this set: after the circle in this cycle, before it from cycle %d on}
+translate E WoodpeckerCircleOpenHere {In this set, after the circle}
 translate E WoodpeckerCircleOpenMove {In a new set of their own}
 translate E WoodpeckerCircleOpenGive {Give them back to the included puzzles}
 translate E WoodpeckerCircleOpen {Open}

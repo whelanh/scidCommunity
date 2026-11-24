@@ -711,13 +711,13 @@ proc ::woodpecker::circlePlan {xs cs exs retired days1 size today} {
     return [dict create cycle $cycle order $order locked $locked from $from daysLeft $daysLeft]
 }
 
-# Opening the locked exercises again, in the same set. In every cycle that
-# has not begun they come first, then the circle. In a cycle under way the
-# circle is finished first and the opened exercises follow it in the same
-# cycle; from the next cycle on they come first. Returns
+# Opening the locked exercises again, in the same set: they join the cycle
+# after the circle, and every later cycle keeps that order (the exercises the
+# trainee knows first, then the new ones). In a cycle under way the circle is
+# finished first, then the opened exercises follow; after a complete cycle
+# they join the next one. Returns
 #   cycle     the cycle the C row starts at
-#   order     that cycle's order
-#   then      "" or, for a cycle under way, the order from cycle+1 on
+#   order     the order from then on: the circle, then the opened exercises
 #   opened    the exercises unlocked
 #   daysLeft  1 when the days asked for are the days left of the running
 #             cycle, 0 when they are the length of a cycle not begun
@@ -733,12 +733,8 @@ proc ::woodpecker::openPlan {xs cs exs retired days1 today} {
     set scope [scopeAt $cs $cycle $exs $retired $days1]
     set opened [dict get $scope locked]
     if {![llength $opened]} { error "no exercise is locked" }
-    set first [concat $opened [dict get $scope order]]
-    if {$daysLeft} {
-        return [dict create cycle $cycle order [concat [dict get $scope order] $opened] then $first \
-            opened $opened daysLeft 1]
-    }
-    return [dict create cycle $cycle order $first then "" opened $opened daysLeft 0]
+    return [dict create cycle $cycle order [concat [dict get $scope order] $opened] opened $opened \
+        daysLeft $daysLeft]
 }
 
 # One exercise row's points under a marks table (ex -> {marks source}).

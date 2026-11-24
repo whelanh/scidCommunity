@@ -506,14 +506,13 @@ others locked in the set.
   so that a new set can draw them again. A Lichess or book set cannot give
   them back: the puzzles or the grading would be lost.
 - **Opening them.** The same dialog then offers the same three ways out, at
-  any time. In the same set (`::woodpecker::openPlan`) they come first, then
-  the circle, and that order is kept in every later cycle, as the method keeps
-  a fixed order. During the circle they are added at once, after it: the
-  running cycle finishes the circle, then goes on with the opened exercises,
-  and the dialog asks the days left of it; from the next cycle they come
-  first, with half that cycle's length. During the rest after a complete cycle
-  they join the next one, whose days are asked, and the halving starts again
-  from there.
+  any time. In the same set (`::woodpecker::openPlan`) they come after the
+  circle, and every later cycle keeps that order: the exercises the trainee
+  already knows first, then the new ones, so the familiar start of the set
+  does not move. During the circle the running cycle finishes the circle and
+  goes on with them, and the dialog asks the days left of it; during the rest
+  after a complete cycle they join the next one, whose days are asked, and the
+  halving starts again from there.
 
 **Storage.** The log gets a third kind of row, `C ts cycle order days1 from`:
 from cycle `cycle` on, a cycle is the exercises `order` (ranges in their
@@ -546,7 +545,9 @@ ring still names.
 
 *Rejected:* letting the circle be any subset, chosen exercise by exercise. The
 method's order goes from easy to hard; a prefix keeps it, and is one number to
-choose.
+choose. Also rejected: putting the opened exercises first from the next cycle
+on, as first designed. Trying it, the familiar exercises moving to the middle
+of the cycle was confusing.
 
 ## Decision 9 — reset statistics, and restore them
 
