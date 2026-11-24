@@ -129,7 +129,7 @@ menuText B SearchNegate "Inverter Filtragem" 0 {Inverte o critério de pesquisa 
 menuText B SearchCurrent "Posição Atual..." 0 {Pesquisa a posição atual do tabuleiro}
 menuText B SearchHeader "Cabeçalho..." 0 {Pesquisa por cabeçalho (jogador, evento, etc)}
 menuText B SearchMaterial "Material/Padrão..." 0 {Pesquisa por material ou padrão de posição}
-menuText B SearchMoves "Move-se..." 0 {Procure uma sequência de movimentos na linha principal}
+menuText B SearchMoves "Movimentos..." 0 {Procure uma sequência de movimentos na linha principal}
 menuText B SearchCQL "CQL..." 0 {Pesquisar com uma consulta Chess Query Language}
 menuText B SearchComments "Pesquisar comentários..." 0 {Pesquise os comentários dos jogos no filtro atual}
 menuText B SearchUsing "Usar arquivo de opções de filtro..." 0 {Pesquisa usando arquivo com opções de filtro}
@@ -1595,8 +1595,8 @@ translate B SearchInRefDatabase { Pesquisa na base }
 translate B LookInVars {Olhar nas variantes}
 
 # Moves search:
-translate B MovesSearchHint {SAN se move em ordem, por ex. e4 e5 Cf3. "?" corresponde a qualquer movimento único.}
-translate B LastMoveIsMate {O último movimento é companheiro}
+translate B MovesSearchHint {Colocar movimentos em sequência, por ex. e4 e5 Cf3. "?" corresponde a qualquer movimento único.}
+translate B LastMoveIsMate {O último movimento é xeque-mate}
 
 # Material search:
 translate B MaterialSearch {Pesquisa Material}
