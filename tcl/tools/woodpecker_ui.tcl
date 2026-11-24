@@ -805,12 +805,6 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
     lappend notes {*}[lrange $lines [expr {[llength $notes] + 2}] end]
     set locked [llength [dict get $pr locked]]
     if {$locked} { lappend notes [T WoodpeckerCircleNote $n $locked] }
-    # Exercises unlocked for the next cycle, while this one is still running.
-    set ahead [::woodpecker::scopeAt $cs [expr {$cycle + 1}] $all $retired $days1]
-    if {[llength [dict get $ahead locked]] < $locked} {
-        lappend notes [T WoodpeckerCircleOpening [expr {$cycle + 1}] \
-            [expr {$locked - [llength [dict get $ahead locked]]}]]
-    }
     return [dict merge $plan [dict create cycle $cycle next [dict get $pr next] pos [dict get $pr pos] \
         n $n total $total all $all order [dict get $pr order] locked [dict get $pr locked] \
         doneToday $doneToday start $start rest $rest lines $lines notes $notes meta $meta \
@@ -965,10 +959,19 @@ proc ::woodpecker::ui::circleDialog {} {
         rest keep newName [T WoodpeckerCirclePart [dict get $meta name]]]
     # Locked exercises for the next cycle that can still change: open them;
     # otherwise draw a circle.
+    set circle(dp) $dp
     if {![catch { ::woodpecker::openPlan {*}$args $today } op]} {
         set circle(mode) open
         set circle(plan) $op
-        set circle(days) $days1
+        # The days left of the running cycle, or a first cycle's days for
+        # one where the opened exercises are new.
+        if {[dict get $op daysLeft]} {
+            set circle(days) [expr {max(1, [dict get $dp daysLeft])}]
+            set circle(daysLabel) [T WoodpeckerCircleDaysLeft [dict get $op cycle]]
+        } else {
+            set circle(days) $days1
+            set circle(daysLabel) [T WoodpeckerCircleDaysNext [dict get $op cycle]]
+        }
     } else {
         set circle(mode) lock
         set base [dict get $dp n]
@@ -978,7 +981,6 @@ proc ::woodpecker::ui::circleDialog {} {
         }
         set circle(base) $base
         set circle(size) [expr {max(1, min($base - 1, ($base + 1) / 2))}]
-        set circle(dp) $dp
     }
     win::createDialog $d
     ::setTitle $d [tr WoodpeckerCircleTitle]
@@ -1024,12 +1026,20 @@ proc ::woodpecker::ui::circleDialog {} {
         set ok WoodpeckerCircleOpen
     }
     set r [ttk::frame $f.rest -padding {16 2 0 0}]
-    ttk::radiobutton $r.keep -text [T $keep [expr {$circle(mode) eq "open" ? [dict get $circle(plan) cycle] : ""}]] \
+    set keepArg ""
+    if {$circle(mode) eq "open"} {
+        set keepArg [dict get $circle(plan) cycle]
+        if {[dict get $circle(plan) then] ne ""} {
+            set keep WoodpeckerCircleOpenAfter
+            incr keepArg
+        }
+    }
+    ttk::radiobutton $r.keep -text [T $keep $keepArg] \
         -variable ${v}::circle(rest) -value keep -command ${v}::circleUpdate
     grid $r.keep -sticky w
     if {$circle(mode) eq "open"} {
         set h [ttk::frame $r.here -padding {22 2 0 4}]
-        ttk::label $h.ldays -text [T WoodpeckerCircleDaysNext [dict get $circle(plan) cycle]]
+        ttk::label $h.ldays -textvariable ${v}::circle(daysLabel)
         ttk::spinbox $h.days -from 1 -to 365 -width 6 -textvariable ${v}::circle(days)
         ttk::label $h.load -textvariable ${v}::circle(load) -wraplength 400 -justify left
         grid $h.ldays $h.days -sticky w
@@ -1094,37 +1104,34 @@ proc ::woodpecker::ui::circleUpdate {args} {
     set d .woodpeckerCircle
     if {![winfo exists $d.f.rest]} { return }
     if {$circle(rest) eq "move"} { grid $d.f.rest.name } else { grid remove $d.f.rest.name }
-    set days $circle(days)
-    if {![string is integer -strict $days] || $days < 1} { set circle(load) ""; return }
     if {$circle(mode) eq "open"} {
-        if {[winfo exists $d.f.rest.here]} {
-            if {$circle(rest) eq "keep"} { grid $d.f.rest.here } else { grid remove $d.f.rest.here }
-        }
-        set circle(load) [loadText [llength [dict get $circle(plan) order]] $days]
+        if {$circle(rest) eq "keep"} { grid $d.f.rest.here } else { grid remove $d.f.rest.here }
+        set circle(load) [circleLoad $circle(plan) $circle(days)]
         return
     }
     circleDaysDefault
     set cp [circlePlanNow]
     if {$cp eq ""} { set circle(load) ""; set circle(restLabel) ""; return }
     set circle(restLabel) [T WoodpeckerCircleRest [llength [dict get $cp locked]]]
-    set days $circle(days)
-    set n [llength [dict get $cp order]]
-    if {[dict get $cp daysLeft]} {
-        # This cycle: what is left of the circle in the days left; the next
-        # cycle: half of the whole length.
-        set dp $circle(dp)
-        set done 0
-        foreach x [lindex $circle(args) 0] {
-            if {[dict get $x cycle] == [dict get $cp cycle] && [dict get $x ex] in [dict get $cp order]} { incr done }
+    set circle(load) [circleLoad $cp $circle(days)]
+}
+
+# The daily load of a new scope ({cycle order daysLeft}, from circlePlan or
+# openPlan): in the days left of the running cycle, what is left of it; in a
+# cycle not begun, all of it.
+proc ::woodpecker::ui::circleLoad {plan days} {
+    variable circle
+    if {![string is integer -strict $days] || $days < 1} { return "" }
+    set n [llength [dict get $plan order]]
+    if {![dict get $plan daysLeft]} { return [loadText $n $days] }
+    set done [dict create]
+    foreach x [lindex $circle(args) 0] {
+        if {[dict get $x cycle] == [dict get $plan cycle] && [dict get $x ex] in [dict get $plan order]} {
+            dict set done [dict get $x ex] 1
         }
-        set left [expr {max(0, $n - $done)}]
-        set length [circleLength $days]
-        set next [::woodpecker::cycleDays 2 $length]
-        set circle(load) [T WoodpeckerCircleLoad [expr {int(ceil(double($left) / $days))}] $days \
-            [expr {int(ceil(double($n) / $next))}] [expr {[dict get $cp cycle] + 1}]]
-    } else {
-        set circle(load) [loadText $n $days]
     }
+    set left [expr {max(0, $n - [dict size $done])}]
+    return [T WoodpeckerLoadLeft [expr {int(ceil(double($left) / $days))}] $days]
 }
 
 # The planned length of the running cycle when `days` are left of it: the days
@@ -1185,8 +1192,15 @@ proc ::woodpecker::ui::circleApply {} {
                 [::woodpecker::rangesFormat [dict get $cp order]] $length [dict get $cp from]
         } elseif {$circle(rest) eq "keep"} {
             set op $circle(plan)
+            set length [expr {[dict get $op daysLeft] ? [circleLength $days] : $days}]
             ::woodpecker::logScope $dir $circle(now) [dict get $op cycle] \
-                "[::woodpecker::rangesFormat [dict get $op order]] *" $days
+                "[::woodpecker::rangesFormat [dict get $op order]] *" $length
+            # Under way: the circle first in this cycle, the opened first in
+            # the next ones, which keep halving from this cycle's length.
+            if {[dict get $op then] ne ""} {
+                ::woodpecker::logScope $dir $circle(now) [expr {[dict get $op cycle] + 1}] \
+                    "[::woodpecker::rangesFormat [dict get $op then]] *" $length [dict get $op cycle]
+            }
         }
         if {$circle(rest) in {move give}} { ::woodpecker::set::retire $dir $out }
     } err]} {
@@ -2096,7 +2110,7 @@ proc ::woodpecker::ui::nextExercise {{force 1}} {
         return
     }
     set ex $run(next)
-    set pos [expr {[lsearch -exact $run(order) $ex] + 1}]
+    set pos [expr {$run(doneCycle) + 1}]
     set e [dict get $run(exs) $ex]
     set run(ex) $ex
     set run(state) [::woodpecker::exStart [dict get $e nmoves]]
@@ -2123,6 +2137,8 @@ proc ::woodpecker::ui::nextExercise {{force 1}} {
     set run(exPaused) 0
     set run(wait) ask
     set rating [dict get $e rating]
+    # The how-many-th of the cycle (done + 1): when the order changed
+    # mid-cycle, the place in the order could skip exercises already done.
     set txt(title) [T WoodpeckerExercise $pos $run(n)]
     set txt(sub) "[tr [expr {$side eq "w" ? "WoodpeckerWhiteToMove" : "WoodpeckerBlackToMove"}]][expr {$rating ne "" ? "   \u00b7   $rating" : ""}]"
     set c $w.sess.sub.side
@@ -2305,7 +2321,7 @@ proc ::woodpecker::ui::exerciseDone {result} {
     variable run
     if {!$run(on)} { return }
     set ex $run(ex)
-    set pos [expr {[lsearch -exact $run(order) $ex] + 1}]
+    set pos [expr {$run(doneCycle) + 1}]
     set ms [expr {max(0, [clock milliseconds] - $run(exT0) - $run(exPaused))}]
     set found [::woodpecker::foundString $run(state)]
     set e [dict get $run(exs) $ex]

@@ -406,7 +406,7 @@ set pr [::woodpecker::progress $xs $ten 2026-11-04 $cs {} 28]
 checkEq "cycle 2 is the circle, halved" [list [dict get $pr cycle] [dict get $pr n] [dict get $pr complete] [dict get $pr days]] {2 6 1 6}
 # Open the locked exercises: the next cycle has them first, then the circle.
 set op [::woodpecker::openPlan $xs $cs $ten {} 28 2026-11-05]
-checkEq "a finished cycle: they join the next one" [dict get $op cycle] 3
+checkEq "a finished cycle: they join the next one" [list [dict get $op cycle] [dict get $op daysLeft] [dict get $op then]] {3 0 {}}
 checkEq "the locked ones first, then the circle" [dict get $op order] {7 8 9 10 1 2 3 4 5 6}
 checkEq "the opened exercises" [dict get $op opened] {7 8 9 10}
 ::woodpecker::logScope $ct [expr {$d1 + 4*86400}] 3 [::woodpecker::rangesFormat [dict get $op order]] 20
@@ -429,12 +429,25 @@ checkEq "circle smaller than what is done: it starts next cycle" [list [dict get
 # During the rest after a complete cycle the circle is the next cycle's.
 set cp [::woodpecker::circlePlan [lrange $xs 0 11] [lrange $cs 0 0] $ten {} 28 3 2026-11-05]
 checkEq "after a complete cycle the circle is the next one" [list [dict get $cp cycle] [dict get $cp order] [dict get $cp daysLeft]] {3 {1 2 3} 0}
-# A cycle already begun keeps its scope; the unlocked join the next one.
+# Opening during the circle: the circle is finished first, then the opened
+# exercises in the same cycle; from the next cycle they come first.
 lassign [::woodpecker::readLog $ct] xs ss cs
 set op [::woodpecker::openPlan [lrange $xs 0 8] [lrange $cs 0 0] $ten {} 28 2026-11-04]
-checkEq "a cycle begun is finished first" [dict get $op cycle] 3
+checkEq "mid-circle: they join the running cycle" [list [dict get $op cycle] [dict get $op daysLeft]] {2 1}
+checkEq "... after the circle" [dict get $op order] {1 2 3 4 5 6 7 8 9 10}
+checkEq "... and before it from the next cycle" [dict get $op then] {7 8 9 10 1 2 3 4 5 6}
+set mc [list [lindex $cs 0] [dict create ts 0 cycle 2 order [::woodpecker::rangesFormat [dict get $op order]] days1 20 from 2] \
+    [dict create ts 0 cycle 3 order [::woodpecker::rangesFormat [dict get $op then]] days1 20 from 2]]
+set pr [::woodpecker::progress [lrange $xs 0 8] $ten 2026-11-04 $mc {} 28]
+checkEq "the circle goes on: next is 4, then the opened ones" \
+    [list [dict get $pr n] [dict get $pr done] [dict get $pr next] [dict get $pr days]] {10 3 4 20}
+set sc [::woodpecker::scopeAt $mc 3 $ten {} 28]
+checkEq "cycle 3: opened first, half the days" [list [dict get $sc order] [::woodpecker::scopeDays $sc 3]] \
+    {{7 8 9 10 1 2 3 4 5 6} 10}
 set op [::woodpecker::openPlan [lrange $xs 0 3] [lrange $cs 0 0] $ten {} 28 2026-11-02]
-checkEq "mid-cycle: from the next cycle" [dict get $op cycle] 2
+checkEq "in the circle's first cycle too" [list [dict get $op cycle] [dict get $op daysLeft]] {1 1}
+set op [::woodpecker::openPlan {} [lrange $cs 0 0] $ten {} 28 2026-11-02]
+checkEq "before anything is played: the whole cycle's days" [list [dict get $op cycle] [dict get $op daysLeft]] {1 0}
 
 # Puzzles deleted or added in the set's database (Open Puzzle Database).
 set circleRow [list [dict create cycle 1 order 1-6 days1 10 from 1]]

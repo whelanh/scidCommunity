@@ -711,19 +711,34 @@ proc ::woodpecker::circlePlan {xs cs exs retired days1 size today} {
     return [dict create cycle $cycle order $order locked $locked from $from daysLeft $daysLeft]
 }
 
-# Opening the locked exercises again, in the same set: from cycle `cycle` on,
-# the locked ones come first, then the circle, in that order every cycle. A
-# cycle already begun is finished first, so they join from the next one.
-# Returns {cycle order opened} (opened = the exercises unlocked), or an error
-# when nothing is locked.
+# Opening the locked exercises again, in the same set. In every cycle that
+# has not begun they come first, then the circle. In a cycle under way the
+# circle is finished first and the opened exercises follow it in the same
+# cycle; from the next cycle on they come first. Returns
+#   cycle     the cycle the C row starts at
+#   order     that cycle's order
+#   then      "" or, for a cycle under way, the order from cycle+1 on
+#   opened    the exercises unlocked
+#   daysLeft  1 when the days asked for are the days left of the running
+#             cycle, 0 when they are the length of a cycle not begun
+# An error when nothing is locked.
 proc ::woodpecker::openPlan {xs cs exs retired days1 today} {
     set pr [progress $xs $exs $today $cs $retired $days1]
     set cycle [dict get $pr cycle]
-    foreach x $xs { if {[dict get $x cycle] == $cycle} { incr cycle; break } }
+    set daysLeft [expr {[dict get $pr start] ne ""}]
+    if {[dict get $pr complete]} {
+        incr cycle
+        set daysLeft 0
+    }
     set scope [scopeAt $cs $cycle $exs $retired $days1]
     set opened [dict get $scope locked]
     if {![llength $opened]} { error "no exercise is locked" }
-    return [dict create cycle $cycle order [concat $opened [dict get $scope order]] opened $opened]
+    set first [concat $opened [dict get $scope order]]
+    if {$daysLeft} {
+        return [dict create cycle $cycle order [concat [dict get $scope order] $opened] then $first \
+            opened $opened daysLeft 1]
+    }
+    return [dict create cycle $cycle order $first then "" opened $opened daysLeft 0]
 }
 
 # One exercise row's points under a marks table (ex -> {marks source}).
