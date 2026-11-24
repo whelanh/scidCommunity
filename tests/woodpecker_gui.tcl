@@ -164,7 +164,9 @@ proc ::wpgui::run {} {
 
     # Exercise 1: e6e1 (right), reply, then a wrong move: one attempt, so it fails.
     addMoveUCI e6e1
-    wait 600
+    wait 40
+    checkEq "after an animated move (clicks) the reply is played at once too" $::woodpecker::ui::run(wait) ask
+    wait 560
     checkEq "the opponent replied by itself" [sc_game info previousMoveUCI] g1f2
     shot session
     check "the board is not moved back by the arrows" \

@@ -2206,11 +2206,12 @@ proc ::woodpecker::ui::postmove {} {
     set run(wait) reply
     set idx [dict get $run(state) idx]
     set reply [lindex $run(solution) [expr {2 * $idx - 1}]]
-    # The reply waits only for the trainee's own move to finish animating (a
-    # move made by clicks). A dragged move is already on its square: waiting
-    # there kept the opponent to move, so a piece grabbed in that time did not
-    # lift and the next move was lost.
-    after [expr {[animating] ? $::animateDelay : 0}] [list ::woodpecker::ui::reply $reply]
+    # The reply is played at once. Until it is on the board the opponent is to
+    # move, so a piece grabbed in that time did not lift and the next move was
+    # lost. A move made by clicks is animated: the reply cuts that animation
+    # short (the piece lands at once) and only the reply slides; waiting for it
+    # would block the board for animateDelay again.
+    after 0 [list ::woodpecker::ui::reply $reply]
 }
 
 # Is a move still animating on the main board? (the flag ::board::update
