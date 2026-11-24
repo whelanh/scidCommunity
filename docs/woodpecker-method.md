@@ -402,11 +402,10 @@ The status reaches the trainee as one sentence on the sets page and in the
 session.
 
 **The commitment, before the set exists.** The new-set dialog says what the
-plan asks every day (`::woodpecker::dailyLoad`, the base quota
-`ceil(n / days)` of each cycle): *About 36 exercises a day for 28 days. The
-days halve and the exercises stay, so the load doubles: about 72 a day in
-cycle 2, 143 in cycle 3.* The later cycles are the point: halving the days of
-a fixed set doubles the daily load every cycle until a cycle fits in a day.
+plan asks every day in the first cycle (`::woodpecker::dailyLoad`, the base
+quota `ceil(n / days)`): *About 36 exercises a day for 28 days.* The later
+cycles are left out: their days halve, but by then the trainee is faster, so
+their nominal load (double, then four times) would overstate the commitment.
 For a PGN book the count is its games with a FEN tag; for a Scid database the
 line stays empty rather than open the database.
 
@@ -504,12 +503,15 @@ others locked in the set.
   away, or, for sets from the included puzzles only, given back to the pool,
   so that a new set can draw them again. A Lichess or book set cannot give
   them back: the puzzles or the grading would be lost.
-- **Opening them.** The same dialog then offers the same three ways out. In
-  the same set (`::woodpecker::openPlan`) they join from the next cycle not
-  yet begun: first the exercises that were locked, then the circle, and that
-  order is kept in every later cycle, as the method keeps a fixed order. A
-  cycle already begun is finished first. The dialog asks the days of that
-  cycle, from which the halving starts again.
+- **Opening them.** The same dialog then offers the same three ways out, at
+  any time. In the same set (`::woodpecker::openPlan`) they come first, then
+  the circle, and that order is kept in every later cycle, as the method keeps
+  a fixed order. During the circle they are added at once, after it: the
+  running cycle finishes the circle, then goes on with the opened exercises,
+  and the dialog asks the days left of it; from the next cycle they come
+  first, with half that cycle's length. During the rest after a complete cycle
+  they join the next one, whose days are asked, and the halving starts again
+  from there.
 
 **Storage.** The log gets a third kind of row, `C ts cycle order days1 from`:
 from cycle `cycle` on, a cycle is the exercises `order` (ranges in their
@@ -528,7 +530,8 @@ half-built set before the original is touched.
 `::woodpecker::progress` follows the cycle's order: the next exercise is the
 first of the order not done in the cycle, and only the cycle's exercises
 count as done. Without `C` rows it gives what it gave before. The session
-numbers exercises by their place in the cycle.
+numbers an exercise as the how-many-th of the cycle (done + 1), which keeps
+counting up when exercises are opened mid-cycle.
 
 **With Open Puzzle Database (Decision 1).** A scope names exercise numbers,
 and those never change when the set's database is edited. A deleted puzzle
