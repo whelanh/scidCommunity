@@ -614,6 +614,11 @@ proc ::woodpecker::ui::leaveFocus {{reopen 1}} {
     variable w
     if {!$focus(active)} { return }
     set focus(relayout) 1
+    # Ending a session puts the user's game back, which queues the board's
+    # refresh for when Tk is idle. The restore below rebuilds the main board
+    # and lets Tk idle half-way, before the board's toolbar exists, so the
+    # refresh must run now, on the board that is still whole.
+    update idletasks
     catch { ::docking::layout_restore woodpecker_user }
     set focus(relayout) 0
     set focus(active) 0

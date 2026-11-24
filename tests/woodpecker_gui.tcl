@@ -302,6 +302,17 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::open
     wait 300
 
+    # Leaving with an exercise still on the board: the board's refresh queued
+    # by putting the game back must not run on the half-rebuilt main board.
+    set errs [llength $::wpgui::errors]
+    ::woodpecker::ui::train $dir2
+    wait 500
+    ::woodpecker::ui::exitSession
+    wait 800
+    checkEq "leaving mid-exercise raises no background error" [lrange $::wpgui::errors $errs end] {}
+    checkEq "the board's toolbar follows the game put back" [.main.board.bar.leavevar cget -state] \
+        [expr {[sc_pos isAt start] ? "disabled" : "normal"}]
+
     # Options > Resources: the data folder row, and a folder that holds no set.
     ::preferences::resources
     wait 300
