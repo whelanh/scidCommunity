@@ -31,7 +31,7 @@ menuText B FileMaintSort "Ordenar base de dados..." 0 \
   {Ordena todos os jogos da base de dados}
 menuText B FileMaintDelete "Apagar jogos duplicados..." 13 \
   {Encontra jogos duplicados e os marca para exclusão}
-menuText B FileMaintTwin "Janela de verificação de duplicadas" 10 \
+menuText B FileMaintTwin "Janela de verificação de duplicados" 10 \
   {Abre/atualiza a janela de verificação de duplicadas}
 menuText B FileMaintName "Ortografia de nomes" 14 {Ferramentas de edição e correção ortográfica de nomes}
 menuText B FileMaintNameEditor "Editor de Nomes" 0 \
@@ -48,7 +48,7 @@ menuText B FileReadOnly "Apenas Leitura..." 7 \
   {Trata a base de dados corrente como arquivo de leitura, impedindo mudanças}
 menuText B FileSwitch "Mudar a base de dados" 0 \
   {Muda para uma base de dados diferente, já aberta} 
-menuText B FileOpenLichessTournament "Torneio Aberto de Lichess" 0 {Baixe e abra jogos de transmissão do torneio Lichess ao vivo}
+menuText B FileOpenLichessTournament "Abrir Torneio do Lichess" 0 {Baixe e abra jogos de transmissão do torneio Lichess ao vivo}
 menuText B FileImportLichess "Importe meu Lichess" 0 {Importe jogos da sua conta Lichess}
 menuText B FileImportChessCom "Importe meu Chess.com" 0 {Importe jogos da sua conta chess.com}
 menuText B FileExit "Sair" 0 {Encerrar o Scid}
@@ -72,9 +72,9 @@ menuText B EditStripCommentsNotAnnos "Comentários, não anotações" 0 \
   {Limpa os comentários, mas mantém as anotações (NAGs) no jogo atual}
 menuText B EditStripVars "Limpar Variantes" 0 \
   {Limpa todas as variantes no jogo atual}
-menuText B EditStripAll "Comentários e variações" 0 \
+menuText B EditStripAll "Comentários e Variantes" 0 \
   {Retire todos os comentários, anotações e variações deste jogo}
-menuText B EditStripBegin "Movimentos a partir do incio" 1 \
+menuText B EditStripBegin "Movimentos a partir do início" 1 \
   {Remove movimentos a partir do início do jogo} 
 menuText B EditStripEnd "Movimentos até o final do jogo" 0 \
   {Remove movimentos até o final do jogo} 
@@ -89,7 +89,7 @@ menuText B EditPastePGN "Colar como jogo em PGN..." 10 \
 menuText B EditNullMove "Movimento Nulo" 0 {Inserir um movimento nulo (pular um movimento)}
 menuText B EditSetup "Configura posição inicial..." 12 \
   {Configura a posição inicial para o jogo}
-menuText B EditCopyBoard "Copia posição" 6 \
+menuText B EditCopyBoard "Copiar posição" 6 \
   {Copia o tabuleiro corrente em notação FEN para a área de transferência} 
 menuText B EditPasteBoard "Colar Posição" 12 \
   {Configura a posição inicial a partir da área de transferência}
@@ -106,7 +106,7 @@ menuText B GameReload "Recarrega o Jogo atual" 3 \
 menuText B GameNext "Próximo Jogo" 5 {Carrega o próximo jogo}
 menuText B GameLast "Último Jogo" 8 {Carrega o Último jogo}
 menuText B GameRandom "Carrega jogo aleatório" 8 {Carrega um jogo filtrado aleatoriamente} 
-menuText B GameNumber "Carrega Jogo Número..." 5 \
+menuText B GameNumber "Carrega Jogo número..." 5 \
   {Carrega um jogo pelo seu número}
 menuText B GameReplace "Salvar: Substituir Jogo..." 8 \
   {Salva o jogo e substitui a versão antiga}
@@ -140,8 +140,8 @@ menuText B WindowsComment "Editor de Comentários" 0 {Abre/fecha o editor de com
 menuText B WindowsGList "Lista de Jogos" 0 {Abre/fecha a janela com a lista de jogos}
 menuText B WindowsPGN "Notação PGN" 0 \
   {Abre/fecha a janela com a notação PGN do jogo}
-menuText B WindowsPList "Procura Jogador" 2 {Abre/Fecha o buscador de jogadores} 
-menuText B WindowsTmt "Buscador de Torneio" 2 {Abre/Fecha o buscador de torneio}
+menuText B WindowsPList "Procurar Jogador" 2 {Abre/Fecha o buscador de jogadores} 
+menuText B WindowsTmt "Procurar Torneio" 2 {Abre/Fecha o buscador de torneio}
 menuText B WindowsSwitcher "Intercâmbio de bases de dados" 0 \
   {Abre/fecha a janela de intercâmbio de bases de dados}
 menuText B WindowsMaint "Manutenção" 0 \
@@ -171,7 +171,7 @@ translate B EpdCountBestMoves {Conte os melhores movimentos}
 translate B EpdSaveLog {Salvar resultados em arquivo}
 # EPD headless analysis: status text and the reasons the session reports.
 # The EpdEngine* strings are fragments shown after the "%s" above them.
-translate B EpdAnalysisTitle {Análise de DEP}
+translate B EpdAnalysisTitle {Análise de EPD}
 translate B EpdAnalysisRunning {Outra análise de EPD já está em execução.}
 translate B EpdAnalysisMinTime {O tempo de análise deve ser de pelo menos 1 segundo.}
 translate B EpdAnalysisStartFailed {Falha ao iniciar o mecanismo de análise: %s}
@@ -183,9 +183,9 @@ translate B EpdEngineNoResult {o motor não retornou nenhum resultado}
 translate B EpdSearchAlreadyRunning {uma pesquisa já está em execução}
 translate B EpdNoEngineConfigured {nenhum mecanismo está configurado}
 translate B EpdOnlyUci {Apenas motores UCI suportados}
-translate B EpdEngineDisconnected {o motor desligado}
+translate B EpdEngineDisconnected {o motor está desligado}
 translate B EpdEngineNoAnswer {o motor não respondeu}
-translate B EpdDontSave {Não salve}
+translate B EpdDontSave {Não guarde}
 translate B EpdReadOnly {somente leitura}
 translate B EpdAltered {alterado}
 translate B EpdNoMoves {sem movimentos}
@@ -198,8 +198,8 @@ translate B EpdPasteRecord {Colar registro}
 
 # Tools menu:
 menuText B Tools "Ferramentas" 0
-menuText B ToolsConfigureEngines "Configurar Engines" 10 {Gerencia configuração dos engines}
-menuText B ToolsEngineWindow "Janela do motor..." 0 {Abra uma janela do mecanismo de xadrez}
+menuText B ToolsConfigureEngines "Configurar Motores (engines)" 10 {Gerencia configuração dos motores}
+menuText B ToolsEngineWindow "Janela do Motor..." 0 {Abra uma janela do motor de xadrez}
 menuText B ToolsCross "Tabela de Cruzamento" 0 {Mostra a tabela de cruzamentos do torneio para o jogo corrente}
 menuText B ToolsFilterGraph "Gráfico de Filtro Relativo" 7 \
   {Abre/Fecha a janela do gráfico de filtro} 
@@ -215,11 +215,11 @@ menuText B ToolsTrainOpenings "Aberturas"  0 {Treinamento com um repertório}
 menuText B ToolsTrainTactics "Táticas"  0 {Exercícios de tática}
 menuText B ToolsTrainFindBestMove "Procurar melhor movimento"  0 {Procura o melhor movimento}
 menuText B ToolsTrainFics "Jogar na internet"  0 {Jogar em  freechess.org}
-menuText B ToolsEngineTournament "Torneio de Engines de Xadrez"  0 {Inicia um torneio entre engines de Xadrez}
+menuText B ToolsEngineTournament "Torneio de Motores de Xadrez"  0 {Inicia um torneio entre engines de Xadrez}
 menuText B ToolsTimeAnalysis "Análise de Tempo" 0 {Mostrar gráfico de tempo do relógio para o jogo atual}
 menuText B ToolsBookTuning "Sintonizar Livro" 0 {Sintonizar livro de aberturas}
 menuText B ToolsCtgConvert "Converter CTG em OBR..." 0 {Converter um livro ChessBase CTG em um livro OpenBook Rich (.obr)}
-menuText B ToolsRapidAnnotate "Anotar no gráfico de pontuação" 0 {Escreva as avaliações e anotações do gráfico de pontuação do motor no jogo atual (Ctrl+Shift+A)}
+menuText B ToolsRapidAnnotate "Escrever no jogo as pontuações do gráfico" 0 {Escreva as avaliações e anotações do gráfico de pontuação do motor no jogo atual (Ctrl+Shift+A)}
 menuText B ToolsDownloadTWIC "Baixar Partidas TWIC" 0 {Baixar as partidas mais recentes The Week In Chess (TWIC)}
 menuText B ToolsConnectHardware "Conectar Hardware" 0 {Conectar hardware externo}
 menuText B ToolsConnectHardwareConfigure "Configurar..." 0 {Configurar hardware e conexão externa}
@@ -256,13 +256,13 @@ menuText B ToolsImportFile "Importa arquivo de jogos PGN..." 7 \
   {Importa jogos de um arquivo PGN}
 menuText B FileImportRTF "Importar jogo RTF..." 0 \
   {Importe um jogo de um arquivo RTF criado por scidCommunity}
-menuText B ToolsStartEngine1 "Iniciar engine 1" 0  {Inicia engine 1}
-menuText B ToolsStartEngine2 "Iniciar engine 2" 0  {Inicia engine 2}
+menuText B ToolsStartEngine1 "Iniciar motor 1" 0  {Inicia engine 1}
+menuText B ToolsStartEngine2 "Iniciar motor 2" 0  {Inicia engine 2}
 menuText B ToolsCaptureBoard "Capturar posição atual..." 5  {Salva uma imagem da posio atual.}
 
 # Play menu
 menuText B Play "Jogar" 0
-menuText B LichessPuzzles "Quebra-cabeças de Lichess" 0 {Resolva quebra-cabeças Lichess interativamente}
+menuText B LichessPuzzles "Posições de treino do Lichess" 0 {Resolva quebra-cabeças Lichess interativamente}
 menuText B Woodpecker "Método do pica-pau" 0 {Treine táticas em ciclos: o mesmo conjunto, cada vez mais rápido}
 
 # --- Correspondence Chess
@@ -277,7 +277,7 @@ menuText B CCClaimDraw "Declarar empate" 0 {Envia o movimento e declara empate (
 menuText B Options "Opções" 0
 menuText B OptionsBoardGraphics "Casas..." 0 {Seleciona texturas para as casas}
 translate B OptionsBGW {Seleciona texturas para as casas}
-translate B OptionsBoardGraphicsText {Seleciona arquivos grficos para as casas brancas e pretas:}
+translate B OptionsBoardGraphicsText {Seleciona arquivos gráficos para as casas brancas e pretas:}
 menuText B OptionsBoardNames "Meus nomes de jogadores..." 0 {Edita meus nomes de jogadores} 
 menuText B OptionsExport "Exportação" 0 {Muda as opções de exportação de texto}
 menuText B OptionsExportPGNText "Texto do arquivo PGN" 0
@@ -317,7 +317,7 @@ translate B RepetitionTwice {Repetição de 2 vezes}
 translate B RepetitionThreefold {Empate - Repetição de 3 Dobras}
 menuText B OptionsMovesSpace "Adicionar espaços após o número do movimento" 0 {Adiciona espaços após o número do movimento}  
 menuText B OptionsMovesLichess "Formato Lichess/ChessBase para anotações" 0 {Use o formato Lichess/ChessBase para marcadores quadrados e setas}
-menuText B OptionsMovesKey "Auto completar" 0 \
+menuText B OptionsMovesKey "Autocompletar" 0 \
   {Liga/desliga auto completar a partir do que for digitado}
 menuText B OptionsMovesShowVarArrows "Mostrar Setas para variantes" 0 {Liga/Desliga as setas que mostram movimentos em variantes}
 menuText B OptionsMovesShowEngineVariationArrows "Mostrar setas para variantes do motor" 0 {Setas liga/desliga mostrando linhas de variação do motor no modo multiPV}
@@ -382,9 +382,9 @@ menuText B RotateBoard "Girar tabuleiro" 0 {Girar tabuleiro}
 
 # Game info box popup menu:
 menuText B GInfoHideNext "Ocultar próximo movimento" 0
-menuText B GInfoMaterial "Mostra valor de material" 0
-menuText B GInfoFEN "Mostra Diagrama FEN" 16
-menuText B GInfoMarks "Mostra setas e casas coloridas" 7
+menuText B GInfoMaterial "Mostrar valor de material" 0
+menuText B GInfoFEN "Mostrar Diagrama FEN" 16
+menuText B GInfoMarks "Mostrar setas e casas coloridas" 7
 menuText B GInfoWrap "Quebra de linhas longas" 0
 menuText B GInfoFullComment "Mostrar comentário completo" 8
 menuText B GInfoPhotos "Mostrar Fotos" 5 
@@ -439,7 +439,7 @@ translate B LichessColECO {ECO}
 translate B LichessColOpening {Abertura}
 translate B LichessTopGamesTitle {Principais jogos:}
 translate B LichessRecentGamesTitle {Jogos recentes:}
-translate B LichessColWinner {Ganhador}
+translate B LichessColWinner {Vencedor}
 translate B LichessColWhiteRating {Classificação W.}
 translate B LichessColBlackRating {B. Classificação}
 translate B LichessColDate {Data}
@@ -596,7 +596,7 @@ translate B WoodpeckerPointsSub {do possível}
 translate B WoodpeckerDaysLeft {dias restantes}
 translate B WoodpeckerExercise {Exercício %d de %d}
 translate B WoodpeckerWhiteToMove {Branco para mover}
-translate B WoodpeckerBlackToMove {Preto para se mover}
+translate B WoodpeckerBlackToMove {Preto para mover}
 translate B WoodpeckerYourMove {Sua jogada.}
 translate B WoodpeckerSolved {Resolvido!}
 translate B WoodpeckerFailed {Fracassado.}
@@ -655,19 +655,19 @@ translate B WoodpeckerPresetNoRating {Os níveis são relativos à sua classific
 translate B WoodpeckerRatingAsk {Sua classificação do quebra-cabeça Lichess}
 translate B WoodpeckerBadRating {Insira sua classificação de quebra-cabeça Lichess (400-3200): ela está em seu perfil Lichess, em Quebra-cabeças.}
 translate B WoodpeckerPresetStated {Os níveis são relativos à classificação que você inseriu (%s).}
-translate B WoodpeckerDataDir {Pasta de dados do Método Woodpecker (vazia: do próprio Scid)}
-translate B WoodpeckerNoDataDir {A pasta de dados do Woodpecker não foi encontrada:\n%s\n\nA unidade está conectada? A pasta é definida em Opções > Recursos.}
+translate B WoodpeckerDataDir {Pasta de dados do Método Pica-Pau (vazia: do próprio Scid)}
+translate B WoodpeckerNoDataDir {A pasta de dados do Pica-Pau não foi encontrada:\n%s\n\nA unidade está conectada? A pasta é definida em Opções > Recursos.}
 translate B WoodpeckerDataDirMove {%d Os conjuntos do Pica-Pau estão na pasta de dados anterior:\n%s\n\nMova-os para a nova?\n%s\n\nNão: a nova pasta começa vazia e os conjuntos permanecem onde estão.}
 translate B WoodpeckerDataDirHasSets {A nova pasta de dados já contém conjuntos %d (sincronizados de outro computador?):\n%s\n\nScid os usa. Os conjuntos da pasta anterior ficam em:\n%s}
 
 # Board screenshot
-menuText B ToolsScreenshot "Captura de tela do quadro" 0 \
+menuText B ToolsScreenshot "Guardar tabuleiro como imagem" 0 \
   {Salve a posição atual do tabuleiro como uma imagem PNG}
-translate B ScreenshotTitle {Captura de tela do quadro}
+translate B ScreenshotTitle {Captura de tela do tabuleiro}
 translate B ScreenshotFileType {Imagens PNG}
 translate B ScreenshotOverwrite {Já existe um arquivo com esse nome. Substituir?}
 translate B ScreenshotError {A captura de tela não pôde ser salva.}
-translate B ScreenshotSaved {Captura de tela do quadro salva:}
+translate B ScreenshotSaved {Captura de tela do tabuleiro salva:}
 
 # Lichess study publishing
 # Publish database games as chapters of a Lichess study.
@@ -860,7 +860,7 @@ translate B NoPgnErrorsWarnings {sem erros ou avisos de PGN.}
 
 # Standard error messages:
 translate B ErrNotOpen {Esta base não está aberta.} 
-translate B ErrReadOnly {Esta base  apenas para leitura; não pode ser alterada.} 
+translate B ErrReadOnly {Esta base serve apenas para leitura; não pode ser alterada.} 
 translate B ErrSearchInterrupted {Pesquisa interrompida; os resultados estão incompletos.} 
 translate B ErrNoClockComments {Nenhum comentário de relógio [%clk] foi encontrado neste jogo. Adicione horários de relógio através da janela de comentários (Ctrl+E) para usar este recurso.}
 translate B ErrFileInUse {Erro: o arquivo já está em uso. Feche qualquer outro aplicativo que use este banco de dados.}
@@ -882,7 +882,7 @@ translate B deleted {apagado}
 translate B comment {comentário}
 translate B hidden {oculto}
 translate B LastMove {último movimento}
-translate B NextMove {Próximo}
+translate B NextMove {Próximo movimento}
 translate B GameStart {Início do jogo}
 translate B LineStart {Início da linha}
 translate B GameEnd {Fim do jogo}
@@ -949,7 +949,7 @@ menuText B TreeOptSlowmode "Modo Lento" 0 {Modo lento para atualizações (mais 
 menuText B TreeOptFastmode "Modo Rápido" 0 {Modo rápido para atualizações (sem transsposições de movimentos)}
 menuText B TreeOptFastAndSlowmode "Modo rápido e lento" 0 {Modo rápido e lento para atualizações}
 menuText B TreeOptStartStop "Atualização automática" 0 {Liga/Desliga a atualização automática da janela de árvore}
-menuText B TreeOptLock "Lock" 0 {Trava/Destrava a árvore para o banco corrente}
+menuText B TreeOptLock "Travar" 0 {Trava/Destrava a árvore para o banco corrente}
 menuText B TreeOptAutoLoadMask "Carregar automaticamente a última máscara" 0 \
   {Abra automaticamente a máscara usada mais recentemente quando uma janela em árvore for aberta}
 menuText B TreeOptTraining "Treinamento" 0 \
@@ -1047,7 +1047,7 @@ translate B FinderCtxDelete {Apagar}
 # Player finder:
 menuText B PListFile "Arquivo" 0
 menuText B PListFileUpdate "Atualizar" 0
-menuText B PListFileClose "Close Player Finder" 0 
+menuText B PListFileClose "Fecha Buscador de jogador" 0 
 menuText B PListSort "Ordenar" 0
 menuText B PListSortName "Nome" 0 
 menuText B PListSortElo "Elo" 0
@@ -1058,7 +1058,7 @@ menuText B PListSortNewest "Mais novo" 0
 # Tournament finder:
 menuText B TmtFile "Arquivo" 0
 menuText B TmtFileUpdate "Atualizar" 0
-menuText B TmtFileClose "Fecha Buscador de Torneios" 0
+menuText B TmtFileClose "Fecha Buscador de Torneio" 0
 menuText B TmtSort "Ordenar" 0
 menuText B TmtSortDate "Data" 0
 menuText B TmtSortPlayers "Jogadores" 0
@@ -1077,13 +1077,13 @@ menuText B GraphFileColor "Salvar como Postscript Colorido..." 12
 menuText B GraphFileGrey "Salvar como Postscript Cinza..." 23
 menuText B GraphFileClose "Fecha janela" 6
 menuText B GraphOptions "Opções" 0
-menuText B GraphOptionsWhite "Branco" 0
-menuText B GraphOptionsBlack "Preto" 0
+menuText B GraphOptionsWhite "Brancas" 0
+menuText B GraphOptionsBlack "Pretas" 0
 menuText B GraphOptionsBoth "Ambos" 0
 menuText B GraphOptionsPInfo "Informação do Jogador" 0
 menuText B GraphOptionsEloFile "Elo do arquivo de rating" 0
 menuText B GraphOptionsEloDB "Elo da base de dados" 0
-translate B GraphFilterTitle "Gráfico de filtro: porcentagem de jogos alcanando posição"
+translate B GraphFilterTitle "Gráfico de filtro: porcentagem de jogos alcançando posição"
 translate B GraphAbsFilterTitle "Gráfico de filtro: frequência dos jogos"
 translate B GraphWinPctTitle "Gráfico de filtro: % de ganhos (1-0 e 0-1) na posição atual por ano"
 translate B ConfigureFilter {Configurar Eixos X para Ano, Rating e Movimentos}
@@ -1094,7 +1094,7 @@ translate B GraphLine "Gráfico de linhas"
 translate B GraphBar "Gráfico de barras"
 translate B GraphPopup "Quadro pop-up"
 translate B PgnVarClose {Fechar todas as variantes}
-translate B PgnVarOpen {Abra todas as variantes}
+translate B PgnVarOpen {Abrir todas as variantes}
 translate B PgnEvaluate {Avaliar}
 translate B PgnSaveEval {Salvar avaliação}
 translate B PgnOptShort "Cabeçalho curto (3 linhas)"
@@ -1113,8 +1113,8 @@ translate B AddMove {Adicionar movimento}
 translate B RemoveMove {Remover movimento}
 translate B Annotate {Anotar}
 translate B FinishGame {Encerrar jogo}
-translate B StartEngine {Iniciar engine}
-translate B LockEngine {Travar engine na posição corrente}
+translate B StartEngine {Iniciar motor}
+translate B LockEngine {Travar motor na posição corrente}
 translate B AnalysisCommand {Comando de Análise}
 translate B PreviousChoices {Escolhas Anteriores}
 translate B AnnotateTime {Define o tempo entre movimentos em segundos}
@@ -1128,10 +1128,10 @@ translate B Informant!? {Movimento interessante}
 translate B Informant? {Movimento pobre}
 translate B Informant?? {Erro crasso}
 translate B Informant?! {Movimento duvidoso}
-translate B Informant+= {Branca tem alguma vantagem}
-translate B Informant+/- {Branca tem vantagem moderada}
-translate B Informant+- {Branca tem vantagem decisiva}
-translate B Informant+-- {O jogo  considerado como ganho}
+translate B Informant+= {Brancas têm alguma vantagem}
+translate B Informant+/- {Brancas têm vantagem moderada}
+translate B Informant+- {Brancas têm vantagem decisiva}
+translate B Informant+-- {O jogo é considerado como ganho}
 translate B AnalysisAutoCommentTooltip {Gere comentários de IA para todo o jogo}
 translate B MoveLabelBest {Melhor}
 translate B MoveLabelExcellent {Excelente}
@@ -1151,11 +1151,11 @@ translate B ReviewGameButtonTooltip {Analise cada lance da linha atual e classif
 translate B ReviewMoveButton {Comentário do lance}
 translate B ReviewMoveButtonTooltip {Classifique o lance jogado daqui e escreva-o}
 translate B ReviewSettings {Configurações da análise}
-translate B ReviewSettingsTooltip {Configure the review settings}
+translate B ReviewSettingsTooltip {Configurar ajustes de análise}
 translate B ToolsWhatThreat {Qual é a ameaça?}
-translate B ToolsWhatThreatTooltip {Pergunte ao engine o que o lado a jogar ameaça}
+translate B ToolsWhatThreatTooltip {Pergunte ao motor o que ameaça o lado a jogar}
 translate B WhatThreatRunning {Já há uma análise de ameaças em andamento.}
-translate B WhatThreatNoEngine {Nenhum engine está configurado. Escolha um em Ferramentas -> Lista de engines, ou abra antes uma janela de engine.}
+translate B WhatThreatNoEngine {Nenhum motor está configurado. Escolha um em Ferramentas -> Lista de motores, ou abra antes uma janela de motor.}
 translate B WhatThreatNoPosition {Não há posição para olhar.}
 translate B WhatThreatNoMove {Não há nenhum lance para comentar aqui. Vá primeiro para um lance da partida.}
 translate B WhatThreatFailed {A análise de ameaças não pôde ser executada: %s}
@@ -1166,7 +1166,7 @@ translate B ReviewVarLines {Variantes a escrever}
 translate B ReviewVarCp {Margem das variantes (cp)}
 translate B ReviewMoveWait {Aguardar a profundidade da análise}
 translate B ReviewMovetime {Limite de tempo (ms)}
-translate B ReviewCloudEval {Cloud pre-pass}
+translate B ReviewCloudEval {Avaliador online}
 translate B ReviewEstimatedRating {avaliação de desempenho (desta partida)}
 translate B ReviewOpeningMoves {Movimentos de abertura}
 translate B ReviewFromPreset {%s (do perfil do motor)}
@@ -1212,18 +1212,18 @@ translate B ObrBookWDB {W/D/B%}
 translate B ObrBookElo {Elo}
 translate B ObrBookPerf {Desempenho}
 translate B ObrBookNoStats {(sem estatísticas)}
-translate B ObrBookDetail {%s %d jogos (frequência %.1f%%): +%d =%d -%d (Branco/Draw/Preto) pontuação %.1f%% Elo %s Perf %s cor %s sinaliza 0x%02X}
+translate B ObrBookDetail {%s %d jogos (frequência %.1f%%): +%d =%d -%d (Brancas/Empate/Pretas) pontuação %.1f%% Elo %s Perf %s cor %s sinaliza 0x%02X}
 translate B ObrColourRed {vermelho}
 translate B ObrColourBlue {azul}
 translate B ObrColourGreen {verde}
 # Tools > Convert CTG book: ChessBase CTG book to OpenBook Rich (.obr)
 translate B CtgChooseSource {Escolha o livro CTG (.ctg): seus arquivos .cto e .ctb devem estar na mesma pasta}
-translate B CtgChooseDest {Escolha onde salvar o livro OBR (.obr)}
+translate B CtgChooseDest {Escolha onde guardar o livro OBR (.obr)}
 translate B CtgConverting {Convertendo}
-translate B CtgConvertDone {Livro salvo:}
+translate B CtgConvertDone {Livro guardado:}
 
 # Configure Engines dialog:
-translate B EngineList {Configurar Engines}
+translate B EngineList {Configurar Motores}
 translate B EngineName {Nome}
 translate B EngineCmd {Comando}
 translate B EngineArgs {Parâmetros}
@@ -1233,20 +1233,20 @@ translate B EngineTime {Data}
 translate B EngineNew {Novo}
 translate B EngineEdit {Editar}
 translate B EngineRequired {Campos em negrito são obrigatórios; os demais são opcionais}
-translate B EngineNameInUse {Já existe um motor chamado %s. Salvar este como %s?}
+translate B EngineNameInUse {Já existe um motor chamado %s. Guardar este como %s?}
 translate B EngineProtocol {Protocolo de comunicação}
 translate B EngineNotation {Notação dos movimentos}
 translate B EngineFlipEvaluation {Perspectiva de avaliação invertida}
 translate B EngineShowLog {Mostrar registro de comunicação}
 translate B EngineNetworkd {Aceitar conexões remotas}
-translate B EngineSelect {Selecione o mecanismo atual}
-translate B EngineAddLocal {Adicione um mecanismo local}
-translate B EngineAddRemote {Adicionar um mecanismo remoto}
-translate B EngineReload {Recarregue o mecanismo atual}
-translate B EngineClone {Crie uma cópia do mecanismo atual}
+translate B EngineSelect {Selecione o motor atual}
+translate B EngineAddLocal {Adicione um motor local}
+translate B EngineAddRemote {Adicionar um motor remoto}
+translate B EngineReload {Recarregue o motor atual}
+translate B EngineClone {Crie uma cópia do motor atual}
 translate B EngineDuplicate {Duplicar}
-translate B EngineDelete {Exclua o mecanismo atual}
-translate B EngineOpenWindow {Abrir janela do mecanismo}
+translate B EngineDelete {Exclua o motor atual}
+translate B EngineOpenWindow {Abrir janela do motor}
 translate B EngineShortcut {Atalho}
 translate B EngineShortcutNone {Nenhum}
 translate B EngineShortcutWindow {Janela %s (%s)}
@@ -1254,7 +1254,7 @@ translate B EngineShortcutKeys {Teclas de atalho}
 translate B EngineShortcutKeysHelp {Escolha a chave que inicia cada janela do motor. Pressione Alterar... e depois a combinação de teclas desejada. Uma chave já utilizada por outro comando é recusada.}
 translate B EngineShortcutChange {Mudar...}
 translate B EngineShortcutReset {Redefinir para F2 e F3}
-translate B EngineShortcutPress {Pressione a nova combinação de teclas para Janela do mecanismo %s.\nO escape é cancelado.}
+translate B EngineShortcutPress {Pressione a nova combinação de teclas para Janela do motor %s.\nO escape é cancelado.}
 translate B EngineShortcutInUse {A chave %s já é usada por outro comando. Escolha outro.}
 translate B EngineShortcutUnsafe {Escolha uma tecla de função ou uma combinação de teclas que inclua Ctrl, Alt ou Command.}
 translate B EngineShortcutReserved {Essa chave é reservada pelo sistema operacional ou pela edição de texto. Escolha outro.}
@@ -1262,7 +1262,7 @@ translate B EngineShortcutReserved {Essa chave é reservada pelo sistema operaci
 # PGN window menus:
 menuText B PgnFile "Arquivo" 0
 menuText B PgnFileCopy "Copiar o jogo para a área de transferência" 0 
-menuText B PgnFilePrint "Imprimir para arquivo..." 0
+menuText B PgnFilePrint "Guardar como ficheiro PGN..." 0
 menuText B PgnFileClose "Fechar janela PGN" 0
 menuText B PgnOpt "Monitor" 0
 menuText B PgnOptColor "Monitor Colorido" 0
@@ -1273,8 +1273,8 @@ menuText B PgnOptIndentV "Identar variantes" 7
 menuText B PgnOptColumn "Estilo Coluna (um movimento por linha)" 0
 menuText B PgnOptSpace "Espaço após o número do movimento" 0
 menuText B PgnOptStripMarks "Remover os códigos coloridos das casas/setas" 1 
-menuText B PgnOptBoldMainLine "Use negrito para movimentos da linha principal" 4 
-menuText B PgnOptCenter "Centro do movimento atual" 7
+menuText B PgnOptBoldMainLine "Usar negrito para movimentos da linha principal" 4 
+menuText B PgnOptCenter "Centrar o movimento atual" 7
 menuText B PgnColor "Cores" 0
 menuText B PgnColorHeader "Cabeçalho..." 0
 menuText B PgnColorAnno "Anotações..." 0
@@ -1300,8 +1300,8 @@ translate B LucasChessNoMacOS {Os motores Lucas Chess não estão disponíveis p
 
 # Crosstable window menus:
 menuText B CrosstabFile "Arquivo" 0
-menuText B CrosstabFileText "Imprime para arquivo texto..." 9
-menuText B CrosstabFileHtml "Imprime para arquivo HTML..." 9
+menuText B CrosstabFileText "Guarda como ficheiro de texto..." 9
+menuText B CrosstabFileHtml "Guarda como ficheiro HTML..." 9
 menuText B CrosstabFileClose "Fechar tabela de cruzamentos" 0
 menuText B CrosstabEdit "Editar" 0
 menuText B CrosstabEditEvent "Evento" 0
@@ -1320,7 +1320,7 @@ menuText B CrosstabOptBreaks "Scores de desempate" 0
 menuText B CrosstabOptDeleted "Incluir jogos apagados" 8 
 menuText B CrosstabOptColors "Cores (apenas para tabela Swiss)" 0
 menuText B CrosstabOptColumnNumbers "Colunas numeradas (apenas tabelas Todos-contra-Todos)" 2 
-menuText B CrosstabOptGroup "Pontuao do Grupo" 0
+menuText B CrosstabOptGroup "Pontuação do Grupo" 0
 menuText B CrosstabSort "Ordenar" 0
 menuText B CrosstabSortName "Nome" 0
 menuText B CrosstabSortRating "Rating" 0
@@ -1331,14 +1331,14 @@ menuText B CrosstabColorHyper "Hipertexto" 0
 menuText B CrosstabHelp "Ajuda" 0
 menuText B CrosstabHelpCross "Ajuda para tabela de cruzamentos" 0
 menuText B CrosstabHelpIndex "Índice da Ajuda" 0
-translate B SetFilter {Setar filtro}
+translate B SetFilter {Definir filtro}
 translate B AddToFilter {Adicionar ao filtro}
 translate B Swiss {Suiço}
 translate B Category {Categoria} 
 
 # Opening report window menus:
 menuText B OprepFile "Arquivo" 0
-menuText B OprepFileText "Imprimir para arquivo texto..." 9
+menuText B OprepFileText "Imprimir para arquivo de texto..." 9
 menuText B OprepFileHtml "Imprimir para arquivo HTML..." 9
 menuText B OprepFileOptions "Opções..." 0
 menuText B OprepFileClose "Fechar janela de relatório" 0
@@ -1360,7 +1360,7 @@ translate B StdStart {Início padrão}
 translate B Promotions {Promoções}
 translate B Variations {Variantes}
 translate B Annotations {Anotações}
-translate B DeleteFlag {Apagar Flag}
+translate B DeleteFlag {Apagar Etiqueta}
 translate B WhiteOpFlag {Abertura Brancas}
 translate B BlackOpFlag {Abertura Pretas}
 translate B MiddlegameFlag {Meio-jogo}
@@ -1471,7 +1471,7 @@ translate B YearRange {Faixa de Anos:}
 translate B RatingRange {Faixa de Rating:}
 translate B Description {Descrição} 
 translate B Flag {Sinalizador}
-translate B CustomFlags {Flags customizadas}
+translate B CustomFlags {Etiquetas customizadas}
 translate B DeleteCurrent {Apagar jogo corrente}
 translate B DeleteFilter {Apagar jogos filtrados}
 translate B DeleteAll {Apagar todos os jogos}
@@ -1496,8 +1496,8 @@ translate B CompactDatabase {Compactar base de dados}
 translate B SortDatabase {Ordenar base de dados}
 translate B AddEloRatings {Adicionar ratings}
 translate B AutoloadGame {Carregar autom. o jogo número}
-translate B StripTags {Remover tags PGN} 
-translate B StripTag {Remover tag} 
+translate B StripTags {Remover etiquetas PGN} 
+translate B StripTag {Remover etiquetas} 
 translate B Cleaner {Limpador}
 translate B CleanerHelp {
 O Limpador do Scid executará todas as ações de manutenção selecionadas da lista abaixo, no banco corrente.
@@ -1505,7 +1505,7 @@ O Limpador do Scid executará todas as ações de manutenção selecionadas da l
 As configurações atuais na classificação por ECO e diálogos de exclusão de duplicadas serão aplicadas se você escolher estas funções.
 }
 translate B CleanerConfirm {
-Uma vez iniciado, o Limpador não poder ser interrompido!
+Uma vez iniciado, o Limpador não pode ser interrompido!
 
 Esta operação pode levar muito tempo para ser executada em uma grande base de dados, dependendo das funções selecionadas e das configurações atuais.
 
@@ -1521,13 +1521,13 @@ translate B TwinCheckNoTwin {Nenhuma duplicada  }
 translate B TwinCheckNoTwinfound {Nenhuma duplicada foi detectada para este jogo.\nPara mostrar duplicadas nesta janela, você deve usar primeiro a funçãoo "Apagar Duplicadas...". }
 translate B TwinCheckTag {Compartilhar tags...}
 translate B TwinCheckFound1 {Scid encontrou $result duplicadas}
-translate B TwinCheckFound2 { e definiu suas flags de exclusão}
+translate B TwinCheckFound2 { e definiu suas etiquetas de exclusão}
 translate B TwinCheckNoDelete {No há jogos para excluir nesta base.}
 translate B TwinCriteria1 { Suas configurações para encontrar duplicadas podem \nfazer com que não duplicadas com movimentos similares sejam marcadas como se fossem.}
 translate B TwinCriteria2 { recomendado que, se você selecionar "Não" para "mesmos movimentos", você selecione "Sim" para as cores, evento, local, rodada, ano e mês.\nVocê quer continuar e excluir as duplicatas mesmo assim? }
 translate B TwinCriteria3 { recomendado que você especifique "Sim" para pelo menos duas das configurações de "mesmo local", "mesma rodada" e "mesmo ano".\nVocê quer continuar e excluir as duplicatas mesmo assim?}
 translate B TwinCriteriaConfirm {scidCommunity: Confirme as configurações de duplicadas}
-translate B TwinChangeTag "Alterar as seguintes tags:\n\n"
+translate B TwinChangeTag "Alterar as seguintes etiquetas:\n\n"
 translate B AllocRatingDescription "Este comando utiliza o arquivo corrente de verificação ortográfica para adicionar ratings Elo aos jogos nesta base. Sempre que um jogador não tiver um rating corrente, mas seu rating no momento do jogo estiver listado no arquivo de verifição, esse rating será adicionado."
 translate B RatingOverride "Sobrescrever ratings existentes diferentes de zero?"
 translate B AddRatings "Adicionar ratings a:"
@@ -1568,14 +1568,14 @@ translate B ExcellentMove {Movimento Excelente}
 translate B Blunder {Erro!!!} 
 translate B InterestingMove {Movimento Interessante} 
 translate B DubiousMove {Movimento Duvidoso} 
-translate B WhiteDecisiveAdvantage {Brancas tem vantagem decisiva} 
-translate B BlackDecisiveAdvantage {Pretas tem vantagem decisiva} 
-translate B WhiteClearAdvantage {Brancas tem clara vantagem} 
-translate B BlackClearAdvantage {Pretas tem clara vantagem} 
-translate B WhiteSlightAdvantage {Brancas tem alguma vantagem} 
-translate B BlackSlightAdvantage {Pretas tem alguma vantagem} 
-translate B WhiteCrushing {Brancas tem enorme vantagem}
-translate B BlackCrushing {Pretas tem enorme vantagem}
+translate B WhiteDecisiveAdvantage {Brancas têm vantagem decisiva} 
+translate B BlackDecisiveAdvantage {Pretas têm vantagem decisiva} 
+translate B WhiteClearAdvantage {Brancas têm clara vantagem} 
+translate B BlackClearAdvantage {Pretas têm clara vantagem} 
+translate B WhiteSlightAdvantage {Brancas têm alguma vantagem} 
+translate B BlackSlightAdvantage {Pretas têm alguma vantagem} 
+translate B WhiteCrushing {Brancas têm enorme vantagem}
+translate B BlackCrushing {Pretas têm enorme vantagem}
 translate B Equality {Igualdade} 
 translate B Unclear {Não claro} 
 translate B Diagram {Diagrama} 
@@ -1648,7 +1648,7 @@ translate B PatternDarkFian {Fianchettos nas casas pretas (Bispo-b2 vs. Bispo-g7
 translate B PatternFourFian {Quatro Fianchettos (Bispos em b2,g2,b7,g7)} 
 
 # Game saving:
-translate B SaveExtraTagsHint {Tags extras: (formato de exemplo: Anotador "Anand, V")}
+translate B SaveExtraTagsHint {Etiquetas extras: (formato de exemplo: Anotador "Anand, V")}
 translate B Today {Hoje}
 translate B ClassifyGame {Classificar Jogo}
 
@@ -1678,7 +1678,7 @@ Você pode substituí-lo, descartar todos os movimentos que o seguem, ou adicion
 
 # Make database read-only dialog:
 translate B ReadOnlyDialog {Se você tornar esta base de dados apenas para leitura, nenhuma alteração será permitida.
-Nenhum jogo poderá ser salvo ou substituído, e nenhuma flag de exclusão poderá ser alterada.
+Nenhum jogo poderá ser salvo ou substituído, e nenhuma etiqueta de exclusão poderá ser alterada.
 Qualquer ordenação ou resultados de classificação por ECO serão temporários.
 
 Para poder tornar a base de dados atualizável novamente, feche-a e abra-a novamente.
@@ -1754,7 +1754,7 @@ translate B OprepMoveOrdersAll \
   {Houve apenas %u ordens de movimentos que atingem esta posição:}
 translate B OprepMoveOrdersMany \
   {Houve %u ordens de movimentos que atingem esta posição. As %u primeiras são:}
-translate B OprepMovesFrom {Movimentos da posiçãoo do relatório}
+translate B OprepMovesFrom {Movimentos da posição do relatório}
 translate B OprepMostFrequentEcoCodes {Códigos ECO mais frequentes} 
 translate B OprepThemes {Temas Posicionais}
 translate B OprepThemeDescription {Frequência dos temas nos primeiros  %u movimentos de cada jogo} 
@@ -1893,12 +1893,12 @@ translate B ExportStripMarks {Remover códigos de marca de casa/seta dos coment�
 translate B OptionsExportEol {Finais de linha:}
 translate B OptionsExportEolNative {Nativo}
 translate B OptionsPGNExport {Exportação PGN}
-translate B OptionsTagOrderIntro {Ordem das tags PGN restantes ao escrever um jogo. O Seven Tag Roster é sempre escrito primeiro, de acordo com o padrão PGN.}
+translate B OptionsTagOrderIntro {Ordem das etiquetas PGN restantes ao escrever um jogo. O Seven Tag Roster é sempre escrito primeiro, de acordo com o padrão PGN.}
 translate B OptionsTagOrderStr {Lista de sete tags (fixa): Evento, Local, Data, Rodada, Branco, Preto, Resultado}
 translate B OptionsTagOrderWhite {Classificação branca}
 translate B OptionsTagOrderBlack {Classificação negra}
-translate B OptionsTagOrderOthers {Outras tags}
-translate B OptionsTagOrderSort {Classifique outras tags em ordem alfabética (caso contrário, ordem original)}
+translate B OptionsTagOrderOthers {Outras etiquetas}
+translate B OptionsTagOrderSort {Classifique outras etiquetas em ordem alfabética (caso contrário, ordem original)}
 translate B Up {Acima}
 translate B Down {Abaixo}
 
@@ -2033,7 +2033,7 @@ translate B Noblunder {Nenhum erro crasso}
 translate B blunder {erro crasso}
 translate B Noinfo {-- Sem informações --}
 translate B moveblunderthreshold {movimento é um erro crasso se a perda  maior que}
-translate B limitanalysis {limita tempo de análise do engine}
+translate B limitanalysis {limita tempo de análise do motor}
 translate B seconds {segundos}
 translate B Abort {Abortar}
 translate B Resume {Continuar}
@@ -2114,7 +2114,7 @@ translate B Nodes {Ns}
 translate B Depth {Profundidade}
 translate B Time {Tempo} 
 translate B SecondsPerMove {Segundos por movimento}
-translate B Engine {Engine}
+translate B Engine {Motor}
 translate B TimeMode {Modo de tempo}
 translate B TimeBonus {Bonus de tempo}
 translate B TimeMin {min}
@@ -2125,7 +2125,7 @@ translate B MarkTacticalExercises {Marcar exercícios táticos}
 translate B UseBook {Usar livro}
 translate B MultiPV {Variantes múltiplas}
 translate B Hash {Varrer memória}
-translate B OwnBook {Usar livro do engine}
+translate B OwnBook {Usar livro do motor}
 translate B BookFile {Livro de aberturas}
 translate B AddScoreToShortAnnotations {Adicionar o score às anotações curtas}
 translate B AddScoreToAllMoves {Adicione pontuação a todos os movimentos}
@@ -2173,7 +2173,7 @@ translate B QGA {Gambito de Dama Aceite}
 translate B QGD {Gambito de Dama Recusado}
 translate B QGDExchange {Gambito de Dama das Trocas}
 translate B SemiSlav {Semi-Eslava}
-translate B QGDwithBg5 {Gambioto de Dama com Bg5}
+translate B QGDwithBg5 {Gambito de Dama com Bg5}
 translate B QGDOrthodox {Gambito de Dama Ortodoxa}
 translate B Grunfeld {Grunfeld}
 translate B GrunfeldExchange {Grunfeld Trocas}
@@ -2185,9 +2185,9 @@ translate B QueensIndian {Índia da Dama}
 translate B NimzoIndian {Nimzo-Índia}
 translate B NimzoIndianClassical {Nimzo-Índia Clássica}
 translate B NimzoIndianRubinstein {Nimzo-Índia Rubinstein}
-translate B KingsIndian {Índia do Rei}
-translate B KingsIndianSamisch {Índia do Rei Saemisch}
-translate B KingsIndianMainLine {Índia do Rei Linha Principal}
+translate B KingsIndian {Índia de Rei}
+translate B KingsIndianSamisch {Índia de Rei Saemisch}
+translate B KingsIndianMainLine {Índia de Rei Linha Principal}
 
 # FICS
 translate B ConfigureFics {Configurar FICS}
@@ -2209,7 +2209,7 @@ translate B FICSTakeback2 {Voltar 2}
 translate B FICSInitTime {Tempo inicial (min)}
 translate B FICSIncrement {Incremento (seg)}
 translate B FICSRatedGame {Jogo com rate}
-translate B FICSAutoColour {automatico}
+translate B FICSAutoColour {automático}
 translate B FICSManualConfirm {confirmar manualmente}
 translate B FICSFilterFormula {Filtro com fórmula}
 translate B FICSIssueSeek {Busca item}
@@ -2295,7 +2295,7 @@ translate B ConfirmStripGames {Remover anotações de %d jogos selecionados?}
 
 translate B ConvertNullMove {Converter movimentos nulos para comentários}
 translate B SetupBoard {Definir tabuleiro}
-translate B Rotate {Rotacionar}
+translate B Rotate {Rodar}
 translate B SwitchColors {Trocar cores}
 translate B FlipBoard {Virar o tabuleiro}
 translate B Board3D {Quadro 3D}
@@ -2334,12 +2334,12 @@ translate B OptionsTablebaseDir "Selecione até 4 pastas tabela base de finais:"
 
 # Evaluation bar
 translate B BestMoveArrow "Seta de melhor movimento"
-translate B NewLocalEngine "+ Novo engine ..."
+translate B NewLocalEngine "+ Novo motor ..."
 
 # Batch Annotate
 translate B BatchAnnotate {Anotar em lote}
-translate B BatchEngineSelection {Selecionar engine}
-translate B BatchChessEngine {Engine de xadrez:}
+translate B BatchEngineSelection {Selecionar motor}
+translate B BatchChessEngine {Motor de xadrez:}
 translate B BatchNumberOfInstances {Número de instâncias:}
 translate B BatchTimePerMove {Tempo por movimento (seg):}
 translate B BatchAnnotateBlunders {Anote apenas erros}
@@ -2527,7 +2527,7 @@ set tips(B) {
     Com o <a PInfo>informações do jogador</a> janela (basta clicar no nome de qualquer jogador na área de informações do jogo abaixo do tabuleiro de xadrez da janela principal para abri-lo), você pode facilmente definir o <a Searches Filter>filtro</a> conter todos os jogos de um determinado jogador com um determinado resultado clicando em qualquer valor exibido <red>em texto vermelho</red>.
   }
   {
-    Ao estudar uma vaga, pode ser muito útil fazer uma <a Searches Board>pesquisa de quadro</a> com o <b>Peões</b> ou <b>Arquivos</b> opção em uma posição de abertura importante, pois isso pode revelar outras aberturas que atingem a mesma estrutura de peões.
+    Ao estudar uma variante, pode ser muito útil fazer uma <a Searches Board>pesquisa de quadro</a> com o <b>Peões</b> ou <b>Arquivos</b> opção em uma posição de abertura importante, pois isso pode revelar outras aberturas que atingem a mesma estrutura de peões.
   }
   {
     Na área de informações do jogo (abaixo do tabuleiro de xadrez), você pode pressionar o botão direito do mouse para produzir um menu para personalizá-lo. Por exemplo, você pode fazer com que o scidCommunity oculte o próximo movimento, o que é útil para o treinamento, jogando um jogo de adivinhação dos movimentos.
@@ -2545,13 +2545,13 @@ set tips(B) {
     Antes de <a Maintenance Twins> excluir jogos gêmeos </a>, é uma boa ideia <a Maintenance Spellcheck> verificar a ortografia </a> em seu banco de dados, pois isso permitirá que o scidCommunity encontre mais gêmeos e marque-os para exclusão.
   }
   {
-    <a Flags>Flags</a> são úteis para marcar jogos de banco de dados com características que você pode querer pesquisar posteriormente, como estrutura de peões, táticas, etc. Você pode pesquisar por flags com uma <a Searches Header>pesquisa de cabeçalho </a>.
+    <a Flags>Etiquetas</a> são úteis para marcar jogos de banco de dados com características que você pode querer pesquisar posteriormente, como estrutura de peões, táticas, etc. Você pode pesquisar por etiquetas com uma <a Searches Header>pesquisa de cabeçalho </a>.
   }
   {
     Para encontrar os jogos mais proeminentes (com adversários de alto nível) alcançando uma determinada posição, abra a janela <a Tree>árvore</a> e a partir daí, abra a lista dos melhores jogos. Você pode até restringir a lista dos melhores jogos para mostrar apenas jogos com um determinado resultado.
   }
   {
-    Use o botão <b>chessdb Engine Tree</b> na janela <a PGN>PGN</a> para consultar o banco de dados em nuvem <b>ChessDB.cn</b>. Ele contém bilhões de posições pré-analisadas e avaliações computadorizadas para quase todas as vagas.
+    Use o botão <b>chessdb Engine Tree</b> na janela <a PGN>PGN</a> para consultar o banco de dados em nuvem <b>ChessDB.cn</b>. Ele contém bilhões de posições pré-analisadas e avaliações computadorizadas para quase todas as variantes.
   }
   {
     Uma ótima maneira de estudar uma abertura usando um grande banco de dados de jogos é ativar o modo de treinamento na janela <a Tree>árvore</a> e, em seguida, jogar contra o banco de dados para ver quais linhas ocorrem com frequência.
@@ -2599,7 +2599,7 @@ set tips(B) {
     Você pode adicionar os símbolos de anotação mais comuns (!, !?, +=, etc) ao movimento ou posição atual com atalhos de teclado sem precisar usar o <a Comment>editor de comentários</a> - por exemplo, digite "!" em seguida, a tecla Return para adicionar um "!" símbolo de anotação. Consulte a página de ajuda <a Moves>Inserindo movimentos de xadrez </a> para obter detalhes.
   }
   {
-    Se você estiver navegando por vagas em um banco de dados com o <a Tree>árvore</a>, você pode ter uma visão geral útil de quão bem a abertura atual está pontuando recentemente e entre jogadores de alto rating abrindo a janela Estatísticas (atalho: Ctrl+I).
+    Se você estiver navegando por variantes em um banco de dados com o <a Tree>árvore</a>, você pode ter uma visão geral útil de quão bem a abertura atual está pontuando recentemente e entre jogadores de alto rating abrindo a janela Estatísticas (atalho: Ctrl+I).
   }
   {
     Depois de um <a Searches>procurar</a>, você pode navegar facilmente por todos os jogos correspondentes mantendo pressionado <b>Ctrl</b> e pressionando o <b>Acima</b> ou <b>Abaixo</b> tecla para carregar o anterior ou o próximo <a Searches Filter>filtro</a> jogo.

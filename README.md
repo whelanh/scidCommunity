@@ -173,6 +173,7 @@ with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 - **[Tommaso Bergamasco](https://github.com/TBergh98)** — designed the Lichess study publishing feature, the OpenBook Rich (.obr) opening-book reader, and the CTG to .obr converter. He is also the creator of the "Woodpecker" training module under the **Play** menu and has contributed to Tree View loading speedups.
 - **[Szustan](https://github.com/Szustan)** - Has faithfully maintained the Polish language translation file throughout the many changes in scidCommunity.
 - **[Ejner Borgbjerg](https://github.com/eborgbjerg)** — Danish interface translation.
+- **[daSilva65](https://github.com/daSilva65)** - Portuguese translation.
 
 ### Translations
 
