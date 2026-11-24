@@ -146,9 +146,18 @@ proc ::wpgui::run {} {
     checkEq "the wrong move is not on the board" [sc_pos fen] $fenBefore
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card shows the result and the marked line" [string match "*Re1+!*" $card] $card
+    # Pausing hides the Continue button; Enter must still go on, and it must
+    # leave the session running rather than paused on the next exercise.
+    ::woodpecker::ui::pause
+    update
+    check "pausing after a failure says so" \
+        [expr {$::woodpecker::ui::txt(status) eq [tr WoodpeckerPaused]}]
+    check "and hides the Continue button" \
+        [expr {![winfo ismapped .woodpeckerWin.sess.line.cont]}]
     ::woodpecker::ui::keyContinue
     wait 300
-    checkEq "exercise 2 follows" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 2 fen]
+    checkEq "Enter goes on after a paused failure" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 2 fen]
+    check "and the next exercise is not left paused" [expr {!$::woodpecker::ui::run(paused)}]
 
     # Exercise 2: a wrong first move.
     set bad [wrongMove b8c7]
@@ -178,6 +187,16 @@ proc ::wpgui::run {} {
     wait 100
     checkEq "and the arrow still steps back after it" [sc_pos location] 1
     shot solution
+    # Pausing and resuming must give back the Continue button, not just the key.
+    ::woodpecker::ui::pause
+    update
+    check "a paused solution hides the Continue button" \
+        [expr {![winfo ismapped .woodpeckerWin.sess.line.cont]}]
+    ::woodpecker::ui::pause
+    update
+    check "resuming brings the Continue button back" \
+        [winfo ismapped .woodpeckerWin.sess.line.cont]
+    checkEq "with the solution's line" $::woodpecker::ui::txt(status) [tr WoodpeckerSolutionShown]
     ::woodpecker::ui::keyContinue
     wait 300
 

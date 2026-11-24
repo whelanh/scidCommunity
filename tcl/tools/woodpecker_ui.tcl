@@ -1522,6 +1522,9 @@ proc ::woodpecker::ui::nextExercise {} {
     variable txt
     variable w
     if {!$run(on)} { return }
+    # A new exercise always starts running: Enter may have gone on, or the
+    # automatic advance may have fired, while the session was paused.
+    if {$run(paused)} { pause }
     if {$run(next) < 1 || $run(next) > $run(n)} {
         finish cycle
         return
@@ -1807,7 +1810,14 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         set run(paused) 0
         set run(lastInput) $now
         $w.sess.b.pause configure -text [tr WoodpeckerPause]
-        status ""
+        # The pause line took the place of the exercise's, and hid the Continue
+        # button with it: a failed exercise still showing its solution needs
+        # both back, or only the Enter key would go on.
+        if {$run(wait) eq "solution"} {
+            status [tr WoodpeckerSolutionShown] 1
+        } else {
+            status ""
+        }
     } else {
         set run(paused) 1
         # An automatic pause gives back the time spent away from the board.
