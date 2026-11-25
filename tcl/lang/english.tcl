@@ -543,6 +543,7 @@ translate E WoodpeckerDelete {Delete}
 translate E WoodpeckerContinue {Continue (Enter)}
 translate E WoodpeckerSessionOptions {Session}
 translate E WoodpeckerAutoPause {Pause after each exercise}
+translate E WoodpeckerNoIdlePause {Don't pause when idle (the clock keeps running)}
 translate E WoodpeckerPausedAfter {Paused after the exercise. Step through the solution, then press Continue (Enter).}
 translate E WoodpeckerPause {Pause}
 translate E WoodpeckerResume {Resume}

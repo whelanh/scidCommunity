@@ -137,6 +137,17 @@ proc ::wpgui::run {} {
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
 
+    # The default: two idle minutes pause the session, and the time away is
+    # given back on resume. Shorten the fake gap before resuming so the timed
+    # exercise is not distorted.
+    set ::woodpecker::ui::run(lastInput) [expr {[clock milliseconds] - $::woodpecker::P(idleMs) - 100}]
+    wait 800
+    checkEq "two idle minutes pause the session" [list $::woodpecker::ui::run(paused) $::woodpecker::ui::run(wait)] {1 ask}
+    checkEq "and say why" $::woodpecker::ui::txt(status) [tr WoodpeckerAutoPaused]
+    set ::woodpecker::ui::run(pauseT) [expr {[clock milliseconds] - 100}]
+    ::woodpecker::ui::pause
+    checkEq "resuming clears the pause" [list $::woodpecker::ui::run(paused) $::woodpecker::ui::txt(status)] {0 {}}
+
     # Exercise 1: e6e1 (right), reply, then a wrong move: one attempt, so it fails.
     addMoveUCI e6e1
     wait 600
@@ -427,9 +438,12 @@ proc ::wpgui::run {} {
     # solution be reviewed before Continue. The clock stops too.
     check "the sets page offers auto-pause" [winfo exists .woodpeckerWin.home.opts.autoPause]
     checkEq "with the translated label" [.woodpeckerWin.home.opts.autoPause cget -text] [tr WoodpeckerAutoPause]
-    checkEq "it starts off" $::woodpecker::ui::autoPause 0
+    check "the sets page offers the idle pause switch" [winfo exists .woodpeckerWin.home.opts.noIdlePause]
+    checkEq "with its translated label" [.woodpeckerWin.home.opts.noIdlePause cget -text] [tr WoodpeckerNoIdlePause]
+    checkEq "both start off" [list $::woodpecker::ui::autoPause $::woodpecker::ui::noIdlePause] {0 0}
     .woodpeckerWin.home.opts.autoPause invoke
-    checkEq "ticking it turns it on" $::woodpecker::ui::autoPause 1
+    .woodpeckerWin.home.opts.noIdlePause invoke
+    checkEq "ticking them turns them on" [list $::woodpecker::ui::autoPause $::woodpecker::ui::noIdlePause] {1 1}
     set dir4 [::woodpecker::set::newDir "GUI test four"]
     # A two-ply solution: the trainee's e5 solves it, and the trailing Nf3 is
     # the opponent reply that the solved review must still be able to reach.
@@ -443,7 +457,13 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::selectSet $dir4
     ::woodpecker::ui::train
     wait 500
-    checkEq "the session reads the option" $::woodpecker::ui::run(autoPause) 1
+    checkEq "the session reads both options" \
+        [list $::woodpecker::ui::run(autoPause) $::woodpecker::ui::run(noIdlePause)] {1 1}
+    # With no idle pause, an old lastInput must not stop the clock.
+    set ::woodpecker::ui::run(lastInput) [expr {[clock milliseconds] - $::woodpecker::P(idleMs) - 100}]
+    wait 800
+    checkEq "no idle pause when the switch is on" \
+        [list $::woodpecker::ui::run(paused) $::woodpecker::ui::run(wait)] {0 ask}
     # A wrong first move: the failure pauses and asks for Continue.
     set bad [::wpgui::wrongMove [lindex [dict get [lindex $exs 0] solution] 0]]
     addMoveUCI $bad
@@ -488,7 +508,9 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::exitSession
     wait 800
     .woodpeckerWin.home.opts.autoPause invoke
-    checkEq "the option can be turned off again" $::woodpecker::ui::autoPause 0
+    .woodpeckerWin.home.opts.noIdlePause invoke
+    checkEq "both options can be turned off again" \
+        [list $::woodpecker::ui::autoPause $::woodpecker::ui::noIdlePause] {0 0}
     finishTest
 }
 

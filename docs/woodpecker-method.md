@@ -433,6 +433,8 @@ click):
   rounded bars for today's target and the cycle, and one coloured tile per
   exercise of the session;
 - two minutes without input pause the session, and that time does not count;
+  the Session option **Don't pause when idle** turns this off, and then a long
+  think counts in the clock;
 - **Auto-pause** (a global option on the sets page, off by default) stops the
   clock at the end of every exercise, right or wrong, and waits for Continue.
   A solved exercise then gets the same step-through review as a failed one
@@ -474,7 +476,7 @@ scrolls when the window is short.
 | `tests/tcl/woodpecker_set.tcl` | `tclsh`, CI | data folder, moving sets, README, token file; bundled pool: FlipB against the FEN, SAN→UCI and last move against `manifest.csv`, one mark per solver move for every puzzle in `marks.tsv`, shares to counts, bands, widening, clipping at the top, no repeats across sets, shortfall |
 | `tests/tcl/lichess_puzzles.tcl` | `tclsh`, CI | the Difficulty menu, colour filter and User-Agent against a fake Lichess |
 | `tests/woodpecker_app.tcl` | in the built app | sets from the bundled puzzles (with their marks as the first version and as NAGs), from Lichess and from PGN, a real Stockfish evaluation |
-| `tests/woodpecker_gui.sh` (+ `.tcl`) | GUI, Xvfb | real sessions: focus layout, hidden solution, abandon, restored layout, card clicks and arrows, auto-pause and review of a solved line, scrolling sets page; `WOODPECKER_GUI_UNDOCKED=1` repeats with a floating window |
+| `tests/woodpecker_gui.sh` (+ `.tcl`) | GUI, Xvfb | real sessions: focus layout, hidden solution, abandon, restored layout, card clicks and arrows, auto-pause and review of a solved line, idle pause on/off, scrolling sets page; `WOODPECKER_GUI_UNDOCKED=1` repeats with a floating window |
 
 `scripts/woodpecker/` holds the calibration probe (needs Stockfish and network
 access, not run in CI); its README has the commands.

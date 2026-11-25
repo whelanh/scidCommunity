@@ -36,10 +36,11 @@ if {[llength [info commands ::options.store]]} {
     ::options.store ::woodpecker::ui::lastPreset standard
     ::options.store ::woodpecker::ui::lastRating 1500
     ::options.store ::woodpecker::ui::autoPause 0
+    ::options.store ::woodpecker::ui::noIdlePause 0
     ::options.store ::woodpecker::dataDir ""
     ::options.store ::woodpecker::usedDir ""
 }
-foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500 autoPause 0} {
+foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500 autoPause 0 noIdlePause 0} {
     if {![info exists ::woodpecker::ui::$_v]} { set ::woodpecker::ui::$_v $_d }
 }
 unset -nocomplain _v _d
@@ -244,7 +245,10 @@ proc ::woodpecker::ui::build {} {
     ttk::labelframe $h.opts -text [tr WoodpeckerSessionOptions] -padding {8 4}
     ttk::checkbutton $h.opts.autoPause -text [tr WoodpeckerAutoPause] \
         -variable ::woodpecker::ui::autoPause -onvalue 1 -offvalue 0
-    pack $h.opts.autoPause -side left
+    ttk::checkbutton $h.opts.noIdlePause -text [tr WoodpeckerNoIdlePause] \
+        -variable ::woodpecker::ui::noIdlePause -onvalue 1 -offvalue 0
+    pack $h.opts.autoPause -side top -anchor w
+    pack $h.opts.noIdlePause -side top -anchor w
     ttk::frame $h.b
     ttk::button $h.b.train -image tb_play -text [tr WoodpeckerTrain] -compound left -command ${v}::train
     ttk::button $h.b.db -text [tr WoodpeckerOpenDatabase] -command ${v}::openDatabase
@@ -1408,6 +1412,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
         autoPause [expr {$::woodpecker::ui::autoPause ? 1 : 0}] hold 0 \
+        noIdlePause [expr {$::woodpecker::ui::noIdlePause ? 1 : 0}] \
         wait "" ex 0 state {} exT0 0 exPaused 0 pending "" results {} streak 0 points 0.0 max 0.0 \
         prevBase [sc_base current] xs $xs engines {} played 0 fen "" solution {} why "" \
         name [dict get $meta name]]
@@ -1467,7 +1472,7 @@ proc ::woodpecker::ui::tick {} {
     if {!$run(on) || ![winfo exists $w]} { return }
     set e [expr {[elapsedMs] / 1000}]
     set txt(clock) [format "%d:%02d" [expr {$e / 60}] [expr {$e % 60}]]
-    if {$run(wait) eq "ask" && !$run(paused) \
+    if {!$run(noIdlePause) && $run(wait) eq "ask" && !$run(paused) \
             && [clock milliseconds] - $run(lastInput) > $::woodpecker::P(idleMs)} {
         pause 1
     }
