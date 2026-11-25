@@ -431,8 +431,14 @@ proc ::wpgui::run {} {
     .woodpeckerWin.home.opts.autoPause invoke
     checkEq "ticking it turns it on" $::woodpecker::ui::autoPause 1
     set dir4 [::woodpecker::set::newDir "GUI test four"]
+    # A two-ply solution: the trainee's e5 solves it, and the trailing Nf3 is
+    # the opponent reply that the solved review must still be able to reach.
+    set even [dict create id even1 rating 1500 plays "" themes {} gameId "" \
+        fen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1} \
+        solution {e7e5 g1f3} lastMove e2e4 white "Even White" black "Even Black"]
     ::woodpecker::set::buildFromExercises $dir4 \
-        [::woodpecker::set::newMeta "GUI test four" lichess 7 1 [clock seconds]] [lrange $exs 0 1]
+        [::woodpecker::set::newMeta "GUI test four" lichess 7 1 [clock seconds]] \
+        [list [lindex $exs 0] $even]
     ::woodpecker::ui::refresh
     ::woodpecker::ui::selectSet $dir4
     ::woodpecker::ui::train
@@ -455,22 +461,24 @@ proc ::wpgui::run {} {
     checkEq "and resumes the clock" $::woodpecker::ui::run(paused) 0
     check "the pause button returns on the next exercise" [winfo ismapped .woodpeckerWin.sess.b.pause]
     checkEq "as Pause" [.woodpeckerWin.sess.b.pause cget -text] [tr WoodpeckerPause]
-    # Solve the second: the success pauses too, with the line to step through.
-    addMoveUCI b8c7
-    wait 600
-    addMoveUCI c7b6
+    # Solve the second: the success pauses too, and the trailing opponent reply
+    # is in the game so the whole line can be stepped through.
+    addMoveUCI e7e5
     wait 600
     checkEq "a solved exercise pauses too" [list $::woodpecker::ui::run(wait) $::woodpecker::ui::run(paused)] {solution 1}
     check "Continue stays for a solved exercise" [winfo ismapped .woodpeckerWin.sess.line.cont]
     check "the solved pause hides the pause button too" [expr {![winfo ismapped .woodpeckerWin.sess.b.pause]}]
-    checkEq "the board is at the end of the line" [sc_pos location] [llength [dict get [lindex $exs 1] solution]]
-    check "the solved line can be stepped back" [expr {[::woodpecker::ui::callback moveBack] == 1}]
-    ::move::Back
+    checkEq "the board is on the trainee's last move" [sc_pos location] 1
+    check "the solved line can be stepped forward" [expr {[::woodpecker::ui::callback moveForward] == 1}]
+    ::move::Forward
     wait 100
-    checkEq "the board moves back" [sc_pos location] 2
+    checkEq "to the trailing opponent reply" [sc_pos location] 2
+    ::woodpecker::ui::gotoPly 2
+    wait 100
+    checkEq "a card click reaches the last ply" [sc_pos location] 2
     ::woodpecker::ui::gotoPly 1
     wait 100
-    checkEq "and a card move still shows its position" [sc_pos location] 1
+    checkEq "and back to the trainee's move" [sc_pos location] 1
     set before [::woodpecker::ui::elapsedMs]
     wait 1200
     check "the solved review time is not counted either" [expr {[::woodpecker::ui::elapsedMs] - $before <= 5}]

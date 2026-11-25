@@ -435,9 +435,10 @@ click):
 - two minutes without input pause the session, and that time does not count;
 - **Auto-pause** (a global option on the sets page, off by default) stops the
   clock at the end of every exercise, right or wrong, and waits for Continue.
-  A solved exercise then gets the same step-through review as a failed one, and
-  the time spent reading the solution counts neither in the session nor in the
-  next exercise;
+  A solved exercise then gets the same step-through review as a failed one
+  (a trailing opponent reply is added to the session game first), and the time
+  spent reading the solution counts neither in the session nor in the next
+  exercise;
 - a click anywhere on the panel gives the focus back to the board, so the arrow
   bindings keep working after a click on the card.
 

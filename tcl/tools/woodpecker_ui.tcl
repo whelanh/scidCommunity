@@ -1843,6 +1843,7 @@ proc ::woodpecker::ui::exerciseDone {result} {
         # A solved exercise gets the same step-through as a failed one, and the
         # clock stops until Continue.
         set run(wait) solution
+        completeSolution
         markCur
         pauseForResult
         return
@@ -1878,6 +1879,22 @@ proc ::woodpecker::ui::showSolution {} {
     set run(wait) solution
     markCur
     status [tr WoodpeckerSolutionShown] 1
+}
+
+# A solved exercise ends on the trainee's last move. If the solution has a
+# trailing opponent reply (an even number of plies), add it so the review can
+# step to the whole line, then put the board back on the move the trainee made.
+proc ::woodpecker::ui::completeSolution {} {
+    variable run
+    set i $run(played)
+    if {$i >= [llength $run(solution)]} { return }
+    set at [sc_pos location]
+    foreach uci [lrange $run(solution) $i end] {
+        if {[catch { sc_move addSan $uci }]} { break }
+        incr run(played)
+    }
+    catch { sc_move ply $at }
+    ::notify::PosChanged -pgn
 }
 
 # Stop the clock at the end of an exercise and keep Continue in reach. The time
