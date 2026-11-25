@@ -1537,6 +1537,13 @@ proc ::woodpecker::ui::nextExercise {} {
     set run(fen) [dict get $e fen]
     set run(played) 0
     sc_game new
+    # sc_game new clears the tags, but the names bar reads ::gamePlayers, which
+    # only updateMainGame fills in. The switch to the session's MEMORY base did
+    # not do it: sc_base create made the base current, so ::file::SwitchToBase
+    # returned early without ::notify::GameChanged. PosChanged does not call it
+    # either, so the previous game's player names (and clocks) would stay on the
+    # board for the whole session. A fresh game's tags are empty: blank them.
+    updateMainGame
     sc_game startBoard $run(fen)
     set side [::woodpecker::fenSide $run(fen)]
     ::board::flipAuto .main.board [expr {$side eq "b"}]
