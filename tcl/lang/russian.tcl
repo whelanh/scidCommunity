@@ -502,11 +502,16 @@ translate R WoodpeckerColDate {Дата}
 translate R WoodpeckerColDuration {Продолжительность}
 translate R WoodpeckerColPoints {Очки}
 translate R WoodpeckerNew {Новый набор...}
+translate R WoodpeckerOpenDatabase {Открыть базу данных головоломок}
 translate R WoodpeckerTrain {Тренироваться}
 translate R WoodpeckerEvaluate {Оценивать...}
 translate R WoodpeckerStats {Статистика}
 translate R WoodpeckerDelete {Удалить}
 translate R WoodpeckerContinue {Продолжить (Ввод)}
+translate R WoodpeckerSessionOptions {Сессия}
+translate R WoodpeckerAutoPause {Делайте паузу после каждого упражнения.}
+translate R WoodpeckerNoIdlePause {Не делать паузу во время простоя (часы продолжают идти)}
+translate R WoodpeckerPausedAfter {Пауза после упражнения. Пройдитесь по решению, затем нажмите «Продолжить» (Enter).}
 translate R WoodpeckerPause {Пауза}
 translate R WoodpeckerResume {Резюме}
 translate R WoodpeckerEnd {Завершить сеанс}
@@ -578,6 +583,8 @@ translate R WoodpeckerEvalDone {Проведенная оценка: %d упра
 translate R WoodpeckerNoEngine {Механизм UCI не настроен (Инструменты > Механизмы).}
 translate R WoodpeckerEvalAsk {Оцените упражнения %d с помощью этого движка:}
 translate R WoodpeckerOtherMode {Еще одно обучение или игра — с использованием доски.}
+translate R WoodpeckerDatabaseBusy {Базу данных набора нельзя прочитать, пока доска используется в другой игре или тренировке. Закончите, затем попробуйте еще раз.}
+translate R WoodpeckerDatabaseUnsaved {В базе данных набора есть несохраненные изменения. Сохраните или удалите их, прежде чем продолжить.}
 translate R WoodpeckerNoSlot {Нет свободного места для базы данных для сеанса: закройте базу данных и повторите попытку.
 (%s)}
 translate R WoodpeckerRestAsk {Остальные дни заканчиваются %s. Все равно начать цикл %d?}

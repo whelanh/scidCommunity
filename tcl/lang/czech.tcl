@@ -499,11 +499,16 @@ translate C WoodpeckerColDate {Datum}
 translate C WoodpeckerColDuration {Trvání}
 translate C WoodpeckerColPoints {Body}
 translate C WoodpeckerNew {Nová sada...}
+translate C WoodpeckerOpenDatabase {Otevřete databázi hádanek}
 translate C WoodpeckerTrain {Vlak}
 translate C WoodpeckerEvaluate {Vyhodnotit...}
 translate C WoodpeckerStats {Statistika}
 translate C WoodpeckerDelete {Vymazat}
 translate C WoodpeckerContinue {Pokračovat (Enter)}
+translate C WoodpeckerSessionOptions {Zasedání}
+translate C WoodpeckerAutoPause {Po každém cvičení pauza}
+translate C WoodpeckerNoIdlePause {Nepřestávejte při nečinnosti (hodiny běží dál)}
+translate C WoodpeckerPausedAfter {Po cvičení pauza. Projděte řešením a poté stiskněte Pokračovat (Enter).}
 translate C WoodpeckerPause {Pauza}
 translate C WoodpeckerResume {Resumé}
 translate C WoodpeckerEnd {Ukončete relaci}
@@ -575,6 +580,8 @@ translate C WoodpeckerEvalDone {Provedené hodnocení: %d cvičení; %d pohyby o
 translate C WoodpeckerNoEngine {Není nakonfigurován žádný UCI engine (Nástroje > Motory).}
 translate C WoodpeckerEvalAsk {Vyhodnoťte %d cvičení s tímto motorem:}
 translate C WoodpeckerOtherMode {Dalším tréninkem nebo hrou je použití desky.}
+translate C WoodpeckerDatabaseBusy {Databázi sady nelze číst, když hrací desku používá jiná hra nebo trénink. Dokončete to a zkuste to znovu.}
+translate C WoodpeckerDatabaseUnsaved {Databáze sady obsahuje neuložené změny. Před pokračováním je uložte nebo zlikvidujte.}
 translate C WoodpeckerNoSlot {Žádný volný databázový slot pro relaci: zavřete databázi a zkuste to znovu.
 (%s)}
 translate C WoodpeckerRestAsk {Ostatní dny končí %s. Přesto spustit cyklus %d?}

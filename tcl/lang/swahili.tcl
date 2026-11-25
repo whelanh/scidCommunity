@@ -495,11 +495,16 @@ translate Z WoodpeckerColDate {Tarehe}
 translate Z WoodpeckerColDuration {Muda}
 translate Z WoodpeckerColPoints {Pointi}
 translate Z WoodpeckerNew {Seti mpya...}
+translate Z WoodpeckerOpenDatabase {Fungua Hifadhidata ya Mafumbo}
 translate Z WoodpeckerTrain {Treni}
 translate Z WoodpeckerEvaluate {Tathmini...}
 translate Z WoodpeckerStats {Takwimu}
 translate Z WoodpeckerDelete {Futa}
 translate Z WoodpeckerContinue {Endelea (Ingiza)}
+translate Z WoodpeckerSessionOptions {Kikao}
+translate Z WoodpeckerAutoPause {Pumzika baada ya kila zoezi}
+translate Z WoodpeckerNoIdlePause {Usisitishe wakati bila kazi (saa inaendelea kukimbia)}
+translate Z WoodpeckerPausedAfter {Imetulia baada ya zoezi hilo. Hatua kupitia suluhisho, kisha bonyeza Endelea (Ingiza).}
 translate Z WoodpeckerPause {Sitisha}
 translate Z WoodpeckerResume {Endelea}
 translate Z WoodpeckerEnd {Maliza kipindi}
@@ -571,6 +576,8 @@ translate Z WoodpeckerEvalDone {Tathmini imefanywa: %d mazoezi; %d hatua zimetiw
 translate Z WoodpeckerNoEngine {Hakuna injini ya UCI iliyosanidiwa (Zana > Injini).}
 translate Z WoodpeckerEvalAsk {Tathmini %d mazoezi ukitumia injini hii:}
 translate Z WoodpeckerOtherMode {Mafunzo au mchezo mwingine ni kutumia ubao.}
+translate Z WoodpeckerDatabaseBusy {Hifadhidata ya seti haiwezi kusomwa wakati mchezo mwingine au mafunzo yanatumia ubao. Maliza, kisha ujaribu tena.}
+translate Z WoodpeckerDatabaseUnsaved {Hifadhidata ya seti ina mabadiliko ambayo hayajahifadhiwa. Zihifadhi au uzitupe kabla ya kuendelea.}
 translate Z WoodpeckerNoSlot {Hakuna hifadhidata isiyolipishwa ya kipindi: funga hifadhidata na ujaribu tena.
 (%s)}
 translate Z WoodpeckerRestAsk {Siku za mapumziko zitaisha %s. Je, ungependa kuanza mzunguko %d?}

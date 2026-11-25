@@ -505,11 +505,16 @@ translate O WoodpeckerColDate {Dato}
 translate O WoodpeckerColDuration {Varighet}
 translate O WoodpeckerColPoints {Poeng}
 translate O WoodpeckerNew {Nytt sett...}
+translate O WoodpeckerOpenDatabase {Åpne puslespilldatabase}
 translate O WoodpeckerTrain {Tog}
 translate O WoodpeckerEvaluate {Evaluere...}
 translate O WoodpeckerStats {Statistikk}
 translate O WoodpeckerDelete {Slett}
 translate O WoodpeckerContinue {Fortsett (Enter)}
+translate O WoodpeckerSessionOptions {Sesjon}
+translate O WoodpeckerAutoPause {Pause etter hver øvelse}
+translate O WoodpeckerNoIdlePause {Ikke sett på pause når den er inaktiv (klokken fortsetter å gå)}
+translate O WoodpeckerPausedAfter {Pause etter øvelsen. Gå gjennom løsningen, og trykk deretter på Fortsett (Enter).}
 translate O WoodpeckerPause {Pause}
 translate O WoodpeckerResume {Gjenoppta}
 translate O WoodpeckerEnd {Avslutt økten}
@@ -581,6 +586,8 @@ translate O WoodpeckerEvalDone {Evaluering utført: %d øvelser; %d trekk merket
 translate O WoodpeckerNoEngine {Ingen UCI-motor er konfigurert (Verktøy > Motorer).}
 translate O WoodpeckerEvalAsk {Evaluer %d øvelser med denne motoren:}
 translate O WoodpeckerOtherMode {En annen trening eller et spill er å bruke brettet.}
+translate O WoodpeckerDatabaseBusy {Settets database kan ikke leses mens et annet spill eller trening bruker brettet. Fullfør det, og prøv på nytt.}
+translate O WoodpeckerDatabaseUnsaved {Settets database har ulagrede endringer. Lagre eller kast dem før du fortsetter.}
 translate O WoodpeckerNoSlot {Ingen ledig databaseplass for økten: lukk en database og prøv igjen.
 (%s)}
 translate O WoodpeckerRestAsk {Hviledagene slutter på %s. Starte syklusen %d uansett?}

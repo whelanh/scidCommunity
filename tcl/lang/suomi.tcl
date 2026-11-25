@@ -534,11 +534,16 @@ translate U WoodpeckerColDate {Päivämäärä}
 translate U WoodpeckerColDuration {Kesto}
 translate U WoodpeckerColPoints {Pisteet}
 translate U WoodpeckerNew {Uusi setti...}
+translate U WoodpeckerOpenDatabase {Avaa Puzzle-tietokanta}
 translate U WoodpeckerTrain {Kouluttaa}
 translate U WoodpeckerEvaluate {Arvioida...}
 translate U WoodpeckerStats {Tilastot}
 translate U WoodpeckerDelete {Poistaa}
 translate U WoodpeckerContinue {Jatka (Enter)}
+translate U WoodpeckerSessionOptions {Istunto}
+translate U WoodpeckerAutoPause {Tauko jokaisen harjoituksen jälkeen}
+translate U WoodpeckerNoIdlePause {Älä pidä taukoa tyhjäkäynnillä (kello käy jatkuvasti)}
+translate U WoodpeckerPausedAfter {Tauko harjoituksen jälkeen. Siirry ratkaisun läpi ja paina sitten Jatka (Enter).}
 translate U WoodpeckerPause {Tauko}
 translate U WoodpeckerResume {Jatkaa}
 translate U WoodpeckerEnd {Lopeta istunto}
@@ -610,6 +615,8 @@ translate U WoodpeckerEvalDone {Arviointi tehty: %d harjoitukset; %d liikkeet me
 translate U WoodpeckerNoEngine {UCI-moottoria ei ole määritetty (Työkalut > Moottorit).}
 translate U WoodpeckerEvalAsk {Arvioida %d harjoitukset tällä moottorilla:}
 translate U WoodpeckerOtherMode {Toinen harjoitus tai peli on laudan käyttö.}
+translate U WoodpeckerDatabaseBusy {Sarjan tietokantaa ei voi lukea, kun toinen peli tai harjoitus käyttää lautaa. Viimeistele ja yritä sitten uudelleen.}
+translate U WoodpeckerDatabaseUnsaved {Sarjan tietokannassa on tallentamattomia muutoksia. Tallenna tai hävitä ne ennen kuin jatkat.}
 translate U WoodpeckerNoSlot {Ei vapaata tietokantapaikkaa istunnolle: sulje tietokanta ja yritä uudelleen.
 (%s)}
 translate U WoodpeckerRestAsk {Lepopäivät päättyvät %s. Aloitetaanko sykli %d kuitenkin?}

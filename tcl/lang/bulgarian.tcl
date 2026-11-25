@@ -536,11 +536,16 @@ translate g WoodpeckerColDate {Дата}
 translate g WoodpeckerColDuration {Продължителност}
 translate g WoodpeckerColPoints {Точки}
 translate g WoodpeckerNew {Нов комплект...}
+translate g WoodpeckerOpenDatabase {Отворете базата данни за пъзели}
 translate g WoodpeckerTrain {влак}
 translate g WoodpeckerEvaluate {Оценете...}
 translate g WoodpeckerStats {Статистика}
 translate g WoodpeckerDelete {Изтриване}
 translate g WoodpeckerContinue {Продължи (Въведете)}
+translate g WoodpeckerSessionOptions {Сесия}
+translate g WoodpeckerAutoPause {Правете пауза след всяко упражнение}
+translate g WoodpeckerNoIdlePause {Не поставяйте на пауза при неактивност (часовникът продължава да работи)}
+translate g WoodpeckerPausedAfter {Пауза след упражнението. Преминете през решението, след което натиснете Продължи (Enter).}
 translate g WoodpeckerPause {Пауза}
 translate g WoodpeckerResume {Резюме}
 translate g WoodpeckerEnd {Край на сесията}
@@ -612,6 +617,8 @@ translate g WoodpeckerEvalDone {Извършена оценка: %d упражн
 translate g WoodpeckerNoEngine {Не е конфигуриран UCI двигател (Инструменти > Двигатели).}
 translate g WoodpeckerEvalAsk {Оценете %d упражнения с тази машина:}
 translate g WoodpeckerOtherMode {Друго обучение или игра е използването на дъската.}
+translate g WoodpeckerDatabaseBusy {Базата данни на комплекта не може да бъде прочетена, докато друга игра или тренировка използва дъската. Завършете го и опитайте отново.}
+translate g WoodpeckerDatabaseUnsaved {Базата данни на комплекта има незапазени промени. Запазете ги или ги изхвърлете, преди да продължите.}
 translate g WoodpeckerNoSlot {Няма свободен слот за база данни за сесията: затворете база данни и опитайте отново.
 (%s)}
 translate g WoodpeckerRestAsk {Останалите дни приключват на %s. Стартиране на цикъл %d въпреки това?}

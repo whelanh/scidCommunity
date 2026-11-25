@@ -524,11 +524,16 @@ translate N WoodpeckerColDate {Datum}
 translate N WoodpeckerColDuration {Duur}
 translate N WoodpeckerColPoints {Punten}
 translate N WoodpeckerNew {Nieuw setje...}
+translate N WoodpeckerOpenDatabase {Open puzzeldatabase}
 translate N WoodpeckerTrain {Trein}
 translate N WoodpeckerEvaluate {Evalueer...}
 translate N WoodpeckerStats {Statistieken}
 translate N WoodpeckerDelete {Verwijderen}
 translate N WoodpeckerContinue {Doorgaan (invoeren)}
+translate N WoodpeckerSessionOptions {Sessie}
+translate N WoodpeckerAutoPause {Pauzeer na elke oefening}
+translate N WoodpeckerNoIdlePause {Pauzeer niet tijdens inactiviteit (de klok blijft lopen)}
+translate N WoodpeckerPausedAfter {Gepauzeerd na de oefening. Doorloop de oplossing en druk vervolgens op Doorgaan (Enter).}
 translate N WoodpeckerPause {Pauze}
 translate N WoodpeckerResume {Cv}
 translate N WoodpeckerEnd {Sessie beëindigen}
@@ -600,6 +605,8 @@ translate N WoodpeckerEvalDone {Evaluatie gedaan: %d oefeningen; %d bewegingen g
 translate N WoodpeckerNoEngine {Er is geen UCI-engine geconfigureerd (Extra > Engines).}
 translate N WoodpeckerEvalAsk {Evalueer %d oefeningen met deze engine:}
 translate N WoodpeckerOtherMode {Een andere training of spel is het gebruik van het bord.}
+translate N WoodpeckerDatabaseBusy {De database van de set kan niet worden gelezen terwijl een andere wedstrijd of training het bord gebruikt. Maak het af en probeer het opnieuw.}
+translate N WoodpeckerDatabaseUnsaved {De database van de set bevat niet-opgeslagen wijzigingen. Bewaar ze of gooi ze weg voordat je verdergaat.}
 translate N WoodpeckerNoSlot {Geen vrije databaseruimte voor de sessie: sluit een database en probeer het opnieuw.
 (%s)}
 translate N WoodpeckerRestAsk {De rustdagen eindigen op %s. Toch cyclus %d starten?}

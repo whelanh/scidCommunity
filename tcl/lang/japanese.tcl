@@ -536,11 +536,16 @@ translate A WoodpeckerColDate {日付}
 translate A WoodpeckerColDuration {間隔}
 translate A WoodpeckerColPoints {ポイント}
 translate A WoodpeckerNew {新しいセット...}
+translate A WoodpeckerOpenDatabase {パズルデータベースを開く}
 translate A WoodpeckerTrain {電車}
 translate A WoodpeckerEvaluate {評価する...}
 translate A WoodpeckerStats {統計}
 translate A WoodpeckerDelete {消去}
 translate A WoodpeckerContinue {続行（入力）}
+translate A WoodpeckerSessionOptions {セッション}
+translate A WoodpeckerAutoPause {各エクササイズの後に一時停止する}
+translate A WoodpeckerNoIdlePause {アイドル状態のときに一時停止しないでください (時計は動き続けます)}
+translate A WoodpeckerPausedAfter {練習後は休憩。ソリューションをステップ実行し、続行 (Enter) を押します。}
 translate A WoodpeckerPause {一時停止}
 translate A WoodpeckerResume {再開する}
 translate A WoodpeckerEnd {セッションを終了する}
@@ -612,6 +617,8 @@ translate A WoodpeckerEvalDone {評価完了: %d 演習。 %d はマーク付き
 translate A WoodpeckerNoEngine {UCI エンジンが構成されていません ([ツール] > [エンジン])。}
 translate A WoodpeckerEvalAsk {このエンジンを使用して %d 演習を評価します。}
 translate A WoodpeckerOtherMode {もう一つのトレーニングやゲームはボードを使用することです。}
+translate A WoodpeckerDatabaseBusy {別のゲームまたはトレーニングがボードを使用している間は、セットのデータベースを読み取ることはできません。完了してから、もう一度試してください。}
+translate A WoodpeckerDatabaseUnsaved {セットのデータベースには保存されていない変更があります。続行する前に、それらを保存するか破棄してください。}
 translate A WoodpeckerNoSlot {セッション用の空きデータベース スロットがありません。データベースを閉じて、再試行してください。
 (%s)}
 translate A WoodpeckerRestAsk {残りの日は %s に終了します。とにかくサイクル %d を開始しますか?}

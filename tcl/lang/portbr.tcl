@@ -504,11 +504,16 @@ translate B WoodpeckerColDate {Data}
 translate B WoodpeckerColDuration {Duração}
 translate B WoodpeckerColPoints {Pontos}
 translate B WoodpeckerNew {Novo conjunto...}
+translate B WoodpeckerOpenDatabase {Banco de dados de quebra-cabeças aberto}
 translate B WoodpeckerTrain {Trem}
 translate B WoodpeckerEvaluate {Avaliar...}
 translate B WoodpeckerStats {Estatísticas}
 translate B WoodpeckerDelete {Excluir}
 translate B WoodpeckerContinue {Continuar (Entrar)}
+translate B WoodpeckerSessionOptions {Sessão}
+translate B WoodpeckerAutoPause {Pausa após cada exercício}
+translate B WoodpeckerNoIdlePause {Não faça pausa quando estiver ocioso (o relógio continua funcionando)}
+translate B WoodpeckerPausedAfter {Pausa após o exercício. Percorra a solução e pressione Continuar (Enter).}
 translate B WoodpeckerPause {Pausa}
 translate B WoodpeckerResume {Retomar}
 translate B WoodpeckerEnd {Encerrar sessão}
@@ -580,6 +585,8 @@ translate B WoodpeckerEvalDone {Avaliação realizada: exercícios %d; %d movime
 translate B WoodpeckerNoEngine {Nenhum mecanismo UCI está configurado (Ferramentas > Motores).}
 translate B WoodpeckerEvalAsk {Avalie exercícios %d com este mecanismo:}
 translate B WoodpeckerOtherMode {Outro treino ou jogo é usar o tabuleiro.}
+translate B WoodpeckerDatabaseBusy {O banco de dados do conjunto não pode ser lido enquanto outro jogo ou treino estiver utilizando o tabuleiro. Termine e tente novamente.}
+translate B WoodpeckerDatabaseUnsaved {O banco de dados do conjunto possui alterações não salvas. Salve ou descarte-os antes de continuar.}
 translate B WoodpeckerNoSlot {Nenhum slot de banco de dados livre para a sessão: feche um banco de dados e tente novamente.
 (%s)}
 translate B WoodpeckerRestAsk {Os dias de descanso terminam em %s. Iniciar ciclo %d mesmo assim?}

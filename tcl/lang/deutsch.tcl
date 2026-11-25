@@ -529,11 +529,16 @@ translate D WoodpeckerColDate {Datum}
 translate D WoodpeckerColDuration {Dauer}
 translate D WoodpeckerColPoints {Punkte}
 translate D WoodpeckerNew {Neues Set...}
+translate D WoodpeckerOpenDatabase {Öffnen Sie die Puzzle-Datenbank}
 translate D WoodpeckerTrain {Zug}
 translate D WoodpeckerEvaluate {Auswerten...}
 translate D WoodpeckerStats {Statistiken}
 translate D WoodpeckerDelete {Löschen}
 translate D WoodpeckerContinue {Weiter (Eingabe)}
+translate D WoodpeckerSessionOptions {Sitzung}
+translate D WoodpeckerAutoPause {Machen Sie nach jeder Übung eine Pause}
+translate D WoodpeckerNoIdlePause {Im Leerlauf nicht pausieren (die Uhr läuft weiter)}
+translate D WoodpeckerPausedAfter {Nach der Übung pausiert. Gehen Sie die Lösung schrittweise durch und drücken Sie dann Weiter (Eingabetaste).}
 translate D WoodpeckerPause {Pause}
 translate D WoodpeckerResume {Wieder aufnehmen}
 translate D WoodpeckerEnd {Sitzung beenden}
@@ -605,6 +610,8 @@ translate D WoodpeckerEvalDone {Auswertung durchgeführt: %d Übungen; %d Züge 
 translate D WoodpeckerNoEngine {Es ist keine UCI-Engine konfiguriert (Tools > Engines).}
 translate D WoodpeckerEvalAsk {Bewerten Sie %d Übungen mit dieser Engine:}
 translate D WoodpeckerOtherMode {Ein weiteres Training oder Spiel ist die Verwendung des Bretts.}
+translate D WoodpeckerDatabaseBusy {Die Datenbank des Sets kann nicht gelesen werden, während ein anderes Spiel oder Training das Board nutzt. Beenden Sie es und versuchen Sie es dann erneut.}
+translate D WoodpeckerDatabaseUnsaved {Die Datenbank des Sets enthält nicht gespeicherte Änderungen. Speichern oder verwerfen Sie sie, bevor Sie fortfahren.}
 translate D WoodpeckerNoSlot {Kein freier Datenbankplatz für die Sitzung: Schließen Sie eine Datenbank und versuchen Sie es erneut.
 (%s)}
 translate D WoodpeckerRestAsk {Die Ruhetage enden am %s. Zyklus %d trotzdem starten?}

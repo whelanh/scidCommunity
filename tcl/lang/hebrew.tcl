@@ -496,11 +496,16 @@ translate V WoodpeckerColDate {תַאֲרִיך}
 translate V WoodpeckerColDuration {מֶשֶׁך}
 translate V WoodpeckerColPoints {נקודות}
 translate V WoodpeckerNew {סט חדש...}
+translate V WoodpeckerOpenDatabase {פתח את מסד הנתונים של פאזלים}
 translate V WoodpeckerTrain {רַכֶּבֶת}
 translate V WoodpeckerEvaluate {לְהַעֲרִיך...}
 translate V WoodpeckerStats {סטָטִיסטִיקָה}
 translate V WoodpeckerDelete {לִמְחוֹק}
 translate V WoodpeckerContinue {המשך (Enter)}
+translate V WoodpeckerSessionOptions {מוֹשָׁב}
+translate V WoodpeckerAutoPause {הפסקה לאחר כל תרגיל}
+translate V WoodpeckerNoIdlePause {אל תשהה כשלא פעיל (השעון ממשיך לרוץ)}
+translate V WoodpeckerPausedAfter {הושהה לאחר התרגיל. עברו על הפתרון, ואז הקש על המשך (Enter).}
 translate V WoodpeckerPause {הַפסָקָה}
 translate V WoodpeckerResume {קוֹרוֹת חַיִים}
 translate V WoodpeckerEnd {סיום הפגישה}
@@ -572,6 +577,8 @@ translate V WoodpeckerEvalDone {הערכה שנעשתה: %d תרגילים; %d �
 translate V WoodpeckerNoEngine {לא מוגדר מנוע UCI (כלים > מנועים).}
 translate V WoodpeckerEvalAsk {הערכת %d תרגילים עם המנוע הזה:}
 translate V WoodpeckerOtherMode {אימון או משחק אחר הוא שימוש בלוח.}
+translate V WoodpeckerDatabaseBusy {לא ניתן לקרוא את מסד הנתונים של הסט בזמן שמשחק או אימון אחר משתמשים בלוח. סיים אותו ואז נסה שוב.}
+translate V WoodpeckerDatabaseUnsaved {במסד הנתונים של הסט יש שינויים שלא נשמרו. שמור או השלך אותם לפני שתמשיך.}
 translate V WoodpeckerNoSlot {אין משבצת מסד נתונים פנוי עבור ההפעלה: סגור מסד נתונים ונסה שוב.
 (%s)}
 translate V WoodpeckerRestAsk {ימי המנוחה מסתיימים %s. התחל מחזור %d בכל מקרה?}

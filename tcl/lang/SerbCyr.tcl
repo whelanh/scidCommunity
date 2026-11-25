@@ -536,11 +536,16 @@ translate J WoodpeckerColDate {Датум}
 translate J WoodpeckerColDuration {Трајање}
 translate J WoodpeckerColPoints {Поени}
 translate J WoodpeckerNew {Нови сет...}
+translate J WoodpeckerOpenDatabase {Отворите базу података слагалица}
 translate J WoodpeckerTrain {Воз}
 translate J WoodpeckerEvaluate {Оцените...}
 translate J WoodpeckerStats {Статистика}
 translate J WoodpeckerDelete {Избриши}
 translate J WoodpeckerContinue {Настави (Ентер)}
+translate J WoodpeckerSessionOptions {Сессион}
+translate J WoodpeckerAutoPause {Паузирајте после сваке вежбе}
+translate J WoodpeckerNoIdlePause {Не паузирајте када сте у стању мировања (сат наставља да ради)}
+translate J WoodpeckerPausedAfter {Пауза после вежбе. Прођите кроз решење, а затим притисните Настави (Ентер).}
 translate J WoodpeckerPause {Пауза}
 translate J WoodpeckerResume {Настави}
 translate J WoodpeckerEnd {Заврши сесију}
@@ -612,6 +617,8 @@ translate J WoodpeckerEvalDone {Урађена евалуација: %d вежб
 translate J WoodpeckerNoEngine {Ниједан УЦИ мотор није конфигурисан (Алати > Мотори).}
 translate J WoodpeckerEvalAsk {Евалуате %d вежбе са овим мотором:}
 translate J WoodpeckerOtherMode {Други тренинг или игра је коришћење табле.}
+translate J WoodpeckerDatabaseBusy {База података сета се не може прочитати док друга игра или тренинг користи таблу. Завршите, па покушајте поново.}
+translate J WoodpeckerDatabaseUnsaved {База података скупа има несачуване промене. Сачувајте или одбаците их пре него што наставите.}
 translate J WoodpeckerNoSlot {Нема слободног места за базу података за сесију: затворите базу података и покушајте поново.
 (%s)}
 translate J WoodpeckerRestAsk {Остали дани се завршавају %s. Започни циклус %d свеједно?}

@@ -506,11 +506,16 @@ translate W WoodpeckerColDate {Datum}
 translate W WoodpeckerColDuration {Varaktighet}
 translate W WoodpeckerColPoints {Poäng}
 translate W WoodpeckerNew {Nytt set...}
+translate W WoodpeckerOpenDatabase {Öppna pusseldatabas}
 translate W WoodpeckerTrain {Tåg}
 translate W WoodpeckerEvaluate {Utvärdera...}
 translate W WoodpeckerStats {Statistik}
 translate W WoodpeckerDelete {Radera}
 translate W WoodpeckerContinue {Fortsätt (Enter)}
+translate W WoodpeckerSessionOptions {Session}
+translate W WoodpeckerAutoPause {Pausa efter varje övning}
+translate W WoodpeckerNoIdlePause {Pausa inte när den är inaktiv (klockan fortsätter att gå)}
+translate W WoodpeckerPausedAfter {Pausad efter träningen. Gå igenom lösningen och tryck sedan på Fortsätt (Enter).}
 translate W WoodpeckerPause {Paus}
 translate W WoodpeckerResume {Resume}
 translate W WoodpeckerEnd {Avsluta sessionen}
@@ -582,6 +587,8 @@ translate W WoodpeckerEvalDone {Utvärdering gjord: %d övningar; %d drag marker
 translate W WoodpeckerNoEngine {Ingen UCI-motor är konfigurerad (Verktyg > Motorer).}
 translate W WoodpeckerEvalAsk {Utvärdera %d övningar med denna motor:}
 translate W WoodpeckerOtherMode {En annan träning eller ett spel är att använda brädan.}
+translate W WoodpeckerDatabaseBusy {Setets databas kan inte läsas medan ett annat spel eller träning använder brädan. Avsluta det och försök sedan igen.}
+translate W WoodpeckerDatabaseUnsaved {Uppsättningens databas har osparade ändringar. Spara eller släng dem innan du fortsätter.}
 translate W WoodpeckerNoSlot {Ingen ledig databasplats för sessionen: stäng en databas och försök igen.
 (%s)}
 translate W WoodpeckerRestAsk {Vilodagarna slutar den %s. Starta cykeln %d ändå?}

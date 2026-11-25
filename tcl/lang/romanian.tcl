@@ -536,11 +536,16 @@ translate L WoodpeckerColDate {Data}
 translate L WoodpeckerColDuration {Durată}
 translate L WoodpeckerColPoints {Puncte}
 translate L WoodpeckerNew {Set nou...}
+translate L WoodpeckerOpenDatabase {Deschideți baza de date puzzle}
 translate L WoodpeckerTrain {Tren}
 translate L WoodpeckerEvaluate {Evalua...}
 translate L WoodpeckerStats {Statistici}
 translate L WoodpeckerDelete {Şterge}
 translate L WoodpeckerContinue {Continuați (Enter)}
+translate L WoodpeckerSessionOptions {Sesiune}
+translate L WoodpeckerAutoPause {Pauza dupa fiecare exercitiu}
+translate L WoodpeckerNoIdlePause {Nu face pauză când este inactiv (ceasul continuă să funcționeze)}
+translate L WoodpeckerPausedAfter {Întrerupt după exercițiu. Treceți prin soluție, apoi apăsați Continuare (Enter).}
 translate L WoodpeckerPause {Pauză}
 translate L WoodpeckerResume {Relua}
 translate L WoodpeckerEnd {Încheiați sesiunea}
@@ -612,6 +617,8 @@ translate L WoodpeckerEvalDone {Evaluare facuta: %d exerciții; %d miscari marca
 translate L WoodpeckerNoEngine {Nu este configurat niciun motor UCI (Instrumente > Motoare).}
 translate L WoodpeckerEvalAsk {Evaluați %d exerciții cu acest motor:}
 translate L WoodpeckerOtherMode {Un alt antrenament sau joc este folosirea tablei.}
+translate L WoodpeckerDatabaseBusy {Baza de date a setului nu poate fi citită în timp ce un alt joc sau antrenament utilizează tabla. Termină, apoi încearcă din nou.}
+translate L WoodpeckerDatabaseUnsaved {Baza de date a setului are modificări nesalvate. Salvați-le sau aruncați-le înainte de a continua.}
 translate L WoodpeckerNoSlot {Nu există slot gratuit pentru baze de date pentru sesiune: închideți o bază de date și încercați din nou.
 (%s)}
 translate L WoodpeckerRestAsk {Zilele de odihnă se termină %s. Începe ciclul %d oricum?}

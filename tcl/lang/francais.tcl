@@ -511,11 +511,16 @@ translate F WoodpeckerColDate {Date}
 translate F WoodpeckerColDuration {Durée}
 translate F WoodpeckerColPoints {Points}
 translate F WoodpeckerNew {Nouvel ensemble...}
+translate F WoodpeckerOpenDatabase {Ouvrir la base de données de puzzles}
 translate F WoodpeckerTrain {Former}
 translate F WoodpeckerEvaluate {Évaluer...}
 translate F WoodpeckerStats {Statistiques}
 translate F WoodpeckerDelete {Supprimer}
 translate F WoodpeckerContinue {Continuer (Entrer)}
+translate F WoodpeckerSessionOptions {Session}
+translate F WoodpeckerAutoPause {Pause après chaque exercice}
+translate F WoodpeckerNoIdlePause {Ne faites pas de pause lorsque vous êtes inactif (l'horloge continue de fonctionner)}
+translate F WoodpeckerPausedAfter {Pause après l'exercice. Parcourez la solution, puis appuyez sur Continuer (Entrée).}
 translate F WoodpeckerPause {Pause}
 translate F WoodpeckerResume {CV}
 translate F WoodpeckerEnd {Fin de séance}
@@ -587,6 +592,8 @@ translate F WoodpeckerEvalDone {Évaluation effectuée : exercices %d ; %d mou
 translate F WoodpeckerNoEngine {Aucun moteur UCI n'est configuré (Outils > Moteurs).}
 translate F WoodpeckerEvalAsk {Évaluez les exercices %d avec ce moteur :}
 translate F WoodpeckerOtherMode {Un autre entraînement ou jeu consiste à utiliser le tableau.}
+translate F WoodpeckerDatabaseBusy {La base de données de l'ensemble ne peut pas être lue lorsqu'un autre jeu ou entraînement utilise le plateau. Terminez-le, puis réessayez.}
+translate F WoodpeckerDatabaseUnsaved {La base de données de l'ensemble contient des modifications non enregistrées. Enregistrez-les ou jetez-les avant de continuer.}
 translate F WoodpeckerNoSlot {Aucun emplacement de base de données libre pour la session : fermez une base de données et réessayez.
 (%s)}
 translate F WoodpeckerRestAsk {Les jours de repos se terminent le %s. Démarrer le cycle %d quand même ?}

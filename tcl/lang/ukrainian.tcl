@@ -496,11 +496,16 @@ translate Q WoodpeckerColDate {Дата}
 translate Q WoodpeckerColDuration {Тривалість}
 translate Q WoodpeckerColPoints {Очки}
 translate Q WoodpeckerNew {Новий комплект...}
+translate Q WoodpeckerOpenDatabase {Відкрийте базу даних Puzzle}
 translate Q WoodpeckerTrain {поїзд}
 translate Q WoodpeckerEvaluate {Оцінити...}
 translate Q WoodpeckerStats {Статистика}
 translate Q WoodpeckerDelete {Видалити}
 translate Q WoodpeckerContinue {Продовжити (Enter)}
+translate Q WoodpeckerSessionOptions {Сесія}
+translate Q WoodpeckerAutoPause {Робіть паузу після кожної вправи}
+translate Q WoodpeckerNoIdlePause {Не робити пауз під час простою (годинник продовжує працювати)}
+translate Q WoodpeckerPausedAfter {Пауза після вправи. Перегляньте рішення, а потім натисніть «Продовжити» (Enter).}
 translate Q WoodpeckerPause {Пауза}
 translate Q WoodpeckerResume {Резюме}
 translate Q WoodpeckerEnd {Завершити сеанс}
@@ -572,6 +577,8 @@ translate Q WoodpeckerEvalDone {Виконано оцінювання: %d впр
 translate Q WoodpeckerNoEngine {Механізм UCI не налаштовано (Інструменти > Механізми).}
 translate Q WoodpeckerEvalAsk {Оцініть %d вправи за допомогою цієї системи:}
 translate Q WoodpeckerOtherMode {Ще одне тренування або гра – використання дошки.}
+translate Q WoodpeckerDatabaseBusy {Базу даних набору неможливо прочитати, поки на дошці використовується інша гра чи тренування. Закінчіть, а потім спробуйте ще раз.}
+translate Q WoodpeckerDatabaseUnsaved {База даних набору містить незбережені зміни. Збережіть або видаліть їх, перш ніж продовжити.}
 translate Q WoodpeckerNoSlot {Немає вільного місця для бази даних для сеансу: закрийте базу даних і повторіть спробу.
 (%s)}
 translate Q WoodpeckerRestAsk {Решта днів закінчується %s. Усе одно почати цикл %d?}

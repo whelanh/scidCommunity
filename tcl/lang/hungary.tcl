@@ -503,11 +503,16 @@ translate H WoodpeckerColDate {Dátum}
 translate H WoodpeckerColDuration {Időtartam}
 translate H WoodpeckerColPoints {Pontok}
 translate H WoodpeckerNew {Új készlet...}
+translate H WoodpeckerOpenDatabase {Nyissa meg a Puzzle adatbázist}
 translate H WoodpeckerTrain {Vonat}
 translate H WoodpeckerEvaluate {Értékeld...}
 translate H WoodpeckerStats {Statisztika}
 translate H WoodpeckerDelete {Töröl}
 translate H WoodpeckerContinue {Folytatás (Enter)}
+translate H WoodpeckerSessionOptions {Ülés}
+translate H WoodpeckerAutoPause {Szünet minden gyakorlat után}
+translate H WoodpeckerNoIdlePause {Ne álljon meg üresjáratban (az óra folyamatosan jár)}
+translate H WoodpeckerPausedAfter {Az edzés után szünetel. Lépjen végig a megoldáson, majd nyomja meg a Continue (Enter) gombot.}
 translate H WoodpeckerPause {Szünet}
 translate H WoodpeckerResume {Folytatás}
 translate H WoodpeckerEnd {Munkamenet befejezése}
@@ -579,6 +584,8 @@ translate H WoodpeckerEvalDone {Elkészült az értékelés: %d gyakorlatok; %d 
 translate H WoodpeckerNoEngine {Nincs konfigurálva UCI-motor (Eszközök > Motorok).}
 translate H WoodpeckerEvalAsk {Értékelje %d gyakorlatok ezzel a motorral:}
 translate H WoodpeckerOtherMode {Egy másik edzés vagy játék a tábla használata.}
+translate H WoodpeckerDatabaseBusy {A készlet adatbázisa nem olvasható, amíg egy másik játék vagy edzés használja a táblát. Fejezze be, majd próbálja újra.}
+translate H WoodpeckerDatabaseUnsaved {A készlet adatbázisában nem mentett módosítások vannak. Mentse el vagy dobja el őket, mielőtt folytatná.}
 translate H WoodpeckerNoSlot {Nincs szabad adatbázis-hely a munkamenethez: zárjon be egy adatbázist, és próbálja újra.
 (%s)}
 translate H WoodpeckerRestAsk {A pihenőnapok a következő napon érnek véget: %s. Egyébként elindítja a ciklust %d?}

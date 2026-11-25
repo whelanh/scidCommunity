@@ -536,11 +536,16 @@ translate S WoodpeckerColDate {Fecha}
 translate S WoodpeckerColDuration {Duración}
 translate S WoodpeckerColPoints {Agujas}
 translate S WoodpeckerNew {Nuevo conjunto...}
+translate S WoodpeckerOpenDatabase {Abrir base de datos de rompecabezas}
 translate S WoodpeckerTrain {Tren}
 translate S WoodpeckerEvaluate {Evaluar...}
 translate S WoodpeckerStats {Estadística}
 translate S WoodpeckerDelete {Borrar}
 translate S WoodpeckerContinue {Continuar (Entrar)}
+translate S WoodpeckerSessionOptions {Sesión}
+translate S WoodpeckerAutoPause {Pausa después de cada ejercicio.}
+translate S WoodpeckerNoIdlePause {No pausar cuando esté inactivo (el reloj sigue funcionando)}
+translate S WoodpeckerPausedAfter {En pausa después del ejercicio. Avance por la solución y luego presione Continuar (Entrar).}
 translate S WoodpeckerPause {Pausa}
 translate S WoodpeckerResume {Reanudar}
 translate S WoodpeckerEnd {Finalizar sesión}
@@ -612,6 +617,8 @@ translate S WoodpeckerEvalDone {Evaluación realizada: %d ejercicios; %d movimie
 translate S WoodpeckerNoEngine {No hay ningún motor UCI configurado (Herramientas > Motores).}
 translate S WoodpeckerEvalAsk {Evalúa %d ejercicios con este motor:}
 translate S WoodpeckerOtherMode {Otro entrenamiento o juego es utilizar el tablero.}
+translate S WoodpeckerDatabaseBusy {La base de datos del conjunto no se puede leer mientras otro juego o entrenamiento esté usando el tablero. Termínalo y vuelve a intentarlo.}
+translate S WoodpeckerDatabaseUnsaved {La base de datos del conjunto tiene cambios no guardados. Guárdalos o deséchalos antes de continuar.}
 translate S WoodpeckerNoSlot {No hay espacio libre en la base de datos para la sesión: cierre una base de datos e inténtelo de nuevo.
 (%s)}
 translate S WoodpeckerRestAsk {Los días de descanso finalizan el %s. ¿Iniciar el ciclo %d de todos modos?}

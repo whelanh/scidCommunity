@@ -518,11 +518,16 @@ translate K WoodpeckerColDate {Data}
 translate K WoodpeckerColDuration {Durada}
 translate K WoodpeckerColPoints {Punts}
 translate K WoodpeckerNew {Nou conjunt...}
+translate K WoodpeckerOpenDatabase {Obre la base de dades de trencaclosques}
 translate K WoodpeckerTrain {Tren}
 translate K WoodpeckerEvaluate {Avaluar...}
 translate K WoodpeckerStats {Estadístiques}
 translate K WoodpeckerDelete {Suprimeix}
 translate K WoodpeckerContinue {Continuar (Entrar)}
+translate K WoodpeckerSessionOptions {Sessió}
+translate K WoodpeckerAutoPause {Pausa després de cada exercici}
+translate K WoodpeckerNoIdlePause {No facis una pausa quan estiguis inactiu (el rellotge continua funcionant)}
+translate K WoodpeckerPausedAfter {Pausa després de l'exercici. Passeu per la solució i, a continuació, premeu Continuar (Enter).}
 translate K WoodpeckerPause {Pausa}
 translate K WoodpeckerResume {Currículum}
 translate K WoodpeckerEnd {Finalització de la sessió}
@@ -594,6 +599,8 @@ translate K WoodpeckerEvalDone {Avaluació feta: %d exercicis; %d moviments marc
 translate K WoodpeckerNoEngine {No s'ha configurat cap motor UCI (Eines > Motors).}
 translate K WoodpeckerEvalAsk {Avaluar %d exercicis amb aquest motor:}
 translate K WoodpeckerOtherMode {Un altre entrenament o joc és utilitzar el tauler.}
+translate K WoodpeckerDatabaseBusy {La base de dades del conjunt no es pot llegir mentre un altre joc o entrenament està utilitzant el tauler. Acabeu-ho i torneu-ho a provar.}
+translate K WoodpeckerDatabaseUnsaved {La base de dades del conjunt té canvis no desats. Deseu-los o descarteu-los abans de continuar.}
 translate K WoodpeckerNoSlot {No hi ha espai de base de dades lliure per a la sessió: tanqueu una base de dades i torneu-ho a provar.
 (%s)}
 translate K WoodpeckerRestAsk {Els dies de descans s'acaben %s. Inici cicle %d de totes maneres?}

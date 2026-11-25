@@ -527,11 +527,16 @@ translate G WoodpeckerColDate {Ημερομηνία}
 translate G WoodpeckerColDuration {Διάρκεια}
 translate G WoodpeckerColPoints {Πόντοι}
 translate G WoodpeckerNew {Νέο σετ...}
+translate G WoodpeckerOpenDatabase {Ανοίξτε τη βάση δεδομένων παζλ}
 translate G WoodpeckerTrain {Τρένο}
 translate G WoodpeckerEvaluate {Αξιολογώ...}
 translate G WoodpeckerStats {Στατιστική}
 translate G WoodpeckerDelete {Διαγράφω}
 translate G WoodpeckerContinue {Συνέχεια (Enter)}
+translate G WoodpeckerSessionOptions {Συνεδρίαση}
+translate G WoodpeckerAutoPause {Παύση μετά από κάθε άσκηση}
+translate G WoodpeckerNoIdlePause {Μην κάνετε παύση όταν είναι αδρανές (το ρολόι συνεχίζει να λειτουργεί)}
+translate G WoodpeckerPausedAfter {Σταμάτησε μετά την άσκηση. Προχωρήστε στη λύση και, στη συνέχεια, πατήστε Continue (Enter).}
 translate G WoodpeckerPause {Παύση}
 translate G WoodpeckerResume {Περίληψη}
 translate G WoodpeckerEnd {Λήξη συνεδρίας}
@@ -603,6 +608,8 @@ translate G WoodpeckerEvalDone {Έγινε αξιολόγηση: %d ασκήσε
 translate G WoodpeckerNoEngine {Δεν έχει διαμορφωθεί καμία μηχανή UCI (Εργαλεία > Μηχανές).}
 translate G WoodpeckerEvalAsk {Αξιολογώ %d ασκήσεις με αυτόν τον κινητήρα:}
 translate G WoodpeckerOtherMode {Μια άλλη εκπαίδευση ή παιχνίδι είναι η χρήση του πίνακα.}
+translate G WoodpeckerDatabaseBusy {Δεν είναι δυνατή η ανάγνωση της βάσης δεδομένων του σετ ενώ ένα άλλο παιχνίδι ή προπόνηση χρησιμοποιεί τον πίνακα. Τελειώστε το και δοκιμάστε ξανά.}
+translate G WoodpeckerDatabaseUnsaved {Η βάση δεδομένων του συνόλου έχει μη αποθηκευμένες αλλαγές. Αποθηκεύστε τα ή απορρίψτε τα πριν συνεχίσετε.}
 translate G WoodpeckerNoSlot {Δεν υπάρχει δωρεάν υποδοχή βάσης δεδομένων για τη συνεδρία: κλείστε μια βάση δεδομένων και δοκιμάστε ξανά.
 (%s)}
 translate G WoodpeckerRestAsk {Οι υπόλοιπες ημέρες τελειώνουν στις %s. Έναρξη του κύκλου %d τέλος πάντων;}

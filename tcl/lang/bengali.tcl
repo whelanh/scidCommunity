@@ -495,11 +495,16 @@ translate b WoodpeckerColDate {তারিখ}
 translate b WoodpeckerColDuration {সময়কাল}
 translate b WoodpeckerColPoints {পয়েন্ট}
 translate b WoodpeckerNew {নতুন সেট...}
+translate b WoodpeckerOpenDatabase {ধাঁধা ডাটাবেস খুলুন}
 translate b WoodpeckerTrain {ট্রেন}
 translate b WoodpeckerEvaluate {মূল্যায়ন...}
 translate b WoodpeckerStats {পরিসংখ্যান}
 translate b WoodpeckerDelete {মুছে দিন}
 translate b WoodpeckerContinue {চালিয়ে যান (প্রবেশ করুন)}
+translate b WoodpeckerSessionOptions {অধিবেশন}
+translate b WoodpeckerAutoPause {প্রতিটি ব্যায়ামের পরে বিরতি দিন}
+translate b WoodpeckerNoIdlePause {নিষ্ক্রিয় অবস্থায় বিরতি দেবেন না (ঘড়ি চলতে থাকে)}
+translate b WoodpeckerPausedAfter {ব্যায়াম পরে বিরতি. সমাধানের মাধ্যমে ধাপে ধাপে, তারপর Continue (Enter) টিপুন।}
 translate b WoodpeckerPause {বিরতি}
 translate b WoodpeckerResume {পুনরায় শুরু করুন}
 translate b WoodpeckerEnd {সেশন শেষ করুন}
@@ -571,6 +576,8 @@ translate b WoodpeckerEvalDone {মূল্যায়ন সম্পন্�
 translate b WoodpeckerNoEngine {কোন UCI ইঞ্জিন কনফিগার করা নেই (সরঞ্জাম > ইঞ্জিন)।}
 translate b WoodpeckerEvalAsk {এই ইঞ্জিনের সাথে %d অনুশীলনের মূল্যায়ন করুন:}
 translate b WoodpeckerOtherMode {আরেকটি প্রশিক্ষণ বা খেলা বোর্ড ব্যবহার করা হয়.}
+translate b WoodpeckerDatabaseBusy {অন্য গেম বা প্রশিক্ষণ বোর্ড ব্যবহার করার সময় সেটের ডাটাবেস পড়া যাবে না। এটি শেষ করুন, তারপর আবার চেষ্টা করুন।}
+translate b WoodpeckerDatabaseUnsaved {সেটের ডাটাবেসে অসংরক্ষিত পরিবর্তন আছে। চালিয়ে যাওয়ার আগে সেগুলি সংরক্ষণ বা বাতিল করুন।}
 translate b WoodpeckerNoSlot {সেশনের জন্য কোনো বিনামূল্যের ডাটাবেস স্লট নেই: একটি ডাটাবেস বন্ধ করে আবার চেষ্টা করুন।
 (%s)}
 translate b WoodpeckerRestAsk {বাকি দিনগুলি %s-এ শেষ হয়৷ যাইহোক সাইকেল %d শুরু করবেন?}

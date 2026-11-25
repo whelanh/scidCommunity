@@ -536,11 +536,16 @@ translate k WoodpeckerColDate {날짜}
 translate k WoodpeckerColDuration {지속}
 translate k WoodpeckerColPoints {전철기}
 translate k WoodpeckerNew {새로운 세트...}
+translate k WoodpeckerOpenDatabase {퍼즐 데이터베이스 열기}
 translate k WoodpeckerTrain {기차}
 translate k WoodpeckerEvaluate {평가하다...}
 translate k WoodpeckerStats {통계}
 translate k WoodpeckerDelete {삭제}
 translate k WoodpeckerContinue {계속(Enter)}
+translate k WoodpeckerSessionOptions {세션}
+translate k WoodpeckerAutoPause {각 운동 후에 일시 중지}
+translate k WoodpeckerNoIdlePause {유휴 상태일 때 멈추지 마세요(시계는 계속 작동합니다)}
+translate k WoodpeckerPausedAfter {운동 후 일시 중지되었습니다. 솔루션을 단계별로 진행한 다음 계속(Enter)을 누르십시오.}
 translate k WoodpeckerPause {정지시키다}
 translate k WoodpeckerResume {재개하다}
 translate k WoodpeckerEnd {세션 종료}
@@ -612,6 +617,8 @@ translate k WoodpeckerEvalDone {평가 완료: %d 연습; %d 표시된 움직임
 translate k WoodpeckerNoEngine {UCI 엔진이 구성되지 않았습니다(도구 > 엔진).}
 translate k WoodpeckerEvalAsk {이 엔진을 사용하여 %d 연습을 평가합니다.}
 translate k WoodpeckerOtherMode {또 다른 훈련이나 게임은 보드를 사용하는 것입니다.}
+translate k WoodpeckerDatabaseBusy {다른 게임이나 훈련이 보드를 사용하는 동안에는 세트의 데이터베이스를 읽을 수 없습니다. 완료한 후 다시 시도하세요.}
+translate k WoodpeckerDatabaseUnsaved {세트의 데이터베이스에 저장되지 않은 변경사항이 있습니다. 계속하기 전에 저장하거나 삭제하세요.}
 translate k WoodpeckerNoSlot {세션에 사용 가능한 데이터베이스 슬롯이 없습니다. 데이터베이스를 닫고 다시 시도하세요.
 (%s)}
 translate k WoodpeckerRestAsk {나머지 날은 %s에 끝납니다. 어쨌든 %d 사이클을 시작하시겠습니까?}

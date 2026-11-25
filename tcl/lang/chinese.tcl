@@ -473,11 +473,16 @@ translate M WoodpeckerColDate {日期}
 translate M WoodpeckerColDuration {期间}
 translate M WoodpeckerColPoints {积分}
 translate M WoodpeckerNew {新套装...}
+translate M WoodpeckerOpenDatabase {打开谜题数据库}
 translate M WoodpeckerTrain {火车}
 translate M WoodpeckerEvaluate {评价...}
 translate M WoodpeckerStats {统计数据}
 translate M WoodpeckerDelete {删除}
 translate M WoodpeckerContinue {继续（输入）}
+translate M WoodpeckerSessionOptions {会议}
+translate M WoodpeckerAutoPause {每次练习后暂停}
+translate M WoodpeckerNoIdlePause {空闲时不暂停（时钟继续运行）}
+translate M WoodpeckerPausedAfter {练习结束后暂停。单步执行解决方案，然后按继续 (Enter)。}
 translate M WoodpeckerPause {暂停}
 translate M WoodpeckerResume {恢复}
 translate M WoodpeckerEnd {结束会话}
@@ -549,6 +554,8 @@ translate M WoodpeckerEvalDone {完成评估：%d练习； %d 移动已标记！
 translate M WoodpeckerNoEngine {未配置 UCI 引擎（工具 > 引擎）。}
 translate M WoodpeckerEvalAsk {使用此引擎评估 %d 练习：}
 translate M WoodpeckerOtherMode {另一种训练或游戏是使用棋盘。}
+translate M WoodpeckerDatabaseBusy {当其他游戏或训练正在使用该棋盘时，无法读取该棋盘的数据库。完成它，然后再试一次。}
+translate M WoodpeckerDatabaseUnsaved {该集的数据库有未保存的更改。在继续之前保存或丢弃它们。}
 translate M WoodpeckerNoSlot {该会话没有可用的数据库插槽：关闭数据库并重试。
 (%s)}
 translate M WoodpeckerRestAsk {休息日于 %s 结束。无论如何都要开始循环%d？}

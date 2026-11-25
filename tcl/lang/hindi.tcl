@@ -495,11 +495,16 @@ translate h WoodpeckerColDate {तारीख}
 translate h WoodpeckerColDuration {अवधि}
 translate h WoodpeckerColPoints {अंक}
 translate h WoodpeckerNew {नया सेट...}
+translate h WoodpeckerOpenDatabase {पहेली डेटाबेस खोलें}
 translate h WoodpeckerTrain {रेलगाड़ी}
 translate h WoodpeckerEvaluate {मूल्यांकन करना...}
 translate h WoodpeckerStats {आंकड़े}
 translate h WoodpeckerDelete {मिटाना}
 translate h WoodpeckerContinue {जारी रखें (प्रवेश करें)}
+translate h WoodpeckerSessionOptions {सत्र}
+translate h WoodpeckerAutoPause {प्रत्येक व्यायाम के बाद रुकें}
+translate h WoodpeckerNoIdlePause {निष्क्रिय होने पर रुकें नहीं (घड़ी चलती रहती है)}
+translate h WoodpeckerPausedAfter {अभ्यास के बाद रुका. समाधान के माध्यम से आगे बढ़ें, फिर जारी रखें (एंटर) दबाएँ।}
 translate h WoodpeckerPause {विराम}
 translate h WoodpeckerResume {फिर शुरू करना}
 translate h WoodpeckerEnd {सत्र समाप्त}
@@ -571,6 +576,8 @@ translate h WoodpeckerEvalDone {मूल्यांकन किया गय�
 translate h WoodpeckerNoEngine {कोई यूसीआई इंजन कॉन्फ़िगर नहीं किया गया है (टूल्स > इंजन)।}
 translate h WoodpeckerEvalAsk {इस इंजन के साथ %d अभ्यास का मूल्यांकन करें:}
 translate h WoodpeckerOtherMode {एक अन्य प्रशिक्षण या खेल बोर्ड का उपयोग करना है।}
+translate h WoodpeckerDatabaseBusy {जब कोई अन्य गेम या प्रशिक्षण बोर्ड का उपयोग कर रहा हो तो सेट के डेटाबेस को नहीं पढ़ा जा सकता है। इसे समाप्त करें, फिर पुनः प्रयास करें।}
+translate h WoodpeckerDatabaseUnsaved {सेट के डेटाबेस में सहेजे न गए परिवर्तन हैं. जारी रखने से पहले उन्हें सहेजें या हटा दें.}
 translate h WoodpeckerNoSlot {सत्र के लिए कोई निःशुल्क डेटाबेस स्लॉट नहीं: डेटाबेस बंद करें और पुनः प्रयास करें।
 (%s)}
 translate h WoodpeckerRestAsk {बाकी दिन %s पर समाप्त होते हैं। फिर भी चक्र %d प्रारंभ करें?}

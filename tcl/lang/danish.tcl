@@ -433,11 +433,21 @@ translate d WoodpeckerColDate {Dato}
 translate d WoodpeckerColDuration {Varighed}
 translate d WoodpeckerColPoints {Point}
 translate d WoodpeckerNew {Nyt sæt...}
+# ====== TODO To be translated ======
+translate d WoodpeckerOpenDatabase {Open Puzzle Database}
 translate d WoodpeckerTrain {Træn}
 translate d WoodpeckerEvaluate {Vurder...}
 translate d WoodpeckerStats {Statistik}
 translate d WoodpeckerDelete {Slet}
 translate d WoodpeckerContinue {Fortsæt (Enter)}
+# ====== TODO To be translated ======
+translate d WoodpeckerSessionOptions {Session}
+# ====== TODO To be translated ======
+translate d WoodpeckerAutoPause {Pause after each exercise}
+# ====== TODO To be translated ======
+translate d WoodpeckerNoIdlePause {Don't pause when idle (the clock keeps running)}
+# ====== TODO To be translated ======
+translate d WoodpeckerPausedAfter {Paused after the exercise. Step through the solution, then press Continue (Enter).}
 translate d WoodpeckerPause {Pause}
 translate d WoodpeckerResume {Genoptag}
 translate d WoodpeckerEnd {Afslut træning}
@@ -509,6 +519,10 @@ translate d WoodpeckerEvalDone {Vurdering færdig: %d opgaver. %d træk fik ! og
 translate d WoodpeckerNoEngine {Der er ikke konfigureret nogen UCI-motor (Værktøjer > Skakmotorer).}
 translate d WoodpeckerEvalAsk {Vurder %d opgaver med denne motor:}
 translate d WoodpeckerOtherMode {Brættet bruges allerede til træning eller spil.}
+# ====== TODO To be translated ======
+translate d WoodpeckerDatabaseBusy {The set's database cannot be read while another game or training is using the board. Finish it, then try again.}
+# ====== TODO To be translated ======
+translate d WoodpeckerDatabaseUnsaved {The set's database has unsaved changes. Save or discard them before continuing.}
 translate d WoodpeckerNoSlot {Der er ingen ledig databaseplads til træningen. Luk en database og prøv igen.
 (%s)}
 translate d WoodpeckerRestAsk {Pausen slutter %s. Start runde %d alligevel?}

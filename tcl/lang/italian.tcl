@@ -503,11 +503,16 @@ translate I WoodpeckerColDate {Data}
 translate I WoodpeckerColDuration {Durata}
 translate I WoodpeckerColPoints {Punti}
 translate I WoodpeckerNew {Nuovo set...}
+translate I WoodpeckerOpenDatabase {Apri il database dei puzzle}
 translate I WoodpeckerTrain {Allenati}
 translate I WoodpeckerEvaluate {Valuta...}
 translate I WoodpeckerStats {Statistiche}
 translate I WoodpeckerDelete {Elimina}
 translate I WoodpeckerContinue {Continua (Invio)}
+translate I WoodpeckerSessionOptions {Sessione}
+translate I WoodpeckerAutoPause {Pausa dopo ogni esercizio}
+translate I WoodpeckerNoIdlePause {Non mettere in pausa quando è inattivo (l'orologio continua a funzionare)}
+translate I WoodpeckerPausedAfter {Pausa dopo l'esercizio. Esamina la soluzione, quindi premi Continua (Invio).}
 translate I WoodpeckerPause {Pausa}
 translate I WoodpeckerResume {Riprendi}
 translate I WoodpeckerEnd {Termina sessione}
@@ -579,6 +584,8 @@ translate I WoodpeckerEvalDone {Valutazione completata: %d esercizi; %d mosse se
 translate I WoodpeckerNoEngine {Nessun motore UCI configurato (Strumenti > Motori).}
 translate I WoodpeckerEvalAsk {Valuta %d esercizi con questo motore:}
 translate I WoodpeckerOtherMode {Un altro allenamento o una partita sta usando la scacchiera.}
+translate I WoodpeckerDatabaseBusy {Il database del set non può essere letto mentre un altro gioco o allenamento utilizza il tabellone. Finiscilo, quindi riprova.}
+translate I WoodpeckerDatabaseUnsaved {Il database del set contiene modifiche non salvate. Salvarli o eliminarli prima di continuare.}
 translate I WoodpeckerNoSlot {Nessuno spazio libero per un database della sessione: chiudi un database e riprova.
 (%s)}
 translate I WoodpeckerRestAsk {Il riposo finisce il %s. Iniziare comunque il ciclo %d?}

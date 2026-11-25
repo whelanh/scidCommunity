@@ -535,11 +535,16 @@ translate P WoodpeckerColDate {Data}
 translate P WoodpeckerColDuration {Czas trwania}
 translate P WoodpeckerColPoints {Punkty}
 translate P WoodpeckerNew {Nowy zestaw...}
+translate P WoodpeckerOpenDatabase {Otwórz bazę danych puzzli}
 translate P WoodpeckerTrain {Trenuj}
 translate P WoodpeckerEvaluate {Oceń...}
 translate P WoodpeckerStats {Statystyki}
 translate P WoodpeckerDelete {Usuń}
 translate P WoodpeckerContinue {Kontynuuj (Enter)}
+translate P WoodpeckerSessionOptions {Sesja}
+translate P WoodpeckerAutoPause {Zatrzymaj się po każdym ćwiczeniu}
+translate P WoodpeckerNoIdlePause {Nie zatrzymuj się w stanie bezczynności (zegar ciągle chodzi)}
+translate P WoodpeckerPausedAfter {Przerwa po ćwiczeniu. Przejdź przez rozwiązanie, a następnie naciśnij Kontynuuj (Enter).}
 translate P WoodpeckerPause {Wstrzymaj}
 translate P WoodpeckerResume {Wznów}
 translate P WoodpeckerEnd {Zakończ sesję}
@@ -611,6 +616,8 @@ translate P WoodpeckerEvalDone {Zakończono ocenianie: %d zadań; oznaczono %d p
 translate P WoodpeckerNoEngine {Nie skonfigurowano żadnego silnika UCI (Narzędzia > Silniki).}
 translate P WoodpeckerEvalAsk {Oceń %d zadań za pomocą tego silnika:}
 translate P WoodpeckerOtherMode {Inny trening lub partia korzysta z szachownicy.}
+translate P WoodpeckerDatabaseBusy {Nie można odczytać bazy danych zestawu w czasie korzystania z planszy innej gry lub treningu. Zakończ i spróbuj ponownie.}
+translate P WoodpeckerDatabaseUnsaved {Baza danych zestawu zawiera niezapisane zmiany. Zapisz lub odrzuć je przed kontynuowaniem.}
 translate P WoodpeckerNoSlot {Brak wolnego miejsca na bazę danych dla sesji. Zamknij jedną z baz i spróbuj ponownie.
 (%s)}
 translate P WoodpeckerRestAsk {Przerwa kończy się %s. Czy mimo to rozpocząć cykl %d?}

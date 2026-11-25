@@ -499,11 +499,16 @@ translate T WoodpeckerColDate {Tarih}
 translate T WoodpeckerColDuration {Süre}
 translate T WoodpeckerColPoints {Puanlar}
 translate T WoodpeckerNew {Yeni set...}
+translate T WoodpeckerOpenDatabase {Bulmaca Veritabanını Aç}
 translate T WoodpeckerTrain {Tren}
 translate T WoodpeckerEvaluate {Değerlendirmek...}
 translate T WoodpeckerStats {İstatistikler}
 translate T WoodpeckerDelete {Silmek}
 translate T WoodpeckerContinue {Devam et (Giriş)}
+translate T WoodpeckerSessionOptions {Oturum}
+translate T WoodpeckerAutoPause {Her egzersizden sonra duraklayın}
+translate T WoodpeckerNoIdlePause {Boştayken duraklamayın (saat çalışmaya devam eder)}
+translate T WoodpeckerPausedAfter {Egzersizden sonra ara verildi. Çözümde ilerleyin ve ardından Devam (Enter) tuşuna basın.}
 translate T WoodpeckerPause {Duraklat}
 translate T WoodpeckerResume {Sürdürmek}
 translate T WoodpeckerEnd {Oturumu sonlandır}
@@ -575,6 +580,8 @@ translate T WoodpeckerEvalDone {Yapılan değerlendirme: %d alıştırmalar; %d 
 translate T WoodpeckerNoEngine {Hiçbir UCI motoru yapılandırılmamış (Araçlar > Motorlar).}
 translate T WoodpeckerEvalAsk {Bu motorla %d alıştırmaları değerlendirin:}
 translate T WoodpeckerOtherMode {Başka bir eğitim veya oyun tahtayı kullanmaktır.}
+translate T WoodpeckerDatabaseBusy {Tahtayı başka bir oyun veya eğitim kullanırken setin veri tabanı okunamaz. Bitirin, sonra tekrar deneyin.}
+translate T WoodpeckerDatabaseUnsaved {Setin veritabanında kaydedilmemiş değişiklikler var. Devam etmeden önce bunları kaydedin veya atın.}
 translate T WoodpeckerNoSlot {Oturum için boş veritabanı yuvası yok: veritabanını kapatın ve yeniden deneyin.
 (%s)}
 translate T WoodpeckerRestAsk {Dinlenme günleri %s tarihinde bitiyor. Yine de %d döngüsü başlatılsın mı?}
