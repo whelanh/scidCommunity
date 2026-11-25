@@ -612,6 +612,8 @@ translate E WoodpeckerEvalDone {Evaluation done: %d exercises; %d moves marked !
 translate E WoodpeckerNoEngine {No UCI engine is configured (Tools > Engines).}
 translate E WoodpeckerEvalAsk {Evaluate %d exercises with this engine:}
 translate E WoodpeckerOtherMode {Another training or game is using the board.}
+translate E WoodpeckerDatabaseBusy {The set's database cannot be read while another game or training is using the board. Finish it, then try again.}
+translate E WoodpeckerDatabaseUnsaved {The set's database has unsaved changes. Save or discard them before continuing.}
 translate E WoodpeckerNoSlot {No free database slot for the session: close a database and try again.
 (%s)}
 translate E WoodpeckerRestAsk {The rest days end on %s. Start cycle %d anyway?}

@@ -606,10 +606,24 @@ proc ::woodpecker::ui::syncQuiet {dir} {
     catch { ::woodpecker::set::syncFromBase $dir }
 }
 
+# For an action that must not use stale exercises: a deferred sync (another
+# game on the board, or unsaved changes in the set's database) aborts it.
 proc ::woodpecker::ui::syncSet {dir} {
-    if {[catch { ::woodpecker::set::syncFromBase $dir } err]} {
+    if {[catch { set r [::woodpecker::set::syncFromBase $dir] } err]} {
         tk_messageBox -icon error -parent .woodpeckerWin -title [tr WoodpeckerTitle] -message $err
         return 0
+    }
+    switch -- $r {
+        2 {
+            tk_messageBox -icon info -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+                -message [tr WoodpeckerDatabaseBusy]
+            return 0
+        }
+        3 {
+            tk_messageBox -icon info -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+                -message [tr WoodpeckerDatabaseUnsaved]
+            return 0
+        }
     }
     return 1
 }
@@ -710,12 +724,22 @@ proc ::woodpecker::ui::deleteSet {} {
     set name [dict get [::woodpecker::readMeta $dir] name]
     if {[tk_messageBox -icon warning -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
             -message [T WoodpeckerDeleteAsk $name]] ne "yes"} { return }
-    catch {
+    set blocked 0
+    set err [catch {
         set want [file normalize [::woodpecker::set::basePath $dir]]
         foreach b [sc_base list] {
-            if {[file normalize [file rootname [sc_base filename $b]]] eq $want} { ::file::Close $b }
+            if {[file normalize [file rootname [sc_base filename $b]]] eq $want} {
+                ::file::Close $b
+                # The user may have cancelled the discard confirmation: the
+                # database is still open, and deleting its folder would leave
+                # it writing into deleted files.
+                set still 1
+                catch { set still [sc_base inUse $b] }
+                if {$still} { set blocked 1 }
+            }
         }
-    }
+    }]
+    if {$err || $blocked} { return }
     file delete -force $dir
     refresh
 }

@@ -773,18 +773,32 @@ proc ::woodpecker::set::maxExerciseId {dir old} {
 }
 
 # Rebuild exercises.tsv from the set's database when the database is newer.
-# Returns 1 when the file was rewritten, 0 when there was nothing to do.
+# Returns 0 when the file was already current, 1 when it was rewritten,
+# 2 when a session or another game is using the board, and 3 when the set's
+# database has unsaved changes. 2 and 3 are deferrals: the caller must not use
+# the old exercises for an action, and should ask the user to finish first.
 proc ::woodpecker::set::syncFromBase {dir} {
     set key [file normalize [basePath $dir]]
     if {![dict exists $::woodpecker::set::dirty $key] && ![dbNewer $dir]} { return 0 }
     # Switching bases would disturb a session or a game being played.
-    if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} { return 0 }
-    if {[info exists ::playMode]} { return 0 }
+    if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} { return 2 }
+    if {[info exists ::playMode]} { return 2 }
 
     set old [::woodpecker::readExercises $dir]
     set prev [sc_base current]
     lassign [openBase $dir] b opened
-    set err [catch { lassign [readGames $b] rows marks skipped } msg]
+    # The set's database may hold a game the user edited but has not saved.
+    # Loading every game to read the set would discard those edits, so defer
+    # the sync until they save or discard. A database just opened cannot have
+    # such a game.
+    if {!$opened} {
+        if {$prev != $b} { sc_base switch $b }
+        set altered 0
+        catch { set altered [sc_game altered] }
+        if {$prev != $b} { sc_base switch $prev }
+        if {$altered} { return 3 }
+    }
+    set err [catch { lassign [readGames $b 1] rows marks skipped } msg]
     if {$opened} { catch { sc_base close $b } }
     restoreBase $prev
     if {$err} { error $msg }
@@ -796,6 +810,7 @@ proc ::woodpecker::set::syncFromBase {dir} {
     }
     set next [expr {[maxExerciseId $dir $old] + 1}]
     set out [dict create]
+    set addedMarks [dict create]
     set n [dict size $rows]
     for {set i 1} {$i <= $n} {incr i} {
         set e [dict get $rows $i]
@@ -807,10 +822,14 @@ proc ::woodpecker::set::syncFromBase {dir} {
         } else {
             set ex $next
             incr next
+            # The author's !/!! of a puzzle added to the database are new
+            # marks; existing exercises keep their reviewed marks untouched.
+            if {[dict exists $marks $i]} { dict set addedMarks $ex [dict get $marks $i] }
         }
         dict set out $ex $e
     }
     ::woodpecker::writeExercises $dir $out
+    if {[dict size $addedMarks]} { ::woodpecker::marksAppend $dir $addedMarks }
     dict unset ::woodpecker::set::dirty $key
     return 1
 }
@@ -867,41 +886,62 @@ proc ::woodpecker::set::extraTags {} {
 # Read every game of the open set base `b`: its start position, main line and
 # the author's marks. Games that do not start from a set-up position, or have
 # no moves, or contain a null move, are not exercises and are skipped.
+# With `strict`, a game that cannot be loaded aborts instead of being skipped: a
+# sync must not drop an exercise because one game is temporarily unreadable.
 # Returns {rows authorMarks skipped}.
-proc ::woodpecker::set::readGames {b} {
+proc ::woodpecker::set::readGames {b {strict 0}} {
     set prev [sc_base current]
-    set prevGame ""
-    if {$prev == $b} { catch { set prevGame [sc_game number] } }
     sc_base switch $b
+    # Keep the game and ply the user was looking at in this base, even when it
+    # is not the current one: loading every game must not move their place.
+    set prevGame 0
+    set prevPly 0
+    catch {
+        set prevGame [sc_game number]
+        set prevPly [sc_pos location]
+    }
     set rows [dict create]
     set marks [dict create]
     set skipped 0
     set ex 0
     set n [sc_base numGames $b]
-    for {set g 1} {$g <= $n} {incr g} {
-        # A game deleted in the database editor stays in the file until the
-        # next compaction; it is not an exercise any more.
-        if {[sc_base gameflag $b $g get D]} { incr skipped; continue }
-        if {[catch { sc_game load $g }]} { incr skipped; continue }
-        set ml [sc_game UCI_mainLine]
-        set head [lindex $ml 0]
-        set moves [lrange $ml 1 end]
-        if {![regexp {^position fen (.+) moves$} $head -> fen] || ![llength $moves] \
-                || [lsearch -glob $moves "position*"] >= 0} {
-            incr skipped
-            continue
+    set err [catch {
+        for {set g 1} {$g <= $n} {incr g} {
+            # A game deleted in the database editor stays in the file until the
+            # next compaction; it is not an exercise any more.
+            if {[sc_base gameflag $b $g get D]} { incr skipped; continue }
+            if {[catch { sc_game load $g } msg]} {
+                if {$strict} { error "cannot read game $g of the set's database: $msg" }
+                incr skipped
+                continue
+            }
+            set ml [sc_game UCI_mainLine]
+            set head [lindex $ml 0]
+            set moves [lrange $ml 1 end]
+            if {![regexp {^position fen (.+) moves$} $head -> fen] || ![llength $moves] \
+                    || [lsearch -glob $moves "position*"] >= 0} {
+                incr skipped
+                continue
+            }
+            set extra [extraTags]
+            set rating [expr {[dict exists $extra PuzzleRating] ? [dict get $extra PuzzleRating] : ""}]
+            set pid [expr {[dict exists $extra PuzzleId] ? [dict get $extra PuzzleId] : ""}]
+            set last [expr {[dict exists $extra LastMove] ? [dict get $extra LastMove] : ""}]
+            lassign [authorMarks [llength $moves]] m annotated
+            incr ex
+            dict set rows $ex [::woodpecker::exerciseRow $ex $g $pid $rating $fen $moves $last]
+            if {$annotated} { dict set marks $ex [dict create marks $m source author] }
         }
-        incr ex
-        set extra [extraTags]
-        set rating [expr {[dict exists $extra PuzzleRating] ? [dict get $extra PuzzleRating] : ""}]
-        set pid [expr {[dict exists $extra PuzzleId] ? [dict get $extra PuzzleId] : ""}]
-        set last [expr {[dict exists $extra LastMove] ? [dict get $extra LastMove] : ""}]
-        dict set rows $ex [::woodpecker::exerciseRow $ex $g $pid $rating $fen $moves $last]
-        lassign [authorMarks [llength $moves]] m annotated
-        if {$annotated} { dict set marks $ex [dict create marks $m source author] }
+    } msg]
+    # Put the game and ply back, on success or failure, before leaving the base.
+    if {$prevGame > 0} {
+        catch {
+            sc_game load $prevGame
+            if {$prevPly > 0} { sc_move ply $prevPly } else { sc_move start }
+        }
     }
-    sc_base switch $prev
-    if {$prevGame ne "" && $prevGame > 0} { catch { sc_game load $prevGame } }
+    catch { sc_base switch $prev }
+    if {$err} { error $msg }
     return [list $rows $marks $skipped]
 }
 

@@ -82,7 +82,11 @@ database before a session when the database was edited. An exercise is matched
 by its Lichess id, or, for a book set, by its position and solution: the ones
 that stay keep their exercise number, so `marks.tsv` and `log.tsv` still name
 the same puzzle; a deleted exercise leaves a gap, and an added one gets a new
-number at the end. Nothing has to rewrite the history.
+number at the end, with the author's `!`/`!!` appended as a new marks version.
+Existing marks are never rewritten. Nothing has to rewrite the history. A sync
+is deferred while another game or training is using the board, or while the set
+database has unsaved changes: the action that needed it asks the user to finish
+first rather than using the old exercises.
 
 The data folder is Scid's user folder (`%APPDATA%\scidCommunity` on Windows,
 `~/.scid<version>` on Linux, `~/Library/Application Support/scidCommunity` on

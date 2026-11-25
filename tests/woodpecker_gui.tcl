@@ -356,6 +356,7 @@ proc ::wpgui::run {} {
     set startFen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1}
     sc_game startBoard $startFen
     sc_move addSan e5
+    sc_pos addNag "!"
     sc_game tags set -extra [list {PuzzleId "syncnew"} {PuzzleRating "1500"}]
     sc_game save 0 $b
     ::notify::DatabaseModified $b
@@ -370,6 +371,38 @@ proc ::wpgui::run {} {
     set marks [::woodpecker::readMarks $dir3]
     check "the sync does not rewrite the marks file" \
         [expr {[dict exists $marks 1 2] && [dict get $marks 1 2 marks] eq "!!"}]
+    set table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]]
+    checkEq "the added puzzle keeps its author's mark" [dict get $table 4 marks] !
+    checkEq "and an existing exercise keeps its own" [dict get $table 2 marks] !!
+
+    # An unsaved game in the set base is not disturbed by a sync; the sync is
+    # deferred instead of loading games over it.
+    ::file::SwitchToBase $b
+    sc_game load 1
+    set solution [dict get $synced 1 solution]
+    set bad [::wpgui::wrongMove [lindex $solution 0]]
+    set pos [::chessboard::fromFen [sc_pos fen]]
+    sc_move addSan [::woodpecker::uciToSan $pos $bad]
+    set unsaved [list [sc_game altered] [sc_game number] [sc_pos location]]
+    ::notify::DatabaseModified $b
+    checkEq "an unsaved game defers the sync" [::woodpecker::set::syncFromBase $dir3] 3
+    checkEq "and the game stays as the user left it" \
+        [list [sc_game altered] [sc_game number] [sc_pos location]] $unsaved
+    checkEq "with the old exercises kept" \
+        [lsort -integer [dict keys [::woodpecker::readExercises $dir3]]] {1 3 4}
+    # Discard it and leave the game at a ply: a sync from another base must
+    # give the set base back its game and place.
+    sc_game load 1
+    sc_move ply 1
+    set keep [list [sc_game number] [sc_pos location]]
+    ::file::SwitchToBase $::clipbase_db
+    ::notify::DatabaseModified $b
+    ::woodpecker::ui::refresh
+    wait 300
+    ::file::SwitchToBase $b
+    checkEq "a sync from another base restores the set base's game" \
+        [list [sc_game number] [sc_pos location]] $keep
+
     # A stale log row for the deleted puzzle must not count or hide the next one.
     set t [clock seconds]
     ::woodpecker::logExercise $dir3 $t 1 1 1 clean 11 1000
