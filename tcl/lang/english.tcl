@@ -535,6 +535,7 @@ translate E WoodpeckerColDate {Date}
 translate E WoodpeckerColDuration {Duration}
 translate E WoodpeckerColPoints {Points}
 translate E WoodpeckerNew {New set...}
+translate E WoodpeckerOpenDatabase {Open Puzzle Database}
 translate E WoodpeckerTrain {Train}
 translate E WoodpeckerEvaluate {Evaluate...}
 translate E WoodpeckerStats {Statistics}

@@ -75,6 +75,15 @@ rows to `log.tsv`, about 60 bytes per exercise, so 1000 exercises × 10 cycles
 is about 600 KB. `exercises.tsv` repeats the FEN and solution so that a
 session never opens the set's database.
 
+The sets page can open the database as a normal Scid database (Open Puzzle
+Database), to study the positions, run an engine, or correct the set. Because
+a session reads `exercises.tsv`, not the database, the file is rebuilt from the
+database before a session when the database was edited. An exercise is matched
+by its Lichess id, or, for a book set, by its position and solution: the ones
+that stay keep their exercise number, so `marks.tsv` and `log.tsv` still name
+the same puzzle; a deleted exercise leaves a gap, and an added one gets a new
+number at the end. Nothing has to rewrite the history.
+
 The data folder is Scid's user folder (`%APPDATA%\scidCommunity` on Windows,
 `~/.scid<version>` on Linux, `~/Library/Application Support/scidCommunity` on
 macOS) unless **Options > Resources > Woodpecker data folder** points

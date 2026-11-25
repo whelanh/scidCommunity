@@ -423,11 +423,16 @@ proc ::woodpecker::readLog {dir} {
 ################################################################################
 # Progress and statistics
 
-# Where the trainee is: the current cycle, the next exercise (1-based) and how
-# many of the cycle's exercises were done before `today`.
-proc ::woodpecker::progress {xs n today} {
+# Where the trainee is: the current cycle, the next exercise position (1-based)
+# and how many of the cycle's exercises were done before `today`.
+# `exs` is the set's exercise numbers in training order: they have gaps once a
+# puzzle was deleted from the set's database, so the position in `exs`, not the
+# number, is what the session and the plan count.
+proc ::woodpecker::progress {xs exs today} {
     set cycle 1
     set done [dict create]
+    set valid [dict create]
+    foreach ex $exs { dict set valid $ex 1 }
     set before 0
     set firstDay ""
     set lastDay ""
@@ -439,19 +444,24 @@ proc ::woodpecker::progress {xs n today} {
             set firstDay ""
         }
         if {[dict get $x cycle] < $cycle} { continue }
-        dict set done [dict get $x ex] 1
+        set ex [dict get $x ex]
+        if {![dict exists $valid $ex]} { continue }
+        dict set done $ex 1
         set day [today [dict get $x ts]]
         if {$firstDay eq ""} { set firstDay $day }
         set lastDay $day
         if {$day ne $today} { incr before }
     }
+    set n [llength $exs]
     set count [dict size $done]
     if {$count >= $n && $n > 0} {
         return [dict create cycle $cycle next 0 done $count doneBefore $before \
             complete 1 start $firstDay end $lastDay]
     }
     set next 1
-    while {[dict exists $done $next]} { incr next }
+    foreach ex $exs {
+        if {[dict exists $done $ex]} { incr next } else { break }
+    }
     return [dict create cycle $cycle next $next done $count doneBefore $before \
         complete 0 start $firstDay end $lastDay]
 }
@@ -479,6 +489,9 @@ proc ::woodpecker::rowScore {x exMeta marksTable} {
 proc ::woodpecker::sessionStats {xs ss exMeta marksTable} {
     set by [dict create]
     foreach x $xs {
+        # A row for an exercise no longer in the set does not count: its
+        # number has no marks or rating to score it with.
+        if {![dict exists $exMeta [dict get $x ex]]} { continue }
         set id [dict get $x session]
         if {![dict exists $by $id]} {
             dict set by $id [dict create session $id cycle [dict get $x cycle] \
@@ -518,6 +531,7 @@ proc ::woodpecker::sessionStats {xs ss exMeta marksTable} {
 proc ::woodpecker::cycleStats {xs exMeta marksTable} {
     set by [dict create]
     foreach x $xs {
+        if {![dict exists $exMeta [dict get $x ex]]} { continue }
         set c [dict get $x cycle]
         set day [today [dict get $x ts]]
         if {![dict exists $by $c]} {

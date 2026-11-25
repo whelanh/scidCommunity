@@ -221,6 +221,22 @@ checkEq "the band widens by 100 before a shortfall" [inBand $dbl 1500 normal 100
 checkEq "what is missing is counted per level" [expr {[llength $dbl] + ([dict exists $short normal] ? [dict get $short normal] : 0)}] 40
 check "a thin theme comes up short" {[dict exists $short normal]}
 
+# The identity a database edit is matched by, and the number a new exercise
+# may take: never one that marks.tsv or log.tsv still names.
+checkEq "a Lichess exercise is identified by its puzzle id" \
+    [::woodpecker::set::exerciseUid [dict create puzzleId abc fen f solution {a1a2}]] p:abc
+checkEq "a book exercise by position and solution" \
+    [::woodpecker::set::exerciseUid [dict create puzzleId "" fen f solution {a1a2}]] "f:f|a1a2"
+set idset [file join $tmp idset]
+file mkdir $idset
+::woodpecker::writeExercises $idset [dict create \
+    1 [::woodpecker::exerciseRow 1 1 a 1500 f {a1a2} ""] \
+    4 [::woodpecker::exerciseRow 4 4 b 1500 g {b1b2} ""]]
+::woodpecker::marksAppend $idset [dict create 5 [dict create marks {"!"} source review]]
+::woodpecker::logExercise $idset 100 1 1 7 clean 1 1000
+checkEq "a new number skips the history" \
+    [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 7
+
 file delete -force $tmp
 puts "$checks checks, $fails failures"
 exit [expr {$fails > 0}]

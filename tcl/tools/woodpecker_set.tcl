@@ -73,11 +73,18 @@ In each set folder:
   set.si5 set.sg5 set.sn5   the exercises, a Scid database (one game each:
                             the position to solve and its solution)
   exercises.tsv             the same exercises, read by a session so it never
-                            opens the database (rebuilt with the set)
+                            opens the database (kept in step with the database)
   marks.tsv                 the ! and !! of every evaluation, versioned
   log.tsv                   every exercise played and every session: the
                             statistics are computed from this file
   set.tsv                   the set's name, source and schedule
+
+Open the database from the sets page (Open Puzzle Database) to study the
+positions, run an engine, or correct the set: delete a game to remove an
+exercise, add a game (a set-up position and its main line) to add one. The next
+Train rebuilds exercises.tsv. The exercises that stay keep their number, so
+they keep their marks and history; a deleted one leaves a gap, and a new one
+goes at the end.
 
 log.tsv is the only file that cannot be recreated: back it up with the set.
 
@@ -97,10 +104,27 @@ proc ::woodpecker::set::setDirs {root} {
     return [lsort $out]
 }
 
+# Close the databases whose files live under `root`, before the folder moves.
+# The Open Puzzle Database button makes it easy to have a set open while the
+# data folder changes in Options > Resources.
+proc ::woodpecker::set::closeBasesUnder {root} {
+    if {[llength [info commands sc_base]] == 0} { return }
+    set prefix "[file normalize $root][file separator]"
+    foreach b [sc_base list] {
+        set fn ""
+        catch { set fn [file normalize [sc_base filename $b]] }
+        if {$fn ne "" && [string first $prefix $fn] == 0} {
+            catch { ::file::Close $b }
+            if {[sc_base inUse $b]} { error "close the set's database before moving the data folder" }
+        }
+    }
+}
+
 # Move every set from one data folder to another (copy, check, then delete the
 # original). A set that already exists in the destination is left where it is.
 # Returns {moved skipped}.
 proc ::woodpecker::set::moveSets {from to} {
+    closeBasesUnder $from
     file mkdir $to
     set moved 0
     set skipped 0
@@ -687,6 +711,130 @@ proc ::woodpecker::set::openBase {dir} {
 }
 
 ################################################################################
+# Keeping exercises.tsv in step with the set's database
+#
+# The database is there to be opened, studied and corrected (Open Puzzle
+# Database). A puzzle deleted or added there must change the training set, or
+# the trainee would see the deleted puzzle come back at the next session.
+#
+# The exercise number is the identity marks.tsv and log.tsv use, so a sync never
+# renumbers: an exercise keeps its number when the database is edited, a deleted
+# one leaves a gap, and an added one gets a new number at the end. Matched by
+# identity (the Lichess id, or the position and solution), not by game number,
+# so a compaction or a sort does not disturb the records.
+
+# What identifies an exercise across edits of the database.
+proc ::woodpecker::set::exerciseUid {e} {
+    set pid [expr {[dict exists $e puzzleId] ? [dict get $e puzzleId] : ""}]
+    if {$pid ne ""} { return "p:$pid" }
+    return "f:[dict get $e fen]|[dict get $e solution]"
+}
+
+# The newest modification time of the set's database files.
+proc ::woodpecker::set::dbMtime {dir} {
+    set newest 0
+    foreach ext {.si5 .sg5 .sn5} {
+        set path "[basePath $dir]$ext"
+        if {[file exists $path]} {
+            set m [file mtime $path]
+            if {$m > $newest} { set newest $m }
+        }
+    }
+    return $newest
+}
+
+# Has the database been written since exercises.tsv was written?
+proc ::woodpecker::set::dbNewer {dir} {
+    set tsv [file join $dir exercises.tsv]
+    if {![file exists $tsv]} { return 1 }
+    return [expr {[dbMtime $dir] > [file mtime $tsv]}]
+}
+
+# The highest exercise number any file still mentions. Marks and log rows of a
+# deleted exercise stay (a sync never rewrites the records), so a new exercise
+# must not inherit that number.
+proc ::woodpecker::set::maxExerciseId {dir old} {
+    set max 0
+    foreach ex [dict keys $old] {
+        if {$ex > $max} { set max $ex }
+    }
+    lassign [::woodpecker::readLog $dir] xs ss
+    foreach x $xs {
+        set ex [dict get $x ex]
+        if {$ex > $max} { set max $ex }
+    }
+    set marks [::woodpecker::readMarks $dir]
+    foreach ver [dict keys $marks] {
+        foreach ex [dict keys [dict get $marks $ver]] {
+            if {$ex > $max} { set max $ex }
+        }
+    }
+    return $max
+}
+
+# Rebuild exercises.tsv from the set's database when the database is newer.
+# Returns 1 when the file was rewritten, 0 when there was nothing to do.
+proc ::woodpecker::set::syncFromBase {dir} {
+    set key [file normalize [basePath $dir]]
+    if {![dict exists $::woodpecker::set::dirty $key] && ![dbNewer $dir]} { return 0 }
+    # Switching bases would disturb a session or a game being played.
+    if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} { return 0 }
+    if {[info exists ::playMode]} { return 0 }
+
+    set old [::woodpecker::readExercises $dir]
+    set prev [sc_base current]
+    lassign [openBase $dir] b opened
+    set err [catch { lassign [readGames $b] rows marks skipped } msg]
+    if {$opened} { catch { sc_base close $b } }
+    restoreBase $prev
+    if {$err} { error $msg }
+
+    # The exercise numbers the old rows had, by identity, in their old order.
+    set oldBy [dict create]
+    foreach ex [lsort -integer [dict keys $old]] {
+        dict lappend oldBy [exerciseUid [dict get $old $ex]] $ex
+    }
+    set next [expr {[maxExerciseId $dir $old] + 1}]
+    set out [dict create]
+    set n [dict size $rows]
+    for {set i 1} {$i <= $n} {incr i} {
+        set e [dict get $rows $i]
+        set uid [exerciseUid $e]
+        if {[dict exists $oldBy $uid] && [llength [dict get $oldBy $uid]]} {
+            set q [dict get $oldBy $uid]
+            set ex [lindex $q 0]
+            dict set oldBy $uid [lrange $q 1 end]
+        } else {
+            set ex $next
+            incr next
+        }
+        dict set out $ex $e
+    }
+    ::woodpecker::writeExercises $dir $out
+    dict unset ::woodpecker::set::dirty $key
+    return 1
+}
+
+# The database's own change notification says "this set was written", even when
+# the one-second filesystem timestamp cannot tell an edit from the build that
+# wrote exercises.tsv. The path is what identifies the set, so the mark survives
+# closing and reopening its database.
+namespace eval ::woodpecker::set {
+    variable dirty {}
+}
+proc ::woodpecker::set::dbModifiedTrace {cmd op} {
+    set b [lindex $cmd 1]
+    if {![string is integer -strict $b] || $b <= 0} { return }
+    catch {
+        dict set ::woodpecker::set::dirty \
+            [file normalize [file rootname [sc_base filename $b]]] 1
+    }
+}
+if {[llength [info commands ::notify::DatabaseModified]]} {
+    trace add execution ::notify::DatabaseModified enter ::woodpecker::set::dbModifiedTrace
+}
+
+################################################################################
 # A set from a PGN or Scid database (a book)
 
 # The marks the author wrote on the solver's moves, from the current game and
@@ -722,6 +870,8 @@ proc ::woodpecker::set::extraTags {} {
 # Returns {rows authorMarks skipped}.
 proc ::woodpecker::set::readGames {b} {
     set prev [sc_base current]
+    set prevGame ""
+    if {$prev == $b} { catch { set prevGame [sc_game number] } }
     sc_base switch $b
     set rows [dict create]
     set marks [dict create]
@@ -729,6 +879,9 @@ proc ::woodpecker::set::readGames {b} {
     set ex 0
     set n [sc_base numGames $b]
     for {set g 1} {$g <= $n} {incr g} {
+        # A game deleted in the database editor stays in the file until the
+        # next compaction; it is not an exercise any more.
+        if {[sc_base gameflag $b $g get D]} { incr skipped; continue }
         if {[catch { sc_game load $g }]} { incr skipped; continue }
         set ml [sc_game UCI_mainLine]
         set head [lindex $ml 0]
@@ -748,6 +901,7 @@ proc ::woodpecker::set::readGames {b} {
         if {$annotated} { dict set marks $ex [dict create marks $m source author] }
     }
     sc_base switch $prev
+    if {$prevGame ne "" && $prevGame > 0} { catch { sc_game load $prevGame } }
     return [list $rows $marks $skipped]
 }
 

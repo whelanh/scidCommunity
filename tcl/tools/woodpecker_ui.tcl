@@ -242,11 +242,12 @@ proc ::woodpecker::ui::build {} {
         -font woodpeckerSmall -foreground [color muted]
     ttk::frame $h.b
     ttk::button $h.b.train -image tb_play -text [tr WoodpeckerTrain] -compound left -command ${v}::train
+    ttk::button $h.b.db -text [tr WoodpeckerOpenDatabase] -command ${v}::openDatabase
     ttk::button $h.b.new -text [tr WoodpeckerNew] -command ${v}::newDialog
     ttk::button $h.b.eval -text [tr WoodpeckerEvaluate] -command ${v}::evaluate
     ttk::button $h.b.stats -text [tr WoodpeckerStats] -command ${v}::stats
     ttk::button $h.b.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
-    pack $h.b.train $h.b.new $h.b.eval $h.b.stats -side left -padx {0 6}
+    pack $h.b.train $h.b.db $h.b.new $h.b.eval $h.b.stats -side left -padx {0 6}
     pack $h.b.del -side right
     grid $h.title -row 0 -column 0 -columnspan 2 -sticky w
     grid $h.sub -row 1 -column 0 -columnspan 2 -sticky w -pady {0 8}
@@ -574,10 +575,12 @@ proc ::woodpecker::ui::refresh {} {
     }
     foreach s $sets {
         lassign $s dir meta
+        syncQuiet $dir
         set exs [::woodpecker::readExercises $dir]
-        set n [dict size $exs]
+        set order [lsort -integer [dict keys $exs]]
+        set n [llength $order]
         lassign [::woodpecker::readLog $dir] xs ss
-        set pr [::woodpecker::progress $xs $n $today]
+        set pr [::woodpecker::progress $xs $order $today]
         set last [expr {[llength $xs] ? [::woodpecker::today [dict get [lindex $xs end] ts]] : "-"}]
         $t insert {} end -id $dir -values [list [dict get $meta name] $n [dict get $pr cycle] \
             "[dict get $pr done]/$n" $last]
@@ -594,6 +597,39 @@ proc ::woodpecker::ui::current {} {
     variable w
     if {![winfo exists $w.home.sets]} { return "" }
     return [lindex [$w.home.sets selection] 0]
+}
+
+# Bring exercises.tsv up to date after the set's database was edited (Open
+# Puzzle Database). Best effort where a stale plan can wait for the next Train;
+# syncSet for an action that must not use stale exercises.
+proc ::woodpecker::ui::syncQuiet {dir} {
+    catch { ::woodpecker::set::syncFromBase $dir }
+}
+
+proc ::woodpecker::ui::syncSet {dir} {
+    if {[catch { ::woodpecker::set::syncFromBase $dir } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -title [tr WoodpeckerTitle] -message $err
+        return 0
+    }
+    return 1
+}
+
+# Open the set's own database as a normal Scid database: to study the positions,
+# run an engine, or correct the set by deleting or adding games. The next Train
+# (or refresh) rebuilds exercises.tsv from it.
+proc ::woodpecker::ui::openDatabase {} {
+    variable run
+    set dir [current]
+    if {$dir eq "" || $run(on)} { return }
+    set path [::woodpecker::set::basePath $dir]
+    if {![file exists "$path.si5"]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+            -message [T WoodpeckerNoFile "$path.si5"]
+        return
+    }
+    if {[catch { ::file::OpenOrSwitch "$path.si5" } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -title [tr WoodpeckerTitle] -message $err
+    }
 }
 
 proc ::woodpecker::ui::selected {} {
@@ -629,10 +665,13 @@ proc ::woodpecker::ui::selected {} {
 proc ::woodpecker::ui::dayPlan {dir {now ""}} {
     if {$now eq ""} { set now [clock seconds] }
     set today [::woodpecker::today $now]
+    syncQuiet $dir
     set meta [::woodpecker::readMeta $dir]
-    set n [dict size [::woodpecker::readExercises $dir]]
+    set exs [::woodpecker::readExercises $dir]
+    set order [lsort -integer [dict keys $exs]]
+    set n [llength $order]
     lassign [::woodpecker::readLog $dir] xs ss
-    set pr [::woodpecker::progress $xs $n $today]
+    set pr [::woodpecker::progress $xs $order $today]
     set days1 [expr {[dict exists $meta days1] ? [dict get $meta days1] : 28}]
     set restDays [expr {[dict exists $meta restDays] ? [dict get $meta restDays] : 1}]
     set cycle [dict get $pr cycle]
@@ -1158,6 +1197,7 @@ proc ::woodpecker::ui::evaluate {{dir ""} {mode ask}} {
         tk_messageBox -icon info -parent .woodpeckerWin -message [tr WoodpeckerEvalBusy]
         return
     }
+    if {![syncSet $dir]} { return }
     set exs [::woodpecker::readExercises $dir]
     set all [lsort -integer [dict keys $exs]]
     set st [::woodpecker::set::markStatus $dir]
@@ -1308,10 +1348,14 @@ proc ::woodpecker::ui::train {{dir ""}} {
         tk_messageBox -icon info -parent $w -message [tr WoodpeckerOtherMode]
         return
     }
-    set exs [::woodpecker::readExercises $dir]
-    if {![dict size $exs]} { return }
+    # Pick up puzzles deleted or added in the set's database.
+    if {![syncSet $dir]} { return }
     set now [clock seconds]
     set dp [dayPlan $dir $now]
+    set exs [::woodpecker::readExercises $dir]
+    if {![dict size $exs]} { refresh; return }
+    set order [lsort -integer [dict keys $exs]]
+    set n [llength $order]
     if {[dict get $dp rest] ne "" && [::woodpecker::today $now] < [dict get $dp rest]} {
         if {[tk_messageBox -icon question -type yesno -parent $w -title [tr WoodpeckerTitle] \
                 -message [T WoodpeckerRestAsk [dict get $dp rest] [dict get $dp cycle]]] ne "yes"} { return }
@@ -1326,7 +1370,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
     set meta [dict get $dp meta]
     array unset run
     array unset ::woodpecker::ui::lastFig
-    array set run [list on 1 dir $dir exs $exs n [dict size $exs] cycle [dict get $dp cycle] \
+    array set run [list on 1 dir $dir exs $exs order $order n $n cycle [dict get $dp cycle] \
         next [dict get $dp next] session [expr {$session + 1}] quota [dict get $dp quota] \
         doneToday [dict get $dp doneToday] deadline [dict get $dp deadline] \
         daysLeft [dict get $dp daysLeft] status [dict get $dp status] \
@@ -1529,7 +1573,8 @@ proc ::woodpecker::ui::nextExercise {} {
         finish cycle
         return
     }
-    set ex $run(next)
+    set pos $run(next)
+    set ex [lindex $run(order) [expr {$pos - 1}]]
     set e [dict get $run(exs) $ex]
     set run(ex) $ex
     set run(state) [::woodpecker::exStart [dict get $e nmoves]]
@@ -1556,7 +1601,7 @@ proc ::woodpecker::ui::nextExercise {} {
     set run(exPaused) 0
     set run(wait) ask
     set rating [dict get $e rating]
-    set txt(title) [T WoodpeckerExercise $ex $run(n)]
+    set txt(title) [T WoodpeckerExercise $pos $run(n)]
     set txt(sub) "[tr [expr {$side eq "w" ? "WoodpeckerWhiteToMove" : "WoodpeckerBlackToMove"}]][expr {$rating ne "" ? "   \u00b7   $rating" : ""}]"
     set c $w.sess.sub.side
     if {[winfo exists $c]} {
@@ -1736,6 +1781,7 @@ proc ::woodpecker::ui::markCur {} {
 proc ::woodpecker::ui::exerciseDone {result} {
     variable run
     if {!$run(on)} { return }
+    set pos $run(next)
     set ex $run(ex)
     set ms [expr {max(0, [clock milliseconds] - $run(exT0) - $run(exPaused))}]
     set found [::woodpecker::foundString $run(state)]
@@ -1746,13 +1792,13 @@ proc ::woodpecker::ui::exerciseDone {result} {
     ::woodpecker::logExercise $run(dir) [clock seconds] $run(cycle) $run(session) $ex $result $found $ms
     lappend run(xs) [dict create ts [clock seconds] cycle $run(cycle) session $run(session) ex $ex \
         result $result found $found ms $ms]
-    lappend run(results) [dict create ex $ex result $result ms $ms points [dict get $s points] max [dict get $s max]]
+    lappend run(results) [dict create ex $ex pos $pos result $result ms $ms points [dict get $s points] max [dict get $s max]]
     set run(points) [expr {$run(points) + [dict get $s points]}]
     set run(max) [expr {$run(max) + [dict get $s max]}]
     set run(streak) [expr {$result eq "clean" ? $run(streak) + 1 : 0}]
     incr run(doneToday)
     incr run(doneCycle)
-    set run(next) [expr {$ex + 1}]
+    incr run(next)
     statsLine
     cardResult $result [dict get $s points] [dict get $s max] $marks \
         [expr {$run(doneToday) == $run(quota) && $run(quota) > 0}]
@@ -1892,7 +1938,7 @@ proc ::woodpecker::ui::summary {} {
     set failed {}
     foreach r $run(results) {
         dict incr c [dict get $r result]
-        if {[dict get $r result] eq "failed"} { lappend failed [dict get $r ex] }
+        if {[dict get $r result] eq "failed"} { lappend failed [dict get $r pos] }
     }
     set txt(sumDate) [clock format $run(start) -format {%Y-%m-%d %H:%M}]
     set txt(sumPoints.now) [num $run(points)]
@@ -1999,6 +2045,7 @@ proc ::woodpecker::ui::stats {} {
     set dir [current]
     if {$dir eq "" && [info exists run(dir)]} { set dir $run(dir) }
     if {$dir eq ""} { return }
+    if {![syncSet $dir]} { return }
     set d .woodpeckerStats
     catch { destroy $d }
     toplevel $d -background [color bg]
