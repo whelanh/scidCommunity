@@ -180,7 +180,10 @@ proc ::wpgui::run {} {
     wait 100
     checkEq "a click on the card shows that move's position" [sc_pos location] 3
     # A real click on a move of the card, then the arrow: the click must not
-    # leave the focus where the arrows are not bound.
+    # leave the focus where the arrows are not bound. Force the application's
+    # focus first: on a shared desktop the window manager may not have given it.
+    focus -force .main
+    update
     set t .woodpeckerWin.sess.card.t
     set bb [$t bbox [lindex [$t tag ranges ply2] 0]]
     set cx [expr {[lindex $bb 0] + 3}]; set cy [expr {[lindex $bb 1] + 3}]
@@ -189,6 +192,7 @@ proc ::wpgui::run {} {
     event generate $t <ButtonRelease-1> -x $cx -y $cy
     wait 100
     checkEq "a real click on a card move shows it" [sc_pos location] 2
+    checkEq "the panel gives the focus back to the board" [focus] .main
     event generate [focus] <Key-Left>
     wait 100
     checkEq "and the arrow still steps back after it" [sc_pos location] 1
@@ -317,6 +321,107 @@ proc ::wpgui::run {} {
     shot stats
     checkEq "one cycle row" [llength [.woodpeckerStats.cyc children {}]] 1
     checkEq "one session row in the table" [llength [.woodpeckerStats.ses children {}]] 1
+
+    # Open Puzzle Database: a puzzle deleted or added in the set's own database
+    # must change exercises.tsv, without renumbering the exercises that stay.
+    set dir3 [::woodpecker::set::newDir "GUI test three"]
+    ::woodpecker::set::buildFromExercises $dir3 \
+        [::woodpecker::set::newMeta "GUI test three" lichess 7 1 [clock seconds]] $exs
+    ::woodpecker::marksAppend $dir3 [dict create \
+        1 [dict create marks {"!" ""} source review] \
+        2 [dict create marks {"!!"} source review]]
+    ::woodpecker::ui::refresh
+    ::woodpecker::ui::selectSet $dir3
+    check "the sets page has the Open Puzzle Database button" [winfo exists .woodpeckerWin.home.b.db]
+    checkEq "with the translated label" [.woodpeckerWin.home.b.db cget -text] [tr WoodpeckerOpenDatabase]
+    ::woodpecker::ui::openDatabase
+    wait 300
+    set want [file normalize [::woodpecker::set::basePath $dir3]]
+    set b 0
+    foreach x [sc_base list] {
+        if {[file normalize [file rootname [sc_base filename $x]]] eq $want} { set b $x }
+    }
+    check "the button opens the set's database" [expr {$b != 0 && [sc_base current] == $b}] \
+        "bases [sc_base list], current [sc_base current], want $want"
+    set basesBefore [llength [sc_base list]]
+    ::woodpecker::ui::openDatabase
+    wait 300
+    check "opening it again switches instead of opening a second copy" \
+        [expr {[llength [sc_base list]] == $basesBefore && [sc_base current] == $b}]
+    # Delete puzzle 2 as the game list does, then add a one-move puzzle.
+    sc_base gameflag $b 2 set D
+    ::notify::DatabaseModified $b
+    sc_base switch $b
+    sc_game new
+    set startFen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1}
+    sc_game startBoard $startFen
+    sc_move addSan e5
+    sc_pos addNag "!"
+    sc_game tags set -extra [list {PuzzleId "syncnew"} {PuzzleRating "1500"}]
+    sc_game save 0 $b
+    ::notify::DatabaseModified $b
+    ::woodpecker::ui::refresh
+    wait 300
+    set synced [::woodpecker::readExercises $dir3]
+    checkEq "the deleted puzzle leaves the set" [lsort -integer [dict keys $synced]] {1 3 4}
+    checkEq "the exercise numbers that stay do not move" \
+        [list [dict get $synced 1 puzzleId] [dict get $synced 3 puzzleId]] \
+        [list [dict get [lindex $exs 0] id] [dict get [lindex $exs 2] id]]
+    checkEq "the added puzzle is an exercise" [dict get $synced 4 fen] $startFen
+    set marks [::woodpecker::readMarks $dir3]
+    check "the sync does not rewrite the marks file" \
+        [expr {[dict exists $marks 1 2] && [dict get $marks 1 2 marks] eq "!!"}]
+    set table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]]
+    checkEq "the added puzzle keeps its author's mark" [dict get $table 4 marks] !
+    checkEq "and an existing exercise keeps its own" [dict get $table 2 marks] !!
+
+    # An unsaved game in the set base is not disturbed by a sync; the sync is
+    # deferred instead of loading games over it.
+    ::file::SwitchToBase $b
+    sc_game load 1
+    set solution [dict get $synced 1 solution]
+    set bad [::wpgui::wrongMove [lindex $solution 0]]
+    set pos [::chessboard::fromFen [sc_pos fen]]
+    sc_move addSan [::woodpecker::uciToSan $pos $bad]
+    set unsaved [list [sc_game altered] [sc_game number] [sc_pos location]]
+    ::notify::DatabaseModified $b
+    checkEq "an unsaved game defers the sync" [::woodpecker::set::syncFromBase $dir3] 3
+    checkEq "and the game stays as the user left it" \
+        [list [sc_game altered] [sc_game number] [sc_pos location]] $unsaved
+    checkEq "with the old exercises kept" \
+        [lsort -integer [dict keys [::woodpecker::readExercises $dir3]]] {1 3 4}
+    # Discard it and leave the game at a ply: a sync from another base must
+    # give the set base back its game and place.
+    sc_game load 1
+    sc_move ply 1
+    set keep [list [sc_game number] [sc_pos location]]
+    ::file::SwitchToBase $::clipbase_db
+    ::notify::DatabaseModified $b
+    ::woodpecker::ui::refresh
+    wait 300
+    ::file::SwitchToBase $b
+    checkEq "a sync from another base restores the set base's game" \
+        [list [sc_game number] [sc_pos location]] $keep
+
+    # A stale log row for the deleted puzzle must not count or hide the next one.
+    set t [clock seconds]
+    ::woodpecker::logExercise $dir3 $t 1 1 1 clean 11 1000
+    ::woodpecker::logExercise $dir3 $t 1 1 3 clean 11 1000
+    ::woodpecker::logExercise $dir3 $t 1 1 2 failed 0 1000
+    set info [::woodpecker::ui::dayPlan $dir3]
+    checkEq "the deleted puzzle does not count" [dict get $info done] 2
+    checkEq "the added puzzle is next" [list [dict get $info next] [dict get $info n]] {3 3}
+    ::woodpecker::ui::train
+    wait 500
+    checkEq "the session skips the deleted number" \
+        [list $::woodpecker::ui::run(next) $::woodpecker::ui::run(ex) $::woodpecker::ui::run(n)] {3 4 3}
+    checkEq "and shows its position, not its number" \
+        $::woodpecker::ui::txt(title) [::woodpecker::ui::T WoodpeckerExercise 3 3]
+    addMoveUCI e7e5
+    wait 1800
+    checkEq "the added puzzle completes the cycle" [winfo ismapped .woodpeckerWin.sum] 1
+    ::woodpecker::ui::exitSession
+    wait 800
     finishTest
 }
 

@@ -174,16 +174,22 @@ lassign [::woodpecker::readLog $tmp] xs ss
 checkEq "malformed log lines are skipped" [llength $xs] 4
 checkEq "session rows are read" [llength $ss] 1
 
-set pr [::woodpecker::progress $xs 3 2026-11-03]
+set pr [::woodpecker::progress $xs {1 2 3} 2026-11-03]
 checkEq "cycle 2 has started" [dict get $pr cycle] 2
 checkEq "the next exercise is 2" [dict get $pr next] 2
 checkEq "today's exercises do not count as before" [dict get $pr doneBefore] 0
-set pr [::woodpecker::progress [lrange $xs 0 2] 3 2026-11-02]
+set pr [::woodpecker::progress [lrange $xs 0 2] {1 2 3} 2026-11-02]
 checkEq "cycle 1 complete" [list [dict get $pr complete] [dict get $pr end]] {1 2026-11-02}
-set pr [::woodpecker::progress [lrange $xs 0 1] 3 2026-11-02]
+set pr [::woodpecker::progress [lrange $xs 0 1] {1 2 3} 2026-11-02]
 checkEq "mid-cycle: next and before" [list [dict get $pr next] [dict get $pr doneBefore] [dict get $pr start]] {3 2 2026-11-01}
-set pr [::woodpecker::progress {} 3 2026-11-02]
+set pr [::woodpecker::progress {} {1 2 3} 2026-11-02]
 checkEq "an empty log starts at 1" [list [dict get $pr cycle] [dict get $pr next] [dict get $pr done]] {1 1 0}
+# A puzzle removed from the set leaves a gap: the position in the list, not the
+# number, is what the next exercise counts.
+set pr [::woodpecker::progress [lrange $xs 0 2] {1 3} 2026-11-02]
+checkEq "a gap counts by position" [list [dict get $pr complete] [dict get $pr done]] {1 2}
+set pr [::woodpecker::progress [lrange $xs 0 1] {1 3 4} 2026-11-02]
+checkEq "a gap does not stop the plan" [list [dict get $pr next] [dict get $pr done]] {2 1}
 
 # Unrated: exercise 1 clean = 2, ex 2 failed = 0 (max 2*1.4).
 set table [::woodpecker::marksAt [::woodpecker::readMarks $tmp] 0]
@@ -228,6 +234,14 @@ checkEq "cycle 1: days, exercises, solving time, results" \
 set cmp [::woodpecker::compareCycles $xs 2 {1 2 3}]
 checkEq "exercise 1 was faster in cycle 2" [list [dict get $cmp compared] [dict get $cmp faster] [dict get $cmp slower]] {1 1 0}
 checkEq "no new errors" [dict get $cmp newErrors] 0
+
+# A log row whose exercise is no longer in the set (deleted in the database)
+# stays in the history but must not be scored.
+set xsGap [linsert $xs end [dict create ts [expr {$t0 + 3*86400}] cycle 1 session 9 ex 99 result clean found 11 ms 1000]]
+set stGap [::woodpecker::sessionStats $xsGap $ss $back $table]
+checkEq "a deleted exercise's row adds no session" [llength $stGap] [llength $st]
+set csGap [::woodpecker::cycleStats $xsGap $back $table]
+checkEq "and does not count in the cycle" [dict get [lindex $csGap 0] exercises] 3
 
 checkEq "durations: hours" [::woodpecker::fmtDuration 3840000] "1h 04m"
 checkEq "durations: minutes" [::woodpecker::fmtDuration 750000] "12m 30s"
