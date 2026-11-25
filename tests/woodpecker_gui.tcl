@@ -445,7 +445,7 @@ proc ::wpgui::run {} {
     checkEq "a failed exercise pauses" [list $::woodpecker::ui::run(wait) $::woodpecker::ui::run(paused)] {solution 1}
     check "the auto-pause keeps Continue" [winfo ismapped .woodpeckerWin.sess.line.cont]
     checkEq "and says why" $::woodpecker::ui::txt(status) [tr WoodpeckerPausedAfter]
-    checkEq "the pause button offers Resume" [.woodpeckerWin.sess.b.pause cget -text] [tr WoodpeckerResume]
+    check "the auto-pause hides the pause button" [expr {![winfo ismapped .woodpeckerWin.sess.b.pause]}]
     set before [::woodpecker::ui::elapsedMs]
     wait 1200
     check "the review time is not counted" [expr {[::woodpecker::ui::elapsedMs] - $before <= 5}]
@@ -453,6 +453,8 @@ proc ::wpgui::run {} {
     wait 300
     checkEq "Continue starts the next exercise" [sc_pos fen] [dict get [::woodpecker::readExercises $dir4] 2 fen]
     checkEq "and resumes the clock" $::woodpecker::ui::run(paused) 0
+    check "the pause button returns on the next exercise" [winfo ismapped .woodpeckerWin.sess.b.pause]
+    checkEq "as Pause" [.woodpeckerWin.sess.b.pause cget -text] [tr WoodpeckerPause]
     # Solve the second: the success pauses too, with the line to step through.
     addMoveUCI b8c7
     wait 600
@@ -460,6 +462,7 @@ proc ::wpgui::run {} {
     wait 600
     checkEq "a solved exercise pauses too" [list $::woodpecker::ui::run(wait) $::woodpecker::ui::run(paused)] {solution 1}
     check "Continue stays for a solved exercise" [winfo ismapped .woodpeckerWin.sess.line.cont]
+    check "the solved pause hides the pause button too" [expr {![winfo ismapped .woodpeckerWin.sess.b.pause]}]
     checkEq "the board is at the end of the line" [sc_pos location] [llength [dict get [lindex $exs 1] solution]]
     check "the solved line can be stepped back" [expr {[::woodpecker::ui::callback moveBack] == 1}]
     ::move::Back

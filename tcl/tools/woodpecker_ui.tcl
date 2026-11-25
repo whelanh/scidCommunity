@@ -1407,7 +1407,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
         doneCycle [expr {[dict get $dp next] - 1}] \
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
-        autoPause [expr {$::woodpecker::ui::autoPause ? 1 : 0}] \
+        autoPause [expr {$::woodpecker::ui::autoPause ? 1 : 0}] hold 0 \
         wait "" ex 0 state {} exT0 0 exPaused 0 pending "" results {} streak 0 points 0.0 max 0.0 \
         prevBase [sc_base current] xs $xs engines {} played 0 fen "" solution {} why "" \
         name [dict get $meta name]]
@@ -1434,6 +1434,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
     ::setPlayMode ::woodpecker::ui::callback
     showPage sess
     $w.sess.b.pause configure -text [tr WoodpeckerPause]
+    pack $w.sess.b.pause -side left
     set notes [lrange [dict get $dp lines] 2 end]
     set unrated 0
     dict for {ex e} $exs { if {![dict exists $run(table) $ex]} { incr unrated } }
@@ -1891,7 +1892,10 @@ proc ::woodpecker::ui::pauseForResult {} {
         set run(paused) 1
         set run(pauseT) [clock milliseconds]
     }
-    $w.sess.b.pause configure -text [tr WoodpeckerResume]
+    # The automatic pause is left with Continue (Enter) only: Resume would
+    # restart the clock on the same result, which is not what this pause is for.
+    set run(hold) 1
+    pack forget $w.sess.b.pause
     status [tr WoodpeckerPausedAfter] 1
 }
 
@@ -1919,6 +1923,12 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         set run(paused) 0
         set run(lastInput) $now
         $w.sess.b.pause configure -text [tr WoodpeckerPause]
+        # Giving back the automatic pause's space: the Pause button comes back
+        # on the result it was holding.
+        if {$run(hold)} {
+            set run(hold) 0
+            pack $w.sess.b.pause -side left
+        }
         # The pause line took the place of the exercise's, and hid the Continue
         # button with it: a failed exercise still showing its solution needs
         # both back, or only the Enter key would go on.
@@ -1929,6 +1939,7 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         }
     } else {
         set run(paused) 1
+        set run(hold) 0
         # An automatic pause gives back the time spent away from the board.
         set run(pauseT) [expr {$auto ? $run(lastInput) : $now}]
         $w.sess.b.pause configure -text [tr WoodpeckerResume]
