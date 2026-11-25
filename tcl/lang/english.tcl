@@ -541,6 +541,9 @@ translate E WoodpeckerEvaluate {Evaluate...}
 translate E WoodpeckerStats {Statistics}
 translate E WoodpeckerDelete {Delete}
 translate E WoodpeckerContinue {Continue (Enter)}
+translate E WoodpeckerSessionOptions {Session}
+translate E WoodpeckerAutoPause {Pause after each exercise}
+translate E WoodpeckerPausedAfter {Paused after the exercise. Step through the solution, then press Continue (Enter).}
 translate E WoodpeckerPause {Pause}
 translate E WoodpeckerResume {Resume}
 translate E WoodpeckerEnd {End session}

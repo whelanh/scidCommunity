@@ -35,10 +35,11 @@ if {[llength [info commands ::options.store]]} {
     ::options.store ::woodpecker::ui::lastDays 28
     ::options.store ::woodpecker::ui::lastPreset standard
     ::options.store ::woodpecker::ui::lastRating 1500
+    ::options.store ::woodpecker::ui::autoPause 0
     ::options.store ::woodpecker::dataDir ""
     ::options.store ::woodpecker::usedDir ""
 }
-foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500} {
+foreach {_v _d} {engine "" lastCount 300 lastDays 28 lastPreset standard lastRating 1500 autoPause 0} {
     if {![info exists ::woodpecker::ui::$_v]} { set ::woodpecker::ui::$_v $_d }
 }
 unset -nocomplain _v _d
@@ -240,6 +241,10 @@ proc ::woodpecker::ui::build {} {
     pack configure $h.cards.hDeadline -padx 0
     ttk::label $h.info -textvariable ${v}::txt(info) -wraplength 420 -justify left \
         -font woodpeckerSmall -foreground [color muted]
+    ttk::labelframe $h.opts -text [tr WoodpeckerSessionOptions] -padding {8 4}
+    ttk::checkbutton $h.opts.autoPause -text [tr WoodpeckerAutoPause] \
+        -variable ::woodpecker::ui::autoPause -onvalue 1 -offvalue 0
+    pack $h.opts.autoPause -side left
     ttk::frame $h.b
     ttk::button $h.b.train -image tb_play -text [tr WoodpeckerTrain] -compound left -command ${v}::train
     ttk::button $h.b.db -text [tr WoodpeckerOpenDatabase] -command ${v}::openDatabase
@@ -255,7 +260,8 @@ proc ::woodpecker::ui::build {} {
     grid $h.sb -row 2 -column 1 -sticky ns
     grid $h.cards -row 3 -column 0 -columnspan 2 -sticky ew -pady {10 0}
     grid $h.info -row 4 -column 0 -columnspan 2 -sticky w -pady {6 10}
-    grid $h.b -row 5 -column 0 -columnspan 2 -sticky ew
+    grid $h.opts -row 5 -column 0 -columnspan 2 -sticky w -pady {0 8}
+    grid $h.b -row 6 -column 0 -columnspan 2 -sticky ew
     grid rowconfigure $h 2 -weight 1
     grid columnconfigure $h 0 -weight 1
 
@@ -1401,6 +1407,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
         doneCycle [expr {[dict get $dp next] - 1}] \
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
+        autoPause [expr {$::woodpecker::ui::autoPause ? 1 : 0}] hold 0 \
         wait "" ex 0 state {} exT0 0 exPaused 0 pending "" results {} streak 0 points 0.0 max 0.0 \
         prevBase [sc_base current] xs $xs engines {} played 0 fen "" solution {} why "" \
         name [dict get $meta name]]
@@ -1427,6 +1434,7 @@ proc ::woodpecker::ui::train {{dir ""}} {
     ::setPlayMode ::woodpecker::ui::callback
     showPage sess
     $w.sess.b.pause configure -text [tr WoodpeckerPause]
+    pack $w.sess.b.pause -side left
     set notes [lrange [dict get $dp lines] 2 end]
     set unrated 0
     dict for {ex e} $exs { if {![dict exists $run(table) $ex]} { incr unrated } }
@@ -1828,6 +1836,16 @@ proc ::woodpecker::ui::exerciseDone {result} {
         [expr {$run(doneToday) == $run(quota) && $run(quota) > 0}]
     if {$result eq "failed"} {
         showSolution
+        if {$run(autoPause)} { pauseForResult }
+        return
+    }
+    if {$run(autoPause)} {
+        # A solved exercise gets the same step-through as a failed one, and the
+        # clock stops until Continue.
+        set run(wait) solution
+        completeSolution
+        markCur
+        pauseForResult
         return
     }
     set run(wait) next
@@ -1863,6 +1881,41 @@ proc ::woodpecker::ui::showSolution {} {
     status [tr WoodpeckerSolutionShown] 1
 }
 
+# A solved exercise ends on the trainee's last move. If the solution has a
+# trailing opponent reply (an even number of plies), add it so the review can
+# step to the whole line, then put the board back on the move the trainee made.
+proc ::woodpecker::ui::completeSolution {} {
+    variable run
+    set i $run(played)
+    if {$i >= [llength $run(solution)]} { return }
+    set at [sc_pos location]
+    foreach uci [lrange $run(solution) $i end] {
+        if {[catch { sc_move addSan $uci }]} { break }
+        incr run(played)
+    }
+    catch { sc_move ply $at }
+    ::notify::PosChanged -pgn
+}
+
+# Stop the clock at the end of an exercise and keep Continue in reach. The time
+# spent reading the solution is added to pausedMs when Continue (or Resume)
+# starts the clock again, so it counts neither in the session nor in the next
+# exercise.
+proc ::woodpecker::ui::pauseForResult {} {
+    variable run
+    variable w
+    if {!$run(on)} { return }
+    if {!$run(paused)} {
+        set run(paused) 1
+        set run(pauseT) [clock milliseconds]
+    }
+    # The automatic pause is left with Continue (Enter) only: Resume would
+    # restart the clock on the same result, which is not what this pause is for.
+    set run(hold) 1
+    pack forget $w.sess.b.pause
+    status [tr WoodpeckerPausedAfter] 1
+}
+
 proc ::woodpecker::ui::keyContinue {} {
     variable run
     if {!$run(on)} { return }
@@ -1887,6 +1940,12 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         set run(paused) 0
         set run(lastInput) $now
         $w.sess.b.pause configure -text [tr WoodpeckerPause]
+        # Giving back the automatic pause's space: the Pause button comes back
+        # on the result it was holding.
+        if {$run(hold)} {
+            set run(hold) 0
+            pack $w.sess.b.pause -side left
+        }
         # The pause line took the place of the exercise's, and hid the Continue
         # button with it: a failed exercise still showing its solution needs
         # both back, or only the Enter key would go on.
@@ -1897,6 +1956,7 @@ proc ::woodpecker::ui::pause {{auto 0}} {
         }
     } else {
         set run(paused) 1
+        set run(hold) 0
         # An automatic pause gives back the time spent away from the board.
         set run(pauseT) [expr {$auto ? $run(lastInput) : $now}]
         $w.sess.b.pause configure -text [tr WoodpeckerResume]

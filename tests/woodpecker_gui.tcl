@@ -422,6 +422,73 @@ proc ::wpgui::run {} {
     checkEq "the added puzzle completes the cycle" [winfo ismapped .woodpeckerWin.sum] 1
     ::woodpecker::ui::exitSession
     wait 800
+
+    # Auto-pause: stop after every exercise, right or wrong, and let a solved
+    # solution be reviewed before Continue. The clock stops too.
+    check "the sets page offers auto-pause" [winfo exists .woodpeckerWin.home.opts.autoPause]
+    checkEq "with the translated label" [.woodpeckerWin.home.opts.autoPause cget -text] [tr WoodpeckerAutoPause]
+    checkEq "it starts off" $::woodpecker::ui::autoPause 0
+    .woodpeckerWin.home.opts.autoPause invoke
+    checkEq "ticking it turns it on" $::woodpecker::ui::autoPause 1
+    set dir4 [::woodpecker::set::newDir "GUI test four"]
+    # A two-ply solution: the trainee's e5 solves it, and the trailing Nf3 is
+    # the opponent reply that the solved review must still be able to reach.
+    set even [dict create id even1 rating 1500 plays "" themes {} gameId "" \
+        fen {rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1} \
+        solution {e7e5 g1f3} lastMove e2e4 white "Even White" black "Even Black"]
+    ::woodpecker::set::buildFromExercises $dir4 \
+        [::woodpecker::set::newMeta "GUI test four" lichess 7 1 [clock seconds]] \
+        [list [lindex $exs 0] $even]
+    ::woodpecker::ui::refresh
+    ::woodpecker::ui::selectSet $dir4
+    ::woodpecker::ui::train
+    wait 500
+    checkEq "the session reads the option" $::woodpecker::ui::run(autoPause) 1
+    # A wrong first move: the failure pauses and asks for Continue.
+    set bad [::wpgui::wrongMove [lindex [dict get [lindex $exs 0] solution] 0]]
+    addMoveUCI $bad
+    wait 600
+    checkEq "a failed exercise pauses" [list $::woodpecker::ui::run(wait) $::woodpecker::ui::run(paused)] {solution 1}
+    check "the auto-pause keeps Continue" [winfo ismapped .woodpeckerWin.sess.line.cont]
+    checkEq "and says why" $::woodpecker::ui::txt(status) [tr WoodpeckerPausedAfter]
+    check "the auto-pause hides the pause button" [expr {![winfo ismapped .woodpeckerWin.sess.b.pause]}]
+    set before [::woodpecker::ui::elapsedMs]
+    wait 1200
+    check "the review time is not counted" [expr {[::woodpecker::ui::elapsedMs] - $before <= 5}]
+    ::woodpecker::ui::keyContinue
+    wait 300
+    checkEq "Continue starts the next exercise" [sc_pos fen] [dict get [::woodpecker::readExercises $dir4] 2 fen]
+    checkEq "and resumes the clock" $::woodpecker::ui::run(paused) 0
+    check "the pause button returns on the next exercise" [winfo ismapped .woodpeckerWin.sess.b.pause]
+    checkEq "as Pause" [.woodpeckerWin.sess.b.pause cget -text] [tr WoodpeckerPause]
+    # Solve the second: the success pauses too, and the trailing opponent reply
+    # is in the game so the whole line can be stepped through.
+    addMoveUCI e7e5
+    wait 600
+    checkEq "a solved exercise pauses too" [list $::woodpecker::ui::run(wait) $::woodpecker::ui::run(paused)] {solution 1}
+    check "Continue stays for a solved exercise" [winfo ismapped .woodpeckerWin.sess.line.cont]
+    check "the solved pause hides the pause button too" [expr {![winfo ismapped .woodpeckerWin.sess.b.pause]}]
+    checkEq "the board is on the trainee's last move" [sc_pos location] 1
+    check "the solved line can be stepped forward" [expr {[::woodpecker::ui::callback moveForward] == 1}]
+    ::move::Forward
+    wait 100
+    checkEq "to the trailing opponent reply" [sc_pos location] 2
+    ::woodpecker::ui::gotoPly 2
+    wait 100
+    checkEq "a card click reaches the last ply" [sc_pos location] 2
+    ::woodpecker::ui::gotoPly 1
+    wait 100
+    checkEq "and back to the trainee's move" [sc_pos location] 1
+    set before [::woodpecker::ui::elapsedMs]
+    wait 1200
+    check "the solved review time is not counted either" [expr {[::woodpecker::ui::elapsedMs] - $before <= 5}]
+    ::woodpecker::ui::keyContinue
+    wait 800
+    checkEq "Continue completes the auto-paused cycle" [winfo ismapped .woodpeckerWin.sum] 1
+    ::woodpecker::ui::exitSession
+    wait 800
+    .woodpeckerWin.home.opts.autoPause invoke
+    checkEq "the option can be turned off again" $::woodpecker::ui::autoPause 0
     finishTest
 }
 
