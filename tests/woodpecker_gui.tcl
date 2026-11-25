@@ -106,8 +106,10 @@ proc ::wpgui::run {} {
     update
     ::woodpecker::ui::homeFit .woodpeckerWin.homeWrap
     # A game is open in the clipbase: the session must leave it as it was.
+    # Its players' names must not stay on the session's board either.
     sc_base switch $::clipbase_db
     sc_game new
+    sc_game tags set -white Alice -black Bob
     sc_move addSan e4
     ::notify::GameChanged
     set openFen [sc_pos fen]
@@ -128,6 +130,10 @@ proc ::wpgui::run {} {
     checkEq "an options save in a session keeps the user's layout as auto" \
         $::docking::layout_list(auto) $::docking::layout_list(woodpecker_user)
     checkEq "exercise 1 is on the board" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 1 fen]
+    check "the session board does not show the open game's player names" \
+        [expr {$::gamePlayers(nameW) eq "" && $::gamePlayers(nameB) eq ""
+               && $::gamePlayers(eloW) eq "" && $::gamePlayers(eloB) eq ""}] \
+        "$::gamePlayers(nameW)/$::gamePlayers(nameB)/$::gamePlayers(eloW)/$::gamePlayers(eloB)"
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
 
@@ -210,6 +216,7 @@ proc ::wpgui::run {} {
     check "the board is free again" [expr {![info exists ::playMode]}]
     checkEq "the game that was open is back" [sc_pos fen] $openFen
     checkEq "the open database is back" [sc_base current] $::clipbase_db
+    checkEq "and so are its player names" "$::gamePlayers(nameW) / $::gamePlayers(nameB)" "Alice / Bob"
     checkEq "the summary stays in the focus layout" [lsort [::win::getWindows]] [lsort {.main .fdockwoodpeckerWin}]
     check "a finished cycle offers no more exercises" [expr {![winfo ismapped .woodpeckerWin.sum.b.more]}]
     shot summary
