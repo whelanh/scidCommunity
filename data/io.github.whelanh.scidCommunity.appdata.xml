@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.77" date="2026-11-26">
+      <description>
+        <p>Woodpecker focus fix</p>
+      </description>
+    </release>
  <release version="5.1.4.76" date="2026-11-26">
       <description>
         <p>Woodpecker refinements; 3 new themes</p>
