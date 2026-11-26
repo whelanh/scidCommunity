@@ -198,6 +198,7 @@ proc ::preport::makeReportWin {args} {
   }
   if {$showProgress} {
     if {$::preport::_interrupt} {
+      if {$::preport::_pos == "start"} { sc_game pop }
       unbusyCursor .
       catch {grab release $w.b.cancel}
       destroy $w

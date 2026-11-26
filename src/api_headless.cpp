@@ -274,6 +274,17 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         continue;
       }
 
+      // Whether the index side of position_op constrains anything. Without
+      // criteria the filter holds every game, but that is not an operand:
+      // "everything OR this position" would return the whole database.
+      bool hasIndexCriteria = !args.empty();
+      if (params.contains("tags") && params["tags"].is_object() &&
+          !params["tags"].empty())
+        hasIndexCriteria = true;
+      if (params.contains("has_tags") && params["has_tags"].is_array() &&
+          !params["has_tags"].empty())
+        hasIndexCriteria = true;
+
       std::vector<const char *> argv_vec;
       for (const auto &s : args)
         argv_vec.push_back(s.c_str());
@@ -389,6 +400,10 @@ void HeadlessMainLoop(int argc, char *argv[]) {
           for (auto gnum : indexMatches)
             candidates.push_back(gnum);
         } else {
+          // With no index or tag criteria the index side is empty, so the
+          // result is just the games that reach the position.
+          if (!hasIndexCriteria)
+            indexMatches->clear();
           candidates.reserve(numGames - indexMatches->size());
           for (gamenumT gnum = 0; gnum < numGames; ++gnum) {
             if (indexMatches.get(gnum) == 0)

@@ -139,6 +139,8 @@ def main():
         check("header OR position",
               search(client, handle, white="Carol", fen=FEN_NAJDORF,
                      position_op="or"), [1, 2])
+        check("position_op=or without index criteria",
+              search(client, handle, fen=FEN_NAJDORF, position_op="or"), [1])
 
         print("match modes")
         check("exact rejects a moved knight",

@@ -78,7 +78,8 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 	BoardSearchResult res;
 	res.ply.assign(candidates.size(), 0);
 	if (candidates.empty() || positions.empty()) {
-		progress.report(1, 1);
+		if (!progress.report(1, 1))
+			res.status = BoardSearchStatus::Cancelled;
 		return res;
 	}
 
@@ -166,25 +167,32 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 					if (matchPly == 0 || found < matchPly)
 						matchPly = found;
 				};
+				bool decoded = true;
 				if (useVars) {
-					game.DecodeMovesOnly(bbuf);
-					for (auto* form : possible) {
-						if (game.ExactMatch(&form->pos, nullptr,
-						                    options.matchType)) {
-							keepEarliest(game.GetCurrentPly() + 1u);
-							if (matchPly == 1)
-								break;
-						}
-					}
-					if (matchPly == 0) {
+					// A game that cannot be decoded is treated like one that
+					// cannot be read: it must not be matched from a
+					// half-decoded position.
+					decoded = (game.DecodeMovesOnly(bbuf) == OK);
+					if (decoded) {
 						for (auto* form : possible) {
-							game.MoveToStart();
-							uint varPly = 0;
-							if (game.VarExactMatch(&form->pos,
-							                       options.matchType, &varPly)) {
-								keepEarliest(varPly + 1u);
+							if (game.ExactMatch(&form->pos, nullptr,
+							                    options.matchType)) {
+								keepEarliest(game.GetCurrentPly() + 1u);
 								if (matchPly == 1)
 									break;
+							}
+						}
+						if (matchPly == 0) {
+							for (auto* form : possible) {
+								game.MoveToStart();
+								uint varPly = 0;
+								if (game.VarExactMatch(&form->pos,
+								                       options.matchType,
+								                       &varPly)) {
+									keepEarliest(varPly + 1u);
+									if (matchPly == 1)
+										break;
+								}
 							}
 						}
 					}
@@ -200,9 +208,12 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 						}
 					}
 				}
-				if (matchPly != 0)
+				if (!decoded) {
+					ply[ci] = READ_ERROR;
+				} else if (matchPly != 0) {
 					ply[ci] = static_cast<uint16_t>(
 					    std::min<uint>(matchPly, MAX_PLY));
+				}
 			}
 		}
 		sync.n_done.fetch_add(rep_i % rep_freq, std::memory_order_relaxed);
@@ -250,6 +261,7 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 		}
 	}
 
-	progress.report(1, 1);
+	if (!progress.report(1, 1))
+		res.status = BoardSearchStatus::Cancelled;
 	return res;
 }

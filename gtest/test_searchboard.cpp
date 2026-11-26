@@ -263,12 +263,28 @@ struct CancelProgress : Progress::Impl {
 	bool report(size_t, size_t, const char*) override { return false; }
 };
 
+/// Cancels only in the final report (1 of 1), which runs once the search
+/// has finished.
+struct CancelAtEnd : Progress::Impl {
+	bool report(size_t done, size_t total, const char*) override {
+		return !(done == 1 && total == 1);
+	}
+};
+
 } // namespace
 
 TEST(SearchBoard, cancellation) {
 	TestDb db({PGN_NAJDORF, PGN_BERLIN});
 
 	Progress progress(new CancelProgress);
+	auto res = search(db, parseFen(FEN_NAJDORF), {}, {}, progress);
+	EXPECT_EQ(BoardSearchStatus::Cancelled, res.status);
+}
+
+TEST(SearchBoard, cancellationInFinalProgress) {
+	TestDb db({PGN_NAJDORF, PGN_BERLIN});
+
+	Progress progress(new CancelAtEnd);
 	auto res = search(db, parseFen(FEN_NAJDORF), {}, {}, progress);
 	EXPECT_EQ(BoardSearchStatus::Cancelled, res.status);
 }
