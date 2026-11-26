@@ -98,8 +98,9 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 	}
 
 	// Sentinel used inside the workers to flag a game that could not be read.
-	constexpr uint8_t READ_ERROR = 0xFF;
-	std::vector<uint8_t> ply(candidates.size(), 0);
+	// It is deliberately outside the valid ply range (1..MAX_PLY).
+	constexpr uint16_t READ_ERROR = 0xFFFF;
+	std::vector<uint16_t> ply(candidates.size(), 0);
 
 	struct Sync {
 		alignas(64) std::atomic<size_t> n_done{0};
@@ -161,22 +162,29 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 				ply[ci] = READ_ERROR;
 			} else {
 				uint matchPly = 0;
+				auto keepEarliest = [&](uint found) {
+					if (matchPly == 0 || found < matchPly)
+						matchPly = found;
+				};
 				if (useVars) {
 					game.DecodeMovesOnly(bbuf);
 					for (auto* form : possible) {
 						if (game.ExactMatch(&form->pos, nullptr,
 						                    options.matchType)) {
-							matchPly = game.GetCurrentPly() + 1u;
-							break;
+							keepEarliest(game.GetCurrentPly() + 1u);
+							if (matchPly == 1)
+								break;
 						}
 					}
 					if (matchPly == 0) {
 						for (auto* form : possible) {
 							game.MoveToStart();
+							uint varPly = 0;
 							if (game.VarExactMatch(&form->pos,
-							                       options.matchType)) {
-								matchPly = game.GetCurrentPly() + 1u;
-								break;
+							                       options.matchType, &varPly)) {
+								keepEarliest(varPly + 1u);
+								if (matchPly == 1)
+									break;
 							}
 						}
 					}
@@ -186,13 +194,14 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 						auto buf = bbuf;
 						if (game.ExactMatch(&form->pos, &buf,
 						                    options.matchType)) {
-							matchPly = game.GetCurrentPly() + 1u;
-							break;
+							keepEarliest(game.GetCurrentPly() + 1u);
+							if (matchPly == 1)
+								break;
 						}
 					}
 				}
 				if (matchPly != 0)
-					ply[ci] = static_cast<uint8_t>(
+					ply[ci] = static_cast<uint16_t>(
 					    std::min<uint>(matchPly, MAX_PLY));
 			}
 		}
@@ -207,18 +216,13 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 	const size_t chunk = (n_games + n_threads - 1) / n_threads;
 
 	std::vector<std::future<void>> futures;
-	futures.reserve(n_threads > 0 ? n_threads - 1 : 0);
-	for (size_t t = 0; t + 1 < n_threads; ++t) {
+	futures.reserve(n_threads);
+	for (size_t t = 0; t < n_threads; ++t) {
 		const size_t begin = t * chunk;
 		const size_t end = std::min(begin + chunk, n_games);
 		if (begin >= end)
 			break;
 		futures.push_back(std::async(std::launch::async, worker, begin, end));
-	}
-	{
-		const size_t begin = (n_threads - 1) * chunk;
-		if (begin < n_games)
-			worker(begin, n_games);
 	}
 
 	size_t n_reported = 0;
@@ -242,7 +246,7 @@ BoardSearchResult boardSearch(const scidBaseT& base,
 			res.readError = true;
 			res.ply[i] = 0;
 		} else {
-			res.ply[i] = ply[i];
+			res.ply[i] = static_cast<uint8_t>(ply[i]);
 		}
 	}
 

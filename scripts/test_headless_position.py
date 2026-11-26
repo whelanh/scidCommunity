@@ -161,6 +161,22 @@ def main():
               search(client, handle, fen=FEN_VARIATION_LAST,
                      position_in_variations=True), [3])
 
+        print("filter composition")
+        check("reset to Carol", search(client, handle, white="Carol"), [2])
+        check("filter=or with position_op=and keeps the old selection",
+              search(client, handle, white="Alice", fen=FEN_NAJDORF,
+                     filter="or", position_op="and"), [1, 2])
+        check("reset to Carol again", search(client, handle, white="Carol"), [2])
+        check("filter=and with position_op=or keeps only the old selection",
+              search(client, handle, white="Alice", fen=FEN_NAJDORF,
+                     filter="and", position_op="or"), [])
+        check("select Alice", search(client, handle, white="Alice"), [1])
+        check("invalid FEN is rejected",
+              client.error("db_search", {"handle": handle, "fen": "nonsense"})["code"],
+              -32602)
+        check("an invalid FEN leaves the selection alone",
+              search(client, handle, white="Carol", filter="and"), [])
+
         print("errors")
         check("invalid FEN",
               client.error("db_search", {"handle": handle, "fen": "nonsense"})["code"],
@@ -168,10 +184,21 @@ def main():
         check("unknown parameter",
               client.error("db_search", {"handle": handle, "fenn": FEN_NAJDORF})["message"],
               "Unknown parameter: fenn")
+        check("empty parameter name",
+              client.error("db_search", {"handle": handle, "": "x"})["message"],
+              "Unknown parameter: ")
         check("invalid position_match",
               client.error("db_search",
                            {"handle": handle, "fen": FEN_NAJDORF,
                             "position_match": "nope"})["code"],
+              -32602)
+        check("position_match without fen",
+              client.error("db_search",
+                           {"handle": handle, "position_match": "pawns"})["message"],
+              "The position options require 'fen'")
+        check("position_op without fen",
+              client.error("db_search",
+                           {"handle": handle, "position_op": "or"})["code"],
               -32602)
     finally:
         client.close()

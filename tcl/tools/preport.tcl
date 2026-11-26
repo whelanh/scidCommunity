@@ -184,7 +184,18 @@ proc ::preport::makeReportWin {args} {
   ::utils::history::AddEntry ::preport::_player $::preport::_player
 
   if {$::preport::_pos == "start"} { sc_game push }
-  sc_search board AND Exact false 0
+  # A cancelled board search raises a user-cancel error: undo the setup.
+  if {[catch {sc_search board AND Exact false 0}]} {
+    set cancelled [expr {$::errorCode == $::ERROR::UserCancel}]
+    if {$::preport::_pos == "start"} { sc_game pop }
+    if {$showProgress} {
+      unbusyCursor .
+      catch {grab release $w.b.cancel}
+      destroy $w
+    }
+    if {!$cancelled} { ERROR::MessageBox }
+    return
+  }
   if {$showProgress} {
     if {$::preport::_interrupt} {
       unbusyCursor .

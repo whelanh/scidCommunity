@@ -55,7 +55,9 @@ enum class BoardSearchStatus {
 struct BoardSearchResult {
 	BoardSearchStatus status = BoardSearchStatus::Ok;
 	/// One element for each searched game: 0 if the position was not found,
-	/// otherwise the 1-based ply of the first match (capped to 255).
+	/// otherwise the 1-based ply of the match, capped to 255. The main line
+	/// is preferred; if the position is found only in a variation, the ply is
+	/// the one along that variation.
 	std::vector<uint8_t> ply;
 	/// True if at least one game could not be read.
 	bool readError = false;

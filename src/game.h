@@ -562,7 +562,8 @@ public:
                      int matchLength, bool oppBishops, bool sameBishops,
                      int minDiff, int maxDiff);
   bool ExactMatch(Position *pos, ByteBuffer *buf, gameExactMatchT searchType);
-  bool VarExactMatch(Position *searchPos, gameExactMatchT searchType);
+  bool VarExactMatch(Position *searchPos, gameExactMatchT searchType,
+                     uint *matchPly = nullptr);
 
   /// Return true if the main line contains the sequence of SAN moves @e moves.
   /// The first move must be played by the side selected with @e wToMove /

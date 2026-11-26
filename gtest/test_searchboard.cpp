@@ -204,7 +204,26 @@ TEST(SearchBoard, variations) {
 	options.searchInVariations = true;
 	auto res = search(db, pos, options);
 	ASSERT_EQ(BoardSearchStatus::Ok, res.status);
-	EXPECT_NE(0, res.ply[0]);
+	// 1.d4 d5 2.c4 e6: ply 4 of the variation, not the branch point.
+	EXPECT_EQ(5, res.ply[0]);
+}
+
+TEST(SearchBoard, matchBeyondPly255IsNotAReadError) {
+	// 65 knight-shuffle cycles (260 plies), then a3 at ply 261: a position
+	// reached only once, beyond the 255 cap.
+	std::string pgn = "[Event \"Long\"]\n[White \"A\"]\n[Black \"B\"]\n"
+	                  "[Result \"*\"]\n\n";
+	for (int i = 0; i < 65; ++i)
+		pgn += "Nf3 Nf6 Ng1 Ng8 ";
+	pgn += "a3 *";
+
+	TestDb db({pgn});
+	auto res = search(db, parseFen("rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/"
+	                               "RNBQKBNR b KQkq - 0 1"));
+	ASSERT_EQ(BoardSearchStatus::Ok, res.status);
+	EXPECT_FALSE(res.readError);
+	ASSERT_EQ(1u, res.ply.size());
+	EXPECT_EQ(255, res.ply[0]);
 }
 
 TEST(SearchBoard, ignoreColors) {

@@ -95,16 +95,16 @@ Searches the database index and, optionally, a board position. Up to 10,000 resu
 - `eco` (string, optional): ECO code or range.
 - `result` (string, optional): `"1-0"`, `"0-1"`, `"1/2-1/2"` or `"*"`.
 - `variant`, `flag`, `gnum`, `length`, `n_variations`, `n_comments`, `n_nags` (optional): Index criteria, as accepted by the `sc_filter search header` command.
-- `filter` (string, optional): How to combine the search with the current filter: `"reset"` (default), `"and"` or `"or"`.
+- `filter` (string, optional): How to combine the result with the current filter: `"reset"` (default), `"and"` or `"or"`. It is applied once, after the index criteria and the position have been combined.
 - `tags` (object, optional): Key-value pairs of tags to filter by. Evaluated after the index search.
 - `has_tags` (array of string, optional): List of tag names that must exist in the game (regardless of value). Useful for filtering games by the presence of non-standard tags like `"ICCF"` or `"WhiteTeam"`.
 - `fen` (string, optional): Search for the board position described by this FEN string. The piece placement and the side to move are compared; the castling and en-passant fields are ignored. Only the main line of each game is searched unless `position_in_variations` is set. The result is intersected with the index criteria above (or united with them with `position_op: "or"`).
-- `position_match` (string, optional): How strictly the position must match: `"exact"` (default, same pieces on the same squares), `"pawns"` (same pawns on the same squares, other pieces ignored), `"files"` (same number of pawns on each file, ranks ignored), `"material"` (same number of each piece).
+- `position_match` (string, optional): How strictly the position must match: `"exact"` (default, same pieces on the same squares), `"pawns"` (same material and all pawns on the same squares), `"files"` (same material and the same number of pawns on each file, ranks ignored), `"material"` (same material, pieces anywhere).
 - `position_ignore_colors` (bool, optional): Also match the color-reversed position. Defaults to `false`.
 - `position_in_variations` (bool, optional): Also search the variations, not just the main line. Defaults to `false`; much slower on large databases.
 - `position_op` (string, optional): How to combine the position with the index criteria: `"and"` (default) or `"or"`.
 
-Unknown parameter names are rejected with error `-32602` instead of being ignored.
+The position options require `fen`. Unknown parameter names are rejected with error `-32602` instead of being ignored.
 
 **Examples:**
 ```json
