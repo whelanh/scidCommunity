@@ -25,6 +25,7 @@ namespace eval ::woodpecker::ui {
     array set newCfg {}
     variable progress
     array set progress {}
+    variable focusRetry ""
     # The panel's place in the focus layout: share of the width for the board.
     variable BOARD_SHARE 0.58
 }
@@ -492,12 +493,28 @@ proc ::woodpecker::ui::closed {} {
 # automatic progression uses plain focus so it cannot pull the keyboard away
 # from another application.
 proc ::woodpecker::ui::focusBoard {{force 1}} {
+    variable focusRetry
     if {![winfo exists .main]} { return }
+    if {$focusRetry ne ""} {
+        catch { after cancel $focusRetry }
+        set focusRetry ""
+    }
     if {$force} {
         catch { focus -force .main }
-        after idle { catch { focus -force .main } }
+        set focusRetry [after idle ::woodpecker::ui::focusBoardIdle]
     } else {
         catch { focus .main }
+    }
+}
+
+# The idle retry after a forced focus: only if focus is still on .main. If the
+# trainee clicked an entry or switched applications while the callback was
+# pending, leave their focus where it is.
+proc ::woodpecker::ui::focusBoardIdle {} {
+    variable focusRetry
+    set focusRetry ""
+    if {[winfo exists .main] && [focus] eq ".main"} {
+        catch { focus -force .main }
     }
 }
 

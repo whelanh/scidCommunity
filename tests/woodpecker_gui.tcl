@@ -141,6 +141,9 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::bindBoardFocus
     checkEq "the board focus binding stays single" \
         [regexp -all {focusBoard} [bind WoodpeckerBoardFocus <ButtonRelease-1>]] 1
+    ::woodpecker::ui::focusBoard
+    ::woodpecker::ui::focusBoard 0
+    checkEq "a plain focus cancels the forced retry" $::woodpecker::ui::focusRetry ""
     # A click on the board must recover the keyboard from the panel.
     focus -force .woodpeckerWin.sess.card.t
     event generate .main.board.bd <ButtonRelease-1> -x 5 -y 5
