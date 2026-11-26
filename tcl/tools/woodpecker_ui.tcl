@@ -25,6 +25,7 @@ namespace eval ::woodpecker::ui {
     array set newCfg {}
     variable progress
     array set progress {}
+    variable focusRetry ""
     # The panel's place in the focus layout: share of the width for the board.
     variable BOARD_SHARE 0.58
 }
@@ -370,7 +371,7 @@ proc ::woodpecker::ui::buildSession {} {
     # The arrow keys are bound on ".", which this window's widgets do not reach:
     # a click anywhere on the panel (the card's moves included, which take the
     # focus) gives it back to the board, so the arrows keep working.
-    bind WoodpeckerPanel <ButtonRelease-1> {+focus .main}
+    bind WoodpeckerPanel <ButtonRelease-1> {+::woodpecker::ui::focusBoard}
     ::addBindtagToTree $p WoodpeckerPanel
 }
 
@@ -475,11 +476,63 @@ proc ::woodpecker::ui::closed {} {
     if {$focus(relayout)} { return }
     if {$run(on)} { stop }
     # The panel was closed on purpose: back to Scid as it was, without it.
-    if {$focus(active)} { after idle [list ::woodpecker::ui::leaveFocus 0] }
+    if {$focus(active)} {
+        after idle [list ::woodpecker::ui::leaveFocus 0]
+    } else {
+        focusBoard
+    }
 }
 
 ################################################################################
 # The focus layout: board and panel, nothing else, for the whole session
+
+# When the main window is docked, .main is a frame and the keyboard move-entry
+# binding lives on that frame. Focus it, not a child: a layout restore focuses
+# .main.board, and the embedded panel can take the WM focus, especially in the
+# Snap/XWayland build. -force reasserts it after the window tree is rebuilt;
+# automatic progression uses plain focus so it cannot pull the keyboard away
+# from another application.
+proc ::woodpecker::ui::focusBoard {{force 1}} {
+    variable focusRetry
+    if {![winfo exists .main]} { return }
+    if {$focusRetry ne ""} {
+        catch { after cancel $focusRetry }
+        set focusRetry ""
+    }
+    if {$force} {
+        catch { focus -force .main }
+        set focusRetry [after idle ::woodpecker::ui::focusBoardIdle]
+    } else {
+        catch { focus .main }
+    }
+}
+
+# The idle retry after a forced focus: only if focus is still on .main. If the
+# trainee clicked an entry or switched applications while the callback was
+# pending, leave their focus where it is.
+proc ::woodpecker::ui::focusBoardIdle {} {
+    variable focusRetry
+    set focusRetry ""
+    if {[winfo exists .main] && [focus] eq ".main"} {
+        catch { focus -force .main }
+    }
+}
+
+# Clicking the board must bring the keyboard back too: a click on a child of a
+# docked .main frame does not run the frame's own focus binding. Only while a
+# session is running, so the tag left on a fallback layout cannot take focus
+# from a text widget later.
+proc ::woodpecker::ui::bindBoardFocus {} {
+    if {![winfo exists .main.board]} { return }
+    if {[llength [info commands addBindtagToTree]]} {
+        addBindtagToTree .main.board WoodpeckerBoardFocus
+        bind WoodpeckerBoardFocus <ButtonRelease-1> {
+            if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} {
+                ::woodpecker::ui::focusBoard
+            }
+        }
+    }
+}
 
 # Scid saves the layout as "auto" when it writes its options, on exit too. A
 # session must not become the layout the next start opens: while the focus
@@ -536,10 +589,14 @@ proc ::woodpecker::ui::enterFocus {} {
         catch { ::docking::layout_restore woodpecker_user }
         set focus(relayout) 0
         unset -nocomplain ::docking::layout_list(woodpecker_user)
+        bindBoardFocus
         if {![winfo exists $w]} { open }
+        focusBoard
         return 0
     }
     set focus(active) 1
+    bindBoardFocus
+    focusBoard
     return 1
 }
 
@@ -554,10 +611,12 @@ proc ::woodpecker::ui::leaveFocus {{reopen 1}} {
     set focus(relayout) 0
     set focus(active) 0
     unset -nocomplain ::docking::layout_list(woodpecker_user)
+    focusBoard
     if {!$reopen} { return }
     open
     showPage home
     refresh
+    focusBoard
 }
 
 proc ::woodpecker::ui::exitSession {} {
@@ -567,6 +626,7 @@ proc ::woodpecker::ui::exitSession {} {
     if {![winfo exists .woodpeckerWin.home]} { open }
     showPage home
     refresh
+    focusBoard
 }
 
 ################################################################################
@@ -1598,7 +1658,7 @@ proc ::woodpecker::ui::targetPace {} {
 }
 
 # The next exercise of the cycle, or the end of the cycle.
-proc ::woodpecker::ui::nextExercise {} {
+proc ::woodpecker::ui::nextExercise {{force 1}} {
     variable run
     variable txt
     variable w
@@ -1647,6 +1707,7 @@ proc ::woodpecker::ui::nextExercise {} {
     }
     cardAsk
     status ""
+    focusBoard $force
 }
 
 proc ::woodpecker::ui::arrow {uci color tag} {
@@ -1860,7 +1921,7 @@ proc ::woodpecker::ui::exerciseDone {result} {
 proc ::woodpecker::ui::advance {} {
     variable run
     if {!$run(on) || $run(wait) ne "next"} { return }
-    nextExercise
+    nextExercise 0
 }
 
 # After a failure the rest of the solution goes on the board, with its marks,
@@ -1958,6 +2019,7 @@ proc ::woodpecker::ui::pause {{auto 0}} {
             status [tr WoodpeckerSolutionShown] 1
         } else {
             status ""
+            focusBoard
         }
     } else {
         set run(paused) 1
@@ -1976,7 +2038,7 @@ proc ::woodpecker::ui::status {text {cont 0}} {
     if {![winfo exists $w.sess.line.cont]} { return }
     if {$cont} {
         pack $w.sess.line.cont -side right
-        focus .main
+        focusBoard
     } else {
         pack forget $w.sess.line.cont
     }
