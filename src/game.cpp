@@ -1608,7 +1608,9 @@ bool Game::ExactMatch(Position *searchPos, ByteBuffer *buf,
 //    Like ExactMatch(), but also searches in variations.
 //    This is much slower than ExactMatch(), since it will
 //    search every position until a match is found.
-bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
+//    If @e matchPly is not null, it is set to the ply of the match.
+bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType,
+                         uint *matchPly) {
   uint wpawnFyle[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   uint bpawnFyle[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   ;
@@ -1626,8 +1628,7 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
     }
   }
 
-  errorT err = OK;
-  while (err == OK) {
+  auto currentPosMatches = [&]() -> bool {
     // Check if this position matches:
     bool match = false;
     if (searchPos->GetToMove() == CurrentPos->GetToMove() &&
@@ -1688,14 +1689,20 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
         // searchType == GAME_EXACT_MATCH_Material, so do nothing.
       }
     }
-    if (match) {
+    return match;
+  };
+
+  errorT err = OK;
+  while (err == OK) {
+    if (currentPosMatches()) {
+      if (matchPly) *matchPly = GetCurrentPly();
       return true;
     }
 
     // Now try searching each variation in turn:
     for (uint i = 0; i < CurrentMove->numVariations; i++) {
       MoveIntoVariation(i);
-      match = VarExactMatch(searchPos, searchType);
+      bool match = VarExactMatch(searchPos, searchType, matchPly);
       MoveExitVariation();
       if (match) {
         return true;
@@ -1706,6 +1713,13 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
     if (CurrentMove->marker == END_MARKER) {
       err = ERROR_EndOfMoveList;
     }
+  }
+
+  // The loop above tests the position before each move, so the position
+  // reached by the last move of the line has not been tested yet.
+  if (currentPosMatches()) {
+    if (matchPly) *matchPly = GetCurrentPly();
+    return true;
   }
   return false;
 }

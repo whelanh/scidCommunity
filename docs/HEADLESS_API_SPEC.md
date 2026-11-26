@@ -22,7 +22,7 @@ This document defines the JSON-RPC 2.0 interface for the scidCommunity headless 
 - [`db_compact`](#db_compact): Physically remove deleted games and clean up index.
 
 ### Search & Retrieval
-- [`db_search`](#db_search): Search for games based on header criteria.
+- [`db_search`](#db_search): Search for games by header criteria and/or board position.
 - [`game_get`](#game_get): Retrieve full PGN and metadata for a specific game.
 
 ### Write Operations
@@ -85,18 +85,34 @@ Retrieves statistics about an open database.
 ---
 
 ### `db_search`
-Searches the database index. Up to 10,000 results are returned per call.
+Searches the database index and, optionally, a board position. Up to 10,000 results are returned per call.
 
 **Parameters:**
 - `handle` (int, required): Database handle.
-- `white`, `black`, `event`, `site` (string, optional): Filter by substring.
-- `filter` (string, optional): Filter name (e.g., `"all"`).
-- `tags` (object, optional): Key-value pairs of tags to filter by. Evaluated after index search.
+- `white`, `black`, `player`, `event`, `site`, `sitecountry`, `round` (string, optional): Filter by substring. Names ignore case and spaces; enclose the value in double quotes for an exact match.
+- `date`, `eventdate` (string, optional): Date range, e.g. `"1990.01.01 2000.12.31"`.
+- `elo`, `welo`, `belo`, `delo` (string, optional): Rating range, e.g. `"2500 3000"`.
+- `eco` (string, optional): ECO code or range.
+- `result` (string, optional): `"1-0"`, `"0-1"`, `"1/2-1/2"` or `"*"`.
+- `variant`, `flag`, `gnum`, `length`, `n_variations`, `n_comments`, `n_nags` (optional): Index criteria, as accepted by the `sc_filter search header` command.
+- `filter` (string, optional): How to combine the result with the current filter: `"reset"` (default), `"and"` or `"or"`. It is applied once, after the index criteria and the position have been combined. Any other value is rejected with `-32602`.
+- `tags` (object, optional): Key-value pairs of tags to filter by. Evaluated after the index search.
 - `has_tags` (array of string, optional): List of tag names that must exist in the game (regardless of value). Useful for filtering games by the presence of non-standard tags like `"ICCF"` or `"WhiteTeam"`.
+- `fen` (string, optional): Search for the board position described by this FEN string. The piece placement and the side to move are compared; the castling and en-passant fields are ignored. Only the main line of each game is searched unless `position_in_variations` is set. The result is intersected with the index criteria above (or united with them with `position_op: "or"`). With `position_op: "or"` and no index or tag criteria, the result is just the games that reach the position.
+- `position_match` (string, optional): How strictly the position must match: `"exact"` (default, same pieces on the same squares), `"pawns"` (same material and all pawns on the same squares), `"files"` (same material and the same number of pawns on each file, ranks ignored), `"material"` (same material, pieces anywhere).
+- `position_ignore_colors` (bool, optional): Also match the color-reversed position. Defaults to `false`.
+- `position_in_variations` (bool, optional): Also search the variations, not just the main line. Defaults to `false`; much slower on large databases.
+- `position_op` (string, optional): How to combine the position with the index criteria: `"and"` (default) or `"or"`.
 
-**Example with `has_tags`:**
+The position options require `fen`. Unknown parameter names are rejected with error `-32602` instead of being ignored.
+
+**Examples:**
 ```json
 {"jsonrpc": "2.0", "method": "db_search", "id": 1, "params": {"handle": 1, "has_tags": ["ICCF"]}}
+```
+
+```json
+{"jsonrpc": "2.0", "method": "db_search", "id": 2, "params": {"handle": 1, "white": "Kasparov", "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 7"}}
 ```
 
 **Response Result:**

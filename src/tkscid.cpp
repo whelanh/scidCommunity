@@ -37,6 +37,7 @@
 #include "polyglot/ctg2obr.h"
 #include "position.h"
 #include "scidbase.h"
+#include "searchboard.h"
 #include "searchpos.h"
 #include "spellchk.h"
 #include "stored.h"
@@ -8885,221 +8886,73 @@ int sc_search_board(Tcl_Interp *ti, const scidBaseT *dbase, HFilter filter,
 
   filterOpT filterOp = strGetFilterOp(argv[2]);
 
-  bool useHpSigSpeedup = false;
-  gameExactMatchT searchType = GAME_EXACT_MATCH_Exact;
-
+  BoardSearchOptions searchOptions;
   switch (argv[3][0]) {
   case 'E':
-    searchType = GAME_EXACT_MATCH_Exact;
-    useHpSigSpeedup = true;
+    searchOptions.matchType = GAME_EXACT_MATCH_Exact;
+    searchOptions.useIndexOptimizations = true;
     break;
   case 'P':
-    searchType = GAME_EXACT_MATCH_Pawns;
-    useHpSigSpeedup = true;
+    searchOptions.matchType = GAME_EXACT_MATCH_Pawns;
+    searchOptions.useIndexOptimizations = true;
     break;
   case 'F':
-    searchType = GAME_EXACT_MATCH_Fyles;
+    searchOptions.matchType = GAME_EXACT_MATCH_Fyles;
+    searchOptions.useIndexOptimizations = false;
     break;
   case 'M':
-    searchType = GAME_EXACT_MATCH_Material;
+    searchOptions.matchType = GAME_EXACT_MATCH_Material;
+    searchOptions.useIndexOptimizations = false;
     break;
   default:
     return errorResult(ti, usageStr);
   }
 
-  bool searchInVars = strGetBoolean(argv[4]);
-  bool flip = false;
-  flip = strGetBoolean(argv[5]);
+  searchOptions.searchInVariations = strGetBoolean(argv[4]);
+  searchOptions.ignoreColors = strGetBoolean(argv[5]);
 
-  Position *pos = db->game->GetCurrentPos();
-
-  Progress progress = UI_CreateProgress(ti);
-  Timer timer; // Start timing this search.
-  Position *posFlip = nullptr;
-  matSigT msig = matsig_Make(pos->GetMaterial());
-  matSigT msigFlip = 0;
-  uint hpSig = pos->GetHPSig();
-  uint hpSigFlip = 0;
-
-  if (flip) {
-    posFlip = new Position;
-    posFlip->Clear();
-    for (auto sq = A1; sq <= H8; ++sq) {
-      const auto piece = pos->GetPiece(sq);
-      if (piece != EMPTY) {
-        const auto sq_flip = square_Relative(BLACK, sq);
-        posFlip->AddPiece(PIECE_FLIP[piece], sq_flip);
-      }
-    }
-    posFlip->SetToMove(color_Flip(pos->GetToMove()));
-    posFlip->SetEPTarget(pos->GetEPTarget());
-    // NOTE: the search ignores the castling flags
-    hpSigFlip = posFlip->GetHPSig();
-    msigFlip = matsig_Make(posFlip->GetMaterial());
-  }
-
-  // If filter operation is to reset the filter, reset it:
+  // If the filter operation is to reset the filter, reset it:
   if (filterOp == FILTEROP_RESET) {
     filter->includeAll();
     filterOp = FILTEROP_AND;
   }
-  size_t startFilterCount = filter->size();
+  const size_t startFilterCount = filter->size();
 
-  const gamenumT totalGames = dbase->numGames();
-
-  // Collect candidates to search, respecting the filterOp:
-  // AND → only games currently in the filter
-  // OR  → only games currently NOT in the filter
-  // Also zero-out games with no data upfront (for AND; OR simply skips them).
+  // Collect the games to search: for AND those currently in the filter,
+  // for OR those excluded from it.
   std::vector<gamenumT> candidates;
-  candidates.reserve(totalGames / 4);
-  for (gamenumT gn = 0; gn < totalGames; ++gn) {
-    const bool inFilter = (filter.get(gn) != 0);
+  const gamenumT numGames = dbase->numGames();
+  if (filterOp == FILTEROP_AND) {
+    candidates.reserve(filter->size());
+    for (auto gnum : filter)
+      candidates.push_back(gnum);
+  } else {
+    candidates.reserve(numGames - filter->size());
+    for (gamenumT gnum = 0; gnum < numGames; ++gnum) {
+      if (filter.get(gnum) == 0)
+        candidates.push_back(gnum);
+    }
+  }
+
+  Timer timer; // Start timing this search.
+  std::vector<Position> positions(1, *db->game->GetCurrentPos());
+  BoardSearchResult result = boardSearch(*dbase, candidates, positions,
+                                         searchOptions, UI_CreateProgress(ti));
+  if (result.status == BoardSearchStatus::Cancelled) {
+    return UI_Result(ti, ERROR_UserCancel);
+  }
+
+  for (size_t i = 0; i < candidates.size(); ++i) {
+    const gamenumT gnum = candidates[i];
+    const uint8_t ply = result.ply[i];
     if (filterOp == FILTEROP_AND) {
-      if (!inFilter)
-        continue;
-      if (dbase->getIndexEntry(gn)->GetLength() == 0) {
-        filter.set(gn, 0); // exclude immediately
-        continue;
-      }
-    } else { // FILTEROP_OR
-      if (inFilter)
-        continue;
-      if (dbase->getIndexEntry(gn)->GetLength() == 0)
-        continue;
-    }
-    candidates.push_back(gn);
-  }
-
-  // results[i] is the ply for candidates[i]:
-  // 0 → no match (exclude from filter for AND; keep excluded for OR)
-  // >0 → match at that ply
-  // 0xFF as sentinel for "read error" (handled below)
-  constexpr uint8_t kReadError = 0xFF;
-  std::vector<uint8_t> results(candidates.size(), 0);
-  bool readError = false;
-
-  // Search candidates in parallel.
-  // pos and posFlip are read-only during the search (Tcl is single-threaded and
-  // blocks here until all futures complete; no other command can modify them).
-  const unsigned nThreads =
-      std::max(1u, std::min(std::thread::hardware_concurrency(), 8u));
-  const size_t cand_total = candidates.size();
-  const size_t chunkSize = (cand_total + nThreads - 1) / nThreads;
-
-  auto search_chunk = [&](size_t begin, size_t end) {
-    Game g; // Per-thread Game object
-    for (size_t ci = begin; ci < end; ++ci) {
-      const gamenumT gameNum = candidates[ci];
-      const IndexEntry *ie = dbase->getIndexEntry(gameNum);
-
-      bool useVars = searchInVars && ie->GetVariationsFlag();
-      bool possibleMatch = true;
-      bool possibleFlippedMatch = flip;
-
-      if (!useVars) {
-        if (!ie->GetStartFlag()) {
-          if (useHpSigSpeedup && hpSig != 0xFFFF) {
-            const byte *hpData = ie->GetHomePawnData();
-            if (!hpSig_PossibleMatch(hpSig, hpData))
-              possibleMatch = false;
-            if (possibleFlippedMatch && !hpSig_PossibleMatch(hpSigFlip, hpData))
-              possibleFlippedMatch = false;
-          }
-        }
-        if (possibleMatch && !matsig_isReachable(msig, ie->GetFinalMatSig(),
-                                                 ie->GetPromotionsFlag(),
-                                                 ie->GetUnderPromoFlag()))
-          possibleMatch = false;
-        if (possibleFlippedMatch &&
-            !matsig_isReachable(msigFlip, ie->GetFinalMatSig(),
-                                ie->GetPromotionsFlag(),
-                                ie->GetUnderPromoFlag()))
-          possibleFlippedMatch = false;
-      }
-
-      if (!possibleMatch && !possibleFlippedMatch)
-        continue; // result stays 0
-
-      auto bbuf = dbase->getGame(*ie);
-      if (!bbuf) {
-        results[ci] = kReadError;
-        continue;
-      }
-
-      uint ply = 0;
-      if (useVars) {
-        g.DecodeMovesOnly(bbuf);
-        if (ply == 0 && possibleMatch && g.ExactMatch(pos, nullptr, searchType))
-          ply = g.GetCurrentPly() + 1;
-        if (ply == 0 && possibleFlippedMatch &&
-            g.ExactMatch(posFlip, nullptr, searchType))
-          ply = g.GetCurrentPly() + 1;
-        if (ply == 0 && possibleMatch) {
-          g.MoveToStart();
-          if (g.VarExactMatch(pos, searchType))
-            ply = g.GetCurrentPly() + 1;
-        }
-        if (ply == 0 && possibleFlippedMatch) {
-          g.MoveToStart();
-          if (g.VarExactMatch(posFlip, searchType))
-            ply = g.GetCurrentPly() + 1;
-        }
-      } else {
-        if (possibleMatch) {
-          auto bbuf_clone = bbuf;
-          if (g.ExactMatch(pos, &bbuf_clone, searchType))
-            ply = g.GetCurrentPly() + 1;
-        }
-        if (ply == 0 && possibleFlippedMatch) {
-          if (g.ExactMatch(posFlip, &bbuf, searchType))
-            ply = g.GetCurrentPly() + 1;
-        }
-      }
-      results[ci] = static_cast<uint8_t>(ply > 255 ? 255 : ply);
-    }
-  };
-
-  std::vector<std::future<void>> futures;
-  futures.reserve(nThreads - 1);
-  for (unsigned t = 0; t + 1 < nThreads; ++t) {
-    const size_t begin = t * chunkSize;
-    const size_t end = std::min(begin + chunkSize, cand_total);
-    if (begin >= cand_total)
-      break;
-    futures.push_back(std::async(std::launch::async, search_chunk, begin, end));
-  }
-  {
-    const size_t begin = (nThreads - 1) * chunkSize;
-    if (begin < cand_total)
-      search_chunk(begin, cand_total);
-  }
-  for (auto &f : futures)
-    f.get();
-
-  // Apply results to the filter serially.
-  for (size_t ci = 0; ci < cand_total; ++ci) {
-    const gamenumT gameNum = candidates[ci];
-    const uint8_t ply = results[ci];
-    if (ply == kReadError) {
-      readError = true;
-      filter.set(gameNum, 0);
-    } else if (filterOp == FILTEROP_AND) {
-      // For AND: keep the game at its match ply, or exclude if no match.
-      filter.set(gameNum, ply);
-    } else { // FILTEROP_OR
-      // For OR: only add the game if it matched.
-      if (ply > 0)
-        filter.set(gameNum, ply);
+      filter.set(gnum, ply);
+    } else if (ply != 0) {
+      filter.set(gnum, ply);
     }
   }
 
-  progress.report(1, 1);
-  if (flip) {
-    delete posFlip;
-  }
-
-  if (readError) {
+  if (result.readError) {
     return errorResult(ti, "Error reading game file.");
   }
 

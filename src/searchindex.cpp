@@ -487,6 +487,29 @@ I doSearch(I itB, I itR, I itE, const scidBaseT* base, SearchParam& param) {
 
 
 /**
+ * searchindex_isValidCriterion() - check if a search criterion is supported
+ *
+ * @param name: the name of the criterion, without the leading '-'; the
+ *              optional trailing '!' and '|' chars are ignored.
+ * @returns true if doSearch() knows how to handle the criterion.
+ */
+bool searchindex_isValidCriterion(std::string_view name) {
+	// Keep in sync with doSearch().
+	static constexpr std::string_view known[] = {
+	    "player", "white", "black", "event", "site", "sitecountry",
+	    "round",  "date",  "eventdate", "elo", "welo", "belo",
+	    "delo",   "eco",   "gnum",  "length", "n_variations",
+	    "n_comments", "n_nags", "flag", "result", "variant"};
+
+	while (!name.empty() && (name.back() == '!' || name.back() == '|'))
+		name.remove_suffix(1);
+
+	return std::find(std::begin(known), std::end(known), name) !=
+	       std::end(known);
+}
+
+
+/**
  * search_index() - search for games using game's IndexEntry info
  * @param base:     the scidBaseT to search
  * @param filter:   the filter to be modified with the result of the search

@@ -12,6 +12,20 @@ A scidCommunity version has three numbers and a build number, for example **5.1.
 The latest downloads are on the [Releases page](https://github.com/whelanh/scidCommunity/releases).
 
 ---
+## Unreleased
+- Searches through the headless API can find games by position, given as a FEN, with exact, pawns, files or material matching and color reversal ([documentation](docs/HEADLESS_API_SPEC.md)).
+- Board searches with **Look in vars** now find a position reached by the last move of a variation.
+
+## 5.1.4.77 - 26 November 2026
+- Keyboard moves and shortcuts keep working during a Woodpecker session, on every exercise and after the layout changes. — thanks to @whelanh ([#557](https://github.com/whelanh/scidCommunity/pull/557))
+
+## 5.1.4.76 - 25 November 2026
+- **Open Puzzle Database** on the Woodpecker sets page opens the set's database in Scid, and the next session uses the changes you make to the puzzles. — thanks to @whelanh ([#554](https://github.com/whelanh/scidCommunity/pull/554))
+- Woodpecker's Session options gain **Pause after each exercise**, which steps through the solution and waits for Continue, and **Don't pause when idle**, which keeps the clock running while you think. — thanks to @whelanh ([#555](https://github.com/whelanh/scidCommunity/pull/555), [#556](https://github.com/whelanh/scidCommunity/pull/556))
+- The training board no longer shows the player names of a game you have open. — thanks to @whelanh ([#553](https://github.com/whelanh/scidCommunity/pull/553))
+- Four more color themes are included: light-blue, light-sand, paper and green-tones.
+- Translation updates.
+
 ## 5.1.4.75 - 24 November 2026
 - Portuguese, French, and Polish translations thanks to daSilva65, IttacusFc, and Szustan.
 - Preferences for spaces in PGN now honored when compacting PGN files - thanks to @whelanh ([#546](https://github.com/whelanh/scidCommunity/pull/546))

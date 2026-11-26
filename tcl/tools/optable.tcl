@@ -97,6 +97,24 @@ set ::optable::_docEnd(html) {</body>
 
 
 
+# ::optable::abortReport
+#   Restores the state saved before a cancelled report: the header filter,
+#   the game and the base, then closes the progress window.
+proc ::optable::abortReport {tempFilter reportBase prevBase oldGameNum w showProgress} {
+  sc_filter copy $reportBase dbfilter $tempFilter
+  sc_filter release $reportBase $tempFilter
+  if {[sc_base numGames $reportBase] > 0} {
+    catch { sc_game load $oldGameNum }
+  } else {
+    catch { sc_game clear }
+  }
+  if {$reportBase != $prevBase} { sc_base switch $prevBase }
+  if {$showProgress} {
+    catch {grab release $w.b.cancel}
+    destroy $w
+  }
+}
+
 proc ::optable::ConfigMenus {{lang ""}} {
   if {! [winfo exists .oprepWin]} { return }
   if {$lang == ""} { set lang $::language }
@@ -194,8 +212,16 @@ proc ::optable::makeReportWin {args} {
   set oldGameNum [sc_game number]
   sc_game startBoard $currentFEN
 
-  # Perform the board search in reportBase (updates dbfilter)
-  sc_search board RESET Exact false 0
+  # Perform the board search in reportBase (updates dbfilter). A cancelled
+  # search raises a user-cancel error; undo the setup like the interrupt
+  # checks below.
+  if {[catch {sc_search board RESET Exact false 0}]} {
+    set cancelled [expr {$::errorCode == $::ERROR::UserCancel}]
+    set progressWin [expr {$showProgress ? $w : ""}]
+    ::optable::abortReport $tempFilter $reportBase $prevBase $oldGameNum $progressWin $showProgress
+    if {!$cancelled} { ERROR::MessageBox }
+    return
+  }
 
   # Rebuild the tree filter from the search results
   sc_filter copy $reportBase tree dbfilter
@@ -220,15 +246,12 @@ proc ::optable::makeReportWin {args} {
   sc_report opening create $::optable(ExtraMoves) $::optable(MaxGames) $::optable::_data(exclude)
 
   if {$showProgress} {
-    grab release $w.b.cancel
-    destroy $w
     if {$::optable::_interrupt} {
-      # Restore original game before returning
-      if {[sc_base numGames $reportBase] > 0} {
-        catch { sc_game load $oldGameNum }
-      }
+      ::optable::abortReport $tempFilter $reportBase $prevBase $oldGameNum $w $showProgress
       return
     }
+    grab release $w.b.cancel
+    destroy $w
   }
 
   set ::optable::_data(tree) $newTreeData
