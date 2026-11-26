@@ -410,6 +410,14 @@ mid-session does not make the session the next start's layout. If the layout
 cannot be built, the session runs in the user's layout with the engines that
 follow the board paused.
 
+**Keyboard focus stays on `.main`.** In a docked layout `.main` is a frame, and
+the keyboard move-entry binding lives on that frame; focusing `.main.board` (as
+a plain layout restore does) loses typing. The session forces focus back to
+`.main` after the layout restore, on every exercise and when the trainee leaves,
+and a click on the board also takes it back. The forced focus matters on the
+Snap/XWayland build, where an embedded panel can otherwise leave the window
+manager's focus elsewhere and the whole keyboard appears dead.
+
 **The session plays in a `MEMORY` database of its own.** `sc_game push/pop`
 keeps one slot per base, which other windows also use, so it cannot hold the
 user's open game for a whole session (reproduced in the GUI test). The user's

@@ -136,6 +136,12 @@ proc ::wpgui::run {} {
         "$::gamePlayers(nameW)/$::gamePlayers(nameB)/$::gamePlayers(eloW)/$::gamePlayers(eloB)"
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
+    checkEq "training gives the board the keyboard" [focus] .main
+    # A click on the board must recover the keyboard from the panel.
+    focus -force .woodpeckerWin.sess.card.t
+    event generate .main.board.bd <ButtonRelease-1> -x 5 -y 5
+    wait 100
+    checkEq "a board click gives the keyboard back" [focus] .main
 
     # The default: two idle minutes pause the session, and the time away is
     # given back on resume. Shorten the fake gap before resuming so the timed
@@ -253,6 +259,7 @@ proc ::wpgui::run {} {
     wait 800
     checkEq "leaving the session restores the user's layout" [lsort -unique [::win::getWindows]] \
         [lsort -unique [concat $userWindows .fdockwoodpeckerWin]]
+    checkEq "and gives the board the keyboard" [focus] .main
     check "the Woodpecker window is back on its sets" [winfo ismapped .woodpeckerWin.home]
     if {$undocked} {
         check "the PGN window is back" [winfo exists .pgnWin]
