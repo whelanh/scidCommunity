@@ -3,7 +3,9 @@
 #include "external/json.hpp"
 #include "misc.h"
 #include "pgnparse.h"
+#include "position.h"
 #include "scidbase.h"
+#include "searchboard.h"
 #include <csignal>
 #include <cstdlib>
 #include <iostream>
@@ -17,6 +19,7 @@ using json = nlohmann::json;
 // pollution from tkscid.h
 errorT search_index(const scidBaseT *base, HFilter &filter, int argc,
                     const char **argv, const Progress &progress);
+bool searchindex_isValidCriterion(std::string_view name);
 
 // Headless implementation functions
 namespace HeadlessAPI {
@@ -135,6 +138,10 @@ void HeadlessMainLoop(int argc, char *argv[]) {
       dbase->Close();
       HeadlessAPI::SendResult(id, {{"success", true}});
     } else if (method == "db_search") {
+      if (!params.is_object()) {
+        HeadlessAPI::SendError(id, -32602, "'params' must be an object");
+        continue;
+      }
       int handle = params.value("handle", 0);
       scidBaseT *dbase = DBasePool::getBase(handle);
       if (!dbase) {
@@ -143,21 +150,36 @@ void HeadlessMainLoop(int argc, char *argv[]) {
       }
 
       std::vector<std::string> args;
-      // Use a temporary vector of strings to hold the arguments
+      std::string unknownParam;
       for (auto it = params.begin(); it != params.end(); ++it) {
-        if (it.key() == "handle")
+        const std::string &key = it.key();
+        if (key == "handle" || key == "tags" || key == "has_tags" ||
+            key == "fen" || key == "position_match" ||
+            key == "position_ignore_colors" ||
+            key == "position_in_variations" || key == "position_op")
           continue;
-        if (it.key() == "filter") {
+        if (key == "filter") {
           args.push_back("-filter");
           args.push_back(it.value().get<std::string>());
           continue;
         }
-        args.push_back("-" + it.key());
+        // Reject unknown criteria instead of silently ignoring them: an
+        // ignored criterion would return the whole database.
+        if (!searchindex_isValidCriterion(key)) {
+          unknownParam = key;
+          break;
+        }
+        args.push_back("-" + key);
         if (it.value().is_string()) {
           args.push_back(it.value().get<std::string>());
         } else {
           args.push_back(it.value().dump());
         }
+      }
+      if (!unknownParam.empty()) {
+        HeadlessAPI::SendError(id, -32602,
+                               "Unknown parameter: " + unknownParam);
+        continue;
       }
 
       std::vector<const char *> argv_vec;
@@ -250,6 +272,117 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         filter->clear();
         for (auto gnum : keptGames) {
           filter->set(gnum, 1);
+        }
+      }
+
+      // 4d. Optional: Filter by position (FEN)
+      if (params.contains("fen")) {
+        if (!params["fen"].is_string()) {
+          HeadlessAPI::SendError(id, -32602, "'fen' must be a string");
+          continue;
+        }
+        const std::string fen = params["fen"].get<std::string>();
+        Position pos;
+        if (fen.empty() || pos.ReadFromFEN(fen.c_str()) != OK) {
+          HeadlessAPI::SendError(id, -32602, "Invalid FEN");
+          continue;
+        }
+
+        BoardSearchOptions options;
+        std::string matchType = "exact";
+        if (params.contains("position_match")) {
+          if (!params["position_match"].is_string()) {
+            HeadlessAPI::SendError(id, -32602,
+                                   "'position_match' must be a string");
+            continue;
+          }
+          matchType = params["position_match"].get<std::string>();
+        }
+        if (matchType == "exact") {
+          options.matchType = GAME_EXACT_MATCH_Exact;
+        } else if (matchType == "pawns") {
+          options.matchType = GAME_EXACT_MATCH_Pawns;
+        } else if (matchType == "files") {
+          options.matchType = GAME_EXACT_MATCH_Fyles;
+          options.useIndexOptimizations = false;
+        } else if (matchType == "material") {
+          options.matchType = GAME_EXACT_MATCH_Material;
+          options.useIndexOptimizations = false;
+        } else {
+          HeadlessAPI::SendError(id, -32602,
+                                 "Invalid position_match: " + matchType);
+          continue;
+        }
+
+        const char *boolKeys[] = {"position_ignore_colors",
+                                  "position_in_variations"};
+        bool badBool = false;
+        for (auto key : boolKeys) {
+          if (params.contains(key) && !params[key].is_boolean()) {
+            HeadlessAPI::SendError(id, -32602,
+                                   std::string("'") + key +
+                                       "' must be a boolean");
+            badBool = true;
+            break;
+          }
+        }
+        if (badBool)
+          continue;
+        options.ignoreColors =
+            params.value("position_ignore_colors", false);
+        options.searchInVariations =
+            params.value("position_in_variations", false);
+
+        std::string positionOp = "and";
+        if (params.contains("position_op")) {
+          if (!params["position_op"].is_string()) {
+            HeadlessAPI::SendError(id, -32602,
+                                   "'position_op' must be a string");
+            continue;
+          }
+          positionOp = params["position_op"].get<std::string>();
+        }
+        if (positionOp != "and" && positionOp != "or") {
+          HeadlessAPI::SendError(id, -32602,
+                                 "Invalid position_op: " + positionOp);
+          continue;
+        }
+
+        // AND: search the games selected so far.
+        // OR:  search the games excluded so far, then add the matches.
+        std::vector<gamenumT> candidates;
+        const gamenumT numGames = dbase->numGames();
+        if (positionOp == "and") {
+          candidates.reserve(filter->size());
+          for (auto gnum : filter)
+            candidates.push_back(gnum);
+        } else {
+          candidates.reserve(numGames - filter->size());
+          for (gamenumT gnum = 0; gnum < numGames; ++gnum) {
+            if (filter.get(gnum) == 0)
+              candidates.push_back(gnum);
+          }
+        }
+
+        std::vector<Position> positions{pos};
+        BoardSearchResult search = boardSearch(*dbase, candidates, positions,
+                                               options, Progress());
+        if (search.status == BoardSearchStatus::Cancelled) {
+          HeadlessAPI::SendError(id, -32000, "Search cancelled");
+          continue;
+        }
+        if (search.readError) {
+          HeadlessAPI::SendError(id, -32002, "Error reading game file.");
+          continue;
+        }
+
+        for (size_t i = 0; i < candidates.size(); ++i) {
+          const uint8_t ply = search.ply[i];
+          if (positionOp == "and") {
+            filter->set(candidates[i], ply);
+          } else if (ply != 0) {
+            filter->set(candidates[i], ply);
+          }
         }
       }
 
