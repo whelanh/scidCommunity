@@ -1023,3 +1023,27 @@ TEST(Test_Game, getResultStr) {
   game.SetResult(RESULT_Draw);
   EXPECT_EQ("1/2-1/2", game.GetResultStr());
 }
+
+TEST(Test_Game, VarExactMatch_lastPositionOfVariation) {
+  const char *pgn =
+      "[Event \"Var\"]\n[White \"A\"]\n[Black \"B\"]\n[Result \"1-0\"]\n\n"
+      "1. e4 (1. d4 d5 2. c4 e6) 1... e5 2. Nf3 1-0";
+  Game game;
+  PgnParseLog log;
+  ASSERT_TRUE(pgnParseGame(pgn, std::strlen(pgn), game, log)) << log.log;
+
+  // Position reached by the last move of the variation (2...e6).
+  Position pos;
+  ASSERT_EQ(OK, pos.ReadFromFEN("rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/"
+                                "PP2PPPP/RNBQKBNR w KQkq - 0 4"));
+
+  game.MoveToStart();
+  EXPECT_TRUE(game.VarExactMatch(&pos, GAME_EXACT_MATCH_Exact));
+
+  // Same position, wrong side to move: it must not match.
+  Position posBlack;
+  ASSERT_EQ(OK, posBlack.ReadFromFEN("rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/"
+                                     "PP2PPPP/RNBQKBNR b KQkq - 0 4"));
+  game.MoveToStart();
+  EXPECT_FALSE(game.VarExactMatch(&posBlack, GAME_EXACT_MATCH_Exact));
+}

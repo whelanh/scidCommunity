@@ -1626,8 +1626,7 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
     }
   }
 
-  errorT err = OK;
-  while (err == OK) {
+  auto currentPosMatches = [&]() -> bool {
     // Check if this position matches:
     bool match = false;
     if (searchPos->GetToMove() == CurrentPos->GetToMove() &&
@@ -1688,14 +1687,19 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
         // searchType == GAME_EXACT_MATCH_Material, so do nothing.
       }
     }
-    if (match) {
+    return match;
+  };
+
+  errorT err = OK;
+  while (err == OK) {
+    if (currentPosMatches()) {
       return true;
     }
 
     // Now try searching each variation in turn:
     for (uint i = 0; i < CurrentMove->numVariations; i++) {
       MoveIntoVariation(i);
-      match = VarExactMatch(searchPos, searchType);
+      bool match = VarExactMatch(searchPos, searchType);
       MoveExitVariation();
       if (match) {
         return true;
@@ -1707,7 +1711,10 @@ bool Game::VarExactMatch(Position *searchPos, gameExactMatchT searchType) {
       err = ERROR_EndOfMoveList;
     }
   }
-  return false;
+
+  // The loop above tests the position before each move, so the position
+  // reached by the last move of the line has not been tested yet.
+  return currentPosMatches();
 }
 
 namespace {
