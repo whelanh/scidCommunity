@@ -488,20 +488,32 @@ proc ::woodpecker::ui::closed {} {
 # When the main window is docked, .main is a frame and the keyboard move-entry
 # binding lives on that frame. Focus it, not a child: a layout restore focuses
 # .main.board, and the embedded panel can take the WM focus, especially in the
-# Snap/XWayland build. -force reasserts it after the window tree is rebuilt.
-proc ::woodpecker::ui::focusBoard {} {
+# Snap/XWayland build. -force reasserts it after the window tree is rebuilt;
+# automatic progression uses plain focus so it cannot pull the keyboard away
+# from another application.
+proc ::woodpecker::ui::focusBoard {{force 1}} {
     if {![winfo exists .main]} { return }
-    catch { focus -force .main }
-    after idle { catch { focus -force .main } }
+    if {$force} {
+        catch { focus -force .main }
+        after idle { catch { focus -force .main } }
+    } else {
+        catch { focus .main }
+    }
 }
 
 # Clicking the board must bring the keyboard back too: a click on a child of a
-# docked .main frame does not run the frame's own focus binding.
+# docked .main frame does not run the frame's own focus binding. Only while a
+# session is running, so the tag left on a fallback layout cannot take focus
+# from a text widget later.
 proc ::woodpecker::ui::bindBoardFocus {} {
     if {![winfo exists .main.board]} { return }
     if {[llength [info commands addBindtagToTree]]} {
         addBindtagToTree .main.board WoodpeckerBoardFocus
-        bind WoodpeckerBoardFocus <ButtonRelease-1> {+::woodpecker::ui::focusBoard}
+        bind WoodpeckerBoardFocus <ButtonRelease-1> {
+            if {[info exists ::woodpecker::ui::run(on)] && $::woodpecker::ui::run(on)} {
+                ::woodpecker::ui::focusBoard
+            }
+        }
     }
 }
 
@@ -582,7 +594,6 @@ proc ::woodpecker::ui::leaveFocus {{reopen 1}} {
     set focus(relayout) 0
     set focus(active) 0
     unset -nocomplain ::docking::layout_list(woodpecker_user)
-    bindBoardFocus
     focusBoard
     if {!$reopen} { return }
     open
@@ -1630,7 +1641,7 @@ proc ::woodpecker::ui::targetPace {} {
 }
 
 # The next exercise of the cycle, or the end of the cycle.
-proc ::woodpecker::ui::nextExercise {} {
+proc ::woodpecker::ui::nextExercise {{force 1}} {
     variable run
     variable txt
     variable w
@@ -1679,7 +1690,7 @@ proc ::woodpecker::ui::nextExercise {} {
     }
     cardAsk
     status ""
-    focusBoard
+    focusBoard $force
 }
 
 proc ::woodpecker::ui::arrow {uci color tag} {
@@ -1893,7 +1904,7 @@ proc ::woodpecker::ui::exerciseDone {result} {
 proc ::woodpecker::ui::advance {} {
     variable run
     if {!$run(on) || $run(wait) ne "next"} { return }
-    nextExercise
+    nextExercise 0
 }
 
 # After a failure the rest of the solution goes on the board, with its marks,

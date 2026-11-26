@@ -137,6 +137,10 @@ proc ::wpgui::run {} {
     set card [.woodpeckerWin.sess.card.t get 1.0 end]
     check "the card hides the solution" [expr {[string first [tr WoodpeckerHidden] $card] >= 0 && [string first "Re1" $card] < 0}] $card
     checkEq "training gives the board the keyboard" [focus] .main
+    ::woodpecker::ui::bindBoardFocus
+    ::woodpecker::ui::bindBoardFocus
+    checkEq "the board focus binding stays single" \
+        [regexp -all {focusBoard} [bind WoodpeckerBoardFocus <ButtonRelease-1>]] 1
     # A click on the board must recover the keyboard from the panel.
     focus -force .woodpeckerWin.sess.card.t
     event generate .main.board.bd <ButtonRelease-1> -x 5 -y 5
@@ -260,6 +264,8 @@ proc ::wpgui::run {} {
     checkEq "leaving the session restores the user's layout" [lsort -unique [::win::getWindows]] \
         [lsort -unique [concat $userWindows .fdockwoodpeckerWin]]
     checkEq "and gives the board the keyboard" [focus] .main
+    check "the user's board has no session focus tag" \
+        [expr {"WoodpeckerBoardFocus" ni [bindtags .main.board.bd]}]
     check "the Woodpecker window is back on its sets" [winfo ismapped .woodpeckerWin.home]
     if {$undocked} {
         check "the PGN window is back" [winfo exists .pgnWin]
