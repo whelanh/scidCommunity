@@ -48,10 +48,38 @@ All Write Operations were verified via `scripts/test_phase3_write.py`:
 
 ---
 
+## Phase 4: Position Search (Completed)
+
+The header search only inspects the game index, so it cannot answer "which games
+reach this position?". `db_search` now accepts a `fen` parameter and matches the
+board position through the same engine the GUI's board search uses.
+
+### Key Achievements
+- **Shared core**: the search loop was extracted from the Tcl command
+  `sc_search board` into `src/searchboard.cpp` (`boardSearch()`), which has no
+  Tcl dependency and is used by both the GUI and the headless API.
+- **Match modes**: `position_match` exposes exact, pawns, files and material
+  matching; `position_ignore_colors` and `position_in_variations` mirror the
+  GUI's "Ignore colors" and "Look in vars" checkboxes.
+- **Composition**: the position result is AND-ed with the header criteria by
+  default, or OR-ed with `position_op: "or"`.
+- **Strict parameters**: unknown `db_search` parameters are now rejected with
+  `-32602` instead of silently returning the whole database.
+- **Cancellation**: the shared core reports incremental progress, so long
+  position searches remain interruptible in the GUI and report their status.
+
+### Verification
+- `gtest/test_searchboard.cpp` covers every match mode, variations, color
+  reversal, candidate subsets and cancellation (run with `-DGTEST=ON`).
+- `scripts/test_headless_position.py` exercises the JSON interface end to end.
+
+---
+
 ## Technical Resources
 - **Test Scripts**: 
     - `scripts/test_headless_api.py` (Basic & PGN)
     - `scripts/test_headless_api_si5.py` (Real Database)
     - `scripts/test_phase3_write.py` (Creation & Modification)
-- **Source Code**: `src/api_headless.cpp` | `src/api_headless.h`
+    - `scripts/test_headless_position.py` (Position search)
+- **Source Code**: `src/api_headless.cpp` | `src/api_headless.h` | `src/searchboard.cpp` | `src/searchboard.h`
 - **Task List**: `.gemini/antigravity/brain/.../task.md`
