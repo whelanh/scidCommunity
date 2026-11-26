@@ -242,7 +242,18 @@ void HeadlessMainLoop(int argc, char *argv[]) {
         }
         filterOpStr = params["filter"].get<std::string>();
       }
-      const filterOpT filterOp = strGetFilterOp(filterOpStr.c_str());
+      filterOpT filterOp = FILTEROP_RESET;
+      if (filterOpStr == "reset") {
+        filterOp = FILTEROP_RESET;
+      } else if (filterOpStr == "and") {
+        filterOp = FILTEROP_AND;
+      } else if (filterOpStr == "or") {
+        filterOp = FILTEROP_OR;
+      } else {
+        HeadlessAPI::SendError(id, -32602,
+                               "Invalid filter operation: " + filterOpStr);
+        continue;
+      }
 
       std::vector<std::string> args;
       std::string unknownParam;

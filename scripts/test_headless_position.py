@@ -194,6 +194,11 @@ def main():
                            {"handle": handle, "fen": FEN_NAJDORF,
                             "position_match": "nope"})["code"],
               -32602)
+        check("invalid filter operation",
+              client.error("db_search",
+                           {"handle": handle, "white": "Alice",
+                            "filter": "oops"})["code"],
+              -32602)
         check("position_match without fen",
               client.error("db_search",
                            {"handle": handle, "position_match": "pawns"})["message"],
