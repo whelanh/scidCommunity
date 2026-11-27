@@ -57,11 +57,13 @@ The tags stay in the cell, because a link is part of the sentence. If the
 English reads `<a PGN>PGN</a> files` and your language needs
 `fichiers <a PGN>PGN</a>`, write exactly that. The importer checks that every
 tag of the English block is still there, as many times as English has it,
-and that nothing else was added. **Order does not matter; presence does.**
+and that nothing else was added. A tag pair may move as a whole, but each
+closing tag must still come after its opening one, and every link must be
+closed inside its own block: `</a>fichiers<a PGN>` is refused.
 
 | You may | You may not |
 | --- | --- |
-| Move `<a PGN>PGN</a>` or `<b>…</b>` anywhere in the sentence | Delete a tag, or its closing partner |
+| Move `<a PGN>PGN</a>` or `<b>…</b>` anywhere in the sentence | Delete a tag, or its closing partner, or put a closing tag before its opening one |
 | Translate the text *between* tags: `<a Moves>coups</a>` | Change what is *inside* the opening tag: `<a Moves>`, `<button tb_coords>`, `<name Mistakes>` |
 | Change the words of a `<menu>…</menu>` | Add a tag English does not have |
 | | Use `{`, `}` or a final `\` unless English does |
@@ -115,9 +117,13 @@ that the English or the translation changed while you were working. Save as
   bullets of the EPD page start that way). If you type a translation that
   starts with one of these characters, put a space in front of it: the
   importer ignores leading spaces. If the program shows `#NAME?` in a
-  `current` cell, leave that row alone; the importer refuses a row whose
-  `current` no longer matches the file and nothing is damaged, and the
-  maintainer can apply it with `--force` after looking.
+  `current` cell, **delete that row from the sheet you send back**. Leaving
+  `new` blank is not enough: a row marked `reviewed` is still checked, and
+  the importer refuses a row whose `current` no longer matches the file, and
+  while any row is refused it writes nothing from the sheet. Nothing is
+  damaged, but your other rows wait. If you would rather keep the row, clear
+  `reviewed` and leave `new` blank. The maintainer can also apply such a
+  row with `--force` after looking.
 - Save as **CSV UTF-8**. Plain “CSV” in Excel turns accented letters into
   question marks.
 
@@ -183,8 +189,13 @@ problem. `check --all` prints one line per language.
 2. `generate` the language's sheet (a few `--pages` are enough for a first
    pass) and send it to the owner.
 3. The owner returns the sheet, whole or partial.
-4. `import --dry-run` to review the diff; `--apply` to write. Run one import
-   at a time; the file is under git, so a lost run is recoverable.
+4. `import --dry-run` lists every change it would make, one line per block
+   (the start of the old and the new text; it is not a diff), together with
+   any refused rows; `--apply` writes. Read the real diff with `git diff`
+   afterwards. Run one import at a time; the file is under git, so a lost
+   run is recoverable. If the help file cannot be written, the review state
+   is already saved: the message says so, and running the same import again
+   finishes the job.
 5. Commit with the owner's credit (for example `Co-authored-by:`), run
    `python3 tcl/lang/helptool.py check <language>` and
    `tclsh tests/tcl/help_keys.tcl`, then merge.

@@ -201,6 +201,7 @@ class Page:
     key: str
     title: Optional[str] = None
     title_span: Optional[tuple[int, int]] = None
+    text_start: int = 0         # start of the `set helpText` line
     body_start: int = 0
     body_end: int = 0
     segs: list[Seg] = field(default_factory=list)
@@ -243,6 +244,7 @@ class Doc:
             open_index = m.end() - 1
             close_index = match_brace(text, open_index)
             page = self.pages.setdefault(key, Page(key, order=len(self.pages)))
+            page.text_start = m.start()
             page.body_start = open_index + 1
             page.body_end = close_index
             page.segs = cut_blocks(text, page.body_start, page.body_end)
@@ -418,7 +420,41 @@ def align(en: list[Seg], tr: list[Seg], ratio: float) -> list[Optional[int]]:
             i -= 1
         else:
             j -= 1
-    return out
+    return prune_weak(out, ef, tf)
+
+
+def has_evidence(e: Features, t: Features) -> bool:
+    """Do the two blocks share links, buttons, numbers or names?"""
+    if e.anchors and t.anchors and _jaccard(e.anchors, t.anchors) >= 0.5:
+        return True
+    return bool(e.inv and t.inv and _jaccard(e.inv, t.inv) >= 0.5)
+
+
+def prune_weak(pairs: list[Optional[int]], ef: list[Features],
+               tf: list[Features]) -> list[Optional[int]]:
+    """Drop a pair that rests on kind and length alone and stands apart.
+
+    Such a pair is believable only in company: it must sit at the same offset
+    (translated index minus English index) as the pair before it or the one
+    after it, i.e. in a run of blocks that line up. A lone plain block
+    between two gaps is a guess, and a guess is not allowed to overwrite
+    anything. A page with no neighbours to agree with keeps a weak pair only
+    where the two blocks stand at the same place.
+    """
+    idx = [i for i, j in enumerate(pairs) if j is not None]
+    keep = list(pairs)
+    for k, i in enumerate(idx):
+        j = pairs[i]
+        if has_evidence(ef[i], tf[j]):
+            continue
+        offsets = []
+        if k > 0:
+            offsets.append(pairs[idx[k - 1]] - idx[k - 1])
+        if k + 1 < len(idx):
+            offsets.append(pairs[idx[k + 1]] - idx[k + 1])
+        if (offsets and (j - i) not in offsets) or (not offsets and i != j):
+            keep[i] = None
+    return keep
 
 
 @dataclass
@@ -657,6 +693,51 @@ def fmt_tags(tags: Counter) -> str:
     return " ".join(t + (f" (x{n})" if n > 1 else "") for t, n in sorted(tags.items()))
 
 
+NO_CLOSING = {"br", "img", "button"}
+
+
+def order_problems(text: str, english: Optional[str] = None) -> list[str]:
+    """Paired tags must open before they close, and be closed in the block.
+
+    htext toggles a tag at each occurrence: a `</a>` before its `<a>` does
+    nothing, and the `<a>` after it stays open over the text that follows,
+    into the next block. With `english` the check covers the tags English
+    keeps in order; without it, only links, which are the ones that matter.
+    """
+    names: set[str] = {"a"}
+    if english is not None:
+        names = set()
+        for name in {TAG_NAME_RE.fullmatch(t).group(2).lower()
+                     for t in TAG_RE.findall(english) if TAG_NAME_RE.fullmatch(t)}:
+            if name in NO_CLOSING:
+                continue
+            depth = low = 0
+            for t in TAG_RE.findall(english):
+                m = TAG_NAME_RE.fullmatch(t)
+                if m and m.group(2).lower() == name:
+                    depth += -1 if m.group(1) else 1
+                    low = min(low, depth)
+            if depth == 0 and low == 0:
+                names.add(name)
+    problems: list[str] = []
+    for name in sorted(names):
+        depth = 0
+        for t in TAG_RE.findall(text):
+            m = TAG_NAME_RE.fullmatch(t)
+            if not m or m.group(2).lower() != name:
+                continue
+            if m.group(1):
+                depth -= 1
+                if depth < 0:
+                    problems.append(f"</{name}> comes before its <{name}>")
+                    depth = 0
+            else:
+                depth += 1
+        if depth:
+            problems.append(f"<{name}> is never closed in this block")
+    return problems
+
+
 def check_block(english: str, new: str, kind: str) -> list[str]:
     """Why `new` cannot stand for the English block, or [] if it can."""
     problems: list[str] = []
@@ -677,9 +758,12 @@ def check_block(english: str, new: str, kind: str) -> list[str]:
         problems.append("tags missing: " + fmt_tags(lost))
     if added:
         problems.append("tags not in English: " + fmt_tags(added))
+    problems.extend(order_problems(new, english))
     problems.extend(brace_problems(new))
     if ws(new).endswith("\\"):
         problems.append("it ends with a backslash")
+    if not has_words(new):
+        problems.append("it has no letters or digits, so the page would drop it")
     return problems
 
 
@@ -792,7 +876,8 @@ def parse_key(key: str) -> Optional[tuple[str, int]]:
 
 
 def new_page_text(ep: Page, english_text: str, news: dict[int, str],
-                  new_title: Optional[str], prefix: str, crlf: bool) -> str:
+                  new_title: Optional[str], prefix: str, crlf: bool,
+                  with_title: bool = True) -> str:
     """A page the translation lacks: English's body with `news` put in."""
     edits = []
     for n, seg in enumerate(ep.segs, 1):
@@ -804,8 +889,9 @@ def new_page_text(ep: Page, english_text: str, news: dict[int, str],
                                             ep.body_end + sum(len(e[2]) - (e[1] - e[0])
                                                               for e in edits)]
     title = new_title if new_title is not None else (ep.title or ep.key)
-    return (f'\n\nset helpTitle({prefix}{ep.key}) "{title_encode(title)}"\n'
-            f"set helpText({prefix}{ep.key}) {{{body}}}\n")
+    head = (f'set helpTitle({prefix}{ep.key}) "{title_encode(title)}"\n'
+            if with_title else "")
+    return f"\n\n{head}set helpText({prefix}{ep.key}) {{{body}}}\n"
 
 
 def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
@@ -917,6 +1003,12 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
                               f"sheet's hash or use --force")
                 skipped += 1
                 continue
+            if (page, n) in claimed:
+                errors.append(f"{key}: another row of this sheet already stands "
+                              f"for the same English block ({page}#{n}); "
+                              f"not applied")
+                skipped += 1
+                continue
             actual = eseg.hash
             kind = eseg.kind
             etext = eseg.text
@@ -971,6 +1063,11 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
                     if tp is not None and tp.title_span is not None:
                         a, b = tp.title_span
                         edits.append((a, b, title_encode(ws(new))))
+                    elif tp is not None and target.has_body(page):
+                        # a body with no title line: put the title in front
+                        edits.append((tp.text_start, tp.text_start,
+                                      f'set helpTitle({prefix}{page}) '
+                                      f'"{title_encode(ws(new))}"\n'))
                     else:
                         page_titles[page] = ws(new)
                     previews.append(f"{key}: {cur_text if cur_text is not None else '(no title)'!r}"
@@ -1055,14 +1152,19 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
         news = {n: t for n, t in inserts.get(page, [])}
         if not news and page not in page_titles:
             continue
+        has_title = view.tr is not None and view.tr.title is not None
         appended.append(new_page_text(view.en, english.text, news,
-                                      page_titles.get(page), prefix, target.crlf))
+                                      page_titles.get(page), prefix, target.crlf,
+                                      with_title=not has_title))
 
     candidate = apply_edits(text, edits) if edits else text
     if appended:
         candidate = candidate.rstrip("\n") + "\n" + "".join(appended)
     if candidate != text:
-        problems = validate_candidate(candidate, target_path, letter, views, deleted)
+        added = {page: len(items) for page, items in inserts.items()
+                 if views[page].tr is not None and target.has_body(page)}
+        problems = validate_candidate(candidate, target_path, letter, views,
+                                      deleted, added)
         errors.extend(problems)
 
     if errors:
@@ -1079,8 +1181,8 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
     if not apply:
         print(f"\nDry run: {summary}, {len(errors)} error(s).")
         if previews:
-            print("\nFirst changes:")
-            for p in previews[:20]:
+            print(f"\nChanges ({len(previews)}):")
+            for p in previews:
                 print("  " + p)
         return 1 if errors else 0
     if errors:
@@ -1088,6 +1190,9 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
               "--force only after checking the stale basis.")
         return 2
 
+    # The review state goes first: if the help file then fails, running the
+    # same import again applies the text and finds the records already there.
+    reviews_written = False
     if review_updates:
         for page, ehash, thash, rec in review_updates:
             lst = reviews["pages"].setdefault(page, [])
@@ -1098,18 +1203,23 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
             if not lst:
                 reviews["pages"].pop(page, None)
         save_reviews(root, stem, reviews)
+        reviews_written = True
     if candidate != text:
         out = candidate.replace("\n", "\r\n") if target.crlf else candidate
-        with tempfile.NamedTemporaryFile("wb", delete=False,
-                                         dir=str(target_path.parent)) as fh:
-            tmp_name = fh.name
-            fh.write(out.encode("utf-8"))
+        tmp_name = None
         try:
+            with tempfile.NamedTemporaryFile("wb", delete=False,
+                                             dir=str(target_path.parent)) as fh:
+                tmp_name = fh.name
+                fh.write(out.encode("utf-8"))
             os.chmod(tmp_name, stat.S_IMODE(target_path.stat().st_mode))
             os.replace(tmp_name, target_path)
         except BaseException:
-            if os.path.exists(tmp_name):
+            if tmp_name and os.path.exists(tmp_name):
                 os.unlink(tmp_name)
+            print(f"\nhelptool: {target_path} was NOT written"
+                  + (f", but {review_path(root, stem)} was; run the same import "
+                     f"again" if reviews_written else ""), file=sys.stderr)
             raise
         print(f"\nApplied: {summary}.")
         print(f"wrote {target_path}")
@@ -1122,7 +1232,8 @@ def import_csv(root: Path, name: str, csv_path: Path, *, apply: bool,
 
 def validate_candidate(candidate: str, path: Path, letter: str,
                        views: dict[str, PageView],
-                       deleted: dict[str, int]) -> list[str]:
+                       deleted: dict[str, int],
+                       added: dict[str, int]) -> list[str]:
     """Re-read what would be written and check it still means what it should."""
     problems: list[str] = []
     tmp = Path(tempfile.mkdtemp()) / path.name
@@ -1138,20 +1249,22 @@ def validate_candidate(candidate: str, path: Path, letter: str,
             tmp.parent.rmdir()
         except OSError:
             pass
-    before_keys = set(views)
-    for key in before_keys:
-        v = views[key]
-        if v.tr is None:
+    for key, v in views.items():
+        # Only a page that had a body can lose it: a title with no body stays so.
+        if v.tr is None or v.tr.body_end == 0:
             continue
         if key not in after.pages or not after.has_body(key):
             problems.append(f"page {key} vanished from the edited file")
-    # Every page that was there keeps at least the blocks it had.
-    for key, v in views.items():
-        if v.tr is not None and key in after.pages:
-            floor = len(v.tr.segs) - deleted.get(key, 0)
-            if len(after.pages[key].segs) < floor:
-                problems.append(f"page {key} would lose blocks "
-                                f"({len(v.tr.segs)} -> {len(after.pages[key].segs)})")
+            continue
+        # Every block is accounted for: what was there, less what was
+        # deleted, plus what was inserted. A block that merged into its
+        # neighbour, or that the parser drops, shows up as a wrong count.
+        want = len(v.tr.segs) - deleted.get(key, 0) + added.get(key, 0)
+        got = len(after.pages[key].segs)
+        if got != want:
+            problems.append(f"page {key}: expected {want} blocks after the edit "
+                            f"and found {got}; a new block may have run into "
+                            f"its neighbour")
     return problems
 
 
@@ -1180,11 +1293,12 @@ def status(root: Path, name: str) -> int:
         p["reviewed"] += r["reviewed"] == "Y"
     tot = {k: sum(p[k] for p in per.values()) for k in
            ("blocks", "missing", "identical", "reviewed", "extra")}
-    full = sum(1 for p in per.values() if p["blocks"] and p["blocks"] == p["reviewed"])
+    full = sum(1 for k, p in per.items()
+               if k in english.pages and p["blocks"] and p["blocks"] == p["reviewed"])
     print(f"{stem}: {tot['blocks']} blocks in {len(english.pages)} pages, "
           f"{tot['missing']} missing, {tot['identical']} identical, "
           f"{tot['extra']} not in English, {tot['reviewed']} reviewed, "
-          f"{full}/{len(per)} pages complete")
+          f"{full}/{len(english.pages)} pages complete")
     print()
     print(f"{'page':28} {'blocks':>6} {'missing':>7} {'same':>5} {'extra':>5} {'reviewed':>8}")
     for key, p in per.items():
@@ -1221,12 +1335,9 @@ def check_one(root: Path, name: str, verbose: bool = True) -> int:
             if have - want:
                 problems.append(f"{key}#{n} (line {tseg.line}): tags not in English: "
                                 f"{fmt_tags(have - want)}")
-            opens = sum(1 for t in TAG_RE.findall(tseg.raw) if re.match(r"<a(\s|>)", t))
-            closes = tseg.raw.count("</a>")
-            if opens != closes:
-                problems.append(f"{key}#{n} (line {tseg.line}): {opens} <a> and {closes} </a>")
-            if re.search(r"<a(?:\s[^<>]*)?>\s*</a>", tseg.raw):
-                problems.append(f"{key}#{n} (line {tseg.line}): a link with no text")
+            for p in order_problems(tseg.raw, seg.raw):
+                if "<a>" not in p and "</a>" not in p:    # links: every block, below
+                    problems.append(f"{key}#{n} (line {tseg.line}): {p}")
         for j in v.extras:
             notes.append(f"{key}: line {v.tr.segs[j].line} has a block English does not")
     for key in target.pages:
@@ -1235,6 +1346,11 @@ def check_one(root: Path, name: str, verbose: bool = True) -> int:
     names = set(english.pages)
     for key, tp in target.pages.items():
         for seg in tp.segs:
+            # Links are checked in every block, paired with English or not.
+            for p in order_problems(seg.raw):
+                problems.append(f"{key} (line {seg.line}): {p}")
+            if re.search(r"<a(?:\s[^<>]*)?>\s*</a>", seg.raw):
+                problems.append(f"{key} (line {seg.line}): a link with no text")
             for m in re.finditer(r"<a\s+(\S+?)[\s>]", seg.raw):
                 if m.group(1) not in names:
                     problems.append(f"{key} (line {seg.line}): link to unknown page {m.group(1)}")
@@ -1583,6 +1699,128 @@ set helpText(X,Delta) {<h1>Page delta</h1>
         assert all(r["page"] == "Delta" for r in read_rows(out))
         with contextlib.redirect_stdout(io.StringIO()):
             status(root, "xish")
+
+    # --- review findings: order, words, double claims, titles, merges ----------
+    # tags must open before they close, and a pair may move as a whole
+    assert check_block("<a Beta>Open</a> now", "maintenant <a Beta>Ouvrir</a>", "p") == []
+    bad = check_block("<a Beta>Open</a> now", "</a>Ouvrir<a Beta> maintenant", "p")
+    assert any("comes before" in b for b in bad) and any("never closed" in b for b in bad), bad
+    assert check_block("<b>Note</b>: x", "x: </b>Note<b>", "p"), "a bold pair out of order"
+    # a block the parser would drop is refused
+    assert any("no letters" in b for b in check_block("Plain text", "…", "p"))
+    # a block that rests on length alone, with no neighbour agreeing, is not paired
+    def fake(kind, raw):
+        return Seg(kind, 0, len(raw), raw)
+    en_blocks = [fake("p", "<a P1>x</a>"), fake("p", "Plain text of some length here"),
+                 fake("p", "<a P2>y</a>")]
+    tr_blocks = [fake("p", "<a P1>x</a>"), fake("p", "ok"),
+                 fake("p", "Texte brut de quelque longueur ici"), fake("p", "ok"),
+                 fake("p", "<a P2>y</a>")]
+    assert align(en_blocks, tr_blocks, 0.0) == [0, None, 4], align(en_blocks, tr_blocks, 0.0)
+    assert align(en_blocks, [tr_blocks[0], tr_blocks[2], tr_blocks[4]], 0.0) == [0, 1, 2]
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        (root / "tcl" / "help").mkdir(parents=True)
+        (root / "tcl" / "lang").mkdir(parents=True)
+        (root / "tcl" / "language.tcl").write_text(LANGUAGE_TCL, encoding="utf-8")
+        (root / "tcl" / "help" / "help.tcl").write_text('''set helpTitle(Alpha) "Alpha"
+set helpText(Alpha) {<h1>Alpha</h1>
+  <p>Alpha text here.</p>
+  <li>See <a Beta>Beta</a></li>
+}
+set helpTitle(Beta) "Beta"
+set helpText(Beta) {<h1>Beta</h1>
+  <p>Beta text here.</p>
+}
+set helpTitle(Omega) "Omega"
+set helpText(Omega) {Intro text.<p>Instructions text.</p>Outro text.}
+set helpTitle(Sigma) "Sigma"
+set helpText(Sigma) {<p>Short.</p>}
+''', encoding="utf-8")
+        target_text = '''set helpText(X,Alpha) {<h1>Alfa</h1>
+  <p>Texte alpha ici.</p>
+  <li>Voir <a Beta>Beta</a></li>
+}
+
+set helpTitle(X,Beta) "Beta titre"
+
+set helpTitle(X,Zeta) "Page that English does not have"
+set helpText(X,Zeta) {<p>Extra page.</p>}
+
+set helpTitle(X,Omega) "Omega fr"
+set helpText(X,Omega) {Texte d'intro.}
+
+set helpTitle(X,Sigma) "Sigma fr"
+set helpText(X,Sigma) {<p>Court.</p>
+  <p>Voir <a Beta>Beta</p>}
+'''
+        (root / "tcl" / "help" / "helpX.tcl").write_text(target_text, encoding="utf-8")
+        eng = Doc(root / "tcl" / "help" / "help.tcl", "")
+        out = root / "r.csv"
+        with contextlib.redirect_stdout(io.StringIO()):
+            generate(root, "xish", out)
+        rows = read_rows(out)
+        by = {r["key"]: r for r in rows}
+
+        # two rows for one English block: an error, not a crash
+        dup = dict(by["Alpha#2"])
+        dup["key"] = "Alpha#99"                       # out of range; found again by hash
+        by["Alpha#2"]["new"] = "Texte alpha ici, corrige."
+        dup["new"] = "Texte alpha ici, autrement."
+        _write_rows(out, [dup] + [r for r in rows if r["key"] != "Alpha#99"])
+        rc, text = run(root, out)
+        assert rc == 2 and "already stands for the same English block" in text, text
+        assert "bug in helptool" not in text
+
+        # a body with no title line gets one, in front of the body; a page that
+        # is only a title does not make an unrelated edit look like a loss
+        rows = read_rows(out)
+        by = {r["key"]: r for r in rows}
+        for r in rows:
+            r["new"] = ""
+        rows = [r for r in rows if r["key"] != "Alpha#99"]
+        by = {r["key"]: r for r in rows}
+        by["Alpha#0"]["new"] = "Titre alpha"
+        by["Alpha#2"]["new"] = "Texte alpha ici, corrige."
+        by["Alpha#0"]["reviewed"] = "Y"
+        by["Alpha#0"]["reviewer"] = "Tester"
+        _write_rows(out, rows)
+        rc, text = run(root, out)
+        assert rc == 0, text
+        flat = (root / "tcl" / "help" / "helpX.tcl").read_text(encoding="utf-8")
+        assert flat.index('set helpTitle(X,Alpha) "Titre alpha"') < \
+            flat.index("set helpText(X,Alpha)"), flat
+        assert "corrige" in flat and flat.count("set helpTitle(X,Alpha)") == 1
+        with contextlib.redirect_stdout(io.StringIO()):
+            generate(root, "xish", out)
+        by = {r["key"]: r for r in read_rows(out)}
+        assert by["Alpha#0"]["flags"] == "" and by["Alpha#0"]["reviewed"] == "Y", by["Alpha#0"]
+
+        # a plain block inserted after a plain neighbour must not run into it
+        rows = read_rows(out)
+        for r in rows:
+            r["new"] = ""
+        by = {r["key"]: r for r in rows}
+        assert by["Omega#3"]["flags"] == "missing", by["Omega#3"]
+        by["Omega#3"]["new"] = "Texte de fin."
+        _write_rows(out, rows)
+        rc, text = run(root, out)
+        assert rc == 2 and "expected 2 blocks" in text, text
+        assert "Texte de fin" not in (root / "tcl" / "help" / "helpX.tcl").read_text(
+            encoding="utf-8")
+
+        # status counts English pages only
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            status(root, "xish")
+        assert "/4 pages complete" in buf.getvalue(), buf.getvalue()
+
+        # check: a link left open in a block English has no counterpart for
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = check(root, "xish", False)
+        assert rc == 1 and "<a> is never closed" in buf.getvalue(), buf.getvalue()
     print("selftest: ok")
     return 0
 
