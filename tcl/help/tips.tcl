@@ -248,7 +248,7 @@ set tips(E) {
   {
     You can add the most common annotation symbols (!, !?, +=, etc) to the
     current move or position with keyboard shortcuts without needing to
-    use the <a Comment>comment editor<a> -- for example, type "!" then
+    use the <a Comment>comment editor</a> -- for example, type "!" then
     the Return key to add a "!" annotation symbol. See the
     <a Moves>Entering chess moves</a> help page for details.
   }
