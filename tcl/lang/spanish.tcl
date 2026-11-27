@@ -2648,7 +2648,7 @@ set tips(S) {
     Un <a OpReport>informe de apertura</a> Es excelente para aprender más sobre una posición en particular. Puedes ver qué tan bien puntúa, si conduce a empates cortos frecuentes y temas posicionales comunes.
   }
   {
-    Puede agregar los símbolos de anotación más comunes (!, !?, +=, etc.) al movimiento o posición actual con atajos de teclado sin necesidad de usar el <a Comment>editor de comentarios <a>; por ejemplo, escriba "!" luego la tecla Retorno para agregar un "!" símbolo de anotación. Consulte la página de ayuda <a Moves>Introducción de movimientos de ajedrez </a> para obtener más detalles.
+    Puede agregar los símbolos de anotación más comunes (!, !?, +=, etc.) al movimiento o posición actual con atajos de teclado sin necesidad de usar el <a Comment>editor de comentarios</a>; por ejemplo, escriba "!" luego la tecla Retorno para agregar un "!" símbolo de anotación. Consulte la página de ayuda <a Moves>Introducción de movimientos de ajedrez </a> para obtener más detalles.
   }
   {
     Si está explorando vacantes en una base de datos con el <a Tree>árbol</a>, puedes ver una descripción general útil de qué tan bien está puntuando la apertura actual recientemente y entre los jugadores mejor calificados abriendo la ventana Estadísticas (atajo: Ctrl+I).

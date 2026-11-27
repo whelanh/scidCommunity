@@ -2638,7 +2638,7 @@ set tips(I) {
     UN <a OpReport>relazione di apertura</a> è ottimo per saperne di più su una particolare posizione. Puoi vedere quanto bene ottiene il punteggio, se porta a frequenti pareggi brevi e temi posizionali comuni.
   }
   {
-    Puoi aggiungere i simboli di annotazione più comuni (!, !?, +=, ecc.) alla mossa o alla posizione corrente con le scorciatoie da tastiera senza dover utilizzare l'editor dei commenti <a Comment> <a> -- ad esempio, digita "!" quindi il tasto Invio per aggiungere un "!" simbolo di annotazione. Per i dettagli, vedere la pagina della guida <a Moves>Inserimento delle mosse degli scacchi</a>.
+    Puoi aggiungere i simboli di annotazione più comuni (!, !?, +=, ecc.) alla mossa o alla posizione corrente con le scorciatoie da tastiera senza dover utilizzare l'<a Comment>editor dei commenti</a> -- ad esempio, digita "!" quindi il tasto Invio per aggiungere un "!" simbolo di annotazione. Per i dettagli, vedere la pagina della guida <a Moves>Inserimento delle mosse degli scacchi</a>.
   }
   {
     Se stai esplorando le aperture in un database con il file <a Tree>albero</a>, puoi vedere un'utile panoramica di quanto bene l'apertura attuale sta segnando recentemente e tra i giocatori di alto punteggio aprendo la finestra Statistiche (scorciatoia: Ctrl+I).

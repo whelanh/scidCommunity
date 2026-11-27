@@ -2595,7 +2595,7 @@ set tips(C) {
     An <a OpReport>úvodní zpráva</a> je skvělé pro získání více informací o konkrétní pozici. Můžete vidět, jak dobře boduje, zda vede k častým krátkým tahům a společným pozičním tématům.
   }
   {
-    K aktuálnímu pohybu nebo pozici můžete přidat nejběžnější anotační symboly (!, !?, += atd.) pomocí klávesových zkratek, aniž byste museli používat <a Comment>editor komentářů <a> – například napište "!" poté klávesou Return přidejte znak "!" symbol anotace. Podrobnosti najdete na stránce nápovědy <a Moves>Zadávání šachových tahů</a>.
+    K aktuálnímu pohybu nebo pozici můžete přidat nejběžnější anotační symboly (!, !?, += atd.) pomocí klávesových zkratek, aniž byste museli používat <a Comment>editor komentářů</a> – například napište "!" poté klávesou Return přidejte znak "!" symbol anotace. Podrobnosti najdete na stránce nápovědy <a Moves>Zadávání šachových tahů</a>.
   }
   {
     Pokud prohlížíte otvory v databázi pomocí <a Tree>strom</a>, můžete zobrazit užitečný přehled o tom, jak dobře se daří aktuálnímu otevření v poslední době a mezi vysoce hodnocenými hráči, otevřením okna Statistiky (zkratka: Ctrl+I).

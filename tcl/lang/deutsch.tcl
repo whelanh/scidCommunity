@@ -2645,7 +2645,7 @@ set tips(D) {
     Ein <a OpReport>Eröffnungsbericht</a> eignet sich hervorragend, um mehr über eine bestimmte Position zu erfahren. Sie können sehen, wie gut es abschneidet, ob es zu häufigen Short Draws und häufigen Positionsthemen führt.
   }
   {
-    Sie können der aktuellen Bewegung oder Position mit Tastaturkürzeln die gängigsten Anmerkungssymbole (!, !?, += usw.) hinzufügen, ohne den <a Comment>Kommentareditor <a> verwenden zu müssen – geben Sie beispielsweise „!“ ein. dann die Eingabetaste, um ein „!“ hinzuzufügen. Anmerkungssymbol. Weitere Informationen finden Sie auf der Hilfeseite <a Moves>Eingabe von Schachzügen </a>.
+    Sie können der aktuellen Bewegung oder Position mit Tastaturkürzeln die gängigsten Anmerkungssymbole (!, !?, += usw.) hinzufügen, ohne den <a Comment>Kommentareditor</a> verwenden zu müssen – geben Sie beispielsweise „!“ ein. dann die Eingabetaste, um ein „!“ hinzuzufügen. Anmerkungssymbol. Weitere Informationen finden Sie auf der Hilfeseite <a Moves>Eingabe von Schachzügen </a>.
   }
   {
     Wenn Sie Eröffnungen in einer Datenbank mit dem <a Tree>-Baum </a> durchsuchen, können Sie einen nützlichen Überblick darüber sehen, wie gut die aktuelle Eröffnung in letzter Zeit und zwischen hoch bewerteten Spielern gepunktet hat, indem Sie das Statistikfenster öffnen (Tastenkürzel: Strg+I).

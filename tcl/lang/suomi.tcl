@@ -2626,7 +2626,7 @@ set tips(U) {
     <a OpReport>aloitusraportti </a> on loistava tapa oppia lisää tietystä asemasta. Näet, kuinka hyvin se saa pisteet, johtaako se usein lyhyisiin arvontoihin ja yleisiä sijaintiteemoja.
   }
   {
-    Voit lisätä yleisimmät huomautussymbolit (!, !?, += jne.) nykyiseen siirtoon tai sijaintiin pikanäppäimillä ilman, että sinun tarvitsee käyttää <a Comment>kommenttieditoria <a> – esimerkiksi kirjoita "!" sitten Return-näppäintä lisätäksesi "!" huomautussymboli. Katso lisätietoja <a Moves>Shakkiliikkeiden syöttämisen </a> ohjesivulta.
+    Voit lisätä yleisimmät huomautussymbolit (!, !?, += jne.) nykyiseen siirtoon tai sijaintiin pikanäppäimillä ilman, että sinun tarvitsee käyttää <a Comment>kommenttieditoria</a> – esimerkiksi kirjoita "!" sitten Return-näppäintä lisätäksesi "!" huomautussymboli. Katso lisätietoja <a Moves>Shakkiliikkeiden syöttämisen </a> ohjesivulta.
   }
   {
     Jos selaat tietokannan aukkoja <a Tree>-puulla </a>, voit nähdä hyödyllisen yleiskatsauksen nykyisen avauksen pisteytyksen viime aikoina ja korkealuokkaisten pelaajien välillä avaamalla Tilastot-ikkunan (pikanäppäin: Ctrl+I).

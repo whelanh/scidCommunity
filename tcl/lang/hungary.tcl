@@ -2596,7 +2596,7 @@ set tips(H) {
     A <a OpReport> nyitójelentés </a> kiválóan alkalmas arra, hogy többet megtudjon egy adott pozícióról. Láthatja, hogy milyen jó pontszámot ad, vezet-e gyakori rövid húzáshoz, és gyakori helyzeti témák.
   }
   {
-    A <a Comment> megjegyzésszerkesztő <a> használata nélkül hozzáadhatja a leggyakoribb megjegyzésszimbólumokat (!, !?, += stb.) az aktuális mozgáshoz vagy pozícióhoz billentyűparancsokkal – például írja be a "!" majd a Return billentyűvel adjon hozzá egy "!" megjegyzés szimbólum. A részletekért lásd a <a Moves>Sakklépések bevitele </a> súgóoldalt.
+    A <a Comment>megjegyzésszerkesztő</a> használata nélkül hozzáadhatja a leggyakoribb megjegyzésszimbólumokat (!, !?, += stb.) az aktuális mozgáshoz vagy pozícióhoz billentyűparancsokkal – például írja be a "!" majd a Return billentyűvel adjon hozzá egy "!" megjegyzés szimbólum. A részletekért lásd a <a Moves>Sakklépések bevitele </a> súgóoldalt.
   }
   {
     Ha egy adatbázisban a <a Tree>fával </a> böngészik a megnyitások között, akkor a Statisztika ablak megnyitásával hasznos áttekintést kaphat arról, hogy az aktuális nyitás milyen jól teljesít a közelmúltban, illetve a magasan értékelt játékosok között.
