@@ -2577,7 +2577,7 @@ set tips(T) {
     <a OpReport>açılış raporu</a>, belirli bir pozisyon hakkında daha fazla bilgi edinmek için harikadır. Ne kadar iyi puan aldığını, sık sık kısa çekilişlere yol açıp açmadığını ve ortak konumsal temaları görebilirsiniz.
   }
   {
-    <a Comment>yorum düzenleyicisini<a> kullanmanıza gerek kalmadan klavye kısayollarıyla en yaygın açıklama sembollerini (!, !?, +=, vb.) geçerli harekete veya konuma ekleyebilirsiniz; örneğin, "!" yazın. ardından "!" eklemek için Return tuşuna basın. ek açıklama sembolü. Ayrıntılar için <a Moves>Satranç hamlelerine girme</a> yardım sayfasına bakın.
+    <a Comment>yorum düzenleyicisini</a> kullanmanıza gerek kalmadan klavye kısayollarıyla en yaygın açıklama sembollerini (!, !?, +=, vb.) geçerli harekete veya konuma ekleyebilirsiniz; örneğin, "!" yazın. ardından "!" eklemek için Return tuşuna basın. ek açıklama sembolü. Ayrıntılar için <a Moves>Satranç hamlelerine girme</a> yardım sayfasına bakın.
   }
   {
     <a Tree>ağacı</a> ile bir veri tabanındaki açılışlara göz atıyorsanız, İstatistikler penceresini (kısayol: Ctrl+I) açarak mevcut açılışın son zamanlarda ve yüksek puan alan oyuncular arasında ne kadar iyi puan aldığına dair yararlı bir genel bakış görebilirsiniz.

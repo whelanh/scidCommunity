@@ -2573,7 +2573,7 @@ set tips(Z) {
     An <a OpReport>ripoti ya ufunguzi</a> ni nzuri kwa kujifunza zaidi kuhusu nafasi fulani. Unaweza kuona jinsi inavyopata alama, iwe inaongoza kwa michoro fupi za mara kwa mara, na mandhari ya kawaida ya nafasi.
   }
   {
-    Unaweza kuongeza alama za ufafanuzi za kawaida (!, !?, +=, n.k) kwenye hatua ya sasa au nafasi ukitumia mikato ya kibodi bila kuhitaji kutumia <a Comment>kihariri cha maoni<a> -- kwa mfano, andika "!" kisha kitufe cha Kurudi ili kuongeza "!" alama ya kidokezo. Tazama ukurasa wa usaidizi wa <a Moves>Kuingia kwa miondoko ya chess</a> kwa maelezo.
+    Unaweza kuongeza alama za ufafanuzi za kawaida (!, !?, +=, n.k) kwenye hatua ya sasa au nafasi ukitumia mikato ya kibodi bila kuhitaji kutumia <a Comment>kihariri cha maoni</a> -- kwa mfano, andika "!" kisha kitufe cha Kurudi ili kuongeza "!" alama ya kidokezo. Tazama ukurasa wa usaidizi wa <a Moves>Kuingia kwa miondoko ya chess</a> kwa maelezo.
   }
   {
     Ikiwa unavinjari fursa katika hifadhidata kwa <a Tree>mti</a>, unaweza kuona muhtasari muhimu wa jinsi nafasi ya sasa inavyopata bao hivi majuzi na kati ya wachezaji walio na viwango vya juu kwa kufungua dirisha la Takwimu (njia ya mkato: Ctrl+I).

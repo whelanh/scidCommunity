@@ -2601,7 +2601,7 @@ set tips(W) {
     En <a OpReport>öppningsrapport</a> är bra för att lära dig mer om en viss position. Du kan se hur bra det får poäng, om det leder till frekventa korta dragningar och vanliga positionsteman.
   }
   {
-    Du kan lägga till de vanligaste anteckningssymbolerna (!, !?, +=, etc) till det aktuella draget eller positionen med kortkommandon utan att behöva använda <a Comment>kommentarredigeraren<a> -- skriv till exempel "!" sedan på returtangenten för att lägga till ett "!" anteckningssymbol. Se hjälpsidan <a Moves>Ange schackdrag</a> för detaljer.
+    Du kan lägga till de vanligaste anteckningssymbolerna (!, !?, +=, etc) till det aktuella draget eller positionen med kortkommandon utan att behöva använda <a Comment>kommentarredigeraren</a> -- skriv till exempel "!" sedan på returtangenten för att lägga till ett "!" anteckningssymbol. Se hjälpsidan <a Moves>Ange schackdrag</a> för detaljer.
   }
   {
     Om du bläddrar i öppningar i en databas med <a Tree>trädet</a>, kan du se en användbar översikt över hur bra den aktuella öppningen har gjort poäng nyligen och mellan högt rankade spelare genom att öppna statistikfönstret (genväg: Ctrl+I).
