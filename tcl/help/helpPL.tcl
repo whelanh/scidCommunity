@@ -1,4 +1,4 @@
-### helpPL.tcl: polskie (P) strony pomocy dla ScidCommunity v5.1.4.52 by Szustan
+### helpPL.tcl: polskie (P) strony pomocy dla scidCommunity v5.1.4.77 by Szustan
 ### Ten plik używa kodowania UTF-8.
 ### Ładowany na żądanie przez setLanguage, gdy użytkownik wybierze język Polski.
 ### Wpisy używają kluczy z prefiksem językowym helpText(P,...) / helpTitle(P,...),
@@ -7,22 +7,22 @@
 #################################################
 
 set helpTitle(P,Contents) "Spis treści"
-set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
+set helpText(P,Contents) {<h1>Zawartość pomocy scidCommunity</h1>
   
   <h4>Rozpoczęcie pracy i pomoc ogólna</h4>
   <ul>
-  <li><a Guide><b>Skrócony przewodnik</b> po ScidCommunity</a> <red>(Przeczytaj to najpierw!)</red></li>
-  <li><a Hints><b>Wskazówki</b>, jak lepiej wykorzystać ScidCommunity</a></li>
-  <li><a MainWindow><b>Główne okno</b> ScidCommunity</a></li>
-  <li><a Menus><b>Menu</b> ScidCommunity</a></li>
+  <li><a Guide><b>Skrócony przewodnik</b> po scidCommunity</a> <red>(Przeczytaj to najpierw!)</red></li>
+  <li><a Hints><b>Wskazówki</b>, jak lepiej wykorzystać scidCommunity</a></li>
+  <li><a MainWindow><b>Główne okno</b> scidCommunity</a></li>
+  <li><a Menus><b>Menu</b> scidCommunity</a></li>
   <li><a Moves>Wprowadzanie <b>posunięć szachowych</b></a></li>
-  <li><a Searches><b>Wyszukiwanie</b> w ScidCommunity</a></li>
+  <li><a Searches><b>Wyszukiwanie</b> w scidCommunity</a></li>
   <li><a CQL><b>CQL-Język zapytań szachowych </b></a></li>
   <li><a Clipbase>Korzystanie z bazy danych <b>Clipbase-schowek</b></a></li>
   <li><a Annotating><b>Komentowanie partii</b></a> (własne komentarze)</li>
   </ul>
   
-  <h4>Inne okna ScidCommunity</h4>
+  <h4>Inne okna scidCommunity</h4>
   <ul>
   <li><a Engine><b>Okna silnika</b></a></li>
   <li><a Book><b>Okno książki debiutowej</b></a></li>
@@ -60,18 +60,18 @@ set helpText(P,Contents) {<h1>Zawartość pomocy ScidCommunity</h1>
   <li><a Sorting><b>Sortowanie</b> bazy danych</a></li>
   <li><a PgnScid><b>PgnScid</b>: konwersja plików PGN</a></li>
   <li><a NAGs>Standardowe wartości adnotacji <b>NAG</b></a></li>
-  <li><a Formats><b>Formaty plików</b> bazy danych ScidCommunity</a></li>
+  <li><a Formats><b>Formaty plików</b> bazy danych scidCommunity</a></li>
   <li><a Author>Informacje kontaktowe</a></li>
   </ul>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ###############
 ### Topic Index
 
-set helpTitle(P,Index) "Indeks tematów pomocy ScidCommunity"
-set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
+set helpTitle(P,Index) "Indeks tematów pomocy scidCommunity"
+set helpText(P,Index) {<h1>Indeks tematów pomocy scidCommunity</h1>
   
   <h3>A</h3>
   <ul>
@@ -154,8 +154,9 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a Comment>Edytor komentarzy</a></li>
   <li><a Ctg2Obr>Konwersja książki CTG na OBR</a></li>
-  <li><a Annotating>Komentowanie partii</a> (własne komentarze))</li>
+  <li><a Annotating>Komentowanie partii</a> (własne komentarze)</li>
   <li><a ReviewMoveButton><b>Komentarz do posunięcia</b></a> (przycisk w oknie silnika)</li>
+  <li><a BatchAnnotate>Komentarz do partii</a> (Wybór partii z <b>Lista partii</b>)</li>
   <li><a Searches CommentsSearch>Wyszukiwanie w komentarzach</a></li>
   </ul>
   
@@ -163,7 +164,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a PGNLichess>Analiza Lichess (przycisk okna PGN)</a></li>
   <li><a ImportLichess>Import partii z Lichess</a></li>
-  <li><a LichessTournament>Otwórz turnieje Lichess</a></li>
+  <li><a LichessTournament>Otwórz turniej Lichess</a></li>
   <li><a GameList>Okno lista partii</a></li>
   </ul>
   
@@ -180,7 +181,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Menus Search>Menu <b>Szukaj</b></a></li>
   <li><a Menus Tools>Menu <b>Narzędzia</b></a></li>
   <li><a Menus Windows>Menu <b>Okna</b></a></li>
-  <li><a Menus>Menu ScidCommunity</a></li>
+  <li><a Menus>Menu scidCommunity</a></li>
   </ul>
   
   <h3>N</h3>
@@ -195,7 +196,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>O</h3>
   <ul> 
-  <li><a MainWindow>Główne okno ScidCommunity</a></li>
+  <li><a MainWindow>Główne okno scidCommunity</a></li>
   <li><a PTracker><b>Okno śledzenia figur</b></a></li>
   <li><a Book>Okno <b>książki debiutowej</b></a></li>
   <li><a PInfo><b>Okno informacji o graczu</b></a></li>
@@ -240,9 +241,9 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   
   <h3>S</h3>
   <ul>
-  <li><a Guide>Skrócony przewodnik po ScidCommunity</a></li>
-  <li><a MainWindow>Główne okno ScidCommunity</a></li>
-  <li><a Menus>Menu ScidCommunity</a></li>
+  <li><a Guide>Skrócony przewodnik po scidCommunity</a></li>
+  <li><a MainWindow>Główne okno scidCommunity</a></li>
+  <li><a Menus>Menu scidCommunity</a></li>
   <li><a Menus Search>Menu <b>Szukaj</b></a></li>
   <li><a Moves Informant>Symbole Informatora</a></li>
   <li><a Maintenance Spellcheck>Sprawdzanie pisowni nazw</a></li>
@@ -257,7 +258,7 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <ul>
   <li><a Tmt>Wyszukiwarka turniejów</a></li>
   <li><a FICS Training>Trening: Wykłady FICS</a></li>
-  <li><a LichessTournament>Otwórz turnieje Lichess</a></li>
+  <li><a LichessTournament>Otwórz turniej Lichess</a></li>
   <li><a DownloadTWIC>Pobierz partie TWIC (The Week In Chess)</a></li>
   <li><a FindBestMove>Trening: znajdowanie najlepszego posunięcia</a></li>
   <li><a OpeningTrainer>Trening: Debiuty</a></li>
@@ -290,44 +291,44 @@ set helpText(P,Index) {<h1>Indeks tematów pomocy ScidCommunity</h1>
   <li><a Contents>Spis treści</a></li>
   </ul>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 ####################
 ### Quick Guide help:
 
-set helpTitle(P,Guide) "Skrócony przewodnik po ScidCommunity"
-set helpText(P,Guide) {<h1>Skrócony przewodnik po ScidCommunity</h1>
+set helpTitle(P,Guide) "Skrócony przewodnik po scidCommunity"
+set helpText(P,Guide) {<h1>Skrócony przewodnik po scidCommunity</h1>
   <p>
-  ScidCommunity to aplikacja bazodanowa do szachów; można w niej przeglądać
+  scidCommunity to program do obsługi szachowych baz danych; można przeglądać
   bazy partii szachowych, edytować partie i <a Searches>wyszukiwać</a>
   partie wg różnych kryteriów.
   </p>
   <p>
-  ScidCommunity używa własnego, specjalnego trzyplikowego <a Formats>formatu
+  scidCommunity używa własnego, specjalnego trzyplikowego <a Formats>formatu
   bazy danych</a>,  który jest bardzo kompaktowy i szybki, potrafi konwertować do i z
   standardowego formatu PGN (Portable Game Notation).<a PGN>Okno PGN</a>
-  w ScidCommunity   wyświetla tekst bieżącej partii 
+  w scidCommunity   wyświetla tekst bieżącej partii 
   w formacie PGN .
   </p>
   <p>
-  Możesz używać ScidCommunity do dodawania partii szachowych do bazy danych, wpisując
+  Możesz używać scidCommunity do dodawania partii szachowych do bazy danych, wpisując
   posunięcia z klawiatury albo myszą. Zobacz stronę pomocy o <a Moves>wprowadzaniu posunięć szachowych</a>
    aby poznać więcej szczegółów.
   </p>
   <p>
-  Możesz też używać ScidCommunity jako przeglądarkę plików <a PGN>PGN</a>, wklejając 
+  Możesz też używać scidCommunity jako przeglądarkę plików <a PGN>PGN</a>, wklejając 
   tekst <a PGN>PGN</a> do okna <b> Wklej tekst ze schowka...</b> w menu <b>Edycja</b>  albo  
-  otwierając plik <a PGN>PGN</a> w ScidCommunity.
-  Jednak plików <a PGN>PGN</a>  nie można edytować w ScidCommunity (otwiera się je tylko do odczytu) i
+  otwierając plik <a PGN>PGN</a> w scidCommunity.
+  Jednak plików <a PGN>PGN</a>  nie można edytować w scidCommunity (otwiera się je tylko do odczytu) i
   zajmują więcej pamięci oraz ładują się wolniej, więc w przypadku dużych plików
-  <a PGN>PGN</a> zaleca się najpierw utworzyć z nich bazę danych ScidCommunity
+  <a PGN>PGN</a> zaleca się najpierw utworzyć z nich bazę danych scidCommunity
   za pomocą narzędzia <a PgnScid>pgnScid</a>.
   </p>
   <p>
-  Okna mogą być używane w trybie dokowanym albo jako niezależne okna 
-  (zobacz  opcję w menu <b>Opcje</b>). W trybie dokowanym najważniejsze okna
+  Okna mogą być używane w trybie dokowania albo jako niezależne okna 
+  (zobacz  opcję w menu <b>Opcje</b>). W trybie dokowania najważniejsze okna
   są osadzone  w głównym oknie. Okna można przestawiać, klikając prawym przyciskiem
   myszy kartę  (czyli miejsce z tytułem okna) oraz przeciągając karty
   z jednego panelu do drugiego. Menu dla każdego okna, które je posiada (oznaczoną trójkątem
@@ -335,7 +336,7 @@ set helpText(P,Guide) {<h1>Skrócony przewodnik po ScidCommunity</h1>
   otwiera się lewym kliknięciem myszy.
   </p>
   <p>
-  Główne okno <a MainWindow>ScidCommunity</a>
+  Główne okno <a MainWindow>scidCommunity</a>
   (z graficzną szachownicą) pokazuje szczegóły
   aktywnej partii i bazy danych. W dowolnym momencie można mieć otwartych
   do dziewięciu baz danych (w tym <a Clipbase>clipbase-schowek</a>),
@@ -351,34 +352,34 @@ set helpText(P,Guide) {<h1>Skrócony przewodnik po ScidCommunity</h1>
   </p>
   <p>
   Zobacz stronę z <a Author>informacjami kontaktowymi</a>, jeśli chcesz skontaktować się
-  z autorem ScidCommunity.
+  z autorem scidCommunity.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 ####################
 ### Strona z podpowiedziami:
-set helpTitle(P,Hints) "Wskazówki ScidCommunity"
-set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
+set helpTitle(P,Hints) "Wskazówki scidCommunity"
+set helpText(P,Hints) {<h1>Wskazówki scidCommunity</h1>
   <p>
   Ta strona zawiera przydatne wskazówki w formie pytań i odpowiedzi,
-  które pomogą lepiej korzystać ze ScidCommunity. Jeśli dopiero zaczynasz pracę ze ScidCommunity, najpierw przeczytaj <a
+  które pomogą lepiej korzystać ze scidCommunity. Jeśli dopiero zaczynasz pracę ze scidCommunity, najpierw przeczytaj <a
   Guide>Skrócony przewodnik</a>. Większość informacji z tej strony
   jest opisana bardziej szczegółowo na innych stronach pomocy wymienionych w <a
   Index>indeksie</a>. Jeśli masz pomysł na przydatną wskazówkę do dodania,
-  wyślij ją do <a Author>autora ScidCommunity</a>.
+  wyślij ją do <a Author>autora scidCommunity</a>.
   </p>
   
-  <h4>Czy można sprawić, by ScidCommunity wczytywał bazę danych przy starcie?</h4>
+  <h4>Czy można sprawić, by scidCommunity wczytywał bazę danych przy starcie?</h4>
   <p>
   Tak, do wiersza poleceń można dodać bazy danych, pliki <a PGN>PGN</a> lub <a EPD>pliki EPD</a>.
   Na przykład:
   <ul>
   <li> <b>Scid  mybase  games.pgn.gz</b> </li>
   </ul>
-  wczyta bazę ScidCommunity <b>mybase</b> oraz wczyta również
+  wczyta bazę scidCommunity <b>mybase</b> oraz wczyta również
   skompresowany Gzipem plik <a PGN>PGN</a> <b>games.pgn.gz</b>.
   </p>
   
@@ -389,12 +390,12 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   <b>Control+Shift+RightArrow</b>, aby zmniejszyć lub zwiększyć rozmiar szachownicy.
   </p>
   
-  <h4>Trenuję, rozgrywając partię, więc nie chcę, aby ScidCommunity
-  wyświetlał następne posunięcie w polu informacji pod szachownicą.
+  <h4>Trenuję, rozgrywając partię, więc nie chcę, aby scidCommunity
+  wyświetlał następne posunięcie w oknie Informacji o partii pod szachownicą.
   Czy mogę to ukryć?</h4>
   <p>
     Możesz ukryć następne posunięcie, klikając <b>prawym</b> przyciskiem myszy
-  w obszarze informacji o partii i wybierając z menu opcję <b>Ukryj następne
+  w oknie informacji o partii i wybierając z menu opcję <b>Ukryj następne
   posunięcie</b>. Gdy opcja jest włączona, nie są wyświetlane ani następne
   posunięcie, ani warianty w bieżącej pozycji. Dzięki temu możesz ćwiczyć
   grę z tej pozycji, nie znając dalszego przebiegu partii. Aby zobaczyć
@@ -402,16 +403,16 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   posunięcia do wyboru, ale nie pokazuje ich dalszego ciągu.
   </p>
   
-  <h4>Jak mogę zobaczyć kod debiutowy ECO dla bieżącej pozycji?</h4>
+  <h4>Jak mogę wyświetlić kod debiutowy ECO dla bieżącej pozycji?</h4>
   <p>
   Kod ECO jest wyświetlany w dolnym wierszu okna <b>Informacja o partii</b>,
   pod szachownicą w <a MainWindow>głównym oknie</a>, jeśli masz wczytany plik klasyfikacji ECO
   (<b>Scid.eco</b>). <br>
   Strona pomocy o <a ECO>kodach ECO</a> wyjaśnia, jak wczytać plik
-  klasyfikacji ECO i zapisać opcje tak, aby był wczytywany przy każdym uruchomieniu ScidCommunity.
+  klasyfikacji ECO i zapisać opcje tak, aby był wczytywany przy każdym uruchomieniu scidCommunity.
   </p>
   
-  <h4>Wpisuję partię i jestem przy 30. posunięciu, ale właśnie zauważyłem, że
+  <h4>Wprowadzam partię i jestem przy 30. posunięciu, ale właśnie zauważyłem, że
   10. posunięcie było błędne. Jak mogę to poprawić i zachować wszystkie dalsze posunięcia?</h4>
   <p>
   Możesz użyć okna  <b>Wklej tekst ze schowka...</b>  w menu <b>Edycja</b>  ; więcej informacji znajdziesz na
@@ -435,7 +436,7 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   partii.
   </p>
   
-  <h4>Jak zmienić szerokość kolumn w oknie Lista partii?</h4>
+  <h4>Jak zmienić szerokość kolumn w oknie <b>Lista partii?</b></h4>
   <p>
   Kliknij lewym lub prawym przyciskiem myszy na tytuł każdej kolumny.
   </p>
@@ -467,7 +468,7 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   <h4>W mojej bazie danych niektóre nazwiska graczy mają kilka różnych pisowni.
   Jak poprawić je wszystkie?</h4>
   <p>
-  Możesz edytować pojedyncze nazwy albo sprawdzić pisownię wszystkich nazw w bazie
+  Możesz edytować poszczególne nazwiska albo sprawdzić pisownię wszystkich w bazie
   za pomocą opcji  <menu>Narzędzia bazy danych</menu> w menu <b>Baza danych</b>.
   Zobacz stronę <a Maintenance Editing>Narzędzia bazy danych</a>.
   </p>
@@ -477,36 +478,36 @@ set helpText(P,Hints) {<h1>Wskazówki ScidCommunity</h1>
   bazy?</h4>
   <p>
   Po prostu otwórz <a Tree>Okno drzewa wariantów</a> dla bazy referencyjnej i
-  przełącz się z powrotem na partię, którą chcesz porównać, za pomocą Przełącznika
-  baz danych. Alternatywnie bazę można otworzyć bezpośrednio jako drzewo wariantów przez
+  przełącz się z powrotem na partię, którą chcesz porównać, za pomocą <b>Przełącznika
+  baz danych</b>. Alternatywnie bazę można otworzyć bezpośrednio jako drzewo wariantów przez
   menu <term>Plik</term>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 ####################
 ### Main window help:
 
-set helpTitle(P,MainWindow) "Główne okno ScidCommunity"
-set helpText(P,MainWindow) {<h1>Główne okno ScidCommunity</h1>
+set helpTitle(P,MainWindow) "Główne okno scidCommunity"
+set helpText(P,MainWindow) {<h1>Główne okno scidCommunity</h1>
   <p>
-  Główne okno w ScidCommunity wyświetla bieżącą pozycję na szachownicy
+  Główne okno w scidCommunity wyświetla bieżącą pozycję na szachownicy
   aktywnej partii oraz informacje o bieżącej partii i bazie danych.
   Osobne strony pomocy opisują <a Menus>menu</a> oraz sposoby
   <a Moves>wprowadzania posunięć szachowych</a>.
   </p>
   
-  <h3>okno Informacja o partii</h3>
+  <h3>okno Pokaż informacje o partii</h3>
   <p>
   Okno pod szachownicą, które pokazuje informacje o partii,
-  nazywa się okno <term> Informacja o partii</term>. Wywołuje sie je z menu
+  nazywa się okno <term>Pokaż informacja o partii</term>. Wywołuje sie je z menu
   <b>Okna/Pokaż informacie o partii</b> .Pierwsze trzy
   wiersze pokazują informacje takie jak gracze, ich kraj, wynik,
   data i miejsce. Te informacje są pobierane z nagłówka PGN
   partii. Aby wyświetlać informacje o kraju, muszą być dostępne pola
-  WhiteCountry/BlackCountry. Czwarty wiersz  wskazuje bieżącą pozycję w partii oraz to, jakie jest 
+  WhiteCountry/BlackCountry. Czwarty wiersz  wskazuje bieżącą pozycję w partii oraz jakie jest 
   następne posunięcie.
   </p>
   <p>
@@ -542,7 +543,7 @@ takiej jak baza danych, w katalogu tej bazy. Jeśli go nie znajdzie, korzysta z 
   lub katalogu współdzielonym scidCommunity, w katalogu photos), zdjęcia graczy
   pojawią się również w panelu informacyjnym. (Odpowiednie
   pliki zdjęć można pobrać ze strony <url
-  http://Scid.sourceforge.net/>ScidCommunity</url>; dokumentacja
+  http://Scid.sourceforge.net/>scidCommunity</url>; dokumentacja
   ich formatu jest zawarta w tych plikach.) Zdjęcia graczy
   mają jednak tendencję do zasłaniania części tekstu
   w oknie informacji.
@@ -570,16 +571,16 @@ takiej jak baza danych, w katalogu tej bazy. Jeśli go nie znajdzie, korzysta z 
   </p>
   <p>
   Jeśli chcesz, aby baza danych była otwierana tylko do odczytu, wystarczy ustawić uprawnienia
-  jej plików ScidCommunity, a przynajmniej pliku indeksu, na przykład:
+  jej plików scidCommunity, a przynajmniej pliku indeksu, na przykład:
   <b>chmod a-w myfile.si3</b>
-  jako polecenie powłoki, a ScidCommunity otworzy ją tylko do odczytu.
+  jako polecenie powłoki, a scidCommunity otworzy ją tylko do odczytu.
   </p>
   <p>
   Pasek stanu pokazuje też, ile partii znajduje się obecnie w
   <a Searches Filter>filtrze</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -587,12 +588,12 @@ takiej jak baza danych, w katalogu tej bazy. Jeśli go nie znajdzie, korzysta z 
 ### Menus help screen:
 
 set helpTitle(P,Menus) "Menu"
-set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
+set helpText(P,Menus) {<h1>Menu scidCommunity</h1>
   
   <h3><name File>Plik</name></h3>
   <ul>
-  <li><menu>Nowy...</menu>: Tworzy nową, pustą bazę danych ScidCommunity.</li>
-  <li><menu>Otwórz...</menu>: Otwiera istniejącą bazę danych ScidCommunity.</li>
+  <li><menu>Nowy...</menu>: Tworzy nową, pustą bazę danych scidCommunity.</li>
+  <li><menu>Otwórz...</menu>: Otwiera istniejącą bazę danych scidCommunity.</li>
   <li><menu>Wyszukiwarka plików</menu>: Otwiera <a Finder>okno wyszukiwarki plików</a>.</li>
   <li><menu>Zakładki</menu>: <a Bookmarks>Zakładki</a> i funkcje 
   zakładek.</li>
@@ -602,18 +603,18 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Otwórz ostatnią bazę jako drzewo wariantów</menu>: Pokazuje listę ostatnio
   otwieranych baz, aby od razu otworzyć ich okno drzewa wariantów.</li>
   <br>
-  <li><menu>Otwórz turnieje Lichess</menu>: Pobiera i otwiera partie z transmisji turniejowych Lichess na żywo.</li>
+  <li><menu>Otwórz turniej Lichess</menu>: Pobiera i otwiera partie z transmisji turniejowych Lichess na żywo.</li>
   <li><menu>Importuj moje partie z Lichess</menu>: Importuje partie z Twojego konta Lichess.</li>
   <li><menu>Importuj moje partie z chess.com</menu>: Importuje partie z Twojego konta chess.com.</li>
   <br>
   <li>1/2/3/4/5/...</li> Oferuje listę ostatnio używanych baz danych do
   szybkiego ponownego otwarcia.
-  <li><menu>Zakończ</menu>: Zamyka ScidCommunity.</li>
+  <li><menu>Zakończ</menu>: Zamyka scidCommunity.</li>
   </ul>
   
   <h3><name Database>Baza danych</name></h3>
   <ul>
-  <li><menu>Zamknij</menu>: Zamyka bieżącą bazę danych ScidCommunity.</li>
+  <li><menu>Zamknij</menu>: Zamyka bieżącą bazę danych scidCommunity.</li>
   <li><menu>Wczytaj przy uruchomieniu</menu>: Przełącza, czy bieżąca baza ma być wczytywana przy uruchomieniu.</li>
   <br>
   <li><menu>Kopiuj wszystkie partie do</menu>: Podmenu do kopiowania wszystkich partii do innej bazy danych.</li>
@@ -623,9 +624,9 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   </ul>
   <li><menu>Eksportuj wszystkie partie z filtra</menu>: Eksportuje partie zgodne z bieżącym filtrem.</li>
   <ul>
-  <li><menu>PGN</menu>: Eksportuje do formatu <a PGN>PGN</a>.</li>
-  <li><menu>HTML</menu>: Eksportuje do formatu HTML.</li>
-  <li><menu>HTML z JavaScriptem</menu>: Eksportuje do interaktywnego formatu HTML.</li>
+  <li><menu>PGN</menu>: Eksportuje do pliku <a PGN>PGN</a>.</li>
+  <li><menu>HTML</menu>: Eksportuje do pliku HTML.</li>
+  <li><menu>HTML z JavaScriptem</menu>: Eksportuje do interaktywnego pliku HTML.</li>
   </ul>
   <li><menu>Importuj partie z pliku PGN</menu>: Podmenu do importu plików <a PGN>PGN</a> do baz danych.</li>
   <br>
@@ -719,10 +720,10 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   
   <h3><name Search>Szukaj</name></h3>
   <ul>
-  <li><menu>Bieżąca pozycja...</menu>: Wyszukuje pozycję z
-  <a Searches Board>bieżącej pozycji</a>.</li>
+  <li><menu>Bieżąca pozycja...</menu>: Wyszukuje <a Searches Board>bieżącą pozycję
+  na szachownicy</a>.</li>
   <li><menu>Nagłówek...</menu>: Wyszukuje wg informacji <a Searches Header>nagłówka</a>,
-  takich jak nazwy graczy. Ten filtr jest kumulatywny względem
+  takich jak nazwiska graczy. Ten filtr jest kumulatywny względem
   filtra ustawionego ewentualnie przez otwarte <a Tree>okno drzewa wariantów</a>.</li>
   <li><menu>Materiał/Wzorce...</menu>: Wyszukuje wg
   <a Searches Material>Materiał/wzorce</a> albo wzorców na szachownicy. Ten
@@ -818,7 +819,7 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Podłącz urządzenia</menu>: Umożliwia użycie <a HardwareConfig>sprzętu zewnętrznego</a>
   do wprowadzania posunięć (np. elektronicznej szachownicy DGT, Novag Citrine).</li>
   <ul>
-  <li><menu>Konfiguruj</menu>: Pozwala ustawić <a HardwareConfig>podstawowe parametry</a>
+  <li><menu>Konfiguruj...</menu>: Pozwala ustawić <a HardwareConfig>podstawowe parametry</a>
   użycia sprzętu zewnętrznego.</li>
   <li><menu>Podłącz urządzenie wejściowe</menu>: Łączy/rozłącza <a InputEngine>silnik wejściowy</a>.</li>
   <li><menu>Połącz z Novag Citrine</menu>: Łączy/rozłącza szachownicę <a Novag>Novag Citrine</a>.</li>
@@ -834,8 +835,8 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <ul>
   <li><menu>Język</menu>: Podmenu wyboru języka interfejsu.</li>
   <li><menu>Motyw</menu>: Podmenu wyboru motywu GUI.</li>
-  <li><menu>Preferencje</menu>: Otwiera okno dialogowe <a Options>preferencji</a>.</li>
-  <li><menu>Zasoby</menu>: Otwiera okno dialogowe konfiguracji zasobów.</li>
+  <li><menu>Preferencje...</menu>: Otwiera okno dialogowe <a Options>preferencji</a>.</li>
+  <li><menu>Zasoby...</menu>: Otwiera okno dialogowe konfiguracji zasobów.</li>
   <li><menu>Eksport</menu>: Podmenu ustawień formatu <a Export>eksportu</a>.</li>
   <ul>
   <li><menu>Tekst pliku PGN</menu>: Ustawia opcje tekstu eksportu <a PGN>PGN</a>.</li>
@@ -850,24 +851,24 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
   <li><menu>Zapisz opcje</menu>: Zapisuje bieżące opcje do pliku
   "<b>~/.Scid/config/options.dat</b>" (lub "<b>options.dat</b>" w
   podkatalogu "<b>config</b>" w katalogu programów wykonywalnych 
-  ScidCommunity dla
+  scidCommunity dla
   użytkowników Windows); ten plik jest wczytywany przy każdym uruchomieniu
-  ScidCommunity.</li>
-  <li><menu>Zapisz opcje przy zamykaniu</menu>: Przełącza automatyczne zapisywanie opcji przy wyjściu.</li>
+  scidCommunity.</li>
+  <li><menu>Zapisz opcje przy zamykaniu</menu>: Przełącza automatyczne zapisywanie opcji przy zamykaniu programu.</li>
   </ul>
   
   <h3><name Help>Pomoc</name></h3>
   <ul>
   <li><menu>Spis treści</menu>: Otwiera stronę zawartości pomocy.</li>
   <li><menu>Indeks</menu>: Otwiera indeks pomocy.</li>
-  <li><menu>Skrócony przewodnik</menu>: Otwiera skrócony przewodnik po ScidCommunity.</li>
+  <li><menu>Skrócony przewodnik</menu>: Otwiera skrócony przewodnik po scidCommunity.</li>
   <li><menu>Wskazówki</menu>: Otwiera stronę ze wskazówkami.</li>
   <li><menu>Dane kontaktowe</menu>: Otwiera stronę z informacjami kontaktowymi.</li>
   <li><menu>Porada dnia</menu>: Pokazuje okno porady dnia.</li>
-  <li><menu>O programie</menu>: Pokazuje informacje o ScidCommunity.</li>
+  <li><menu>O programie</menu>: Pokazuje informacje o scidCommunity.</li>
   </ul>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -877,7 +878,7 @@ set helpText(P,Menus) {<h1>Menu ScidCommunity</h1>
 set helpTitle(P,Moves) "Wprowadzanie posunięć"
 set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   <p>
-  W ScidCommunity możesz wprowadzać posunięcia do partii za pomocą
+  W scidCommunity możesz wprowadzać posunięcia do partii za pomocą
   myszy albo klawiatury. Gdy przesuwasz mysz nad polem,
   to pole i jeszcze jedno inne zmienią kolor, jeśli istnieje legalne
   posunięcie na to pole lub z tego pola. Jest to <term>sugerowane posunięcie</term>.
@@ -896,22 +897,22 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   </p>
   <p>
   W zależności od opcji <menu>Opcje / Preferencje / Posunięcia / Podświetl ostatnie posunięcie</menu> i
-  ustawień tam dokonanych ScidCommunity oznaczy ostatnie posunięcie kolorową
+  ustawień tam dokonanych scidCommunity oznaczy ostatnie posunięcie kolorową
   ramką wokół użytych pól.
   </p>
   
   <h4>Cofanie posunięć</h4>
   <p>
   Aby cofnąć posunięcie, naciśnij prawy przycisk myszy, Control + Delete
-  albo Control + Backspace. Spowoduje to cofnięcie o jedno posunięcie, a
-  usunięcie posunięcia nastąpi, jeśli było to ostatnie posunięcie w partii lub wariancie.
+  albo Control + Backspace. Spowoduje to cofnięcie o jedno posunięcie.Jeśli jest to ostatnie
+  posunięcie w partii lub wariancie, zostanie ono usunięte.
   </p>
   
-  <h4>Zastępowanie starych posunięć</h4>
+  <h4>Zastępowanie wcześniejszych posunięć</h4>
   <p>
   Po wprowadzeniu posunięcia w miejscu, w którym istnieje już inne posunięcie,
   scidCommunity wyświetli okno dialogowe z pytaniem, czy zastąpić
-  stare posunięcie (stare posunięcie i wszystkie następne zostaną utracone), czy
+  poprzednie posunięcie (poprzednie posunięcie i wszystkie następne zostaną utracone), czy
   dodać nowe posunięcie jako wariant. Niektórzy mogą uznać to okno za
   uciążliwe i zawsze chcieć zastępować stare posunięcia. Można je wyłączyć
   w menu <menu>Opcje: Posunięcia</menu>, odznaczając opcję
@@ -945,7 +946,7 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   
   <h3><name Mistakes>Poprawianie błędów</name></h3>
   <p>
-  Jeśli wpisujesz partię i nagle zauważysz niepoprawne posunięcie kilka
+  Jeśli wpisujesz partię i zauważysz niepoprawne posunięcie kilka
   posunięć wcześniej, można to poprawić bez utraty dodatkowych
   posunięć, które już dodałeś. Jedyny sposób to edycja partii <a PGN>PGN</a>
   : otwórz okno<b> Edycja/Wklej tekst ze schowka...</b> , wybierz „Wklej bieżącą
@@ -976,7 +977,7 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   Jeśli nie jest aktualnie wpisywane żadne posunięcie, naciśnięcie klawisza
   [spacja] wykonuje najlepsze posunięcie silnika wyświetlanego na szachownicy:
   silnika powiązanego z głównym paskiem oceny lub, jeśli go nie ma, działającego
-  silnika w oknie (jak w Lichess). Przy MultiPV wykonywane jest posunięcie
+   w oknie silnika (jak w Lichess). Przy MultiPV wykonywane jest posunięcie
   z pierwszej linii. Ten sam skrót działa w oknach <a Engine>silnika</a>.
   </p>
   <p>
@@ -999,7 +1000,7 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   <p>
   <a Annotating Null>Posunięcia zerowe</a> (puste) mogą być przydatne w wariantach, gdy
   chcesz pominąć posunięcie jednego z graczy. Posunięcie zerowe można wprowadzić myszą,
-  zbijając króla jednym królem, wpisać z klawiatury „<b>--</b>” (naciskając
+  zbijając króla drugim królem, wpisać z klawiatury „<b>--</b>” (naciskając
   dwukrotnie klawisz minusa) lub nacisnąć <b>Ctrl+Alt+0</b> (<menu>Edycja</menu> &gt;
   <menu>Posunięcie zerowe</menu>).
   </p>
@@ -1026,17 +1027,17 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
   <li> -/+: [-][/] </li>
   <li> =+ : [=][+] </li>
   </ul>
-  <b>Uwaga</b>: ScidCommunity używa też niektórych z tych symboli do automatycznych
+  <b>Uwaga</b>: scidCommunity używa też niektórych z tych symboli do automatycznych
   adnotacji. W tym celu symbole te muszą być przypisane
   do określonej wartości pionka. Te wartości pionków można ustawić przez <b>Opcje / Preferencje / 
   Oceny Informatora</b>. Zauważ, że od czasu
-  ScidCommunity 4.0 wiele NAG-ów może być wyświetlanych symbolicznie, jeśli system
+  scidCommunity 4.0 wiele NAG-ów może być wyświetlanych symbolicznie, jeśli system
   poprawnie obsługuje UTF-8. Związek między liczbową wartością NAG
-  a jej symbolicznym przedstawieniem w ScidCommunity podany jest na stronie <a
+  a jej symbolicznym przedstawieniem w scidCommunity podany jest na stronie <a
   NAGs>Standardowe wartości NAG</a>, do której można przejść np. Ctrl-N
   z poziomu <a Comment>edytora komentarzy</a>
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -1044,16 +1045,16 @@ set helpText(P,Moves) {<h1>Wprowadzanie posunięć szachowych</h1>
 ### Pomoc wyszukiwania:
 
 set helpTitle(P,Searches) "Wyszukiwanie"
-set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
+set helpText(P,Searches) {<h1>Wyszukiwanie w scidCommunity</h1>
   <p>
-  ScidCommunity może wykonywać wiele różnych typów wyszukiwania w bazie danych.
+  scidCommunity może wykonywać wiele różnych typów wyszukiwania w bazie danych.
   Cztery główne typy wyszukiwania to:
   </p>
   <ul>
-  <li><b>1)</b> po bieżącej pozycji na szachownicy, </li>
-  <li><b>2)</b> po określonym materiale i wzorcach figur, oraz </li>
-  <li><b>3)</b> według danych nagłówka, takich jak gracze, wynik i data, oraz </li>
-  <li><b>4)</b> tekstu w komentarzach do pozycji. </li>  </ul>
+  <li><b>1)</b> wg bieżącej pozycji na szachownicy, </li>
+  <li><b>2)</b> wg określonego materiału i wzorcach figur, oraz </li>
+  <li><b>3)</b> wg danych z nagłówka, takich jak gracze, wynik i data, oraz </li>
+  <li><b>4)</b> wg tekstu w komentarzach do pozycji. </li>  </ul>
   <p>
   Piątym sposobem, pozwalającym wyszukiwać układy, których nie można opisać
   za pomocą czterech powyższych metod, jest <a CQL><b>CQL-język zapytań szachowych </b></a>.
@@ -1067,7 +1068,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   
   <h3><name Filter>Filtr wyszukiwania</name></h3>
   <p>
-  Wyszukiwanie w ScidCommunity opiera się na koncepcji <term>filtra</term>.
+  Wyszukiwanie w scidCommunity opiera się na koncepcji <term>filtra</term>.
   Filtr reprezentuje podzbiór bieżącej bazy danych; w każdej chwili
   każda partia jest albo włączona do filtra, albo z niego wykluczona.
   </p>
@@ -1102,12 +1103,12 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   aby pozycja miała dokładnie ten sam materiał i tę samą stronę na posunięciu.
   Typy to:
   <ul>
-  <li> [1] Identyczna pozycja (wszystkie figury na tych samych polach), </li>
+  <li> [1] Dokładna pozycja (wszystkie figury na tych samych polach), </li>
   <li> [2] Piony (struktura pionów musi się zgadzać dokładnie, ale inne figury
   mogą być gdziekolwiek), </li>
   <li> [3] Kolumny (liczba białych i czarnych pionów na każdej kolumnie musi się zgadzać
   dokładnie, ale inne figury mogą być gdziekolwiek), oraz </li>
-  <li> [4]Dowolnie (ten sam materiał :piony i figury mogą być gdziekolwiek). </li>
+  <li> [4]Dowolna (ten sam materiał :piony i figury mogą być gdziekolwiek). </li>
   </ul>
   <p>
   Wyszukiwanie wg pionów jest przydatne do studiowania debiutów wg struktury pionów,
@@ -1120,7 +1121,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   rozpocząć wyszukiwanie.
   </p>
   <p>
-  Możesz też poprosić, aby wyszukiwanie obejmowało również warianty
+  Można również włączyć wyszukiwanie w wariantach
   (zamiast sprawdzać tylko
   rzeczywiste posunięcia w partii), zaznaczając pole <b>Szukaj w wariantach</b>, ale może to
   znacznie spowolnić wyszukiwanie, jeśli baza jest duża i ma wiele partii z wariantami.
@@ -1159,7 +1160,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   </p>
   <p>
   Dostępnych jest wiele typowych ustawień materiałowych i wzorców, takich
-  jak końcówki wieża kontra pion albo izolowane piony hetmańskie.
+  jak np. końcówki wieża kontra pion albo izolowane piony hetmańskie.
   </p>
   <p>
   <b>Wskazówki:</b><br>
@@ -1183,7 +1184,7 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   z obrazem lub diagramem.
   </p>
   <p>
-  Przycisk <b>Kopiuj</b> (lub standardowy skrót kopiowania) kopiuje
+  Przycisk <b>Copy </b> (lub standardowy skrót kopiowania) kopiuje
   kolumny <b>Partia</b>, <b>Białe</b>, <b>Czarne</b> i <b>Posunięcie</b>
   zaznaczonego wyniku jako tekst rozdzielony tabulatorami, gotowy do wklejenia
   do arkusza kalkulacyjnego lub innego programu.
@@ -1197,19 +1198,19 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   <p>
   To wyszukiwanie można wykorzystać do znalezienia cech partii zapisanych
   w nagłówku (takich jak data, wynik, nazwiska, flagi i rankingi), więc
-  nie wymaga dekodowania żadnych posunięć.
+  nie wymaga odczytywania żadnych posunięć.
   </p>
   <p>
   Aby partia pasowała do wyszukiwania w nagłówku, <b>wszystkie</b> pola,
   które podasz, muszą się zgadzać.
   </p>
   <p>
-  Pola nazw (Biały, Czarny, Turniej, Miejsce i Runda) dopasowują się do dowolnego tekstu
+  Pola nazw (Białe, Czarne, Turniej, Miejsce i Runda) dopasowują się do dowolnego tekstu
   wewnątrz nazwy, bez rozróżniania wielkości liter i ignorując spacje.
   </p>
   <p>
   Można przeprowadzić wyszukiwanie z rozróżnianiem wielkości liter i symbolami wieloznacznymi
-  dla pól Biały, Czarny, Turniej, Miejsce i Runda (gdzie <b>?</b> oznacza jeden znak, a
+  dla pól Białe, Czarne, Turniej, Miejsce i Runda (gdzie <b>?</b> oznacza jeden znak, a
   <b>*</b> oznacza zero lub więcej znaków), wpisując
   szukany tekst w podwójnych cudzysłowach. Na przykład wyszukanie miejsca <b>USA</b>
   znajdzie amerykańskie miasta, a także <b>Lausanne SUI</b>, co prawdopodobnie
@@ -1232,22 +1233,22 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   <p>
   Na koniec, wyszukiwanie nagłówka może służyć do znajdowania dowolnego tekstu
   (z uwzględnieniem wielkości liter i bez symboli wieloznacznych)
-  w reprezentacji <a PGN>PGN</a>
+  w formacie <a PGN>PGN</a>
   każdej partii. Możesz podać do trzech fraz tekstowych i wszystkie
   muszą wystąpić w partii, aby została dopasowana. To wyszukiwanie jest bardzo
   przydatne do szukania w komentarzach lub dodatkowych tagach partii (takich
   jak <b>lost on time</b> albo <b>Annotator</b>) albo w sekwencji posunięć,
   np. <b>Bxh7+</b> i <b>Kxh7</b> dla poświęcenia gońca na h7, które zostało
   przyjęte. Jednak tego typu wyszukiwanie może być <i>bardzo</i> wolne,
-  ponieważ wszystkie partie spełniające inne kryteria muszą zostać zdekodowane
-  i przeszukane pod kątem tych fraz. Dlatego warto ograniczać takie
-  wyszukiwania tak mocno, jak to możliwe. Oto kilka przykładów. Aby znaleźć
-  partie z promocją na wieżę, wyszukaj <b>=R</b> i ustaw też flagę
-  <b>Promotions</b> na Tak. Podczas wyszukiwania tekstu, który pojawia się
-  w komentarzach, ustaw flagę <b>Comments</b> na Tak. Jeśli szukasz posunięć
-  <b>Bxh7+</b> i <b>Kxh7</b>, możesz na przykład zawęzić wyszukiwanie do partii
-  z wynikiem 1-0 i co najmniej 40 półposunięciami albo najpierw wykonać
-  wyszukiwanie materiałowe/wzorcowe, aby znaleźć partie, w których biały goniec idzie na h7.
+  ponieważ wszystkie partie spełniające inne kryteria muszą zostać przeszukane pod kątem tych fraz.
+  Dlatego warto ograniczać takie wyszukiwania tak mocno, jak to możliwe.
+  Oto kilka przykładów. Aby znaleźć partie z promocją na wieżę, wyszukaj <b>=R</b>
+  i ustaw też flagę <b>Promotions</b> na Tak. Podczas wyszukiwania tekstu,
+  który pojawia się w komentarzach, ustaw flagę <b>Comments</b> na Tak.
+  Jeśli szukasz posunięć <b>Bxh7+</b> i <b>Kxh7</b>, możesz na przykład
+  zawęzić wyszukiwanie do partii z wynikiem 1-0 i co najmniej 40 półposunięciami
+  albo najpierw wykonać wyszukiwanie materiałowe/wzorcowe, aby znaleźć partie,
+  w których biały goniec idzie na h7.
   </p>
   <p>
   <b>Uwaga</b>: jeśli wykonywane jest wyszukiwanie wg kodu <a ECO>ECO</a>,
@@ -1275,18 +1276,18 @@ set helpText(P,Searches) {<h1>Wyszukiwanie w ScidCommunity</h1>
   stronie pomocy o <a Formats>formatach plików</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 #################
 ### Pomoc Clipbase:
 
-set helpTitle(P,Clipbase) "Clipbase"
-set helpText(P,Clipbase) {<h1>Baza danych Clipbase</h1>
+set helpTitle(P,Clipbase) "Clipbase-schowek"
+set helpText(P,Clipbase) {<h1>Baza danych Clipbase-schowek</h1>
   <p>
-  Oprócz otwartych baz danych ScidCommunity udostępnia
-  bazę <term>clipbase</term>, która jest podobna do każdej innej bazy,
+  Oprócz otwartych baz danych scidCommunity udostępnia
+  bazę <term>clipbase-schowek</term>, która jest podobna do każdej innej bazy,
   z tą różnicą, że istnieje tylko w pamięci i nie ma plików do trwałego przechowywania.
   </p>
   <p>
@@ -1318,7 +1319,7 @@ set helpText(P,Clipbase) {<h1>Baza danych Clipbase</h1>
   tylko w pamięci.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 #################################
@@ -1333,7 +1334,7 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   z adnotacji wspomaganych przez silnik, użyj funkcji <a ReviewGameButton>Analiza partii</a>
   (jedna partia) lub <a BatchAnnotate>Adnotacja zbiorcza</a> (wybrane partie).
   Ich opcje znajdują się w <a ReviewSettings>Ustaw parametry analizy</a>.
-  Starsze okno dialogowe adnotacji zostało wycofane.
+  Dawne okno dialogowe adnotacji zostało wycofane.
   </p>
   
   <h3>Symbole i komentarze</h3>
@@ -1342,7 +1343,7 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   "+-" albo "=") lub wskazywania dobrych ("!") i złych ("?") posunięć, natomiast
   komentarze mogą zawierać dowolny tekst. Aby dodać symbole i komentarze do partii, użyj
   okna <a Comment>Edytora komentarzy</a>.
-  Istnieje też strona pomocy z listą <a NAGs>standardowych wartości symboli</a>.
+  Istnieje też strona pomocy z listą <a NAGs>standardowych wartości symboli NAG</a>.
   </p>
   <p>
   Zauważ, że każde posunięcie może mieć więcej niż jeden symbol adnotacji,
@@ -1362,7 +1363,7 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   
   <h4>Skróty klawiaturowe</h4>
   <p>
-  Gdy posunięcie ma warianty, są one wyświetlane w obszarze informacji o partii.
+  Gdy posunięcie ma warianty, są one wyświetlane w oknie informacji o partii.
   Pierwszy jest oznaczony jako <b>v1</b>, drugi jako <b>v2</b> itd.
   Możesz kliknąć wariant, aby go wybrać, lub nacisnąć klawisz "<b>v</b>".
   W drugim przypadku otworzy się okno <term>Warianty</term>, w którym można
@@ -1373,7 +1374,7 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   W oknie wariantów można wybrać wariant klawiszami strzałek w górę i w dół,
   a następnie nacisnąć Enter lub kliknąć go myszą. Każdy wiersz okna
   pokazuje posunięcie rozpoczynające dany wariant oraz kolejne posunięcia.
-  Gdy w obszarze informacji o partii włączona jest opcja
+  Gdy w oknie informacji o partii włączona jest opcja
   <b>Ukryj następne posunięcie</b>, wyświetlane jest tylko pierwsze
   posunięcie. Dzięki temu wybór wariantu nie zdradza dalszego przebiegu.
   Pozwala to przeglądać partię wyłącznie za pomocą klawiszy strzałek.
@@ -1409,18 +1410,18 @@ set helpText(P,Annotating) {<h1>Komentowanie partii</h1>
   </p>
   <p>
   Zauważ, że posunięcia zerowe nie są częścią standardu <a PGN>PGN</a>, więc jeśli
-  eksportujesz partie z posunięciami zerowymi do pliku <a PGN>PGN</a>, ScidCommunity
+  eksportujesz partie z posunięciami zerowymi do pliku <a PGN>PGN</a>, scidCommunity
   udostępni (między innymi opcjami eksportu) możliwość zachowania posunięć zerowych
   albo zamiany ich na komentarze dla zgodności z innym oprogramowaniem.
   Więcej informacji znajdziesz na stronie pomocy <a Export>Eksportowanie</a>.
   </p>
   <p>
-  Zauważ też, że ScidCommunity potrafi obsługiwać posunięcie <term>Z0</term>
+  Zauważ też, że scidCommunity potrafi obsługiwać posunięcie <term>Z0</term>
   jako posunięcie zerowe — to oznaczenie jest popularne w niektórych komercyjnych
   aplikacjach szachowych.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ###############################
@@ -1435,7 +1436,7 @@ set helpText(P,Comment) {<h1>Okno edytora komentarzy</h1>
   
   <h3>Symbole adnotacji</h3>
   <p>
-  ScidCommunity używa <aPGN>standardu PGN</a> do symboli adnotacji,
+  scidCommunity używa <aPGN>standardu PGN</a> do symboli adnotacji,
   akceptując wartości <a NAGs>NAG (numeric annotation glyph)</a>
   do adnotacji. Niektóre z najczęstszych symboli (takie jak "!" albo
   "+-") są wyświetlane jako symbole i mają przycisk w oknie
@@ -1444,7 +1445,7 @@ set helpText(P,Comment) {<h1>Okno edytora komentarzy</h1>
   przykład wartość NAG 36 oznacza „Białe mają inicjatywę” i będzie wyświetlana jako "$36"
   w tekście <a PGN>PGN</a> partii. Jeśli Twój system
   poprawnie obsługuje UTF-8, wiele symboli NAG może być wyświetlanych
-  jako ich <a NAGs>Symbole</a>.
+  jako ich <a NAGs>Symbole NAG</a>.
   </p>
   <p>
   Zobacz stronę pomocy o <a NAGs>wartościach NAG</a>, aby poznać wartości NAG zdefiniowane
@@ -1488,7 +1489,7 @@ set helpText(P,Comment) {<h1>Okno edytora komentarzy</h1>
   Kolorowe znaczniki można dodawać na szachownicy, rysując je
   na małej pomocniczej planszy, którą można rozwinąć po lewej stronie okna
   komentarzy. Wyświetlanie tej planszy przełącza przycisk <button tb_coords>.
-  ScidCommunity zapamięta stan tej planszy, jeśli opcje zostaną zapisane.
+  scidCommunity zapamięta stan tej planszy, jeśli opcje zostaną zapisane.
   Gdy mała plansza pomocnicza zostanie rozwinięta, wybierz znacznik
   z przycisków pod planszą, a kolor z palety kolorów powyżej i po prostu kliknij pole,
   które chcesz oznaczyć.
@@ -1571,7 +1572,7 @@ set helpText(P,Comment) {<h1>Okno edytora komentarzy</h1>
   Ctrl+Shift+Alt celowo nie są przypisane do żadnej funkcji.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -1582,9 +1583,9 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   <p>
   Okno tabeli turniejowej pokazuje tabelę turniejową dla
   aktualnej partii. Każdorazowo, gdy odświeżysz okno tabeli turniejowej (naciskając
-  jej przycisk Odśwież, naciskając klawisz <b>Enter</b> w
+  jej przycisk Aktualizuj, naciskając klawisz <b>Enter</b> w
   oknie tabeli turniejowej, lub wpisując <b>Control+Shift+X</b> w
-  oknie <a MainWindow>głównym</a> lub <a GameList>liście partii</a>), ScidCommunity
+  oknie <a MainWindow>głównym</a> lub <a GameList>Liście partii</a>), scidCommunity
   wyszukuje wszystkie partie z tego samego turnieju co bieżąca partia.
   </p>
   <p>
@@ -1602,7 +1603,7 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   
   <h4>Menu okna tabeli turniejowej</h4>
   <p>
-  Menu <menu>Plik</menu> pozwala wydrukować bieżącą tabelę do pliku
+  Menu <menu>Plik</menu> pozwala zapisać bieżącą tabelę do pliku
   w formacie zwykłego tekstu albo tabeli HTML.
   </p>
   <p>
@@ -1616,7 +1617,7 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   najlepszy format automatycznie dla każdego turnieju, jest ustawieniem domyślnym.
   </p>
   <p>
-  Zauważ, że ScidCommunity korzysta z tagu <b>Runda</b> każdej partii, aby utworzyć tabelę szwajcarską,
+  Zauważ, że scidCommunity korzysta z tagu <b>Runda</b> każdej partii, aby utworzyć tabelę szwajcarską,
   więc nie zobaczysz żadnych partii w tabeli szwajcarskiej dla turnieju,
   jeśli jego partie nie mają numerycznych wartości rund: 1, 2, 3 itd.
   </p>
@@ -1631,7 +1632,7 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   między każdą grupą zawodników z tym samym wynikiem.
   </p>
   <p>
-  Menu <menu>Sortuj</menu> pozwala sortować zawodników wg nazwy, rankingu
+  Menu <menu>Sortuj</menu> pozwala sortować zawodników wg nazwisk, rankingu
   lub wyniku; sortowanie wg wyniku jest ustawieniem domyślnym.
   </p>
   <p>
@@ -1642,17 +1643,17 @@ set helpText(P,Crosstable) {<h1>Okno tabeli turniejowej</h1>
   Jednak w trybie tekstu zwykłego nie można klikać na zawodników lub partie.
   </p>
   
-  <h4>Powtarzające się partie w tabelach turniejowych</h4>
+  <h4>Duplikaty partii w tabelach turniejowych</h4>
   <p>
   Aby uzyskać dobre wyniki w tabeli turniejowej, należy oznaczyć duplikaty
-  do usunięcia, a nazwy graczy, miejsc i wydarzeń powinny mieć
+  do usunięcia, a nazwiska graczy, miejsc i wydarzeń powinny mieć
   spójną pisownię.
   Zobacz stronę <a Maintenance>Narzędzia bazy danych</a>, aby uzyskać pomoc w
   usuwaniu duplikatów partii oraz edycji (lub sprawdzaniu pisowni)
   nazw graczy/wydarzeń/miejsc.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -1688,7 +1689,7 @@ set helpText(P,Switcher) {<h1>Okno przełącznika baz danych</h1>
   przydatne na mniejszych ekranach.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -1699,7 +1700,7 @@ set helpTitle(P,Finder) "Okno wyszukiwarki plików"
 set helpText(P,Finder) {<h1>Okno wyszukiwarki plików</h1>
   <p>
   <term>Wyszukiwarka plików</term> pomaga znaleźć pliki dowolnego typu,
-  których można użyć w ScidCommunity: bazy danych, pliki <a PGN>PGN</a>, pliki <a EPD>EPD</a>,
+  których można użyć w scidCommunity: bazy danych, pliki <a PGN>PGN</a>, pliki <a EPD>EPD</a>,
   oraz pliki <a Reports Opening>Raportu debiutowego</a>.
   </p>
   <p>
@@ -1712,29 +1713,29 @@ set helpText(P,Finder) {<h1>Okno wyszukiwarki plików</h1>
   <p>
   Gdy chcesz znaleźć wszystkie pliki we wszystkich podkatalogach aktualnego
   katalogu, włącz pole wyboru <b>Szukaj w podkatalogach</b>. To
-  spowoduje, że ScidCommunity rekurencyjnie przeszuka każdy podkatalog w poszukiwaniu plików,
-  które można otworzyć w ScidCommunity. Może to zająć dużo czasu, jeśli istnieje wiele
+  spowoduje, że scidCommunity rekurencyjnie przeszuka każdy podkatalog w poszukiwaniu plików,
+  które można otworzyć w scidCommunity. Może to zająć dużo czasu, jeśli istnieje wiele
   podkatalogów, więc nie warto tego robić w przypadku katalogu znajdującego się w pobliżu
   katalogu głównego systemu plików. Można przerwać wyszukiwanie plików, naciskając
-  przycisk <b>Stop</b>.
+  przycisk <b>Zatrzymaj</b>.
   </p>
   
   <h3>Rozmiary plików</h3>
   <p>
   Znaczenie rozmiaru pliku wyświetlanego przez wyszukiwarkę zależy od typu
-  pliku. Dla baz danych ScidCommunity jest to liczba partii. Dla
+  pliku. Dla baz danych scidCommunity jest to liczba partii. Dla
   wszystkich innych plików jest to rozmiar w kilobajtach.
   </p>
 
   <p>
-  Dla łatwej manipulacji bazami danych ScidCommunity wyszukiwarka udostępnia menu
+  Dla łatwej manipulacji bazami danych scidCommunity wyszukiwarka udostępnia menu
   kontekstowe. Z tego menu, dostępnego przez kliknięcie prawym przyciskiem myszy jak zwykle,
   można wykonać następujące funkcje
   <ul>
       <li><term>Otwórz</term> otworzy dany plik, jest to
       to samo, co kliknięcie na plik lewym przyciskiem
       myszy.</li>
-      <li><term>Kopia zapasowa</term> kopiuje plik pod jego oryginalną nazwą
+      <li><term>Utwórz kopię zapasową</term> kopiuje plik pod jego oryginalną nazwą
       z dodaną aktualną datą i godziną.</li>
       <li><term>Kopiuj</term> kopiuje wybraną bazę danych do nowej
       lokalizacji.</li>
@@ -1742,7 +1743,7 @@ set helpText(P,Finder) {<h1>Okno wyszukiwarki plików</h1>
       lokalizacji.</li>
       <li><term>Usuń</term> usuwa wybraną bazę danych.</li>
    </ul>
-   Te funkcje są szczególnie przydatne dla baz danych ScidCommunity, ponieważ
+   Te funkcje są szczególnie przydatne dla baz danych scidCommunity, ponieważ
    składają się one z kilku plików.
   </p>
 }
@@ -1781,11 +1782,11 @@ set helpText(P,Tmt) {<h1>Okno wyszukiwarki turniejów</h1>
   Aby przyspieszyć proces wyszukiwania turniejów, dobrze jest
   ustawić dość mały zakres dat (na przykład maksymalnie kilka lat) lub wybrać
   konkretny kraj (za pomocą jego standardowego trzyliterowego kodu). Wykonanie
-  tych czynności znacznie zmniejszy liczbę partii, które ScidCommunity musi rozpatrzyć
+  tych czynności znacznie zmniejszy liczbę partii, które scidCommunity musi rozpatrzyć
   przy próbie utworzenia turniejów z partii w bazie danych.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -1808,7 +1809,7 @@ set helpText(P,GameList) {<h1>Okno listy partii</h1>
   </p>
   <p>
   Można znaleźć następną partię na liście, która ma określony tekst w polu
-  Biały, Czarny, Turniej lub Miejsce, używając pola <b>Szukaj</b>.
+  Białe, Czarne, Turniej lub Miejsce, używając pola <b>Szukaj</b>.
   </p>
   
   <h3>Operacje na partiach z listy</h3>
@@ -1857,7 +1858,7 @@ set helpText(P,GameList) {<h1>Okno listy partii</h1>
   </p>
   <p>
   Funkcja <term>Scal partię</term> pozwala dodać
-  wybraną partię jako wariant bieżącej partii. ScidCommunity znajduje
+  wybraną partię jako wariant bieżącej partii. scidCommunity znajduje
   najgłębszy punkt, w którym wybrana partia różni się od bieżącej
   partii (uwzględniając transpozycje), i dodaje wariant
   dla wybranej partii w tym miejscu. Wybraną partię można też scalić
@@ -1867,7 +1868,7 @@ set helpText(P,GameList) {<h1>Okno listy partii</h1>
   chcesz dodać całą partię, czy tylko jej fazę debiutową.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -1877,7 +1878,7 @@ set helpText(P,GameList) {<h1>Okno listy partii</h1>
 set helpTitle(P,Import) "Okno importu partii"
 set helpText(P,Import) {<h1>Okno importu</h1>
   <p>
-  Okno importu ScidCommunity zapewnia wygodny sposób wklejenia partii w <a PGN>formacie PGN</a> do ScidCommunity 
+  Okno importu scidCommunity zapewnia wygodny sposób wklejenia partii w <a PGN>formacie PGN</a> do scidCommunity 
   z innej aplikacji lub okna za pomocą menu <b>Edycja/Wklej tekst ze schowka jako partię PGN...</b>
   </p>
   <p>
@@ -1896,7 +1897,7 @@ set helpText(P,Import) {<h1>Okno importu</h1>
   
   <h3>Tagi PGN w oknie importu</h3>
   <p>
-  ScidCommunity oczekuje nagłówkowych tagów <a PGN>PGN</a>, takich jak
+  scidCommunity oczekuje nagłówkowych tagów <a PGN>PGN</a>, takich jak
   <ul>
   <li> <b>[Result "*"]</b> </li>
   </ul>
@@ -1904,12 +1905,12 @@ set helpText(P,Import) {<h1>Okno importu</h1>
   <ul>
   <li> <b>1.e4 e5 2.Bc4 Bc5 3.Qh5?! Nf6?? 4.Qxf7# 1-0</b> </li>
   </ul>
-  bez żadnych tagów nagłówka, a ScidCommunity ją zaimportuje.
+  bez żadnych tagów nagłówka, a scidCommunity ją zaimportuje.
   </p>
   
-  <h3>Korzystanie z plików <a PGN>PGN</a> w ScidCommunity</h3>
+  <h3>Korzystanie z plików <a PGN>PGN</a> w scidCommunity</h3>
   <p>
-  Jeśli chcesz używać pliku w formacie <a PGN>PGN</a> w ScidCommunity, ale nie chcesz
+  Jeśli chcesz używać pliku w formacie <a PGN>PGN</a> w scidCommunity, ale nie chcesz
   najpierw konwertować go za pomocą <a PgnScid>pgnScid</a>, istnieją dwa
   możliwe sposoby.
   </p>
@@ -1921,13 +1922,13 @@ set helpText(P,Import) {<h1>Okno importu</h1>
   czarnymi, dokładna data, wynik oraz identyczny przebieg posunięć są takie same jak w istniejącej partii.
   </p>
   <p>
-  Po drugie - możliwe jest otwarcie pliku <a PGN>PGN</a> bezpośrednio w ScidCommunity. Jednak pliki
+  Po drugie - możliwe jest otwarcie pliku <a PGN>PGN</a> bezpośrednio w scidCommunity. Jednak pliki
   PGN są otwierane tylko do odczytu i zużywają więcej pamięci niż
-  porównywalna baza ScidCommunity, więc jest to zalecane tylko dla względnie
+  porównywalna baza scidCommunity, więc jest to zalecane tylko dla względnie
   małych plików <a PGN>PGN</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -1946,7 +1947,7 @@ set helpText(P,Export) {<h1>Eksportowanie partii</h1>
   </p>
   <p>
   Podczas eksportu możesz utworzyć nowy plik albo dołączyć
-  partie do istniejącego pliku partii wyeksportowanych przez ScidCommunity.
+  partie do istniejącego pliku partii wyeksportowanych przez scidCommunity.
   </p>
   
   <h3>Diagramy</h3>
@@ -1959,25 +1960,25 @@ set helpText(P,Export) {<h1>Eksportowanie partii</h1>
   
   <h3><name Null>Posunięcia zerowe w eksporcie <a PGN>PGN</a></name></h3>
   <p>
-  ScidCommunity pozwala przechowywać w partiach <a Annotating Null>posunięcia zerowe (puste)</a>,
+  scidCommunity pozwala przechowywać w partiach <a Annotating Null>posunięcia zerowe (puste)</a>,
   ponieważ mogą być przydatne przy komentowaniu partii z użyciem
   wariantów. Jednak standard <a PGN>PGN</a> nie zna pojęcia posunięcia zerowego. Jeśli więc
-  wyeksportujesz partie ScidCommunity z posunięciami zerowymi do pliku <a PGN>PGN</a>, inne
+  wyeksportujesz partie scidCommunity z posunięciami zerowymi do pliku <a PGN>PGN</a>, inne
   programy czytające PGN nie będą mogły ich odczytać.
   </p>
   <p>
-  Aby rozwiązać ten problem, ScidCommunity udostępnia dodatkową opcję,
+  Aby rozwiązać ten problem, scidCommunity udostępnia dodatkową opcję,
   <b>Zamień posunięcia zerowe na komentarze</b>, przy eksportowaniu partii w formacie <a PGN>PGN</a>.
   Jeśli chcesz utworzyć plik <a PGN>PGN</a>, który może być użyty przez inne oprogramowanie, włącz tę
   opcję, a warianty zawierające posunięcia null zostaną przekonwertowane na
   komentarze. Jednak jeśli chcesz utworzyć plik <a PGN>PGN</a>, który będzie można później ponownie zaimportować
-  do ScidCommunity z zachowanymi posunięciami null, pozostaw tę opcję wyłączoną.
+  do scidCommunity z zachowanymi posunięciami null, pozostaw tę opcję wyłączoną.
   </p>
   
   <h3>Eksport HTML</h3>
   <p>
-  ScidCommunity może eksportować partie do pliku HTML. Aby diagramy były widoczne,
-  trzeba umieścić obrazy diagramów (dostarczane z ScidCommunity w katalogu
+  scidCommunity może eksportować partie do pliku HTML. Aby diagramy były widoczne,
+  trzeba umieścić obrazy diagramów (dostarczane z scidCommunity w katalogu
   "<b>bitmaps/</b>") w podkatalogu <b>bitmaps/</b> pod katalogiem,
   w którym znajduje się plik HTML.
   </p>
@@ -1999,23 +2000,23 @@ set helpText(P,Export) {<h1>Eksportowanie partii</h1>
   dowolny serwer WWW.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
 ### Pomoc otwarcia transmisji turniejowej Lichess:
 
-set helpTitle(P,LichessTournament) "Otwórz turnieje Lichess"
+set helpTitle(P,LichessTournament) "Otwórz turniej Lichess"
 set helpText(P,LichessTournament) {<h1>Otwórz transmisję turniejową Lichess</h1>
   <p>
-  Funkcja <b>Otwórz turnieje Lichess</b> pozwala pobierać i monitorować
+  Funkcja <b>Otwórz turniej Lichess</b> pozwala pobierać i monitorować
   partie na żywo z transmisji turniejowych Lichess. Jest to przydatne do śledzenia
   dużych turniejów szachowych w czasie rzeczywistym, podczas gdy są rozgrywane.
   </p>
   
   <h3>Jak używać</h3>
   <p>
-  Wybierz z menu <menu>Plik: Otwórz turnieje Lichess</menu>. ScidCommunity:
+  Wybierz z menu <menu>Plik: Otwórz turniej Lichess</menu>. scidCommunity:
   <ul>
   <li>pobierze listę aktualnie aktywnych transmisji turniejowych z Lichess.org</li>
   <li>wyświetli okno wyboru z dostępnymi turniejami</li>
@@ -2026,7 +2027,7 @@ set helpText(P,LichessTournament) {<h1>Otwórz transmisję turniejową Lichess</
   
   <h3>Monitorowanie na żywo</h3>
   <p>
-  Gdy otworzysz partię z transmisji turniejowej Lichess, ScidCommunity będzie
+  Gdy otworzysz partię z transmisji turniejowej Lichess, scidCommunity będzie
   automatycznie monitorować tę partię pod kątem nowych posunięć. Partia będzie
   okresowo aktualizowana zgodnie z wybranym interwałem odświeżania. Nowe posunięcia są
   dodawane automatycznie, a pozycja na szachownicy przesuwa się, aby pokazać najnowszą pozycję.
@@ -2038,12 +2039,12 @@ set helpText(P,LichessTournament) {<h1>Otwórz transmisję turniejową Lichess</
   <ul>
   <li><b>curl</b> (zalecane, dostępne na większości systemów)</li>
   <li><b>wget</b> (alternatywne narzędzie pobierania)</li>
-  <li><b>PowerShell</b> (awaryjnie na Windows)</li>
-  <li>pakiet Tcl TLS (metoda awaryjna)</li>
+  <li><b>PowerShell</b> (rozwiązanie zastępcze dla systemu Windows)</li>
+  <li>pakiet Tcl TLS (metoda zastępcza)</li>
   </ul>
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2053,7 +2054,7 @@ set helpTitle(P,ImportLichess) "Importuj moje partie z Lichess"
 set helpText(P,ImportLichess) {<h1>Importuj moje partie z Lichess</h1>
   <p>
   Funkcja <b>Importuj moje partie z Lichess</b> pobiera wszystkie partie z Twojego konta
-  Lichess.org w określonym zakresie dat i otwiera je do zaimportowania do ScidCommunity.
+  Lichess.org w określonym zakresie dat i otwiera je do zaimportowania do scidCommunity.
   </p>
   
   <h3>Jak używać</h3>
@@ -2067,7 +2068,7 @@ set helpText(P,ImportLichess) {<h1>Importuj moje partie z Lichess</h1>
   </p>
   
   <p>
-  ScidCommunity pobierze wszystkie Twoje partie od podanej daty początkowej do
+  scidCommunity pobierze wszystkie Twoje partie od podanej daty początkowej do
   aktualnej daty za pomocą API Lichess. Partie są pobierane w formacie <a PGN>PGN</a>
   z pełnymi adnotacjami, w tym:
   <ul>
@@ -2093,7 +2094,7 @@ set helpText(P,ImportLichess) {<h1>Importuj moje partie z Lichess</h1>
   curl, wget, PowerShell (Windows) lub obsługi Tcl TLS.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2103,7 +2104,7 @@ set helpTitle(P,ImportChessCom) "Importuj moje partie z chess.com"
 set helpText(P,ImportChessCom) {<h1>Importuj moje partie z chess.com</h1>
   <p>
   Funkcja <b>Importuj moje partie z chess.com</b> pobiera wszystkie partie z Twojego konta
-  Chess.com w określonym zakresie dat i otwiera je do zaimportowania do ScidCommunity.
+  Chess.com w określonym zakresie dat i otwiera je do zaimportowania do scidCommunity.
   </p>
   
   <h3>Jak używać</h3>
@@ -2117,7 +2118,7 @@ set helpText(P,ImportChessCom) {<h1>Importuj moje partie z chess.com</h1>
   </p>
   
   <p>
-  ScidCommunity pobierze wszystkie Twoje partie miesiąc po miesiącu od podanej
+  scidCommunity pobierze wszystkie Twoje partie miesiąc po miesiącu od podanej
   daty początkowej do aktualnego miesiąca za pomocą publicznego API Chess.com. Pasek
   postępu pokazuje stan pobierania w trakcie przetwarzania każdego miesiąca.
   </p>
@@ -2130,7 +2131,7 @@ set helpText(P,ImportChessCom) {<h1>Importuj moje partie z chess.com</h1>
   <li>rankingi graczy i nazwy użytkowników</li>
   <li>tempy gry i typy partii</li>
   <li>informacje o debiucie</li>
-  <li>adresy URL partii do odniesienia</li>
+  <li>adresy URL partii </li>
   </ul>
   </p>
   
@@ -2150,7 +2151,7 @@ set helpText(P,ImportChessCom) {<h1>Importuj moje partie z chess.com</h1>
   i nie wymaga uwierzytelniania.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2160,7 +2161,7 @@ set helpTitle(P,DownloadTWIC) "Pobierz partie TWIC"
 set helpText(P,DownloadTWIC) {<h1>Pobierz partie TWIC</h1>
   <p>
   Funkcja <b>Pobierz partie TWIC</b> pobiera najnowsze partie z
-  <b>The Week In Chess</b> (TWIC), popularnej tygodniowej bazy partii szachowych
+  <b>The Week In Chess</b> (TWIC), popularnej cotygodniowej bazy partii szachowych
   publikowanej przez Marka Crowthera od 1994 roku.
   </p>
   
@@ -2179,7 +2180,7 @@ set helpText(P,DownloadTWIC) {<h1>Pobierz partie TWIC</h1>
   
   <h3>Jak używać</h3>
   <p>
-  Wybierz z menu <menu>Narzędzia: Pobierz partie TWIC</menu>. ScidCommunity:
+  Wybierz z menu <menu>Narzędzia: Pobierz partie TWIC</menu>. scidCommunity:
   <ul>
   <li>otworzy stronę TWIC w Twojej domyślnej przeglądarce w celach referencyjnych</li>
   <li>automatycznie ustali bieżący numer tygodnia TWIC</li>
@@ -2207,14 +2208,14 @@ set helpText(P,DownloadTWIC) {<h1>Pobierz partie TWIC</h1>
   Większość współczesnych systemów ma te narzędzia zainstalowane domyślnie.
   </p>
   
-  <h3>Bycie na bieżąco</h3>
+  <h3>Aktualne partie</h3>
   <p>
   TWIC jest publikowane tygodniowo, zwykle w poniedziałkowe wieczory. Możesz korzystać z tej
   funkcji regularnie, aby pobierać najnowsze partie i być na bieżąco z
   ostatnimi rozgrywkami turniejowymi i rozwojem teorii debiutów.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2223,7 +2224,7 @@ set helpText(P,DownloadTWIC) {<h1>Pobierz partie TWIC</h1>
 set helpTitle(P,PGN) "Okno PGN"
 set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   <p>
-  Okno <a PGN>PGN</a> w ScidCommunity wyświetla zawartość bieżącej partii w
+  Okno <a PGN>PGN</a> w scidCommunity wyświetla zawartość bieżącej partii w
   standardowym zapisie <a PGN>PGN</a>. W tekście posunięć komentarze pojawiają się {w
      nawiasach klamrowych}, a warianty pojawiają się (w nawiasach okrągłych).
   </p>
@@ -2240,7 +2241,7 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   <p>
   Druga część zawiera właściwe posunięcia partii w
   standardowej notacji algebraicznej (SAN) wraz z ewentualnymi wariantami,
-  <a NAGs>symbolami adnotacji</a> i <a Comment>komentarzami</a>.
+  <a NAGs>symbolami adnotacji NAG</a> i <a Comment>komentarzami</a>.
   </p>
   
   <h3>Operacje w oknie <a PGN>PGN</a></h3>
@@ -2259,7 +2260,7 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   wybrać wariant klawiszami strzałek w górę i w dół, a następnie
   nacisnąć Enter lub kliknąć go myszą. Każdy wiersz okna pokazuje
   posunięcie rozpoczynające dany wariant oraz kolejne posunięcia.
-  Gdy w obszarze informacji o partii włączona jest opcja <b>Ukryj następne posunięcie</b>,
+  Gdy w oknie informacji o partii włączona jest opcja <b>Ukryj następne posunięcie</b>,
   wyświetlane jest tylko pierwsze posunięcie. Dzięki temu wybór wariantu nie zdradza dalszego
   przebiegu. Pozwala to przeglądać partię wyłącznie za pomocą klawiszy strzałek.
   Kliknięcie posunięcia środkowym przyciskiem myszy wyświetla małą szachownicę. Kliknięcie prawym
@@ -2295,7 +2296,7 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   <h3>Opcje wyświetlania PGN</h3>
   <p>
   Menu okna <a PGN>PGN</a> zawiera opcje wpływające na wyświetlanie okna <a PGN>PGN</a>.
-  ScidCommunity może wyświetlać partię w kolorze lub w postaci zwykłego tekstu -- zobacz
+  scidCommunity może wyświetlać partię w kolorze lub w postaci zwykłego tekstu -- zobacz
   menu <menu>Wyświetlanie</menu> w oknie <a PGN>PGN</a>.
   Wyświetlanie w kolorze jest łatwiejsze do odczytania i pozwala wybierać posunięcia oraz
   komentarze za pomocą myszy, ale jest znacznie wolniejsze przy aktualizacji. Dla bardzo długich
@@ -2321,11 +2322,11 @@ set helpText(P,PGN) {<h1><a PGN>Okno PGN</a></h1>
   <li><a PGNLichess>lichess.org</a>: Wgrywa aktualną partię do Lichess.org w celu analizy i udostępniania</li>
   <li><a PGNChessDB>chessdb Engine Tree</a>: Otwiera aktualną pozycję w chmurowej bazie danych ChessDB.cn</li>
   </ul>
-  Te przyciski zapewniają natychmiastowy dostęp do zaawansowanych narzędzi online bez opuszczania ScidCommunity.
+  Te przyciski zapewniają natychmiastowy dostęp do zaawansowanych narzędzi online bez opuszczania scidCommunity.
   Więcej szczegółów znajdziesz w osobnych tematach pomocy dla każdego przycisku.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2350,7 +2351,7 @@ set helpText(P,PGNTablebase) {<h1>Okno PGN: przycisk Table Base</h1>
   <h3>Jak używać</h3>
   <p>
   Kliknij przycisk <b>Table Base</b>, przeglądając jakąkolwiek pozycję z 7 lub mniejszą liczbą figur.
-  ScidCommunity:
+  scidCommunity:
   <ul>
   <li>Wyśle zapytanie do API bazy końcówek Lichess z aktualną pozycją</li>
   <li>Wyświetli okno wyskakujące z oceną (wygrana/przegrana/remis)</li>
@@ -2387,7 +2388,7 @@ set helpText(P,PGNTablebase) {<h1>Okno PGN: przycisk Table Base</h1>
   Ta funkcja wymaga połączenia z internetem oraz programu curl lub obsługi Tcl http.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2403,7 +2404,7 @@ set helpText(P,PGNChessCom) {<h1>Okno PGN: przycisk chess.com</h1>
   
   <h3>Jak używać</h3>
   <p>
-  Kliknij przycisk <b>chess.com</b> podczas oglądania dowolnej partii. ScidCommunity:
+  Kliknij przycisk <b>chess.com</b> podczas oglądania dowolnej partii. scidCommunity:
   <ul>
   <li>wyeksportuje bieżącą partię w formacie <a PGN>PGN</a></li>
   <li>zakoduje dane partii do URL</li>
@@ -2447,7 +2448,7 @@ set helpText(P,PGNChessCom) {<h1>Okno PGN: przycisk chess.com</h1>
   Do korzystania z tablicy analitycznej nie jest wymagane konto Chess.com.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2463,7 +2464,7 @@ set helpText(P,PGNLichess) {<h1>Okno PGN: przycisk lichess.org</h1>
   
   <h3>Jak używać</h3>
   <p>
-  Kliknij przycisk <b>lichess.org</b> podczas oglądania dowolnej partii. ScidCommunity:
+  Kliknij przycisk <b>lichess.org</b> podczas oglądania dowolnej partii. scidCommunity:
   <ul>
   <li>wyeksportuje bieżącą partię w formacie <a PGN>PGN</a></li>
   <li>wyśle partię do Lichess przez ich API importu</li>
@@ -2517,16 +2518,16 @@ set helpText(P,PGNLichess) {<h1>Okno PGN: przycisk lichess.org</h1>
   konta daje dodatkowe funkcje.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
 ### Pomoc przycisku chessdb Engine Tree okna PGN:
 
-set helpTitle(P,PGNChessDB) "Przycisk chessdb Engine Tree"
-set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
+set helpTitle(P,PGNChessDB) "Przycisk ChessDB Engine Tree"
+set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk ChessDB Engine Tree</h1>
   <p>
-  Przycisk <b>chessdb Engine Tree</b> w oknie <a PGN>PGN</a> otwiera
+  Przycisk <b>ChessDB Engine Tree</b> w oknie <a PGN>PGN</a> otwiera
   bieżącą pozycję w ChessDB.cn, ogromnej chmurowej bazie szachowej z
   miliardami przeanalizowanych pozycji i ocen komputerowych.
   </p>
@@ -2545,8 +2546,8 @@ set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
   
   <h3>Jak używać</h3>
   <p>
-  Kliknij przycisk <b>chessdb Engine Tree</b> podczas oglądania dowolnej pozycji.
-  ScidCommunity:
+  Kliknij przycisk <b>ChessDB Engine Tree</b> podczas oglądania dowolnej pozycji.
+  scidCommunity:
   <ul>
   <li>pobierze FEN (Forsyth-Edwards Notation) bieżącej pozycji</li>
   <li>otworzy ChessDB.cn w domyślnej przeglądarce internetowej</li>
@@ -2590,7 +2591,7 @@ set helpText(P,PGNChessDB) {<h1>Okno PGN: przycisk chessdb Engine Tree</h1>
   Do korzystania z ChessDB.cn nie jest wymagane konto ani rejestracja.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -2652,7 +2653,7 @@ set helpText(P,ReviewGameButton) {<h1>Okno silnika: przycisk Analiza partii</h1>
   zmieściłyby się w pamięci.
   </p>
   
-  <h3>Jedno posunięcie zamiast całej partii</h3>
+  <h3>Analiza jednego posunięcia zamiast całej partii</h3>
   <p>
   <a ReviewMoveButton><b>Komentarz do posunięcia</b></a> opisuje posunięcie,
   na którym aktualnie jesteś — podświetlone w partii, a nie następne.
@@ -2829,6 +2830,64 @@ set helpText(P,ToolsWhatThreat) {<h1>Okno silnika: Jakie jest zagrożenie?</h1>
 
 
 ####################
+### Batch annotation help:
+###
+### The live path: the Game List's selection menu calls
+### ::batch_annotate::config, and each finished game is written by
+### ::reviewdriver::writeResults - the engine window's review writer - so this
+### page describes Review Settings and has no checkboxes of its own. The
+### script-only annotator this page used to document was retired in #437 §8.
+  
+set helpTitle(P,BatchAnnotate) "Adnotacja zbiorcza partii"
+set helpText(P,BatchAnnotate) {<h1>Adnotacja zbiorcza partii</h1>
+  <p>
+  <term>Adnotacja zbiorcza</term> uruchamia jedną serię analiz silnika dla kilku partii i zapisuje
+  w każdej z nich adnotacje tworzone przez funkcję analizy w oknie silnika. Jest to polecenie
+  dostępne na Liście partii: zaznacz partie, otwórz menu zaznaczenia (kliknij prawym przyciskiem myszy
+  lub naciśnij klawisz Menu) i wybierz <b>Adnotacja zbiorcza</b>.
+  </p>
+  <p>
+  Okno dialogowe zawiera dwa ustawienia. Wybrany <b>silnik</b> analizuje każde posunięcie we
+  wszystkich partiach. <b>Liczba instancji</b> określa, ile kopii silnika działa jednocześnie.
+  Każda instancja analizuje jedną partię naraz, więc przy dwóch instancjach można analizować równolegle
+  dwie partie, jeśli komputer ma wystarczającą liczbę rdzeni. Przycisk <b>Rozpocznij</b> rozpoczyna analizę.
+  </p>
+  
+  <h3>Co zapisuje analiza</h3>
+  <p>
+  Każda zakończona partia jest wczytywana i zapisywana za pomocą tej samej funkcji, której używa
+  <a ReviewGameButton>analiza</a> w oknie silnika. Dlatego zapisywane adnotacje zależą od ustawień w
+  <a ReviewSettings>Ustaw parametry analizy</a>: oceny słownej posunięcia, znacznika <b>[%eval]</b>,
+  symbolu NAG odpowiadającego ocenie, oceny pozycji przy oznaczonych posunięciach,
+  znacznika diagramu <b>D</b> oraz wariantu pokazującego, jak można było zagrać lepiej.
+  Oznaczenia błędów debiutowych i ćwiczeń taktycznych również zależą od odpowiednich opcji. Adnotacja
+  zbiorcza nie ma własnych pól wyboru.
+  </p>
+  <p>
+  Analiza nie korzysta z dostawcy AI: wyszukuje posunięcia za pomocą silnika
+  i zapisuje wyniki analizy — nic więcej. Komentarze AI są dostępne w funkcji
+  Analiza partii, w której trener generuje komentarze dla jednej partii naraz.
+ </p>
+  
+  <h3>Podczas analizy</h3>
+  <p>
+  Plansza postępu pokazuje aktualnie analizowaną partię i jej miejsce w całej
+  serii. Przycisk <b>Anuluj</b> zatrzymuje analizę zbiorczą: silniki zostają
+  zamknięte, partie już zapisane pozostają bez zmian, a partie, których
+  jeszcze nie zapisano, zachowują swój pierwotny stan.
+</p>
+<p>
+  Jeśli analiza posunięcia zakończy się bez uzyskania choć jednej ocenionej linii — najczęściej
+  z powodu limitu czasu — posunięcie zostanie zapisane bez oceny. Końcowy komunikat podaje
+  liczbę takich posunięć obok liczby ukończonych partii, dzięki czemu niepełna analiza partii nie jest
+  przedstawiana jako zakończona.
+</p>
+  
+   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
+}
+
+
+####################
 ### Pomoc Piece Tracker:
 
 set helpTitle(P,PTracker) "Śledzenie figur "
@@ -2909,7 +2968,7 @@ set helpText(P,PTracker) {<h1>Okno śledzenia figur (Piece Tracker)</h1>
   albo ustawia klin pionowy na d5 lub e5.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -3027,9 +3086,9 @@ set helpText(P,Tree) {<h1>Okno drzewo wariantów</h1>
   <h3><name Training>Trening</name></h3>
   <p>
   Gdy pole wyboru <term>Trening</term> w oknie drzewa jest zaznaczone,
-  ScidCommunity będzie losowo wykonywać posunięcie za każdym razem, gdy dodasz posunięcie do partii.
-  Posunięcie wybrane przez ScidCommunity zależy od statystyk bazy, więc posunięcie grane
-  w 80% partii z bazy będzie wybrane przez ScidCommunity z prawdopodobieństwem 80%.
+  scidCommunity będzie losowo wykonywać posunięcie za każdym razem, gdy dodasz posunięcie do partii.
+  Posunięcie wybrane przez scidCommunity zależy od statystyk bazy, więc posunięcie grane
+  w 80% partii z bazy będzie wybrane przez scidCommunity z prawdopodobieństwem 80%.
   Włączenie tej funkcji, a następnie ukrycie (lub zminimalizowanie) okna drzewa
   i granie debiutów przeciwko dużej bazie to świetny sposób na sprawdzenie
   znajomości repertuaru debiutowego. Inną opcją treningu debiutu jest
@@ -3045,7 +3104,7 @@ set helpText(P,Tree) {<h1>Okno drzewo wariantów</h1>
   
   <h3>Buforowanie dla szybszych wyników</h3>
   <p>
-  ScidCommunity utrzymuje pamięć podręczną wyników wyszukiwania drzewa dla pozycji z największą
+  scidCommunity utrzymuje pamięć podręczną wyników wyszukiwania drzewa dla pozycji z największą
   liczbą dopasowanych partii. Jeśli przesuwasz się w przód i w tył w partii w trybie drzewa,
   zobaczysz, że okno drzewa wariantów aktualizuje się niemal natychmiast, gdy wyszukiwana pozycja
   znajduje się w cache.
@@ -3055,7 +3114,7 @@ set helpText(P,Tree) {<h1>Okno drzewo wariantów</h1>
   <b>Plik/Rozmiar pamięci podręcznej</b> w Menu drzewa. Domyślnie jest to do 1000 linii.
   </p>
    
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,TreeMasks) "Maski dla drzewa wariantów"
@@ -3130,7 +3189,7 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
   </p>
   <p>
   <b>Uwaga</b>: Jeśli posunięcie, które ma zostać dodane, nie jest wyświetlone
-  w oknie drzewa, ScidCommunity oferuje listę wszystkich możliwych posunięć
+  w oknie drzewa, scidCommunity oferuje listę wszystkich możliwych posunięć
   za pomocą menu kontekstowego. Ponieważ może to być duża liczba posunięć,
   są one podzielone na kilka pozycji menu kontekstowego na końcu dostępnych
   opcji. Wszystkie są oznaczone <menu>Dodaj to posunięcie do maski</menu> i w razie
@@ -3177,7 +3236,7 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
   </li>
   <li><term>Komentarz do pozycji</term> można użyć do dodania komentarza do
   bieżącej pozycji. Komentarz ten wyświetla się u góry okna <term>Drzewo wariantów</term>,
-  gdy zostanie osiągnięta skomentowana pozycja. Zwróć uwagę, że ScidCommunity
+  gdy zostanie osiągnięta skomentowana pozycja. Zwróć uwagę, że scidCommunity
   pokazuje tylko pierwszą linię komentarza, aby zaoszczędzić miejsce w oknie
   <term>Drzewo wariantów</term>. Jednak po najechaniu kursorem na tę linię cały komentarz
   pojawia się w podpowiedzi.
@@ -3211,21 +3270,21 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
   <p>
   Utworzenie Maski może być żmudnym zadaniem, szczególnie przy złożonych
   repertuarach debiutowych. Jednak jeśli taki repertuar jest dostępny jako
-  baza danych ScidCommunity albo jako wiele partii <a PGN>PGN</a>, lub
-  jako linie zapisane w zwykłych partiach szachowych, ScidCommunity może
+  baza danych scidCommunity albo jako wiele partii <a PGN>PGN</a>, lub
+  jako linie zapisane w zwykłych partiach szachowych, scidCommunity może
   użyć tych danych do automatycznego utworzenia odpowiednich <term>Masek</term>.
   </p>
   <p>
-  Najpierw trzeba wczytać dane do bazy ScidCommunity. Jeśli są już dostępne
-  jako baza ScidCommunity, wystarczy ją otworzyć. Jeśli używany jest 
-  plik <a PGN>PGN</a>, należy go albo zaimportować do bazy ScidCommunity,
+  Najpierw trzeba wczytać dane do bazy scidCommunity. Jeśli są już dostępne
+  jako baza scidCommunity, wystarczy ją otworzyć. Jeśli używany jest 
+  plik <a PGN>PGN</a>, należy go albo zaimportować do bazy scidCommunity,
   albo użyć <term>Clipbase</term>, aby zaimportować go tymczasowo.
   W takim przypadku należy upewnić się, że <term>Clipbase</term> 
   jest pusty przed importem.
   (<menu>Edycja / Usuń wszystkie partie ze schowka</menu>).
   </p>
   <p>
-  Następnym krokiem jest otwarcie drzewa dla właśnie otwartej bazy ScidCommunity.
+  Następnym krokiem jest otwarcie drzewa dla właśnie otwartej bazy scidCommunity.
   Potem należy utworzyć nową <term>Maskę</term> albo otworzyć istniejącą.
   <b>Uwaga</b>: ta funkcja może być użyta do połączenia kilku baz w jedną
   <term>Maska</term>.
@@ -3251,7 +3310,7 @@ set helpText(P,TreeMasks) {<h1>Maski dla drzewa wariantów</h1>
   kończą partie zaraz po osiągnięciu fazy gry środkowej.
   </p>
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -3279,7 +3338,7 @@ set helpText(P,Compact) {<h1>Narzędzia bazy danych</h1>
   <h3>Kompaktowanie pliku partii</h3>
   <p>
   Za każdym razem, gdy partia zostaje zastąpiona lub usunięta, w pliku partii
-  pozostaje niewykorzystana przestrzeń (w największym z trzech plików w bazie ScidCommunity).
+  pozostaje niewykorzystana przestrzeń (w największym z trzech plików w bazie scidCommunity).
   Kompaktowanie pliku partii usuwa całą niewykorzystaną przestrzeń, nie pozostawiając
   w bazie żadnych usuniętych partii. Zauważ, że ta operacja jest nieodwracalna:
   po Kompaktowaniu usunięte partie znikają na zawsze!
@@ -3290,7 +3349,14 @@ set helpText(P,Compact) {<h1>Narzędzia bazy danych</h1>
   plikiem indeksu.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p>
+  Baza danych otwarta z pliku PGN jest ponownie zapisywana w formacie PGN
+  podczas porządkowania. Partie zachowują taki sam odstęp między numerami
+  posunięć, kolejność znaczników i zakończenia wierszy jak przy <a Export>eksporcie do PGN</a>.
+  Dzięki temu plik zachowuje układ ustawiony w preferencjach, a nie ten, który miał przed otwarciem.
+  </p>
+  
+  <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
 
 
@@ -3300,15 +3366,15 @@ set helpText(P,Compact) {<h1>Narzędzia bazy danych</h1>
 set helpTitle(P,Maintenance) "Okno narzędzi bazy danych"
 set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   <p>
-  ScidCommunity udostępnia wiele narzędzi do utrzymania porządków w bazie danych,
-  dostępnych z menu <a Menus Database>Baza danych</a> ScidCommunity. Funkcje
+  scidCommunity udostępnia wiele narzędzi do utrzymania porządków w bazie danych,
+  dostępnych z menu <a Menus Database>Baza danych</a> scidCommunity. Funkcje
   <a Compact>Kompaktowanie</a> i <a Sorting>sortowanie</a>
   bazy są opisane na osobnych stronach pomocy.
   </p>
   
   <h3>Okno narzędzi bazy danych</h3>
   <p>
-  Większość konserwacji baz ScidCommunity można wykonać w oknie <b>Narzędzia bazy danych</b>,
+  Większość porządkowania baz scidCommunity można wykonać w oknie <b>Narzędzia bazy danych</b>,
   które można otworzyć z menu <menu>Baza danych: Narzędzia bazy danych</menu>
   albo skrótem <b>Ctrl+M</b>.
   </p>
@@ -3350,7 +3416,7 @@ set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   <h3><name Editing>Edytowanie nazw graczy, turniejów, miejsc i rund</name></h3>
   <p>
   W swoich bazach danych można znaleźć błędnie zapisane nazwy i chcieć je
-  poprawić. Można to zrobić w ScidCommunity za pomocą okna <term>Edytora
+  poprawić. Można to zrobić w scidCommunity za pomocą okna <term>Edytora
   nazw</term> (skrót klawiszowy: <b>Control+Shift+N</b>), dostępnego z
   podmenu <menu>Baza danych: Narzędzia bazy danych</menu>.
   </p>
@@ -3369,18 +3435,18 @@ set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   
   <h3><name Spellcheck>Sprawdzanie pisowni nazw</name></h3>
   <p>
-  ScidCommunity jest dostarczany z plikiem <term>spellcheck</term> o nazwie <b>spelling.ssp</b>,
+  scidCommunity jest dostarczany z plikiem <term>spellcheck</term> o nazwie <b>spelling.ssp</b>,
   służącym do poprawiania nazw graczy, turniejów, miejsc i rund.
-  ScidCommunity spróbuje wczytać plik spellcheck przy każdym uruchomieniu;  jeśli
+  scidCommunity spróbuje wczytać plik spellcheck przy każdym uruchomieniu;  jeśli
   się nie wczyta, możesz załadować go z menu <menu>Opcje : Zasoby</menu>.
   </p>
   <p>
   Po wczytaniu pliku spellcheck możesz używać go na
-  bazie ScidCommunity za pomocą poleceń  w menu
+  bazie scidCommunity za pomocą poleceń  w menu
   <menu>Baza danych: Pisownia nazw</menu> albo z okna Narzędzia bazy danych.
   </p>
   <p>
-  Gdy sprawdzasz pisownię nazw bazy, ScidCommunity tworzy listę poprawek, którą
+  Gdy sprawdzasz pisownię nazw bazy, scidCommunity tworzy listę poprawek, którą
   możesz edytować przed faktycznym zastosowaniem zmian, więc możesz usunąć
   każdą poprawkę, której nie chcesz wprowadzać.
   </p>
@@ -3398,22 +3464,22 @@ set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   <a Crosstable>Tabeli turniejowej</a>: dla każdego zawodnika 
   znajdującego się w pliku spellcheck zobaczysz tytuł mistrzowski FIDE 
   (<b>gm</b> = Międzynarodowy Mistrz Wielki, <b>im</b> = Mistrz Międzynarodowy itd.)
-  oraz informację o kraju. W dostarczanym z ScidCommunity pliku
+  oraz informację o kraju. W dostarczanym z scidCommunity pliku
   <b>spelling.ssp</b> znajduje się ponad 6500 silnych graczy 
   z przeszłości i obecnych.
   </p>
   
   <h3><name Ratings>Dodawanie rankingów Elo do partii</name></h3>
   <p>
-  Przycisk "Dodaj rankingi ELO " w oknie <b>Baza danych: Pisownia nazw</b> powoduje, że ScidCommunity
+  Przycisk "Dodaj rankingi ELO " w oknie <b>Baza danych: Pisownia nazw</b> powoduje, że scidCommunity
   przeszukuje bieżącą bazę w poszukiwaniu partii, w których gracz nie ma
   rankingu, ale plik spellcheck zawiera ranking Elo dla tego
-  gracza na datę partii. ScidCommunity automatycznie doda wszystkie takie rankingi.
+  gracza na datę partii. scidCommunity automatycznie doda wszystkie takie rankingi.
   Jest to bardzo przydatne w bazie partii na poziomie mistrzowskim,
   która ma niewiele rankingów.
   </p>
   <p>
-  Plik sprawdzania pisowni "spelling.ssp" dołączony do ScidCommunity nie zawiera
+  Plik sprawdzania pisowni "spelling.ssp" dołączony do scidCommunity nie zawiera
   informacji o rankingach Elo potrzebnych dla tej funkcji, ale większa jego wersja
   o nazwie "ratings.ssp" jest dostępna na stronie internetowej
   <url http://scid.sourceforge.net/>scidCommunity website</url>.
@@ -3421,9 +3487,9 @@ set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
   
   <h3><name Cleaner>Porządkowanie...</name></h3>
   <p>
-  Okno <term>Narzędzia bazy danych</term> programu ScidCommunity (dostępne z Okna narzędzi bazy danych ) to narzędzie
-  do wykonywania porządkowania bazy danych za jednym razem. 
-  Można wybrać, jakie zadania chce się wykonać, a ScidCommunity wykona je na aktualnej bazie danych bez
+  Okno <term>Narzędzia bazy danych</term> programu scidCommunity (dostępne z Okna narzędzi bazy danych )
+  to narzędzia do wykonywania porządkowania bazy danych za jednym razem. 
+  Można wybrać, jakie zadania chce się wykonać, a scidCommunity wykona je na aktualnej bazie danych bez
   konieczności interakcji użytkownika. Jest to szczególnie przydatne przy
   obsłudze dużych baz danych.
   </p>
@@ -3440,7 +3506,7 @@ set helpText(P,Maintenance) {<h1>Okno narzędzi bazy danych</h1>
  
 
  
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -3476,7 +3542,7 @@ set helpText(P,Sorting) {<h1>Sortowanie bazy danych</h1>
   
   <h3>Wyniki sortowania</h3>
   <p>
-  Gdy sortujesz bazę ScidCommunity, która nie jest tylko do odczytu, wyniki
+  Gdy sortujesz bazę scidCommunity, która nie jest tylko do odczytu, wyniki
   sortowania są zapisywane, więc kolejność partii w bazie zostaje
   trwale zmieniona. Jeśli chcesz, aby wyniki sortowania były
   tymczasowe, najpierw ustaw bazę jako tylko do odczytu poleceniem
@@ -3508,7 +3574,7 @@ set helpText(P,Sorting) {<h1>Sortowanie bazy danych</h1>
   kompaktowania bazy po procedurze sortowania!
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -3546,7 +3612,7 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   </ul>
 
   <p>
-  Od ScidCommunity 4.0 dostępnych jest dodatkowych 6 własnych flag dla
+  Od scidCommunity 4.0 dostępnych jest dodatkowych 6 własnych flag dla
   indywidualnego użycia. Flagi te są specyficzne dla każdej bazy, a ich
   tekstowy opis można ustawić w oknie <a Maintenance>Okno narzędzi bazy danych</a>.
   W oknie Lista partii, oknie Informacji o partii itd. wyświetlają się
@@ -3565,7 +3631,7 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   </p>
   <p>
   Ponieważ wszystkie flagi ustawiane przez użytkownika (z wyjątkiem flagi Usunięta) nie mają 
-  żadnego znaczenia dla ScidCommunity, można ich używać do każdego celu odpowiadającego twoim potrzebom.
+  żadnego znaczenia dla scidCommunity, można ich używać do każdego celu odpowiadającego twoim potrzebom.
   Na przykład flagi skrzydła królewskiego (K) można użyć do oznaczania natarć pionkowych na
   skrzydle królewskim lub ciężkich ataków figurowych na to skrzydło, lub
   nawet do końcówek z wszystkimi pionkami na skrzydle królewskim.
@@ -3576,14 +3642,14 @@ set helpText(P,Flags) {<h1>Flagi partii</h1>
   wyszukiwanie!
   </p>
   <p>
-  Następujące funkcje ScidCommunity ustawiają lub wymagają flag:
+  Następujące funkcje scidCommunity ustawiają lub wymagają flag:
   <ul>
      <li><a OpeningTrainer>Trener debiutów </a>: może oceniać flagi (B) i (W)</li>
      <li><a FindBestMove>Znajdź najlepsze posunięcie</a>: ocenia flagę (T).</li>
-     <li><a ReviewSettings>Oznacz ćwiczenia taktyczne</a>: ustawia flagę (T).</li>
+     <li><a ReviewSettings>Oznacz zadania taktyczne</a>: ustawia flagę (T).</li>
   </ul>
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -3624,8 +3690,30 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   <b>Otwórz okno silnika</b> (lub kliknij go dwukrotnie albo naciśnij Enter),
   aby otworzyć okno silnika dla tego profilu. Przyciski <b>Nowy</b>,
   <b>Edytuj</b>, <b>Powiel</b> i <b>Usuń</b> służą do zarządzania profilami.
-  Okna można też otwierać bezpośrednio klawiszami F2 i F3.
-
+  </p>
+  <p>
+  Kolumna <term>Skrót</term> pokazuje, który profil uruchamia <b>Okno silnika 1</b> lub <b>2</b>.
+  Aby przypisać profil, zaznacz go, otwórz <b>Edytuj</b> i wybierz <b>Brak</b>, <b>Okno 1</b>
+  lub <b>Okno 2</b>. Przypisanie jest zapamiętywane na podstawie nazwy profilu, dlatego edycja
+  tego profilu, otwarcie innego profilu lub sortowanie listy nie zmienia tego, który silnik uruchamia
+  dane okno. Profil może być przypisany tylko do jednego okna naraz;
+  jego usunięcie kasuje również przypisanie.
+  </p>
+  <p>
+  Same klawisze ustawia się w oknie Konfiguracja silników, wybierając
+  <b>Klawisze skrótów...</b>. Domyślnie dla okna 1 przypisany jest
+  klawisz <b>F2</b>, a dla okna 2 — <b>F3</b>. Przycisk <b>Zmień...</b> pozwala przypisać
+  następną naciśniętą kombinację klawiszy. Akceptowany jest tylko klawisz funkcyjny lub kombinacja
+  zawierająca <b>Ctrl</b>, <b>Alt</b> albo <b>Command</b>, dzięki czemu silnik nie uruchomi się podczas
+  pisania. Klawisz używany już przez inne polecenie lub zarezerwowany przez system operacyjny
+  zostanie odrzucony. Przycisk <b>Przywróć F2 i F3</b> przywraca  ustawienia domyślne.
+  Dwie pozycje w menu <menu>Narzędzia</menu> podają nazwę uruchamianego silnika i przypisany klawisz.
+  Jeśli klawiatura lub środowisko graficzne rezerwuje klawisz  <b>F2</b> (w niektórych systemach służy
+  on np. do usypiania), wybierz inny klawisz lub użyj odpowiedniej pozycji menu. W laptopach Mac może
+  być konieczne użycie klawisza <b>Fn</b>  razem z klawiszami funkcyjnymi, chyba że włączono standardowe
+  klawisze funkcyjne. Dlatego w takim przypadku często wygodniej użyć kombinacji z klawiszem <b>Command</b>.
+  </p>
+ 
   <h3>Przyciski</h3>
   <ul>
   <li><b>Start/Stop</b> <button tb_eng_on>: Uruchamia lub zatrzymuje analizę.
@@ -3701,7 +3789,7 @@ set helpText(P,Engine) {<h1>Okna silnika</h1>
   jest pobierany z tych ustawień. Wykorzystywane są oceny zebrane już
   podczas tworzenia wykresu, z czasem ustawionym w opcji Autorun okna silnika.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -3719,8 +3807,8 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   <p>
   Plik EPD zawiera wiele zdefiniowanych kodów operacji <term>opcode’ów</term> (pól),
   które w pliku są oddzielane średnikami (<b>;</b>), a w oknie EPD
-  ScidCommunity są pokazywane w osobnych wierszach, aby ułatwić edycję.
-  Średnik wewnątrz pola EPD jest przez ScidCommunity zapisywany jako
+  scidCommunity są pokazywane w osobnych wierszach, aby ułatwić edycję.
+  Średnik wewnątrz pola EPD jest przez scidCommunity zapisywany jako
   "<b>\s</b>", aby odróżnić go od znacznika końca pola.
   Każda pozycja i odpowiadające jej opcode’y są zapisane w pliku EPD w jednym
   wierszu.
@@ -3744,7 +3832,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   </ul>
   </p>
   <p>
-  Pliki EPD mają wiele zastosowań: ScidCommunity wykorzystuje plik EPD do
+  Pliki EPD mają wiele zastosowań: scidCommunity wykorzystuje plik EPD do
   klasyfikowania partii wg systemu <a ECO>Encyklopedii Debiutów
   Szachowych</a> (ECO), a użytkownik może utworzyć plik EPD dla swojego
   repertuaru debiutowego, dodając komentarze do pozycji, które regularnie osiąga w partiach.
@@ -3848,7 +3936,7 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
   Podczas analizy pasek stanu wyświetla zamiast tego nazwę silnika
   oraz czas przeznaczony na pozycję.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, lipiec 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, lipiec 2026)</footer></p>
 }
 
 
@@ -3858,21 +3946,21 @@ set helpText(P,EPD) {<h1>Pliki EPD</h1>
 set helpTitle(P,Reports) "Raporty"
 set helpText(P,Reports) {<h1>Raporty</h1>
   <p>
-  <term>Raport</term> w ScidCommunity to dokument zawierający informacje o
-  konkretnej pozycji i/lub graczu. ScidCommunity może wygenerować dwa
+  <term>Raport</term> w scidCommunity to dokument zawierający informacje o
+  konkretnej pozycji i/lub graczu. scidCommunity może wygenerować dwa
   typy raportów: Raporty debiutowe i Raporty o graczu.
   </p>
   
   <h3><name Opening>Raport debiutowy</name></h3>
   <p>
-  ScidCommunity może przygotować <term>Raport debiutowy</term>, który pokazuje
+  scidCommunity może przygotować <term>Raport debiutowy</term>, który pokazuje
   interesujące fakty o pozycji debiutowej. Aby wygenerować Raport debiutowy,
   najpierw upewnij się, że wyświetlana pozycja jest tą, dla której chcesz raport,
   a następnie wybierz <b>Raport debiutowy</b> z menu <b>Narzędzia</b>.
   </p>
   <p>
   Okno <term>Raport debiutowy</term> wyświetla wyniki raportu wygenerowanego
-  przez ScidCommunity. Menu <b>Plik</b> zawiera polecenia do zapisania raportu
+  przez scidCommunity. Menu <b>Plik</b> zawiera polecenia do zapisania raportu
   do pliku w formacie zwykłego tekstu albo HTML.
   </p>
   <p>
@@ -3958,7 +4046,7 @@ set helpText(P,Reports) {<h1>Raporty</h1>
   generowania Tabeli teorii można zmienić w opcjach raportu.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -3987,7 +4075,7 @@ set helpText(P,PList) {<h1>Okno wyszukiwarki graczy </h1>
   ograniczyć zakresy rankingu Elo i liczby rozegranych partii.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4027,10 +4115,10 @@ set helpText(P,PInfo) {<h1>Okno informacji o graczu</h1>
   </p>
   <p>
   Jeśli aktualna wersja pliku rankingów (patrz <url
-  http://Scid.sourceforge.net/>strona internetowa ScidCommunity</url>) jest
+  http://Scid.sourceforge.net/>strona internetowa scidCommunity</url>) jest
   dostępna online, mogą być obecne odnośniki do dodatkowych zasobów,
   dostępne za pomocą przeglądarki internetowej użytkownika, o ile dostępny jest dostęp do Internetu. 
-  Do tych informacji można dotrzeć za pomocą następujących symboli w oknie informacji o graczu (uwaga: nie
+  Do tych informacji można dotrzeć za pomocą następujących symboli w oknie Informacji o graczu (uwaga: nie
   wszystkie symbole muszą być obecne!):
   <ul>
   <li><button fidelnk> Przejdź do strony profilu FIDE gracza</li>
@@ -4038,8 +4126,8 @@ set helpText(P,PInfo) {<h1>Okno informacji o graczu</h1>
   <li><button bcflnk> Przejdź do profilu gracza w British Chess
   Federation.</li>
   <li><button wikiplnk> Otwórz stronę profilu  na Wikipedii.
-  ScidCommunity będzie próbować użyć języka ustawionego dla samego
-  ScidCommunity. Jeśli strona nie jest dostępna, użyje niemieckiego (z czysto technicznych powodów).</li>
+  scidCommunity będzie próbować użyć języka ustawionego dla samego
+  scidCommunity. Jeśli strona nie jest dostępna, użyje niemieckiego (z czysto technicznych powodów).</li>
   <li><button dnblnk> Otwórz niemiecką bibliotekę narodową w poszukiwaniu
   książek napisanych przez gracza lub o nim.</li>
   <li><button viaflnk> Otwórz informacje o graczu w Virtual Authority
@@ -4048,7 +4136,7 @@ set helpText(P,PInfo) {<h1>Okno informacji o graczu</h1>
   </ul>
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 ####################
 ### Pomoc wykresów:
@@ -4056,7 +4144,7 @@ set helpText(P,PInfo) {<h1>Okno informacji o graczu</h1>
 set helpTitle(P,Graphs) "Okna wykresów"
 set helpText(P,Graphs) {<h1>Okna wykresów</h1>
   <p>
-  ScidCommunity ma kilka okien, które wyświetlają informacje w formie graficznej.
+  scidCommunity ma kilka okien, które wyświetlają informacje w formie graficznej.
   Zostały one opisane poniżej.
   </p>
   
@@ -4094,7 +4182,7 @@ set helpText(P,Graphs) {<h1>Okna wykresów</h1>
   małych przedziałach, dodatkowo czytelność wykresu się zmniejsza.
   </p>
   <p>
-  Podczas rysowania wykresu filtra wg rankingu, ScidCommunity używa średniego (przeciętnego)
+  Podczas rysowania wykresu filtra wg rankingu, scidCommunity używa średniego (przeciętnego)
   rankingu dla każdej partii. Szacunkowe rankingi (takie jak te w pliku ortografii)
   nie są używane. Jeśli jeden z graczy w partii ma ranking, a przeciwnik
   nie, przyjmuje się, że przeciwnik ma taki sam ranking, do limitu 2200.
@@ -4151,7 +4239,7 @@ set helpText(P,Graphs) {<h1>Okna wykresów</h1>
   <a Tree Graph>Drzewo wariantów</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4160,23 +4248,23 @@ set helpText(P,Graphs) {<h1>Okna wykresów</h1>
 set helpTitle(P,Bookmarks) "Zakładki"
 set helpText(P,Bookmarks) {<h1>Zakładki</h1>
   <p>
-  ScidCommunity pozwala <term>dodawać do zakładek</term> ważne partie, aby
+  scidCommunity pozwala <term>dodawać do zakładek</term> ważne partie, aby
   łatwo wracać do nich w przyszłości. Menu zakładek jest dostępne z menu
   <menu>Plik</menu>, z paska narzędzi albo skrótem klawiaturowym <b>Ctrl+B</b>.
   </p>
   <p>
-  Gdy wybierzesz partię zapisaną w zakładkach z menu Zakładki, ScidCommunity
+  Gdy wybierzesz partię zapisaną w zakładkach z menu Zakładki, scidCommunity
   w razie potrzeby otworzy jej bazę, odnajdzie tę partię i przejdzie do
   pozycji partii, w której została dodana do zakładek.
   </p>
   <p>
-  Tylko partie znajdujące się w bazie w formacie ScidCommunity (nie w pliku
+  Tylko partie znajdujące się w bazie w formacie scidCommunity (nie w pliku
   <a PGN>PGN</a> ani w clipbase) mogą być dodawane do zakładek.
   </p>
   <p>
   Jeśli baza danych partii zapisanej w zakładkach zostanie posortowana lub
   skompaktowana, szczegóły zakładki mogą się zdezaktualizować. W takiej
-  sytuacji ScidCommunity przy wyborze zakładki wyszuka w bazie najlepiej
+  sytuacji scidCommunity przy wyborze zakładki wyszuka w bazie najlepiej
   pasującą partię (porównując nazwiska graczy, miejsce itd.), więc partia
   z zakładki nadal powinna się otworzyć. Jeśli jednak szczegóły tej partii
   uległy zmianie, może się zdarzyć, że lepiej dopasuje się inna partia i to
@@ -4203,7 +4291,7 @@ set helpText(P,Bookmarks) {<h1>Zakładki</h1>
   albo jako jedna lista.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4212,19 +4300,19 @@ set helpText(P,Bookmarks) {<h1>Zakładki</h1>
 set helpTitle(P,Cmdline) "Opcje wiersza poleceń"
 set helpText(P,Cmdline) {<h1>Opcje wiersza poleceń</h1>
   <p>
-  Gdy uruchamiasz ScidCommunity z powłoki lub konsoli, możesz podać
+  Gdy uruchamiasz scidCommunity z powłoki lub konsoli, możesz podać
   dodatkowe opcje wiersza poleceń. Można wskazać bazy danych w formacie
-  ScidCommunity (z rozszerzeniem pliku lub bez, np. ".si3") oraz pliki <a PGN>PGN</a>,
+  scidCommunity (z rozszerzeniem pliku lub bez, np. ".si3") oraz pliki <a PGN>PGN</a>,
   które mają zostać otwarte; na przykład:
   <ul>
   <li><b>Scid mybase newgames.pgn</b></li>
   </ul>
-  uruchomi ScidCommunity i otworzy bazę ScidCommunity o nazwie mybase
+  uruchomi scidCommunity i otworzy bazę scidCommunity o nazwie mybase
   oraz plik <a PGN>PGN</a> o nazwie newgames.pgn.
   </p>
   <p>
   Dostępne są też opcjonalne argumenty określające, których plików
-  ScidCommunity ma szukać i używać przy starcie. Możesz
+  scidCommunity ma szukać i używać przy starcie. Możesz
   zablokować wczytywanie pliku klasyfikacji debiutów
   <a ECO>ECO openings classification</a> za pomocą <b>-xeco</b> lub <b>-xe</b>, oraz
   zablokować wczytywanie pliku <a Maintenance Spellcheck>spelling</a>
@@ -4239,7 +4327,7 @@ set helpText(P,Cmdline) {<h1>Opcje wiersza poleceń</h1>
   przycisk <b>Zapisane wyszukiwania</b>, aby wczytać zapisane ustawienia.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4249,7 +4337,7 @@ set helpTitle(P,PgnScid) "PgnScid"
 set helpText(P,PgnScid) {<h1>PgnScid</h1>
   <p>
   <term>PgnScid</term> to oddzielny program, którego trzeba użyć do
-  konwertowania plików <a PGN>PGN</a> (portable game notation) do baz danych ScidCommunity.
+  konwertowania plików <a PGN>PGN</a> (portable game notation) do baz danych scidCommunity.
   </p>
   <p>
   Aby przekonwertować plik o nazwie <i>myfile.pgn</i>, wystarczy wpisać:
@@ -4304,11 +4392,11 @@ set helpText(P,PgnScid) {<h1>PgnScid</h1>
   wielką literę V i małe d.
   </p>
   <p>
-  Możesz edytować (a nawet sprawdzać pisownię) nazwy graczy, turniejów, miejsc i rund w ScidCommunity; 
+  Możesz edytować (a nawet sprawdzać pisownię) nazwy graczy, turniejów, miejsc i rund w scidCommunity; 
   szczegóły znajdziesz na stronie pomocy <a Maintenance Editing>Narzędzia bazy danych</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
@@ -4316,9 +4404,9 @@ set helpText(P,PgnScid) {<h1>PgnScid</h1>
 ### Formaty plików:
 
 set helpTitle(P,Formats) "Formaty plików"
-set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
+set helpText(P,Formats) {<h1>Formaty plików scidCommunity</h1>
   <p>
-  Bazy danych ScidCommunity składają się z trzech podstawowych plików: pliku indeksu, pliku
+  Bazy danych scidCommunity składają się z trzech podstawowych plików: pliku indeksu, pliku
   nazw oraz pliku partii. Wszystkie mają trzyliterowe rozszerzenie zaczynające się od "s":
   ".si3" dla pliku indeksu, ".sn3" dla pliku nazw oraz ".sg3" dla pliku partii.
   </p>
@@ -4357,7 +4445,7 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   Możesz przywrócić bazę do minimalnego rozmiaru poleceniem <a Compact>Kompaktuj bazę danych...</a> .
   </p>
   
-  <h3>Inne pliki ScidCommunity</h3>
+  <h3>Inne pliki scidCommunity</h3>
   <p>
   Plik <a EPD>EPD</a> (rozszerzenie: ".epd")
   zawiera szereg pozycji szachowych, każda z komentarzem tekstowym.
@@ -4374,7 +4462,7 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   są przechowywane w pliku preferencji scidCommunity, a nie w osobnych plikach.
   </p>
   
-  <h3><name Fast>Szybkie wyszukiwanie w ScidCommunity</name></h3>
+  <h3><name Fast>Szybkie wyszukiwanie w scidCommunity</name></h3>
   <p>
   Jak wspomniano powyżej, plik indeksu przechowuje pewne nadmiarowe, lecz przydatne
   informacje o każdej partii, aby przyspieszyć wyszukiwanie pozycji lub materiału.
@@ -4394,7 +4482,7 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
   nadal będą musiały zostać przeszukane.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4403,12 +4491,12 @@ set helpText(P,Formats) {<h1>Formaty plików ScidCommunity</h1>
 set helpTitle(P,Options) "Opcje"
 set helpText(P,Options) {<h1>Opcje i preferencje</h1>
   <p>
-  Wiele opcji i preferencji ScidCommunity, takich jak rozmiar szachownicy, kolory, czcionki
+  Wiele opcji i preferencji scidCommunity, takich jak rozmiar szachownicy, kolory, czcionki
   i ustawienia domyślne, można zmieniać z menu <menu>Opcje</menu>.
   Wszystkie te ustawienia (i inne, na przykład ostatni katalog, z którego wczytano bazę danych,
   oraz rozmiary niektórych okien) są zapisywane do pliku opcji, gdy wybierzesz
   <b>Zapisz opcje</b> z menu Opcje.
-  Plik opcji jest wczytywany przy każdym uruchomieniu ScidCommunity.
+  Plik opcji jest wczytywany przy każdym uruchomieniu scidCommunity.
   </p>
   <p>
   Katalog użytkownika scidCommunity to <b>~/.scidX.Y</b> w systemie Linux,
@@ -4430,7 +4518,7 @@ set helpText(P,Options) {<h1>Opcje i preferencje</h1>
   
   <h3><name Fonts>Ustawianie czcionek</name></h3>
   <p>
-  ScidCommunity używa trzech podstawowych czcionek w większości swoich okien, które można
+  scidCommunity używa trzech podstawowych czcionek w większości swoich okien, które można
   dostosować. Nazywane są <b>zwykłą</b>, <b>małą</b> oraz
   <b>stałoszerokościową</b>.
   </p>
@@ -4439,7 +4527,7 @@ set helpText(P,Options) {<h1>Opcje i preferencje</h1>
   w oknach <a Tree>Drzewo wariantów</a> i <a Crosstable>Tabela turniejowa</a>.
   </p>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 ####################
@@ -4633,7 +4721,7 @@ set helpText(P,NAGs) {<h1>Standardowe wartości NAG</h1>
   </cyan>
   
   <p>
-  Symbole zdefiniowane przez ScidCommunity do własnego użytku to:
+  Symbole zdefiniowane przez scidCommunity do własnego użytku to:
   </p>
   <cyan>
   <ul>
@@ -4647,30 +4735,30 @@ set helpText(P,NAGs) {<h1>Standardowe wartości NAG</h1>
   </ul>
   </cyan>
   
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 set helpTitle(P,ECO) "Przewodnik ECO"
 set helpText(P,ECO) {<h1>Klasyfikacja debiutów ECO</h1>
   <p>
-  ScidCommunity potrafi klasyfikować partie szachowe wg systemu <b>ECO</b>
+  scidCommunity potrafi klasyfikować partie szachowe wg systemu <b>ECO</b>
   (Encyclopedia of Chess Openings, Encyklopedia Debiutów Szachowych).
   Standardowy kod ECO składa się z litery (A..E) i dwóch
   cyfr, dlatego istnieje 500 odrębnych standardowych kodów ECO.
   </p>
   
-  <h3>Rozszerzenia ScidCommunity dla systemu ECO</h3>
+  <h3>Rozszerzenia scidCommunity dla systemu ECO</h3>
   <p>
   System ECO jest bardzo ograniczony i niewystarczający dla współczesnych partii:
   niektóre z 500 kodów są praktycznie już niespotykane, inne natomiast
-  spotykane są bardzo często. Aby poprawić tę sytuację, ScidCommunity pozwala na opcjonalne
+  spotykane są bardzo często. Aby poprawić tę sytuację, scidCommunity pozwala na opcjonalne
   rozszerzenie podstawowych kodów ECO przy użyciu kodów opracowanych przez Scid: każdy kod może zostać rozszerzony o
   literę (a..z), z możliwością dalszego rozszerzenia (kolejnej cyfry, 1..4),
-  które jednak nie jest jeszcze używane w standardowym pliku ECO ScidCommunity. Tak więc
-  rozszerzony kod ECO ScidCommunity wygląda jak "<b>A41e</b>" lub "<b>E99b2</b>".
+  które jednak nie jest jeszcze używane w standardowym pliku ECO scidCommunity. Tak więc
+  rozszerzony kod ECO scidCommunity wygląda jak "<b>A41e</b>" lub "<b>E99b2</b>".
   Wiele najbardziej popularnych kodów ECO występujących we współczesnych partiach na poziomie mistrzowskim
-  ma zdefiniowane rozszerzenia w pliku ECO ScidCommunity.
+  ma zdefiniowane rozszerzenia w pliku ECO scidCommunity.
   </p>
   
   <h3><name Browser>Okno Przeglądarki ECO</name></h3>
@@ -4699,19 +4787,19 @@ set helpText(P,ECO) {<h1>Klasyfikacja debiutów ECO</h1>
   zgodnie z wczytanym plikiem ECO.
   </p>
   
-  <h3>Wczytywanie pliku ECO ScidCommunity</h3>
+  <h3>Wczytywanie pliku ECO scidCommunity</h3>
   <p>
-  Plik ECO dołączony do ScidCommunity nazywa się <b>Scid.eco</b>,
-  a ScidCommunity próbuje go wczytać przy uruchomieniu.
-  Jeśli ScidCommunity nie może go znaleźć, należy wykonać poniższe kroki, aby włączyć
+  Plik ECO dołączony do scidCommunity nazywa się <b>Scid.eco</b>,
+  a scidCommunity próbuje go wczytać przy uruchomieniu.
+  Jeśli scidCommunity nie może go znaleźć, należy wykonać poniższe kroki, aby włączyć
   klasyfikację ECO:
   <ul>
-  <li>(a) W ScidCommunity użyj polecenia menu
+  <li>(a) W scidCommunity użyj polecenia menu
   <menu>Opcje / Zasoby / Plik ECO</menu>
   i wybierz plik <b>Scid.eco</b>. </li>
   <li>(b) <b>Zapisz opcje</b> (z menu <menu>Opcje</menu>). </li>
   </ul>
-  Po wykonaniu tej czynności plik ECO będzie wczytywany przy każdym uruchomieniu ScidCommunity.
+  Po wykonaniu tej czynności plik ECO będzie wczytywany przy każdym uruchomieniu scidCommunity.
   </p>
   
   <h3><name Codes>System kodów ECO</name></h3>
@@ -4804,18 +4892,18 @@ set helpText(P,ECO) {<h1>Klasyfikacja debiutów ECO</h1>
   <li>  <b>E9</b>  E7 + 4...d6 5.Nf3: <i>Indyjska Królewska, linie główne</i> </li>
   </ul>
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 
 set helpTitle(P,Author) "Informacje kontaktowe"
 set helpText(P,Author) {<h1>Informacje kontaktowe</h1>
   <p>
-  Strona ScidCommunity na GitHubie znajduje się pod adresem: <br>
-  <b><url https://github.com/whelanh/ScidCommunity>https://github.com/whelanh/ScidCommunity</url></b>
+  Strona scidCommunity na GitHubie znajduje się pod adresem: <br>
+  <b><url https://github.com/whelanh/scidCommunity>https://github.com/whelanh/scidCommunity</url></b>
   </p>
   <p>
-  Można tam pobrać najnowszą wersję ScidCommunity.
+  Można tam pobrać najnowszą wersję scidCommunity.
   </p>
 }
 
@@ -4823,9 +4911,9 @@ set helpText(P,Author) {<h1>Informacje kontaktowe</h1>
 set helpTitle(P,Book) "Okno książki debiutowej"
 set helpText(P,Book) {<h1>Okno książki debiutowej</h1>
   <p>
-  Lista wszystkich plików książek znajdujących się w katalogu <b>books</b> ScidCommunity
+  Lista wszystkich plików książek znajdujących się w katalogu <b>books</b> scidCommunity
   jest wyświetlana na rozwijanej liście u góry okna. Aby wskazać
-  katalog, w którym ScidCommunity ma szukać książek debiutowych, wybierz z menu <b>
+  katalog, w którym scidCommunity ma szukać książek debiutowych, wybierz z menu <b>
   Opcje / Zasoby / Katalog książek debiutowych</b>. Z tej listy można łatwo wybrać
   aktywną książkę.
   </p>
@@ -4858,7 +4946,7 @@ set helpText(P,Book) {<h1>Okno książki debiutowej</h1>
   Używaną książkę można wybrać z rozwijanej listy 
   w oknie książki.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Convert CTG to OBR
@@ -4948,14 +5036,14 @@ set helpText(P,PlayVsEngine) {<h1>Okno Graj przeciwko Silnikowi</h1>
   </p>
   <p>Wskazówka: Jeśli włączysz <a Graphs>Wykres analizy</a>, będziesz mógł obserwować
   wykorzystanie czasu oraz ocenę pozycji w trakcie partii.</p>
-  <p><footer>(Zaktualizowano: ScidCommunity, lipiec 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, lipiec 2026)</footer></p>
 }
 
 # Pomoc: okno trenera debiutów
 set helpTitle(P,OpeningTrainer) "Trener debiutów"
 set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
   <p>
-  Baza danych ScidCommunity może służyć jako repertuar debiutowy,
+  Baza danych scidCommunity może służyć jako repertuar debiutowy,
   a każda partia reprezentuje jedną linię debiutową.
   Partie mogą zawierać warianty oraz wartości NAG, aby określać ocenę każdej linii,
   co pozwala oznaczać linie preferowane lub wątpliwe. 
@@ -4989,7 +5077,7 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
   Gdy masz już mniejszą bazę obejmującą tylko potrzebny debiut,
   ustaw jej typ, jak opisano wyżej.
   Aby używać trenera debiutów z tą nową bazą repertuaru, trzeba ponownie uruchomić
-  ScidCommunity.
+  scidCommunity.
   </p>
   <p>
   Jeśli chcesz, aby trener debiutów działał lepiej, możesz oznaczyć
@@ -5023,12 +5111,12 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
       </li>
       <li><term>Pozwalaj tylko na najlepsze posunięcia</term> - będzie traktować posunięcia o niższej ocenie
       jako błąd. Ocena linii jest określana przez wartości NAG.</li>
-      <li><term>Przeciwnik gra najlepsze posunięcia</term> – ScidCommunity zawsze zagra
+      <li><term>Przeciwnik gra najlepsze posunięcia</term> – scidCommunity zawsze zagra
       najlepszą kontynuację zgodnie z bazą repertuaru. Jeśli
-      opcja jest odznaczona, ScidCommunity może wybierać również kontynuacje o niższej
+      opcja jest odznaczona, scidCommunity może wybierać również kontynuacje o niższej
       ocenie. Jest to pomocne, aby nauczyć się również obalania danej linii.
       </li>
-      <li><term>Tylko oznaczone linie</term> – ScidCommunity będzie grać wyłącznie linie
+      <li><term>Tylko oznaczone linie</term> – scidCommunity będzie grać wyłącznie linie
       z partii oznaczonych jako <term>Debiut białych</term> lub
       <term>Debiut czarnych</term>.
       </li>
@@ -5081,7 +5169,7 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
   gracza, których nie ma w repertuarze</li>
   </ul>
   </p> 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Now part of Play versus Engine (see above)
@@ -5090,7 +5178,7 @@ set helpText(P,OpeningTrainer) {<h1>Trener debiutów</h1>
 set helpTitle(P,TacticsTrainer) "Trening: Taktyka"
 set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   <p>
-  ScidCommunity oferuje możliwość rozwiązywania zadań szachowych. Ta funkcja wymaga
+  scidCommunity oferuje możliwość rozwiązywania zadań szachowych. Ta funkcja wymaga
   specjalnych baz danych zawierających zadania. Bazy te są wyszukiwane w
   katalogu <term>Bazy</term>, który można wskazać w menu <b>Opcje / Zasoby / Katalog baz </b>.
   W przeciwieństwie do innych baz, te bazy zwykle nie zawierają
@@ -5106,7 +5194,7 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   Po wybraniu Graj / Trening / Taktyka pojawia się okno dialogowe, które
   pozwala wybrać bazę treningową. Wyświetlana jest tam nazwa bazy, a po niej
   liczba rozwiązanych zadań oraz całkowita liczba zadań w bazie, podana w nawiasie.
-  Oznacza to, że ScidCommunity przechowuje informacje o zadaniach, które użytkownik już
+  Oznacza to, że scidCommunity przechowuje informacje o zadaniach, które użytkownik już
   rozwiązał w danej bazie. Wybranie bazy i
   kliknięcie przycisku <term>Wyzeruj wyniki</term> wyzeruje te
   informacje, oznaczając wszystkie zadania jako nierozwiązane.
@@ -5114,7 +5202,7 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   <p>
   <b>Uwaga</b>: zaleca się zamknięcie okna <a PGN>PGN</a> i zaznaczenie opcji
   <term>Ukryj następne posunięcie</term> w menu kontekstowym okna
-  informacyjnego głównego okna ScidCommunity. W przeciwnym razie oszukiwanie jest bardzo proste.
+  informacyjnego głównego okna scidCommunity. W przeciwnym razie oszukiwanie jest bardzo proste.
   </p>
   <p>
   Aby znaleźć rozwiązania zadań szachowych w bazie, pozycje są analizowane
@@ -5154,13 +5242,12 @@ set helpText(P,TacticsTrainer) {<h1>Trening: Taktyka</h1>
   zadanie i przejść dalej, przycisk <term>Przerwij</term> zakończy trening
   taktyczny i zamknie bazę danych. Oprócz przycisku <term>Następne</term>
   użytkownik może wybrać zadanie w dowolny sposób, w jaki można
-  wybrać partię w bazie danych w ScidCommunity, np. wybierając losową
+  wybrać partię w bazie danych w scidCommunity, np. wybierając losową
   partię przez Ctrl-? lub przechodząc do zakładki, czy po prostu poprzez <a
   GameList>listę partii</a>.
   </p>
   <p><footer>(Updated: scidCommunity, November 2026)</footer></p>
 }
-
 
 # Znajdź najlepsze posunięcie 
 set helpTitle(P,FindBestMove) "Trening: Znajdź najlepsze posunięcie"
@@ -5169,19 +5256,20 @@ set helpText(P,FindBestMove) {<h1>Trening: Znajdź najlepsze posunięcie</h1>
   Podczas analizy partii silnikiem można wyszukiwać zadania
   taktyczne. W tym celu włącz opcję <term>Oznacz ćwiczenia
   taktyczne</term> w <a ReviewSettings>Ustawieniach analizy</a>.
-  Jeśli silnik wykryje takie zadanie, scidCommunity oznaczy
-  partię flagą <term>T</term> (taktyka) i doda specjalny komentarz
-  opisujący znalezione zadanie.
+  Jeśli silnik wykryje takie zadanie, scidCommunity
+  oznaczy partię flagą <term>T</term> (taktyka)
+  i doda specjalny komentarz opisujący znalezione
+  zadanie.
   </p>
   <p>
   Aby skorzystać z tej metody treningowej, wymagana jest odpowiednio przygotowana
   baza danych. Można to osiągnąć poprzez wsadowe opatrywanie komentarzami zestawu partii lub
   po prostu pobrać je ze <url
-  http://Scid.sourceforge.net/>strony internetowej ScidCommunity</url>.
+  http://Scid.sourceforge.net/>strony internetowej scidCommunity</url>.
   Po otwarciu odpowiednio przygotowanej bazy danych wystarczy wybrać Graj /
-  Trening / Znajdź najlepsze posunięcie. ScidCommunity przejdzie wtedy do następnego miejsca
+  Trening / Znajdź najlepsze posunięcie. scidCommunity przejdzie wtedy do następnego miejsca
   z uderzeniem taktycznym, licząc od bieżącej pozycji partii. W razie potrzeby zostanie
-  wczytana odpowiednia nowa partia, a ScidCommunity wyświetli krytyczną
+  wczytana odpowiednia nowa partia, a scidCommunity wyświetli krytyczną
   pozycję. Użytkownik musi teraz znaleźć najlepszą kontynuację.
   Aby przejść do następnej pozycji taktycznej, wystarczy kliknąć prawym przyciskiem myszy
   przycisk przejścia do końca partii.
@@ -5190,7 +5278,7 @@ set helpText(P,FindBestMove) {<h1>Trening: Znajdź najlepsze posunięcie</h1>
   Do tego ćwiczenia zaleca się zamknięcie okna <a PGN>PGN</a> oraz ustawienie
   opcji <term>Ukryj następne posunięcie</term> w menu kontekstowym okna stanu.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Logowanie do FICS
@@ -5211,19 +5299,19 @@ set helpText(P,FICSLogin) {<h1>Logowanie do FICS</h1>
   <p>
   Choć w zasadzie FICS można używać zwykłym programem telnetowym,
   granie z prawdziwym programem szachowym daje kilka zalet.
-  Dlatego ScidCommunity oferuje interfejs do tego serwera. Aby nawiązać
+  Dlatego scidCommunity oferuje interfejs do tego serwera. Aby nawiązać
   połączenie z serwerem, trzeba się najpierw zalogować i
   podać kilka parametrów:
   <ul>
       <li><term>Login:</term> to twoja nazwa logowania na serwerze FICS.
-      Jej wartość jest zapisywana w konfiguracji ScidCommunity do późniejszego
+      Jej wartość jest zapisywana w konfiguracji scidCommunity do późniejszego
       użycia.</li>
       <li><term>Password:</term> określa hasło do logowania.
       <b>Uwaga</b>: hasło jest widoczne podczas wpisywania, więc każdy może je przeczytać.
       Dodatkowo hasło jest przechowywane w postaci zwykłego tekstu w 
-      konfiguracji ScidCommunity.
+      konfiguracji scidCommunity.
       Jeśli korzystasz z publicznie dostępnego systemu, upewnij się, że katalog
-      konfiguracji ScidCommunity ma odpowiednie uprawnienia.
+      konfiguracji scidCommunity ma odpowiednie uprawnienia.
       </li>
       <li><term>Time seal</term> jeśli zaznaczone, wszystkie połączenia z serwerem FICS
       są prowadzone przez program <term>timeseal</term>. Celem <term>timeseal</term>
@@ -5242,12 +5330,12 @@ set helpText(P,FICSLogin) {<h1>Logowanie do FICS</h1>
       <term>timeseal</term>. Domyślnie jest to 5001 i powinno wystarczyć
       w większości przypadków.</li>
    </ul>
-   Wszystkie te ustawienia są zapisywane w konfiguracji ScidCommunity, więc
+   Wszystkie te ustawienia są zapisywane w konfiguracji scidCommunity, więc
    trzeba je podać tylko raz.
    </p>
   <p>
   Po sprawdzeniu ustawień można połączyć się z serwerem FICS,
-  klikając przycisk <term>Połącz</term>. Alternatywnie ScidCommunity oferuje
+  klikając przycisk <term>Połącz</term>. Alternatywnie scidCommunity oferuje
   logowanie anonimowe poprzez wybranie opcji <term>Zaloguj jako gość</term>. W tym
   trybie można wypróbować wszystkie funkcje FICS, grając anonimowo, ale
   nie będzie można grać partii rankingowych ani uzyskać własnego
@@ -5256,13 +5344,13 @@ set helpText(P,FICSLogin) {<h1>Logowanie do FICS</h1>
   </p>
   <p>
   <b>Uwaga</b>: oprócz standardowych szachów FICS oferuje też szereg
-  wariantów szachowych, takich jak bughouse czy crazyhouse itd. ScidCommunity nie obsługuje
-  żadnego z tych wariantów, więc nie można w nie grać za pomocą ScidCommunity. Jeśli
+  wariantów szachowych, takich jak bughouse czy crazyhouse itd. scidCommunity nie obsługuje
+  żadnego z tych wariantów, więc nie można w nie grać za pomocą scidCommunity. Jeśli
   chcesz grać w warianty, warto sprawdzić inne interfejsy.
   FICS oferuje na swojej stronie domowej szereg graficznych
   interfejsów do pobrania.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Znajdź przeciwnika w FICS
@@ -5301,7 +5389,7 @@ set helpText(P,FICSfindOpp) {<h1>Znajdź przeciwnika w FICS</h1>
    Kliknięcie przycisku <term>Wystaw wyzwanie</term> umieści Twoją
    ofertę na serwerze.
   </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # FICS
@@ -5397,7 +5485,7 @@ set helpText(P,FICS) {<h1>FICS: gra w internecie</h1>
   FICS oferuje kilka opcji treningu szachowego. Jedne z bardziej
   znanych to boty wykładowe <term>LectureBot</term> i
   <term>WesBot</term>. Działają one cały czas na FICS i oferują różne
-  sesje treningowe, w których można uczestniczyć za pomocą ScidCommunity. Początek każdej
+  sesje treningowe, w których można uczestniczyć za pomocą scidCommunity. Początek każdej
   sesji jest ogłaszany na <term>kanale 67</term> FICS. Dlatego,
   aby zobaczyć te ogłoszenia, należy najpierw dodać ten kanał do
   osobistej listy obserwowanych. Można to zrobić za pomocą polecenia <term>+channel
@@ -5415,25 +5503,25 @@ set helpText(P,FICS) {<h1>FICS: gra w internecie</h1>
   żywo na serwerze i omawiać je z innymi użytkownikami FICS. Aby dowiedzieć się,
   jakie partie są obecnie retransmitowane (jeśli w ogóle), można poprosić retransmisję o
   listę poleceniem <term>relay listgames</term>. Ponieważ FICS oczekuje terminala
-  o szerokości 80 znaków, może być konieczna zmiana rozmiaru okna FICS w ScidCommunity,
+  o szerokości 80 znaków, może być konieczna zmiana rozmiaru okna FICS w scidCommunity,
   aby uzyskać czytelną tabelę. Wpisy w tabeli to: najpierw
   numer partii, dwukropek, następnie przeciwnicy, wynik partii (gwiazdka *
   oznacza partię trwającą, jak zwykle) oraz <a ECO>kod ECO</a>
   debiutu. Aby obserwować konkretną partię, wystarczy wpisać <term>observe
-  numerpartii</term>. ScidCommunity wyświetli wtedy bieżącą pozycję na
+  numerpartii</term>. scidCommunity wyświetli wtedy bieżącą pozycję na
   szachownicy, zegary będą pokazywać prawidłowe wartości przesyłane przez
   retransmisję, a wszystkie dotychczasowe posunięcia partii zostaną pobrane wraz z typowymi
-  polami nagłówka <a PGN>PGN</a>. Jeśli gracz wykona posunięcie, jest ono wykonywane w ScidCommunity
+  polami nagłówka <a PGN>PGN</a>. Jeśli gracz wykona posunięcie, jest ono wykonywane w scidCommunity
   jak zwykle. Aby omówić partię z innymi obserwatorami,
   można użyć poleceń <term>whisper</term> i <term>kibitz</term>. Więcej informacji o
   tych poleceniach znajduje się w pomocy online. Wszystkie te rozmowy
   można odczytać w konsoli.
   </p>
   <p>
-  Należy zauważyć, że w ScidCommunity można obserwować tylko jedną partię naraz.
+  Należy zauważyć, że w scidCommunity można obserwować tylko jedną partię naraz.
   </p>
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Dostrajanie książki
@@ -5441,7 +5529,7 @@ set helpTitle(P,BookTuning) "Dostrajanie książki debiutowej"
 set helpText(P,BookTuning) {<h1>Dostrajanie książki</h1>
    <p>
    Dla każdego posunięcia z książki debiutowej podany jest procent określający
-   prawdopodobieństwo, że ScidCommunity użyje tego posunięcia. Za pomocą funkcji 
+   prawdopodobieństwo, że scidCommunity użyje tego posunięcia. Za pomocą funkcji 
    <term>Dostrajanie książki debiutowej</term> można dostosować te wartości. Najpierw należy ustawić pozycję,
    w której mają zostać przyjęte linie. Po wybraniu <b>Narzędzia / Dostrajanie książki debiutowej</b>
    pojawia się małe okno przedstawiające posunięcia w książce i ich procentowy udział
@@ -5453,12 +5541,12 @@ set helpText(P,BookTuning) {<h1>Dostrajanie książki</h1>
    <p>
    Aby poruszać się po gałęziach książki, wystarczy kliknąć
    linię w oknie dostrajania książki lub poruszać się po partii w zwykły sposób
-   w ScidCommunity.
+   w scidCommunity.
    </p>
    <p>
    Aby dostosować prawdopodobieństwo, np. zwiększyć prawdopodobieństwo danego
    wariantu, wystarczy zwiększyć jego wartość. Choć pozostałe wartości
-   pozostają takie same, ScidCommunity przeliczy je ponownie po naciśnięciu przycisku
+   pozostają takie same, scidCommunity przeliczy je ponownie po naciśnięciu przycisku
    <term>Zapisz</term>.
    </p>
    <p>
@@ -5467,13 +5555,13 @@ set helpText(P,BookTuning) {<h1>Dostrajanie książki</h1>
    o najwyższym prawdopodobieństwie utworzy linię główną, a wszystkie
    inne zostaną zapisane jako warianty. Pozwala to na
    częściowo ręczny wybór linii do uwzględnienia w nowo tworzonej książce. Należy zauważyć,
-   że ScidCommunity obsługuje 3000 posunięć w pojedynczej partii, dlatego najprawdopodobniej
+   że scidCommunity obsługuje 3000 posunięć w pojedynczej partii, dlatego najprawdopodobniej
    nie będzie możliwe (ani szczególnie sensowne), aby
    wyeksportować całą książkę debiutową do jednej partii. Należy też zauważyć, że eksport
    można wykonywać przyrostowo. Oznacza to, że nowe linie są dodawane do już
    istniejących. Pozwala to również na łączenie kilku ksiąg.
    </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 # Novag Citrine
@@ -5481,7 +5569,7 @@ set helpTitle(P,Novag) "Podłączanie szachownicy Novag Citrine"
 set helpText(P,Novag) {<h1>Podłączanie szachownicy Novag Citrine</h1>
    <p>
    Novag Citrine to drewniana szachownica, którą można podłączyć
-   do komputera za pomocą połączenia szeregowego. Może być używana ze ScidCommunity
+   do komputera za pomocą połączenia szeregowego. Może być używana ze scidCommunity
    do wprowadzania partii, gry przeciwko komputerowemu przeciwnikowi lub gry na FICS,
    oferując "naturalny" interfejs szachowy.
    </p>
@@ -5498,12 +5586,12 @@ set helpText(P,Novag) {<h1>Podłączanie szachownicy Novag Citrine</h1>
 
    ###--- Wymagany jest szczegółowy opis ---###
    </p>
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,HardwareConfig) "Podłączanie sprzętu zewnętrznego"
 set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
-  Istnieją dwa typy sprzętu, których można używać ze ScidCommunity do gry
+  Istnieją dwa typy sprzętu, których można używać ze scidCommunity do gry
   lub wprowadzania partii. Wybierz z listy <term>Sprzęt</term> ten,
   którego chcesz użyć:
   <ul>
@@ -5515,7 +5603,7 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
     samych figur.
     </li>
     <li><term>Input Engine</term> – sterowniki tego typu mają być wolnym,
-    otwartym interfejsem pozwalającym podłączyć dowolny sprzęt do GUI, takiego jak ScidCommunity.
+    otwartym interfejsem pozwalającym podłączyć dowolny sprzęt do GUI, takiego jak scidCommunity.
     Wzorowane są na zwykłym stylu silnika szachowego. Specyfikację
     protokołu, a także sterownik odpowiedni dla
     szachownic DGT Electronic Chess, można znaleźć na <url
@@ -5525,7 +5613,7 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
     </li>
   </ul>
   <p>
-  <b>Uwaga</b>: ScidCommunity nie zawiera domyślnie żadnego silnika wejściowego (Input Engine). Silniki
+  <b>Uwaga</b>: scidCommunity nie zawiera domyślnie żadnego silnika wejściowego (Input Engine). Silniki
   wejściowe mają być niezależnymi programami, których można używać z
   różnymi GUI.
   </p>
@@ -5562,7 +5650,7 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
     <li><term>Pokaż przycisk</term>: po zaznaczeniu włączy <a
     HardwareStatus>przycisk połączenia sprzętu</a> na pasku narzędzi.
     Jeśli opcja jest odznaczona, przycisk nie pojawi się, aby zaoszczędzić miejsce.
-    Usunięcie przycisku wymaga ponownego uruchomienia ScidCommunity.
+    Usunięcie przycisku wymaga ponownego uruchomienia scidCommunity.
     </li>
   </ul>
   <p>
@@ -5595,7 +5683,7 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
      </li>
   </ul>
   <p>
-  Naciśnięcie <term>OK</term> zapisze konfigurację w ustawieniach ScidCommunity
+  Naciśnięcie <term>OK</term> zapisze konfigurację w ustawieniach scidCommunity
   i natychmiast uruchomi wybrany sterownik.
   </p>
   <p>
@@ -5606,13 +5694,13 @@ set helpText(P,HardwareConfig) {<h1>Podłączanie sprzętu zewnętrznego</h1>
   </p>
 
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,HardwareStatus) "Stan sprzętu zewnętrznego"
 set helpText(P,HardwareStatus) {<h1>Stan sprzętu zewnętrznego</h1>
    <p>
-   Ten przycisk znajduje się po prawej stronie paska narzędzi ScidCommunity. W zależności
+   Ten przycisk znajduje się po prawej stronie paska narzędzi scidCommunity. W zależności
    od stanu sprzętu zewnętrznego pokazuje różne ikony:
    </p>
    <ul>
@@ -5622,7 +5710,7 @@ set helpText(P,HardwareStatus) {<h1>Stan sprzętu zewnętrznego</h1>
    spowoduje podłączenie skonfigurowanego sprzętu.
    </li>
    <li><button tb_eng_connecting>
-   ScidCommunity rozpoczął komunikację ze sprzętem zewnętrznym,
+   scidCommunity rozpoczął komunikację ze sprzętem zewnętrznym,
    trwa inicjalizacja. W zależności od sterownika i podłączonego
    sprzętu, ustabilizowanie się procesu może zająć kilka sekund.
    </li>
@@ -5653,25 +5741,25 @@ set helpText(P,HardwareStatus) {<h1>Stan sprzętu zewnętrznego</h1>
    </li>
    </ul>
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,InputEngine) "Konsola sterownika Input Engine"
 set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    <p>
    U góry tego okna pojawia się konsola monitorująca
-   komunikację między ScidCommunity a silnikiem sterownika. Zwykle nie jest to
+   komunikację między scidCommunity a silnikiem sterownika. Zwykle nie jest to
    istotne dla użytkownika, ale może dostarczyć przydatnych wskazówek w
-   przypadku nieprawidłowego działania. Wszystkie polecenia wysyłane przez ScidCommunity są poprzedzone
+   przypadku nieprawidłowego działania. Wszystkie polecenia wysyłane przez scidCommunity są poprzedzone
    strzałką w prawo, wszystkie odpowiedzi otrzymane od silnika sterownika –
    strzałką w lewo. Poniżej konsoli wyświetlane jest informacyjnie
-   rzeczywiste wywołanie sterownika przez ScidCommunity.
+   rzeczywiste wywołanie sterownika przez scidCommunity.
    </p>
    <p>
    <term>Posunięcia wysyłane dla</term> pozwala ograniczyć posunięcia wysyłane przez
    sprzęt zewnętrzny. Przy wprowadzaniu partii szachownica oczywiście powinna wysyłać
    posunięcia obu stron. Jednak przy rzeczywistej grze
-   posunięcia wykonane przez przeciwnika powinny być ignorowane, ponieważ ScidCommunity
+   posunięcia wykonane przez przeciwnika powinny być ignorowane, ponieważ scidCommunity
    w przeciwnym razie zgłosiłoby je jako "nielegalne posunięcia".
    </p>
    <p>
@@ -5683,7 +5771,7 @@ set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    szachownicy jest pokazywane w figurynowej długiej notacji algebraicznej. Poprawne posunięcia
    pojawiają się na <green>zielonym</green> tle, podczas gdy nielegalne posunięcia
    pojawiają się na <red>czerwonym</red> tle. Dodatkowo nielegalne posunięcia
-   są sygnalizowane dźwiękiem alarmu, jeśli ScidCommunity ma włączone dźwięki.
+   są sygnalizowane dźwiękiem alarmu, jeśli scidCommunity ma włączone dźwięki.
    W zależności od ustawień posunięcia są dodatkowo zapowiadane głosowo.
    </p>
    <p>
@@ -5692,11 +5780,11 @@ set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    zwykle powinien zawierać jak najwięcej dostępnych danych o
    zewnętrznym sprzęcie i samym sterowniku. Dodatkowo zewnętrzny
    sterownik zwróci bieżącą pozycję na zewnętrznej szachownicy w postaci <term>FEN</term>, która
-   jest następnie porównywana z wewnętrzną reprezentacją ScidCommunity. Rozbieżności
+   jest następnie porównywana z wewnętrzną reprezentacją scidCommunity. Rozbieżności
    pojawiają się w konsoli i powodują alert.
    </p>
    <p>
-   W przypadku gdy ScidCommunity i zewnętrzna szachownica rozsynchronizują się, można
+   W przypadku gdy scidCommunity i zewnętrzna szachownica rozsynchronizują się, można
    użyć przycisku <term>Synchronizuj</term>. Zostanie ustawiona nowa partia,
    a pozycja startowa zostanie ustawiona na pozycję na zewnętrznej
    szachownicy.  </p>
@@ -5725,7 +5813,7 @@ set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    </p>
    <p>
    W trybie ustawiania można ustawić dowolną prawidłową pozycję na zewnętrznej
-   szachownicy, jednak wewnętrzna reprezentacja ScidCommunity nie jest aktualizowana aż do
+   szachownicy, jednak wewnętrzna reprezentacja scidCommunity nie jest aktualizowana aż do
    zakończenia.
    </p>
    <p>
@@ -5767,14 +5855,14 @@ set helpText(P,InputEngine) {<h1>Konsola sterownika Input Engine</h1>
    <h3>Rozpoczęcie nowej partii</h3>
    <p>
    Nową partię można rozpocząć, wchodząc w tryb ustawiania (czyli zdejmując oba
-   króle) i ustawiając pozycję startową. Aby powiadomić, że ScidCommunity
+   króle) i ustawiając pozycję startową. Aby powiadomić, że scidCommunity
    rozpoznał żądanie rozpoczęcia nowej partii, <term>obszar posunięć</term> jest
    zabarwiony na niebiesko, pokazując białego króla i napis
    <term>OK</term>.
    </p>
 
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,Metadata) "Metadane Dublin Core"
@@ -5787,7 +5875,7 @@ set helpText(P,Metadata) {<h1>Metadane Dublin Core</h1>
    normie NISO Z39.85-2007.
    </p>
    <p>
-   Niektóre bazy danych używane ze ScidCommunity mogą zawierać dodatkowe
+   Niektóre bazy danych używane ze scidCommunity mogą zawierać dodatkowe
    informacje metadanych. Informacje takie mogą dotyczyć licencji
    bazy danych, źródła bazy danych (w przypadku gdy jest ona opublikowana w
    sieci), daty utworzenia bazy danych itd.
@@ -5806,19 +5894,19 @@ set helpText(P,Metadata) {<h1>Metadane Dublin Core</h1>
    etykietami wyświetlanymi na <blue>niebiesko</blue>.
    </p>
    <p>
-   Po wybraniu opcji <term>OK</term> ScidCommunity zapisuje metadane w
-   pliku <term>sme</term> do użytku w ScidCommunity. Dodatkowo generowany jest
+   Po wybraniu opcji <term>OK</term> scidCommunity zapisuje metadane w
+   pliku <term>sme</term> do użytku w scidCommunity. Dodatkowo generowany jest
 
    plik <term>XML</term> zawierający dokładnie te same
    metadane, ale w formacie XML, dla łatwiejszej wymiany danych.
    </p>
    <p>
-   <b>Uwaga</b>: ScidCommunity nie korzysta samodzielnie z pliku XML. Używa
+   <b>Uwaga</b>: scidCommunity nie korzysta samodzielnie z pliku XML. Używa
    wyłącznie pliku <term>sme</term> w swoich wewnętrznych procedurach.
    Jednak inne aplikacje mogą preferować strukturę XML.
    </p>
 
-  <p><footer>(Zaktualizowano: ScidCommunity, kwiecień 2026)</footer></p>
+  <p><footer>(Zaktualizowano: scidCommunity, kwiecień 2026)</footer></p>
 }
 
 set helpTitle(P,Presentation) "Szachownica prezentacyjna"

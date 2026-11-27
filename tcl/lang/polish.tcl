@@ -2,7 +2,7 @@
 ### Polskie menu i komunikaty dla ScidCommunity.
 
 # Contributed by Michal Rudolf and Adam Umiastowski.(Scid)
-# Aktualizacja ScidCommunity v5.1.4.71  by Szustan 
+# Aktualizacja ScidCommunity v5.1.4.77  by Szustan 
 
 # addLanguage P Polish 0 utf-8
 # Tekst nazw menu i komunikatów pomocy na pasku stanu w języku polskim.
@@ -130,11 +130,11 @@ menuText P EditCopyBoard "Kopiuj pozycję jako FEN" 6 \
   {Skopiuj bieżącą pozycję w formacie FEN do zaznaczenia tekstu (schowka)}
 menuText P EditPasteBoard "Wklej pozycję jako FEN" 12 \
   {Ustaw pozycję początkową na podstawie zaznaczonego tekstu (schowka)}
-menuText P ConfigureScid "Preferencje..." 0 {Skonfiguruj wszystkie opcje SCID}
+menuText P ConfigureScid "Preferencje..." 0 {Konfiguruj wszystkie opcje SCID}
 
 # Game menu:
 menuText P Game "Partia" 0
-menuText P GameNew "Nowa partia" 0 {Rozpocznij pustą partię}
+menuText P GameNew "Nowa partia" 0 {Rozpocznij nową partię}
 menuText P GameFirst "Wczytaj pierwszą partię" 5 {Wczytaj pierwszą partię z przefiltrowanej listy}
 menuText P GamePrev "Wczytaj poprzednią partię" 5 {Wczytaj poprzednią partię z przefiltrowanej listy}
 menuText P GameReload "Wczytaj partię ponownie" 3 \
@@ -148,7 +148,7 @@ menuText P GameReplace "Zapisz: zastąp partię..." 6 \
   {Zapisz tę partię, zastępując jej poprzednią wersję}
 menuText P GameAdd "Zapisz: dodaj nową partię..." 6 \
   {Zapisz tę partię jako nową w bazie danych}
-menuText P GameDelete "Usuń partię" 0 {Zmień znacznik usunięcia bieżącej partii}
+menuText P GameDelete "Usuń partię" 0 {Włącz lub wyłącz oznaczenie usunięcia bieżącej partii}
 menuText P GameDeepest "Rozpoznaj debiut" 0 \
   {Przejdź do najdalszej pozycji partii wymienionej w podręczniku ECO}
 menuText P GameGotoMove "Przejdź do posunięcia nr..." 5 \
@@ -157,7 +157,7 @@ menuText P GameNovelty "Znajdź nowinkę..." 7 \
   {Znajdź pierwsze posunięcie tej partii, które nie było wcześniej grane}
 menuText P PlayTournament "Rozegraj turniej silników..." 0 \
     {Rozegraj turniej silników}
-
+	
 # Search Menu:
 menuText P Search "Szukaj" 0
 menuText P SearchReset "Wyczyść filtr" 0 {Wyczyść filtr, aby uwzględnić wszystkie partie}
@@ -205,8 +205,8 @@ translate P EpdStripOpcodes {Usuń kody operacyjne...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
-# EPD headless analysis: status text and the reasons the session reports.
-# The EpdEngine* strings are fragments shown after the "%s" above them.
+# Analiza EPD bez interfejsu graficznego: tekst statusu i przyczyny zgłaszane przez sesję.
+# Ciągi EpdEngine* to fragmenty wyświetlane po znajdującym się nad nimi "%s".
 translate P EpdAnalysisTitle {Analiza EPD}
 translate P EpdAnalysisRunning {Inna analiza EPD jest już uruchomiona.}
 translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
@@ -255,7 +255,7 @@ menuText P ToolsBookTuning "Dostrajanie książki debiutowej" 0 {Dostrajanie ksi
 menuText P ToolsCtgConvert "Konwertuj CTG na OBR..." 0 {Konwertuj książkę debiutową ChessBase w formacie CTG na format OpenBook Rich (.obr)}
 menuText P ToolsRapidAnnotate "Adnotacje z wykresu analizy silnika" 0 {Zapisz oceny i adnotacje z wykresu analizy silnika w bieżącej partii (Ctrl+Shift+A)}
 menuText P ToolsDownloadTWIC "Pobierz partie TWIC" 0 {Pobierz najnowsze partie z The Week In Chess (TWIC)}
-menuText P ToolsConnectHardware "Podłącz urządzenie" 8 {Podłącz urządzenie zewnętrzne}
+menuText P ToolsConnectHardware "Podłącz urządzenia" 8 {Podłącz urządzenia zewnętrzne}
 menuText P ToolsConnectHardwareConfigure "Konfiguruj..." 0 {Skonfiguruj urządzenie zewnętrzne i połączenie}
 menuText P ToolsConnectHardwareNovagCitrineConnect "Połącz z Novag Citrine" 8 {Połącz Novag Citrine z programem Scid}
 menuText P ToolsConnectHardwareInputEngineConnect "Podłącz urządzenie wejściowe" 8 {Połącz urządzenie wejściowe (np. szachownicę DGT) z programem Scid}
@@ -362,7 +362,7 @@ translate P OptionsMovesEngineHistory {Pokaż historię wyszukiwania silnika}
 menuText P OptionsNumbers "Format liczb" 0 {Wybierz format liczb}
 menuText P OptionsTheme "Motyw" 0 {Zmień wygląd interfejsu}
 menuText P OptionsWindows "Okna" 0 {Opcje okien}
-menuText P OptionsSounds "Dźwięki" 2 {Skonfiguruj dźwięki sygnalizujące posunięcia}
+menuText P OptionsSounds "Dźwięki" 2 {Konfiguruj dźwięki sygnalizujące posunięcia}
 menuText P OptionsResources "Zasoby..." 0 {Wybierz pliki i foldery zasobów}
 menuText P OptionsWindowsDock "Dokuj okna" 0 {Dokuj okna (wymaga ponownego uruchomienia)}
 menuText P OptionsWindowsSaveLayout "Zapisz układ" 0 {Zapisz układ}
@@ -380,11 +380,11 @@ menuText P OptionsBooksDir "Katalog książek debiutowych" 0 {Ustaw folder ksią
 menuText P OptionsTacticsBasesDir "Katalog baz" 0 {Ustaw folder baz z zadaniami taktycznymi}
 menuText P OptionsPhotosDir "Katalog zdjęć" 0 {Ustaw folder baz ze zdjęciami}
 menuText P OptionsThemeDir "Plik motywu"  0 {Wczytaj pakiet motywu interfejsu}
-translate P OptionsThemeOmarchy {Dopasuj do motywu Omarchy}
+translate P OptionsThemeOmarchy {Użyj motywu Omarchy}
 menuText P OptionsSave "Zapisz opcje" 0 "Zapisz wszystkie ustawienia do pliku $::optionsFile"
 menuText P OptionsAutoSave "Zapisz opcje przy zamykaniu" 0 \
   {Automatycznie zapisuj wszystkie opcje przy zamykaniu Scid}
-
+  
 # Help menu:
 menuText P Help "Pomoc" 0
 menuText P HelpContents "Spis treści" 0 {Pokaż stronę ze spisem treści pomocy}
@@ -410,7 +410,7 @@ translate P UpdateDownloadFailed "Nie udało się pobrać aktualizacji. Spróbuj
 
 # Toolbar tooltips:
  menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
-
+ 
 # Game info box popup menu:
  menuText P GInfoHideNext "Ukryj następne posunięcie" 0
 menuText P GInfoMaterial "Pokaż wartości materialne" 0
@@ -424,7 +424,7 @@ menuText P GInfoTBResult "Bazy końcówek: tylko wynik" 12
 menuText P GInfoTBAll "Bazy końcówek: wynik i najlepsze posunięcia" 19
 menuText P GInfoDelete "Oznacz/odznacz partię do usunięcia" 4
 menuText P GInfoMark "Oznacz/odznacz partię" 4
-menuText P GInfoInformant "Skonfiguruj symbole informatora" 0
+menuText P GInfoInformant "Konfiguruj symbole informatora" 0
 
 # General buttons:
 translate P LichessOpenExplore {Otwórz eksplorator debiutów Lichess}
@@ -525,26 +525,26 @@ translate P WoodpeckerTitle {Metoda Dzięcioła}
 translate P WoodpeckerColName {Zestaw}
 translate P WoodpeckerColExercises {Zadania}
 translate P WoodpeckerColCycle {Cykl}
-translate P WoodpeckerColProgress {Bieżący cykl}
-translate P WoodpeckerColLast {Ostatnia sesja}
+translate P WoodpeckerColProgress {Ten cykl}
+translate P WoodpeckerColLast {Ost. sesja}
 translate P WoodpeckerColDays {Dni}
-translate P WoodpeckerColTime {Czas rozwiązywania}
-translate P WoodpeckerColResults {rozwiązane/błędne}
+translate P WoodpeckerColTime {Czas zadania}
+translate P WoodpeckerColResults {sukces/błąd}
 translate P WoodpeckerColPct {Wynik}
 translate P WoodpeckerColDate {Data}
 translate P WoodpeckerColDuration {Czas trwania}
 translate P WoodpeckerColPoints {Punkty}
 translate P WoodpeckerNew {Nowy zestaw...}
-translate P WoodpeckerOpenDatabase {Otwórz bazę danych puzzli}
+translate P WoodpeckerOpenDatabase {Otwórz bazę zadań}
 translate P WoodpeckerTrain {Trenuj}
 translate P WoodpeckerEvaluate {Oceń...}
 translate P WoodpeckerStats {Statystyki}
 translate P WoodpeckerDelete {Usuń}
 translate P WoodpeckerContinue {Kontynuuj (Enter)}
 translate P WoodpeckerSessionOptions {Sesja}
-translate P WoodpeckerAutoPause {Zatrzymaj się po każdym ćwiczeniu}
-translate P WoodpeckerNoIdlePause {Nie zatrzymuj się w stanie bezczynności (zegar ciągle chodzi)}
-translate P WoodpeckerPausedAfter {Przerwa po ćwiczeniu. Przejdź przez rozwiązanie, a następnie naciśnij Kontynuuj (Enter).}
+translate P WoodpeckerAutoPause {Wstrzymaj po każdym zadaniu}
+translate P WoodpeckerNoIdlePause {Nie wstrzymuj podczas bezczynności (zegar nadal działa)}
+translate P WoodpeckerPausedAfter {Wstrzymano po zadaniu. Przejdź przez rozwiązanie, a następnie naciśnij Kontynuuj (Enter).}
 translate P WoodpeckerPause {Wstrzymaj}
 translate P WoodpeckerResume {Wznów}
 translate P WoodpeckerEnd {Zakończ sesję}
@@ -608,7 +608,7 @@ translate P WoodpeckerComplete {Uzupełnij za pomocą analizy}
 translate P WoodpeckerOverwrite {Zastąp wynikami analizy}
 translate P WoodpeckerAllAnnotated {Wszystkie %d zadań ma już adnotacje, więc analiza jest opcjonalna. Zastąpić oznaczenia autora wynikami analizy?}
 translate P WoodpeckerKeep {Zachowaj adnotacje}
-translate P WoodpeckerEvaluating {Ocenianie zestawu...}
+translate P WoodpeckerEvaluating {Ocena zestawu...}
 translate P WoodpeckerEvalPhase_deep {Analiza: wyszukiwanie rozwiązań}
 translate P WoodpeckerEvalPhase_shallow {Analiza: które posunięcia są oczywiste}
 translate P WoodpeckerEvalPhase_write {Zapisywanie oznaczeń}
@@ -616,8 +616,8 @@ translate P WoodpeckerEvalDone {Zakończono ocenianie: %d zadań; oznaczono %d p
 translate P WoodpeckerNoEngine {Nie skonfigurowano żadnego silnika UCI (Narzędzia > Silniki).}
 translate P WoodpeckerEvalAsk {Oceń %d zadań za pomocą tego silnika:}
 translate P WoodpeckerOtherMode {Inny trening lub partia korzysta z szachownicy.}
-translate P WoodpeckerDatabaseBusy {Nie można odczytać bazy danych zestawu w czasie korzystania z planszy innej gry lub treningu. Zakończ i spróbuj ponownie.}
-translate P WoodpeckerDatabaseUnsaved {Baza danych zestawu zawiera niezapisane zmiany. Zapisz lub odrzuć je przed kontynuowaniem.}
+translate P WoodpeckerDatabaseBusy {Nie można odczytać bazy danych zestawu, gdy inna partia lub trening korzysta z szachownicy. Zakończ je i spróbuj ponownie.}
+translate P WoodpeckerDatabaseUnsaved {Baza danych zestawu zawiera niezapisane zmiany. Zapisz je lub odrzuć przed kontynuowaniem.}
 translate P WoodpeckerNoSlot {Brak wolnego miejsca na bazę danych dla sesji. Zamknij jedną z baz i spróbuj ponownie.
 (%s)}
 translate P WoodpeckerRestAsk {Przerwa kończy się %s. Czy mimo to rozpocząć cykl %d?}
@@ -631,7 +631,7 @@ translate P WoodpeckerCardPoints {Punkty}
 translate P WoodpeckerCardDeadline {Termin}
 translate P WoodpeckerStreakSub {kolejnych poprawnych}
 translate P WoodpeckerPointsSub {z możliwych}
-translate P WoodpeckerDaysLeft {pozostało dni}
+translate P WoodpeckerDaysLeft {dni do końca}
 translate P WoodpeckerExercise {Zadanie %d z %d}
 translate P WoodpeckerWhiteToMove {Białe na posunięciu}
 translate P WoodpeckerBlackToMove {Czarne na posunięciu}
@@ -835,7 +835,7 @@ translate P moves {posunięcia}
 translate P all {wszystkie}
 translate P Yes {Tak}
 translate P No {Nie}
-translate P Both {Oba}
+translate P Both {Obie}
 translate P King {Król}
 translate P Queen {Hetman}
 translate P Rook {Wieża}
@@ -871,7 +871,7 @@ translate P SearchResults {Wyniki wyszukiwania}
 translate P OpeningTheDatabase {Otwieranie bazy danych}
 translate P Database {Baza danych}
 translate P MenuDatabaseSlot {Baza %d: %s}
-translate P MenuImportIntoSlot {w %d: %s}
+translate P MenuImportIntoSlot {do %d: %s}
 translate P Filter {Filtr}
 translate P noGames {brak partii}
 translate P allGames {wszystkie partie}
@@ -897,7 +897,7 @@ translate P PgnErrorsWarnings {Błędy/ostrzeżenia PGN:}
 translate P NoPgnErrorsWarnings {bez błędów i ostrzeżeń PGN.}
 
 # Standard error messages:
-translate P ErrNotOpen {To nie jest otwarta baza danych.}
+translate P ErrNotOpen {Ta baza danych nie jest otwarta.}
 translate P ErrReadOnly {Ta baza danych jest tylko do odczytu i nie można jej modyfikować.}
 translate P ErrSearchInterrupted {Wyszukiwanie zostało przerwane — wyniki są niekompletne.}
 translate P ErrNoClockComments {W tej partii nie znaleziono komentarzy z czasem [%clk]. Aby korzystać z tej funkcji, dodaj czasy za pomocą okna komentarzy (Ctrl+E).}
@@ -908,7 +908,7 @@ translate P DndCannotOpenUri {Nie można otworzyć adresu URI}
 translate P DndInvalidUri {Nieprawidłowy adres URI}
 translate P DndUriRejected {Odrzucono adres URI}
 translate P DndUriRejectedDetail {Bazy danych SCID (.si5, .si4, .si3) lub pliki PGN/EPD.}
-translate P DndEmptyUriList {Na liście adresów URI nie znaleziono żadnych plików}
+translate P DndEmptyUriList {Na liście adresów URI nie znaleziono plików}
 translate P DndOwnerDidntRespond {Nie udało się upuścić pliku: właściciel zaznaczenia nie odpowiedział}
 
 
@@ -1011,7 +1011,7 @@ translate P TreeTimingStats {statystyki}
 translate P TreeBest {Najlepsze}
 translate P TreeBestGames {Najlepsze partie z drzewa wariantów}
 translate P TreeFindAnyAnn {dowolna adnotacja}
-translate P TreeFindStalePos {Bieżąca pozycja nie odpowiada już pozycji drzewa wariantów z adnotacją.\nWróć do niej i spróbuj ponownie.}
+translate P TreeFindStalePos {Bieżąca pozycja nie odpowiada już pozycji z drzewa wariantów .\nWróć do niej i spróbuj ponownie.}
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate P TreeTitleRow \
@@ -1101,7 +1101,7 @@ menuText P TmtSortElo "Ranking Elo" 0
 menuText P TmtSortSite "Miejsce" 0
 menuText P TmtSortEvent "Turniej" 1
 menuText P TmtSortWinner "Zwycięzca" 0
-translate P TmtLimit "Limit wyników"
+translate P TmtLimit "Limit partii"
 translate P TmtMeanElo "Średni ranking Elo"
 translate P TmtNone "Nie znaleziono pasujących turniejów."
 
@@ -1119,7 +1119,7 @@ menuText P GraphOptionsEloFile "Ranking Elo z pliku" 0
 menuText P GraphOptionsEloDB "Ranking Elo z bazy danych" 0
 translate P GraphFilterTitle "Wykres filtra: odsetek partii, w których osiągnięto daną pozycję"
 translate P GraphAbsFilterTitle "Wykres filtra: częstotliwość występowania pozycji w partiach"
-translate P GraphWinPctTitle "Wykres filtra: procent wygranych (1-0 i 0-1) w danej pozycji według roku"
+translate P GraphWinPctTitle "Wykres filtra: procent wygranych (1-0 i 0-1) w danej pozycji wg lat"
 translate P ConfigureFilter "Ustaw osie X dla roku, rankingu i liczby posunięć"
 translate P FilterEstimate "Szacunkowo"
 translate P TitleFilterGraph "scidCommunity: Wykres filtra"
@@ -1132,7 +1132,7 @@ translate P PgnVarOpen {Otwórz wszystkie warianty}
 translate P PgnEvaluate {Oceń}
 translate P PgnSaveEval {Zapisz ocenę}
 translate P PgnOptShort "Krótki nagłówek (3 wiersze)"
-translate P PgnOptSymbols "Adnotacje symboliczne"
+translate P PgnOptSymbols "Symbole adnotacji NAG"
 translate P PgnOptIndentC "Wcięcia komentarzy"
 translate P PgnOptIndentV "Wcięcia wariantów"
 translate P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)"
@@ -1145,7 +1145,7 @@ translate P PgnOptCenter "Wyśrodkuj bieżące posunięcie"
 translate P AddAllVariations {Dodaj wszystkie warianty}
 translate P AddMove {Dodaj posunięcie}
 translate P RemoveMove {Usuń posunięcie}
-translate P Annotate {Adnotuj}
+translate P Annotate {Dodaj adnotacje}
 translate P FinishGame {Dokończ partię}
 translate P StartEngine {Start/Stop}
 translate P LockEngine {Zablokuj silnik}
@@ -1153,11 +1153,11 @@ translate P AnalysisCommand {Polecenie analizy}
 translate P PreviousChoices {Poprzednie wybory}
 translate P AnnotateTime {Czas na posunięcie w sekundach}
 translate P AnnotateAll {Dla posunięć obu stron}
-translate P AnnotateWhite {Tylko posunięcia białych}
-translate P AnnotateBlack {Tylko posunięcia czarnych}
-translate P AnnotateBlundersOnlyScoreChange {Gdy analiza wykryje poważny błąd, ze zmianą oceny z/do: }
+translate P AnnotateWhite {Tylko dla posunięć białych}
+translate P AnnotateBlack {Tylko dla posunięć czarnych}
+translate P AnnotateBlundersOnlyScoreChange {Analiza wykryła poważny błąd. Zmiana oceny z/do: }
 translate P LowPriority {Niski priorytet procesora}
-translate P ConfigureInformant {Oceny informatora}
+translate P ConfigureInformant {Oceny Informatora}
 translate P Informant!? {Ciekawe posunięcie}
 translate P Informant? {Słabe posunięcie}
 translate P Informant?? {Poważny błąd}
@@ -1166,7 +1166,7 @@ translate P Informant+= {Białe mają niewielką przewagę}
 translate P Informant+/- {Białe mają wyraźną przewagę}
 translate P Informant+- {Białe mają decydującą przewagę}
 translate P Informant+-- {Białe mają przytłaczającą przewagę}
-translate P AnalysisAutoCommentTooltip {Wygeneruj komentarz AI do całej partii}
+translate P AnalysisAutoCommentTooltip {Utwórz komentarz AI do całej partii}
 translate P MoveLabelBest {Najlepsze}
 translate P MoveLabelExcellent {Znakomite}
 translate P MoveLabelGood {Dobre}
@@ -1211,7 +1211,7 @@ translate P ReviewCoach {Komentarz trenera}
 translate P ReviewCoachProgress {ocena %s z %s · komentarze %s z %s}
 translate P ReviewWriting {Tworzenie analizy...}
 translate P ReviewCoachSettings {Ustawienia trenera...}
-translate P ReviewCoachNoModel {Komentarze trenera są włączone, ale nie skonfigurowano modelu. Wybierz dostawcę i model w ustawieniach trenera dostępnych w oknie Ustawienia analizy.}
+translate P ReviewCoachNoModel {Komentarze trenera są włączone, ale nie skonfigurowano modelu. Wybierz dostawcę i model AI w Ustawieniach trenera dostępnych w oknie Ustaw parametry analizy.}
 translate P ReviewCoachKept {Analiza anulowana. Zachowano %s z %s komentarzy trenera.}
 translate P ReviewCoachDiscarded {Analiza została zakończona, ale komentarze trenera nie zostały zachowane, ponieważ podczas ich tworzenia otwarto inną partię.}
 translate P ReviewCoachSummaryLabel {Podsumowanie}
@@ -1282,16 +1282,16 @@ translate P EngineDuplicate {Powiel}
 translate P EngineDelete {Usuń bieżący silnik}
 translate P EngineOpenWindow {Otwórz okno silnika}
 translate P EngineShortcut {Skrót}
-translate P EngineShortcutNone {Nic}
+translate P EngineShortcutNone {Brak}
 translate P EngineShortcutWindow {Okno %s (%s)}
 translate P EngineShortcutKeys {Klawisze skrótów}
-translate P EngineShortcutKeysHelp {Wybierz klawisz uruchamiający każde okno silnika. Naciśnij Zmień..., a następnie żądaną kombinację klawiszy. Klucz już używany przez inne polecenie zostaje odrzucony.}
-translate P EngineShortcutChange {Zmiana...}
-translate P EngineShortcutReset {Zresetuj do F2 i F3}
-translate P EngineShortcutPress {Naciśnij nową kombinację klawiszy okna silnika %s.\nEscape anuluje.}
-translate P EngineShortcutInUse {Klawisz %s jest już używany przez inną komendę. Wybierz inny.}
-translate P EngineShortcutUnsafe {Wybierz klawisz funkcyjny lub kombinację klawiszy obejmującą Ctrl, Alt lub Command.}
-translate P EngineShortcutReserved {Klucz ten jest zarezerwowany przez system operacyjny lub przez edycję tekstu. Wybierz inny.}
+translate P EngineShortcutKeysHelp {Wybierz klawisz uruchamiający każde okno silnika. Kliknij Zmień..., a następnie naciśnij wybraną kombinację klawiszy. Klawisz używany już przez inne polecenie zostanie odrzucony.}
+translate P EngineShortcutChange {Zmień...}
+translate P EngineShortcutReset {Przywróć F2 i F3}
+translate P EngineShortcutPress {Naciśnij nową kombinację klawiszy dla okna silnika %s.\nEscape anuluje.}
+translate P EngineShortcutInUse {Klawisz %s jest już przypisany do innego polecenia. Wybierz inny.}
+translate P EngineShortcutUnsafe {Wybierz klawisz funkcyjny lub kombinację zawierającą Ctrl, Alt albo Command.}
+translate P EngineShortcutReserved {Ten klawisz jest zarezerwowany przez system operacyjny lub funkcję edycji tekstu. Wybierz inny.}
 
 # PGN window menus:
 menuText P PgnFile "Plik" 0
@@ -1301,7 +1301,7 @@ menuText P PgnFileClose "Zamknij okno PGN" 10
 menuText P PgnOpt "Wyświetlanie" 0
 menuText P PgnOptColor "Wyświetlaj kolory" 0
 menuText P PgnOptShort "Krótki nagłówek (3 wiersze)" 0
-menuText P PgnOptSymbols "Adnotacje symboliczne" 1
+menuText P PgnOptSymbols "Symbole adnotacji NAG" 1
 menuText P PgnOptIndentC "Wcięcia komentarzy" 0
 menuText P PgnOptIndentV "Wcięcia wariantów" 7
 menuText P PgnOptColumn "Układ kolumnowy (jedno posunięcie w wierszu)" 1
@@ -1442,7 +1442,7 @@ translate P GlistGameNumber {Nr partii}
 translate P GlistAverageElo {Średni ranking Elo}
 translate P GlistRating {Ranking}
 translate P GlistFindText {Znajdź tekst}
-translate P GlistMoveField {Przesuń}
+translate P GlistMoveField {Posunięcia}
 translate P GlistEditField {Konfiguruj}
 translate P GlistAddField {Dodaj}
 translate P GlistDeleteField {Usuń}
@@ -1485,12 +1485,12 @@ translate P GsortStore {Zapisz}
 translate P GsortLoad {Wczytaj}
 
 # menu shown with right mouse button down on game list.
-translate P GlistRemoveSelectedFromFilter {Usuń wybrane gry z filtra}
-translate P GlistExportSelected {Eksportuj wybrane gry...}
+translate P GlistRemoveSelectedFromFilter {Usuń zaznaczone partie z filtra}
+translate P GlistExportSelected {Eksportuj zaznaczone partie...}
 translate P GlistRemoveThisGameFromFilter {Usuń tę partię z filtra}
-translate P GlistRemoveGameAndAboveFromFilter {Usuń tę partię i wszystkie powyżej z filtra}
-translate P GlistRemoveGameAndBelowFromFilter {Usuń tę partię i wszystkie poniżej z filtra}
-translate P GlistDeleteGame {Usuń tę partię lub przywróć ją}
+translate P GlistRemoveGameAndAboveFromFilter {Usuń tę partię i wszystkie wcześniejsze z filtra}
+translate P GlistRemoveGameAndBelowFromFilter {Usuń tę partię i wszystkie późniejsze z filtra}
+translate P GlistDeleteGame {Usuń/Przywróć tę partię}
 translate P GlistDeleteAllGames {Usuń wszystkie partie z filtra}
 translate P GlistUndeleteAllGames {Przywróć wszystkie partie z filtra}
 translate P GlistMergeGameInBase {Scal partię z}
@@ -1551,7 +1551,7 @@ translate P TwinChecknextPair {Następna para}
 translate P TwinChecker {scidCommunity: Wyszukiwanie duplikatów partii}
 translate P TwinCheckTournament {Partie w turnieju:}
 translate P TwinCheckNoTwin {Brak duplikatów partii}
-translate P TwinCheckNoTwinfound {Nie znaleziono duplikatów partii.\nAby wyświetlić duplikat partii w tym oknie, najpierw użyj funkcji „Usuń duplikaty partii...”.}
+translate P TwinCheckNoTwinfound {Nie znaleziono duplikatów partii.\nAby wyświetlić duplikaty partii w tym oknie, najpierw użyj funkcji „Usuń duplikaty partii...”.}
 translate P TwinCheckTag {Wspólne znaczniki...}
 translate P TwinCheckFound1 {SCID znalazł $result duplikatów partii}
 translate P TwinCheckFound2 { i oznaczył je do usunięcia}
@@ -1657,9 +1657,9 @@ translate P EndingRookPawnsVsRook {Wieża i piony przeciwko wieży}
 translate P EndingRooks {Końcówki wieżowe}
 translate P EndingRooksPassedA {Końcówki wieżowe z wolnym pionem a}
 translate P EndingRooksDouble {Końcówki z dwiema wieżami}
-translate P EndingBishops {Końcówki gońcowe}
+translate P EndingBishops {Końcówki: goniec przeciwko gońcowi}
 translate P EndingBishopVsKnight {Końcówki: goniec przeciwko skoczkowi}
-translate P EndingKnights {Końcówki skoczkowe}
+translate P EndingKnights {Końcówki: skoczek przeciwko skoczkowi}
 translate P EndingQueens {Końcówki hetmańskie}
 translate P EndingQueenPawnVsQueen {Hetman i pion przeciwko hetmanowi}
 translate P BishopPairVsKnightPair {Gra środkowa: para gońców przeciwko parze skoczków}
@@ -1681,7 +1681,7 @@ translate P PatternDarkFian {Fiancetto na ciemnych polach (gońce na b2 i g7)}
 translate P PatternFourFian {Cztery fiancetta (gońce na b2, g2, b7 i g7)}
 
 # Game saving:
-translate P SaveExtraTagsHint {Dodatkowe tagi: (przykładowy format: Adnotator „Anand, V”)}
+translate P SaveExtraTagsHint {Dodatkowe tagi: (przykładowy format: Annotator "Anand, V")}
 translate P Today {Dzisiaj}
 translate P ClassifyGame {Przypisz kod ECO partii}
 
@@ -1690,7 +1690,7 @@ translate P EmptyBoard {Pusta szachownica}
 translate P InitialBoard {Pozycja początkowa}
 translate P SideToMove {Strona na posunięciu}
 translate P MoveNumber {Nr posunięcia}
-translate P Castling {Prawo do roszady}
+translate P Castling {Roszada}
 translate P EnPassantFile {Kolumna bicia w przelocie}
 translate P ClearFen {Wyczyść FEN}
 translate P PasteFen {Wklej FEN}
@@ -1726,7 +1726,7 @@ Czy na pewno chcesz kontynuować i odrzucić wprowadzone zmiany?
 
 # Exit dialog:
 translate P ExitDialog {Czy na pewno chcesz zamknąć SCID?}
-translate P ExitUnsaved {W następujących bazach danych znajdują się niezapisane zmiany w partiach. Jeśli teraz zamkniesz program, zmiany te zostaną utracone.}
+translate P ExitUnsaved {W następujących bazach danych są niezapisane zmiany w partiach. Jeśli teraz zamkniesz program, zmiany zostaną utracone.}
 
 # Import window:
 translate P PasteCurrentGame {Wklej bieżącą partię}
@@ -1753,7 +1753,7 @@ translate P OprepStatSince {Od}
 translate P OprepOldest {Najstarsze partie}
 translate P OprepNewest {Najnowsze partie}
 translate P OprepPopular {Obecna popularność}
-translate P OprepFreqAll {Częstotliwość we w latach:   }
+translate P OprepFreqAll {Częstotliwość we wszystkich latach:   }
 translate P OprepFreq1   {W ciągu ostatniego   roku: }
 translate P OprepFreq5   {W ciągu ostatnich   5 lat: }
 translate P OprepFreq10  {W ciągu ostatnich  10 lat: }
@@ -1857,7 +1857,7 @@ translate P TwinsPlayers {Porównywanie nazwisk graczy}
 translate P TwinsPlayersExact {Dokładna zgodność}
 translate P TwinsPlayersPrefix {Tylko pierwsze 4 litery}
 translate P TwinsWhen {Podczas usuwania duplikatów partii}
-translate P TwinsSkipShort {Pomiń wszystkie partie krótsze niż 5 posunięć}
+translate P TwinsSkipShort {Pomiń partie krótsze niż 5 posunięć}
 translate P TwinsUndelete {Najpierw przywróć wszystkie partie}
 translate P TwinsSetFilter {Ustaw filtr na wszystkie usunięte duplikaty}
 translate P TwinsComments {Zawsze zachowuj partie z komentarzami}
@@ -1886,8 +1886,8 @@ translate P CheckSelectFilterGames {Tylko partie z filtra}
 translate P Classify {Klasyfikuj}
 translate P ClassifyWhich {Które partie klasyfikować według ECO}
 translate P ClassifyAll {Wszystkie partie (zastąp dotychczasowe kody ECO)}
-translate P ClassifyYear {Wszystkie partie rozegrane w ciągu ostatniego roku}
-translate P ClassifyMonth {Wszystkie partie rozegrane w ciągu ostatniego miesiąca}
+translate P ClassifyYear {Wszystkie partie rozegrane w ostatnim roku}
+translate P ClassifyMonth {Wszystkie partie rozegrane w ostatnim miesiącu}
 translate P ClassifyNew {Tylko partie bez kodu ECO}
 translate P ClassifyCodes {Używane kody ECO}
 translate P ClassifyBasic {Tylko podstawowe kody (np. „B12”)}
@@ -1975,7 +1975,7 @@ translate P FindNovelty {Znajdź nowinkę}
 translate P Novelty {Nowinka}
 translate P NoveltyInterrupt {Wyszukiwanie nowinki przerwane}
 translate P NoveltyNone {Nie znaleziono nowinki w tej partii}
-translate P NoveltyHelp {SCID znajdzie pierwsze posunięcie w bieżącej partii, które prowadzi do pozycji nieobecnej w wybranej bazie danych ani w książce debiutowej ECO.}
+translate P NoveltyHelp {Scid znajdzie pierwsze posunięcie w bieżącej partii, po którym powstaje pozycja nieznana w wybranej bazie danych ani w książce debiutowej ECO.}
 
 # Sounds configuration:
 translate P SoundsFolder {Katalog z plikami dźwiękowymi}
@@ -2069,7 +2069,7 @@ translate P seconds {sekundy}
 translate P Abort {Przerwij}
 translate P Resume {Wznów}
 translate P OutOfOpening {Poza teorią debiutów}
-translate P NotFollowedLine {Nie trzymasz się wariantu}
+translate P NotFollowedLine {Nie zagrałeś zgodnie z wariantem}
 translate P DoYouWantContinue {Czy chcesz kontynuować?}
 translate P CoachIsWatching {Trener obserwuje}
 translate P Ponder {Stałe myślenie}
@@ -2082,8 +2082,8 @@ translate P ResultSaved {Wynik zapisany}
 translate P yourmoveisnotgood {Twoje posunięcie nie jest dobre}
 translate P EndOfVar {Koniec wariantu}
 translate P Openingtrainer {Trening debiutowy}
-translate P DisplayCM {Pokaż posunięcia kandydackie}
-translate P DisplayCMValue {Pokaż oceny posunięć kandydackich}
+translate P DisplayCM {Pokaż sugerowane posunięcia}
+translate P DisplayCMValue {Pokaż oceny sugerowanych posunięć}
 translate P DisplayOpeningStats {Pokaż statystyki}
 translate P ShowReport {Pokaż raport}
 translate P NumberOfGoodMovesPlayed {dobre posunięcia}
@@ -2101,12 +2101,12 @@ translate P Repertoirenotfound {Nie znaleziono repertuaru}
 translate P Openfirstrepertoirewithtype {Najpierw otwórz bazę repertuaru z ikoną/typem ustawionym na odpowiednią stronę}
 translate P Movenotinrepertoire {Posunięcia nie ma w repertuarze}
 translate P PositionsInRepertoire {Pozycje w repertuarze}
-translate P PositionsNotPlayed {Pozycje nierozgrywane}
-translate P PositionsPlayed {Pozycje rozegrane}
+translate P PositionsNotPlayed {Pozycje nierozwiązane}
+translate P PositionsPlayed {Pozycje rozwiązane}
 translate P Success {Sukces}
 translate P DubiousMoves {Wątpliwe posunięcia}
 translate P OutOfRepertoire {Poza repertuarem}
-translate P ConfigureTactics {Konfiguracja taktyki}
+translate P ConfigureTactics {Konfiguruj trening taktyki}
 translate P ResetScores {Wyzeruj wyniki}
 translate P LoadingBase {Wczytywanie bazy danych}
 translate P Tactics {Taktyka}
@@ -2121,7 +2121,7 @@ translate P MateFound {Znaleziono mata}
 translate P BestSolutionNotFound {Nie znaleziono najlepszego rozwiązania!}
 translate P MateNotFound {Nie znaleziono mata}
 translate P ShorterMateExists {Istnieje krótszy mat}
-translate P ScorePlayed {Ocena rozegranego posunięcia}
+translate P ScorePlayed {Ocena wykonanego posunięcia}
 translate P Expected {oczekiwano}
 translate P ChooseTrainingBase {Wybierz bazę treningową}
 translate P Thinking {Myślenie}
@@ -2233,7 +2233,7 @@ translate P FICSConsole {Konsola}
 translate P FICSGames {Partie}
 translate P FICSUnobserve {Zakończ obserwowanie partii}
 translate P FICSProfile {Wyświetl historię i profil}
-translate P FICSRelayedGames {Partie przekazywane}
+translate P FICSRelayedGames {Transmitowane partie}
 translate P FICSFindOpponent {Znajdź przeciwnika}
 translate P FICSTakeback {Cofnij posunięcie}
 translate P FICSTakeback2 {Cofnij dwa posunięcia}
@@ -2252,7 +2252,7 @@ translate P FICSSend {Wyślij}
 translate P FICSConnect {Połącz}
 translate P FICSdefaultuservars {Użyj domyślnych zmiennych}
 translate P FICSObserveconfirm {Czy chcesz obserwować partię?}
-translate P FICSpremove {Włącz ruch wyprzedzający}
+translate P FICSpremove {Włącz posunięcia z wyprzedzeniem}
 translate P FICSObserve {Obserwuj}
 translate P FICSRatedGames {Partie rankingowe}
 translate P FICSUnratedGames {Partie nierankingowe}
@@ -2300,7 +2300,7 @@ translate P DockBottom {Przenieś na dół}
 translate P DockLeft {Przenieś w lewo}
 translate P DockRight {Przenieś w prawo}
 translate P Undock {Odłącz}
-translate P Dock {Zadokuj}
+translate P Dock {Dokuj}
 
 # Switcher window
 translate P AboutDatabase {Informacje o bazie danych}
@@ -2382,7 +2382,7 @@ translate P BatchAnnotateVariations {Adnotuj warianty}
 translate P BatchShortAnnotations {Krótkie adnotacje}
 translate P BatchAddScoreToShort {Dodaj ocenę do krótkich adnotacji}
 translate P BatchClearOld {Usuń stare komentarze i warianty}
-translate P BatchInitializingEngines {Inicjowanie silników...}
+translate P BatchInitializingEngines {Uruchamianie silników...}
 translate P BatchAnalyzingGames {Analizowanie partii...}
 translate P BatchProgress {Postęp adnotacji zbiorczej}
 translate P BatchComplete {Adnotacja zbiorcza zakończona!}
@@ -2509,7 +2509,9 @@ translate P CQLQueryEmpty {Przed rozpoczęciem wyszukiwania wpisz zapytanie CQL.
 translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
 translate P CQLUnreadableGames {Nie udało się odczytać %d partii}
 }
-# end of english.tcl
+# end of polish.tcl
+
+
 
 
 ############################################################
@@ -2733,3 +2735,4 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
+###########################################
