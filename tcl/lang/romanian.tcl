@@ -585,6 +585,47 @@ translate L WoodpeckerFileHelp {Fiecare joc care începe dintr-o poziție de pre
 translate L WoodpeckerDays1 {Primul ciclu (zile)}
 translate L WoodpeckerRestDays {Odihnă între cicluri (zile)}
 translate L WoodpeckerDaysHelp {Fiecare ciclu ulterior primește jumătate din zilele celui precedent: scopul este de a reduce la jumătate timpul de rezolvare pentru fiecare ciclu.}
+translate L WoodpeckerLoad {Despre %d exercitii pe zi pt %d zile.}
+translate L WoodpeckerLoadOneDay {Toate %d exerciții într-o singură zi.}
+translate L WoodpeckerLoadLeft {Despre %d exerciții pe zi pentru %d zile rămase.}
+translate L WoodpeckerCircle {Cercul interior...}
+translate L WoodpeckerCircleTitle {Cercul interior}
+translate L WoodpeckerCircleIntro {Nu este suficient timp pentru întregul set? Păstrează doar primele sale exerciții: ele devin ciclul tău, pe care să-l repeți de câte ori vrei, cu zilele și statisticile obișnuite de odihnă. Nu se șterge nimic: celelalte exerciții așteaptă până te decizi ce să faci cu ele.}
+translate L WoodpeckerCircleSize {Exerciții în cerc}
+translate L WoodpeckerCircleOf {de %d}
+translate L WoodpeckerCircleDaysLeft {Zile rămase în ciclu %d}
+translate L WoodpeckerCircleDaysNext {Zile pentru ciclu %d}
+translate L WoodpeckerCircleRest {Celelalte %d exercitii:}
+translate L WoodpeckerCircleKeep {Păstrați-i blocați în acest set}
+translate L WoodpeckerCircleMove {Mutați-le într-un set nou acum}
+translate L WoodpeckerCircleGive {Dă-le înapoi la puzzle-urile incluse}
+translate L WoodpeckerCircleKeepHelp {Recomandat. Ei rămân în platou cu ei! si!! și sunt lăsate în afara ciclurilor. Deschide-le mai târziu cu Cercul interior...: vin apoi după cerc.}
+translate L WoodpeckerCircleMoveHelp {Ei devin un set al lor, antrenat pe propriul program; acest set păstrează doar cercul.}
+translate L WoodpeckerCircleGiveHelp {Ei părăsesc acest set definitiv, iar un nou set îi poate atrage din nou. Statisticile tale despre ele rămân.}
+translate L WoodpeckerCircleOpenNow {Acest ciclu termină cercul, apoi continuă cu exercițiile deschise %d. Fiecare ciclu ulterior păstrează această ordine: mai întâi cercul, apoi ceilalți.}
+translate L WoodpeckerCircleOpenNext {Din ciclul %d fiecare ciclu are toate exercițiile %d: mai întâi cercul, apoi cele deschise.}
+translate L WoodpeckerCircleNewName {Numele noului set}
+translate L WoodpeckerCircleStart {Începe cercul}
+translate L WoodpeckerCircleState {Acest set antrenează un cerc interior: primul %d exercitii. Celelalte %d sunt blocate. Ce ar trebui să se întâmple cu ei?}
+translate L WoodpeckerCircleOpenHere {Deschide-le în acest set, după cerc}
+translate L WoodpeckerCircleOpenMove {Mutați-le într-un set nou}
+translate L WoodpeckerCircleOpenGive {Dă-le înapoi la puzzle-urile incluse}
+translate L WoodpeckerCircleOpen {Deschide}
+translate L WoodpeckerCircleGiveAsk {Da %d exerciții înapoi la puzzle-urile incluse? Ei părăsesc acest set definitiv (statisticile dvs. rămân), iar un nou set îi poate atrage din nou.}
+translate L WoodpeckerCirclePart {%s, partea 2}
+translate L WoodpeckerCircleNote {Cercul interior: antrenezi primele %d exerciții; %d mai multe sunt blocate (cercul interior... pentru a le deschide).}
+translate L WoodpeckerCircleNone {Acest ciclu are prea puține exerciții pentru un cerc interior.}
+translate L WoodpeckerCircleMoved {%d exerciții mutate în noul set "%s".}
+translate L WoodpeckerDanger {Zona de pericol}
+translate L WoodpeckerReset {Resetează statisticile...}
+translate L WoodpeckerResetTitle {Resetați statisticile}
+translate L WoodpeckerResetAsk {Începe"%s" din nou din ciclul 1, parca ar fi nou?
+
+Statisticile dvs. de până acum (%d exercițiile jucate) sunt arhivate în folderul setului, nu sunt șterse: „Restore statistics” le readuce. Exercițiile și lor! si!! stați așa cum sunt. Un cerc interior este eliminat, astfel încât ciclul este din nou întregul set.}
+translate L WoodpeckerResetDo {Resetați}
+translate L WoodpeckerRestore {Restabiliți statisticile pentru %s...}
+translate L WoodpeckerRestoreAsk {Aduceți înapoi statisticile puse deoparte pe %s?}
+translate L WoodpeckerRestoreSwap {Cele curente (%d exerciții jucate) sunt puse deoparte în locul lor, astfel încât să puteți comuta înapoi.}
 translate L WoodpeckerCreate {Crea}
 translate L WoodpeckerBadNumber {Nu este un număr valid: %s}
 translate L WoodpeckerNoDifficulty {Alegeți cel puțin o dificultate și un număr de exerciții.}

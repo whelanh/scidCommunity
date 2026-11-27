@@ -585,6 +585,47 @@ translate A WoodpeckerFileHelp {セットアップポジションから始まる
 translate A WoodpeckerDays1 {最初のサイクル (日)}
 translate A WoodpeckerRestDays {サイクル間の休憩（日）}
 translate A WoodpeckerDaysHelp {後の各サイクルでは、前のサイクルの半分の日数が取得されます。目的は、各サイクルの解決時間を半分にすることです。}
+translate A WoodpeckerLoad {1 日に約 %d のエクササイズを %d 日間続けます。}
+translate A WoodpeckerLoadOneDay {すべての %d 演習を 1 日で実行します。}
+translate A WoodpeckerLoadLeft {について %d のための一日の練習 %d 残り日数。}
+translate A WoodpeckerCircle {内輪…}
+translate A WoodpeckerCircleTitle {内円}
+translate A WoodpeckerCircleIntro {セット全体をプレイするには時間が足りないですか?最初のエクササイズだけを残しておきます。それがあなたのサイクルとなり、通常の休息日と統計を使用して、好きなだけ繰り返すことができます。何も削除されません。他の演習は、どのように処理するかを決定するまで待機します。}
+translate A WoodpeckerCircleSize {サークルでの練習}
+translate A WoodpeckerCircleOf {%dの}
+translate A WoodpeckerCircleDaysLeft {サイクル %d の残り日数}
+translate A WoodpeckerCircleDaysNext {サイクル %d の日数}
+translate A WoodpeckerCircleRest {他の %d の演習:}
+translate A WoodpeckerCircleKeep {このセットに閉じ込めておきます}
+translate A WoodpeckerCircleMove {今すぐ新しいセットに移動してください}
+translate A WoodpeckerCircleGive {付属のパズルに戻してください}
+translate A WoodpeckerCircleKeepHelp {推奨。彼らは ! を持ってセットに残ります。そして ！！そしてサイクルから外されてしまいます。後で「内側の円...」でそれらを開きます。その後、それらは円の後に来ます。}
+translate A WoodpeckerCircleMoveHelp {彼らは独自のセットとなり、独自のスケジュールでトレーニングされます。このセットは円だけを保持します。}
+translate A WoodpeckerCircleGiveHelp {彼らはこのセットを永久に残し、新しいセットで再び引くことができます。それらに関する統計は残ります。}
+translate A WoodpeckerCircleOpenNow {このサイクルはサークルを終了し、%d の開いた演習に進みます。以降の各サイクルではその順序が維持されます。つまり、最初の円、次に他の円です。}
+translate A WoodpeckerCircleOpenNext {サイクル %d から、各サイクルにはすべての %d 演習が含まれます。最初にサークル、次に開いた演習があります。}
+translate A WoodpeckerCircleNewName {新しいセットの名前}
+translate A WoodpeckerCircleStart {サークルを始める}
+translate A WoodpeckerCircleState {このセットは、内側のサークルを訓練します: 最初の %d 演習です。他の %d はロックされています。彼らに何が起こるべきでしょうか？}
+translate A WoodpeckerCircleOpenHere {サークルの後にこのセットで開きます}
+translate A WoodpeckerCircleOpenMove {新しいセットに移動します}
+translate A WoodpeckerCircleOpenGive {付属のパズルに戻してください}
+translate A WoodpeckerCircleOpen {開ける}
+translate A WoodpeckerCircleGiveAsk {%d の演習を付属のパズルに戻しますか?彼らはこのセットを永久に残し (統計は残ります)、新しいセットで再び引くことができます。}
+translate A WoodpeckerCirclePart {%s、パート 2}
+translate A WoodpeckerCircleNote {内側のサークル: 最初の %d 演習をトレーニングします。 %d さらに多くのものがロックされています (内側の円... を開くには)。}
+translate A WoodpeckerCircleNone {このサイクルは内輪にとっては演習が少なすぎます。}
+translate A WoodpeckerCircleMoved {%d の演習は新しいセット「%s」に移動されました。}
+translate A WoodpeckerDanger {危険地帯}
+translate A WoodpeckerReset {統計をリセット...}
+translate A WoodpeckerResetTitle {統計をリセットする}
+translate A WoodpeckerResetAsk {まるで新規のように「%s」をサイクル 1 から再度開始しますか?
+
+これまでの統計 (%d でプレイした演習) は削除されずにセットのフォルダーにアーカイブされます。「統計を復元」すると統計が戻ります。演習とその !そして ！！そのままでいてください。内側の円が削除されるため、サイクルは再びセット全体になります。}
+translate A WoodpeckerResetDo {リセット}
+translate A WoodpeckerRestore {%s の統計を復元します...}
+translate A WoodpeckerRestoreAsk {%s に関して保管されていた統計を元に戻しますか?}
+translate A WoodpeckerRestoreSwap {現在の演習 (%d で実行された演習) は元の場所に保管されるため、元に戻すことができます。}
 translate A WoodpeckerCreate {作成する}
 translate A WoodpeckerBadNumber {有効な数値ではありません: %s}
 translate A WoodpeckerNoDifficulty {少なくとも 1 つの難易度と演習の数を選択してください。}

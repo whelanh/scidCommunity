@@ -554,6 +554,47 @@ translate O WoodpeckerFileHelp {Hvert spill som starter fra en oppsettposisjon b
 translate O WoodpeckerDays1 {Første syklus (dager)}
 translate O WoodpeckerRestDays {Hvile mellom sykluser (dager)}
 translate O WoodpeckerDaysHelp {Hver senere syklus får halvparten av dagene av den forrige: Målet er å halvere løsningstiden hver syklus.}
+translate O WoodpeckerLoad {Omtrent %d treninger om dagen i %d dager.}
+translate O WoodpeckerLoadOneDay {Alle %d øvelser på én dag.}
+translate O WoodpeckerLoadLeft {Omtrent %d treninger om dagen i de %d dagene som er igjen.}
+translate O WoodpeckerCircle {Indre sirkel...}
+translate O WoodpeckerCircleTitle {Indre sirkel}
+translate O WoodpeckerCircleIntro {Ikke nok tid til hele settet? Behold bare de første øvelsene: de blir din syklus, for å gjenta så ofte du vil, med vanlige hviledager og statistikk. Ingenting slettes: de andre øvelsene venter til du bestemmer deg for hva du skal gjøre med dem.}
+translate O WoodpeckerCircleSize {Øvelser i sirkelen}
+translate O WoodpeckerCircleOf {av %d}
+translate O WoodpeckerCircleDaysLeft {Dager igjen i syklus %d}
+translate O WoodpeckerCircleDaysNext {Dager for syklus %d}
+translate O WoodpeckerCircleRest {De andre %d øvelsene:}
+translate O WoodpeckerCircleKeep {Hold dem låst i dette settet}
+translate O WoodpeckerCircleMove {Flytt dem til et nytt sett nå}
+translate O WoodpeckerCircleGive {Gi dem tilbake til de inkluderte gåtene}
+translate O WoodpeckerCircleKeepHelp {Anbefalt. De blir i settet med sine ! og!! og blir utelatt fra syklusene. Åpne dem senere med Indre sirkel...: de kommer så etter sirkelen.}
+translate O WoodpeckerCircleMoveHelp {De blir et sett for seg selv, trent etter sin egen timeplan; dette settet holder bare sirkelen.}
+translate O WoodpeckerCircleGiveHelp {De forlater dette settet for godt, og et nytt sett kan tegne dem igjen. Statistikken din over dem forblir.}
+translate O WoodpeckerCircleOpenNow {Denne syklusen avslutter sirkelen, og fortsetter deretter med de %d åpnede øvelsene. Hver senere syklus holder den rekkefølgen: sirkelen først, så de andre.}
+translate O WoodpeckerCircleOpenNext {Fra syklus %d har hver syklus alle %d øvelser: sirkelen først, deretter de åpnede.}
+translate O WoodpeckerCircleNewName {Navnet på det nye settet}
+translate O WoodpeckerCircleStart {Start sirkelen}
+translate O WoodpeckerCircleState {Dette settet trener en indre sirkel: de første %d øvelsene. De andre %d er låst. Hva skal skje med dem?}
+translate O WoodpeckerCircleOpenHere {Åpne dem i dette settet, etter sirkelen}
+translate O WoodpeckerCircleOpenMove {Flytt dem til et nytt sett}
+translate O WoodpeckerCircleOpenGive {Gi dem tilbake til de inkluderte gåtene}
+translate O WoodpeckerCircleOpen {Åpne}
+translate O WoodpeckerCircleGiveAsk {Gi %d øvelser tilbake til de inkluderte gåtene? De forlater dette settet for godt (statistikken din forblir), og et nytt sett kan trekke dem igjen.}
+translate O WoodpeckerCirclePart {%s, del 2}
+translate O WoodpeckerCircleNote {Indre sirkel: du trener de første %d øvelsene; %d flere er låst (indre sirkel... for å åpne dem).}
+translate O WoodpeckerCircleNone {Denne syklusen har for få øvelser for en indre sirkel.}
+translate O WoodpeckerCircleMoved {%d øvelser flyttet til det nye settet "%s".}
+translate O WoodpeckerDanger {Faresone}
+translate O WoodpeckerReset {Tilbakestill statistikk...}
+translate O WoodpeckerResetTitle {Tilbakestill statistikk}
+translate O WoodpeckerResetAsk {Starte "%s" igjen fra syklus 1, som om den var ny?
+
+Statistikken din så langt (%d spilte øvelser) er arkivert i settets mappe, ikke slettet: "Gjenopprett statistikk" bringer dem tilbake. Øvelsene og deres ! og!! bli som de er. En indre sirkel fjernes, så syklusen er hele settet igjen.}
+translate O WoodpeckerResetDo {Tilbakestill}
+translate O WoodpeckerRestore {Gjenopprett statistikk for %s...}
+translate O WoodpeckerRestoreAsk {Vil du bringe tilbake statistikken som er lagt til side for %s?}
+translate O WoodpeckerRestoreSwap {De gjeldende (%d øvelsene som spilles) legges til side på plass, slik at du kan bytte tilbake.}
 translate O WoodpeckerCreate {Skape}
 translate O WoodpeckerBadNumber {Ikke et gyldig nummer: %s}
 translate O WoodpeckerNoDifficulty {Velg minst én vanskelighetsgrad og et antall øvelser.}

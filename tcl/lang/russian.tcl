@@ -551,6 +551,47 @@ translate R WoodpeckerFileHelp {Каждая партия, начинающая�
 translate R WoodpeckerDays1 {Первый цикл (дни)}
 translate R WoodpeckerRestDays {Отдых между циклами (дни)}
 translate R WoodpeckerDaysHelp {Каждый последующий цикл получает половину дней предыдущего: цель состоит в том, чтобы вдвое сократить время решения в каждом цикле.}
+translate R WoodpeckerLoad {Около %d упражнений в день в течение %d дней.}
+translate R WoodpeckerLoadOneDay {Все упражнения %d за один день.}
+translate R WoodpeckerLoadLeft {Около %d тренировок в день из оставшихся %d дней.}
+translate R WoodpeckerCircle {Внутренний круг...}
+translate R WoodpeckerCircleTitle {Внутренний круг}
+translate R WoodpeckerCircleIntro {Не хватает времени на весь комплект? Оставьте только первые упражнения: они станут вашим циклом, который можно повторять так часто, как вам хочется, с обычными днями отдыха и статистикой. Ничего не удаляется: остальные упражнения ждут, пока вы не решите, что с ними делать.}
+translate R WoodpeckerCircleSize {Упражнения в кругу}
+translate R WoodpeckerCircleOf {из %d}
+translate R WoodpeckerCircleDaysLeft {Осталось дней в цикле %d}
+translate R WoodpeckerCircleDaysNext {Дни цикла %d}
+translate R WoodpeckerCircleRest {Другие упражнения %d:}
+translate R WoodpeckerCircleKeep {Держите их запертыми в этом наборе}
+translate R WoodpeckerCircleMove {Переместите их в новый набор прямо сейчас}
+translate R WoodpeckerCircleGive {Верните их в прилагаемые головоломки.}
+translate R WoodpeckerCircleKeepHelp {Рекомендуется. Они остаются в наборе со своими ! и !! и остаются вне циклов. Откройте их позже с помощью Внутреннего круга...: они появятся после круга.}
+translate R WoodpeckerCircleMoveHelp {Они становятся своим набором, тренирующимся по собственному графику; этот набор сохраняет только круг.}
+translate R WoodpeckerCircleGiveHelp {Они покидают этот набор навсегда, и новый набор может привлечь их снова. Ваша статистика на них останется.}
+translate R WoodpeckerCircleOpenNow {Этот цикл завершает круг, затем продолжается открытыми упражнениями %d. Каждый последующий цикл сохраняет этот порядок: сначала круг, затем остальные.}
+translate R WoodpeckerCircleOpenNext {Начиная с цикла %d в каждом цикле есть все упражнения %d: сначала круг, затем раскрытые.}
+translate R WoodpeckerCircleNewName {Название нового набора}
+translate R WoodpeckerCircleStart {Начать круг}
+translate R WoodpeckerCircleState {Этот набор тренирует внутренний круг: первые упражнения %d. Остальные %d заблокированы. Что с ними должно произойти?}
+translate R WoodpeckerCircleOpenHere {Откройте их в этом наборе, после круга}
+translate R WoodpeckerCircleOpenMove {Переместите их в новый набор}
+translate R WoodpeckerCircleOpenGive {Верните их в прилагаемые головоломки.}
+translate R WoodpeckerCircleOpen {Открыть}
+translate R WoodpeckerCircleGiveAsk {Верните %d упражнения к включенным головоломкам? Они покидают этот набор навсегда (ваша статистика остается), и новый набор может привлечь их снова.}
+translate R WoodpeckerCirclePart {%s, часть 2}
+translate R WoodpeckerCircleNote {Внутренний круг: вы тренируете первые упражнения %d; Еще %d заблокированы (Внутренний круг... чтобы открыть их).}
+translate R WoodpeckerCircleNone {В этом цикле слишком мало упражнений для узкого круга.}
+translate R WoodpeckerCircleMoved {%d упражнения перенесены в новый набор «%s».}
+translate R WoodpeckerDanger {Опасная зона}
+translate R WoodpeckerReset {Сбросить статистику...}
+translate R WoodpeckerResetTitle {Сбросить статистику}
+translate R WoodpeckerResetAsk {Запустить «%s» снова с цикла 1, как если бы он был новым?
+
+Ваша статистика на данный момент (%d выполненных упражнений) архивируется в папке набора, а не удаляется: «Восстановить статистику» возвращает ее. Упражнения и их! и !! оставайтесь такими, какие они есть. Внутренний круг удаляется, поэтому цикл снова представляет собой весь набор.}
+translate R WoodpeckerResetDo {Перезагрузить}
+translate R WoodpeckerRestore {Восстановить статистику %s...}
+translate R WoodpeckerRestoreAsk {Вернуть статистику, отложенную на %s?}
+translate R WoodpeckerRestoreSwap {Текущие (%d выполненные упражнения) откладываются на свое место, поэтому вы можете переключиться обратно.}
 translate R WoodpeckerCreate {Создавать}
 translate R WoodpeckerBadNumber {Недопустимый номер: %s}
 translate R WoodpeckerNoDifficulty {Выберите хотя бы одну сложность и несколько упражнений.}

@@ -578,6 +578,47 @@ translate D WoodpeckerFileHelp {Jedes Spiel, das von einer vorbereiteten Positio
 translate D WoodpeckerDays1 {Erster Zyklus (Tage)}
 translate D WoodpeckerRestDays {Ruhezeit zwischen den Zyklen (Tage)}
 translate D WoodpeckerDaysHelp {Jeder spätere Zyklus erhält die Hälfte der Tage des vorherigen: Ziel ist es, die Lösungszeit in jedem Zyklus zu halbieren.}
+translate D WoodpeckerLoad {Ungefähr %d Übungen pro Tag für %d Tage.}
+translate D WoodpeckerLoadOneDay {Alle %d Übungen an einem Tag.}
+translate D WoodpeckerLoadLeft {Ungefähr %d Übungen pro Tag für die verbleibenden %d Tage.}
+translate D WoodpeckerCircle {Innerer Kreis...}
+translate D WoodpeckerCircleTitle {Innerer Kreis}
+translate D WoodpeckerCircleIntro {Nicht genug Zeit für das ganze Set? Behalten Sie nur die ersten Übungen bei: Sie werden zu Ihrem Zyklus, den Sie beliebig oft wiederholen können, mit den üblichen Ruhetagen und Statistiken. Es wird nichts gelöscht: Die anderen Übungen warten, bis Sie entscheiden, was mit ihnen geschehen soll.}
+translate D WoodpeckerCircleSize {Übungen im Kreis}
+translate D WoodpeckerCircleOf {von %d}
+translate D WoodpeckerCircleDaysLeft {Verbleibende Tage im Zyklus %d}
+translate D WoodpeckerCircleDaysNext {Tage für Zyklus %d}
+translate D WoodpeckerCircleRest {Die anderen %d Übungen:}
+translate D WoodpeckerCircleKeep {Bewahren Sie sie in diesem Set auf}
+translate D WoodpeckerCircleMove {Verschieben Sie sie jetzt in ein neues Set}
+translate D WoodpeckerCircleGive {Gib sie den mitgelieferten Rätseln zurück}
+translate D WoodpeckerCircleKeepHelp {Empfohlen. Sie bleiben mit ihrem im Set! Und !! und werden aus den Zyklen ausgeschlossen. Öffnen Sie sie später mit Inner Circle...: Sie folgen dann dem Circle.}
+translate D WoodpeckerCircleMoveHelp {Sie werden zu einer eigenen Gruppe, die nach ihrem eigenen Zeitplan trainiert wird. Dieses Set behält nur den Kreis.}
+translate D WoodpeckerCircleGiveHelp {Sie verlassen dieses Set endgültig und ein neues Set kann sie wieder anlocken. Ihre Statistiken darüber bleiben erhalten.}
+translate D WoodpeckerCircleOpenNow {Dieser Zyklus schließt den Kreis ab und fährt dann mit den geöffneten %d-Übungen fort. In jedem späteren Zyklus wird diese Reihenfolge beibehalten: zuerst der Kreis, dann die anderen.}
+translate D WoodpeckerCircleOpenNext {Ab Zyklus %d hat jeder Zyklus alle %d Übungen: zuerst den Kreis, dann die geöffneten.}
+translate D WoodpeckerCircleNewName {Name des neuen Sets}
+translate D WoodpeckerCircleStart {Starten Sie den Kreis}
+translate D WoodpeckerCircleState {Dieses Set trainiert einen inneren Kreis: die ersten %d-Übungen. Die anderen %d sind gesperrt. Was soll mit ihnen passieren?}
+translate D WoodpeckerCircleOpenHere {Öffnen Sie sie in diesem Set nach dem Kreis}
+translate D WoodpeckerCircleOpenMove {Verschieben Sie sie in einen neuen Satz}
+translate D WoodpeckerCircleOpenGive {Gib sie den mitgelieferten Rätseln zurück}
+translate D WoodpeckerCircleOpen {Offen}
+translate D WoodpeckerCircleGiveAsk {%d Übungen zu den enthaltenen Rätseln zurückgeben? Sie verlassen diesen Satz endgültig (Ihre Statistiken bleiben erhalten) und ein neuer Satz kann sie erneut ziehen.}
+translate D WoodpeckerCirclePart {%s, Teil 2}
+translate D WoodpeckerCircleNote {Innerer Kreis: Du trainierst die ersten %d-Übungen; %d weitere sind gesperrt (Innerer Kreis... um sie zu öffnen).}
+translate D WoodpeckerCircleNone {Dieser Zyklus enthält zu wenige Übungen für einen inneren Kreis.}
+translate D WoodpeckerCircleMoved {%d-Übungen wurden in den neuen Satz „%s“ verschoben.}
+translate D WoodpeckerDanger {Gefahrenzone}
+translate D WoodpeckerReset {Statistiken zurücksetzen...}
+translate D WoodpeckerResetTitle {Statistiken zurücksetzen}
+translate D WoodpeckerResetAsk {„%s“ ab Zyklus 1 erneut starten, als wäre es neu?
+
+Ihre bisherigen Statistiken (%d gespielte Übungen) werden im Ordner des Satzes archiviert und nicht gelöscht: „Statistik wiederherstellen“ bringt sie zurück. Die Übungen und ihre ! Und !! bleib wie sie sind. Ein innerer Kreis wird entfernt, sodass der Zyklus wieder die gesamte Menge darstellt.}
+translate D WoodpeckerResetDo {Zurücksetzen}
+translate D WoodpeckerRestore {Statistiken von %s wiederherstellen...}
+translate D WoodpeckerRestoreAsk {Die auf %s beiseite gelegten Statistiken zurückbringen?}
+translate D WoodpeckerRestoreSwap {Die aktuellen (%d gespielten Übungen) werden an ihrer Stelle beiseite gelegt, sodass Sie zurückwechseln können.}
 translate D WoodpeckerCreate {Erstellen}
 translate D WoodpeckerBadNumber {Keine gültige Nummer: %s}
 translate D WoodpeckerNoDifficulty {Wählen Sie mindestens einen Schwierigkeitsgrad und mehrere Übungen.}

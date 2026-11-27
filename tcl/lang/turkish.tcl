@@ -548,6 +548,47 @@ translate T WoodpeckerFileHelp {Bir kurulum pozisyonundan başlayan her oyun bir
 translate T WoodpeckerDays1 {İlk döngü (günler)}
 translate T WoodpeckerRestDays {Döngüler (günler) arasında dinlenme}
 translate T WoodpeckerDaysHelp {Daha sonraki her döngü bir öncekinin günlerinin yarısını alır: amaç her döngüde çözüm süresini yarıya indirmektir.}
+translate T WoodpeckerLoad {Yaklaşık %d, %d gün boyunca günde bir egzersiz yapar.}
+translate T WoodpeckerLoadOneDay {Bir günde tüm %d egzersizler.}
+translate T WoodpeckerLoadLeft {Hakkında %d için bir gün egzersiz yapın %d günler kaldı.}
+translate T WoodpeckerCircle {İç çember...}
+translate T WoodpeckerCircleTitle {iç daire}
+translate T WoodpeckerCircleIntro {Tüm set için yeterli zamanınız yok mu? Yalnızca ilk alıştırmalarını saklayın: bunlar, olağan dinlenme günleri ve istatistiklerle birlikte istediğiniz sıklıkta tekrarlayabileceğiniz döngünüz haline gelir. Hiçbir şey silinmez: diğer alıştırmalar siz onlarla ne yapacağınıza karar verene kadar bekler.}
+translate T WoodpeckerCircleSize {Çemberdeki egzersizler}
+translate T WoodpeckerCircleOf {/%d}
+translate T WoodpeckerCircleDaysLeft {%d döngüsünde kalan gün sayısı}
+translate T WoodpeckerCircleDaysNext {Döngünün günleri %d}
+translate T WoodpeckerCircleRest {Diğer %d alıştırmalar:}
+translate T WoodpeckerCircleKeep {Onları bu sette kilitli tutun}
+translate T WoodpeckerCircleMove {Şimdi onları yeni bir sete taşıyın}
+translate T WoodpeckerCircleGive {Onları birlikte verilen bulmacalara geri verin}
+translate T WoodpeckerCircleKeepHelp {Tavsiye edilen. Sette yanlarında kalıyorlar! Ve !! ve döngülerin dışında bırakılırlar. Bunları daha sonra Inner Circle ile açın...: Daha sonra çemberin ardından gelirler.}
+translate T WoodpeckerCircleMoveHelp {Kendi programlarına göre eğitilmiş, kendilerine ait bir grup haline gelirler; bu set yalnızca daireyi tutar.}
+translate T WoodpeckerCircleGiveHelp {Bu seti tamamen terk ederler ve yeni bir set onları tekrar çizebilir. Bunlara ilişkin istatistikleriniz kalır.}
+translate T WoodpeckerCircleOpenNow {Bu döngü daireyi bitirir ve ardından %d açılan alıştırmalarla devam eder. Daha sonraki her döngü bu düzeni korur: önce daire, sonra diğerleri.}
+translate T WoodpeckerCircleOpenNext {%d döngüsünden itibaren her döngüde tüm %d alıştırmalar bulunur: önce daire, sonra açık olanlar.}
+translate T WoodpeckerCircleNewName {Yeni setin adı}
+translate T WoodpeckerCircleStart {Çemberi başlat}
+translate T WoodpeckerCircleState {Bu set bir iç çemberi eğitir: ilk %d alıştırmalar. Diğer %d kilitli. Onlara ne olmalı?}
+translate T WoodpeckerCircleOpenHere {Daireden sonra bunları bu sette açın}
+translate T WoodpeckerCircleOpenMove {Onları yeni bir kümeye taşıyın}
+translate T WoodpeckerCircleOpenGive {Onları birlikte verilen bulmacalara geri verin}
+translate T WoodpeckerCircleOpen {Açık}
+translate T WoodpeckerCircleGiveAsk {Dahil edilen bulmacalara %d alıştırmalar geri verilsin mi? Bu seti tamamen terk ederler (istatistikleriniz kalır) ve yeni bir set onları tekrar çekebilir.}
+translate T WoodpeckerCirclePart {%s, bölüm 2}
+translate T WoodpeckerCircleNote {İç çember: ilk %d egzersizleri yaparsınız; %d tane daha kilitli (İç daire... onları açmak için).}
+translate T WoodpeckerCircleNone {Bu döngüde iç çember için çok az egzersiz var.}
+translate T WoodpeckerCircleMoved {%d egzersizleri yeni "%s" setine taşındı.}
+translate T WoodpeckerDanger {Tehlike bölgesi}
+translate T WoodpeckerReset {İstatistikleri sıfırla...}
+translate T WoodpeckerResetTitle {İstatistikleri sıfırla}
+translate T WoodpeckerResetAsk {"%s" işlemi sanki yeniymiş gibi 1. döngüden tekrar başlatılsın mı?
+
+Şu ana kadarki istatistikleriniz (oynanan %d alıştırmalar) setin klasöründe arşivlenir, silinmez: "İstatistikleri geri yükle" onları geri getirir. Egzersizler ve onların! Ve !! oldukları gibi kal. Bir iç daire kaldırılır, böylece döngü yeniden bütün olur.}
+translate T WoodpeckerResetDo {Sıfırla}
+translate T WoodpeckerRestore {%s istatistiklerini geri yükle...}
+translate T WoodpeckerRestoreAsk {%s tarihinde bir kenara bırakılan istatistikler geri getirilsin mi?}
+translate T WoodpeckerRestoreSwap {Mevcut olanlar (oynanan %d egzersizler) yerlerine bir kenara konur, böylece geri dönebilirsiniz.}
 translate T WoodpeckerCreate {Yaratmak}
 translate T WoodpeckerBadNumber {Geçerli bir numara değil: %s}
 translate T WoodpeckerNoDifficulty {En az bir zorluk derecesi ve bir dizi alıştırma seçin.}

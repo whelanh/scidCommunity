@@ -545,6 +545,47 @@ translate V WoodpeckerFileHelp {כל משחק שמתחיל מעמדת הגדרה
 translate V WoodpeckerDays1 {מחזור ראשון (ימים)}
 translate V WoodpeckerRestDays {מנוחה בין מחזורים (ימים)}
 translate V WoodpeckerDaysHelp {כל מחזור מאוחר יותר מקבל מחצית מהימים מקודמו: המטרה היא להפחית בחצי את זמן הפתרון בכל מחזור.}
+translate V WoodpeckerLoad {בערך %d תרגילים ביום במשך %d ימים.}
+translate V WoodpeckerLoadOneDay {כל התרגילים %d ביום אחד.}
+translate V WoodpeckerLoadLeft {בערך %d תרגילים ביום למשך הימים %d שנותרו.}
+translate V WoodpeckerCircle {מעגל פנימי...}
+translate V WoodpeckerCircleTitle {מעגל פנימי}
+translate V WoodpeckerCircleIntro {אין מספיק זמן לכל הסט? שמור רק על התרגילים הראשונים שלו: הם הופכים למחזור שלך, כדי לחזור על כך לעתים קרובות ככל שתרצה, עם ימי המנוחה והסטטיסטיקה הרגילים. שום דבר לא נמחק: התרגילים האחרים ממתינים עד שתחליטו מה לעשות איתם.}
+translate V WoodpeckerCircleSize {תרגילים במעגל}
+translate V WoodpeckerCircleOf {מתוך %d}
+translate V WoodpeckerCircleDaysLeft {נותרו ימים במחזור %d}
+translate V WoodpeckerCircleDaysNext {ימים למחזור %d}
+translate V WoodpeckerCircleRest {שאר התרגילים %d:}
+translate V WoodpeckerCircleKeep {השאר אותם נעולים בסט הזה}
+translate V WoodpeckerCircleMove {העבר אותם לסט חדש עכשיו}
+translate V WoodpeckerCircleGive {החזר אותם לחידות הכלולים}
+translate V WoodpeckerCircleKeepHelp {מוּמלָץ. הם נשארים בסט עם שלהם! ו!! ונשארים מחוץ למחזורים. פתח אותם מאוחר יותר עם מעגל פנימי...: אז הם באים אחרי המעגל.}
+translate V WoodpeckerCircleMoveHelp {הם הופכים לסט משלהם, מאומנים לפי לוח הזמנים שלו; סט זה שומר רק על המעגל.}
+translate V WoodpeckerCircleGiveHelp {הם עוזבים את הסט הזה לתמיד, וסט חדש יכול לצייר אותם שוב. הסטטיסטיקה שלך עליהם נשארת.}
+translate V WoodpeckerCircleOpenNow {מחזור זה מסיים את המעגל, ואז ממשיך עם %d התרגילים שנפתחו. כל מחזור מאוחר יותר שומר על הסדר הזה: תחילה המעגל, ואז האחרים.}
+translate V WoodpeckerCircleOpenNext {ממחזור %d בכל מחזור יש את כל התרגילים %d: תחילה המעגל, ואז הפתוחים.}
+translate V WoodpeckerCircleNewName {שם הסט החדש}
+translate V WoodpeckerCircleStart {התחל את המעגל}
+translate V WoodpeckerCircleState {הסט הזה מאמן מעגל פנימי: התרגילים הראשונים של %d. %d האחרים נעולים. מה צריך לקרות להם?}
+translate V WoodpeckerCircleOpenHere {פתח אותם בסט הזה, אחרי העיגול}
+translate V WoodpeckerCircleOpenMove {העבר אותם לסט חדש}
+translate V WoodpeckerCircleOpenGive {החזר אותם לחידות הכלולים}
+translate V WoodpeckerCircleOpen {לִפְתוֹחַ}
+translate V WoodpeckerCircleGiveAsk {האם להחזיר %d תרגילים לחידות הכלולים? הם עוזבים את הסט הזה לתמיד (הסטטיסטיקה שלך נשארת), וקבוצה חדשה יכולה למשוך אותם שוב.}
+translate V WoodpeckerCirclePart {%s, חלק 2}
+translate V WoodpeckerCircleNote {מעגל פנימי: אתה מאמן את התרגילים הראשונים %d; %d נוספים נעולים (עיגול פנימי... כדי לפתוח אותם).}
+translate V WoodpeckerCircleNone {במחזור הזה יש מעט מדי תרגילים למעגל פנימי.}
+translate V WoodpeckerCircleMoved {%d תרגילים הועברו לסט החדש "%s.}
+translate V WoodpeckerDanger {אזור סכנה}
+translate V WoodpeckerReset {אפס סטטיסטיקה...}
+translate V WoodpeckerResetTitle {אפס סטטיסטיקה}
+translate V WoodpeckerResetAsk {להתחיל שוב את "%s" ממחזור 1, כאילו הוא חדש?
+
+הנתונים הסטטיסטיים שלך עד כה (%d תרגילים ששיחקו) מאוחסנים בתיקיית הסט, לא נמחקים: "שחזר סטטיסטיקה" מחזיר אותם. התרגילים ושלהם! ו!! להישאר כמו שהם. מעגל פנימי מוסר, כך שהמחזור הוא שוב כל הסט.}
+translate V WoodpeckerResetDo {אִתחוּל}
+translate V WoodpeckerRestore {שחזר נתונים סטטיסטיים של %s...}
+translate V WoodpeckerRestoreAsk {להחזיר את הסטטיסטיקה שהונחה בצד על %s?}
+translate V WoodpeckerRestoreSwap {התרגילים הנוכחיים (%d ששיחקו) מונחים בצד במקומם, כדי שתוכל לעבור חזרה.}
 translate V WoodpeckerCreate {לִיצוֹר}
 translate V WoodpeckerBadNumber {מספר לא חוקי: %s}
 translate V WoodpeckerNoDifficulty {בחרו לפחות קושי אחד ומספר תרגילים.}

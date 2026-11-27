@@ -553,6 +553,47 @@ translate B WoodpeckerFileHelp {Cada jogo que parte de uma posição preparada t
 translate B WoodpeckerDays1 {Primeiro ciclo (dias)}
 translate B WoodpeckerRestDays {Descanse entre os ciclos (dias)}
 translate B WoodpeckerDaysHelp {Cada ciclo posterior ocupa metade dos dias do anterior: o objetivo é reduzir pela metade o tempo de resolução de cada ciclo.}
+translate B WoodpeckerLoad {Cerca de %d exercícios por dia durante %d dias.}
+translate B WoodpeckerLoadOneDay {Todos os %d exercícios em um dia.}
+translate B WoodpeckerLoadLeft {Cerca de %d exercícios por dia durante os %d dias restantes.}
+translate B WoodpeckerCircle {Círculo interno...}
+translate B WoodpeckerCircleTitle {Círculo interno}
+translate B WoodpeckerCircleIntro {Não há tempo suficiente para todo o conjunto? Guarde apenas os primeiros exercícios: eles passam a ser o seu ciclo, para repetir quantas vezes quiser, com os habituais dias de descanso e estatísticas. Nada é apagado: os outros exercícios esperam até você decidir o que fazer com eles.}
+translate B WoodpeckerCircleSize {Exercícios no círculo}
+translate B WoodpeckerCircleOf {de %d}
+translate B WoodpeckerCircleDaysLeft {Dias restantes no ciclo %d}
+translate B WoodpeckerCircleDaysNext {Dias para o ciclo %d}
+translate B WoodpeckerCircleRest {Os outros exercícios %d:}
+translate B WoodpeckerCircleKeep {Mantenha-os trancados neste conjunto}
+translate B WoodpeckerCircleMove {Mova-os para um novo conjunto agora}
+translate B WoodpeckerCircleGive {Devolva-os aos quebra-cabeças incluídos}
+translate B WoodpeckerCircleKeepHelp {Recomendado. Eles ficam no set com seus ! e !! e ficam de fora dos ciclos. Abra-os mais tarde com Círculo interno...: eles vêm depois do círculo.}
+translate B WoodpeckerCircleMoveHelp {Eles se tornam um conjunto próprio, treinados de acordo com seu próprio horário; este conjunto mantém apenas o círculo.}
+translate B WoodpeckerCircleGiveHelp {Eles abandonam este conjunto para sempre e um novo conjunto pode atraí-los novamente. Suas estatísticas sobre eles permanecem.}
+translate B WoodpeckerCircleOpenNow {Este ciclo termina o círculo e continua com os exercícios abertos %d. Cada ciclo posterior mantém essa ordem: primeiro o círculo, depois os outros.}
+translate B WoodpeckerCircleOpenNext {Do ciclo %d todo ciclo tem todos os exercícios %d: primeiro o círculo, depois os abertos.}
+translate B WoodpeckerCircleNewName {Nome do novo conjunto}
+translate B WoodpeckerCircleStart {Comece o círculo}
+translate B WoodpeckerCircleState {Este conjunto treina um círculo interno: os primeiros %d exercícios. Os outros %d estão bloqueados. O que deveria acontecer com eles?}
+translate B WoodpeckerCircleOpenHere {Abra-os neste conjunto, após o círculo}
+translate B WoodpeckerCircleOpenMove {Mova-os para um novo conjunto}
+translate B WoodpeckerCircleOpenGive {Devolva-os aos quebra-cabeças incluídos}
+translate B WoodpeckerCircleOpen {Abrir}
+translate B WoodpeckerCircleGiveAsk {Devolva os exercícios %d aos quebra-cabeças incluídos? Eles saem deste conjunto para sempre (suas estatísticas permanecem), e um novo conjunto pode atraí-los novamente.}
+translate B WoodpeckerCirclePart {%s, parte 2}
+translate B WoodpeckerCircleNote {Círculo interno: você treina os primeiros exercícios %d; %d mais estão bloqueados (círculo interno... para abri-los).}
+translate B WoodpeckerCircleNone {Este ciclo tem poucos exercícios para um círculo interno.}
+translate B WoodpeckerCircleMoved {%d exercícios movidos para o novo conjunto "%s".}
+translate B WoodpeckerDanger {Zona de perigo}
+translate B WoodpeckerReset {Redefinir estatísticas...}
+translate B WoodpeckerResetTitle {Redefinir estatísticas}
+translate B WoodpeckerResetAsk {Iniciar "%s" novamente a partir do ciclo 1, como se fosse novo?
+
+Suas estatísticas até o momento (%d exercícios reproduzidos) são arquivadas na pasta do conjunto, não excluídas: "Restaurar estatísticas" as traz de volta. Os exercícios e seus ! e !! fiquem como estão. Um círculo interno é removido, então o ciclo é todo o conjunto novamente.}
+translate B WoodpeckerResetDo {Reiniciar}
+translate B WoodpeckerRestore {Restaurar estatísticas de %s...}
+translate B WoodpeckerRestoreAsk {Trazer de volta as estatísticas deixadas de lado em %s?}
+translate B WoodpeckerRestoreSwap {Os atuais (%d exercícios executados) são colocados de lado em seus lugares, para que você possa voltar.}
 translate B WoodpeckerCreate {Criar}
 translate B WoodpeckerBadNumber {Número inválido: %s}
 translate B WoodpeckerNoDifficulty {Escolha pelo menos uma dificuldade e vários exercícios.}

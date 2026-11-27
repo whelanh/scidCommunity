@@ -544,6 +544,47 @@ translate b WoodpeckerFileHelp {প্রতিটি খেলা যা এক
 translate b WoodpeckerDays1 {প্রথম চক্র (দিন)}
 translate b WoodpeckerRestDays {চক্রের মধ্যে বিশ্রাম (দিন)}
 translate b WoodpeckerDaysHelp {প্রতিটি পরবর্তী চক্র আগের দিনের অর্ধেক দিন পায়: লক্ষ্য হল প্রতিটি চক্রের সমাধানের সময় অর্ধেক করা।}
+translate b WoodpeckerLoad {প্রায় %d দিনে %d দিনের জন্য ব্যায়াম করে।}
+translate b WoodpeckerLoadOneDay {একদিনে সমস্ত %d ব্যায়াম।}
+translate b WoodpeckerLoadLeft {সম্পর্কে %d জন্য একটি দিন ব্যায়াম %d দিন বাকি}
+translate b WoodpeckerCircle {অভ্যন্তরীণ বৃত্ত...}
+translate b WoodpeckerCircleTitle {অভ্যন্তরীণ বৃত্ত}
+translate b WoodpeckerCircleIntro {পুরো সেটের জন্য যথেষ্ট সময় নেই? শুধুমাত্র তার প্রথম ব্যায়াম রাখুন: সেগুলি আপনার চক্র হয়ে ওঠে, স্বাভাবিক বিশ্রামের দিন এবং পরিসংখ্যান সহ যতবার খুশি পুনরাবৃত্তি করুন। কিছুই মুছে ফেলা হয় না: অন্যান্য অনুশীলনগুলি অপেক্ষা করে যতক্ষণ না আপনি তাদের সাথে কী করবেন তা সিদ্ধান্ত নিন।}
+translate b WoodpeckerCircleSize {বৃত্তে ব্যায়াম}
+translate b WoodpeckerCircleOf {%d}
+translate b WoodpeckerCircleDaysLeft {চক্রে দিন বাকি %d}
+translate b WoodpeckerCircleDaysNext {চক্রের জন্য দিন %d}
+translate b WoodpeckerCircleRest {অন্যান্য %d ব্যায়াম:}
+translate b WoodpeckerCircleKeep {তাদের এই সেটে লক করে রাখুন}
+translate b WoodpeckerCircleMove {এখন একটি নতুন সেট তাদের সরান}
+translate b WoodpeckerCircleGive {অন্তর্ভুক্ত ধাঁধা তাদের ফিরিয়ে দিন}
+translate b WoodpeckerCircleKeepHelp {প্রস্তাবিত সেটে ওদের সঙ্গেই থাকে তারা! এবং!! এবং চক্রের বাইরে থাকে। অভ্যন্তরীণ বৃত্ত দিয়ে পরে তাদের খুলুন...: তারা তারপর বৃত্তের পরে আসে।}
+translate b WoodpeckerCircleMoveHelp {তারা তাদের নিজস্ব একটি সেট হয়ে ওঠে, তার নিজস্ব সময়সূচীতে প্রশিক্ষিত হয়; এই সেট শুধুমাত্র বৃত্ত রাখে.}
+translate b WoodpeckerCircleGiveHelp {তারা ভাল জন্য এই সেট ছেড়ে, এবং একটি নতুন সেট তাদের আবার আঁকা যাবে. তাদের উপর আপনার পরিসংখ্যান থাকবে.}
+translate b WoodpeckerCircleOpenNow {এই চক্রটি বৃত্তটি শেষ করে, তারপরে %d খোলা অনুশীলনের সাথে চলে। প্রতিটি পরবর্তী চক্র সেই ক্রম ধরে রাখে: প্রথমে বৃত্ত, তারপর অন্যগুলো।}
+translate b WoodpeckerCircleOpenNext {চক্র %d থেকে প্রতিটি চক্রের সমস্ত %d অনুশীলন রয়েছে: প্রথমে বৃত্ত, তারপর খোলা।}
+translate b WoodpeckerCircleNewName {নতুন সেটের নাম}
+translate b WoodpeckerCircleStart {বৃত্ত শুরু করুন}
+translate b WoodpeckerCircleState {এই সেটটি একটি অভ্যন্তরীণ বৃত্তকে প্রশিক্ষণ দেয়: প্রথম %d অনুশীলন। অন্যান্য %d লক করা আছে। তাদের কি হওয়া উচিত?}
+translate b WoodpeckerCircleOpenHere {বৃত্তের পরে, এই সেটে তাদের খুলুন}
+translate b WoodpeckerCircleOpenMove {তাদের একটি নতুন সেটে নিয়ে যান}
+translate b WoodpeckerCircleOpenGive {অন্তর্ভুক্ত ধাঁধা তাদের ফিরিয়ে দিন}
+translate b WoodpeckerCircleOpen {খোলা}
+translate b WoodpeckerCircleGiveAsk {অন্তর্ভুক্ত ধাঁধাগুলিতে %d অনুশীলনগুলি ফিরিয়ে দেবেন? তারা এই সেটটি ভালোর জন্য ছেড়ে দেয় (আপনার পরিসংখ্যান থাকে), এবং একটি নতুন সেট তাদের আবার আঁকতে পারে।}
+translate b WoodpeckerCirclePart {%s, পার্ট 2}
+translate b WoodpeckerCircleNote {অভ্যন্তরীণ বৃত্ত: আপনি প্রথম %d ব্যায়াম প্রশিক্ষণ দেন; %d আরও লক করা আছে (অভ্যন্তরীণ বৃত্ত... খোলার জন্য)।}
+translate b WoodpeckerCircleNone {এই চক্রের একটি অভ্যন্তরীণ বৃত্তের জন্য খুব কম ব্যায়াম আছে।}
+translate b WoodpeckerCircleMoved {%d ব্যায়াম নতুন সেট "%s" এ সরানো হয়েছে।}
+translate b WoodpeckerDanger {বিপদ অঞ্চল}
+translate b WoodpeckerReset {পরিসংখ্যান রিসেট করুন...}
+translate b WoodpeckerResetTitle {পরিসংখ্যান রিসেট করুন}
+translate b WoodpeckerResetAsk {চক্র 1 থেকে আবার "%s" শুরু করুন, যেন এটি নতুন?
+
+আপনার পরিসংখ্যান এখন পর্যন্ত (%d অনুশীলন করা হয়েছে) সেটের ফোল্ডারে সংরক্ষণাগারভুক্ত করা হয়েছে, মুছে ফেলা হয়নি: "পরিসংখ্যান পুনরুদ্ধার করুন" তাদের ফিরিয়ে আনে। ব্যায়াম এবং তাদের! এবং!! তারা যেমন আছে তেমনি থাকুন। একটি অভ্যন্তরীণ বৃত্ত সরানো হয়, তাই চক্র আবার পুরো সেট।}
+translate b WoodpeckerResetDo {রিসেট করুন}
+translate b WoodpeckerRestore {%s এর পরিসংখ্যান পুনরুদ্ধার করুন...}
+translate b WoodpeckerRestoreAsk {%s-এর পরিসংখ্যান একপাশে ফিরিয়ে আনবেন?}
+translate b WoodpeckerRestoreSwap {বর্তমান (%d ব্যায়াম খেলা) তাদের জায়গায় একপাশে রাখা হয়, যাতে আপনি ফিরে যেতে পারেন।}
 translate b WoodpeckerCreate {তৈরি করুন}
 translate b WoodpeckerBadNumber {একটি বৈধ সংখ্যা নয়: %s}
 translate b WoodpeckerNoDifficulty {অন্তত একটি অসুবিধা এবং ব্যায়াম একটি সংখ্যা চয়ন করুন.}

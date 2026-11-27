@@ -585,6 +585,47 @@ translate g WoodpeckerFileHelp {Всяка игра, която започва �
 translate g WoodpeckerDays1 {Първи цикъл (дни)}
 translate g WoodpeckerRestDays {Почивка между циклите (дни)}
 translate g WoodpeckerDaysHelp {Всеки следващ цикъл получава половината дни от предишния: целта е да се намали наполовина времето за решаване на всеки цикъл.}
+translate g WoodpeckerLoad {Около %d упражнения на ден за %d дни.}
+translate g WoodpeckerLoadOneDay {Всички %d упражнения за един ден.}
+translate g WoodpeckerLoadLeft {Около %d упражнения на ден за оставащите %d дни.}
+translate g WoodpeckerCircle {Вътрешен кръг...}
+translate g WoodpeckerCircleTitle {Вътрешен кръг}
+translate g WoodpeckerCircleIntro {Нямате достатъчно време за целия комплект? Запазете само първите му упражнения: те стават вашият цикъл, който да повтаряте толкова често, колкото желаете, с обичайните почивни дни и статистика. Нищо не се изтрива: другите упражнения изчакват, докато решите какво да правите с тях.}
+translate g WoodpeckerCircleSize {Упражнения в кръга}
+translate g WoodpeckerCircleOf {от %d}
+translate g WoodpeckerCircleDaysLeft {Оставащи дни от цикъла %d}
+translate g WoodpeckerCircleDaysNext {Дни за цикъл %d}
+translate g WoodpeckerCircleRest {Другите %d упражнения:}
+translate g WoodpeckerCircleKeep {Дръжте ги заключени в този комплект}
+translate g WoodpeckerCircleMove {Преместете ги в нов комплект сега}
+translate g WoodpeckerCircleGive {Върнете ги към включените пъзели}
+translate g WoodpeckerCircleKeepHelp {Препоръчва се. Те остават в комплекта със своите ! и !! и са оставени извън циклите. Отворете ги по-късно с Вътрешен кръг...: тогава те идват след кръга.}
+translate g WoodpeckerCircleMoveHelp {Те се превръщат в собствен набор, обучени по свой собствен график; този набор запазва само кръга.}
+translate g WoodpeckerCircleGiveHelp {Те напускат този набор завинаги и нов набор може да ги привлече отново. Статистиката ви за тях остава.}
+translate g WoodpeckerCircleOpenNow {Този цикъл завършва кръга, след което продължава с отворените %d упражнения. Всеки следващ цикъл запазва този ред: първо кръгът, след това останалите.}
+translate g WoodpeckerCircleOpenNext {От цикъл %d всеки цикъл има всички %d упражнения: първо кръгът, след това отворените.}
+translate g WoodpeckerCircleNewName {Име на новия набор}
+translate g WoodpeckerCircleStart {Започнете кръга}
+translate g WoodpeckerCircleState {Този комплект тренира вътрешен кръг: първите %d упражнения. Другите %d са заключени. Какво трябва да се случи с тях?}
+translate g WoodpeckerCircleOpenHere {Отворете ги в този набор, след кръга}
+translate g WoodpeckerCircleOpenMove {Преместете ги в нов комплект}
+translate g WoodpeckerCircleOpenGive {Върнете ги към включените пъзели}
+translate g WoodpeckerCircleOpen {Отворете}
+translate g WoodpeckerCircleGiveAsk {Да се ​​върнат %d упражнения към включените пъзели? Те напускат този набор завинаги (статистиката ви остава), а нов набор може да ги привлече отново.}
+translate g WoodpeckerCirclePart {%s, част 2}
+translate g WoodpeckerCircleNote {Вътрешен кръг: тренирате първите %d упражнения; Още %d са заключени (Вътрешен кръг... за да ги отворите).}
+translate g WoodpeckerCircleNone {Този цикъл има твърде малко упражнения за вътрешен кръг.}
+translate g WoodpeckerCircleMoved {%d упражнения са преместени в новия комплект „%s“.}
+translate g WoodpeckerDanger {Опасна зона}
+translate g WoodpeckerReset {Нулиране на статистиката...}
+translate g WoodpeckerResetTitle {Нулиране на статистиката}
+translate g WoodpeckerResetAsk {Стартирайте "%s" отново от цикъл 1, сякаш е нов?
+
+Вашите статистически данни досега (%d изиграни упражнения) се архивират в папката на комплекта, не се изтриват: „Възстановяване на статистика“ ги връща обратно. Упражненията и техните ! и !! останат такива каквито са. Премахва се вътрешен кръг, така че цикълът отново е целият комплект.}
+translate g WoodpeckerResetDo {Нулиране}
+translate g WoodpeckerRestore {Възстановяване на статистиката на %s...}
+translate g WoodpeckerRestoreAsk {Да върна ли статистическите данни, оставени настрана за %s?}
+translate g WoodpeckerRestoreSwap {Текущите (изиграни %d упражнения) се оставят настрана на мястото им, така че можете да превключите обратно.}
 translate g WoodpeckerCreate {Създавайте}
 translate g WoodpeckerBadNumber {Невалиден номер: %s}
 translate g WoodpeckerNoDifficulty {Изберете поне една трудност и брой упражнения.}

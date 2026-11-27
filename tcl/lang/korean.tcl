@@ -585,6 +585,47 @@ translate k WoodpeckerFileHelp {셋업 포지션에서 시작하는 각 게임�
 translate k WoodpeckerDays1 {첫 번째 주기(일)}
 translate k WoodpeckerRestDays {주기 사이의 휴식(일)}
 translate k WoodpeckerDaysHelp {각각의 이후 주기는 이전 주기의 절반을 차지합니다. 목표는 매 주기마다 해결 시간을 절반으로 줄이는 것입니다.}
+translate k WoodpeckerLoad {에 대한 %d 하루에 운동하기 %d 날.}
+translate k WoodpeckerLoadOneDay {하루 동안 모든 %d 운동을 수행합니다.}
+translate k WoodpeckerLoadLeft {에 대한 %d 위해 하루에 운동을 한다 %d 일 남았습니다.}
+translate k WoodpeckerCircle {내부 원...}
+translate k WoodpeckerCircleTitle {내부 서클}
+translate k WoodpeckerCircleIntro {전체 세트를 볼 시간이 충분하지 않나요? 첫 번째 운동만 유지하세요. 이 운동은 주기가 되며 일반적인 휴식일과 통계를 사용하여 원하는 만큼 자주 반복할 수 있습니다. 아무것도 삭제되지 않습니다. 다른 연습은 사용자가 무엇을 할지 결정할 때까지 기다립니다.}
+translate k WoodpeckerCircleSize {서클에서의 운동}
+translate k WoodpeckerCircleOf {%d의}
+translate k WoodpeckerCircleDaysLeft {주기의 남은 일수 %d}
+translate k WoodpeckerCircleDaysNext {주기 %d의 일수}
+translate k WoodpeckerCircleRest {다른 %d 연습:}
+translate k WoodpeckerCircleKeep {이 세트에 넣어두세요}
+translate k WoodpeckerCircleMove {지금 새 세트로 옮기세요}
+translate k WoodpeckerCircleGive {포함된 퍼즐로 돌려주세요}
+translate k WoodpeckerCircleKeepHelp {추천합니다. 그들은 ! 그리고 !! 그리고 사이클에서 제외됩니다. 나중에 Inner Circle을 사용하여 엽니다...: 그런 다음 서클 뒤에 옵니다.}
+translate k WoodpeckerCircleMoveHelp {그들은 그들 자신의 일정에 따라 훈련을 받은 그들 자신의 집합이 됩니다. 이 세트는 원만 유지합니다.}
+translate k WoodpeckerCircleGiveHelp {그들은 이 세트를 영원히 남겨두고 새로운 세트가 그들을 다시 그릴 수 있습니다. 그들에 대한 귀하의 통계는 그대로 유지됩니다.}
+translate k WoodpeckerCircleOpenNow {이 주기는 원을 마친 다음 %d 열린 연습을 계속합니다. 이후의 모든 주기는 그 순서를 유지합니다. 즉, 원이 먼저, 그 다음이 다른 것입니다.}
+translate k WoodpeckerCircleOpenNext {사이클 %d부터 모든 사이클에는 모든 %d 운동이 포함됩니다. 먼저 원을 그린 다음 열린 운동을 합니다.}
+translate k WoodpeckerCircleNewName {새 세트의 이름}
+translate k WoodpeckerCircleStart {서클을 시작하세요}
+translate k WoodpeckerCircleState {이 세트는 내부 서클, 즉 첫 번째 %d 운동을 훈련합니다. 다른 %d은 잠겨 있습니다. 그들에게 무슨 일이 일어나야 할까요?}
+translate k WoodpeckerCircleOpenHere {원 뒤에 이 세트로 열어보세요.}
+translate k WoodpeckerCircleOpenMove {새 세트로 이동}
+translate k WoodpeckerCircleOpenGive {포함된 퍼즐로 돌려주세요}
+translate k WoodpeckerCircleOpen {열려 있는}
+translate k WoodpeckerCircleGiveAsk {%d 연습문제를 포함된 퍼즐에 다시 제공하시겠습니까? 그들은 이 세트를 영원히 남겨두고(통계는 유지됨) 새 세트에서 다시 그릴 수 있습니다.}
+translate k WoodpeckerCirclePart {%s, 파트 2}
+translate k WoodpeckerCircleNote {내부 서클: 첫 번째 %d 운동을 훈련합니다. %d 더 많은 항목이 잠겨 있습니다(내부 원... 열려면).}
+translate k WoodpeckerCircleNone {이 사이클에는 내부 서클에 대한 운동 수가 너무 적습니다.}
+translate k WoodpeckerCircleMoved {%d 운동이 새로운 세트 "%s"로 이동되었습니다.}
+translate k WoodpeckerDanger {위험지대}
+translate k WoodpeckerReset {통계 재설정...}
+translate k WoodpeckerResetTitle {통계 재설정}
+translate k WoodpeckerResetAsk {마치 새로운 것처럼 사이클 1부터 "%s"를 다시 시작하시겠습니까?
+
+지금까지의 통계(%d 플레이한 운동)는 삭제되지 않고 세트의 폴더에 보관됩니다. "통계 복원"을 통해 다시 가져옵니다. 연습과 그들의! 그리고 !! 그대로 있어라. 내부 원이 제거되므로 사이클이 다시 전체 세트가 됩니다.}
+translate k WoodpeckerResetDo {다시 놓기}
+translate k WoodpeckerRestore {%s의 통계 복원...}
+translate k WoodpeckerRestoreAsk {%s에 남겨두었던 통계를 다시 가져오시겠습니까?}
+translate k WoodpeckerRestoreSwap {현재 실행된 운동(%d 운동)은 제자리에 보관되므로 다시 전환할 수 있습니다.}
 translate k WoodpeckerCreate {만들다}
 translate k WoodpeckerBadNumber {유효한 숫자가 아닙니다: %s}
 translate k WoodpeckerNoDifficulty {최소한 하나의 난이도와 여러 가지 연습을 선택하십시오.}

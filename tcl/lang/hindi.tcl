@@ -544,6 +544,47 @@ translate h WoodpeckerFileHelp {प्रत्येक खेल जो एक
 translate h WoodpeckerDays1 {पहला चक्र (दिन)}
 translate h WoodpeckerRestDays {चक्रों के बीच आराम करें (दिन)}
 translate h WoodpeckerDaysHelp {प्रत्येक बाद के चक्र को पिछले चक्र के आधे दिन मिलते हैं: इसका उद्देश्य प्रत्येक चक्र को हल करने का समय आधा करना है।}
+translate h WoodpeckerLoad {लगभग %d प्रतिदिन %d दिनों तक व्यायाम करता है।}
+translate h WoodpeckerLoadOneDay {सभी %d व्यायाम एक ही दिन में।}
+translate h WoodpeckerLoadLeft {के बारे में %d के लिए एक दिन व्यायाम करें %d दिन शेष।}
+translate h WoodpeckerCircle {इनर सर्कल...}
+translate h WoodpeckerCircleTitle {इनर सर्कल}
+translate h WoodpeckerCircleIntro {पूरे सेट के लिए पर्याप्त समय नहीं? केवल इसके पहले अभ्यास ही रखें: वे आपका चक्र बन जाते हैं, सामान्य आराम के दिनों और आँकड़ों के साथ, जितनी बार चाहें उतनी बार दोहराएँ। कुछ भी नहीं हटाया जाता है: अन्य अभ्यास तब तक प्रतीक्षा करते हैं जब तक आप यह तय नहीं कर लेते कि उनके साथ क्या करना है।}
+translate h WoodpeckerCircleSize {घेरे में व्यायाम}
+translate h WoodpeckerCircleOf {%d का}
+translate h WoodpeckerCircleDaysLeft {चक्र में शेष दिन %d}
+translate h WoodpeckerCircleDaysNext {चक्र के लिए दिन %d}
+translate h WoodpeckerCircleRest {अन्य %d व्यायाम:}
+translate h WoodpeckerCircleKeep {उन्हें इस सेट में बंद करके रखें}
+translate h WoodpeckerCircleMove {अब उन्हें एक नए सेट पर ले जाएं}
+translate h WoodpeckerCircleGive {उन्हें शामिल पहेलियों में वापस दें}
+translate h WoodpeckerCircleKeepHelp {अनुशंसित। वे सेट पर अपने साथ रहते हैं! और !! और चक्र से बाहर रह जाते हैं। उन्हें बाद में इनर सर्कल से खोलें...: फिर वे सर्कल के बाद आते हैं।}
+translate h WoodpeckerCircleMoveHelp {वे अपना स्वयं का एक समूह बन जाते हैं, अपने स्वयं के समय पर प्रशिक्षित होते हैं; यह सेट केवल वृत्त रखता है।}
+translate h WoodpeckerCircleGiveHelp {वे इस सेट को हमेशा के लिए छोड़ देते हैं, और एक नया सेट उन्हें फिर से आकर्षित कर सकता है। उन पर आपके आँकड़े कायम हैं।}
+translate h WoodpeckerCircleOpenNow {यह चक्र वृत्त को समाप्त करता है, फिर %d खोले गए अभ्यासों के साथ आगे बढ़ता है। प्रत्येक बाद का चक्र उस क्रम को बनाए रखता है: पहले चक्र, फिर अन्य।}
+translate h WoodpeckerCircleOpenNext {चक्र %d से प्रत्येक चक्र में सभी %d अभ्यास होते हैं: पहले चक्र, फिर खुले हुए।}
+translate h WoodpeckerCircleNewName {नये सेट का नाम}
+translate h WoodpeckerCircleStart {चक्र प्रारंभ करें}
+translate h WoodpeckerCircleState {यह सेट एक आंतरिक चक्र को प्रशिक्षित करता है: पहला %d अभ्यास। अन्य %d बंद हैं। उनका क्या होना चाहिए?}
+translate h WoodpeckerCircleOpenHere {सर्कल के बाद, उन्हें इस सेट में खोलें}
+translate h WoodpeckerCircleOpenMove {उन्हें एक नए सेट में ले जाएँ}
+translate h WoodpeckerCircleOpenGive {उन्हें शामिल पहेलियों में वापस दें}
+translate h WoodpeckerCircleOpen {खुला}
+translate h WoodpeckerCircleGiveAsk {शामिल पहेलियों पर वापस %d अभ्यास दें? वे इस सेट को हमेशा के लिए छोड़ देते हैं (आपके आँकड़े बने रहते हैं), और एक नया सेट उन्हें फिर से आकर्षित कर सकता है।}
+translate h WoodpeckerCirclePart {%s, भाग 2}
+translate h WoodpeckerCircleNote {आंतरिक वृत्त: आप पहले %d अभ्यासों को प्रशिक्षित करते हैं; %d और भी लॉक हैं (इनर सर्कल...उन्हें खोलने के लिए)।}
+translate h WoodpeckerCircleNone {इस चक्र में आंतरिक चक्र के लिए बहुत कम व्यायाम हैं।}
+translate h WoodpeckerCircleMoved {%d अभ्यासों को नए सेट "%s" में स्थानांतरित कर दिया गया।}
+translate h WoodpeckerDanger {खतरा क्षेत्र}
+translate h WoodpeckerReset {सांख्यिकीय को रीसेट करें...}
+translate h WoodpeckerResetTitle {सांख्यिकीय को रीसेट करें}
+translate h WoodpeckerResetAsk {"%s" को चक्र 1 से फिर से शुरू करें, जैसे कि यह नया हो?
+
+आपके अब तक के आंकड़े (%d खेले गए अभ्यास) सेट के फ़ोल्डर में संग्रहीत हैं, हटाए नहीं गए हैं: "आंकड़े पुनर्स्थापित करें" उन्हें वापस लाता है। अभ्यास और उनके ! और !! वे जैसे हैं वैसे ही रहें. एक आंतरिक चक्र हटा दिया जाता है, इसलिए चक्र फिर से पूरा सेट हो जाता है।}
+translate h WoodpeckerResetDo {रीसेट करें}
+translate h WoodpeckerRestore {%s के आँकड़े पुनर्स्थापित करें...}
+translate h WoodpeckerRestoreAsk {%s पर अलग रखे गए आँकड़े वापस लाएँ?}
+translate h WoodpeckerRestoreSwap {वर्तमान (%d खेले गए अभ्यास) को उनके स्थान पर एक तरफ रख दिया गया है, ताकि आप वापस स्विच कर सकें।}
 translate h WoodpeckerCreate {बनाएं}
 translate h WoodpeckerBadNumber {मान्य संख्या नहीं: %s}
 translate h WoodpeckerNoDifficulty {कम से कम एक कठिनाई और अनेक अभ्यास चुनें।}

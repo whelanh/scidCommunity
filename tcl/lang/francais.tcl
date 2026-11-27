@@ -556,6 +556,47 @@ translate F WoodpeckerFileHelp {Chaque partie qui part d'une position établie d
 translate F WoodpeckerDays1 {Premier cycle (jours)}
 translate F WoodpeckerRestDays {Repos entre les cycles (jours)}
 translate F WoodpeckerDaysHelp {Chaque cycle ultérieur reçoit la moitié des jours du précédent : l'objectif est de réduire de moitié le temps de résolution à chaque cycle.}
+translate F WoodpeckerLoad {Environ %d exercices par jour pendant %d jours.}
+translate F WoodpeckerLoadOneDay {Tous les exercices %d en une journée.}
+translate F WoodpeckerLoadLeft {Environ %d exercices par jour pendant les %d jours restants.}
+translate F WoodpeckerCircle {Cercle intérieur...}
+translate F WoodpeckerCircleTitle {Cercle intérieur}
+translate F WoodpeckerCircleIntro {Pas assez de temps pour tout le set ? Ne gardez que ses premiers exercices : ils deviennent votre cycle, à répéter aussi souvent que vous le souhaitez, avec les jours de repos et les statistiques habituels. Rien n'est supprimé : les autres exercices attendent que vous décidiez quoi en faire.}
+translate F WoodpeckerCircleSize {Exercices en cercle}
+translate F WoodpeckerCircleOf {de %d}
+translate F WoodpeckerCircleDaysLeft {Jours restants dans le cycle %d}
+translate F WoodpeckerCircleDaysNext {Jours pour le cycle %d}
+translate F WoodpeckerCircleRest {Les autres exercices %d :}
+translate F WoodpeckerCircleKeep {Gardez-les enfermés dans cet ensemble}
+translate F WoodpeckerCircleMove {Déplacez-les vers un nouvel ensemble maintenant}
+translate F WoodpeckerCircleGive {Rendez-les aux puzzles inclus}
+translate F WoodpeckerCircleKeepHelp {Recommandé. Ils restent dans le set avec leur ! et !! et sont exclus des cycles. Ouvrez-les plus tard avec Cercle intérieur... : ils viennent alors après le cercle.}
+translate F WoodpeckerCircleMoveHelp {Ils deviennent un groupe à part entière, formé selon son propre horaire ; cet ensemble ne conserve que le cercle.}
+translate F WoodpeckerCircleGiveHelp {Ils quittent définitivement cet ensemble, et un nouvel ensemble peut les attirer à nouveau. Vos statistiques à leur sujet restent.}
+translate F WoodpeckerCircleOpenNow {Ce cycle termine le cercle, puis enchaîne avec les %d exercices ouverts. Chaque cycle ultérieur conserve cet ordre : le cercle d'abord, puis les autres.}
+translate F WoodpeckerCircleOpenNext {A partir du cycle %d, chaque cycle comporte tous les exercices %d : le cercle d'abord, puis ceux ouverts.}
+translate F WoodpeckerCircleNewName {Nom du nouvel ensemble}
+translate F WoodpeckerCircleStart {Commencez le cercle}
+translate F WoodpeckerCircleState {Cet ensemble entraîne un cercle restreint : les premiers %d exercices. Les autres %d sont verrouillés. Que devrait-il leur arriver ?}
+translate F WoodpeckerCircleOpenHere {Ouvre-les dans cet ensemble, après le cercle}
+translate F WoodpeckerCircleOpenMove {Déplacez-les vers un nouvel ensemble}
+translate F WoodpeckerCircleOpenGive {Rendez-les aux puzzles inclus}
+translate F WoodpeckerCircleOpen {Ouvrir}
+translate F WoodpeckerCircleGiveAsk {Rendre les %d exercices aux puzzles inclus ? Ils quittent définitivement cet ensemble (vos statistiques restent), et un nouvel ensemble peut les dessiner à nouveau.}
+translate F WoodpeckerCirclePart {%s, partie 2}
+translate F WoodpeckerCircleNote {Cercle intérieur : vous entraînez les premiers exercices %d ; %d d'autres sont verrouillés (cercle intérieur... pour les ouvrir).}
+translate F WoodpeckerCircleNone {Ce cycle comporte trop peu d’exercices pour un cercle restreint.}
+translate F WoodpeckerCircleMoved {Les exercices %d ont été déplacés vers le nouvel ensemble "%s".}
+translate F WoodpeckerDanger {Zone dangereuse}
+translate F WoodpeckerReset {Réinitialiser les statistiques...}
+translate F WoodpeckerResetTitle {Réinitialiser les statistiques}
+translate F WoodpeckerResetAsk {Recommencer "%s" à partir du cycle 1, comme s'il était nouveau ?
+
+Vos statistiques jusqu'à présent (%d exercices joués) sont archivées dans le dossier de l'ensemble, pas supprimées : "Restaurer les statistiques" les ramène. Les exercices et leurs ! et !! restent tels qu'ils sont. Un cercle intérieur est supprimé, le cycle est donc à nouveau l'ensemble.}
+translate F WoodpeckerResetDo {Réinitialiser}
+translate F WoodpeckerRestore {Restaurer les statistiques de %s...}
+translate F WoodpeckerRestoreAsk {Ramener les statistiques mises de côté sur %s ?}
+translate F WoodpeckerRestoreSwap {Les exercices en cours (%d exercices joués) sont mis de côté à leur place, vous pouvez donc revenir en arrière.}
 translate F WoodpeckerCreate {Créer}
 translate F WoodpeckerBadNumber {Numéro non valide : %s}
 translate F WoodpeckerNoDifficulty {Choisissez au moins une difficulté et un certain nombre d'exercices.}

@@ -544,6 +544,47 @@ translate Z WoodpeckerFileHelp {Kila mchezo unaoanza kutoka kwa nafasi ya kuweka
 translate Z WoodpeckerDays1 {Mzunguko wa kwanza (siku)}
 translate Z WoodpeckerRestDays {Pumzika kati ya mizunguko (siku)}
 translate Z WoodpeckerDaysHelp {Kila mzunguko wa baadaye hupata nusu ya siku za ule uliopita: lengo ni kupunguza nusu ya muda wa kutatua kila mzunguko.}
+translate Z WoodpeckerLoad {Takriban %d hufanya mazoezi kwa siku kwa siku %d.}
+translate Z WoodpeckerLoadOneDay {Mazoezi yote %d kwa siku moja.}
+translate Z WoodpeckerLoadLeft {Kuhusu %d mazoezi kwa siku kwa ajili ya %d siku zimebaki.}
+translate Z WoodpeckerCircle {Mduara wa ndani...}
+translate Z WoodpeckerCircleTitle {Mduara wa ndani}
+translate Z WoodpeckerCircleIntro {Je, si muda wa kutosha kwa seti nzima? Weka tu mazoezi yake ya kwanza: huwa mzunguko wako, kurudia mara nyingi unavyopenda, na siku za kawaida za kupumzika na takwimu. Hakuna kinachofutwa: mazoezi mengine subiri hadi uamue la kufanya nao.}
+translate Z WoodpeckerCircleSize {Mazoezi katika mduara}
+translate Z WoodpeckerCircleOf {kati ya %d}
+translate Z WoodpeckerCircleDaysLeft {Siku zilizosalia katika mzunguko %d}
+translate Z WoodpeckerCircleDaysNext {Siku kwa mzunguko %d}
+translate Z WoodpeckerCircleRest {Mazoezi mengine %d:}
+translate Z WoodpeckerCircleKeep {Ziweke zimefungwa kwenye seti hii}
+translate Z WoodpeckerCircleMove {Zihamishe hadi kwenye seti mpya sasa}
+translate Z WoodpeckerCircleGive {Warudishe kwa mafumbo yaliyojumuishwa}
+translate Z WoodpeckerCircleKeepHelp {Imependekezwa. Wanakaa kwenye seti na zao! na !! na wameachwa nje ya mizunguko. Wafungue baadaye kwa Inner circle...: wanakuja baada ya duara.}
+translate Z WoodpeckerCircleMoveHelp {Wanakuwa seti yao wenyewe, iliyofunzwa kwa ratiba yake yenyewe; seti hii huweka mduara tu.}
+translate Z WoodpeckerCircleGiveHelp {Wanaacha seti hii kwa uzuri, na seti mpya inaweza kuwavuta tena. Takwimu zako juu yao zinabaki.}
+translate Z WoodpeckerCircleOpenNow {Mzunguko huu unamaliza mduara, kisha unaendelea na %d mazoezi yaliyofunguliwa. Kila mzunguko wa baadaye huweka utaratibu huo: mduara kwanza, kisha wengine.}
+translate Z WoodpeckerCircleOpenNext {Kutoka kwa mzunguko %d kila mzunguko una mazoezi yote %d: mduara kwanza, kisha uliofunguliwa.}
+translate Z WoodpeckerCircleNewName {Jina la seti mpya}
+translate Z WoodpeckerCircleStart {Anza mduara}
+translate Z WoodpeckerCircleState {Seti hii hufunza mduara wa ndani: mazoezi ya kwanza %d. Nyingine %d zimefungwa. Ni nini kinapaswa kutokea kwao?}
+translate Z WoodpeckerCircleOpenHere {Wafungue katika seti hii, baada ya mduara}
+translate Z WoodpeckerCircleOpenMove {Wahamishe hadi kwenye seti mpya}
+translate Z WoodpeckerCircleOpenGive {Warudishe kwa mafumbo yaliyojumuishwa}
+translate Z WoodpeckerCircleOpen {Fungua}
+translate Z WoodpeckerCircleGiveAsk {Je, ungependa kurejesha %d mazoezi kwa mafumbo yaliyojumuishwa? Wanaacha seti hii kwa uzuri (takwimu zako zinabaki), na seti mpya inaweza kuzichora tena.}
+translate Z WoodpeckerCirclePart {%s, sehemu ya 2}
+translate Z WoodpeckerCircleNote {Mduara wa ndani: unamfundisha wa kwanza %d mazoezi; %d zaidi zimefungwa (Inner circle... kuzifungua).}
+translate Z WoodpeckerCircleNone {Mzunguko huu una mazoezi machache sana kwa mduara wa ndani.}
+translate Z WoodpeckerCircleMoved {%d mazoezi yamehamishiwa kwenye seti mpya "%s".}
+translate Z WoodpeckerDanger {Eneo la hatari}
+translate Z WoodpeckerReset {Weka upya takwimu...}
+translate Z WoodpeckerResetTitle {Weka upya takwimu}
+translate Z WoodpeckerResetAsk {Anza"%s"tena kutoka kwa mzunguko wa 1, kana kwamba ni mpya?
+
+Takwimu zako hadi sasa (%d mazoezi yaliyochezwa) yamehifadhiwa kwenye folda ya seti, haijafutwa: "Rejesha takwimu" huwaleta tena. Mazoezi na yao! na !! kukaa kama wao. Mduara wa ndani huondolewa, kwa hivyo mzunguko ni seti nzima tena.}
+translate Z WoodpeckerResetDo {Weka upya}
+translate Z WoodpeckerRestore {Rejesha takwimu za %s...}
+translate Z WoodpeckerRestoreAsk {Je, ungependa kurejesha takwimu zilizowekwa kando kwenye %s?}
+translate Z WoodpeckerRestoreSwap {Mazoezi ya sasa (%d] yanachezwa) yamewekwa kando mahali pake, ili uweze kubadili nyuma.}
 translate Z WoodpeckerCreate {Unda}
 translate Z WoodpeckerBadNumber {Si nambari halali: %s}
 translate Z WoodpeckerNoDifficulty {Chagua angalau ugumu mmoja na idadi ya mazoezi.}

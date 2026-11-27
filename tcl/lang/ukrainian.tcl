@@ -545,6 +545,47 @@ translate Q WoodpeckerFileHelp {Кожна гра, яка починається
 translate Q WoodpeckerDays1 {Перший цикл (днів)}
 translate Q WoodpeckerRestDays {Відпочинок між циклами (дні)}
 translate Q WoodpeckerDaysHelp {Кожен наступний цикл отримує половину днів попереднього: мета полягає в тому, щоб удвічі скоротити час вирішення кожного циклу.}
+translate Q WoodpeckerLoad {Приблизно %d вправ на день протягом %d днів.}
+translate Q WoodpeckerLoadOneDay {Усі %d вправи за один день.}
+translate Q WoodpeckerLoadLeft {Приблизно %d вправ на день протягом %d днів, що залишилися.}
+translate Q WoodpeckerCircle {Внутрішнє коло...}
+translate Q WoodpeckerCircleTitle {Внутрішнє коло}
+translate Q WoodpeckerCircleIntro {Не вистачає часу на весь сет? Зберігайте лише перші вправи: вони стають вашим циклом, який можна повторювати скільки завгодно часто, зі звичайними днями відпочинку та статистикою. Нічого не видаляється: інші вправи чекають, поки ви вирішите, що з ними робити.}
+translate Q WoodpeckerCircleSize {Вправи в гуртку}
+translate Q WoodpeckerCircleOf {з %d}
+translate Q WoodpeckerCircleDaysLeft {Залишилося днів у циклі %d}
+translate Q WoodpeckerCircleDaysNext {Днів для циклу %d}
+translate Q WoodpeckerCircleRest {Інші %d вправи:}
+translate Q WoodpeckerCircleKeep {Тримайте їх замкненими в цьому наборі}
+translate Q WoodpeckerCircleMove {Перемістіть їх у новий набір зараз}
+translate Q WoodpeckerCircleGive {Поверніть їх до включених пазлів}
+translate Q WoodpeckerCircleKeepHelp {Рекомендовано. Вони залишаються в комплекті зі своїми ! і !! і залишаються поза циклами. Відкрийте їх пізніше за допомогою Внутрішнього кола...: тоді вони з’являться після кола.}
+translate Q WoodpeckerCircleMoveHelp {Вони стають власною групою, тренуються за власним розкладом; цей набір зберігає лише коло.}
+translate Q WoodpeckerCircleGiveHelp {Вони залишають цей набір назавжди, і новий набір може привернути їх знову. Ваша статистика щодо них залишається.}
+translate Q WoodpeckerCircleOpenNow {Цей цикл завершує коло, а потім продовжується з відкритими вправами %d. Кожен наступний цикл зберігає такий порядок: спочатку коло, потім інші.}
+translate Q WoodpeckerCircleOpenNext {З циклу %d кожен цикл має всі %d вправи: спочатку коло, потім відкриті.}
+translate Q WoodpeckerCircleNewName {Назва нового набору}
+translate Q WoodpeckerCircleStart {Почніть коло}
+translate Q WoodpeckerCircleState {Цей комплекс тренує внутрішнє коло: перші %d вправи. Інші %d заблоковано. Що з ними має статися?}
+translate Q WoodpeckerCircleOpenHere {Відкрийте їх у цьому наборі після кола}
+translate Q WoodpeckerCircleOpenMove {Перемістіть їх у новий набір}
+translate Q WoodpeckerCircleOpenGive {Поверніть їх до включених пазлів}
+translate Q WoodpeckerCircleOpen {ВІДЧИНЕНО}
+translate Q WoodpeckerCircleGiveAsk {Повернути %d вправи до включених головоломок? Вони залишають цей набір назавжди (ваша статистика залишається), і новий набір може знову привернути їх.}
+translate Q WoodpeckerCirclePart {%s, частина 2}
+translate Q WoodpeckerCircleNote {Внутрішнє коло: ви тренуєте перші %d вправи; Ще %d заблоковано (Внутрішнє коло... щоб відкрити їх).}
+translate Q WoodpeckerCircleNone {У цьому циклі занадто мало вправ для внутрішнього кола.}
+translate Q WoodpeckerCircleMoved {%d вправи перенесено до нового комплексу "%s".}
+translate Q WoodpeckerDanger {НЕБЕЗПЕЧНА ЗОНА}
+translate Q WoodpeckerReset {Скинути статистику...}
+translate Q WoodpeckerResetTitle {Скинути статистику}
+translate Q WoodpeckerResetAsk {Почати "%s" знову з циклу 1, ніби це новий?
+
+Ваша поточна статистика (%d зіграних вправ) архівується в папці набору, а не видаляється: «Відновити статистику» повертає їх. Вправи та їх! і !! залишаються такими як є. Внутрішнє коло видаляється, тому цикл знову є повним набором.}
+translate Q WoodpeckerResetDo {Скинути}
+translate Q WoodpeckerRestore {Відновити статистику %s...}
+translate Q WoodpeckerRestoreAsk {Повернути статистику, відкладену на %s?}
+translate Q WoodpeckerRestoreSwap {Поточні (%d вправи відкладено на своє місце, щоб ви могли повернутися назад).}
 translate Q WoodpeckerCreate {Створити}
 translate Q WoodpeckerBadNumber {Недійсний номер: %s}
 translate Q WoodpeckerNoDifficulty {Виберіть хоча б одну складність і кілька вправ.}

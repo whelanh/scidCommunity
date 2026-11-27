@@ -583,6 +583,47 @@ translate U WoodpeckerFileHelp {Jokaisesta asetuspaikalta alkavasta pelistä tul
 translate U WoodpeckerDays1 {Ensimmäinen sykli (päiviä)}
 translate U WoodpeckerRestDays {Lepo syklien välillä (päiviä)}
 translate U WoodpeckerDaysHelp {Jokainen myöhempi sykli saa puolet edellisen päivän päivistä: tavoitteena on puolittaa jokaisen syklin ratkaisuaika.}
+translate U WoodpeckerLoad {Noin %d harjoitusta päivässä %d päivän ajan.}
+translate U WoodpeckerLoadOneDay {Kaikki %d harjoitukset yhdessä päivässä.}
+translate U WoodpeckerLoadLeft {Noin %d harjoituksia päivässä %d päivää jäljellä.}
+translate U WoodpeckerCircle {Sisäpiiri...}
+translate U WoodpeckerCircleTitle {Sisäpiiri}
+translate U WoodpeckerCircleIntro {Eikö aika riitä koko setille? Säilytä vain sen ensimmäiset harjoitukset: niistä tulee kiertosi, ja voit toistaa niin usein kuin haluat tavallisten lepopäivien ja tilastojen mukaan. Mitään ei poisteta: muut harjoitukset odottavat, kunnes päätät, mitä niillä tehdään.}
+translate U WoodpeckerCircleSize {Harjoituksia ympyrässä}
+translate U WoodpeckerCircleOf {/ %d}
+translate U WoodpeckerCircleDaysLeft {Päiviä jäljellä syklistä %d}
+translate U WoodpeckerCircleDaysNext {Päivät syklille %d}
+translate U WoodpeckerCircleRest {Muut %d harjoitukset:}
+translate U WoodpeckerCircleKeep {Pidä ne lukittuna tähän sarjaan}
+translate U WoodpeckerCircleMove {Siirrä ne uuteen joukkoon nyt}
+translate U WoodpeckerCircleGive {Anna ne takaisin mukana toimitettujen pulmien pariin}
+translate U WoodpeckerCircleKeepHelp {Suositeltava. He pysyvät setissä heidän kanssaan! ja!! ja jäävät syklien ulkopuolelle. Avaa ne myöhemmin Inner circle...:lla: ne tulevat sitten ympyrän jälkeen.}
+translate U WoodpeckerCircleMoveHelp {Heistä tulee oma sarja, joka koulutetaan oman aikataulunsa mukaisesti; tämä sarja säilyttää vain ympyrän.}
+translate U WoodpeckerCircleGiveHelp {He jättävät tämän sarjan lopullisesti, ja uusi sarja voi piirtää heidät uudelleen. Niitä koskevat tilastosi pysyvät.}
+translate U WoodpeckerCircleOpenNow {Tämä sykli päättää ympyrän ja jatkaa sitten %d avatuilla harjoituksilla. Jokainen myöhempi sykli säilyttää tämän järjestyksen: ympyrä ensin, sitten muut.}
+translate U WoodpeckerCircleOpenNext {Syklistä %d jokaisessa syklissä on kaikki %d harjoitukset: ensin ympyrä, sitten avatut.}
+translate U WoodpeckerCircleNewName {Uuden sarjan nimi}
+translate U WoodpeckerCircleStart {Aloita ympyrä}
+translate U WoodpeckerCircleState {Tämä sarja harjoittelee sisäympyrää: ensimmäiset %d harjoitukset. Muut %d on lukittu. Mitä heille pitäisi tapahtua?}
+translate U WoodpeckerCircleOpenHere {Avaa ne tässä sarjassa ympyrän jälkeen}
+translate U WoodpeckerCircleOpenMove {Siirrä ne uuteen joukkoon}
+translate U WoodpeckerCircleOpenGive {Anna ne takaisin mukana toimitettujen pulmien pariin}
+translate U WoodpeckerCircleOpen {Avata}
+translate U WoodpeckerCircleGiveAsk {Antaa %d harjoitukset takaisin mukana oleviin pulmiin? He jättävät tämän sarjan lopullisesti (tilastot pysyvät), ja uusi joukko voi piirtää heidät uudelleen.}
+translate U WoodpeckerCirclePart {%s, osa 2}
+translate U WoodpeckerCircleNote {Sisäpiiri: harjoittelet ensimmäiset %d harjoitukset; %d lisää on lukittu (Sisäpiiri... avataksesi ne).}
+translate U WoodpeckerCircleNone {Tässä syklissä on liian vähän harjoituksia sisäympyrään.}
+translate U WoodpeckerCircleMoved {%d harjoitukset siirretty uuteen sarjaan "%s".}
+translate U WoodpeckerDanger {Vaaravyöhyke}
+translate U WoodpeckerReset {Nollaa tilastot...}
+translate U WoodpeckerResetTitle {Nollaa tilastot}
+translate U WoodpeckerResetAsk {Aloita"%s" jälleen syklistä 1, ikään kuin se olisi uusi?
+
+Tilastot tähän mennessä (%d pelatut harjoitukset) arkistoidaan sarjan kansioon, ei poisteta: "Palauta tilastot" tuo ne takaisin. Harjoitukset ja niiden ! ja!! pysy sellaisina kuin ovat. Sisäympyrä poistetaan, joten sykli on taas koko sarja.}
+translate U WoodpeckerResetDo {Nollaa}
+translate U WoodpeckerRestore {Palauta %s tilastot...}
+translate U WoodpeckerRestoreAsk {Tuodaanko %s sivuun jätetyt tilastot?}
+translate U WoodpeckerRestoreSwap {Nykyiset (%d pelatut harjoitukset) laitetaan syrjään paikoilleen, jotta voit vaihtaa takaisin.}
 translate U WoodpeckerCreate {Luoda}
 translate U WoodpeckerBadNumber {Ei kelvollinen numero: %s}
 translate U WoodpeckerNoDifficulty {Valitse vähintään yksi vaikeusaste ja useita harjoituksia.}

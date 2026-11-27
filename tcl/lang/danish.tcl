@@ -487,6 +487,86 @@ translate d WoodpeckerFileHelp {Hvert parti med en opstillet startstilling blive
 translate d WoodpeckerDays1 {Første runde (dage)}
 translate d WoodpeckerRestDays {Pause mellem runder (dage)}
 translate d WoodpeckerDaysHelp {Hver runde varer halvt så mange dage som den foregående. Målet er at halvere løsningstiden hver gang.}
+# ====== TODO To be translated ======
+translate d WoodpeckerLoad {About %d exercises a day for %d days.}
+# ====== TODO To be translated ======
+translate d WoodpeckerLoadOneDay {All %d exercises in one day.}
+# ====== TODO To be translated ======
+translate d WoodpeckerLoadLeft {About %d exercises a day for the %d days left.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircle {Inner circle...}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleTitle {Inner circle}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleIntro {Not enough time for the whole set? Keep only its first exercises: they become your cycle, to repeat as often as you like, with the usual rest days and statistics. Nothing is deleted: the other exercises wait until you decide what to do with them.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleSize {Exercises in the circle}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOf {of %d}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleDaysLeft {Days left in cycle %d}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleDaysNext {Days for cycle %d}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleRest {The other %d exercises:}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleKeep {Keep them locked in this set}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleMove {Move them to a new set now}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleGive {Give them back to the included puzzles}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleKeepHelp {Recommended. They stay in the set with their ! and !! and are left out of the cycles. Open them later with Inner circle...: they then come after the circle.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleMoveHelp {They become a set of their own, trained on its own schedule; this set keeps only the circle.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleGiveHelp {They leave this set for good, and a new set can draw them again. Your statistics on them stay.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpenNow {This cycle finishes the circle, then goes on with the %d opened exercises. Every later cycle keeps that order: the circle first, then the others.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpenNext {From cycle %d every cycle has all %d exercises: the circle first, then the opened ones.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleNewName {Name of the new set}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleStart {Start the circle}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleState {This set trains an inner circle: the first %d exercises. The other %d are locked. What should happen to them?}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpenHere {Open them in this set, after the circle}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpenMove {Move them to a new set}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpenGive {Give them back to the included puzzles}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleOpen {Open}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleGiveAsk {Give %d exercises back to the included puzzles? They leave this set for good (your statistics stay), and a new set can draw them again.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCirclePart {%s, part 2}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleNote {Inner circle: you train the first %d exercises; %d more are locked (Inner circle... to open them).}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleNone {This cycle has too few exercises for an inner circle.}
+# ====== TODO To be translated ======
+translate d WoodpeckerCircleMoved {%d exercises moved to the new set "%s".}
+# ====== TODO To be translated ======
+translate d WoodpeckerDanger {Danger zone}
+# ====== TODO To be translated ======
+translate d WoodpeckerReset {Reset statistics...}
+# ====== TODO To be translated ======
+translate d WoodpeckerResetTitle {Reset statistics}
+# ====== TODO To be translated ======
+translate d WoodpeckerResetAsk {Start "%s" again from cycle 1, as if it were new?
+
+Your statistics so far (%d exercises played) are archived in the set's folder, not deleted: "Restore statistics" brings them back. The exercises and their ! and !! stay as they are. An inner circle is removed, so the cycle is the whole set again.}
+# ====== TODO To be translated ======
+translate d WoodpeckerResetDo {Reset}
+# ====== TODO To be translated ======
+translate d WoodpeckerRestore {Restore statistics of %s...}
+# ====== TODO To be translated ======
+translate d WoodpeckerRestoreAsk {Bring back the statistics put aside on %s?}
+# ====== TODO To be translated ======
+translate d WoodpeckerRestoreSwap {The current ones (%d exercises played) are put aside in their place, so you can switch back.}
 translate d WoodpeckerCreate {Opret}
 translate d WoodpeckerBadNumber {Ugyldigt tal: %s}
 translate d WoodpeckerNoDifficulty {Vælg mindst én sværhedsgrad, og angiv antal opgaver.}

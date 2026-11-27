@@ -522,6 +522,47 @@ translate M WoodpeckerFileHelp {每个从预备位置开始的游戏都变成了
 translate M WoodpeckerDays1 {第一个周期（天）}
 translate M WoodpeckerRestDays {周期之间的休息（天）}
 translate M WoodpeckerDaysHelp {后面的每个周期的天数都是前一个周期的一半：目标是将每个周期的求解时间减半。}
+translate M WoodpeckerLoad {每天大约 %d 锻炼 %d 天。}
+translate M WoodpeckerLoadOneDay {一天内完成所有 %d 练习。}
+translate M WoodpeckerLoadLeft {关于 %d 每天练习的目的是 %d 还剩下几天。}
+translate M WoodpeckerCircle {内圈...}
+translate M WoodpeckerCircleTitle {内圈}
+translate M WoodpeckerCircleIntro {时间不够看整套吗？只保留最初的练习：它们将成为您的循环，可以根据需要重复多次，并具有通常的休息日和统计数据。不会删除任何内容：其他练习会等到您决定如何处理它们为止。}
+translate M WoodpeckerCircleSize {圈内练习}
+translate M WoodpeckerCircleOf {%d 的}
+translate M WoodpeckerCircleDaysLeft {周期剩余天数 %d}
+translate M WoodpeckerCircleDaysNext {周期天数 %d}
+translate M WoodpeckerCircleRest {其他%d练习：}
+translate M WoodpeckerCircleKeep {将它们锁定在这个集合中}
+translate M WoodpeckerCircleMove {立即将它们移至新组}
+translate M WoodpeckerCircleGive {让他们回到随附的谜题中}
+translate M WoodpeckerCircleKeepHelp {受到推崇的。他们和他们一起呆在片场！和 ！！并被排除在循环之外。稍后用内圈打开它们...：然后它们出现在圆圈之后。}
+translate M WoodpeckerCircleMoveHelp {他们成为自己的一套，按照自己的时间表进行训练；该集合只保留圆。}
+translate M WoodpeckerCircleGiveHelp {他们永远离开这个组合，新的组合可以再次吸引他们。您对它们的统计数据会保留。}
+translate M WoodpeckerCircleOpenNow {这个循环完成一圈，然后继续%d打开的练习。之后的每个循环都保持这个顺序：首先是圆圈，然后是其他。}
+translate M WoodpeckerCircleOpenNext {从周期 %d 开始，每个周期都有所有 %d 练习：首先是圆圈，然后是打开的练习。}
+translate M WoodpeckerCircleNewName {新集合的名称}
+translate M WoodpeckerCircleStart {开始圈子}
+translate M WoodpeckerCircleState {本组训练内圈：第一个 %d 练习。其他 %d 已锁定。他们应该怎么办？}
+translate M WoodpeckerCircleOpenHere {在这组中打开它们，在圆圈之后}
+translate M WoodpeckerCircleOpenMove {将它们移至新集合}
+translate M WoodpeckerCircleOpenGive {让他们回到随附的谜题中}
+translate M WoodpeckerCircleOpen {打开}
+translate M WoodpeckerCircleGiveAsk {将 %d 练习返回到包含的谜题中？他们永远离开这组（你的统计数据保留），新的组可以再次吸引他们。}
+translate M WoodpeckerCirclePart {%s，第 2 部分}
+translate M WoodpeckerCircleNote {内圈：你训练第一个%d练习； %d更多被锁定（内圈...打开它们）。}
+translate M WoodpeckerCircleNone {这个循环对于内圈来说练习太少了。}
+translate M WoodpeckerCircleMoved {%d练习移至新组“%s”。}
+translate M WoodpeckerDanger {危险区域}
+translate M WoodpeckerReset {重置统计...}
+translate M WoodpeckerResetTitle {重置统计数据}
+translate M WoodpeckerResetAsk {从第 1 个周期再次开始“%s”，就好像它是新的一样？
+
+到目前为止，您的统计数据（%d 进行的练习）都存档在该组的文件夹中，而不是删除：“恢复统计数据”将它们恢复。练习和他们的！和 ！！保持原样。去掉一个内圈，这样循环又是整套。}
+translate M WoodpeckerResetDo {重置}
+translate M WoodpeckerRestore {恢复 %s 的统计数据...}
+translate M WoodpeckerRestoreAsk {取回%s上搁置的统计数据？}
+translate M WoodpeckerRestoreSwap {当前的练习（%d 练习）被放在原来的位置，以便您可以切换回来。}
 translate M WoodpeckerCreate {创造}
 translate M WoodpeckerBadNumber {不是有效号码：%s}
 translate M WoodpeckerNoDifficulty {至少选择一种难度和一些练习。}

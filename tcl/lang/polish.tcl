@@ -157,7 +157,7 @@ menuText P GameNovelty "Znajdź nowinkę..." 7 \
   {Znajdź pierwsze posunięcie tej partii, które nie było wcześniej grane}
 menuText P PlayTournament "Rozegraj turniej silników..." 0 \
     {Rozegraj turniej silników}
-	
+
 # Search Menu:
 menuText P Search "Szukaj" 0
 menuText P SearchReset "Wyczyść filtr" 0 {Wyczyść filtr, aby uwzględnić wszystkie partie}
@@ -205,8 +205,8 @@ translate P EpdStripOpcodes {Usuń kody operacyjne...}
 translate P EpdAnnotateTime {Sekund na pozycję}
 translate P EpdCountBestMoves {Zlicz najlepsze posunięcia}
 translate P EpdSaveLog {Zapisz wyniki do pliku}
-# Analiza EPD bez interfejsu graficznego: tekst statusu i przyczyny zgłaszane przez sesję.
-# Ciągi EpdEngine* to fragmenty wyświetlane po znajdującym się nad nimi "%s".
+# EPD headless analysis: status text and the reasons the session reports.
+# The EpdEngine* strings are fragments shown after the "%s" above them.
 translate P EpdAnalysisTitle {Analiza EPD}
 translate P EpdAnalysisRunning {Inna analiza EPD jest już uruchomiona.}
 translate P EpdAnalysisMinTime {Czas analizy musi wynosić co najmniej 1 sekundę.}
@@ -384,7 +384,7 @@ translate P OptionsThemeOmarchy {Użyj motywu Omarchy}
 menuText P OptionsSave "Zapisz opcje" 0 "Zapisz wszystkie ustawienia do pliku $::optionsFile"
 menuText P OptionsAutoSave "Zapisz opcje przy zamykaniu" 0 \
   {Automatycznie zapisuj wszystkie opcje przy zamykaniu Scid}
-  
+
 # Help menu:
 menuText P Help "Pomoc" 0
 menuText P HelpContents "Spis treści" 0 {Pokaż stronę ze spisem treści pomocy}
@@ -410,7 +410,7 @@ translate P UpdateDownloadFailed "Nie udało się pobrać aktualizacji. Spróbuj
 
 # Toolbar tooltips:
  menuText P RotateBoard "Obróć szachownicę" 0 {Obróć szachownicę}
- 
+
 # Game info box popup menu:
  menuText P GInfoHideNext "Ukryj następne posunięcie" 0
 menuText P GInfoMaterial "Pokaż wartości materialne" 0
@@ -584,6 +584,47 @@ translate P WoodpeckerFileHelp {Każda partia rozpoczynająca się od ustawionej
 translate P WoodpeckerDays1 {Pierwszy cykl (dni)}
 translate P WoodpeckerRestDays {Przerwa między cyklami (dni)}
 translate P WoodpeckerDaysHelp {Każdy kolejny cykl trwa o połowę krócej od poprzedniego. Celem jest skrócenie czasu rozwiązywania o połowę w każdym cyklu.}
+translate P WoodpeckerLoad {Około %d ćwiczeń dziennie przez %d dni.}
+translate P WoodpeckerLoadOneDay {Wszystkie %d ćwiczenia w ciągu jednego dnia.}
+translate P WoodpeckerLoadLeft {Około %d ćwiczeń dziennie przez pozostałe %d dni.}
+translate P WoodpeckerCircle {Wewnętrzne koło...}
+translate P WoodpeckerCircleTitle {Wewnętrzne koło}
+translate P WoodpeckerCircleIntro {Za mało czasu na cały zestaw? Zachowaj tylko pierwsze ćwiczenia: stają się one Twoim cyklem, który możesz powtarzać tak często, jak chcesz, ze zwykłymi dniami odpoczynku i statystykami. Nic nie jest usuwane: pozostałe ćwiczenia czekają, aż zdecydujesz, co z nimi zrobić.}
+translate P WoodpeckerCircleSize {Ćwiczenia w kręgu}
+translate P WoodpeckerCircleOf {z %d}
+translate P WoodpeckerCircleDaysLeft {Pozostała liczba dni cyklu %d}
+translate P WoodpeckerCircleDaysNext {Dni cyklu %d}
+translate P WoodpeckerCircleRest {Pozostałe %d ćwiczenia:}
+translate P WoodpeckerCircleKeep {Trzymaj je zamknięte w tym zestawie}
+translate P WoodpeckerCircleMove {Przenieś je teraz do nowego zestawu}
+translate P WoodpeckerCircleGive {Oddaj je dołączonym łamigłówkom}
+translate P WoodpeckerCircleKeepHelp {Zalecony. Pozostają w zestawie ze swoimi ! I !! i pozostają poza cyklami. Otwórz je później za pomocą Wewnętrznego kręgu...: następnie przyjdą po kręgu.}
+translate P WoodpeckerCircleMoveHelp {Stają się odrębną grupą, trenowaną według własnego harmonogramu; ten zestaw zachowuje tylko okrąg.}
+translate P WoodpeckerCircleGiveHelp {Opuszczają ten zestaw na dobre, a nowy zestaw może ich ponownie przyciągnąć. Twoje statystyki na ich temat pozostają.}
+translate P WoodpeckerCircleOpenNow {Cykl ten kończy okrąg, po czym przechodzi do ćwiczeń otwartych %d. Każdy kolejny cykl zachowuje tę kolejność: najpierw okrąg, potem pozostałe.}
+translate P WoodpeckerCircleOpenNext {Z cyklu %d każdy cykl zawiera wszystkie %d ćwiczenia: najpierw okrąg, potem otwarte.}
+translate P WoodpeckerCircleNewName {Nazwa nowego zestawu}
+translate P WoodpeckerCircleStart {Rozpocznij okrąg}
+translate P WoodpeckerCircleState {Ten zestaw trenuje wewnętrzny krąg: pierwsze ćwiczenia %d. Pozostałe %d są zablokowane. Co powinno się z nimi stać?}
+translate P WoodpeckerCircleOpenHere {Otwórz je w tym zestawie, po okręgu}
+translate P WoodpeckerCircleOpenMove {Przenieś je do nowego zestawu}
+translate P WoodpeckerCircleOpenGive {Oddaj je dołączonym łamigłówkom}
+translate P WoodpeckerCircleOpen {Otwarte}
+translate P WoodpeckerCircleGiveAsk {Oddać %d ćwiczenia do dołączonych łamigłówek? Opuszczają ten zestaw na dobre (twoje statystyki pozostają), a nowy zestaw może ich ponownie dobrać.}
+translate P WoodpeckerCirclePart {%s, część 2}
+translate P WoodpeckerCircleNote {Wewnętrzny krąg: trenujesz pierwsze %d ćwiczenia; %d więcej jest zamkniętych (wewnętrzny krąg... aby je otworzyć).}
+translate P WoodpeckerCircleNone {W tym cyklu jest za mało ćwiczeń na wewnętrzny krąg.}
+translate P WoodpeckerCircleMoved {%d ćwiczenia przeniesione do nowego zestawu”%s„.}
+translate P WoodpeckerDanger {Strefa niebezpieczeństwa}
+translate P WoodpeckerReset {Zresetuj statystyki...}
+translate P WoodpeckerResetTitle {Zresetuj statystyki}
+translate P WoodpeckerResetAsk {Zacznij”%s"znowu z cyklu 1, jakby był nowy?
+
+Twoje dotychczasowe statystyki (%d rozegrane ćwiczenia) są archiwizowane w folderze zestawu, a nie usuwane: „Przywróć statystyki” przywraca je. Ćwiczenia i ich! I !! zostańcie takimi, jakimi są. Wewnętrzny okrąg jest usuwany, więc cykl jest ponownie kompletny.}
+translate P WoodpeckerResetDo {Nastawić}
+translate P WoodpeckerRestore {Przywróć statystyki %s...}
+translate P WoodpeckerRestoreAsk {Przywrócić statystyki odłożone na %s?}
+translate P WoodpeckerRestoreSwap {Bieżące (%d wykonywane ćwiczenia) są odkładane na swoje miejsce, dzięki czemu możesz wrócić do nich.}
 translate P WoodpeckerCreate {Utwórz}
 translate P WoodpeckerBadNumber {Nieprawidłowa liczba: %s}
 translate P WoodpeckerNoDifficulty {Wybierz co najmniej jeden poziom trudności i liczbę zadań.}
@@ -2509,9 +2550,7 @@ translate P CQLQueryEmpty {Przed rozpoczęciem wyszukiwania wpisz zapytanie CQL.
 translate P CQLSearchFailed {Wyszukiwanie CQL nie powiodło się:}
 translate P CQLUnreadableGames {Nie udało się odczytać %d partii}
 }
-# end of polish.tcl
-
-
+# end of english.tcl
 
 
 ############################################################
@@ -2735,4 +2774,3 @@ set tips(P) {
     za pomocą prawego przycisku myszy.
   }
 }
-###########################################

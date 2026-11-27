@@ -552,6 +552,47 @@ translate H WoodpeckerFileHelp {Minden játék, amely egy beállított pozíció
 translate H WoodpeckerDays1 {Első ciklus (napok)}
 translate H WoodpeckerRestDays {Pihenés a ciklusok között (napok)}
 translate H WoodpeckerDaysHelp {Minden későbbi ciklus az előző napok felét kapja: a cél az, hogy minden ciklusban felére csökkenjen a megoldási idő.}
+translate H WoodpeckerLoad {Körülbelül %d gyakorlatok naponta %d napon keresztül.}
+translate H WoodpeckerLoadOneDay {Minden %d gyakorlat egy nap alatt.}
+translate H WoodpeckerLoadLeft {Körülbelül %d gyakorlat naponta a %d napig.}
+translate H WoodpeckerCircle {Belső kör...}
+translate H WoodpeckerCircleTitle {Belső kör}
+translate H WoodpeckerCircleIntro {Nincs elég idő az egész készlethez? Csak az első gyakorlatokat tartsa meg: ezek válnak a ciklusodba, és ismételd meg, ahányszor csak akarod, a szokásos pihenőnapokkal és statisztikákkal. Semmi sem törlődik: a többi gyakorlat megvárja, amíg eldönti, mit kezdjen velük.}
+translate H WoodpeckerCircleSize {Gyakorlatok a körben}
+translate H WoodpeckerCircleOf {a %d}
+translate H WoodpeckerCircleDaysLeft {Napok vannak hátra a ciklusból %d}
+translate H WoodpeckerCircleDaysNext {A ciklus napjai %d}
+translate H WoodpeckerCircleRest {A többi %d gyakorlat:}
+translate H WoodpeckerCircleKeep {Tartsa őket zárva ebben a készletben}
+translate H WoodpeckerCircleMove {Helyezze át őket most egy új készletbe}
+translate H WoodpeckerCircleGive {Add vissza őket a mellékelt rejtvényekhez}
+translate H WoodpeckerCircleKeepHelp {Ajánlott. A készletben maradnak a magukkal! és !! és kimaradnak a ciklusokból. Nyissa meg őket később a Belső körrel...: akkor jönnek a kör után.}
+translate H WoodpeckerCircleMoveHelp {Önálló halmazzá válnak, amelyet saját ütemterv szerint képeznek ki; ez a halmaz csak a kört tartja meg.}
+translate H WoodpeckerCircleGiveHelp {Végleg otthagyják ezt a készletet, és egy új készlet újra megrajzolhatja őket. A statisztikái megmaradnak.}
+translate H WoodpeckerCircleOpenNow {Ez a ciklus befejezi a kört, majd folytatódik a %d megnyitott gyakorlatokkal. Minden későbbi ciklus megtartja ezt a sorrendet: először a kör, majd a többi.}
+translate H WoodpeckerCircleOpenNext {A %d ciklustól kezdve minden ciklusban megvan az összes %d gyakorlat: először a kör, majd a nyitottak.}
+translate H WoodpeckerCircleNewName {Az új készlet neve}
+translate H WoodpeckerCircleStart {Indítsa el a kört}
+translate H WoodpeckerCircleState {Ez a készlet egy belső kört edz: az első %d gyakorlatokat. A másik %d zárolva van. Mi történjen velük?}
+translate H WoodpeckerCircleOpenHere {Nyissa meg őket ebben a készletben, a kör után}
+translate H WoodpeckerCircleOpenMove {Helyezze át őket egy új készletbe}
+translate H WoodpeckerCircleOpenGive {Add vissza őket a mellékelt rejtvényekhez}
+translate H WoodpeckerCircleOpen {Nyitott}
+translate H WoodpeckerCircleGiveAsk {Visszaadja a %d gyakorlatokat a mellékelt rejtvényekhez? Végleg elhagyják ezt a halmazt (a statisztikáid megmaradnak), és egy új halmaz ismét megrajzolhatja őket.}
+translate H WoodpeckerCirclePart {%s, 2. rész}
+translate H WoodpeckerCircleNote {Belső kör: edzi az első %d gyakorlatokat; %d több zárva van (Belső kör... a megnyitáshoz).}
+translate H WoodpeckerCircleNone {Ebben a ciklusban túl kevés gyakorlat van egy belső körhöz.}
+translate H WoodpeckerCircleMoved {A %d gyakorlatok átkerültek az új "%s készletbe".}
+translate H WoodpeckerDanger {Veszélyzóna}
+translate H WoodpeckerReset {Statisztikák visszaállítása...}
+translate H WoodpeckerResetTitle {Statisztikák visszaállítása}
+translate H WoodpeckerResetAsk {Indítsa újra a "%s"-t az 1. ciklustól, mintha új lenne?
+
+Eddigi statisztikáit (%d lejátszott gyakorlatok) a készlet mappájában archiváljuk, nem töröljük: a "Statisztikák visszaállítása" visszahozza őket. A gyakorlatok és azok! és !! maradjanak olyanok, amilyenek. Egy belső kör eltávolításra kerül, így a ciklus ismét a teljes készlet.}
+translate H WoodpeckerResetDo {Reset}
+translate H WoodpeckerRestore {%s statisztikáinak visszaállítása...}
+translate H WoodpeckerRestoreAsk {Visszahozza a %s-on félretett statisztikákat?}
+translate H WoodpeckerRestoreSwap {Az aktuálisak (%d gyakorlatok) a helyükre kerülnek, így vissza lehet váltani.}
 translate H WoodpeckerCreate {Teremt}
 translate H WoodpeckerBadNumber {Érvénytelen szám: %s}
 translate H WoodpeckerNoDifficulty {Válasszon legalább egy nehézséget és több gyakorlatot.}

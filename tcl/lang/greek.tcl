@@ -576,6 +576,47 @@ translate G WoodpeckerFileHelp {Κάθε παιχνίδι που ξεκινά α
 translate G WoodpeckerDays1 {Πρώτος κύκλος (ημέρες)}
 translate G WoodpeckerRestDays {Ανάπαυση μεταξύ των κύκλων (ημέρες)}
 translate G WoodpeckerDaysHelp {Κάθε μεταγενέστερος κύκλος παίρνει τις μισές ημέρες από τον προηγούμενο: ο στόχος είναι να μειώνεται στο μισό ο χρόνος επίλυσης κάθε κύκλου.}
+translate G WoodpeckerLoad {Περίπου %d ασκήσεις την ημέρα για %d ημέρες.}
+translate G WoodpeckerLoadOneDay {Όλες οι ασκήσεις %d σε μία ημέρα.}
+translate G WoodpeckerLoadLeft {Περίπου %d ασκήσεις την ημέρα για τις %d ημέρες που απομένουν.}
+translate G WoodpeckerCircle {Εσωτερικός κύκλος...}
+translate G WoodpeckerCircleTitle {Εσωτερικός κύκλος}
+translate G WoodpeckerCircleIntro {Δεν υπάρχει αρκετός χρόνος για όλο το σετ; Κρατήστε μόνο τις πρώτες του ασκήσεις: γίνονται ο κύκλος σας, για να επαναλαμβάνετε όσο συχνά θέλετε, με τις συνήθεις ημέρες ανάπαυσης και στατιστικά. Τίποτα δεν διαγράφεται: οι άλλες ασκήσεις περιμένουν μέχρι να αποφασίσετε τι θα κάνετε με αυτές.}
+translate G WoodpeckerCircleSize {Ασκήσεις στον κύκλο}
+translate G WoodpeckerCircleOf {από %d}
+translate G WoodpeckerCircleDaysLeft {Μέρες που απομένουν στον κύκλο %d}
+translate G WoodpeckerCircleDaysNext {Ημέρες για τον κύκλο %d}
+translate G WoodpeckerCircleRest {Οι άλλες ασκήσεις %d:}
+translate G WoodpeckerCircleKeep {Κρατήστε τα κλειδωμένα σε αυτό το σετ}
+translate G WoodpeckerCircleMove {Μετακινήστε τα σε νέο σετ τώρα}
+translate G WoodpeckerCircleGive {Δώστε τα πίσω στα παζλ που περιλαμβάνονται}
+translate G WoodpeckerCircleKeepHelp {Συνιστάται. Μένουν στο σετ με τους ! και !! και μένουν εκτός των κύκλων. Ανοίξτε τα αργότερα με τον Εσωτερικό κύκλο...: μετά έρχονται μετά τον κύκλο.}
+translate G WoodpeckerCircleMoveHelp {Γίνονται ένα δικό τους σύνολο, εκπαιδευμένο στο δικό του πρόγραμμα. αυτό το σετ κρατά μόνο τον κύκλο.}
+translate G WoodpeckerCircleGiveHelp {Φεύγουν οριστικά από αυτό το σετ και ένα νέο σετ μπορεί να τους τραβήξει ξανά. Τα στατιστικά σας για αυτά παραμένουν.}
+translate G WoodpeckerCircleOpenNow {Αυτός ο κύκλος ολοκληρώνει τον κύκλο και μετά συνεχίζει με τις %d ανοιχτές ασκήσεις. Κάθε επόμενος κύκλος τηρεί αυτή τη σειρά: πρώτα ο κύκλος και μετά οι άλλοι.}
+translate G WoodpeckerCircleOpenNext {Από τον κύκλο %d κάθε κύκλος έχει όλες τις %d ασκήσεις: πρώτα τον κύκλο και μετά τους ανοιχτούς.}
+translate G WoodpeckerCircleNewName {Όνομα του νέου συνόλου}
+translate G WoodpeckerCircleStart {Ξεκινήστε τον κύκλο}
+translate G WoodpeckerCircleState {Αυτό το σετ εκπαιδεύει έναν εσωτερικό κύκλο: οι πρώτες ασκήσεις %d. Τα άλλα %d είναι κλειδωμένα. Τι πρέπει να τους συμβεί;}
+translate G WoodpeckerCircleOpenHere {Ανοίξτε τα σε αυτό το σετ, μετά τον κύκλο}
+translate G WoodpeckerCircleOpenMove {Μετακινήστε τα σε ένα νέο σετ}
+translate G WoodpeckerCircleOpenGive {Δώστε τα πίσω στα παζλ που περιλαμβάνονται}
+translate G WoodpeckerCircleOpen {Ανοιχτό}
+translate G WoodpeckerCircleGiveAsk {Δίνω %d ασκήσεις πίσω στα παζλ που περιλαμβάνονται; Φεύγουν οριστικά από αυτό το σετ (τα στατιστικά σας μένουν) και ένα νέο σετ μπορεί να τους τραβήξει ξανά.}
+translate G WoodpeckerCirclePart {%s, μέρος 2}
+translate G WoodpeckerCircleNote {Εσωτερικός κύκλος: εκπαιδεύετε τις πρώτες %d ασκήσεις. %d άλλα είναι κλειδωμένα (Εσωτερικός κύκλος... για να τα ανοίξετε).}
+translate G WoodpeckerCircleNone {Αυτός ο κύκλος έχει πολύ λίγες ασκήσεις για έναν εσωτερικό κύκλο.}
+translate G WoodpeckerCircleMoved {Οι ασκήσεις %d μετακινήθηκαν στο νέο σετ "%s".}
+translate G WoodpeckerDanger {Επικίνδυνη ζώνη}
+translate G WoodpeckerReset {Επαναφορά στατιστικών στοιχείων...}
+translate G WoodpeckerResetTitle {Επαναφορά στατιστικών στοιχείων}
+translate G WoodpeckerResetAsk {Ξεκινήστε ξανά το "%s" από τον κύκλο 1, σαν να ήταν νέο;
+
+Τα στατιστικά σας μέχρι στιγμής (%d ασκήσεις παίχτηκαν) αρχειοθετούνται στο φάκελο του σετ, δεν διαγράφονται: Η "Επαναφορά στατιστικών στοιχείων" τα επαναφέρει. Οι ασκήσεις και οι ! και !! μείνε όπως είναι. Ένας εσωτερικός κύκλος αφαιρείται, οπότε ο κύκλος είναι ολόκληρο το σύνολο ξανά.}
+translate G WoodpeckerResetDo {Επαναφορά}
+translate G WoodpeckerRestore {Επαναφορά στατιστικών στοιχείων του %s...}
+translate G WoodpeckerRestoreAsk {Επαναφέρετε τα στατιστικά στοιχεία που έχουν τεθεί στην άκρη για το %s;}
+translate G WoodpeckerRestoreSwap {Οι τρέχουσες (%d ασκήσεις που παίζονται) αφήνονται στην άκρη στη θέση τους, ώστε να μπορείτε να επιστρέψετε.}
 translate G WoodpeckerCreate {Δημιουργώ}
 translate G WoodpeckerBadNumber {Μη έγκυρος αριθμός: %s}
 translate G WoodpeckerNoDifficulty {Επιλέξτε τουλάχιστον μία δυσκολία και έναν αριθμό ασκήσεων.}

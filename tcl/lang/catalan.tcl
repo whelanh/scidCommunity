@@ -567,6 +567,47 @@ translate K WoodpeckerFileHelp {Cada joc que parteix d'una posició de preparaci
 translate K WoodpeckerDays1 {Primer cicle (dies)}
 translate K WoodpeckerRestDays {Descans entre cicles (dies)}
 translate K WoodpeckerDaysHelp {Cada cicle posterior aconsegueix la meitat dels dies de l'anterior: l'objectiu és reduir a la meitat el temps de resolució de cada cicle.}
+translate K WoodpeckerLoad {Sobre %d exercicis al dia per %d dies.}
+translate K WoodpeckerLoadOneDay {Tots %d exercicis en un dia.}
+translate K WoodpeckerLoadLeft {Sobre %d exercicis al dia per al %d queden dies.}
+translate K WoodpeckerCircle {Cercle interior...}
+translate K WoodpeckerCircleTitle {Cercle interior}
+translate K WoodpeckerCircleIntro {No hi ha prou temps per a tot el conjunt? Conserva només els seus primers exercicis: es converteixen en el teu cicle, per repetir tantes vegades com vulguis, amb els dies de descans i estadístiques habituals. No s'esborra res: els altres exercicis esperen fins que decideixis què fer amb ells.}
+translate K WoodpeckerCircleSize {Exercicis al cercle}
+translate K WoodpeckerCircleOf {de %d}
+translate K WoodpeckerCircleDaysLeft {Queden dies de cicle %d}
+translate K WoodpeckerCircleDaysNext {Dies del cicle %d}
+translate K WoodpeckerCircleRest {L'altre %d exercicis:}
+translate K WoodpeckerCircleKeep {Mantingueu-los tancats en aquest conjunt}
+translate K WoodpeckerCircleMove {Mou-los a un conjunt nou ara}
+translate K WoodpeckerCircleGive {Torneu-los als trencaclosques inclosos}
+translate K WoodpeckerCircleKeepHelp {Recomanat. Es queden al plató amb els seus! i!! i queden fora dels cicles. Obriu-los més tard amb Cercle interior...: després vénen després del cercle.}
+translate K WoodpeckerCircleMoveHelp {Es converteixen en un conjunt propi, entrenat en el seu propi horari; aquest conjunt només manté el cercle.}
+translate K WoodpeckerCircleGiveHelp {Deixen definitivament aquest conjunt i un nou conjunt els pot tornar a dibuixar. Les teves estadístiques sobre ells es mantenen.}
+translate K WoodpeckerCircleOpenNow {Aquest cicle acaba el cercle, després continua amb els %d exercicis oberts. Cada cicle posterior manté aquest ordre: primer el cercle, després els altres.}
+translate K WoodpeckerCircleOpenNext {Del cicle %d cada cicle té tots els exercicis %d: primer el cercle, després els oberts.}
+translate K WoodpeckerCircleNewName {Nom del nou conjunt}
+translate K WoodpeckerCircleStart {Comença el cercle}
+translate K WoodpeckerCircleState {Aquest conjunt forma un cercle interior: el primer %d exercicis. L'altre %d estan bloquejats. Què els hauria de passar?}
+translate K WoodpeckerCircleOpenHere {Obriu-los en aquest conjunt, després del cercle}
+translate K WoodpeckerCircleOpenMove {Mou-los a un conjunt nou}
+translate K WoodpeckerCircleOpenGive {Torneu-los als trencaclosques inclosos}
+translate K WoodpeckerCircleOpen {Obert}
+translate K WoodpeckerCircleGiveAsk {Donar %d exercicis de tornada als trencaclosques inclosos? Deixen definitivament aquest conjunt (les vostres estadístiques es mantenen) i un nou conjunt els pot tornar a dibuixar.}
+translate K WoodpeckerCirclePart {%s, part 2}
+translate K WoodpeckerCircleNote {Cercle interior: entrenes el primer %d exercicis; %d més estan bloquejats (Cercle interior... per obrir-los).}
+translate K WoodpeckerCircleNone {Aquest cicle té massa pocs exercicis per a un cercle intern.}
+translate K WoodpeckerCircleMoved {%d exercicis traslladats al nou conjunt "%s".}
+translate K WoodpeckerDanger {Zona de perill}
+translate K WoodpeckerReset {Restableix les estadístiques...}
+translate K WoodpeckerResetTitle {Restableix les estadístiques}
+translate K WoodpeckerResetAsk {Comença"%s" de nou del cicle 1, com si fos nou?
+
+Les teves estadístiques fins ara (%d exercicis jugats) s'arxiven a la carpeta del conjunt, no s'esborren: "Restaurar estadístiques" les torna. Els exercicis i els seus! i!! romandre com són. S'elimina un cercle interior, de manera que el cicle torna a ser tot el conjunt.}
+translate K WoodpeckerResetDo {Restableix}
+translate K WoodpeckerRestore {Restaura les estadístiques de %s...}
+translate K WoodpeckerRestoreAsk {Voleu recuperar les estadístiques deixades de banda a %s?}
+translate K WoodpeckerRestoreSwap {Els actuals (%d exercicis jugats) es deixen de banda al seu lloc, perquè pugueu tornar enrere.}
 translate K WoodpeckerCreate {Crear}
 translate K WoodpeckerBadNumber {No és un número vàlid: %s}
 translate K WoodpeckerNoDifficulty {Trieu almenys una dificultat i una sèrie d'exercicis.}

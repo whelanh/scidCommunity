@@ -585,6 +585,47 @@ translate J WoodpeckerFileHelp {Свака игра која почиње са �
 translate J WoodpeckerDays1 {Први циклус (дана)}
 translate J WoodpeckerRestDays {Одмор између циклуса (дана)}
 translate J WoodpeckerDaysHelp {Сваки каснији циклус добија половину дана од претходног: циљ је да се преполови време решавања сваког циклуса.}
+translate J WoodpeckerLoad {Абоут %d вежбе дневно за %d дана.}
+translate J WoodpeckerLoadOneDay {Све %d вежбе у једном дану.}
+translate J WoodpeckerLoadLeft {Абоут %d вежбе дневно за %d преосталих дана.}
+translate J WoodpeckerCircle {Унутрашњи круг...}
+translate J WoodpeckerCircleTitle {Унутрашњи круг}
+translate J WoodpeckerCircleIntro {Немате довољно времена за цео сет? Задржите само прве вежбе: оне постају ваш циклус, који ћете понављати колико год желите, са уобичајеним данима одмора и статистиком. Ништа се не брише: остале вежбе чекају док не одлучите шта ћете са њима.}
+translate J WoodpeckerCircleSize {Вежбе у кругу}
+translate J WoodpeckerCircleOf {оф %d}
+translate J WoodpeckerCircleDaysLeft {Преостало дана у циклусу %d}
+translate J WoodpeckerCircleDaysNext {Дани за циклус %d}
+translate J WoodpeckerCircleRest {Други %d вежбе:}
+translate J WoodpeckerCircleKeep {Држите их закључане у овом комплету}
+translate J WoodpeckerCircleMove {Преместите их сада у нови сет}
+translate J WoodpeckerCircleGive {Вратите их укљученим слагалицама}
+translate J WoodpeckerCircleKeepHelp {Препоручено. Они остају у сету са својим ! и !! и изостављени су из циклуса. Отворите их касније са Унутрашњим кругом...: онда долазе после круга.}
+translate J WoodpeckerCircleMoveHelp {Они постају сопствени скуп, обучен по сопственом распореду; овај скуп задржава само круг.}
+translate J WoodpeckerCircleGiveHelp {Они напуштају овај сет заувек, а нови сет их може поново нацртати. Ваша статистика о њима остаје.}
+translate J WoodpeckerCircleOpenNow {Овај циклус завршава круг, а затим наставља са %d отворене вежбе. Сваки каснији циклус одржава тај редослед: прво круг, па остали.}
+translate J WoodpeckerCircleOpenNext {Из циклуса %d сваки циклус има све %d вежбе: прво круг, па оне отворене.}
+translate J WoodpeckerCircleNewName {Назив новог сета}
+translate J WoodpeckerCircleStart {Започните круг}
+translate J WoodpeckerCircleState {Овај сет тренира унутрашњи круг: први %d вежбе. Други %d су закључани. Шта би требало да им се деси?}
+translate J WoodpeckerCircleOpenHere {Отворите их у овом комплету, после круга}
+translate J WoodpeckerCircleOpenMove {Преместите их у нови сет}
+translate J WoodpeckerCircleOpenGive {Вратите их укљученим слагалицама}
+translate J WoodpeckerCircleOpen {Отвори}
+translate J WoodpeckerCircleGiveAsk {Дај %d вежбе назад на укључене загонетке? Они напуштају овај сет заувек (ваша статистика остаје), а нови сет их може поново извући.}
+translate J WoodpeckerCirclePart {%s, део 2}
+translate J WoodpeckerCircleNote {Унутрашњи круг: први тренирате %d вежбе; %d више су закључане (Унутрашњи круг... да их отворите).}
+translate J WoodpeckerCircleNone {Овај циклус има премало вежби за унутрашњи круг.}
+translate J WoodpeckerCircleMoved {%d вежбе премештене у нови сет "%s„.}
+translate J WoodpeckerDanger {Опасна зона}
+translate J WoodpeckerReset {Ресетуј статистику...}
+translate J WoodpeckerResetTitle {Ресетуј статистику}
+translate J WoodpeckerResetAsk {Започни "%s„опет из циклуса 1, као да је нов?
+
+Ваша досадашња статистика (%d одигране вежбе) се архивирају у фасцикли сета, а не бришу: „Врати статистику“ их враћа. Вежбе и њихова ! и !! останите такви какви јесу. Унутрашњи круг је уклоњен, тако да је циклус поново цео сет.}
+translate J WoodpeckerResetDo {Ресетуј}
+translate J WoodpeckerRestore {Врати статистику за %s...}
+translate J WoodpeckerRestoreAsk {Вратите статистику остављену по страни %s?}
+translate J WoodpeckerRestoreSwap {Садашњи (%d вежбе које се играју) стављају се на своје место, тако да се можете вратити назад.}
 translate J WoodpeckerCreate {Креирај}
 translate J WoodpeckerBadNumber {Није важећи број: %s}
 translate J WoodpeckerNoDifficulty {Изаберите најмање једну тежину и неколико вежби.}

@@ -548,6 +548,47 @@ translate C WoodpeckerFileHelp {Každá hra, která začíná z nastavené pozic
 translate C WoodpeckerDays1 {První cyklus (dny)}
 translate C WoodpeckerRestDays {Odpočinek mezi cykly (dny)}
 translate C WoodpeckerDaysHelp {Každý další cyklus má polovinu dní předchozího: cílem je snížit čas řešení každého cyklu na polovinu.}
+translate C WoodpeckerLoad {Přibližně %d cvičení denně po dobu %d dnů.}
+translate C WoodpeckerLoadOneDay {Všechna %d cvičení za jeden den.}
+translate C WoodpeckerLoadLeft {O %d cvičení denně pro %d zbývající dny.}
+translate C WoodpeckerCircle {Vnitřní kruh...}
+translate C WoodpeckerCircleTitle {Vnitřní kruh}
+translate C WoodpeckerCircleIntro {Nemáte dostatek času na celou sadu? Nechte si pouze jeho první cvičení: stanou se vaším cyklem, který budete opakovat tak často, jak budete chtít, s obvyklými dny odpočinku a statistikami. Nic se nesmaže: ostatní cvičení počkejte, dokud se nerozhodnete, co s nimi uděláte.}
+translate C WoodpeckerCircleSize {Cvičení v kruhu}
+translate C WoodpeckerCircleOf {z %d}
+translate C WoodpeckerCircleDaysLeft {Zbývající dny v cyklu %d}
+translate C WoodpeckerCircleDaysNext {Dny cyklu %d}
+translate C WoodpeckerCircleRest {Další %d cvičení:}
+translate C WoodpeckerCircleKeep {Nechte je zamčené v této sadě}
+translate C WoodpeckerCircleMove {Nyní je přesuňte do nové sady}
+translate C WoodpeckerCircleGive {Vraťte je do přiložených hádanek}
+translate C WoodpeckerCircleKeepHelp {Doporučeno. Zůstávají v souboru se svými ! a !! a jsou vynechány z cyklů. Otevřete je později pomocí Vnitřního kruhu...: poté následují po kruhu.}
+translate C WoodpeckerCircleMoveHelp {Stávají se souborem svých vlastních, trénovaných podle vlastního rozvrhu; tato sada zachovává pouze kruh.}
+translate C WoodpeckerCircleGiveHelp {Nadobro opustí tuto sadu a nová sada je může znovu nakreslit. Vaše statistiky o nich zůstanou.}
+translate C WoodpeckerCircleOpenNow {Tento cyklus dokončí kruh a poté pokračuje s %d otevřenými cvičeními. Každý další cyklus zachovává toto pořadí: nejprve kruh, potom ostatní.}
+translate C WoodpeckerCircleOpenNext {Od cyklu %d má každý cyklus všechna %d cvičení: nejprve kruh, potom otevřená.}
+translate C WoodpeckerCircleNewName {Název nové sady}
+translate C WoodpeckerCircleStart {Začněte kruh}
+translate C WoodpeckerCircleState {Tato sestava trénuje vnitřní kruh: první %d cvičení. Ostatní %d jsou uzamčeny. Co by se s nimi mělo stát?}
+translate C WoodpeckerCircleOpenHere {Otevřete je v této sadě po kruhu}
+translate C WoodpeckerCircleOpenMove {Přesuňte je do nové sady}
+translate C WoodpeckerCircleOpenGive {Vraťte je do přiložených hádanek}
+translate C WoodpeckerCircleOpen {OTEVŘENO}
+translate C WoodpeckerCircleGiveAsk {Vrátit %d cvičení k přiloženým hádankám? Tuto množinu nadobro opustí (vaše statistiky zůstanou) a nová množina je může vylosovat znovu.}
+translate C WoodpeckerCirclePart {%s, část 2}
+translate C WoodpeckerCircleNote {Vnitřní kruh: trénujete první %d cvičení; %d další jsou uzamčeny (otevřete je vnitřním kruhem...).}
+translate C WoodpeckerCircleNone {Tento cyklus má příliš málo cvičení pro vnitřní kruh.}
+translate C WoodpeckerCircleMoved {%d cvičení přesunuta do nové sady "%s".}
+translate C WoodpeckerDanger {Nebezpečná zóna}
+translate C WoodpeckerReset {Resetovat statistiky...}
+translate C WoodpeckerResetTitle {Resetovat statistiky}
+translate C WoodpeckerResetAsk {Spustit "%s" znovu od cyklu 1, jako by to bylo nové?
+
+Vaše dosavadní statistiky (%d odehraná cvičení) jsou archivovány ve složce sady, nejsou smazány: "Obnovit statistiky" je vrátí zpět. Cvičení a jejich! a !! zůstat takoví, jací jsou. Vnitřní kruh je odstraněn, takže cyklus je znovu celá sada.}
+translate C WoodpeckerResetDo {Resetovat}
+translate C WoodpeckerRestore {Obnovit statistiku %s...}
+translate C WoodpeckerRestoreAsk {Vrátit statistiky odložené na %s?}
+translate C WoodpeckerRestoreSwap {Aktuální (%d odehraná cvičení) jsou odložena na jejich místo, takže můžete přepnout zpět.}
 translate C WoodpeckerCreate {Vytvořit}
 translate C WoodpeckerBadNumber {Neplatné číslo: %s}
 translate C WoodpeckerNoDifficulty {Vyberte si alespoň jednu obtížnost a množství cviků.}

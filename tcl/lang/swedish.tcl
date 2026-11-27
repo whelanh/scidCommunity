@@ -555,6 +555,47 @@ translate W WoodpeckerFileHelp {Varje spel som startar från en uppställningspo
 translate W WoodpeckerDays1 {Första cykeln (dagar)}
 translate W WoodpeckerRestDays {Vila mellan cyklerna (dagar)}
 translate W WoodpeckerDaysHelp {Varje senare cykel får hälften av dagarna av den föregående: målet är att halvera lösningstiden varje cykel.}
+translate W WoodpeckerLoad {Ungefär %d träningar per dag i %d dagar.}
+translate W WoodpeckerLoadOneDay {Alla %d övningar på en dag.}
+translate W WoodpeckerLoadLeft {Ungefär %d träningar om dagen under de återstående %d dagarna.}
+translate W WoodpeckerCircle {Inre cirkel...}
+translate W WoodpeckerCircleTitle {Inre cirkel}
+translate W WoodpeckerCircleIntro {Inte tillräckligt med tid för hela uppsättningen? Behåll bara de första övningarna: de blir din cykel, att upprepa så ofta du vill, med de vanliga vilodagarna och statistiken. Ingenting raderas: de andra övningarna väntar tills du bestämmer dig för vad du ska göra med dem.}
+translate W WoodpeckerCircleSize {Övningar i cirkeln}
+translate W WoodpeckerCircleOf {av %d}
+translate W WoodpeckerCircleDaysLeft {Dagar kvar av cykeln %d}
+translate W WoodpeckerCircleDaysNext {Dagar för cykel %d}
+translate W WoodpeckerCircleRest {De andra %d övningarna:}
+translate W WoodpeckerCircleKeep {Håll dem låsta i denna uppsättning}
+translate W WoodpeckerCircleMove {Flytta dem till en ny uppsättning nu}
+translate W WoodpeckerCircleGive {Ge dem tillbaka till de medföljande pusslen}
+translate W WoodpeckerCircleKeepHelp {Rekommenderad. De stannar i uppsättningen med sina ! och!! och lämnas utanför cyklerna. Öppna dem senare med Inner circle...: de kommer sedan efter cirkeln.}
+translate W WoodpeckerCircleMoveHelp {De blir en egen uppsättning, tränade enligt sitt eget schema; denna uppsättning håller bara cirkeln.}
+translate W WoodpeckerCircleGiveHelp {De lämnar denna uppsättning för gott, och en ny uppsättning kan rita dem igen. Din statistik över dem stannar.}
+translate W WoodpeckerCircleOpenNow {Denna cykel avslutar cirkeln och fortsätter sedan med de %d öppnade övningarna. Varje senare cykel håller den ordningen: cirkeln först, sedan de andra.}
+translate W WoodpeckerCircleOpenNext {Från cykel %d har varje cykel alla %d övningar: cirkeln först, sedan de öppnade.}
+translate W WoodpeckerCircleNewName {Namnet på den nya uppsättningen}
+translate W WoodpeckerCircleStart {Starta cirkeln}
+translate W WoodpeckerCircleState {Detta set tränar en inre cirkel: de första %d övningarna. De andra %d är låsta. Vad ska hända med dem?}
+translate W WoodpeckerCircleOpenHere {Öppna dem i denna uppsättning, efter cirkeln}
+translate W WoodpeckerCircleOpenMove {Flytta dem till en ny uppsättning}
+translate W WoodpeckerCircleOpenGive {Ge dem tillbaka till de medföljande pusslen}
+translate W WoodpeckerCircleOpen {Öppna}
+translate W WoodpeckerCircleGiveAsk {Ge %d övningar tillbaka till de inkluderade pusslen? De lämnar denna uppsättning för gott (din statistik stannar), och en ny uppsättning kan dra dem igen.}
+translate W WoodpeckerCirclePart {%s, del 2}
+translate W WoodpeckerCircleNote {Inre cirkel: du tränar de första %d övningarna; %d fler är låsta (Inre cirkel... för att öppna dem).}
+translate W WoodpeckerCircleNone {Denna cykel har för få övningar för en inre cirkel.}
+translate W WoodpeckerCircleMoved {%d övningar flyttade till den nya uppsättningen "%s".}
+translate W WoodpeckerDanger {Riskzon}
+translate W WoodpeckerReset {Återställ statistik...}
+translate W WoodpeckerResetTitle {Återställ statistik}
+translate W WoodpeckerResetAsk {Starta "%s" igen från cykel 1, som om det vore nytt?
+
+Din statistik hittills (%d spelade övningar) arkiveras i setets mapp, tas inte bort: "Återställ statistik" tar tillbaka dem. Övningarna och deras ! och!! stanna som de är. En inre cirkel tas bort, så cykeln är hela uppsättningen igen.}
+translate W WoodpeckerResetDo {Återställa}
+translate W WoodpeckerRestore {Återställ statistik för %s...}
+translate W WoodpeckerRestoreAsk {Ta tillbaka statistiken som lagts åt sidan om %s?}
+translate W WoodpeckerRestoreSwap {De nuvarande (%d övningarna som spelas) läggs åt sidan på deras plats, så att du kan byta tillbaka.}
 translate W WoodpeckerCreate {Skapa}
 translate W WoodpeckerBadNumber {Inte ett giltigt nummer: %s}
 translate W WoodpeckerNoDifficulty {Välj minst en svårighetsgrad och ett antal övningar.}

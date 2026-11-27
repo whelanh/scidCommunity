@@ -573,6 +573,47 @@ translate N WoodpeckerFileHelp {Elk spel dat vanuit een opzetpositie begint, wor
 translate N WoodpeckerDays1 {Eerste cyclus (dagen)}
 translate N WoodpeckerRestDays {Rust tussen cycli (dagen)}
 translate N WoodpeckerDaysHelp {Elke volgende cyclus krijgt de helft van de dagen van de vorige: het doel is om de oplostijd elke cyclus te halveren.}
+translate N WoodpeckerLoad {Ongeveer %d oefeningen per dag gedurende %d dagen.}
+translate N WoodpeckerLoadOneDay {Alle %d oefeningen op één dag.}
+translate N WoodpeckerLoadLeft {Ongeveer %d oefeningen per dag voor de resterende %d dagen.}
+translate N WoodpeckerCircle {Binnenste cirkel...}
+translate N WoodpeckerCircleTitle {Binnenste cirkel}
+translate N WoodpeckerCircleIntro {Niet genoeg tijd voor de hele set? Bewaar alleen de eerste oefeningen: ze worden uw cyclus, die u zo vaak kunt herhalen als u wilt, met de gebruikelijke rustdagen en statistieken. Er wordt niets verwijderd: de overige oefeningen wachten tot jij beslist wat je ermee gaat doen.}
+translate N WoodpeckerCircleSize {Oefeningen in de cirkel}
+translate N WoodpeckerCircleOf {van %d}
+translate N WoodpeckerCircleDaysLeft {Resterende dagen in cyclus %d}
+translate N WoodpeckerCircleDaysNext {Dagen voor cyclus %d}
+translate N WoodpeckerCircleRest {De andere %d oefeningen:}
+translate N WoodpeckerCircleKeep {Houd ze op slot in deze set}
+translate N WoodpeckerCircleMove {Verplaats ze nu naar een nieuwe set}
+translate N WoodpeckerCircleGive {Geef ze terug aan de meegeleverde puzzels}
+translate N WoodpeckerCircleKeepHelp {Aanbevolen. Ze blijven in de set met hun ! En !! en worden buiten de cycli gelaten. Open ze later met Binnenste cirkel...: ze komen dan na de cirkel.}
+translate N WoodpeckerCircleMoveHelp {Ze worden een eigen stel, getraind volgens hun eigen schema; deze set houdt alleen de cirkel vast.}
+translate N WoodpeckerCircleGiveHelp {Ze verlaten deze set voorgoed en een nieuwe set kan ze weer tekenen. Uw statistieken over hen blijven.}
+translate N WoodpeckerCircleOpenNow {Deze cyclus rondt de cirkel af en gaat vervolgens verder met de %d geopende oefeningen. Elke latere cyclus houdt deze volgorde aan: eerst de cirkel, dan de anderen.}
+translate N WoodpeckerCircleOpenNext {Vanaf cyclus %d bevat elke cyclus alle %d oefeningen: eerst de cirkel, daarna de geopende.}
+translate N WoodpeckerCircleNewName {Naam van de nieuwe set}
+translate N WoodpeckerCircleStart {Begin de cirkel}
+translate N WoodpeckerCircleState {Deze set traint een binnencirkel: de eerste %d oefeningen. De andere %d zijn vergrendeld. Wat moet er met hen gebeuren?}
+translate N WoodpeckerCircleOpenHere {Open ze in deze set, na de cirkel}
+translate N WoodpeckerCircleOpenMove {Verplaats ze naar een nieuwe set}
+translate N WoodpeckerCircleOpenGive {Geef ze terug aan de meegeleverde puzzels}
+translate N WoodpeckerCircleOpen {Open}
+translate N WoodpeckerCircleGiveAsk {%d oefeningen teruggeven aan de meegeleverde puzzels? Ze verlaten deze set voorgoed (je statistieken blijven behouden) en een nieuwe set kan ze opnieuw tekenen.}
+translate N WoodpeckerCirclePart {%s, deel 2}
+translate N WoodpeckerCircleNote {Binnenste cirkel: je traint de eerste %d oefeningen; %d meer zijn vergrendeld (binnenste cirkel... om ze te openen).}
+translate N WoodpeckerCircleNone {Deze cyclus heeft te weinig oefeningen voor een binnencirkel.}
+translate N WoodpeckerCircleMoved {%d oefeningen verplaatst naar de nieuwe set "%s".}
+translate N WoodpeckerDanger {Gevarenzone}
+translate N WoodpeckerReset {Statistieken resetten...}
+translate N WoodpeckerResetTitle {Statistieken resetten}
+translate N WoodpeckerResetAsk {"%s" opnieuw starten vanaf cyclus 1, alsof het nieuw is?
+
+Je statistieken tot nu toe (%d gespeelde oefeningen) worden gearchiveerd in de map van de set en niet verwijderd: "Statistieken herstellen" brengt ze terug. De oefeningen en hun ! En !! blijven zoals ze zijn. Een binnenste cirkel wordt verwijderd, zodat de cyclus weer de hele set is.}
+translate N WoodpeckerResetDo {Opnieuw instellen}
+translate N WoodpeckerRestore {Statistieken van %s herstellen...}
+translate N WoodpeckerRestoreAsk {De statistieken terughalen die op %s zijn opgeslagen?}
+translate N WoodpeckerRestoreSwap {De huidige (%d gespeelde oefeningen) worden op hun plaats gelegd, zodat je terug kunt schakelen.}
 translate N WoodpeckerCreate {Creëren}
 translate N WoodpeckerBadNumber {Geen geldig nummer: %s}
 translate N WoodpeckerNoDifficulty {Kies minimaal één moeilijkheidsgraad en een aantal oefeningen.}

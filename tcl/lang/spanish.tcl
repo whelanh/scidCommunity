@@ -585,6 +585,47 @@ translate S WoodpeckerFileHelp {Cada juego que parte de una posición de prepara
 translate S WoodpeckerDays1 {Primer ciclo (días)}
 translate S WoodpeckerRestDays {Descanso entre ciclos (días)}
 translate S WoodpeckerDaysHelp {Cada ciclo posterior tiene la mitad de días que el anterior: el objetivo es reducir a la mitad el tiempo de resolución en cada ciclo.}
+translate S WoodpeckerLoad {Aproximadamente %d ejercicios al día durante %d días.}
+translate S WoodpeckerLoadOneDay {Todos los ejercicios %d en un día.}
+translate S WoodpeckerLoadLeft {Aproximadamente %d ejercicios al día durante los %d días restantes.}
+translate S WoodpeckerCircle {Círculo interior...}
+translate S WoodpeckerCircleTitle {círculo interior}
+translate S WoodpeckerCircleIntro {¿No tienes tiempo suficiente para todo el set? Conserva sólo sus primeros ejercicios: se convierten en tu ciclo, para repetir tantas veces como quieras, con los días de descanso y estadísticas habituales. No se borra nada: los demás ejercicios esperan hasta que decidas qué hacer con ellos.}
+translate S WoodpeckerCircleSize {Ejercicios en el círculo.}
+translate S WoodpeckerCircleOf {de %d}
+translate S WoodpeckerCircleDaysLeft {Días restantes en el ciclo %d}
+translate S WoodpeckerCircleDaysNext {Días por ciclo %d}
+translate S WoodpeckerCircleRest {Los otros %d ejercicios:}
+translate S WoodpeckerCircleKeep {Manténgalos encerrados en este conjunto}
+translate S WoodpeckerCircleMove {Muévelos a un nuevo conjunto ahora}
+translate S WoodpeckerCircleGive {Devuélvelos a los rompecabezas incluidos.}
+translate S WoodpeckerCircleKeepHelp {Recomendado. ¡Permanecen en el set con su! y !! y quedan fuera de los ciclos. Ábrelos más tarde con Círculo interior...: luego vienen después del círculo.}
+translate S WoodpeckerCircleMoveHelp {Se convierten en un conjunto propio, entrenado según su propio horario; este conjunto mantiene sólo el círculo.}
+translate S WoodpeckerCircleGiveHelp {Dejan este conjunto para siempre y un nuevo conjunto puede atraerlos nuevamente. Tus estadísticas sobre ellos se mantienen.}
+translate S WoodpeckerCircleOpenNow {Este ciclo finaliza el círculo, luego continúa con los ejercicios abiertos %d. Cada ciclo posterior mantiene ese orden: primero el círculo, luego los demás.}
+translate S WoodpeckerCircleOpenNext {Del ciclo %d cada ciclo tiene todos los ejercicios %d: primero el círculo, luego los abiertos.}
+translate S WoodpeckerCircleNewName {Nombre del nuevo conjunto}
+translate S WoodpeckerCircleStart {empezar el circulo}
+translate S WoodpeckerCircleState {Este conjunto entrena un círculo interno: los primeros %d ejercicios. Los otros %d están bloqueados. ¿Qué debería pasar con ellos?}
+translate S WoodpeckerCircleOpenHere {Ábrelos en este conjunto, después del círculo.}
+translate S WoodpeckerCircleOpenMove {Muévelos a un nuevo conjunto}
+translate S WoodpeckerCircleOpenGive {Devuélvelos a los rompecabezas incluidos.}
+translate S WoodpeckerCircleOpen {Abierto}
+translate S WoodpeckerCircleGiveAsk {¿Devolver %d ejercicios a los acertijos incluidos? Dejan este conjunto para siempre (sus estadísticas permanecen) y un nuevo conjunto puede atraerlos nuevamente.}
+translate S WoodpeckerCirclePart {%s, parte 2}
+translate S WoodpeckerCircleNote {Círculo interior: entrenas los primeros %d ejercicios; %d más están bloqueados (círculo interior... para abrirlos).}
+translate S WoodpeckerCircleNone {Este ciclo tiene muy pocos ejercicios para un círculo interno.}
+translate S WoodpeckerCircleMoved {Los ejercicios de %d se trasladaron al nuevo conjunto "%s".}
+translate S WoodpeckerDanger {Zona de peligro}
+translate S WoodpeckerReset {Restablecer estadísticas...}
+translate S WoodpeckerResetTitle {Restablecer estadísticas}
+translate S WoodpeckerResetAsk {¿Iniciar "%s" nuevamente desde el ciclo 1, como si fuera nuevo?
+
+Tus estadísticas hasta el momento (%d ejercicios jugados) se archivan en la carpeta del conjunto, no se eliminan: "Restaurar estadísticas" las recupera. Los ejercicios y sus ! y !! quédense como están. Se elimina un círculo interior, por lo que el ciclo vuelve a ser el conjunto completo.}
+translate S WoodpeckerResetDo {Reiniciar}
+translate S WoodpeckerRestore {Restaurar estadísticas de %s...}
+translate S WoodpeckerRestoreAsk {¿Recuperar las estadísticas guardadas en %s?}
+translate S WoodpeckerRestoreSwap {Los actuales (%d ejercicios jugados) se dejan a un lado en su lugar, para que puedas volver atrás.}
 translate S WoodpeckerCreate {Crear}
 translate S WoodpeckerBadNumber {Número no válido: %s}
 translate S WoodpeckerNoDifficulty {Elija al menos una dificultad y una serie de ejercicios.}
