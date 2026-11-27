@@ -169,7 +169,7 @@ translate F PresentationFrozen {Gelé - le tableau de présentation ne suit pas}
 menuText F WindowsEPD "Fenêtre EPD..." 0 {Ouvrir une fenêtre d'éditeur EPD (fichier de position)}
 
 # EPD window:
-translate F EpdPasteAnal {Copier l’analyse}
+translate F EpdPasteAnal {Coller l’analyse}
 translate F EpdSortOpcodes {Trier les codes d'opération}
 translate F EpdAddPosition {Ajouter une position}
 translate F EpdFindPos {Trouver une position dans le jeu}
@@ -293,7 +293,7 @@ menuText F OptionsFonts "Polices" 0 {Changer les polices}
 menuText F OptionsFontsRegular "Normales" 0 {Changer les polices normales}
 menuText F OptionsFontsMenu "Menu" 0 {Changer la police des menus}
 menuText F OptionsFontsSmall "Petites" 0 {Changer les petites polices}
-menuText F OptionsFontsTiny "Minuscule" 1 {Changes les polices minuscules}
+menuText F OptionsFontsTiny "Minuscule" 1 {Changer les polices minuscules}
 menuText F OptionsFontsFixed "Fixe" 0 {Changer les polices de chasse fixe}
 menuText F OptionsGInfo "Informations de la partie" 7 {Options d'information de la partie}
 menuText F OptionsLanguage "Langue" 0 {Sélectionner la langue utilisée}
@@ -337,7 +337,7 @@ menuText F OptionsNumbers "Format numérique" 7 {Sélectionner le format des nom
 menuText F OptionsTheme "Apparence" 0 {Change l'apparence de l'interface}
 menuText F OptionsWindows "Fenêtres" 0 {Options des fenêtres}
 menuText F OptionsSounds "Sons" 2 {Configurer l'annonce des sonore des coups}
-menuText F OptionsResources "Ressources..." 0 {Choose resource files and folders}
+menuText F OptionsResources "Ressources..." 0 {Choisir les fichiers et dossiers de ressources}
 menuText F OptionsWindowsDock "Fenêtres groupées" 0 {Fenêtres groupées (nécessite un redémarrage)}
 menuText F OptionsWindowsSaveLayout "Enregistrer disposition" 0 {Enregistrer disposition}
 menuText F OptionsWindowsRestoreLayout "Restaurer disposition" 0 {Restaurer disposition}
@@ -467,7 +467,7 @@ translate F LichessPuzzlesLoadError {Échec du chargement de la position du puzz
 translate F LichessPuzzlesSolve {À votre tour ! Trouvez le meilleur coup.}
 translate F LichessPuzzlesCorrect {Bon coup !}
 translate F LichessPuzzlesWrong {Ce n'est pas la bonne solution : essayez autre chose.}
-translate F LichessPuzzlesBestMove {Meilleur coup !  Continue...}
+translate F LichessPuzzlesBestMove {Meilleur coup !  Continuez...}
 translate F LichessPuzzlesSolved {Tactique résolue ! Félicitations!}
 translate F LichessPuzzlesPlaying {Résoudre une tactique…}
 translate F LichessPuzzlesStop {Arrêter}
@@ -722,7 +722,7 @@ translate F LichessStudyPickStudy {Choisissez d'abord une étude dans la liste.}
 translate F LichessStudyAddLinkPrompt {Collez le lien d'une étude, par ex. https://lichess.org/study/AbCd1234}
 translate F LichessStudyNameLength {Le nom de l’étude doit comporter entre 2 et 100 caractères.}
 translate F LichessStudyCreating {Création de l'étude "%s"...}
-translate F LichessStudyCreateFailed {Impossible de créer l'étude "%s : %s\n\nRien n'a été publié.}
+translate F LichessStudyCreateFailed {Impossible de créer l'étude "%s" : %s\n\nRien n'a été publié.}
 translate F LichessStudyDbClosed {La base de données n'est plus ouverte.}
 translate F LichessStudyTooManyGames {Vous avez sélectionné des jeux %s, mais une étude Lichess contient au maximum %s chapitres.}
 translate F LichessStudyNoGame {Il n'y a aucun jeu sur le plateau.\n\nPour publier des jeux à partir d'une base de données, sélectionnez-les dans la liste des jeux et utilisez le menu contextuel.}
@@ -737,7 +737,7 @@ translate F LichessStudy401 {Jeton invalide ou expiré (401).}
 translate F LichessStudy403 {Autorisation refusée (403) : le jeton n'a pas les autorisations study:read/study:write, ou vous ne pouvez pas écrire dans cette étude.}
 translate F LichessStudy404 {Étude introuvable (404), ou elle est privée et vous n'êtes pas membre.}
 translate F LichessStudy429 {Trop de requêtes à Lichess (429) : attendez une minute et réessayez.}
-translate F LichessStudyHttpError {Lichesse (HTTP %s) : %s}
+translate F LichessStudyHttpError {Lichess (HTTP %s) : %s}
 translate F LichessStudyUnexpected {Réponse inattendue de Lichess (HTTP %s). %s}
 translate F LichessStudyNetworkError {Erreur réseau : %s}
 
@@ -1158,7 +1158,7 @@ translate F ReviewSettingsTooltip {Configurer les réglages de l’analyse}
 translate F ToolsWhatThreat {Quelle est la menace ?}
 translate F ToolsWhatThreatTooltip {Demande au moteur ce que menace le joueur qui a le trait}
 translate F WhatThreatRunning {Une analyse des menaces est déjà en cours.}
-translate F WhatThreatNoEngine {Aucun moteur n'est configuré. Choisissez-en un dans Outils -> Liste des moteurs, ou ouvrez d'abord une fenêtre de moteur.}
+translate F WhatThreatNoEngine {Aucun moteur n'est configuré. Choisissez-en un dans Outils -> Configurer les moteurs, ou ouvrez d'abord une fenêtre de moteur.}
 translate F WhatThreatNoPosition {Il n'y a aucune position à examiner.}
 translate F WhatThreatNoMove {Il n'y a aucun coup à commenter ici. Allez d'abord sur un coup de la partie.}
 translate F WhatThreatFailed {L'analyse des menaces n'a pas pu s'exécuter : %s}
@@ -2039,7 +2039,7 @@ translate F NumberOfDubiousMovesPlayed {coups douteux joués}
 translate F NumberOfMovesPlayedNotInRepertoire {coups joués absents du répertoire}
 translate F NumberOfTimesPositionEncountered {nombre de fois où la position a été rencontrée}
 translate F PlayerBestMove  {N'autoriser que les meilleurs coups}
-translate F OpponentBestMove {Ne jouer que les meilleurs coups}
+translate F OpponentBestMove {L'adversaire ne joue que les meilleurs coups}
 translate F OnlyFlaggedLines {Seulement les lignes marquées}
 translate F resetStats {Remettre à zéro les statistiques}
 translate F Repertoiretrainingconfiguration {Configuration entraînement répertoire}
@@ -2467,7 +2467,7 @@ translate F CQLUnreadableGames {%d partie(s) n'ont pas pu être lues}
 
 set tips(F) {
   {
-    scidCommunity en compte plus de 40 <a Index>pages d'aide</a>, et dans la plupart des fenêtres de scidCommunity, en appuyant sur la touche <b>F1</b> La clé produira la page d'aide sur cette fenêtre.
+    scidCommunity en compte plus de 40 <a Index>pages d'aide</a>, et dans la plupart des fenêtres de scidCommunity, en appuyant sur la touche <b>F1</b> vous obtiendrez la page d'aide de cette fenêtre.
   }
   {
     Certaines fenêtres de scidCommunity (par exemple la zone d'informations sur le jeu, la base de données <a Switcher>switcher</a>) ont un menu avec le bouton droit de la souris. Essayez d'appuyer sur le bouton droit de la souris dans chaque fenêtre pour voir si elle en a une et quelles fonctions sont disponibles.
@@ -2575,7 +2575,7 @@ set tips(F) {
     Un <a OpReport>rapport d'ouverture</a> est idéal pour en savoir plus sur un poste particulier. Vous pouvez voir à quel point il obtient de bons résultats, s'il conduit à des tirages courts fréquents et à des thèmes de position courants.
   }
   {
-    Vous pouvez ajouter les symboles d'annotation les plus courants (!, !?, +=, etc.) au déplacement ou à la position actuelle avec des raccourcis clavier sans avoir besoin d'utiliser l'éditeur de commentaires <a Comment> <a> -- par exemple, tapez "!" puis la touche Retour pour ajouter un "!" symbole d'annotation. Consultez la page d'aide <a Moves> Saisie des mouvements d'échecs </a> pour plus de détails.
+    Vous pouvez ajouter les symboles d'annotation les plus courants (!, !?, +=, etc.) au déplacement ou à la position actuelle avec des raccourcis clavier sans avoir besoin d'utiliser l'<a Comment>éditeur de commentaires</a> -- par exemple, tapez "!" puis la touche Retour pour ajouter un "!" symbole d'annotation. Consultez la page d'aide <a Moves> Saisie des mouvements d'échecs </a> pour plus de détails.
   }
   {
     Si vous parcourez les ouvertures dans une base de données avec le <a Tree>arbre</a>, vous pouvez avoir un aperçu utile des scores récents de l'ouverture en cours et des joueurs les mieux notés en ouvrant la fenêtre Statistiques (raccourci : Ctrl+I).
@@ -2584,6 +2584,6 @@ set tips(F) {
     Après un <a Searches>recherche</a>, vous pouvez facilement parcourir tous les jeux correspondants en maintenant enfoncé <b>Ctrl</b> et en appuyant sur le <b>En haut</b> ou <b>Vers le bas</b> touche pour charger le précédent ou le suivant <a Searches Filter>filtre</a> jeu.
   }
   {
-    Windows peut être ancré en cochant l'entrée correspondante dans le menu d'options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
+    Les fenêtres peuvent être ancrées en cochant l'entrée correspondante dans le menu Options. Les onglets peuvent être glissés et déposés d'un bloc-notes à un autre et disposés en cliquant avec le bouton droit sur le widget d'onglets.
   }
 }
