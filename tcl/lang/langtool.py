@@ -905,7 +905,16 @@ def import_csv(root: Path, stem: str, csv_path: Path, *, apply: bool,
 
         current_text = target_entry.current_text()
         current_tooltip = target_entry.current_tooltip()
-        text_changed = (has_new and new_text != current_text) or \
+        # Spreadsheets (Excel, LibreOffice) drop a cell's trailing newlines,
+        # so a returned sheet loses them in `current` and `new` alike. They
+        # are layout, not wording: give the catalogue's back.
+        tail = current_text[len(current_text.rstrip("\n")):]
+        if tail:
+            if has_new and not new_text.endswith("\n"):
+                new_text += tail
+            if (row.get("current") or "") == current_text.rstrip("\n"):
+                row["current"] = current_text
+        text_changed =(has_new and new_text != current_text) or \
                        (has_tooltip and new_tooltip != current_tooltip)
 
         if text_changed:
@@ -1323,6 +1332,31 @@ translate X Tip {Un % de 100 et % parties}
         assert "translate X Extra {Supplément}" in text
         assert text.index("translate X Quote") < text.index("translate X Tip") < \
             text.index("translate X Extra")
+        # A spreadsheet drops trailing newlines from `current` and `new`: the
+        # row still matches the catalogue, and the newline is kept.
+        (root / "tcl" / "lang" / "english.tcl").write_text(
+            english + "translate E Extra {Extra}\ntranslate E Trail {Line\n}\n",
+            encoding="utf-8")
+        (root / "tcl" / "lang" / "testlang.tcl").write_text(
+            text.replace("translate X Extra {Supplément}\n",
+                         "translate X Extra {Supplément}\ntranslate X Trail {Ligne\n}\n"),
+            encoding="utf-8")
+        out3 = root / "test3.csv"
+        generate(root, "testlang", out3)
+        rows3 = read_rows(out3)
+        trail = next(r for r in rows3 if r["key"] == "Trail")
+        assert trail["current"] == "Ligne\n", trail["current"]
+        trail["current"] = "Ligne"
+        trail["new"] = "Une ligne"
+        with out3.open("w", encoding="utf-8-sig", newline="") as fh:
+            writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
+            writer.writeheader()
+            writer.writerows(rows3)
+        rc = import_csv(root, "testlang", out3, apply=True, force=False,
+                        reviewer="Tester")
+        assert rc == 0, rc
+        text = (root / "tcl" / "lang" / "testlang.tcl").read_text(encoding="utf-8")
+        assert "translate X Trail {Une ligne\\n}" in text, text
     print("selftest: ok")
     return 0
 
