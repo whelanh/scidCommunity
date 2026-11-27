@@ -61,6 +61,12 @@ jobs:
       - name: Translation workbench
         run: python3 tcl/lang/langtool.py selftest
 
+      # The same for the help pages: blocks are cut and paired with English,
+      # a link can move inside a sentence, a drifted page keeps its pairing,
+      # and the file's line endings survive an import.
+      - name: Help translation workbench
+        run: python3 tcl/lang/helptool.py selftest
+
       # Woodpecker trainer: scoring, the single attempt, the puzzle marks, the cycle
       # schedule (quota, moved deadline) and the record files.
       - name: Woodpecker core

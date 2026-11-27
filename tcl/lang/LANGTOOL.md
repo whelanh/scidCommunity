@@ -103,6 +103,14 @@ francais: 2118 entries, 0 missing, 87 identical, 142 reviewed, 7/99 sections com
 `ECO`, `PGN`, `Elo`, proper names and the opening names are legitimately the
 same in many languages.
 
+## Help pages
+
+The help pages in `tcl/help/` have their own workbench, with the same
+generate / import / status flow and a `check` command:
+[HELPTOOL](HELPTOOL.md), `python3 tcl/lang/helptool.py generate <name>`. Its
+rows are paragraphs and list items instead of keys, and the markup (links,
+bold, menu names) stays in the cell so a translator can move it.
+
 ## Portuguese
 
 `tcl/lang/portbr.tcl` is the existing Portuguese catalogue and uses Brazilian
