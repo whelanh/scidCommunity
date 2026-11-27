@@ -242,6 +242,9 @@ checkEq "and the history a reset put aside" \
 ::woodpecker::logScope $idset 200 1 "1 9 *" 7
 checkEq "and the numbers an inner circle names" \
     [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 9
+::woodpecker::set::retire $idset {12}
+checkEq "and a retired number, which set.tsv keeps out of every cycle" \
+    [::woodpecker::set::maxExerciseId $idset [::woodpecker::readExercises $idset]] 12
 
 # ------------------------------------------------ a file's exercise count ----
 set pgn [file join $tmp book.pgn]

@@ -606,13 +606,16 @@ proc ::woodpecker::restoreRing {dir now} {
     set rings [rings $dir]
     if {![llength $rings]} { return "" }
     lassign [lindex $rings 0] path day
-    set tmp [file join $dir ring-restoring.tmp]
-    file rename -force $path $tmp
-    if {[catch { archiveLog $dir $now } err]} {
-        file rename $tmp $path
+    # No temporary name: archiveLog picks a free ring name, so the ring being
+    # restored stays where it is until the log's place is free. If that last
+    # rename fails (a sync client or antivirus holding the file), the log is
+    # put back, and the set is as it was.
+    set log [file join $dir log.tsv]
+    set archived [archiveLog $dir $now]
+    if {[catch { file rename $path $log } err]} {
+        if {$archived ne ""} { catch { file rename $archived $log } }
         error $err
     }
-    file rename $tmp [file join $dir log.tsv]
     return $day
 }
 

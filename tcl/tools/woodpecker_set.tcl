@@ -765,8 +765,9 @@ proc ::woodpecker::set::maxExerciseId {dir old} {
     foreach ex [dict keys $old] {
         if {$ex > $max} { set max $ex }
     }
-    # Restore can bring a ring back, so the rings count as history too.
-    set named {}
+    # Restore can bring a ring back, so the rings count as history too. A
+    # retired number stays retired in set.tsv, so a new puzzle must not take it.
+    set named [retired [::woodpecker::readMeta $dir]]
     foreach file [concat log.tsv [lmap r [::woodpecker::rings $dir] { file tail [lindex $r 0] }]] {
         lassign [::woodpecker::readLog $dir $file] xs ss cs
         lappend named {*}[lmap x $xs { dict get $x ex }]

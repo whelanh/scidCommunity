@@ -504,6 +504,28 @@ checkEq "a restore is undone by another" [lmap x $xs { dict get $x ex }] 3
 set before [llength [::woodpecker::rings $rt]]
 ::woodpecker::restoreRing $rt $r0
 checkEq "nothing played since the reset: restoring makes no ring" [llength [::woodpecker::rings $rt]] [expr {$before - 1}]
+# A restore whose last rename fails puts the log back where it was.
+::woodpecker::logExercise $rt $r0 1 1 5 clean 1 1000
+::woodpecker::resetLog $rt $r0
+::woodpecker::logExercise $rt $r0 1 1 6 clean 1 1000
+set before [lsort [glob -tails -directory $rt *]]
+rename ::file ::woodpecker_test_file
+proc ::file {args} {
+    # The first rename onto log.tsv is the restore's; the second, the rollback.
+    if {[lindex $args 0] eq "rename" && [::woodpecker_test_file tail [lindex $args end]] eq "log.tsv"
+            && ![info exists ::renameFailed]} {
+        set ::renameFailed 1
+        error "file locked"
+    }
+    uplevel 1 [list ::woodpecker_test_file {*}$args]
+}
+check "a failed restore reports the error" {[catch { ::woodpecker::restoreRing $rt [expr {$r0 + 86400}] }]}
+rename ::file {}
+rename ::woodpecker_test_file ::file
+unset -nocomplain ::renameFailed
+checkEq "... and leaves the set's files as they were" [lsort [glob -tails -directory $rt *]] $before
+lassign [::woodpecker::readLog $rt] xs
+checkEq "... with the current log in place" [lmap x $xs { dict get $x ex }] 6
 file delete -force $rt
 
 file delete -force $tmp

@@ -913,6 +913,8 @@ proc ::woodpecker::ui::resetApply {} {
         return
     }
     destroy $d
+    # An open inner circle dialog holds a plan made from the log being put aside.
+    destroy .woodpeckerCircle
     if {[catch { ::woodpecker::resetLog $reset(dir) [clock seconds] $reset(days) $reset(setDays) } err]} {
         tk_messageBox -icon error -parent .woodpeckerWin -message $err
     }
@@ -930,6 +932,7 @@ proc ::woodpecker::ui::restoreStats {} {
     if {[llength $xs]} { append msg "\n\n" [T WoodpeckerRestoreSwap [llength $xs]] }
     if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
             -message $msg] ne "yes"} { return }
+    destroy .woodpeckerCircle
     if {[catch { ::woodpecker::restoreRing $dir [clock seconds] } err]} {
         tk_messageBox -icon error -parent .woodpeckerWin -message $err
     }
