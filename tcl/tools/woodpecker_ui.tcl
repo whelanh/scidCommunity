@@ -1891,6 +1891,8 @@ proc ::woodpecker::ui::train {{dir ""}} {
         if {[tk_messageBox -icon question -type yesno -parent $w -title [tr WoodpeckerTitle] \
                 -message [T WoodpeckerRestAsk [dict get $dp rest] [dict get $dp cycle]]] ne "yes"} { return }
     }
+    # An open inner circle dialog holds a plan made before this session's moves.
+    destroy .woodpeckerCircle
     # The whole main window for the session: board and panel, nothing else.
     set focused [enterFocus]
     set xs [dict get $dp xs]
