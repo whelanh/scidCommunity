@@ -32,7 +32,10 @@
 #include <vector>
 
 class Progress;
-class scidBaseT;
+// Must use the same class key as the definition (struct scidBaseT in
+// scidbase.h): MSVC includes it in the mangled name, so "class" here makes
+// boardSearch() an unresolved symbol on Windows.
+struct scidBaseT;
 
 /// Criteria used to search a position.
 struct BoardSearchOptions {
