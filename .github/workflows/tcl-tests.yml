@@ -323,6 +323,13 @@ jobs:
       - name: Help text link colours
         run: xvfb-run -a wish tests/tcl/htext_link_colors.tcl
 
+      # A help page named <button tb_review_threat>, an icon that exists only as
+      # ::icon::tb_review_threat: the error ended "What's the threat?" at that
+      # tag. A bare icon name now falls back to ::icon::, and a name that exists
+      # nowhere no longer ends the page.
+      - name: Help text icons
+        run: xvfb-run -a wish tests/tcl/htext_icons.tcl
+
       # An old layout naming .analysisWin1 must draw nothing now that the
       # Analysis window has no restore door (#436 item 3).
       - name: Window layout

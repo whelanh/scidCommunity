@@ -166,21 +166,20 @@ foreach spec $HELP_FILES {
     }
 
     # #437 §8 retired the script-driven batch annotator: no page may document
-    # the proc, in any language. The English BatchAnnotate page stays - it is
-    # the target of the Annotating intros' links - but it now documents the Game
-    # List batch, which is live; only the Polish page documented the dead dialog
-    # and only it was deleted (deletion-only translation policy).
+    # the proc, in any language. The BatchAnnotate page itself stays: it is the
+    # target of the Annotating intros' links, and it documents the Game List
+    # batch, which is live. A translation may carry its own copy of that page
+    # (the old Polish page documented the dead dialog and was deleted; a
+    # translation of the live page is welcome). What a copy must not be is the
+    # dead dialog again, and the check above is what catches that; this one adds
+    # the live page's defining fact, that what it writes follows Review Settings
+    # and the batch has no checkboxes of its own.
     check "$label: no page documents $RETIRED_PROC" \
         [expr {[string first $RETIRED_PROC $all] < 0}]
-    if {$prefix ne ""} {
-        check "$label: keeps no BatchAnnotate page of its own" \
-            [expr {![hasPage $h ${prefix}BatchAnnotate]}]
-        # The links from other translated pages stay: the viewer falls back to
-        # the English page for a topic the translation does not carry. The index
-        # bullet for the deleted page is another matter - it named the dialog.
-        check "$label: the index links to no BatchAnnotate page of its own" \
-            [expr {[string first "<a BatchAnnotate>" \
-                [pageText $h ${prefix}Index]] < 0}]
+    if {$prefix ne "" && [hasPage $h ${prefix}BatchAnnotate]} {
+        check "$label: its BatchAnnotate page describes the live batch (links Review Settings)" \
+            [expr {[string first "<a ReviewSettings>" \
+                [pageText $h ${prefix}BatchAnnotate]] >= 0}]
     }
 
     # Every page has a title and every title has a page, in this file: the
