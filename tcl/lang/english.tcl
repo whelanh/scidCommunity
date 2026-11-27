@@ -584,6 +584,47 @@ translate E WoodpeckerFileHelp {Each game that starts from a set-up position bec
 translate E WoodpeckerDays1 {First cycle (days)}
 translate E WoodpeckerRestDays {Rest between cycles (days)}
 translate E WoodpeckerDaysHelp {Each later cycle gets half the days of the previous one: the aim is to halve the solving time every cycle.}
+translate E WoodpeckerLoad {About %d exercises a day for %d days.}
+translate E WoodpeckerLoadOneDay {All %d exercises in one day.}
+translate E WoodpeckerLoadLeft {About %d exercises a day for the %d days left.}
+translate E WoodpeckerCircle {Inner circle...}
+translate E WoodpeckerCircleTitle {Inner circle}
+translate E WoodpeckerCircleIntro {Not enough time for the whole set? Keep only its first exercises: they become your cycle, to repeat as often as you like, with the usual rest days and statistics. Nothing is deleted: the other exercises wait until you decide what to do with them.}
+translate E WoodpeckerCircleSize {Exercises in the circle}
+translate E WoodpeckerCircleOf {of %d}
+translate E WoodpeckerCircleDaysLeft {Days left in cycle %d}
+translate E WoodpeckerCircleDaysNext {Days for cycle %d}
+translate E WoodpeckerCircleRest {The other %d exercises:}
+translate E WoodpeckerCircleKeep {Keep them locked in this set}
+translate E WoodpeckerCircleMove {Move them to a new set now}
+translate E WoodpeckerCircleGive {Give them back to the included puzzles}
+translate E WoodpeckerCircleKeepHelp {Recommended. They stay in the set with their ! and !! and are left out of the cycles. Open them later with Inner circle...: they then come after the circle.}
+translate E WoodpeckerCircleMoveHelp {They become a set of their own, trained on its own schedule; this set keeps only the circle.}
+translate E WoodpeckerCircleGiveHelp {They leave this set for good, and a new set can draw them again. Your statistics on them stay.}
+translate E WoodpeckerCircleOpenNow {This cycle finishes the circle, then goes on with the %d opened exercises. Every later cycle keeps that order: the circle first, then the others.}
+translate E WoodpeckerCircleOpenNext {From cycle %d every cycle has all %d exercises: the circle first, then the opened ones.}
+translate E WoodpeckerCircleNewName {Name of the new set}
+translate E WoodpeckerCircleStart {Start the circle}
+translate E WoodpeckerCircleState {This set trains an inner circle: the first %d exercises. The other %d are locked. What should happen to them?}
+translate E WoodpeckerCircleOpenHere {Open them in this set, after the circle}
+translate E WoodpeckerCircleOpenMove {Move them to a new set}
+translate E WoodpeckerCircleOpenGive {Give them back to the included puzzles}
+translate E WoodpeckerCircleOpen {Open}
+translate E WoodpeckerCircleGiveAsk {Give %d exercises back to the included puzzles? They leave this set for good (your statistics stay), and a new set can draw them again.}
+translate E WoodpeckerCirclePart {%s, part 2}
+translate E WoodpeckerCircleNote {Inner circle: you train the first %d exercises; %d more are locked (Inner circle... to open them).}
+translate E WoodpeckerCircleNone {This cycle has too few exercises for an inner circle.}
+translate E WoodpeckerCircleMoved {%d exercises moved to the new set "%s".}
+translate E WoodpeckerDanger {Danger zone}
+translate E WoodpeckerReset {Reset statistics...}
+translate E WoodpeckerResetTitle {Reset statistics}
+translate E WoodpeckerResetAsk {Start "%s" again from cycle 1, as if it were new?
+
+Your statistics so far (%d exercises played) are archived in the set's folder, not deleted: "Restore statistics" brings them back. The exercises and their ! and !! stay as they are. An inner circle is removed, so the cycle is the whole set again.}
+translate E WoodpeckerResetDo {Reset}
+translate E WoodpeckerRestore {Restore statistics of %s...}
+translate E WoodpeckerRestoreAsk {Bring back the statistics put aside on %s?}
+translate E WoodpeckerRestoreSwap {The current ones (%d exercises played) are put aside in their place, so you can switch back.}
 translate E WoodpeckerCreate {Create}
 translate E WoodpeckerBadNumber {Not a valid number: %s}
 translate E WoodpeckerNoDifficulty {Choose at least one difficulty and a number of exercises.}

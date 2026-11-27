@@ -552,6 +552,47 @@ translate I WoodpeckerFileHelp {Ogni partita che parte da una posizione impostat
 translate I WoodpeckerDays1 {Primo ciclo (giorni)}
 translate I WoodpeckerRestDays {Riposo tra i cicli (giorni)}
 translate I WoodpeckerDaysHelp {Ogni ciclo successivo ha metà dei giorni del precedente: l'obiettivo è dimezzare il tempo di soluzione a ogni ciclo.}
+translate I WoodpeckerLoad {Circa %d esercizi al giorno per %d giorni.}
+translate I WoodpeckerLoadOneDay {Tutti i %d esercizi in un giorno.}
+translate I WoodpeckerLoadLeft {Circa %d esercizi al giorno per i %d giorni rimasti.}
+translate I WoodpeckerCircle {Cerchio interno...}
+translate I WoodpeckerCircleTitle {Cerchio interno}
+translate I WoodpeckerCircleIntro {Non hai tempo per tutto il set? Tieni solo i suoi primi esercizi: diventano il tuo ciclo, da ripetere quante volte vuoi, con i soliti giorni di riposo e le statistiche. Non si cancella nulla: gli altri esercizi aspettano finché non decidi cosa farne.}
+translate I WoodpeckerCircleSize {Esercizi nel cerchio}
+translate I WoodpeckerCircleOf {su %d}
+translate I WoodpeckerCircleDaysLeft {Giorni rimasti nel ciclo %d}
+translate I WoodpeckerCircleDaysNext {Giorni per il ciclo %d}
+translate I WoodpeckerCircleRest {Gli altri %d esercizi:}
+translate I WoodpeckerCircleKeep {Tienili bloccati in questo set}
+translate I WoodpeckerCircleMove {Spostali subito in un nuovo set}
+translate I WoodpeckerCircleGive {Restituiscili ai puzzle inclusi}
+translate I WoodpeckerCircleKeepHelp {Consigliato. Restano nel set con i loro ! e !! e sono esclusi dai cicli. Aprili più tardi con Cerchio interno...: verranno dopo il cerchio.}
+translate I WoodpeckerCircleMoveHelp {Diventano un set a sé, con il suo calendario; questo set tiene solo il cerchio.}
+translate I WoodpeckerCircleGiveHelp {Lasciano questo set per sempre e un nuovo set potrà ripescarli. Le tue statistiche su di essi restano.}
+translate I WoodpeckerCircleOpenNow {Questo ciclo finisce il cerchio, poi prosegue con i %d esercizi aperti. Ogni ciclo successivo mantiene questo ordine: prima il cerchio, poi gli altri.}
+translate I WoodpeckerCircleOpenNext {Dal ciclo %d ogni ciclo ha tutti i %d esercizi: prima il cerchio, poi quelli aperti.}
+translate I WoodpeckerCircleNewName {Nome del nuovo set}
+translate I WoodpeckerCircleStart {Avvia il cerchio}
+translate I WoodpeckerCircleState {Questo set allena un cerchio interno: i primi %d esercizi. Gli altri %d sono bloccati. Che cosa vuoi farne?}
+translate I WoodpeckerCircleOpenHere {Aprili in questo set, dopo il cerchio}
+translate I WoodpeckerCircleOpenMove {Spostali in un nuovo set}
+translate I WoodpeckerCircleOpenGive {Restituiscili ai puzzle inclusi}
+translate I WoodpeckerCircleOpen {Apri}
+translate I WoodpeckerCircleGiveAsk {Restituire %d esercizi ai puzzle inclusi? Lasciano questo set per sempre (le tue statistiche restano) e un nuovo set potrà ripescarli.}
+translate I WoodpeckerCirclePart {%s, parte 2}
+translate I WoodpeckerCircleNote {Cerchio interno: alleni i primi %d esercizi; altri %d sono bloccati (Cerchio interno... per aprirli).}
+translate I WoodpeckerCircleNone {Questo ciclo ha troppo pochi esercizi per un cerchio interno.}
+translate I WoodpeckerCircleMoved {%d esercizi spostati nel nuovo set "%s".}
+translate I WoodpeckerDanger {Zona pericolosa}
+translate I WoodpeckerReset {Azzera statistiche...}
+translate I WoodpeckerResetTitle {Azzera statistiche}
+translate I WoodpeckerResetAsk {Ricominciare "%s" dal ciclo 1, come se fosse nuovo?
+
+Le tue statistiche finora (%d esercizi giocati) vengono archiviate nella cartella del set, non cancellate: "Ripristina statistiche" le riporta. Gli esercizi e i loro ! e !! restano come sono. Un cerchio interno viene tolto, quindi il ciclo torna a essere l'intero set.}
+translate I WoodpeckerResetDo {Azzera}
+translate I WoodpeckerRestore {Ripristina statistiche del %s...}
+translate I WoodpeckerRestoreAsk {Riportare le statistiche messe da parte il %s?}
+translate I WoodpeckerRestoreSwap {Quelle attuali (%d esercizi giocati) vengono messe da parte al loro posto, così puoi tornare indietro.}
 translate I WoodpeckerCreate {Crea}
 translate I WoodpeckerBadNumber {Numero non valido: %s}
 translate I WoodpeckerNoDifficulty {Scegli almeno una difficoltà e un numero di esercizi.}

@@ -139,6 +139,41 @@ dict for {ex e} $btable {
 check "at least one drawn puzzle was marked" $nagChecked
 sc_base switch $prev
 sc_base close $b
+
+# Inner circle (Decision 8): exercises 16-20 move to a set of their own,
+# 11-15 go back to the included puzzles.
+puts "inner circle: move and give back"
+set ndir [::woodpecker::set::splitOff $bdir {16 17 18 19 20} "Bundled, part 2"]
+set nrows [::woodpecker::readExercises $ndir]
+checkEq "the new set has the five exercises" [dict size $nrows] 5
+checkEq "renumbered from 1, in order" [dict get $nrows 1 puzzleId] [dict get $brows 16 puzzleId]
+checkEq "with their solutions" [dict get $nrows 5 solution] [dict get $brows 20 solution]
+set nmeta [::woodpecker::readMeta $ndir]
+checkEq "the settings follow, under the new name" [list [dict get $nmeta name] [dict get $nmeta source] [dict get $nmeta days1]] \
+    {{Bundled, part 2} bundled 28}
+set ntable [::woodpecker::marksAt [::woodpecker::readMarks $ndir] 1]
+checkEq "the marks follow, with their source" [dict get $ntable 1] [dict get $btable 16]
+lassign [::woodpecker::set::openBase $ndir] nb nopened
+sc_base switch $nb
+checkEq "the database has the five games" [sc_base numGames $nb] 5
+sc_game load 5
+checkEq "game 5 is exercise 20's" [lindex [sc_game UCI_mainLine] 0] "position fen [dict get $brows 20 fen] moves"
+sc_base switch $prev
+sc_base close $nb
+checkEq "the original's base was closed again" [lsearch -exact [lmap x [sc_base list] { file rootname [sc_base filename $x] }] \
+    [::woodpecker::set::basePath $bdir]] -1
+::woodpecker::set::retire $bdir {16 17 18 19 20}
+::woodpecker::set::retire $bdir {11 12 13 14 15}
+checkEq "retired exercises as ranges" [dict get [::woodpecker::readMeta $bdir] retired] "11-20"
+set used [::woodpecker::set::usedIds]
+check "a moved puzzle is still used (by the new set)" [dict exists $used [dict get $brows 16 puzzleId]]
+check "a given-back puzzle is free again" [expr {![dict exists $used [dict get $brows 11 puzzleId]]}]
+check "the others stay used" [dict exists $used [dict get $brows 10 puzzleId]]
+set pr [::woodpecker::progress {} [lsort -integer [dict keys $brows]] 2026-11-23 {} [::woodpecker::set::retired [::woodpecker::readMeta $bdir]]]
+checkEq "the set's cycle is the ten left" [dict get $pr n] 10
+check "an unknown exercise is refused before anything is written" [expr {[catch {::woodpecker::set::splitOff $bdir {1 99} "Broken"}] \
+    && ![llength [glob -nocomplain -directory [::woodpecker::set::rootDir] *Broken*]]}]
+file delete -force $ndir
 file delete -force $bdir
 
 # ------------------------------------------------------------------ PGN book --

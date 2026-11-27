@@ -250,7 +250,8 @@ check "the pass's id is kept for the pass" [::reviewdriver::reservedId 20]
 checkEq "and asking is the id the pass really uses" \
     [::reviewdriver::reservedId $::reviewdriver::ENGINE_ID] 1
 check "a window id is not reserved" [expr {![::reviewdriver::reservedId 1]}]
-check "nor is the next one up" [expr {![::reviewdriver::reservedId 21]}]
+check "the worker ids after it are kept too" [expr {[::reviewdriver::reservedId 21] && [::reviewdriver::reservedId 28]}]
+check "the next one up is not" [expr {![::reviewdriver::reservedId 29]}]
 feed InfoConfig {Threads 8 Hash 256 MultiPV 3}
 set opt [lsearch -inline $::sent {send 20 SetOptions*}]
 check "the pass asks for its own MultiPV" [string match {*MultiPV 3*} $opt]

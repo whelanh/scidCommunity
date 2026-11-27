@@ -17,7 +17,8 @@ Play > Woodpecker Method
    |                        the set's database, the token, the data folder
    +-- woodpecker_eval.tcl  grade a set: two passes on ::reviewdriver
    +-- woodpecker_core.tcl  pure Tcl: score, attempts, marks, schedule,
-                            record files, statistics, JSON, SAN<->UCI
+                            record files, statistics, JSON, SAN<->UCI,
+                            inner circle, reset
 ```
 
 ## Context
@@ -59,11 +60,13 @@ games that start from a FEN.
     2026-11-17-Standard 300/
         set.si5 set.sg5 set.sn5 one game per exercise: FEN = position to solve,
                                 main line = solution
-        set.tsv                 key <tab> value: name, source, days1, restDays
+        set.tsv                 key <tab> value: name, source, days1, restDays, retired
         exercises.tsv           ex game puzzleId rating nmoves fen solution lastMove
         marks.tsv               ver ex marks source       ("-" "!" "!!" per solver move)
         log.tsv                 X ts cycle session ex result found ms
                                 S ts cycle session start dur_ms
+                                C ts cycle order days1 from   (Decision 8)
+        ring-<date>.tsv         a log put aside by Reset statistics (Decision 9)
 ```
 
 The database makes a Lichess set and a book set the same thing, and lets the
@@ -398,6 +401,24 @@ a crisis and a long break is not a punishment:
 The status reaches the trainee as one sentence on the sets page and in the
 session.
 
+**The commitment, before the set exists.** The new-set dialog says what the
+plan asks every day in the first cycle (`::woodpecker::dailyLoad`, the base
+quota `ceil(n / days)`): *About 36 exercises a day for 28 days.* The later
+cycles are left out: their days halve, but by then the trainee is faster, so
+their nominal load (double, then four times) would overstate the commitment.
+For a PGN book the count is its games with a FEN tag; for a Scid database the
+line stays empty rather than open the database.
+
+*Not done:* an estimate of a session's duration. The Lichess puzzle database
+has no solving times (its columns are rating, deviation, popularity, plays,
+themes), and the engine-derived difficulty measures tried in Decision 3
+correlate weakly with human difficulty, so before the trainee's own history
+there is nothing to estimate from. From cycle 2 on, the target pace
+(the previous cycle's time halved) already is that estimate. A first-cycle
+estimate could come later from the trainee's own `log.tsv` across sets
+(median time per exercise by rating relative to theirs), once there are a
+few hundred exercises logged.
+
 ## Decision 7 — the session takes the main window
 
 A session must hide the solution and remove distractions. `enterFocus` saves the
@@ -434,7 +455,11 @@ click):
   the idea of a Lichess puzzle, where a wrong move is a failed puzzle, and it
   made `second` a third result that the score, the summary and the statistics
   all had to carry;
-- the opponent's reply plays at once; on the last move any mate is accepted
+- the opponent's reply plays at once, so the next move can be grabbed while
+  the reply is still moving. A move made by clicks is animated: the reply cuts
+  that animation short and only the reply slides, since waiting for it would
+  leave the opponent to move, and the board refusing the next piece, for
+  `animateDelay`. On the last move any mate is accepted
   (`::woodpecker::isMateMove`), as on Lichess;
 - the panel: result tile and session clock, pace (average per exercise against
   the target, the previous cycle's time halved), streak, points, days left,
@@ -462,6 +487,93 @@ Colours come from `::woodpecker::ui::color` and follow light and dark themes.
 The sets page shows each set's cycle, today's target and deadline as cards, and
 scrolls when the window is short.
 
+## Decision 8 — the inner circle: a cycle inside the cycle
+
+A set can turn out too long for the time there is: 1000 exercises with three
+weeks left. Deleting it throws away exercises that cannot always be fetched
+again (Lichess puzzles already graded, a book's positions); finishing it late
+defeats the schedule. **Inner circle...** narrows the cycle to the first *N*
+exercises of its order, to be repeated as many times as wanted, with the
+others locked in the set.
+
+- **At any point of a cycle.** With *y* exercises already done, the circle is
+  the first *N* (`::woodpecker::circlePlan`). If some of it is still to do,
+  the circle is the running cycle and the dialog asks the days left of it;
+  if *y* already covers it, the running cycle is complete and the circle
+  starts with the next one, whose days are asked instead. Exercises done
+  outside the circle stay in the log and the statistics; they no longer
+  count towards the cycle.
+- **The others.** Locked in the set (the default), moved to a new set right
+  away, or, for sets from the included puzzles only, given back to the pool,
+  so that a new set can draw them again. A Lichess or book set cannot give
+  them back: the puzzles or the grading would be lost.
+- **Opening them.** The same dialog then offers the same three ways out, at
+  any time. In the same set (`::woodpecker::openPlan`) they come after the
+  circle, and every later cycle keeps that order: the exercises the trainee
+  already knows first, then the new ones, so the familiar start of the set
+  does not move. During the circle the running cycle finishes the circle and
+  goes on with them, and the dialog asks the days left of it; during the rest
+  after a complete cycle they join the next one, whose days are asked, and the
+  halving starts again from there.
+
+**Storage.** The log gets a third kind of row, `C ts cycle order days1 from`:
+from cycle `cycle` on, a cycle is the exercises `order` (ranges in their
+order, `501-1000 1-500`; a `*` stands for the set's other exercises, so alone
+it is the whole set), and cycle `from` lasts
+`days1`, halved after it (`::woodpecker::scopeAt`, `scopeDays`). The latest
+row wins, so the latest decision applies. Being in the log, a scope goes with
+it on a reset and comes back with it on a restore (Decision 9). Exercises that
+left the set are listed in `set.tsv` as `retired`; they stay in
+`exercises.tsv`, so the log rows on them keep their meaning. Older versions of
+Scid skip the `C` rows. A moved set gets the games copied from the set's
+database (a book keeps its comments and variations), the newest marks of each
+exercise with their source, and the set's settings; a failure removes the
+half-built set before the original is touched.
+
+`::woodpecker::progress` follows the cycle's order: the next exercise is the
+first of the order not done in the cycle, and only the cycle's exercises
+count as done. Without `C` rows it gives what it gave before. The session
+numbers an exercise as the how-many-th of the cycle (done + 1), which keeps
+counting up when exercises are opened mid-cycle.
+
+**With Open Puzzle Database (Decision 1).** A scope names exercise numbers,
+and those never change when the set's database is edited. A deleted puzzle
+leaves its circle. An added one stays outside an inner circle, locked with the
+others; the row that opens every exercise ends in `*`, so once all are open an
+added puzzle joins at the end of the order. A circle whose puzzles were all
+deleted gives way to the set's other exercises, since an empty cycle could
+never be completed. A new exercise never takes a number that a scope row or a
+ring still names.
+
+*Rejected:* letting the circle be any subset, chosen exercise by exercise. The
+method's order goes from easy to hard; a prefix keeps it, and is one number to
+choose. Also rejected: putting the opened exercises first from the next cycle
+on, as first designed. Trying it, the familiar exercises moving to the middle
+of the cycle was confusing.
+
+**The dialogs** explain each choice in a grey line under it (what happens to
+the exercises, when they come back), since an inner circle is not a common
+idea in a trainer, while the choices themselves stay short.
+
+## Decision 9 — reset statistics, and restore them
+
+A curated set is worth solving again months later. **Reset statistics...**
+starts it from cycle 1 with the same exercises and marks; the dialog asks the
+new first cycle's days, with the daily load. The log is never deleted: it is
+renamed `ring-<date>.tsv` (`-2`, `-3` for more the same day), as a tree adds a
+growth ring (`::woodpecker::resetLog`, `archiveLog`). New days that differ
+from the set's own are a `C` row for the whole set, so `set.tsv` keeps the
+days the old rings were planned with.
+
+**Restore statistics of *date*...** appears when the set has a ring, and swaps
+the newest ring with the current log (`restoreRing`): the current log, if
+anything was played, becomes a ring in its turn, so a second restore undoes
+the first. Only the newest ring is offered; a browser of every ring would be
+more interface for a rare need, and older rings stay in the folder. A log with
+nothing played is not kept as a ring.
+
+Reset, Restore and Delete form a *Danger zone* under the everyday buttons.
+
 ## Changes outside the trainer
 
 | File | Change |
@@ -479,12 +591,13 @@ scrolls when the window is short.
 
 | Harness | Runs | Covers |
 | --- | --- | --- |
-| `tests/tcl/woodpecker_core.tcl` | `tclsh`, CI | score, attempts, marks, schedule, record files, statistics, JSON, SAN↔UCI, presets, no-token bands |
+| `tests/tcl/woodpecker_core.tcl` | `tclsh`, CI | score, attempts, marks, schedule, daily load, record files, statistics, JSON, SAN↔UCI, presets, no-token bands, inner circle (scopes, ranges, opening), reset and restore |
 | `tests/tcl/woodpecker_eval.tcl` | `tclsh`, CI | marks from the two passes' results |
 | `tests/tcl/woodpecker_set.tcl` | `tclsh`, CI | data folder, moving sets, README, token file; bundled pool: FlipB against the FEN, SAN→UCI and last move against `manifest.csv`, one mark per solver move for every puzzle in `marks.tsv`, shares to counts, bands, widening, clipping at the top, no repeats across sets, shortfall |
 | `tests/tcl/lichess_puzzles.tcl` | `tclsh`, CI | the Difficulty menu, colour filter and User-Agent against a fake Lichess |
-| `tests/woodpecker_app.tcl` | in the built app | sets from the bundled puzzles (with their marks as the first version and as NAGs), from Lichess and from PGN, a real Stockfish evaluation |
-| `tests/woodpecker_gui.sh` (+ `.tcl`) | GUI, Xvfb | real sessions: focus layout, hidden solution, abandon, restored layout, card clicks and arrows, auto-pause and review of a solved line, idle pause on/off, scrolling sets page; `WOODPECKER_GUI_UNDOCKED=1` repeats with a floating window |
+| `tests/woodpecker_app.tcl` | in the built app | sets from the bundled puzzles (with their marks as the first version and as NAGs), from Lichess and from PGN, exercises moved to a new set or given back, a real Stockfish evaluation |
+| `tests/woodpecker_eval_parallel.tcl` | in the built app, Stockfish (`WP_ENGINE`) | the same set graded on 1, 2, 4 and 7 engines: time, and marks that differ from one engine's (fails above 20%) |
+| `tests/woodpecker_gui.sh` (+ `.tcl`) | GUI, Xvfb | real sessions: focus layout, hidden solution, abandon, restored layout, card clicks and arrows, auto-pause and review of a solved line, idle pause on/off, scrolling sets page, inner circle, reset and restore next to database edits; `WOODPECKER_GUI_UNDOCKED=1` repeats with a floating window |
 
 `scripts/woodpecker/` holds the calibration probe (needs Stockfish and network
 access, not run in CI); its README has the commands.

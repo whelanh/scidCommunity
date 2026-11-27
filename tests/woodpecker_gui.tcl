@@ -7,7 +7,8 @@
 #
 #   exercise 1: right, wrong                -> failed (one attempt), solution on the board
 #   exercise 2: wrong                       -> failed, solution on the board
-#   exercise 3: right, right                -> solved cleanly
+#   exercise 3: right, right                -> solved cleanly (dragged moves,
+#                                              the second during the reply)
 #
 # Run it with tests/woodpecker_gui.sh, which gives it a clean profile and reads
 # the result file it writes ($::env(WOODPECKER_GUI_RESULT)).
@@ -163,7 +164,9 @@ proc ::wpgui::run {} {
 
     # Exercise 1: e6e1 (right), reply, then a wrong move: one attempt, so it fails.
     addMoveUCI e6e1
-    wait 600
+    wait 40
+    checkEq "after an animated move (clicks) the reply is played at once too" $::woodpecker::ui::run(wait) ask
+    wait 560
     checkEq "the opponent replied by itself" [sc_game info previousMoveUCI] g1f2
     shot session
     check "the board is not moved back by the arrows" \
@@ -234,11 +237,15 @@ proc ::wpgui::run {} {
     ::woodpecker::ui::keyContinue
     wait 300
 
-    # Exercise 3: h7g8, reply, c2h7 mate.
+    # Exercise 3: h7g8, reply, c2h7 mate. Both moves dragged (no animation of
+    # their own), the second one while the reply is still moving: a trainee
+    # who knows the line must not have to wait for the animation.
     checkEq "exercise 3 is on the board" [sc_pos fen] [dict get [::woodpecker::readExercises $dir] 3 fen]
-    addMoveUCI h7g8
-    wait 600
-    addMoveUCI c2h7
+    addMoveUCI h7g8 ""
+    wait 40
+    checkEq "after a dragged move the reply is played at once" $::woodpecker::ui::run(wait) ask
+    check "and the next move can be made while it animates" [::woodpecker::ui::animating]
+    addMoveUCI c2h7 ""
     wait 1800
     checkEq "the cycle is over: the summary is shown" [winfo ismapped .woodpeckerWin.sum] 1
     check "the board is free again" [expr {![info exists ::playMode]}]
@@ -301,6 +308,17 @@ proc ::wpgui::run {} {
     checkEq "and so is the open game" [sc_pos fen] $openFen
     ::woodpecker::ui::open
     wait 300
+
+    # Leaving with an exercise still on the board: the board's refresh queued
+    # by putting the game back must not run on the half-rebuilt main board.
+    set errs [llength $::wpgui::errors]
+    ::woodpecker::ui::train $dir2
+    wait 500
+    ::woodpecker::ui::exitSession
+    wait 800
+    checkEq "leaving mid-exercise raises no background error" [lrange $::wpgui::errors $errs end] {}
+    checkEq "the board's toolbar follows the game put back" [.main.board.bar.leavevar cget -state] \
+        [expr {[sc_pos isAt start] ? "disabled" : "normal"}]
 
     # Options > Resources: the data folder row, and a folder that holds no set.
     ::preferences::resources
@@ -437,11 +455,12 @@ proc ::wpgui::run {} {
     ::woodpecker::logExercise $dir3 $t 1 1 2 failed 0 1000
     set info [::woodpecker::ui::dayPlan $dir3]
     checkEq "the deleted puzzle does not count" [dict get $info done] 2
-    checkEq "the added puzzle is next" [list [dict get $info next] [dict get $info n]] {3 3}
+    checkEq "the added puzzle is next" \
+        [list [dict get $info next] [dict get $info pos] [dict get $info n]] {4 3 3}
     ::woodpecker::ui::train
     wait 500
     checkEq "the session skips the deleted number" \
-        [list $::woodpecker::ui::run(next) $::woodpecker::ui::run(ex) $::woodpecker::ui::run(n)] {3 4 3}
+        [list $::woodpecker::ui::run(next) $::woodpecker::ui::run(ex) $::woodpecker::ui::run(n)] {4 4 3}
     checkEq "and shows its position, not its number" \
         $::woodpecker::ui::txt(title) [::woodpecker::ui::T WoodpeckerExercise 3 3]
     addMoveUCI e7e5
@@ -527,6 +546,67 @@ proc ::wpgui::run {} {
     .woodpeckerWin.home.opts.noIdlePause invoke
     checkEq "both options can be turned off again" \
         [list $::woodpecker::ui::autoPause $::woodpecker::ui::noIdlePause] {0 0}
+
+    # The inner circle with Open Puzzle Database: a puzzle deleted while the
+    # dialog is open must not reach the circle it writes.
+    set dir5 [::woodpecker::set::newDir "GUI test five"]
+    ::woodpecker::set::buildFromExercises $dir5 \
+        [::woodpecker::set::newMeta "GUI test five" lichess 7 1 [clock seconds]] \
+        [concat $exs [list $even]]
+    ::woodpecker::ui::refresh
+    ::woodpecker::ui::selectSet $dir5
+    ::woodpecker::ui::circleDialog
+    wait 300
+    lassign [::woodpecker::set::openBase $dir5] b5
+    sc_base gameflag $b5 2 set D
+    ::notify::DatabaseModified $b5
+    set ::woodpecker::ui::circle(size) 2
+    ::woodpecker::ui::circleApply
+    wait 300
+    check "a stale circle dialog is opened again" [winfo exists .woodpeckerCircle]
+    checkEq "and nothing was written" [lindex [::woodpecker::readLog $dir5] 2] {}
+    set ::woodpecker::ui::circle(size) 2
+    ::woodpecker::ui::circleApply
+    wait 300
+    set info [::woodpecker::ui::dayPlan $dir5]
+    checkEq "the circle skips the deleted number" \
+        [list [dict get $info order] [dict get $info locked]] {{1 3} 4}
+    ::woodpecker::ui::train
+    wait 500
+    checkEq "the session counts the circle only" $::woodpecker::ui::txt(title) \
+        [::woodpecker::ui::T WoodpeckerExercise 1 2]
+    ::woodpecker::ui::exitSession
+    wait 800
+    ::woodpecker::ui::selectSet $dir5
+    ::woodpecker::ui::circleDialog
+    wait 300
+    checkEq "with exercises locked the dialog offers to open them" $::woodpecker::ui::circle(mode) open
+    ::woodpecker::ui::circleApply
+    wait 300
+    set info [::woodpecker::ui::dayPlan $dir5]
+    checkEq "opened ones come after the circle" \
+        [list [dict get $info order] [dict get $info locked]] {{1 3 4} {}}
+    checkEq "and later additions would follow" \
+        [dict get [lindex [lindex [::woodpecker::readLog $dir5] 2] end] order] "1 3-4 *"
+    # Only a log with an exercise played is worth a ring.
+    ::woodpecker::logExercise $dir5 [clock seconds] 1 1 1 clean 11 1000
+    ::woodpecker::ui::resetDialog
+    wait 300
+    checkEq "reset counts the puzzles left" $::woodpecker::ui::reset(n) 3
+    set ::woodpecker::ui::reset(days) 5
+    ::woodpecker::ui::resetApply
+    wait 300
+    checkEq "reset puts the log aside" [llength [::woodpecker::rings $dir5]] 1
+    check "and offers Restore" [winfo ismapped .woodpeckerWin.home.danger.restore]
+    rename ::tk_messageBox ::wpgui::messageBox
+    proc ::tk_messageBox {args} { return yes }
+    ::woodpecker::ui::restoreStats
+    rename ::tk_messageBox {}
+    rename ::wpgui::messageBox ::tk_messageBox
+    wait 300
+    set info [::woodpecker::ui::dayPlan $dir5]
+    checkEq "restore brings the circle's history back" \
+        [dict get [lindex [lindex [::woodpecker::readLog $dir5] 2] end] order] "1 3-4 *"
     finishTest
 }
 

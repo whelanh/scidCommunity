@@ -256,9 +256,15 @@ proc ::woodpecker::ui::build {} {
     ttk::button $h.b.new -text [tr WoodpeckerNew] -command ${v}::newDialog
     ttk::button $h.b.eval -text [tr WoodpeckerEvaluate] -command ${v}::evaluate
     ttk::button $h.b.stats -text [tr WoodpeckerStats] -command ${v}::stats
-    ttk::button $h.b.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
-    pack $h.b.train $h.b.db $h.b.new $h.b.eval $h.b.stats -side left -padx {0 6}
-    pack $h.b.del -side right
+    ttk::button $h.b.circle -text [tr WoodpeckerCircle] -command ${v}::circleDialog
+    pack $h.b.train $h.b.db $h.b.new $h.b.eval $h.b.stats $h.b.circle -side left -padx {0 6}
+    # What cannot be undone from the window, or only with Restore, apart.
+    set z [ttk::labelframe $h.danger -text [tr WoodpeckerDanger] -padding {8 4 8 6}]
+    ttk::button $z.reset -text [tr WoodpeckerReset] -command ${v}::resetDialog
+    ttk::button $z.restore -textvariable ${v}::txt(restore) -command ${v}::restoreStats
+    ttk::button $z.del -text [tr WoodpeckerDelete] -command ${v}::deleteSet
+    pack $z.reset $z.restore -side left -padx {0 6}
+    pack $z.del -side right
     grid $h.title -row 0 -column 0 -columnspan 2 -sticky w
     grid $h.sub -row 1 -column 0 -columnspan 2 -sticky w -pady {0 8}
     grid $h.sets -row 2 -column 0 -sticky nsew
@@ -267,6 +273,7 @@ proc ::woodpecker::ui::build {} {
     grid $h.info -row 4 -column 0 -columnspan 2 -sticky w -pady {6 10}
     grid $h.opts -row 5 -column 0 -columnspan 2 -sticky w -pady {0 8}
     grid $h.b -row 6 -column 0 -columnspan 2 -sticky ew
+    grid $h.danger -row 7 -column 0 -columnspan 2 -sticky ew -pady {14 0}
     grid rowconfigure $h 2 -weight 1
     grid columnconfigure $h 0 -weight 1
 
@@ -607,6 +614,11 @@ proc ::woodpecker::ui::leaveFocus {{reopen 1}} {
     variable w
     if {!$focus(active)} { return }
     set focus(relayout) 1
+    # Ending a session puts the user's game back, which queues the board's
+    # refresh for when Tk is idle. The restore below rebuilds the main board
+    # and lets Tk idle half-way, before the board's toolbar exists, so the
+    # refresh must run now, on the board that is still whole.
+    update idletasks
     catch { ::docking::layout_restore woodpecker_user }
     set focus(relayout) 0
     set focus(active) 0
@@ -647,13 +659,14 @@ proc ::woodpecker::ui::refresh {} {
         lassign $s dir meta
         syncQuiet $dir
         set exs [::woodpecker::readExercises $dir]
-        set order [lsort -integer [dict keys $exs]]
-        set n [llength $order]
-        lassign [::woodpecker::readLog $dir] xs ss
-        set pr [::woodpecker::progress $xs $order $today]
+        lassign [::woodpecker::readLog $dir] xs ss cs
+        set pr [::woodpecker::progress $xs [lsort -integer [dict keys $exs]] $today $cs \
+            [::woodpecker::set::retired $meta]]
+        set n [dict get $pr n]
+        set locked [llength [dict get $pr locked]]
         set last [expr {[llength $xs] ? [::woodpecker::today [dict get [lindex $xs end] ts]] : "-"}]
-        $t insert {} end -id $dir -values [list [dict get $meta name] $n [dict get $pr cycle] \
-            "[dict get $pr done]/$n" $last]
+        $t insert {} end -id $dir -values [list [dict get $meta name] \
+            [expr {$locked ? "$n (+$locked)" : $n}] [dict get $pr cycle] "[dict get $pr done]/$n" $last]
     }
     if {[llength $keep] && [$t exists [lindex $keep 0]]} {
         $t selection set [lindex $keep 0]
@@ -723,10 +736,12 @@ proc ::woodpecker::ui::selected {} {
     if {$dir eq ""} {
         foreach k {hCycle hToday hDeadline} { set txt($k.now) "–" }
         set txt(info) [tr WoodpeckerNoSets]
+        restoreShow ""
         return
     }
     set info [dayPlan $dir]
     set notes [dict get $info notes]
+    restoreShow $dir
     set st [::woodpecker::set::markStatus $dir]
     set marked [expr {[dict get $st annotated] + [dict get $st reviewed]}]
     if {$marked < [dict get $st total]} {
@@ -751,12 +766,12 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
     set today [::woodpecker::today $now]
     syncQuiet $dir
     set meta [::woodpecker::readMeta $dir]
-    set exs [::woodpecker::readExercises $dir]
-    set order [lsort -integer [dict keys $exs]]
-    set n [llength $order]
-    lassign [::woodpecker::readLog $dir] xs ss
-    set pr [::woodpecker::progress $xs $order $today]
+    set all [lsort -integer [dict keys [::woodpecker::readExercises $dir]]]
+    set total [llength $all]
+    lassign [::woodpecker::readLog $dir] xs ss cs
     set days1 [expr {[dict exists $meta days1] ? [dict get $meta days1] : 28}]
+    set retired [::woodpecker::set::retired $meta]
+    set pr [::woodpecker::progress $xs $all $today $cs $retired $days1]
     set restDays [expr {[dict exists $meta restDays] ? [dict get $meta restDays] : 1}]
     set cycle [dict get $pr cycle]
     set lines {}
@@ -765,13 +780,19 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
     if {[dict get $pr complete]} {
         set rest [::woodpecker::nextCycleDay [dict get $pr end] $restDays]
         set cycle [expr {$cycle + 1}]
-        set pr [dict create cycle $cycle next 1 done 0 doneBefore 0 complete 0 start "" end ""]
+        # The next cycle's own scope: exercises unlocked for it come first.
+        set scope [::woodpecker::scopeAt $cs $cycle $all $retired $days1]
+        set order [dict get $scope order]
+        set pr [dict merge $scope [dict create cycle $cycle next [lindex $order 0] pos 1 done 0 \
+            doneBefore 0 complete 0 start "" end "" n [llength $order] \
+            days [::woodpecker::scopeDays $scope $cycle]]]
         lappend lines [T WoodpeckerCycleOver [expr {$cycle - 1}] $rest]
         lappend notes [lindex $lines end]
     }
+    set n [dict get $pr n]
     set start [expr {[dict get $pr start] ne "" ? [dict get $pr start] : $today}]
     if {$rest ne "" && $today < $rest} { set start $rest }
-    set days [::woodpecker::cycleDays $cycle $days1]
+    set days [dict get $pr days]
     set plan [::woodpecker::plan $n $days $start [dict get $pr doneBefore] $today]
     set doneToday [expr {[dict get $pr done] - [dict get $pr doneBefore]}]
     lappend lines [T WoodpeckerCycleLine $cycle [dict get $pr done] $n $days [dict get $plan deadline]]
@@ -782,9 +803,12 @@ proc ::woodpecker::ui::dayPlan {dir {now ""}} {
         over_stretch { lappend lines [T WoodpeckerOverStretch [dict get $plan deadline] [dict get $plan quota]] }
     }
     lappend notes {*}[lrange $lines [expr {[llength $notes] + 2}] end]
-    return [dict merge $plan [dict create cycle $cycle next [dict get $pr next] n $n \
+    set locked [llength [dict get $pr locked]]
+    if {$locked} { lappend notes [T WoodpeckerCircleNote $n $locked] }
+    return [dict merge $plan [dict create cycle $cycle next [dict get $pr next] pos [dict get $pr pos] \
+        n $n total $total all $all order [dict get $pr order] locked [dict get $pr locked] \
         doneToday $doneToday start $start rest $rest lines $lines notes $notes meta $meta \
-        done [dict get $pr done] days $days]]
+        done [dict get $pr done] days $days xs $xs cs $cs retired $retired]]
 }
 
 proc ::woodpecker::ui::deleteSet {} {
@@ -812,6 +836,386 @@ proc ::woodpecker::ui::deleteSet {} {
     if {$err || $blocked} { return }
     file delete -force $dir
     refresh
+}
+
+################################################################################
+# Reset statistics (Decision 9): the log is put aside as a ring and the set
+# starts again from cycle 1; Restore brings the newest ring back.
+
+# The Restore button, only when the set has a ring.
+proc ::woodpecker::ui::restoreShow {dir} {
+    variable w
+    variable txt
+    set b $w.home.danger.restore
+    if {![winfo exists $b]} { return }
+    set rings [expr {$dir eq "" ? {} : [::woodpecker::rings $dir]}]
+    if {[llength $rings]} {
+        set txt(restore) [T WoodpeckerRestore [fmtDay [lindex $rings 0 1]]]
+        if {![winfo ismapped $b]} { pack $b -side left -padx {0 6} -after $w.home.danger.reset }
+    } else {
+        pack forget $b
+    }
+}
+
+proc ::woodpecker::ui::fmtDay {ymd} {
+    return [clock format [clock scan $ymd -format %Y-%m-%d] -format "%d %b %Y"]
+}
+
+proc ::woodpecker::ui::resetDialog {} {
+    variable run
+    variable reset
+    set dir [current]
+    if {$dir eq "" || $run(on)} { return }
+    set d .woodpeckerReset
+    if {[winfo exists $d]} { raise $d; return }
+    set dp [dayPlan $dir]
+    set meta [dict get $dp meta]
+    array unset reset
+    array set reset [list dir $dir days [expr {[dict exists $meta days1] ? [dict get $meta days1] : 28}] \
+        n [llength [dict get [::woodpecker::scopeAt {} 1 [dict get $dp all] [dict get $dp retired]] order]]]
+    set reset(setDays) $reset(days)
+    win::createDialog $d
+    ::setTitle $d [tr WoodpeckerResetTitle]
+    fonts
+    set v ::woodpecker::ui
+    set f [ttk::frame $d.f -padding 8]
+    pack $f -fill both -expand 1
+    set logged [llength [dict get $dp xs]]
+    ttk::label $f.m -text [T WoodpeckerResetAsk [dict get $meta name] $logged] -wraplength 440 -justify left
+    ttk::label $f.ldays -text [tr WoodpeckerDays1]
+    ttk::spinbox $f.days -from 1 -to 365 -width 6 -textvariable ${v}::reset(days)
+    ttk::label $f.load -textvariable ${v}::reset(load) -wraplength 440 -justify left
+    grid $f.m - -sticky w -pady {0 8}
+    grid $f.ldays $f.days -sticky w -pady 2
+    grid configure $f.ldays -padx {0 10}
+    grid $f.load - -sticky w -pady {2 4}
+    ttk::frame $d.b -padding {10 6 10 10}
+    ttk::button $d.b.ok -text [tr WoodpeckerResetDo] -command ${v}::resetApply
+    ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d] -default active
+    pack $d.b.cancel $d.b.ok -side right -padx 4
+    pack $d.b -fill x
+    resetLoad
+    trace add variable ${v}::reset(days) write ${v}::resetLoad
+    bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::reset(days) write ${v}::resetLoad }"
+    focus $d.b.cancel
+}
+
+proc ::woodpecker::ui::resetLoad {args} {
+    variable reset
+    set reset(load) [loadText $reset(n) $reset(days)]
+}
+
+proc ::woodpecker::ui::resetApply {} {
+    variable reset
+    set d .woodpeckerReset
+    if {![string is integer -strict $reset(days)] || $reset(days) < 1} {
+        tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $reset(days)]
+        return
+    }
+    destroy $d
+    # An open inner circle dialog holds a plan made from the log being put aside.
+    destroy .woodpeckerCircle
+    if {[catch { ::woodpecker::resetLog $reset(dir) [clock seconds] $reset(days) $reset(setDays) } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -message $err
+    }
+    refresh
+}
+
+proc ::woodpecker::ui::restoreStats {} {
+    variable run
+    set dir [current]
+    if {$dir eq "" || $run(on)} { return }
+    set rings [::woodpecker::rings $dir]
+    if {![llength $rings]} { return }
+    lassign [::woodpecker::readLog $dir] xs
+    set msg [T WoodpeckerRestoreAsk [fmtDay [lindex $rings 0 1]]]
+    if {[llength $xs]} { append msg "\n\n" [T WoodpeckerRestoreSwap [llength $xs]] }
+    if {[tk_messageBox -icon question -type yesno -parent .woodpeckerWin -title [tr WoodpeckerTitle] \
+            -message $msg] ne "yes"} { return }
+    destroy .woodpeckerCircle
+    if {[catch { ::woodpecker::restoreRing $dir [clock seconds] } err]} {
+        tk_messageBox -icon error -parent .woodpeckerWin -message $err
+    }
+    refresh
+}
+
+################################################################################
+# The inner circle (Decision 8): a cycle inside the cycle, on the first
+# exercises of the set, with the others locked until they are opened.
+
+proc ::woodpecker::ui::circleDialog {} {
+    variable run
+    variable circle
+    set dir [current]
+    if {$dir eq "" || $run(on) || ![syncSet $dir]} { return }
+    set d .woodpeckerCircle
+    if {[winfo exists $d]} { raise $d; return }
+    set now [clock seconds]
+    set today [::woodpecker::today $now]
+    set dp [dayPlan $dir $now]
+    set meta [dict get $dp meta]
+    set days1 [expr {[dict exists $meta days1] ? [dict get $meta days1] : 28}]
+    set args [list [dict get $dp xs] [dict get $dp cs] [dict get $dp all] [dict get $dp retired] $days1]
+    array unset circle
+    array set circle [list dir $dir today $today now $now args $args name [dict get $meta name] \
+        bundled [expr {[dict exists $meta source] && [dict get $meta source] eq "bundled"}] \
+        rest keep newName [T WoodpeckerCirclePart [dict get $meta name]]]
+    # Locked exercises for the next cycle that can still change: open them;
+    # otherwise draw a circle.
+    set circle(dp) $dp
+    if {![catch { ::woodpecker::openPlan {*}$args $today } op]} {
+        set circle(mode) open
+        set circle(plan) $op
+        # The days left of the running cycle, or a first cycle's days for
+        # one where the opened exercises are new.
+        if {[dict get $op daysLeft]} {
+            set circle(days) [expr {max(1, [dict get $dp daysLeft])}]
+            set circle(daysLabel) [T WoodpeckerCircleDaysLeft [dict get $op cycle]]
+        } else {
+            set circle(days) $days1
+            set circle(daysLabel) [T WoodpeckerCircleDaysNext [dict get $op cycle]]
+        }
+    } else {
+        set circle(mode) lock
+        set base [dict get $dp n]
+        if {$base < 2} {
+            tk_messageBox -icon info -parent .woodpeckerWin -message [tr WoodpeckerCircleNone]
+            return
+        }
+        set circle(base) $base
+        set circle(size) [expr {max(1, min($base - 1, ($base + 1) / 2))}]
+    }
+    win::createDialog $d
+    ::setTitle $d [tr WoodpeckerCircleTitle]
+    fonts
+    set v ::woodpecker::ui
+    set f [ttk::frame $d.f -padding 8]
+    pack $f -fill both -expand 1
+    ttk::label $f.head -text [tr WoodpeckerCircleTitle] -font woodpeckerHead
+    grid $f.head - - -sticky w -pady {0 4}
+    if {$circle(mode) eq "lock"} {
+        ttk::label $f.intro -text [tr WoodpeckerCircleIntro] -wraplength 440 -justify left
+        ttk::label $f.lsize -text [tr WoodpeckerCircleSize]
+        ttk::frame $f.sz
+        ttk::spinbox $f.sz.size -from 1 -to [expr {$circle(base) - 1}] -width 6 -textvariable ${v}::circle(size)
+        ttk::label $f.sz.of -text [T WoodpeckerCircleOf $circle(base)]
+        pack $f.sz.size $f.sz.of -side left -padx {0 6}
+        ttk::label $f.ldays -textvariable ${v}::circle(daysLabel)
+        ttk::spinbox $f.days -from 1 -to 365 -width 6 -textvariable ${v}::circle(days)
+        ttk::label $f.load -textvariable ${v}::circle(load) -wraplength 440 -justify left
+        ttk::label $f.lrest -textvariable ${v}::circle(restLabel)
+        set keep WoodpeckerCircleKeep
+        set move WoodpeckerCircleMove
+        set give WoodpeckerCircleGive
+        set ok WoodpeckerCircleStart
+        grid $f.intro - - -sticky w -pady {0 8}
+        grid $f.lsize $f.sz -sticky w -pady 2
+        grid $f.ldays $f.days -sticky w -pady 2
+        grid configure $f.lsize $f.ldays -padx {0 10}
+        grid $f.load - - -sticky w -pady {2 8}
+        grid $f.lrest - - -sticky w
+        # The days asked depend on the size: a circle already done in the
+        # running cycle starts with the next one.
+        circleDaysDefault
+    } else {
+        set op $circle(plan)
+        set opened [llength [dict get $op opened]]
+        set inCircle [expr {[llength [dict get $op order]] - $opened}]
+        ttk::label $f.intro -text [T WoodpeckerCircleState $inCircle $opened] -wraplength 440 -justify left
+        grid $f.intro - - -sticky w -pady {0 8}
+        set keep WoodpeckerCircleOpenHere
+        set move WoodpeckerCircleOpenMove
+        set give WoodpeckerCircleOpenGive
+        set ok WoodpeckerCircleOpen
+        # What opening them here does depends on when: during the circle, or
+        # with the next cycle.
+        if {[dict get $op daysLeft]} {
+            set circle(keepHelp) [T WoodpeckerCircleOpenNow $opened]
+        } else {
+            set circle(keepHelp) [T WoodpeckerCircleOpenNext [dict get $op cycle] [llength [dict get $op order]]]
+        }
+    }
+    if {$circle(mode) eq "lock"} { set circle(keepHelp) [tr WoodpeckerCircleKeepHelp] }
+    # Each choice: a short label, and under it in grey what it does.
+    set r [ttk::frame $f.rest -padding {16 2 0 0}]
+    foreach {key label help} [list keep $keep "" move $move WoodpeckerCircleMoveHelp give $give WoodpeckerCircleGiveHelp] {
+        if {$key eq "give" && !$circle(bundled)} { continue }
+        ttk::radiobutton $r.$key -text [tr $label] -variable ${v}::circle(rest) -value $key -command ${v}::circleUpdate
+        if {$help eq ""} {
+            ttk::label $r.${key}Help -textvariable ${v}::circle(keepHelp)
+        } else {
+            ttk::label $r.${key}Help -text [tr $help]
+        }
+        $r.${key}Help configure -wraplength 400 -justify left -font woodpeckerSmall -foreground [color muted] \
+            -padding {22 0 0 6}
+        grid $r.$key -sticky w
+        grid $r.${key}Help -sticky w
+        if {$key eq "keep" && $circle(mode) eq "open"} {
+            set h [ttk::frame $r.here -padding {22 0 0 8}]
+            ttk::label $h.ldays -textvariable ${v}::circle(daysLabel)
+            ttk::spinbox $h.days -from 1 -to 365 -width 6 -textvariable ${v}::circle(days)
+            ttk::label $h.load -textvariable ${v}::circle(load) -wraplength 400 -justify left
+            grid $h.ldays $h.days -sticky w
+            grid configure $h.ldays -padx {0 10}
+            grid $h.load - -sticky w
+            grid $h -sticky w
+        }
+        if {$key eq "move"} {
+            set nm [ttk::frame $r.name -padding {22 0 0 8}]
+            ttk::label $nm.l -text [tr WoodpeckerCircleNewName]
+            ttk::entry $nm.e -textvariable ${v}::circle(newName) -width 30
+            grid $nm.l $nm.e -sticky w
+            grid configure $nm.l -padx {0 10}
+            grid $nm -sticky w
+        }
+    }
+    grid $r - - -sticky w
+    ttk::frame $d.b -padding {10 6 10 10}
+    ttk::button $d.b.ok -text [tr $ok] -command ${v}::circleApply -default active
+    ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d]
+    pack $d.b.cancel $d.b.ok -side right -padx 4
+    pack $d.b -fill x
+    circleUpdate
+    trace add variable ${v}::circle write ${v}::circleUpdate
+    bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::circle write ${v}::circleUpdate }"
+}
+
+# The circle being drawn, as ::woodpecker::circlePlan sees it; "" while the
+# size is not valid.
+proc ::woodpecker::ui::circlePlanNow {} {
+    variable circle
+    if {[catch { ::woodpecker::circlePlan {*}$circle(args) $circle(size) $circle(today) } cp]} { return "" }
+    return $cp
+}
+
+# The days field of a new circle: the days left of the running cycle, or the
+# next cycle's days when the circle starts with it.
+proc ::woodpecker::ui::circleDaysDefault {} {
+    variable circle
+    set cp [circlePlanNow]
+    set mode [expr {$cp ne "" && [dict get $cp daysLeft] ? "left" : "next"}]
+    if {[info exists circle(daysMode)] && $circle(daysMode) eq $mode} { return }
+    set circle(daysMode) $mode
+    set dp $circle(dp)
+    if {$mode eq "left"} {
+        set circle(days) [expr {max(1, [dict get $dp daysLeft])}]
+        set circle(daysLabel) [T WoodpeckerCircleDaysLeft [dict get $dp cycle]]
+    } else {
+        set next [expr {$cp ne "" ? [dict get $cp from] : [dict get $dp cycle] + 1}]
+        set sc [::woodpecker::scopeAt [lindex $circle(args) 1] $next [lindex $circle(args) 2] \
+            [lindex $circle(args) 3] [lindex $circle(args) 4]]
+        set circle(days) [::woodpecker::scopeDays $sc $next]
+        set circle(daysLabel) [T WoodpeckerCircleDaysNext $next]
+    }
+}
+
+proc ::woodpecker::ui::circleUpdate {args} {
+    variable circle
+    set d .woodpeckerCircle
+    if {![winfo exists $d.f.rest]} { return }
+    if {$circle(rest) eq "move"} { grid $d.f.rest.name } else { grid remove $d.f.rest.name }
+    if {$circle(mode) eq "open"} {
+        if {$circle(rest) eq "keep"} { grid $d.f.rest.here } else { grid remove $d.f.rest.here }
+        set circle(load) [circleLoad $circle(plan) $circle(days)]
+        return
+    }
+    circleDaysDefault
+    set cp [circlePlanNow]
+    if {$cp eq ""} { set circle(load) ""; set circle(restLabel) ""; return }
+    set circle(restLabel) [T WoodpeckerCircleRest [llength [dict get $cp locked]]]
+    set circle(load) [circleLoad $cp $circle(days)]
+}
+
+# The daily load of a new scope ({cycle order daysLeft}, from circlePlan or
+# openPlan): in the days left of the running cycle, what is left of it; in a
+# cycle not begun, all of it.
+proc ::woodpecker::ui::circleLoad {plan days} {
+    variable circle
+    if {![string is integer -strict $days] || $days < 1} { return "" }
+    set n [llength [dict get $plan order]]
+    if {![dict get $plan daysLeft]} { return [loadText $n $days] }
+    set done [dict create]
+    foreach x [lindex $circle(args) 0] {
+        if {[dict get $x cycle] == [dict get $plan cycle] && [dict get $x ex] in [dict get $plan order]} {
+            dict set done [dict get $x ex] 1
+        }
+    }
+    set left [expr {max(0, $n - [dict size $done])}]
+    return [T WoodpeckerLoadLeft [expr {int(ceil(double($left) / $days))}] $days]
+}
+
+# The planned length of the running cycle when `days` are left of it: the days
+# already gone since it began, plus those.
+proc ::woodpecker::ui::circleLength {days} {
+    variable circle
+    set start [dict get $circle(dp) start]
+    set gone [expr {[::woodpecker::dayNum $circle(today)] - [::woodpecker::dayNum $start]}]
+    return [expr {max(1, $gone + $days)}]
+}
+
+proc ::woodpecker::ui::circleApply {} {
+    variable circle
+    set d .woodpeckerCircle
+    set days $circle(days)
+    if {![string is integer -strict $days] || $days < 1} {
+        tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $days]
+        return
+    }
+    set dir $circle(dir)
+    # Puzzles deleted or added while the dialog was open make its plan stale.
+    if {![syncSet $dir]} { return }
+    if {[lsort -integer [dict keys [::woodpecker::readExercises $dir]]] ne [lindex $circle(args) 2]} {
+        destroy $d
+        refresh
+        circleDialog
+        return
+    }
+    if {$circle(mode) eq "lock"} {
+        set cp [circlePlanNow]
+        if {$cp eq ""} {
+            tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $circle(size)]
+            return
+        }
+        set out [dict get $cp locked]
+    } else {
+        set out [dict get $circle(plan) opened]
+    }
+    set name [string trim $circle(newName)]
+    if {$circle(rest) eq "move" && $name eq ""} { return }
+    if {$circle(rest) eq "give" && [tk_messageBox -icon warning -type yesno -parent $d \
+            -title [tr WoodpeckerCircleTitle] -message [T WoodpeckerCircleGiveAsk [llength $out]]] ne "yes"} {
+        return
+    }
+    destroy $d
+    set msg ""
+    if {[catch {
+        # First the new set, so that a failure leaves this one as it was.
+        if {$circle(rest) eq "move"} {
+            . configure -cursor watch
+            update idletasks
+            set new [::woodpecker::set::splitOff $dir $out $name]
+            set msg [T WoodpeckerCircleMoved [llength $out] $name]
+        }
+        if {$circle(mode) eq "lock"} {
+            set length [expr {[dict get $cp daysLeft] ? [circleLength $days] : $days}]
+            ::woodpecker::logScope $dir $circle(now) [dict get $cp cycle] \
+                [::woodpecker::rangesFormat [dict get $cp order]] $length [dict get $cp from]
+        } elseif {$circle(rest) eq "keep"} {
+            set op $circle(plan)
+            set length [expr {[dict get $op daysLeft] ? [circleLength $days] : $days}]
+            ::woodpecker::logScope $dir $circle(now) [dict get $op cycle] \
+                "[::woodpecker::rangesFormat [dict get $op order]] *" $length
+        }
+        if {$circle(rest) in {move give}} { ::woodpecker::set::retire $dir $out }
+    } err]} {
+        . configure -cursor ""
+        tk_messageBox -icon error -parent .woodpeckerWin -message $err
+        refresh
+        return
+    }
+    . configure -cursor ""
+    refresh
+    if {$msg ne ""} { tk_messageBox -icon info -parent .woodpeckerWin -message $msg }
 }
 
 ################################################################################
@@ -923,6 +1327,8 @@ proc ::woodpecker::ui::newDialog {} {
     ttk::label $f.lrest -text [tr WoodpeckerRestDays]
     ttk::spinbox $f.rest -from 0 -to 14 -width 5 -textvariable ${v}::newCfg(restDays)
     ttk::label $f.dayshelp -text [tr WoodpeckerDaysHelp] -wraplength 440 -justify left -foreground [color muted]
+    # What the plan asks every day, before the set exists.
+    ttk::label $f.load -textvariable ${v}::newCfg(loadText) -wraplength 440 -justify left
     grid $f.lname $f.name -sticky w -pady 3
     grid $f.rl - -sticky w -pady {8 2}
     grid $f.lich - -sticky w
@@ -933,6 +1339,7 @@ proc ::woodpecker::ui::newDialog {} {
     grid $f.ldays $f.days -sticky w -pady 2
     grid $f.lrest $f.rest -sticky w -pady 2
     grid $f.dayshelp - -sticky w -pady 2
+    grid $f.load - -sticky w -pady {4 2}
     ttk::frame $d.b -padding {10 6 10 10}
     ttk::button $d.b.ok -text [tr WoodpeckerCreate] -command ${v}::create -default active
     ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d]
@@ -940,7 +1347,39 @@ proc ::woodpecker::ui::newDialog {} {
     pack $d.b -fill x
     presetChosen
     tokenShow
+    set newCfg(fileCount) ""
+    set newCfg(fileCounted) ""
+    loadUpdate
+    trace add variable ${v}::newCfg write ${v}::loadUpdate
+    bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::newCfg write ${v}::loadUpdate }"
     if {$newCfg(token) ne ""} { after idle ::woodpecker::ui::tokenVerify }
+}
+
+# The daily load of a first cycle, as one sentence (empty while the number of
+# exercises is unknown: a Scid database not yet read). Only the first cycle:
+# the later ones have fewer days, but by then the trainee is faster too.
+proc ::woodpecker::ui::loadText {n days1} {
+    set load [::woodpecker::dailyLoad $n $days1 1]
+    if {![llength $load]} { return "" }
+    set c1 [lindex $load 0]
+    if {[dict get $c1 days] == 1} { return [T WoodpeckerLoadOneDay $n] }
+    return [T WoodpeckerLoad [dict get $c1 perDay] [dict get $c1 days]]
+}
+
+proc ::woodpecker::ui::loadUpdate {args} {
+    variable newCfg
+    if {![info exists newCfg(days1)]} { return }
+    set n ""
+    if {$newCfg(source) eq "file"} {
+        if {$newCfg(file) ne $newCfg(fileCounted)} {
+            set newCfg(fileCounted) $newCfg(file)
+            set newCfg(fileCount) [::woodpecker::set::countFileExercises $newCfg(file)]
+        }
+        set n $newCfg(fileCount)
+    } else {
+        set n $newCfg(count)
+    }
+    set newCfg(loadText) [loadText $n $newCfg(days1)]
 }
 
 proc ::woodpecker::ui::presetChosen {} {
@@ -1448,15 +1887,16 @@ proc ::woodpecker::ui::train {{dir ""}} {
     set dp [dayPlan $dir $now]
     set exs [::woodpecker::readExercises $dir]
     if {![dict size $exs]} { refresh; return }
-    set order [lsort -integer [dict keys $exs]]
-    set n [llength $order]
     if {[dict get $dp rest] ne "" && [::woodpecker::today $now] < [dict get $dp rest]} {
         if {[tk_messageBox -icon question -type yesno -parent $w -title [tr WoodpeckerTitle] \
                 -message [T WoodpeckerRestAsk [dict get $dp rest] [dict get $dp cycle]]] ne "yes"} { return }
     }
+    # An open inner circle dialog holds a plan made before this session's moves.
+    destroy .woodpeckerCircle
     # The whole main window for the session: board and panel, nothing else.
     set focused [enterFocus]
-    lassign [::woodpecker::readLog $dir] xs ss
+    set xs [dict get $dp xs]
+    lassign [::woodpecker::readLog $dir] - ss
     set session 0
     foreach x $xs { if {[dict get $x session] > $session} { set session [dict get $x session] } }
     foreach s $ss { if {[dict get $s session] > $session} { set session [dict get $s session] } }
@@ -1464,11 +1904,16 @@ proc ::woodpecker::ui::train {{dir ""}} {
     set meta [dict get $dp meta]
     array unset run
     array unset ::woodpecker::ui::lastFig
-    array set run [list on 1 dir $dir exs $exs order $order n $n cycle [dict get $dp cycle] \
+    # The cycle's exercises in order (an inner circle, or exercises unlocked
+    # first), and those already done in it.
+    set doneSet [dict create]
+    foreach x $xs { if {[dict get $x cycle] == [dict get $dp cycle]} { dict set doneSet [dict get $x ex] 1 } }
+    array set run [list on 1 dir $dir exs $exs n [dict get $dp n] cycle [dict get $dp cycle] \
+        order [dict get $dp order] doneSet $doneSet \
         next [dict get $dp next] session [expr {$session + 1}] quota [dict get $dp quota] \
         doneToday [dict get $dp doneToday] deadline [dict get $dp deadline] \
         daysLeft [dict get $dp daysLeft] status [dict get $dp status] \
-        doneCycle [expr {[dict get $dp next] - 1}] \
+        doneCycle [dict get $dp done] \
         table [::woodpecker::marksAt $marks [::woodpecker::marksLatest $marks]] \
         t0 [clock milliseconds] start $now paused 0 pausedMs 0 pauseT 0 lastInput [clock milliseconds] \
         autoPause [expr {$::woodpecker::ui::autoPause ? 1 : 0}] hold 0 \
@@ -1666,12 +2111,12 @@ proc ::woodpecker::ui::nextExercise {{force 1}} {
     # A new exercise always starts running: Enter may have gone on, or the
     # automatic advance may have fired, while the session was paused.
     if {$run(paused)} { pause }
-    if {$run(next) < 1 || $run(next) > $run(n)} {
+    if {![string is integer -strict $run(next)] || $run(next) < 1} {
         finish cycle
         return
     }
-    set pos $run(next)
-    set ex [lindex $run(order) [expr {$pos - 1}]]
+    set ex $run(next)
+    set pos [expr {$run(doneCycle) + 1}]
     set e [dict get $run(exs) $ex]
     set run(ex) $ex
     set run(state) [::woodpecker::exStart [dict get $e nmoves]]
@@ -1698,6 +2143,8 @@ proc ::woodpecker::ui::nextExercise {{force 1}} {
     set run(exPaused) 0
     set run(wait) ask
     set rating [dict get $e rating]
+    # The how-many-th of the cycle (done + 1): when the order changed
+    # mid-cycle, the place in the order could skip exercises already done.
     set txt(title) [T WoodpeckerExercise $pos $run(n)]
     set txt(sub) "[tr [expr {$side eq "w" ? "WoodpeckerWhiteToMove" : "WoodpeckerBlackToMove"}]][expr {$rating ne "" ? "   \u00b7   $rating" : ""}]"
     set c $w.sess.sub.side
@@ -1764,7 +2211,18 @@ proc ::woodpecker::ui::postmove {} {
     set run(wait) reply
     set idx [dict get $run(state) idx]
     set reply [lindex $run(solution) [expr {2 * $idx - 1}]]
-    after $::animateDelay [list ::woodpecker::ui::reply $reply]
+    # The reply is played at once. Until it is on the board the opponent is to
+    # move, so a piece grabbed in that time did not lift and the next move was
+    # lost. A move made by clicks is animated: the reply cuts that animation
+    # short (the piece lands at once) and only the reply slides; waiting for it
+    # would block the board for animateDelay again.
+    after 0 [list ::woodpecker::ui::reply $reply]
+}
+
+# Is a move still animating on the main board? (the flag ::board::update
+# and ::board::waitForAnimation use)
+proc ::woodpecker::ui::animating {} {
+    return [expr {[info exists ::board::_animate(.main.board,moving)] && $::board::_animate(.main.board,moving)}]
 }
 
 proc ::woodpecker::ui::reply {uci} {
@@ -1879,8 +2337,8 @@ proc ::woodpecker::ui::markCur {} {
 proc ::woodpecker::ui::exerciseDone {result} {
     variable run
     if {!$run(on)} { return }
-    set pos $run(next)
     set ex $run(ex)
+    set pos [expr {$run(doneCycle) + 1}]
     set ms [expr {max(0, [clock milliseconds] - $run(exT0) - $run(exPaused))}]
     set found [::woodpecker::foundString $run(state)]
     set e [dict get $run(exs) $ex]
@@ -1895,8 +2353,9 @@ proc ::woodpecker::ui::exerciseDone {result} {
     set run(max) [expr {$run(max) + [dict get $s max]}]
     set run(streak) [expr {$result eq "clean" ? $run(streak) + 1 : 0}]
     incr run(doneToday)
-    incr run(doneCycle)
-    incr run(next)
+    if {![dict exists $run(doneSet) $ex] && $ex in $run(order)} { incr run(doneCycle) }
+    dict set run(doneSet) $ex 1
+    set run(next) [nextInOrder $ex]
     statsLine
     cardResult $result [dict get $s points] [dict get $s max] $marks \
         [expr {$run(doneToday) == $run(quota) && $run(quota) > 0}]
@@ -1916,6 +2375,17 @@ proc ::woodpecker::ui::exerciseDone {result} {
     }
     set run(wait) next
     after 1100 ::woodpecker::ui::advance
+}
+
+# The exercise after `ex` in the cycle's order that is not done yet (the
+# first one left when the end is reached); 0 when the cycle is complete.
+proc ::woodpecker::ui::nextInOrder {ex} {
+    variable run
+    set i [lsearch -exact $run(order) $ex]
+    foreach e [concat [lrange $run(order) [expr {$i + 1}] end] [lrange $run(order) 0 $i]] {
+        if {![dict exists $run(doneSet) $e]} { return $e }
+    }
+    return 0
 }
 
 proc ::woodpecker::ui::advance {} {
