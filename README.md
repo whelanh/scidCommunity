@@ -174,6 +174,7 @@ with no X server should wrap it: `PGO_TRAIN="xvfb-run -a ./scidCommunity ..."`.
 - **[Szustan](https://github.com/Szustan)** - Has faithfully maintained the Polish language translation file throughout the many changes in scidCommunity.
 - **[Ejner Borgbjerg](https://github.com/eborgbjerg)** — Danish interface translation.
 - **[daSilva65](https://github.com/daSilva65)** - Portuguese translation.
+- **[IttacusFc](https://github.com/IttacusFc)** - French translation
 
 ### Translations
 
