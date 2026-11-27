@@ -156,6 +156,12 @@ easier than editing Tcl by hand: see
 sheet, imports changes by `command:key`, and records reviewed rows. The tool's
 own tests run with `python3 tcl/lang/langtool.py selftest`.
 
+The translated help pages have the same kind of workbench:
+[HELPTOOL](../tcl/lang/HELPTOOL.md) and
+`python3 tcl/lang/helptool.py generate <name>`. It cuts each page into
+paragraphs and list items, lets a translator move a link inside a sentence, and
+`helptool.py check <name>` lints a help file against English.
+
 ## 6. Reviewing a new catalogue
 
 A quick local review catches most mistakes:

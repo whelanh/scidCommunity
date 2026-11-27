@@ -48,3 +48,31 @@ This skill adds what the first real import (French, 2026-11) taught.
    langtool itself goes in its own commit.
 8. Report: counts, refused rows and how each was resolved, every correction
    you made, test results. Push or open a PR only when the maintainer asks.
+
+## Help-page sheets (`help-<language>-*.csv`)
+
+A sheet whose columns are `page,key,kind,english,current,new,…` and whose
+keys look like `Moves#12` is a *help* sheet. It is imported with
+`tcl/lang/helptool.py` instead (documented in `tcl/lang/HELPTOOL.md`); the
+steps above apply with these differences:
+
+- Commands: `python3 tcl/lang/helptool.py import <stem> <sheet.csv> --dry-run`,
+  then `--apply --reviewer "<translator>"`. Check with
+  `python3 tcl/lang/helptool.py check <stem>` (compare its count with the
+  one before the import: it must not grow) and `tclsh tests/tcl/help_keys.tcl`,
+  plus `python3 tcl/lang/helptool.py selftest`.
+- Review state is `tcl/lang/reviews/help-<stem>.json`; commit it with
+  `tcl/help/help<LETTER>.tcl`.
+- Refusals to expect: `English changed since the CSV was generated` (the
+  block was edited upstream; ask for a fresh sheet or re-translate that row),
+  `tags missing` / `tags not in English` (the translator dropped or added a
+  tag; the importer is right, fix the cell), and `current translation changed`
+  (a spreadsheet mangled a cell starting with `= + - @`; check by eye, then
+  `--force` for that row only).
+- Read every changed block for the same clear errors as above, and also for
+  menu names inside `<menu>…</menu>`: they must be what that language's
+  interface really shows (look in `tcl/lang/<stem>.tcl`).
+- `extra` rows are blocks English no longer has; `DELETE` in `new` removes
+  one. Do that only for the stale ones, after reading them.
+- The file's line endings are kept (helpPL.tcl is CRLF): never rewrite a help
+  file with a tool that normalises them.
