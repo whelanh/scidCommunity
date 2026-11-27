@@ -1,7 +1,7 @@
 # Reference coding with XERJ
 
-This project has a local [XERJ](https://xerj.org) node with three searchable
-corpora: **this repository** and two **peer `scid` projects**, indexed so an
+This project has a local [XERJ](https://xerj.org) node with four searchable
+corpora: **this repository** and three **peer `scid` trees**, indexed so an
 agent can retrieve how a neighbouring project already solved a problem *before*
 writing code.
 
@@ -36,37 +36,39 @@ back if it dies. There is no pid file to manage. Restart with
 
 ## The corpora
 
-**This project** — prefix `scid`, query `scid-*` (5 datasets, 30,858 records;
-340 code files, 234 of them with symbol tables). Code and prose share
-`scid-docs`; `scid-scripts-cb-mega`, `scid-data`,
+**This project** — prefix `scid`, query `scid-*` (6 datasets, 47,855 records;
+352 code files, 246 of them with symbol tables). Code and prose share
+`scid-docs`; `scid-scripts-cb-mega`, `scid-puzzles`, `scid-data`,
 `scid-data-io-github-whelanh-scidco` and `scid-resources-svg` hold bulk
 data/XML. The dataset split is chosen by `autoindex` from content and can
 change between versions, so scope with prefix or `ax_format`, not with an
 index-name list.
 
 **References** — prefix `ref-<repo>`, query all with `ref-*` or one repo with
-`ref-<repo>-*`. Both peers are indexed **in place** from the trees already on
-this machine (there is no `~/xerj-refs/` clone directory). Resume journals live
-in `~/xerj-state/<prefix>`.
+`ref-<repo>-*`. The two Scid vs. PC trees are indexed **in place**; the Codeberg
+fork is a dedicated clone at `~/Downloads/scid-codeberg-myscid` (there is no
+`~/xerj-refs/` directory). Resume journals live in `~/xerj-state/<prefix>`.
 
 > **Index-name patterns take a trailing `*` only.** `ref-*` and
 > `ref-scidvspc-*` work; `ref-*-docs` matches nothing. A pattern also matches
-> longer prefixes — `ref-scid-*` would hit `ref-scid-codeberg-*` as well — so
-> keep peer prefixes that do not start one another.
+> longer prefixes — `ref-scid-codeberg-*` covers both corpora under that
+> prefix, which is deliberate; otherwise keep peer prefixes that do not start
+> one another so a query cannot silently widen.
 
 | Prefix | Upstream | Version | Licence | Records | Why it is here |
 | --- | --- | --- | --- | --- | --- |
-| `ref-scid-codeberg` | codeberg.org/scid/scid | `be2908ea` (2026-08-15) | GPL-2.0 | 10,133 | The fork this project credits for the engine-vs-engine tournament feature and PGN viewer; same `scid` core, indexed in place from `~/Downloads/scid` |
-| `ref-scidvspc` | benini/scid (Scid vs. PC) | plain source tree, no git metadata | GPL-2.0 | 70,718 | Closest sibling — a Tcl/Tk `scid` fork with the same `dbase`/`codec`/`movetree`/`polyglot` lineage, indexed in place from `~/Downloads/scidvspc-code` |
+| `ref-scid-codeberg-myscid` | codeberg.org/scid/scid, `myscid` branch | `be2908ea` (2026-08-15) | GPL-2.0 | 10,133 | The fork this project credits for the engine-vs-engine tournament feature and PGN viewer; same `scid` core, cloned to `~/Downloads/scid-codeberg-myscid` |
+| `ref-scid-codeberg` | benini/scid (Scid vs. PC), `github` branch | `fc263371` (2026-06-03) | GPL-2.0 | 9,626 | Older Scid vs. PC tree, indexed in place from `~/Downloads/scid`; overlaps `ref-scidvspc` |
+| `ref-scidvspc` | benini/scid (Scid vs. PC) | plain source tree, no git metadata | GPL-2.0 | 70,665 | Closest sibling — a Tcl/Tk `scid` fork with the same `dbase`/`codec`/`movetree`/`polyglot` lineage, indexed in place from `~/Downloads/scidvspc-code` |
 
-Only these two peers are part of the dataset. The four other references this
+Only these three peers are part of the dataset. The four other references this
 doc used to list are **not indexed**: Stockfish's source is on disk at
 `~/Downloads/Stockfish` but was deliberately left out; chessx and python-chess
 have no checkout; `~/GoogleDrive/cutechess-linux` is a compiled release, not
 source. A `ref-stockfish-*`, `ref-chessx-*`, `ref-pychess-*` or
 `ref-cutechess-*` query therefore returns no hits rather than an error.
 
-Both indexed peers are GNU GPL-2.0; this project is GPL too, so the licences
+All indexed peers are GNU GPL-2.0; this project is GPL too, so the licences
 are compatible. Still follow the reference-coding rule for GPL peers: **read
 the design and adapt it — do not paste code**, and record which file:line you
 used.
@@ -85,8 +87,10 @@ curl -s 'http://localhost:9200/ref-*/_search' -H 'Content-Type: application/json
   "_source":["ax_path","title"],"fields":["_passage"],"size":5}'
 ```
 
-Scope it: replace `ref-*` with `ref-scidvspc-*` or `ref-scid-codeberg-*` (the
-two sibling `scid` forks), or use `scid-*` for this project's own code. To
+Scope it: replace `ref-*` with `ref-scidvspc-*` (the Scid vs. PC tree) or
+`ref-scid-codeberg-*` (both corpora under that prefix, or
+`ref-scid-codeberg-myscid-*` for the newer fork alone), or use `scid-*` for this
+project's own code. To
 restrict a hit set to source files add a `{"term":{"ax_format":"code"}}` filter
 (`ax_format` values here include `code`, `html`, `txt-lines`, `txt-prose`,
 `xml`, `yaml`).
@@ -113,17 +117,17 @@ returns each index's real field names/types — call it before writing query DSL
   at the cost of re-indexing.)
 - **Definitions only, and C/C++ only.** Hits name the declaration site; there is
   no call graph, no import graph, no cross-file reference resolution. Symbol
-  extraction covers `.c`, `.h` and `.cpp` — **Tcl is not AST-indexed**: the 280
+  extraction covers `.c`, `.h` and `.cpp` — **Tcl is not AST-indexed**: the 315
   `.tcl` files here (and most of Scid vs. PC's UI) land as `txt-lines`/`txt-prose`,
   so lexical search finds them but `xerj def` cannot resolve a Tcl proc and may
   return a same-named C++ symbol instead.
 - **Retrieval pays on unfamiliar code, not memorised libraries.** Widely known
   engine internals (`attacks`, `movegen`) are often faster to recall than to
   retrieve, and Stockfish is not indexed here anyway. Retrieval pays most on this
-  project's own internals and on the two sibling forks.
-- **Server memory grows with documents indexed.** The current corpora (~112k
-  documents, 267 MB on disk) hold about 2.6 GB resident, peaking near 3.9 GB
-  during an index run. Watch it with
+  project's own internals and on the sibling forks.
+- **Server memory grows with documents indexed.** The current corpora (~138k
+  documents, 701 MB on disk) hold about 2.4 GB resident after the index runs.
+  Watch it with
   `systemctl --user show xerj -p MemoryCurrent`; `systemctl --user restart xerj`
   keeps every index and releases heap. Index one corpus at a time.
 
@@ -133,9 +137,13 @@ returns each index's real field names/types — call it before writing query DSL
 # this repository (run from the repo root)
 xerj autoindex . --prefix scid --state-dir ~/xerj-state/scid --progress plain
 
-# one of the peers, indexed in place
+# a peer indexed in place (here the older benini/scid tree)
 xerj autoindex ~/Downloads/scid --prefix ref-scid-codeberg \
   --state-dir ~/xerj-state/ref-scid-codeberg --progress plain
+
+# the Codeberg fork on its myscid branch (dedicated clone)
+xerj autoindex ~/Downloads/scid-codeberg-myscid --prefix ref-scid-codeberg-myscid \
+  --state-dir ~/xerj-state/ref-scid-codeberg-myscid --progress plain
 ```
 
 One prefix per folder. A re-run resumes and never duplicates; unchanged bytes

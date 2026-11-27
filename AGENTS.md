@@ -8,12 +8,14 @@ cite the `file:line` you relied on.
 
 The node runs as the systemd **user** service `xerj.service` at
 `http://localhost:9200` (`systemctl --user status xerj`, logs with
-`journalctl --user -u xerj`). Three corpora are indexed:
+`journalctl --user -u xerj`). Four corpora are indexed:
 
-- `scid` — **this repository** (5 datasets, 30,858 records, 340 code files).
-- `ref-scid-codeberg` — the Codeberg `scid` fork (10,133 records), indexed in
-  place from `~/Downloads/scid`.
-- `ref-scidvspc` — Scid vs. PC (70,718 records), indexed in place from
+- `scid` — **this repository** (6 datasets, 47,855 records, 352 code files).
+- `ref-scid-codeberg-myscid` — the Codeberg `scid` fork, `myscid` branch
+  (10,133 records), cloned to `~/Downloads/scid-codeberg-myscid`.
+- `ref-scid-codeberg` — an older `benini/scid` (Scid vs. PC) tree (9,626
+  records), indexed in place from `~/Downloads/scid`.
+- `ref-scidvspc` — Scid vs. PC (70,665 records), indexed in place from
   `~/Downloads/scidvspc-code`.
 
 No other peers are indexed: Stockfish, chessx, python-chess and cutechess are

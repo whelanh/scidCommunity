@@ -9,7 +9,8 @@ Use XERJ instead of grep when you need code you cannot see in the open files.
 query without one returns zero hits silently. Corpora:
 
 - `scid` - this repository
-- `ref-scid-codeberg` - the Codeberg `scid` fork
+- `ref-scid-codeberg-myscid` - the Codeberg `scid` fork (`myscid` branch)
+- `ref-scid-codeberg` - an older `benini/scid` (Scid vs. PC) tree
 - `ref-scidvspc` - Scid vs. PC
 
 Commands:
