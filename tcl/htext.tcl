@@ -170,6 +170,17 @@ proc ::htext::isDarkColor {w color} {
   return [expr {$lum < 32768}]
 }
 
+# The image a <img NAME> or <button NAME> tag names. The toolbar buttons are
+# global images, but the newer icons exist only as ::icon::NAME (start.tcl loads
+# them per theme). A name that matches neither is returned as it is, and the
+# tag draws nothing: `ttk::button -image` used to raise on it, and the error
+# stopped the page at that tag, so the rest of the text was never shown.
+proc ::htext::iconName {name} {
+  if {![catch { image type $name }]} { return $name }
+  if {![catch { image type ::icon::$name }]} { return ::icon::$name }
+  return $name
+}
+
 # The colour of a hyperlink on this widget. X11 "blue" is very dark (about
 # 1.8:1 against the dark themes' backgrounds, cf. #531), so links switch to a
 # light blue on a dark background. The help window forces black-on-white text
@@ -657,15 +668,16 @@ set ::htext::baseId ""
     
     # Check if it is an image or button tag:
     if {[strIsPrefix "img " $tagName]} {
-      set imgName [string range $tagName 4 end]
+      set imgName [::htext::iconName [string range $tagName 4 end]]
       #flags are not loaded on start, so check if a flag needs to load
       if { $imgName ne [info commands $imgName] && [string range $imgName 0 3] eq "flag" } {
         set imgName [getFlagImage [string range $imgName [expr [string length $imgName] - 3] end] yes]
       }
-      set winName $w.$imgName
+      set winName $w.[namespace tail $imgName]
       while {[winfo exists $winName]} { append winName a }
-      ttk::label $winName -image $imgName -relief flat -borderwidth 0 -background white
-      $w window create end -window $winName
+      if {![catch { ttk::label $winName -image $imgName -relief flat -borderwidth 0 -background white }]} {
+        $w window create end -window $winName
+      }
     }
     if {[strIsPrefix "button " $tagName]} {
       set idx [ string first "-command" $tagName]
@@ -676,10 +688,12 @@ set ::htext::baseId ""
         set imgName [string trim [string range $tagName 7 [expr $idx -1]]]
         set cmd [ string range $tagName [expr $idx +9] end ]
       }
-      set winName $w.$imgName
+      set imgName [::htext::iconName $imgName]
+      set winName $w.[namespace tail $imgName]
       while {[winfo exists $winName]} { append winName a }
-      ttk::button $winName -image $imgName -command $cmd
-      $w window create end -window $winName
+      if {![catch { ttk::button $winName -image $imgName -command $cmd }]} {
+        $w window create end -window $winName
+      }
     }
     if {[strIsPrefix "window " $tagName]} {
       set winName [string range $tagName 7 end]
