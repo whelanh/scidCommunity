@@ -44,12 +44,15 @@ constexpr uint16_t English = 0, German = 1, French = 2, Spanish = 3,
 }
 
 struct Annotation {
-	enum Kind { Text, Symbols, Squares, Arrows, Other };
+	enum Kind { Text, Symbols, Squares, Arrows, Quotation, Other };
 	Kind kind = Other;
 	uint16_t type = 0;
 	/// Text: shown before the move (type 0x82) or after it (0x02).
 	bool before = false;
 	uint16_t language = 0;
+	/// Text: the text. Quotation: the quoted game as ChessBase writes it in
+	/// its own PGN, e.g. "1-0 Last,F (2500)-Last,F (2480) Event Site 1990
+	/// (3)".
 	std::string text;
 	/// Symbols: the NAGs on the move, on the position, and the prefix; 0
 	/// for none.

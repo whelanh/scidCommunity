@@ -176,6 +176,70 @@ inline Buf annRaw(uint16_t type, const Buf& data) {
 	addBytes(b, data);
 	return b;
 }
+/// A game quotation (type 0x13).
+struct QuoteSpec {
+	std::string whiteLast, whiteFirst, blackLast, blackFirst, site, event;
+	int32_t date = 0;
+	uint8_t kind = 0;
+	uint16_t whiteElo = 0, blackElo = 0, eco = 0;
+	uint8_t result = 2, round = 0;
+	int8_t subround = 0;
+	/// The five strings of the 79-byte block, which ChessBase 2027 fills:
+	/// source, publisher, a third source string, white's and black's team.
+	std::array<std::string, 5> inner;
+	uint8_t startMarker = 1; ///< 1 standard, 0 set-up
+	std::vector<std::array<uint8_t, 5>> moves;
+};
+inline void counted(Buf& b, const std::string& s) {
+	b.push_back(uint8_t(s.size() + 1));
+	b.insert(b.end(), s.begin(), s.end());
+	b.push_back(0);
+}
+inline Buf annQuote(const QuoteSpec& q) {
+	Buf b;
+	addLE(b, 0x13, 2);
+	b.insert(b.end(), {1, 2, 0, 0, 0, 1, 0, 0, 0, 0});
+	for (auto* s : {&q.whiteLast, &q.whiteFirst, &q.blackLast, &q.blackFirst,
+	                &q.site, &q.event})
+		counted(b, *s);
+	Buf run12(12, 0);
+	putLE(run12, 0, uint32_t(q.date), 4);
+	run12[4] = q.kind;
+	run12[10] = 9; // rounds
+	addBytes(b, run12);
+	counted(b, q.inner[0]);
+	counted(b, q.inner[1]);
+	addBytes(b, Buf(10, 0x11));
+	counted(b, q.inner[2]);
+	// Offsets 28-56 of the block of empty strings.
+	Buf run29(29, 0);
+	putLE(run29, 28 - 28, q.whiteElo, 2);
+	putLE(run29, 30 - 28, q.blackElo, 2);
+	putLE(run29, 32 - 28, q.eco, 2);
+	run29[34 - 28] = q.result;
+	run29[43 - 28] = q.round;
+	run29[44 - 28] = uint8_t(q.subround);
+	addBytes(b, run29);
+	counted(b, q.inner[3]);
+	addBytes(b, Buf(5, 0x22));
+	counted(b, q.inner[4]);
+	addBytes(b, Buf(13, 0x33));
+	for (int k = 0; k < 2; ++k) { // rating lists
+		b.insert(b.end(), {1, 0, 1, 0, 0});
+		addLE(b, 3, 4);
+		b.insert(b.end(), {'E', 'L', 'O'});
+	}
+	addBytes(b, Buf(26, 0));
+	b.push_back(q.startMarker);
+	if (q.startMarker == 0)
+		addBytes(b, Buf(64 + 11, 0));
+	addBytes(b, Buf(2, 0));
+	addLE(b, q.moves.size(), 4);
+	for (auto& m : q.moves)
+		b.insert(b.end(), m.begin(), m.end());
+	addBytes(b, Buf(4, 0));
+	return b;
+}
 inline Buf annBlock(int32_t position, const std::vector<Buf>& items) {
 	Buf b;
 	addLE(b, uint32_t(position), 4);

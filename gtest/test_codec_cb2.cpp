@@ -893,3 +893,85 @@ TEST(Test_CB2Annotations, mutated_annotation_records_never_crash) {
 		}
 	}
 }
+
+TEST(Test_CB2Annotations, quotations_with_empty_and_filled_strings) {
+	QuoteSpec olympiad;
+	olympiad.whiteLast = "Suzuki";
+	olympiad.whiteFirst = "Toshio";
+	olympiad.blackLast = "Hamadto";
+	olympiad.blackFirst = "Iyad";
+	olympiad.site = "Novi Sad";
+	olympiad.event = "Olympiad-29";
+	olympiad.date = (1990 << 9) | (11 << 5) | 18;
+	olympiad.result = 0;
+	olympiad.round = 3;
+	olympiad.moves = {{12, 28, 0, 0, 0}};
+
+	QuoteSpec blitz; // with ratings, a speed, a sub-round, the year in
+	blitz.whiteLast = " Nakamura ";
+	blitz.whiteFirst = "Hikaru";
+	blitz.blackLast = "Carlsen";
+	blitz.blackFirst = "\xc3\x89mile"; // a first name starting with "É"
+	blitz.site = "Saint Louis";
+	blitz.event = "Champions Showdown 2025 Saint Louis";
+	blitz.date = (2025 << 9);
+	blitz.kind = 0x20;
+	blitz.whiteElo = 2800;
+	blitz.blackElo = 2830;
+	blitz.result = 1;
+	blitz.round = 2;
+	blitz.subround = -1;
+
+	QuoteSpec corr; // correspondence: a board without a round
+	corr.whiteLast = "Ost";
+	corr.blackLast = "Hansen";
+	corr.event = "WCh Final";
+	corr.kind = 0x80;
+	corr.subround = 4;
+	corr.result = 7;
+	corr.startMarker = 0;
+
+	const std::array<std::string, 5> filled = {
+	    "ChessBase Magazine", "ChessBase GmbH", "CBM 199",
+	    "Japan", "Jordan"};
+	for (bool fill : {false, true}) {
+		Fixture fx;
+		auto& g = fx.game();
+		g.moves = moveContent({W("e2", "e4"), END});
+		auto q1 = olympiad, q2 = blitz, q3 = corr;
+		if (fill)
+			q1.inner = q2.inner = q3.inner = filled;
+		g.annotations = annRecord({
+		    annBlock(-1, {annQuote(q3)}),
+		    annBlock(0, {annQuote(q1), annText("After it."), annQuote(q2),
+		                 annSymbols(3)}),
+		});
+		CodecCB2 codec;
+		auto games = readAll(fx.write(), codec);
+		ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+		EXPECT_EQ(0u, codec.counts().incomplete) << codec.parseErrors();
+		EXPECT_EQ("{* Ost-Hansen WCh Final [4]} 1.e4 $3 {After it. "
+		          "0-1 Suzuki,T-Hamadto,I Olympiad-29 Novi Sad 1990 (3) "
+		          "1/2 Nakamura,H (2800)-Carlsen,\xc3\x89 (2830) Champions "
+		          "Showdown 2025 Saint Louis blitz (2.65535)} 1-0",
+		          pgnOf(games[0]))
+		    << (fill ? "filled" : "empty");
+	}
+}
+
+TEST(Test_CB2Annotations, quotation_of_unknown_start_stops_the_decoding) {
+	Fixture fx;
+	auto& g = fx.game();
+	g.moves = moveContent({W("e2", "e4"), END});
+	QuoteSpec q;
+	q.whiteLast = "A";
+	q.blackLast = "B";
+	q.startMarker = 2;
+	g.annotations = annRecord(
+	    {annBlock(0, {annText("Kept."), annQuote(q), annText("Lost.")})});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size());
+	EXPECT_EQ("1.e4 {Kept.} 1-0", pgnOf(games[0]));
+	EXPECT_EQ(1u, codec.counts().incomplete);
+}

@@ -330,8 +330,8 @@ using Anns = std::vector<const cb2::Annotation*>;
 
 /// A game's annotations by position, written as Scid comments and NAGs the
 /// way ChessBase writes them in its own PGN: one language for the texts,
-/// `[%csl]`/`[%cal]` for coloured squares and arrows, `[%mdl]` for medals and
-/// `[%evp]` for the evaluation profile.
+/// `[%csl]`/`[%cal]` for coloured squares and arrows, `[%mdl]` for medals,
+/// `[%evp]` for the evaluation profile, and game quotations as text.
 class Commentary {
 	std::vector<Anns> byPosition_;
 	Anns game_;
@@ -397,6 +397,7 @@ public:
 		appendPart(res, graphics(all));
 		appendPart(res, texts(all, true));
 		appendPart(res, texts(all, false));
+		appendPart(res, quotes(all));
 		return res;
 	}
 
@@ -426,6 +427,7 @@ public:
 			appendPart(res, texts(pastEnd_, true));
 			appendPart(res, texts(pastEnd_, false));
 		}
+		appendPart(res, quotes(all));
 		appendPart(game.accessMoveComment(), res);
 	}
 
@@ -438,6 +440,14 @@ private:
 			     a->language == language_))
 				appendPart(res, cleanText(a->text));
 		}
+		return res;
+	}
+
+	static std::string quotes(const Anns& anns) {
+		std::string res;
+		for (auto a : anns)
+			if (a->kind == cb2::Annotation::Quotation)
+				appendPart(res, cleanText(a->text));
 		return res;
 	}
 

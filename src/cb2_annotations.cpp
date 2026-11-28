@@ -14,6 +14,8 @@
  */
 
 #include "cb2_annotations.h"
+#include <algorithm>
+#include <cctype>
 
 namespace cb2 {
 
@@ -140,6 +142,153 @@ int training(Reader& r) {
 	return 1;
 }
 
+/// A string of a game quotation: a length byte that counts a terminating
+/// zero, then the text and the zero.
+bool counted(Reader& r, std::string* text = nullptr) {
+	uint8_t n;
+	Bytes b;
+	if (!r.u8(n) || !r.take(n, b))
+		return false;
+	if (text) {
+		if (!b.empty() && b.back() == 0)
+			b = b.first(b.size() - 1);
+		*text = decodeText(b);
+	}
+	return true;
+}
+
+std::string trim(std::string_view s) {
+	auto isSpace = [](char c) {
+		return c == ' ' || c == '\t' || c == '\r' || c == '\n';
+	};
+	while (!s.empty() && isSpace(s.front()))
+		s.remove_prefix(1);
+	while (!s.empty() && isSpace(s.back()))
+		s.remove_suffix(1);
+	return std::string(s);
+}
+
+/// The first character of UTF-8 text @p s.
+std::string firstChar(std::string_view s) {
+	size_t n = 1;
+	while (n < s.size() && (static_cast<unsigned char>(s[n]) & 0xC0) == 0x80)
+		++n;
+	return std::string(s.substr(0, s.empty() ? 0 : n));
+}
+
+/// A game quotation (type 0x13): a header of six strings (white's last and
+/// first name, black's, the site and the event), a block of 79 bytes, two
+/// rating lists, the start and the quoted moves.
+///
+/// Five strings sit inside the 79-byte block: the source and the publisher
+/// after 12 bytes, a third source string after 10 more, white's team after
+/// 29 more and black's team after 5 more, then 13 bytes. Up to the 2026
+/// databases they are all empty (`01 00`), which made the block look like
+/// fixed bytes; ChessBase 2027 fills them. The block is rebuilt here with
+/// each string in its empty form, so that every field keeps the offset it
+/// has in a block of empty strings: the date at 0, the event's type at 4,
+/// the ratings at 28 and 30, the ECO at 32, the result at 34, the round at
+/// 43 and the sub-round at 44.
+///
+/// Returns 1 when read, 0 for a start marker of unknown meaning, -1 for
+/// damage.
+int quotation(Reader& r, std::string& text) {
+	if (!r.expectOne() || !r.skip(2 + 2 + 4 + 1)) // mode, ?, int 1, zero
+		return -1;
+	std::string wl, wf, bl, bf, site, event;
+	for (auto s : {&wl, &wf, &bl, &bf, &site, &event})
+		if (!counted(r, s))
+			return -1;
+	unsigned char block[79];
+	size_t at = 0;
+	auto fixed = [&](size_t n) {
+		Bytes b;
+		if (!r.take(n, b))
+			return false;
+		std::copy(b.begin(), b.end(), block + at);
+		at += n;
+		return true;
+	};
+	auto string = [&]() {
+		block[at++] = 1;
+		block[at++] = 0;
+		return counted(r);
+	};
+	if (!fixed(12) || !string() || !string() || !fixed(10) || !string() ||
+	    !fixed(29) || !string() || !fixed(5) || !string() || !fixed(13))
+		return -1;
+	for (int k = 0; k < 2; ++k) // rating lists
+		if (!r.skip(5) || !r.skipCounted())
+			return -1;
+	if (!r.skip(26))
+		return -1;
+	uint8_t startMarker;
+	if (!r.u8(startMarker))
+		return -1;
+	if (startMarker == 0) { // a set-up start: 64 squares, then 11 bytes
+		if (!r.skip(64 + 11))
+			return -1;
+	} else if (startMarker != 1) {
+		return 0;
+	}
+	size_t moves;
+	if (!r.skip(2) || !r.len(moves) || moves > r.left() / 5 ||
+	    !r.skip(5 * moves) || !r.skip(4))
+		return -1;
+
+	const Bytes b(block, sizeof block);
+	const int32_t date = le_i32(b, 0);
+	const uint8_t kind = b[4];
+	const uint16_t whiteElo = le_u16(b, 28), blackElo = le_u16(b, 30);
+	const uint8_t result = b[34];
+	const unsigned round = b[43];
+	// A signed byte, shown as its 16-bit two's complement as ChessBase does.
+	const unsigned sub = uint16_t(int16_t(int8_t(b[44])));
+
+	// As ChessBase writes it in its own PGN: the result; both players as
+	// "Last,F (Elo)"; the event, with the site and the speed unless the
+	// event holds them, the year unless the text holds it, and the round.
+	auto player = [](const std::string& last, const std::string& first,
+	                 uint16_t elo) {
+		auto res = trim(last);
+		const auto initial = firstChar(trim(first));
+		if (!initial.empty())
+			res += ',' + initial;
+		if (elo > 0)
+			res += " (" + std::to_string(elo) + ')';
+		return res;
+	};
+	const auto ev = trim(event), st = trim(site);
+	auto x = ev;
+	if (!st.empty() && ev.find(st) == std::string::npos)
+		x += ' ' + st;
+	std::string lower = ev;
+	for (auto& c : lower)
+		c = char(std::tolower(static_cast<unsigned char>(c)));
+	if ((kind & 0x20) && lower.find("blitz") == std::string::npos)
+		x += " blitz";
+	if ((kind & 0x40) && lower.find("rapid") == std::string::npos)
+		x += " rapid";
+	const unsigned year = (uint32_t(date) >> 9) & 0xfff;
+	if (year > 0 && x.find(std::to_string(year)) == std::string::npos)
+		x += ' ' + std::to_string(year);
+	if (round == 0 && sub == 0) {
+	} else if (round == 0 && (kind & 0x80)) {
+		x += " [" + std::to_string(sub) + ']';
+	} else if (sub == 0) {
+		x += " (" + std::to_string(round) + ')';
+	} else {
+		x += " (" + std::to_string(round) + '.' + std::to_string(sub) + ')';
+	}
+	const char* res = result == 0 ? "0-1"
+	                  : result == 1 ? "1/2"
+	                  : result == 2 ? "1-0"
+	                                : "*";
+	text = std::string(res) + ' ' + player(wl, wf, whiteElo) + '-' +
+	       player(bl, bf, blackElo) + ' ' + x;
+	return 1;
+}
+
 /// Reads one annotation of type @p t. Returns 1 when read, 0 for a type of
 /// unknown layout, -1 for damage.
 int annotation(Reader& r, uint16_t t, Annotation& a) {
@@ -232,6 +381,16 @@ int annotation(Reader& r, uint16_t t, Annotation& a) {
 			return -1;
 		}
 		break;
+	case 0x13:
+		switch (quotation(r, a.text)) {
+		case 0:
+			return 0;
+		case -1:
+			return -1;
+		}
+		a.kind = Annotation::Quotation;
+		a.data = r.b.subspan(start, r.i - start);
+		return 1;
 	case 0x20: // a video: 01 00, a language, a length and that many bytes
 		if (!r.skip(4) || !r.skipCounted())
 			return -1;
