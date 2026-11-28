@@ -1,10 +1,10 @@
 # Commit hash from github branch
 # (the macros must be defined before Release uses shortcommit)
-%global commit a76dfdac527f5c699da19e4d58c8c0790592a920
+%global commit 0ad2d5575d52a43df21366542297653adac1bc7b
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name:           scidcommunity
-Version:        5.1.4.78
+Version:        5.1.4.79
 Release:        3.git%{shortcommit}%{?dist}
 Summary:        Chess database application with play and training functionality
 
@@ -68,6 +68,8 @@ appstream-util validate-relax --nonet %{buildroot}%{_metainfodir}/io.github.whel
 %{_metainfodir}/io.github.whelanh.scidCommunity.appdata.xml
 
 %changelog
+* Sat Nov 28, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-79
+- "More Woodpecker options; translations; fixes"
 * Fri Nov 27, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-78
 - "Add position search to the headless API"
 * Thu Nov 26, 2026 Hugh Whelan <brickhousedevelopers@gmail.com. - 5.1.4-77

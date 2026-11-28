@@ -79,6 +79,11 @@
   <content_rating type="oars-1.0" />
 
   <releases>
+ <release version="5.1.4.79" date="2026-11-28">
+      <description>
+        <p>More Woodpecker options; translations; fixes</p>
+      </description>
+    </release>
  <release version="5.1.4.78" date="2026-11-27">
       <description>
         <p>Add position search to headless API</p>
