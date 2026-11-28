@@ -358,6 +358,50 @@ proc ::wpgui::run {} {
     check "the presets explain themselves with that rating" \
         [string match "*1500*" $::woodpecker::ui::newCfg(presetHelp)] $::woodpecker::ui::newCfg(presetHelp)
     shot newset
+    # The form fills the dialog, and the Create button is never pushed off the
+    # screen: a form taller than the screen scrolls above it.
+    check "the dialog is as wide as its form" \
+        [expr {[winfo width .woodpeckerNew.cv] >= [winfo reqwidth .woodpeckerNew.f]}] \
+        "[winfo width .woodpeckerNew.cv] < [winfo reqwidth .woodpeckerNew.f]"
+    check "the form is not floating in blank space" \
+        [expr {[winfo height .woodpeckerNew.cv] <= [winfo reqheight .woodpeckerNew.f]}] \
+        "[winfo height .woodpeckerNew.cv] > [winfo reqheight .woodpeckerNew.f]"
+    # ismapped is true for a hidden widget too: ask what is under the pointer.
+    set e .woodpeckerNew.f.name
+    check "the form is visible, not hidden under the canvas" \
+        [expr {[winfo containing [expr {[winfo rootx $e] + 5}] [expr {[winfo rooty $e] + 5}]] eq $e}]
+    check "the scrollbar is always shown, greyed out while all fits" \
+        [expr {[winfo ismapped .woodpeckerNew.vs] && [.woodpeckerNew.vs instate disabled]}]
+    check "the Create button is on the screen" \
+        [expr {[winfo rooty .woodpeckerNew.b.ok] + [winfo height .woodpeckerNew.b.ok] <= [winfo screenheight .]}]
+    set ::woodpecker::ui::newCfg(source) file
+    ::woodpecker::ui::sourceShow
+    wait 200
+    check "a file source hides the puzzle options" [expr {![winfo ismapped .woodpeckerNew.f.lich]}]
+    check "a file source shows the file entry" [winfo ismapped .woodpeckerNew.f.file.e]
+    set ::woodpecker::ui::newCfg(source) puzzles
+    ::woodpecker::ui::sourceShow
+    wait 200
+    check "the puzzle source hides the file entry" [expr {![winfo ismapped .woodpeckerNew.f.file.e]}]
+    # Squeeze the window: the scrollbar appears, the buttons stay.
+    wm geometry .woodpeckerNew 500x300
+    wait 400
+    check "a squeezed dialog has a working scrollbar" \
+        [expr {[winfo ismapped .woodpeckerNew.vs] && ![.woodpeckerNew.vs instate disabled]}]
+    # The form is taller than the canvas now and must not cover the buttons.
+    set ok .woodpeckerNew.b.ok
+    check "the buttons stay visible when squeezed" \
+        [expr {[winfo containing [expr {[winfo rootx $ok] + 5}] [expr {[winfo rooty $ok] + 5}]] eq $ok}]
+    check "the buttons are inside the dialog when squeezed" \
+        [expr {[winfo rooty $ok] + [winfo height $ok] <= [winfo rooty .woodpeckerNew] + [winfo height .woodpeckerNew]}]
+    # Rows added later (the custom preset's level boxes) extend the scrolled form.
+    set before [winfo reqheight .woodpeckerNew.f]
+    set ::woodpecker::ui::newCfg(presetLabel) [dict get [::woodpecker::ui::presetLabels] custom]
+    ::woodpecker::ui::presetChosen
+    wait 400
+    check "a row added later makes the form taller" [expr {[winfo reqheight .woodpeckerNew.f] > $before}]
+    checkEq "and the scrolled area follows it" \
+        [lindex [.woodpeckerNew.cv cget -scrollregion] 3] [winfo reqheight .woodpeckerNew.f]
     destroy .woodpeckerNew
 
     ::woodpecker::ui::stats

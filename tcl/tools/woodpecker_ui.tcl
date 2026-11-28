@@ -1249,11 +1249,11 @@ proc ::woodpecker::ui::newDialog {} {
         token [::woodpecker::set::tokenRead] tokenState "" tokenUser "" tokenRating "" \
         rating $::woodpecker::ui::lastRating]
     set f [ttk::frame $d.f -padding 4]
-    pack $f -fill both -expand 1
     ttk::label $f.lname -text [tr WoodpeckerName]
     ttk::entry $f.name -textvariable ${v}::newCfg(name) -width 36
     # The puzzles shipped with Scid by default; Lichess under Advanced.
-    ttk::radiobutton $f.rl -text [tr WoodpeckerFromPuzzles] -variable ${v}::newCfg(source) -value puzzles
+    ttk::radiobutton $f.rl -text [tr WoodpeckerFromPuzzles] -variable ${v}::newCfg(source) -value puzzles \
+        -command ${v}::sourceShow
     set l [ttk::frame $f.lich -padding {20 2 0 0}]
     # The levels are relative to this rating, whatever the source.
     ttk::label $l.lrating -text [tr WoodpeckerRatingAsk]
@@ -1313,7 +1313,8 @@ proc ::woodpecker::ui::newDialog {} {
     grid $l.lcolor $l.color -sticky w -pady 2
     grid $l.adv - -sticky ew -pady {8 2}
     grid configure $l.lrating $l.lcount $l.ldiff $l.ltheme $l.lcolor -padx {0 10}
-    ttk::radiobutton $f.rf -text [tr WoodpeckerFromFile] -variable ${v}::newCfg(source) -value file
+    ttk::radiobutton $f.rf -text [tr WoodpeckerFromFile] -variable ${v}::newCfg(source) -value file \
+        -command ${v}::sourceShow
     ttk::frame $f.file -padding {20 0 0 0}
     ttk::entry $f.file.e -textvariable ${v}::newCfg(file) -width 36
     ttk::button $f.file.b -text "..." -width 3 -command ${v}::chooseFile
@@ -1344,15 +1345,91 @@ proc ::woodpecker::ui::newDialog {} {
     ttk::button $d.b.ok -text [tr WoodpeckerCreate] -command ${v}::create -default active
     ttk::button $d.b.cancel -text $::tr(Cancel) -command [list destroy $d]
     pack $d.b.cancel $d.b.ok -side right -padx 4
-    pack $d.b -fill x
+    # The buttons stay at the bottom; the form above scrolls when the screen
+    # is too small for it (large fonts, scaling, a long translation).
+    pack $d.b -side bottom -fill x
     presetChosen
     tokenShow
+    sourceShow
+    # After the rows above are in place, so the window is sized for what shows.
+    scrollForm $d $f
     set newCfg(fileCount) ""
     set newCfg(fileCounted) ""
     loadUpdate
     trace add variable ${v}::newCfg write ${v}::loadUpdate
     bind $d <Destroy> "+if {{%W} eq {$d}} { trace remove variable ${v}::newCfg write ${v}::loadUpdate }"
     if {$newCfg(token) ne ""} { after idle ::woodpecker::ui::tokenVerify }
+}
+
+# The form of the new-set dialog in a scrolled canvas, capped to the screen so
+# that the Create button underneath is always reachable.
+proc ::woodpecker::ui::scrollForm {d f} {
+    set cv $d.cv
+    canvas $cv -highlightthickness 0 -borderwidth 0 -background [color bg] \
+        -width [winfo reqwidth $f] -height [winfo reqheight $f] -yscrollcommand [list $d.vs set]
+    ttk::scrollbar $d.vs -command [list $cv yview]
+    # The scrollbar is always there, so that the window is sized with it and
+    # the user knows the form can scroll; it is greyed out while all fits.
+    pack $d.vs -side right -fill y
+    pack $cv -side left -fill both -expand 1
+    $cv create window 0 0 -window $f -anchor nw -tags in
+    # The form was made before the canvas, which would hide it: stack it above.
+    raise $f
+    # The form may run past the canvas, over the buttons: they stay on top.
+    raise $d.b
+    set fit [list ::woodpecker::ui::formFit $d]
+    bind $cv <Configure> $fit
+    bind $f <Configure> $fit
+    bind $d <MouseWheel> [list ::woodpecker::ui::formWheelDelta $d %D]
+    bind $d <Button-4> [list ::woodpecker::ui::formWheel $d -3]
+    bind $d <Button-5> [list ::woodpecker::ui::formWheel $d 3]
+}
+
+proc ::woodpecker::ui::formWheel {d n} {
+    if {[winfo exists $d.vs] && ![$d.vs instate disabled]} { $d.cv yview scroll $n units }
+}
+
+proc ::woodpecker::ui::formWheelDelta {d delta} {
+    formWheel $d [expr {$delta > 0 ? -3 : 3}]
+}
+
+proc ::woodpecker::ui::formFit {d {natural 0}} {
+    set cv $d.cv
+    set f $d.f
+    if {![winfo exists $cv] || ![winfo exists $f]} { return }
+    set rh [winfo reqheight $f]
+    set rw [winfo reqwidth $f]
+    # Room for the title bar, a panel and the button row.
+    set maxh [expr {max(200, [winfo screenheight $d] - 170)}]
+    $cv configure -width $rw -height [expr {min($rh, $maxh)}]
+    set cw [expr {max([winfo width $cv], $rw)}]
+    # The form's size is set here, so whatever adds or hides rows must call formFit.
+    $cv itemconfigure in -width $cw -height $rh
+    $cv configure -scrollregion [list 0 0 $cw $rh]
+    if {$rh > [winfo height $cv] && [winfo height $cv] > 1} {
+        $d.vs state !disabled
+    } else {
+        $d.vs state disabled
+        $cv yview moveto 0
+    }
+    # A window mapped for another layout keeps its size: let it follow the form.
+    if {$natural} { wm geometry $d {} }
+}
+
+# Only the options of the chosen source take room in the dialog.
+proc ::woodpecker::ui::sourceShow {} {
+    variable newCfg
+    set f .woodpeckerNew.f
+    if {![winfo exists $f.lich]} { return }
+    if {$newCfg(source) eq "file"} {
+        grid remove $f.lich
+        grid $f.file
+        grid $f.filehelp
+    } else {
+        grid $f.lich
+        grid remove $f.file $f.filehelp
+    }
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew 1]
 }
 
 # The daily load of a first cycle, as one sentence (empty while the number of
@@ -1405,6 +1482,7 @@ proc ::woodpecker::ui::presetChosen {} {
     } elseif {[string is integer -strict $newCfg(rating)]} {
         append newCfg(presetHelp) " " [T WoodpeckerPresetStated $newCfg(rating)]
     }
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew]
 }
 
 # The line under the token: what the token is, or why a set needs one. The
@@ -1439,6 +1517,7 @@ proc ::woodpecker::ui::tokenShow {} {
     } else {
         grid $l.lrating $l.rating
     }
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew]
 }
 
 proc ::woodpecker::ui::tokenSave {} {
@@ -1484,6 +1563,7 @@ proc ::woodpecker::ui::chooseFile {} {
     if {$f ne ""} {
         set newCfg(file) $f
         set newCfg(source) file
+        sourceShow
         if {[string match "Woodpecker *" $newCfg(name)]} { set newCfg(name) [file rootname [file tail $f]] }
     }
 }
@@ -1500,7 +1580,10 @@ proc ::woodpecker::ui::create {} {
     set d .woodpeckerNew
     set name [string trim $newCfg(name)]
     if {$name eq ""} { return }
-    foreach k {days1 restDays count} {
+    # The exercise count belongs to the puzzle options, hidden for a file.
+    set numbers {days1 restDays}
+    if {$newCfg(source) eq "puzzles"} { lappend numbers count }
+    foreach k $numbers {
         if {![string is integer -strict $newCfg($k)] || $newCfg($k) < 0} {
             tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $k]
             return
