@@ -264,6 +264,8 @@ const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
 	const size_t n = mr.size();
 	for (size_t i = 0; i < n; ++i) {
 		const auto w = mr.word(i);
+		if (w == cb2::kSkipped)
+			continue;
 		if (ended)
 			return "words after the final end of line";
 		if (w == cb2::kAlternative) {
@@ -295,7 +297,10 @@ const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
 			return why;
 		// The position before a move is needed again only when an
 		// alternative to it follows: save it then.
-		if (i + 1 < n && mr.word(i + 1) == cb2::kAlternative) {
+		size_t next = i + 1;
+		while (next < n && mr.word(next) == cb2::kSkipped)
+			++next;
+		if (next < n && mr.word(next) == cb2::kAlternative) {
 			if (branches_.size() >= kMaxVariationDepth)
 				return "variations nested too deeply";
 			branches_.emplace_back(pos, cur);

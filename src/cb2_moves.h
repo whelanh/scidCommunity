@@ -66,6 +66,11 @@ constexpr uint16_t kNullMove = 0xfffa;
 constexpr uint16_t kStartPosition = 0xfffb;
 constexpr uint16_t kMoves = 0xfffc;
 constexpr uint16_t kAlternative = 0xfffd;
+/// A marker of unknown meaning that ChessBase writes between moves. It is
+/// not a move and takes no annotation position: in the 18 games of real
+/// databases that hold it, the last comment falls on the last move only when
+/// it is skipped.
+constexpr uint16_t kSkipped = 0xfffe;
 constexpr uint16_t kEndOfLine = 0xffff;
 ///@}
 

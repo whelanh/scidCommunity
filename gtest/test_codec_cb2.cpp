@@ -546,6 +546,23 @@ TEST(Test_CB2Moves, main_line_and_variations) {
 	          pgnOf(games[0]));
 }
 
+TEST(Test_CB2Moves, marker_0xfffe_is_skipped) {
+	Fixture fx;
+	constexpr uint16_t SKIP = 0xfffe;
+	// 1.e4 e5 (1...c5) 2.Nf3, with the marker in the line, between a move
+	// and its alternative marker, and before an end of line.
+	auto& g = fx.game();
+	g.moves = moveContent({W("e2", "e4"), SKIP, B("e7", "e5"), SKIP, ALT,
+	                       W("g1", "f3"), SKIP, END, B("c7", "c5"), END});
+	// Comments by position in PGN order: the marker takes none.
+	g.annotations = annRecord(
+	    {annBlock(2, {annText("c5.")}), annBlock(3, {annText("Last.")})});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 e5 ( 1...c5 {c5.} ) 2.Nf3 {Last.} 1-0", pgnOf(games[0]));
+}
+
 TEST(Test_CB2Moves, castling_en_passant_promotion_and_null_moves) {
 	Fixture fx;
 	// 1.e4 d5 2.e5 f5 3.exf6 -- 4.fxg7 Nc6 5.gxh8=N Bh3 6.Nf3 Qd7
