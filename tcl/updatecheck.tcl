@@ -259,6 +259,16 @@ proc ::appupdate::hideChecking {} {
     if {[winfo exists .updateCheckWin]} { destroy .updateCheckWin }
 }
 
+# Size a dialog button with extra room: dialogbutton's width is the text length
+# in average-character units, which is too tight for wide glyphs, large font
+# sizes and longer translations.
+proc ::appupdate::roomyButton {w args} {
+    dialogbutton $w {*}$args
+    set len [expr {[string length [$w cget -text]] + 3}]
+    if {$len < 10} { set len 10 }
+    $w configure -width $len
+}
+
 # The "a new version is available" dialog. On Windows it offers a
 # "Download & Install" button; that button never appears on other platforms.
 proc ::appupdate::showUpdateDialog {version htmlUrl installer} {
@@ -277,18 +287,18 @@ proc ::appupdate::showUpdateDialog {version htmlUrl installer} {
 
     # Windows only: offer the one-click installer.
     if {$::windowsOS && $installer ne ""} {
-        dialogbutton $w.buttons.install -text [tr UpdateDownloadInstall] \
+        ::appupdate::roomyButton $w.buttons.install -text [tr UpdateDownloadInstall] \
             -command [list ::appupdate::downloadAndInstall $installer $version]
         pack $w.buttons.install -side right -padx 4
     }
 
     if {$htmlUrl ne ""} {
-        dialogbutton $w.buttons.release -text [tr UpdateViewRelease] \
+        ::appupdate::roomyButton $w.buttons.release -text [tr UpdateViewRelease] \
             -command [list openURL $htmlUrl]
         pack $w.buttons.release -side right -padx 4
     }
 
-    dialogbutton $w.buttons.later -text [tr UpdateNotNow] -command "destroy $w"
+    ::appupdate::roomyButton $w.buttons.later -text [tr UpdateNotNow] -command "destroy $w"
     pack $w.buttons.later -side right -padx 4
 
     bind $w <Escape> "destroy $w"
