@@ -355,9 +355,14 @@ proc importFolderRun {src dest flatten} {
       file mkdir [file dirname $target]
       set base [sc_base create SCID5 $si5]
     } msg]} {
+      # Refused because the database is there or in use: nothing was made,
+      # and a file that appeared meanwhile belongs to someone else.
+      set code $::errorCode
       incr failed
       $w.text insert end "$si5\n[ERROR::getErrorMsg]\n$msg\n\n"
-      importRemoveFiles $w $new
+      if {$code ni [list $::ERROR::Exists $::ERROR::FileInUse]} {
+        importRemoveFiles $w $new
+      }
       continue
     }
     set ::progressCanvas(cancel) 0

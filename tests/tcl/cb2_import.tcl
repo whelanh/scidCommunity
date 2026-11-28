@@ -169,6 +169,8 @@ namespace eval win { proc createDialog {w} { toplevel $w } }
 namespace eval notify { proc DatabaseModified {args} {} }
 namespace eval ERROR {
     variable UserCancel 2
+    variable FileInUse 107
+    variable Exists 203
     proc getErrorMsg {} { return "error" }
 }
 proc autoscrollText {bars frame text style} { ttk::frame $frame; text $text; pack $text -in $frame }
@@ -309,6 +311,28 @@ importFolderRun $root $out 0
 set left [glob -nocomplain -tails -directory $out orphan.s?5]
 check "a refused creation keeps the file that was there and leaves no other" \
     [expr {$left eq "orphan.sg5"}] $left
+
+set code [catch {sc_base create SCID5 [file join $out orphan.si5]}]
+check "sc_base create refuses a leftover file with the Exists code" \
+    [expr {$code == 1 && $::errorCode == $::ERROR::Exists}] "$code $::errorCode"
+
+# Another program makes the same database just before it is created here: the
+# creation is refused and its files stay.
+close [open [file join $root late.pgn] w]
+rename sc_base real_sc_base
+proc sc_base {cmd args} {
+    if {$cmd eq "create" && [string match *late.si5 [lindex $args end]]} {
+        close [open [lindex $args end] w]
+        return -code error -errorcode $::ERROR::Exists "exists"
+    }
+    uplevel 1 [list real_sc_base $cmd {*}$args]
+}
+importFolderRun $root $out 0
+rename sc_base {}
+rename real_sc_base sc_base
+check "files that appear before a refused creation are kept" \
+    [file exists [file join $out late.si5]]
+file delete [file join $root late.pgn]
 
 # A partial database that cannot be removed is reported; the run goes on.
 rename file real_file
