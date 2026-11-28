@@ -78,21 +78,26 @@ proc ::xfcceval::limits {name} {
     return $lim
 }
 
-# The position at the end of a database game, read without disturbing the
-# game on the board. "" if the game cannot be read.
-proc ::xfcceval::endFen {dbGameNum} {
-    set fen ""
+# The position at the end of a database game and that game's variant (0 for
+# standard chess, else Chess960), read without disturbing the game on the
+# board. The variant has to be read while the game is borrowed: afterwards
+# sc_game answers for the reader's own game. {} if the game cannot be read.
+proc ::xfcceval::endState {dbGameNum} {
+    set state {}
     if {[catch {
         sc_game push copy
         set pushed 1
         sc_game load $dbGameNum
         sc_move end
         set fen [sc_pos fen]
+        set variant 0
+        catch { set variant [sc_game variant] }
+        set state [list $fen $variant]
     }]} {
-        set fen ""
+        set state {}
     }
     if {[info exists pushed]} { catch { sc_game pop } }
-    return $fen
+    return $state
 }
 
 # Do the DB game's moves equal the server's? Compared without check marks.
@@ -110,8 +115,6 @@ proc ::xfcceval::run {ns prefix parent} {
         return
     }
     upvar #0 ::${ns}::yourTurnGames yourTurn
-    upvar #0 ::${ns}::gameData gameData
-    upvar #0 ::${ns}::gameToDbMap dbMap
     upvar #0 ::${ns}::statusText status
     upvar #0 ::${ns}::games games
 
@@ -144,84 +147,114 @@ proc ::xfcceval::run {ns prefix parent} {
     set ::xfcceval::waitId $id
     set btn $parent.nb.yourturn.top.eval
     set busy [list $parent.nb.yourturn.top.update $parent.nb.yourturn.top.send]
-    catch { $btn configure -text $::tr(Cancel) }
-    foreach b $busy { catch { $b state disabled } }
+    set count [dict create done 0 skipped 0 failed 0]
+    # Commits are made into the database the pass started in: the reader may
+    # switch databases during a long search, and a game number means a
+    # different game there.
+    set base [sc_base current]
 
-    set total [llength $yourTurn]
-    set done 0
-    set skipped 0
-    set failed 0
-    set n 0
-    foreach gid $yourTurn {
-        if {$::xfcceval::cancel} { break }
-        incr n
-        set status [format $::tr(${prefix}Evaluating) $n $total]
-        update idletasks
+    # Everything from here to the end of the pass is cleaned up whatever
+    # happens: an error in one game must not leave the pass marked as running,
+    # the engine open and the window's buttons disabled.
+    try {
+        catch { $btn configure -text $::tr(Cancel) }
+        foreach b $busy { catch { $b state disabled } }
 
-        if {![info exists gameData($gid)] || ![info exists dbMap($gid)] || $dbMap($gid) <= 0} {
-            incr skipped
-            continue
-        }
-        # ICCF lists games that have not started yet; there is nothing to play.
-        if {$ns eq "iccf" && ![::iccf::gameStarted $gameData($gid)]} {
-            incr skipped
-            continue
-        }
-        set dbGameNum $dbMap($gid)
-        set serverTokens [::${ns}::parseSanTokens [::${ns}::dictGetDefault $gameData($gid) moves ""]]
-        set dbTokens [::${ns}::parseSanTokens [::${ns}::dbMoves $dbGameNum]]
-        # Only a game that is exactly where the server is needs a move. One
-        # that already carries a further move (an earlier Evaluate, or the
-        # reader's own choice) is left alone, and so is one that disagrees
-        # with the server.
-        if {[llength $dbTokens] != [llength $serverTokens] ||
-            ![::xfcceval::samePrefix $serverTokens $dbTokens]} {
-            incr skipped
-            continue
-        }
-        set fen [::xfcceval::endFen $dbGameNum]
-        if {$fen eq "" || [catch { ::chessboard::fromFen $fen } pos] ||
-            ![llength [::chessboard::legalMoves $pos]]} {
-            incr skipped
-            continue
-        }
+        set total [llength $yourTurn]
+        set n 0
+        foreach gid $yourTurn {
+            if {$::xfcceval::cancel} { break }
+            incr n
+            set status [format $::tr(${prefix}Evaluating) $n $total]
+            update idletasks
 
-        set ::xfcceval::best ""
-        set ::xfcceval::signal ""
-        set variant 0
-        catch { set variant [sc_game variant] }
-        catch { ::engine::send $id NewGame [list analysis post_pv post_wdl $variant] }
-        if {[catch { ::engine::send $id Go [list "position fen $fen" $limits] }]} {
-            incr failed
-            break
+            set outcome failed
+            catch {
+                set outcome [::xfcceval::one $ns $gid $id $limits $base]
+            }
+            switch -- $outcome {
+                done - skipped - failed { dict incr count $outcome }
+                lost { dict incr count failed ; break }
+                cancel { break }
+                default { dict incr count failed }
+            }
         }
-        vwait ::xfcceval::signal
-        if {!$::xfcceval::active || $::xfcceval::cancel} { break }
-        if {$::xfcceval::signal eq "gone"} {
-            incr failed
-            break
+    } finally {
+        set ::xfcceval::active 0
+        catch { ::engineNoWin::closeEngine $id }
+        if {[winfo exists $parent]} {
+            catch { $btn configure -text $::tr(${prefix}Evaluate) }
+            foreach b $busy { catch { $b state !disabled } }
+            set status [format $::tr(${prefix}Evaluated) [dict get $count done] \
+                [dict get $count skipped] [dict get $count failed]]
+            catch { ::${ns}::populateGameList }
         }
-        set move $::xfcceval::best
-        if {$move eq "" || $move eq "(none)"} {
-            incr failed
-            continue
-        }
-        if {[::reviewprogress::commitMoves $dbGameNum [list $move]] eq ""} {
-            incr done
-        } else {
-            incr failed
-        }
-    }
-
-    set ::xfcceval::active 0
-    catch { ::engineNoWin::closeEngine $id }
-    if {[winfo exists $parent]} {
-        catch { $btn configure -text $::tr(${prefix}Evaluate) }
-        foreach b $busy { catch { $b state !disabled } }
-        set status [format $::tr(${prefix}Evaluated) $done $skipped $failed]
-        ::${ns}::populateGameList
     }
     return
+}
+
+# Evaluate one Your Turn game. Returns done, skipped, failed, or - when the
+# whole pass has to end - lost (the engine or the database went away) or cancel.
+proc ::xfcceval::one {ns gid id limits base} {
+    upvar #0 ::${ns}::gameData gameData
+    upvar #0 ::${ns}::gameToDbMap dbMap
+
+    if {![info exists gameData($gid)] || ![info exists dbMap($gid)] || $dbMap($gid) <= 0} {
+        return skipped
+    }
+    # ICCF lists games that have not started yet; there is nothing to play.
+    if {$ns eq "iccf" && ![::iccf::gameStarted $gameData($gid)]} {
+        return skipped
+    }
+    if {![::xfcceval::baseIs $base]} { return lost }
+    set dbGameNum $dbMap($gid)
+    set serverTokens [::${ns}::parseSanTokens [::${ns}::dictGetDefault $gameData($gid) moves ""]]
+    set dbTokens [::${ns}::parseSanTokens [::${ns}::dbMoves $dbGameNum]]
+    # Only a game that is exactly where the server is needs a move. One that
+    # already carries a further move (an earlier Evaluate, or the reader's own
+    # choice) is left alone, and so is one that disagrees with the server.
+    if {[llength $dbTokens] != [llength $serverTokens] ||
+        ![::xfcceval::samePrefix $serverTokens $dbTokens]} {
+        return skipped
+    }
+    set state [::xfcceval::endState $dbGameNum]
+    if {![llength $state]} { return skipped }
+    lassign $state fen variant
+    if {$fen eq "" || [catch { ::chessboard::fromFen $fen } pos] ||
+        ![llength [::chessboard::legalMoves $pos]]} {
+        return skipped
+    }
+
+    set ::xfcceval::best ""
+    set ::xfcceval::signal ""
+    catch { ::engine::send $id NewGame [list analysis post_pv post_wdl $variant] }
+    if {[catch { ::engine::send $id Go [list "position fen $fen" $limits] }]} {
+        return lost
+    }
+    vwait ::xfcceval::signal
+    if {!$::xfcceval::active || $::xfcceval::cancel} { return cancel }
+    if {$::xfcceval::signal eq "gone"} { return lost }
+    set move $::xfcceval::best
+    if {$move eq "" || $move eq "(none)"} { return failed }
+
+    # The search can take minutes with the event loop running. The move was
+    # chosen for the position that was searched, so it is written only if the
+    # same database is still open and the game still ends where it did.
+    if {![::xfcceval::baseIs $base]} { return lost }
+    set nowTokens [::${ns}::parseSanTokens [::${ns}::dbMoves $dbGameNum]]
+    if {$nowTokens ne $dbTokens} { return skipped }
+    if {[::reviewprogress::commitMoves $dbGameNum [list $move]] eq ""} {
+        return done
+    }
+    return failed
+}
+
+# Is the database the pass started in still the current one?
+proc ::xfcceval::baseIs {base} {
+    if {[catch { expr {[sc_base inUse] && [sc_base current] eq $base} } same]} {
+        return 0
+    }
+    return $same
 }
 
 # Stop after the current search. The stopped search's reply is swallowed by the

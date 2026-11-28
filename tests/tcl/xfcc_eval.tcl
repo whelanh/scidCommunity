@@ -26,10 +26,11 @@ array set ::tr {Cancel Cancel
   LSSNoDatabase nodb LSSNeedUpdate needupdate LSSEvaluateNoEngine noengine}
 
 # environment
-proc sc_base {args} { return 1 }
+set ::curbase 1
+proc sc_base {sub args} { return [expr {$sub eq "current" ? $::curbase : 1}] }
 proc sc_game {sub args} {
     switch $sub {
-        variant { return 0 }
+        variant { return [expr {[info exists ::variants($::loaded)] ? $::variants($::loaded) : 0}] }
         push - pop { return }
         load { set ::loaded [lindex $args 0] ; return }
     }
@@ -54,8 +55,11 @@ proc ::engineNoWin::initEngine {id name cb} { set ::cb $cb ; lappend ::log "init
 proc ::engineNoWin::closeEngine {id} { lappend ::log close }
 namespace eval ::engine {}
 proc ::engine::send {id what {data {}}} {
+    if {$what eq "NewGame"} { lappend ::newgames $data }
     if {$what eq "Go"} {
         lappend ::log "go $data"
+        regexp {fen (\S+)} [lindex $data 0] -> f0
+        if {[info exists ::duringSearch($f0)]} { eval $::duringSearch($f0) }
         regexp {fen (\S+)} [lindex $data 0] -> f
         after idle [list {*}$::cb [list InfoBestMove [list $::reply($f)]]]
     }
@@ -101,6 +105,39 @@ check "engine closed" [expr {[lindex $::log end] eq "close"}]
 checkEq "status" $::lss::statusText "done 2 skipped 3 failed 0"
 check "list refreshed" [info exists ::repopulated]
 check "idle after run" [expr {!$::xfcceval::active}]
+
+puts "-- variant comes from the evaluated game, not the reader's"
+checkEq "NewGame variant" [lindex $::newgames 0] {analysis post_pv post_wdl 0}
+set ::variants(40) 1
+set ::commits {} ; set ::newgames {}
+::xfcceval::run lss LSS .lss
+checkEq "chess960 sent for game 40" [lindex $::newgames 1] {analysis post_pv post_wdl 1}
+unset ::variants(40)
+
+puts "-- an error in one game does not wedge the pass"
+set ::commits {}
+rename ::lss::dbMoves ::lss::dbMovesReal
+proc ::lss::dbMoves {n} { if {$n == 10} { error "game gone" } ; return [::lss::dbMovesReal $n] }
+::xfcceval::run lss LSS .lss
+checkEq "other game still evaluated" $::commits {{40 g1f3}}
+check "inactive afterwards" [expr {!$::xfcceval::active}]
+checkEq "status" $::lss::statusText "done 1 skipped 3 failed 1"
+rename ::lss::dbMoves {} ; rename ::lss::dbMovesReal ::lss::dbMoves
+
+puts "-- game edited during the search is not written to"
+set ::commits {}
+set ::duringSearch(fenA) {set ::dbm(10) {e4 e5 Nc3}}
+::xfcceval::run lss LSS .lss
+checkEq "edited game skipped, other written" $::commits {{40 g1f3}}
+unset ::duringSearch(fenA) ; set ::dbm(10) {e4 e5}
+
+puts "-- database switched during the search ends the pass"
+set ::commits {}
+set ::duringSearch(fenA) {set ::curbase 2}
+::xfcceval::run lss LSS .lss
+checkEq "nothing written" $::commits {}
+check "inactive afterwards" [expr {!$::xfcceval::active}]
+unset ::duringSearch(fenA) ; set ::curbase 1
 
 puts "-- legacy preset: the window's global limits apply"
 set ::legacy 1
