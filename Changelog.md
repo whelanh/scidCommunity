@@ -12,6 +12,12 @@ A scidCommunity version has three numbers and a build number, for example **5.1.
 The latest downloads are on the [Releases page](https://github.com/whelanh/scidCommunity/releases).
 
 ---
+## 5.1.4.79 - 28 November 2026
+- Woodpecker gains an **Inner Circle** for repeatedly training selected exercises, with a danger zone to reset or restore set statistics, a daily-load estimate in the new-set dialog, and faster grading across several engines. Moves can also be made while an opponent reply is animating, and sessions no longer raise an error when left mid-exercise. — thanks to @TBergh98 ([#560](https://github.com/whelanh/scidCommunity/pull/560); see [Discussion #552](https://github.com/whelanh/scidCommunity/discussions/552)).
+- The **What's the threat?** help page now displays completely instead of stopping at its toolbar button. — thanks to @whelanh ([#564](https://github.com/whelanh/scidCommunity/pull/564)).
+- Links in comment-editor tips now end correctly in 16 translations. — thanks to @whelanh ([#562](https://github.com/whelanh/scidCommunity/pull/562)).
+- Improved French translations — thanks to @IttacusFc ([#561](https://github.com/whelanh/scidCommunity/pull/561)).
+
 ## 5.1.4.78 - 27 November 2026
 - Searches through the headless API can find games by position, given as a FEN, with exact, pawns, files or material matching and color reversal ([documentation](docs/HEADLESS_API_SPEC.md)).
 - Board searches with **Look in vars** now find a position reached by the last move of a variation.
