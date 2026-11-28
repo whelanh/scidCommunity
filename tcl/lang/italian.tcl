@@ -251,8 +251,10 @@ menuText I ToolsExpFilterRTF "Esporta filtro in file RTF..." 17 \
   {Scrivi tutti i giochi filtrati in un file RTF preservando la formattazione dei commenti}
 menuText I ToolsImportOne "Importa una partita in formato PGN..." 0 \
   {Importa una partita da testo PGN}
-menuText I ToolsImportFile "Importa partite da files PGN..." 27 \
-  {Importa le partite da uno o più file PGN}
+menuText I ToolsImportFile "Importa partite da file PGN/ChessBase..." 26 \
+  {Importa le partite da file PGN o database ChessBase}
+menuText I ToolsConvertFolder "Converti una cartella in database Scid..." 0 \
+  {Crea un database Scid da ogni file PGN e ChessBase di una cartella}
 menuText I FileImportRTF "Importa gioco RTF..." 0 \
   {Importa un gioco da un file RTF creato da scidCommunity}
 menuText I ToolsStartEngine1 "Avvia il motore 1" 16  {Avvia il primo motore per l'analisi della posizione}
@@ -800,7 +802,7 @@ translate I LichessStudyReports {Rapporti Lichess: %s}
 translate I About {Di}
 translate I Back {Indietro}
 translate I Apply {Applica}
-translate I Browse {Browse}
+translate I Browse {Sfoglia}
 translate I Cancel {Annulla}
 translate I Continue {Continua}
 translate I Clear {Cancella}
@@ -2351,6 +2353,23 @@ translate I ImportPGN {Importa il gioco PGN}
 translate I ImportingFiles {Importazione di file PGN in}
 translate I ImportingFrom {Importazione da}
 translate I ImportingIn {Importa giochi in}
+translate I ChessBaseDatabases {Database ChessBase}
+translate I ConvertFolderTitle {Converti una cartella in database Scid}
+translate I SourceFolder {Cartella di origine:}
+translate I DestinationFolder {Cartella di destinazione:}
+translate I KeepFolderStructure {Mantieni la struttura delle cartelle}
+translate I KeepFolderStructureHelp {Ogni sottocartella dell'origine ha la stessa sottocartella nella destinazione.}
+translate I AllInOneFolder {Tutto in una cartella}
+translate I AllInOneFolderHelp {Tutti i database vanno direttamente nella cartella di destinazione; i nomi ripetuti ricevono _2, _3...}
+translate I ConvertFolderNote {Ogni file .pgn, .2cbh e .cbh, sottocartelle comprese, diventa un nuovo database Scid (.si5). I database già presenti nella destinazione non vengono toccati.}
+translate I Convert {Converti}
+translate I ChooseBothFolders {Scegli una cartella di origine e una di destinazione esistenti.}
+translate I AlreadyExistsSkipped {saltato, esiste già}
+translate I CannotRemoveFile {Impossibile rimuovere un file di un database incompleto:}
+translate I ConvertFolderDone {Database creati: %d, saltati: %d, falliti: %d.}
+translate I PgnAndChessBase {File PGN e ChessBase}
+translate I ImportErrorsWarnings {Errori/avvisi:}
+translate I NoImportErrorsWarnings {senza errori o avvisi.}
 translate I UseLastTag {Utilizza i tag dell'ultimo\ngioco}
 translate I Random {Casuale}
 translate I BackToMainline {Torna alla linea principale}

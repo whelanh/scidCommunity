@@ -501,6 +501,12 @@ jobs:
       - name: Import updates an online game by Link
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/import_nodup_link.tcl
 
+      # sc_base import of ChessBase databases built byte by byte (2CBH in the
+      # 2027 layout, and classic CBH): the binary picks the reader by the
+      # extension.
+      - name: Import ChessBase databases
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/cb2_import.tcl
+
       # Book Tuning's Remove Move + Save: the move must be gone from the book
       # after a save and a re-read, not rewritten at full weight.
       - name: Remove Move deletes the move

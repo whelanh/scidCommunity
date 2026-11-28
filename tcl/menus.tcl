@@ -113,6 +113,7 @@ menu $m.exportfilter
 $m add cascade -label ToolsExpFilter -menu $m.exportfilter
 menu $m.importfile
 $m add cascade -label ToolsImportFile -menu $m.importfile
+$m add command -label ToolsConvertFolder -command importFolder
 $m add separator
 menu $m.utils
   $m.utils add checkbutton -label FileMaintWin -accelerator "Ctrl+M" -variable maintWin -command ::maint::OpenClose

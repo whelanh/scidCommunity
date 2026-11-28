@@ -141,25 +141,12 @@ proc importMoveListTrans {line} {
 }
 
 
-### Import file of Pgn games:
-proc importPgnFile {{base} {fnames ""}} {
-  if {$fnames == ""} {
-      set ftypes { { "Portable Game Notation files" {".pgn" ".PGN"} } }
-    lappend ftypes { "Text files" {".txt" ".TXT"} }
-    lappend ftypes { "All files" {"*"} }
-
-    set fnames [tk_getOpenFile -multiple 1 -initialdir $::initialDir(pgn) -filetypes $ftypes -title "$::tr(ImportingIn) [file tail [sc_base filename $base] ]" ]
-    if {$fnames == ""} { return }
-    set ::initialDir(pgn) [file dirname [lindex $fnames 0]]
-    set autoclose 0
-  } else {
-    set autoclose 1
-  }
-  
-  set w .ipgnWin
+### The log window of a file import: a progress bar, Stop and Close, and the
+### text widget $w.text. It stays busy until importLogDone.
+proc importLogWindow {w title} {
   if {[winfo exists $w]} { destroy $w }
   win::createDialog $w
-  wm title $w "scidCommunity: $::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
+  wm title $w "scidCommunity: $title"
 
   ttk::frame $w.buttons
   canvas $w.progress -width 400 -height 20 -bg white -relief solid -border 1 -highlightthickness 0
@@ -175,7 +162,7 @@ proc importPgnFile {{base} {fnames ""}} {
   grid $w.progress $w.buttons.stop $w.buttons.close -in $w.buttons
   grid rowconfigure $w.buttons 0 -weight 1
   grid columnconfigure $w.buttons 0 -weight 1
-    
+
   autoscrollText both $w.t $w.text TLabel
   $w.text configure -wrap none
   grid $w.t -pady {0 10} -sticky news
@@ -186,53 +173,284 @@ proc importPgnFile {{base} {fnames ""}} {
   grab $w.buttons.stop
 
   busyCursor .
-  foreach fname $fnames {
-    $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
-    $w.text configure -state disabled
-    progressBarSet $w.progress 401 21
-    set err [catch {sc_base import_nodup $base $fname} result]
-    $w.text configure -state normal
-    if {$err == 1} {
-      set autoclose 0
-      $w.text insert end "[ERROR::getErrorMsg]\n$result\n\n"
-    } else {
-      set nImported [lindex $result 0]
-      set nSkipped  [lindex $result 1]
-      set nUpdated  [lindex $result 2]
-      set warnings  [lindex $result 3]
-      set str "[tr Imported] $nImported "
-      if {$nImported == 1} { append str [tr game] } else { append str [tr games] }
-      if {$nSkipped > 0} {
-        append str ", [tr Skipped] $nSkipped "
-        if {$nSkipped == 1} { append str [tr DuplicateGame] } else { append str [tr DuplicateGames] }
-      }
-      if {$nUpdated > 0} {
-        append str ", [tr Updated] $nUpdated "
-        if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
-      }
-      if {$warnings == ""} {
-        append str " [tr NoPgnErrorsWarnings]"
-      } else {
-        set autoclose 0
-        append str ".\n[tr PgnErrorsWarnings]\n$warnings"
-      }
-      $w.text insert end "$str\n\n"
-      if {$err == 3} {
-        $w.text insert end ".\nINTERRUPTED\n"
-        set autoclose 0
-        break
-      }
-    }
-  }
-  unbusyCursor .
+}
 
+proc importLogDone {w} {
+  unbusyCursor .
   $w.text configure -state disabled
   $w.buttons.close configure -state normal
   $w.buttons.stop configure -state disabled
   grab release $w.buttons.stop
+}
+
+### Import one file into <base>, writing the outcome to the log window <w>.
+#   Returns {code clean}: code is 0 (done), 1 (error) or 3 (interrupted),
+#   clean is false when there is something the user should read.
+proc importFileToBase {w base fname} {
+  $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
+  set ext [string tolower [file extension $fname]]
+  $w.text configure -state disabled
+  progressBarSet $w.progress 401 21
+  set cb2 [expr {$ext in {.2cbh .cbh}}]
+  if {$cb2} {
+    # shortcut: no duplicate check for a ChessBase database (importGamesNoDup
+    # reads PGN only), fine for importing into a new base; add it if asked.
+    set err [catch {sc_base import $base $fname} result]
+    if {$err == 0} {
+      lassign $result nImported warnings
+      set result [list $nImported 0 0 $warnings]
+    }
+  } else {
+    set err [catch {sc_base import_nodup $base $fname} result]
+  }
+  $w.text configure -state normal
+  # Stop comes back from sc_base as an error: it must end the whole run.
+  if {$err == 1 && $::errorCode == $::ERROR::UserCancel} {
+    $w.text insert end "INTERRUPTED\n\n"
+    return {3 0}
+  }
+  if {$err == 1} {
+    $w.text insert end "[ERROR::getErrorMsg]\n$result\n\n"
+    return {1 0}
+  }
+  lassign $result nImported nSkipped nUpdated warnings
+  set str "[tr Imported] $nImported "
+  if {$nImported == 1} { append str [tr game] } else { append str [tr games] }
+  if {$nSkipped > 0} {
+    append str ", [tr Skipped] $nSkipped "
+    if {$nSkipped == 1} { append str [tr DuplicateGame] } else { append str [tr DuplicateGames] }
+  }
+  if {$nUpdated > 0} {
+    append str ", [tr Updated] $nUpdated "
+    if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
+  }
+  if {$warnings == ""} {
+    append str " [tr [expr {$cb2 ? "NoImportErrorsWarnings" : "NoPgnErrorsWarnings"}]]"
+  } else {
+    append str ".\n[tr [expr {$cb2 ? "ImportErrorsWarnings" : "PgnErrorsWarnings"}]]\n$warnings"
+  }
+  $w.text insert end "$str\n\n"
+  if {$err == 3} {
+    $w.text insert end ".\nINTERRUPTED\n"
+    return {3 0}
+  }
+  return [list 0 [expr {$warnings == ""}]]
+}
+
+### Import file of Pgn or ChessBase games:
+proc importPgnFile {{base} {fnames ""}} {
+  if {$fnames == ""} {
+    set ftypes [list [list [tr PgnAndChessBase] {.pgn .PGN .2cbh .2CBH .cbh .CBH}]]
+    lappend ftypes { "Portable Game Notation files" {".pgn" ".PGN"} }
+    lappend ftypes [list [tr ChessBaseDatabases] {.2cbh .2CBH .cbh .CBH}]
+    lappend ftypes { "Text files" {".txt" ".TXT"} }
+    lappend ftypes { "All files" {"*"} }
+
+    set fnames [tk_getOpenFile -multiple 1 -initialdir $::initialDir(pgn) -filetypes $ftypes -title "$::tr(ImportingIn) [file tail [sc_base filename $base] ]" ]
+    if {$fnames == ""} { return }
+    set ::initialDir(pgn) [file dirname [lindex $fnames 0]]
+    set autoclose 0
+  } else {
+    set autoclose 1
+  }
+  
+  set w .ipgnWin
+  importLogWindow $w "$::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
+  foreach fname $fnames {
+    lassign [importFileToBase $w $base $fname] err clean
+    if {!$clean} { set autoclose 0 }
+    if {$err == 3} { break }
+  }
+  importLogDone $w
 
   after idle "::notify::DatabaseModified $base"
   if { $autoclose } { destroy $w }
+}
+
+### Convert a folder of PGN and ChessBase files into Scid databases.
+
+# The .pgn, .2cbh and .cbh files under <dir>, each as {path relativeDir}.
+# A .cbh beside a .2cbh of the same name is the same database in the older
+# format: only the .2cbh is taken.
+proc importFolderFiles {dir {rel ""}} {
+  set found {}
+  set files [glob -nocomplain -directory $dir -types f *]
+  set lower [lmap f $files { string tolower $f }]
+  foreach f $files {
+    set ext [string tolower [file extension $f]]
+    if {$ext ni {.pgn .2cbh .cbh}} { continue }
+    if {$ext eq ".cbh" && "[string tolower [file rootname $f]].2cbh" in $lower} {
+      continue
+    }
+    lappend found [list $f $rel]
+  }
+  foreach d [glob -nocomplain -directory $dir -types d *] {
+    # A link to a parent folder would recurse for ever.
+    if {[file type $d] eq "link"} { continue }
+    lappend found {*}[importFolderFiles $d [file join $rel [file tail $d]]]
+  }
+  return $found
+}
+
+# What to convert: a list of {sourceFile targetStem}, one database each.
+# With <flatten> every database goes into <dest>, otherwise into the same
+# subfolder as its source. A name already taken gets _2, _3...; names are
+# compared ignoring case, as Windows and macOS do.
+proc importFolderPlan {src dest flatten} {
+  set plan {}
+  set taken [dict create]
+  foreach item [lsort -index 0 [importFolderFiles $src]] {
+    lassign $item f rel
+    if {$flatten} { set rel "" }
+    set stem [file join $dest $rel [file rootname [file tail $f]]]
+    set target $stem
+    for {set n 2} {[dict exists $taken [string tolower $target]]} {incr n} {
+      set target "${stem}_$n"
+    }
+    dict set taken [string tolower $target] 1
+    lappend plan [list $f $target]
+  }
+  return $plan
+}
+
+# Delete <files>, reporting in the log window <w> what cannot be removed (a
+# sync client or an antivirus may hold a file) so that the run goes on.
+proc importRemoveFiles {w files} {
+  foreach f $files {
+    if {[catch {file delete -- $f} msg]} {
+      $w.text configure -state normal
+      $w.text insert end "[tr CannotRemoveFile] $msg\n\n"
+    }
+  }
+}
+
+# Create one SCID5 database for each planned file. A database that is already
+# there is left alone, so converting again after Stop resumes the work.
+proc importFolderRun {src dest flatten} {
+  set plan [importFolderPlan $src $dest $flatten]
+  set prev [sc_base current]
+  set w .ipgnWin
+  importLogWindow $w [tr ConvertFolderTitle]
+  set created 0
+  set skipped 0
+  set failed 0
+  foreach item $plan {
+    lassign $item f target
+    # The extension is explicit: sc_base would take the ".v2" of a name
+    # like "games.v2" as the index file's own extension.
+    set si5 "$target.si5"
+    if {[file exists $si5]} {
+      incr skipped
+      $w.text configure -state normal
+      $w.text insert end "[file tail $si5]: [tr AlreadyExistsSkipped]\n\n"
+      continue
+    }
+    $w.text configure -state normal
+    # What a failed creation or import may remove: only what this run makes.
+    set new {}
+    foreach part [list $si5 "$target.sg5" "$target.sn5"] {
+      if {![file exists $part]} { lappend new $part }
+    }
+    if {[catch {
+      file mkdir [file dirname $target]
+      set base [sc_base create SCID5 $si5]
+    } msg]} {
+      # Refused because the database is there or in use: nothing was made,
+      # and a file that appeared meanwhile belongs to someone else.
+      set code $::errorCode
+      incr failed
+      $w.text insert end "$si5\n[ERROR::getErrorMsg]\n$msg\n\n"
+      if {$code ni [list $::ERROR::Exists $::ERROR::FileInUse]} {
+        importRemoveFiles $w $new
+      }
+      continue
+    }
+    set ::progressCanvas(cancel) 0
+    lassign [importFileToBase $w $base $f] err
+    sc_base close $base
+    if {$err == 0} {
+      incr created
+    } else {
+      # Do not keep a partial database: the next run would skip it.
+      importRemoveFiles $w $new
+      if {$err == 1} { incr failed }
+    }
+    # A small file may import without a progress report, so handle a click
+    # on Stop here, before the next file resets the cancel flag.
+    update
+    if {$err == 3 || $::progressCanvas(cancel)} { break }
+  }
+  if {[catch { sc_base switch $prev }]} {
+    catch { sc_base switch [sc_info clipbase] }
+  }
+  $w.text configure -state normal
+  $w.text insert end "[format [tr ConvertFolderDone] $created $skipped $failed]\n"
+  $w.text see end
+  importLogDone $w
+}
+
+# The window asking what to convert, where to and how.
+proc importFolder {} {
+  set w .convertFolderWin
+  if {[winfo exists $w]} { raise $w; return }
+  win::createDialog $w
+  wm title $w "scidCommunity: [tr ConvertFolderTitle]"
+  if {![info exists ::importFolderOpt(src)]} {
+    array set ::importFolderOpt [list src "" dest "" flatten 0]
+  }
+
+  ttk::frame $w.f -padding 10
+  pack $w.f -side top -fill both -expand 1
+  set row 0
+  foreach {key label initial} {src SourceFolder pgn dest DestinationFolder base} {
+    ttk::label $w.f.l$key -text [tr $label]
+    ttk::entry $w.f.e$key -textvariable ::importFolderOpt($key) -width 50
+    ttk::button $w.f.b$key -text [tr Browse] \
+      -command [list importFolderBrowse $w $key $initial]
+    grid $w.f.l$key $w.f.e$key $w.f.b$key -row $row -sticky ew -pady 3 -padx 3
+    incr row
+  }
+  foreach {value label} {0 KeepFolderStructure 1 AllInOneFolder} {
+    ttk::radiobutton $w.f.r$value -text [tr $label] \
+      -variable ::importFolderOpt(flatten) -value $value
+    ttk::label $w.f.h$value -text [tr ${label}Help] -wraplength 450
+    grid $w.f.r$value -row $row -columnspan 3 -sticky w -pady {8 0}
+    grid $w.f.h$value -row [incr row] -columnspan 3 -sticky w -padx {24 0}
+    incr row
+  }
+  ttk::label $w.f.note -text [tr ConvertFolderNote] -wraplength 480
+  grid $w.f.note -row $row -columnspan 3 -sticky w -pady {12 0}
+  grid columnconfigure $w.f 1 -weight 1
+
+  ttk::frame $w.buttons
+  pack $w.buttons -side bottom -fill x
+  ttk::button $w.buttons.ok -text [tr Convert] -default active \
+    -command [list importFolderStart $w]
+  ttk::button $w.buttons.cancel -text [tr Cancel] -command [list destroy $w]
+  packdlgbuttons $w.buttons.cancel $w.buttons.ok
+  bind $w <Return> [list $w.buttons.ok invoke]
+  bind $w <Escape> [list $w.buttons.cancel invoke]
+  focus $w.f.esrc
+}
+
+proc importFolderBrowse {w key initial} {
+  set start $::importFolderOpt($key)
+  if {$start eq ""} { set start $::initialDir($initial) }
+  set dir [tk_chooseDirectory -parent $w -initialdir $start -mustexist 1]
+  if {$dir ne ""} { set ::importFolderOpt($key) $dir }
+}
+
+proc importFolderStart {w} {
+  set src $::importFolderOpt(src)
+  set dest $::importFolderOpt(dest)
+  # "file isdirectory" is false for an empty name.
+  if {![file isdirectory $src] || ![file isdirectory $dest]} {
+    tk_messageBox -parent $w -icon warning -type ok \
+      -title [tr ConvertFolderTitle] -message [tr ChooseBothFolders]
+    return
+  }
+  destroy $w
+  importFolderRun $src $dest $::importFolderOpt(flatten)
 }
 
 ### Import a PGN file into a chosen database, skipping duplicate games.

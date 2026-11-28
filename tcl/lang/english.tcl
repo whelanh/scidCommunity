@@ -286,7 +286,9 @@ menuText E ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
   {Write all filtered games to an RTF file preserving comment formatting}
 menuText E ToolsImportOne "Import One PGN Game..." 0 \
   {Import a game from PGN text}
-menuText E ToolsImportFile "Import Games from PGN Files..." 7 {Import games from PGN file(s)}
+menuText E ToolsImportFile "Import Games from PGN/ChessBase Files..." 7 {Import games from PGN files or ChessBase databases}
+menuText E ToolsConvertFolder "Convert a Folder to Scid Databases..." 0 \
+  {Create a Scid database from each PGN and ChessBase file in a folder}
 menuText E FileImportRTF "Import RTF Game..." 0 \
   {Import a game from an RTF file created by scidCommunity}
 menuText E ToolsStartEngine1 "Start engine 1" 13  {Start engine 1}
@@ -2381,6 +2383,23 @@ translate E ImportPGN {Import PGN game}
 translate E ImportingFiles {Importing PGN files in}
 translate E ImportingFrom {Importing from}
 translate E ImportingIn {Import games in}
+translate E ChessBaseDatabases {ChessBase databases}
+translate E ConvertFolderTitle {Convert a Folder to Scid Databases}
+translate E SourceFolder {Source folder:}
+translate E DestinationFolder {Destination folder:}
+translate E KeepFolderStructure {Keep the folder structure}
+translate E KeepFolderStructureHelp {Each subfolder of the source gets the same subfolder in the destination.}
+translate E AllInOneFolder {All in one folder}
+translate E AllInOneFolderHelp {Every database goes straight into the destination folder; repeated names get _2, _3...}
+translate E ConvertFolderNote {Every .pgn, .2cbh and .cbh file, subfolders included, becomes a new Scid database (.si5). Databases already in the destination are left untouched.}
+translate E Convert {Convert}
+translate E ChooseBothFolders {Choose an existing source folder and an existing destination folder.}
+translate E AlreadyExistsSkipped {skipped, already exists}
+translate E CannotRemoveFile {Could not remove a partial database file:}
+translate E ConvertFolderDone {Databases created: %d, skipped: %d, failed: %d.}
+translate E PgnAndChessBase {PGN and ChessBase files}
+translate E ImportErrorsWarnings {Errors/warnings:}
+translate E NoImportErrorsWarnings {with no errors or warnings.}
 translate E UseLastTag {Use last\ngame's tags}
 translate E Random {Random}
 translate E BackToMainline {Go back to mainline}

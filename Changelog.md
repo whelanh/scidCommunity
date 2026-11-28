@@ -12,6 +12,11 @@ A scidCommunity version has three numbers and a build number, for example **5.1.
 The latest downloads are on the [Releases page](https://github.com/whelanh/scidCommunity/releases).
 
 ---
+## Unreleased
+- **Database > Convert a Folder to Scid Databases...** creates a Scid database from every `.pgn`, `.2cbh` and `.cbh` file in a folder and its subfolders, keeping the folder structure or putting all the databases in one folder. Databases that already exist are left untouched, so a conversion that was stopped resumes when run again.
+- The game import window shows PGN and ChessBase files together by default.
+- **Database > Import Games from PGN/ChessBase Files...** also reads ChessBase databases, both `.2cbh` (the newer ChessBase format, also used by Mega Database 2026 and 2027) and the classic `.cbh` of ChessBase 6 to 16: games come in with their variations, comments, symbols, coloured squares and arrows, and from `.2cbh` also game quotations. When a folder holds the same database in both formats, the conversion takes the `.2cbh` one. The database is read a game at a time, so even a Mega Database of millions of games can be imported. A game with more annotations than a Scid game can hold is imported with its moves only, and the import says how many. Duplicate games are not checked for, so import into a new database. The file layout follows the [oschess-cb-bridge](docs/third-party-notices.md) notes.
+
 ## 5.1.4.79 - 28 November 2026
 - Woodpecker gains an **Inner Circle** for repeatedly training selected exercises, with a danger zone to reset or restore set statistics, a daily-load estimate in the new-set dialog, and faster grading across several engines. Moves can also be made while an opponent reply is animating, and sessions no longer raise an error when left mid-exercise. — thanks to @TBergh98 ([#560](https://github.com/whelanh/scidCommunity/pull/560); see [Discussion #552](https://github.com/whelanh/scidCommunity/discussions/552)).
 - The **What's the threat?** help page now displays completely instead of stopping at its toolbar button. — thanks to @whelanh ([#564](https://github.com/whelanh/scidCommunity/pull/564)).

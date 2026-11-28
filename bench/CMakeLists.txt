@@ -10,6 +10,13 @@ set(CMAKE_CXX_STANDARD 20 CACHE STRING "")
 
 # The same core sources the unit tests link; no Tcl/Tk needed.
 set(SCID_CORE
+  ../src/cb2_annotations.cpp
+  ../src/cb2_format.cpp
+  ../src/cb2_moves.cpp
+  ../src/cbh_annotations.cpp
+  ../src/cbh_format.cpp
+  ../src/cbh_moves.cpp
+  ../src/codec_cb2.cpp
   ../src/codec_scid4.cpp
   ../src/epdbook.cpp
   ../src/scidbase.cpp
