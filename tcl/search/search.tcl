@@ -16,6 +16,12 @@ proc ::search::filter::reset {} {
   ::windows::gamelist::FilterReset "" [sc_base current]
 }
 
+proc ::search::filter::resetAll {} {
+  foreach db [sc_base list] {
+    ::windows::gamelist::FilterReset "" $db
+  }
+}
+
 # ::search::addFilterOpFrame
 #
 #   Adds a search filter operation selection frame to the window.

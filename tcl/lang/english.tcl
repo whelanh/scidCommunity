@@ -161,6 +161,7 @@ menuText E PlayTournament "Play Tournament..." 0 \
 # Search Menu:
 menuText E Search "Search" 0
 menuText E SearchReset "Reset Filter" 0 {Reset the filter so all games are included}
+menuText E SearchResetAll "Reset Filters in All Open Databases" 0 {Include every game in each open database's filter}
 menuText E SearchNegate "Negate Filter" 0 {Negate the filter to only include excluded games}
 menuText E SearchCurrent "Current Board..." 0 {Search for the current board position}
 menuText E SearchHeader "Header..." 0 {Search by Header (player, event, etc) information}
@@ -1657,6 +1658,7 @@ translate E Diagram {Diagram}
 # Board search:
 translate E BoardSearch {Board Search}
 translate E FilterOperation {Operation on current filter:}
+translate E SearchAllOpenDatabases {All open databases}
 translate E FilterAnd {AND (Restrict filter)}
 translate E FilterOr {OR (Add to filter)}
 translate E FilterIgnore {IGNORE (Reset filter)}

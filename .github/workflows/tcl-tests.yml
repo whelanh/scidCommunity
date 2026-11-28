@@ -516,6 +516,9 @@ jobs:
       - name: Move sequence search
         run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_moves.tcl
 
+      - name: Search all open databases
+        run: xvfb-run -a "$PWD/AppDir/usr/bin/scidCommunity" tests/tcl/search_all_databases.tcl
+
       # The board screenshot again, against the binary's own game commands: the
       # marks must come out of a real comment and the badges out of the real
       # NAGs, which a plain PGN gives as $18 rather than +-. The wish harness

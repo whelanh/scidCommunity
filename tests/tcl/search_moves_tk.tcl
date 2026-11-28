@@ -29,14 +29,20 @@ proc checkEq {label got want} {
 }
 
 # --------------------------------------------------------------- environment --
+set root [file normalize [file join [file dirname [info script]] .. ..]]
+source [file join $root tcl misc.tcl]
 proc tr {tag args} { return $tag }
 namespace eval ::win {}
 proc ::win::createDialog {w {y 10}} { toplevel $w }
 proc ::setTitle {w title} { wm title $w $title }
-proc CreateSelectDBWidget {parent varname refbase} {
-    ttk::frame $parent.db
-    grid $parent.db -sticky news
-    set $varname 1
+namespace eval ::file {}
+proc ::file::BaseName {id} { return "Base $id" }
+proc sc_base {command} {
+    switch -- $command {
+        current { return 1 }
+        list { return {1 12} }
+        default { error "Unexpected sc_base call: $command" }
+    }
 }
 proc autoscrollBars {axis parent canvas} {
     grid $canvas -sticky news
@@ -44,8 +50,6 @@ proc autoscrollBars {axis parent canvas} {
     grid rowconfigure $parent 0 -weight 1
 }
 proc ::applyThemeColor_background {w} {}
-proc progressBarCancel {} {}
-proc progressBarSet {args} {}
 namespace eval ::notify {}
 proc ::notify::filter {args} {}
 namespace eval ::windows::gamelist {}
@@ -64,7 +68,6 @@ proc sc_filter {args} {
     return ""
 }
 
-set root [file normalize [file join [file dirname [info script]] .. ..]]
 source [file join $root tcl search board.tcl]
 
 # --------------------------------------------------------------------- tests --
@@ -83,14 +86,27 @@ checkEq "either side by default" $::search::movesOptSide_ wb
 checkEq "mate not required by default" $::search::movesOptMate_ 0
 checkEq "the entry starts empty" $::search::movesOptText_ ""
 
+puts "\n== search target =="
+set box $w.refdb.lb
+checkEq "last database option is all open databases" [lindex [$box cget -values] end] SearchAllOpenDatabases
+$box current 2
+event generate $box <<ComboboxSelected>>
+checkEq "selecting all sets the search target" $::search::dbase_($w) all
+check "new-filter search is disabled for all databases" [$w.buttons.search_new instate disabled]
+check "ordinary search is enabled for all databases" [$w.buttons.search instate !disabled]
+$box current 1
+event generate $box <<ComboboxSelected>>
+checkEq "switching back selects the individual database" $::search::dbase_($w) 12
+check "new-filter search is re-enabled for one database" [$w.buttons.search_new instate !disabled]
+
 puts "\n== a pasted line of notation becomes a move list =="
 set ::search::movesOptText_ "1. e4 e5 2. Nf3"
 set ::calls {}
 $w.buttons.search invoke
 set call [lindex $::calls end]
-checkEq "the filter is composed from the window's" [lrange [lindex $::calls 0] 0 2] {compose 1 dbfilter}
-checkEq "and reset before the search" [lrange [lindex $::calls 1] 0 1] {reset 1}
-checkEq "the search call" [lrange $call 0 6] {search 1 composed moves {e4 e5 Nf3} wb 0}
+checkEq "the filter is composed from the window's" [lrange [lindex $::calls 0] 0 2] {compose 12 dbfilter}
+checkEq "and reset before the search" [lrange [lindex $::calls 1] 0 1] {reset 12}
+checkEq "the search call" [lrange $call 0 6] {search 12 composed moves {e4 e5 Nf3} wb 0}
 checkEq "the filter operation is carried" [lrange $call 7 end] {-filter AND}
 
 puts "\n== the side to move and the mate flag reach the search =="

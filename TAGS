@@ -1,0 +1,3496 @@
+
+tcl/board.tcl,6592
+proc avgImgColoravgImgColor28,1039
+proc SetBoardTexturesSetBoardTextures43,1463
+proc setPieceFontsetPieceFont70,2450
+proc chooseBoardTextureschooseBoardTextures132,4459
+proc updateBoardColorsupdateBoardColors147,4914
+proc applyBoardColorapplyBoardColor194,6570
+proc chooseBoardColorFromScreenchooseBoardColorFromScreen209,6992
+proc ::board::normalizeColor::board::normalizeColor226,7522
+proc ::board::isValidColor::board::isValidColor241,8120
+proc ::board::presetPreviewSize::board::presetPreviewSize248,8307
+proc ::board::applyColorPreset::board::applyColorPreset259,8618
+proc ::board::drawColorPresets::board::drawColorPresets277,9199
+proc ::board::persistColorPresets::board::persistColorPresets350,12033
+proc ::board::applyUserColorScheme::board::applyUserColorScheme357,12212
+proc ::board::removeUserColorScheme::board::removeUserColorScheme368,12599
+proc ::board::saveCurrentColors::board::saveCurrentColors379,13039
+proc chooseBoardColorschooseBoardColors418,14264
+proc ::board::sq::board::sq594,21186
+proc ::board::san::board::san609,21502
+proc ::board::popup::board::popup620,21856
+proc ::board::new::board::new662,23111
+proc ::board::updateFlag::board::updateFlag738,25467
+proc ::board::addNamesBar::board::addNamesBar754,26078
+proc ::board::InfoBarSmall::board::InfoBarSmall795,28529
+proc ::board::InfoBarNormal::board::InfoBarNormal814,29345
+proc ::board::addInfoBar::board::addInfoBar833,30207
+proc ::board::addInfo::board::addInfo876,32469
+proc ::board::setInfo::board::setInfo887,32744
+proc ::board::setInfoAlert::board::setInfoAlert901,33265
+proc ::board::setButtonCmd::board::setButtonCmd929,34203
+proc ::board::setButtonImg::board::setButtonImg950,34922
+proc ::board::bindEvalBar::board::bindEvalBar955,35073
+proc ::board::toggleEvalBar::board::toggleEvalBar959,35146
+proc ::board::drawEvalBar_::board::drawEvalBar_970,35420
+proc ::board::updateEvalBar::board::updateEvalBar1006,36903
+proc ::board::updateToolBar_::board::updateToolBar_1030,37758
+proc ::board::newToolBar_::board::newToolBar_1053,38417
+proc ::board::flipNames_::board::flipNames_1083,39932
+proc ::board::sideToMove_::board::sideToMove_1094,40198
+proc ::board::defaultColor::board::defaultColor1115,40980
+proc ::board::size::board::size1122,41159
+proc ::board::resizeAuto::board::resizeAuto1126,41216
+proc ::board::calcSize::board::calcSize1156,42323
+proc ::board::resize::board::resize1181,43207
+proc ::board::border::board::border1216,44196
+proc ::board::getSquare::board::getSquare1230,44585
+proc ::board::showMarks::board::showMarks1253,45191
+proc ::board::toggleHideMarks::board::toggleHideMarks1263,45556
+proc ::board::colorSquare::board::colorSquare1273,45863
+proc ::board::midSquare::board::midSquare1301,46661
+proc ::board::setmarks::board::setmarks1327,47478
+proc ::board::mark::getEmbeddedCmds::board::mark::getEmbeddedCmds1429,50758
+proc ::board::mark::remove::board::mark::remove1472,52534
+proc ::board::mark::add::board::mark::add1498,53405
+proc ::board::mark::DrawCircle::board::mark::DrawCircle1564,55379
+proc ::board::mark::DrawDisk::board::mark::DrawDisk1578,55864
+proc ::board::mark::DrawSquare::board::mark::DrawSquare1595,56410
+proc ::board::mark::DrawText::board::mark::DrawText1631,58171
+proc ::board::mark::DrawArrowEx::board::mark::DrawArrowEx1658,59211
+proc ::board::mark::DrawArrow::board::mark::DrawArrow1701,60773
+proc ::board::mark::DrawMultipleBestMoves::board::mark::DrawMultipleBestMoves1709,61256
+proc ::board::mark::RedrawBestMoves::board::mark::RedrawBestMoves1751,62767
+proc ::board::mark::DrawBestMove::board::mark::DrawBestMove1761,63198
+proc ::board::mark::DrawRectangle::board::mark::DrawRectangle1773,63627
+proc ::board::mark::DrawNag::board::mark::DrawNag1782,64098
+proc ::board::mark::DrawEvalNag::board::mark::DrawEvalNag1811,65232
+proc ::board::mark::DrawTux::board::mark::DrawTux1885,68854
+proc ::board::mark::GetBox::board::mark::GetBox1912,69698
+proc ::board::piece::board::piece1933,70490
+proc ::board::setDragSquare::board::setDragSquare1944,70859
+proc ::board::getDragSquare::board::getDragSquare1954,71117
+proc ::board::dragPiece::board::dragPiece1963,71323
+proc ::board::bind::board::bind1976,71646
+proc ::board::drawPiece::board::drawPiece1989,71907
+proc ::board::clearText::board::clearText2002,72303
+proc ::board::drawText::board::drawText2010,72497
+proc ::board::_nagDisplay::board::_nagDisplay2025,73085
+proc ::board::_lastMoveAnnotationBadge::board::_lastMoveAnnotationBadge2052,73820
+proc ::board::_lastMoveEvaluationBadge::board::_lastMoveEvaluationBadge2068,74412
+proc ::board::_resultBadges::board::_resultBadges2088,75071
+proc  ::board::lastMoveHighlight::board::lastMoveHighlight2112,75835
+proc ::board::update::board::update2159,77812
+proc ::board::imageSize::board::imageSize2277,81799
+proc ::board::nextImageFile::board::nextImageFile2295,82327
+proc ::board::_glyph::board::_glyph2317,83182
+proc ::board::_putGlyph::board::_putGlyph2395,87590
+proc ::board::_putGlyphText::board::_putGlyphText2417,88206
+proc ::board::_putRect::board::_putRect2434,88790
+proc ::board::_putDisk::board::_putDisk2445,89189
+proc ::board::_putRing::board::_putRing2459,89697
+proc ::board::_putRoundRect::board::_putRoundRect2485,90701
+proc ::board::_segmentDistance::board::_segmentDistance2540,92952
+proc ::board::_pointInTriangle::board::_pointInTriangle2558,93539
+proc ::board::_drawArrowIntoPhoto::board::_drawArrowIntoPhoto2571,94134
+proc ::board::_putSquareArrow::board::_putSquareArrow2655,96911
+proc ::board::_putBadge::board::_putBadge2697,98363
+proc ::board::saveImage::board::saveImage2738,100188
+proc ::board::saveImageDialog::board::saveImageDialog3031,111451
+proc ::board::isFlipped::board::isFlipped3090,113524
+proc ::board::flipAuto::board::flipAuto3103,113969
+proc ::board::flip::board::flip3117,114369
+proc ::board::configureMaterialBar::board::configureMaterialBar3165,115942
+proc ::board::material::board::material3180,116724
+proc ::board::addMaterial::board::addMaterial3244,118507
+proc ::board::toggleMaterial::board::toggleMaterial3256,118861
+proc ::board::drawInnerCoords::board::drawInnerCoords3289,120145
+proc ::board::innercoords::board::innercoords3314,121183
+proc ::board::coords::board::coords3360,122962
+proc ::board::animate::board::animate3407,124191
+proc ::board::_animate::board::_animate3564,129621
+proc ::board::waitForAnimation::board::waitForAnimation3614,131456
+proc InitBoardInitBoard3623,131781
+
+tcl/board3d.tcl,1108
+proc ::board3d::new::board3d::new55,1970
+proc ::board3d::update::board3d::update109,3822
+proc ::board3d::redraw3d::board3d::redraw3d122,4132
+proc ::board3d::flip::board3d::flip300,10261
+proc ::board3d::orbit::board3d::orbit309,10508
+proc ::board3d::_onWheel::board3d::_onWheel327,11093
+proc ::board3d::zoom::board3d::zoom336,11306
+proc ::board3d::reset::board3d::reset349,11671
+proc ::board3d::resize::board3d::resize360,12050
+proc ::board3d::showMarks::board3d::showMarks374,12413
+proc ::board3d::setmarks::board3d::setmarks381,12559
+proc ::board3d::_project::board3d::_project414,13701
+proc ::board3d::_depth::board3d::_depth484,15676
+proc ::board3d::_findSquare::board3d::_findSquare519,16743
+proc ::board3d::_startClick::board3d::_startClick537,17290
+proc ::board3d::_dragMotion::board3d::_dragMotion569,18328
+proc ::board3d::_endClick::board3d::_endClick591,18955
+proc ::board3d::_clickSquare::board3d::_clickSquare613,19713
+proc ::board3d::_drawLastMoveHighlight::board3d::_drawLastMoveHighlight624,20062
+proc ::board3d::_drawMarks::board3d::_drawMarks680,21952
+
+tcl/chart.tcl,689
+proc ::chart::init::chart::init74,2653
+proc ::chart::clear::chart::clear116,4148
+proc ::chart::setAccuracy::chart::setAccuracy129,4540
+proc ::chart::getScores::chart::getScores136,4722
+proc ::chart::moveCursorLine::chart::moveCursorLine157,5346
+proc ::chart::setDataPoint::chart::setDataPoint175,5960
+proc ::chart::newDataPoint::chart::newDataPoint191,6478
+proc ::chart::_onConfigure::chart::_onConfigure223,7381
+proc ::chart::_render::chart::_render251,8228
+proc ::chart::_getDataAtX::chart::_getDataAtX368,12074
+proc ::chart::_onClick::chart::_onClick386,12752
+proc ::chart::_onMotion::chart::_onMotion394,12965
+proc ::chart::_onLeave::chart::_onLeave433,14149
+
+tcl/contrib/ezsmtp/ezsmtp.tcl,1120
+proc ::ezsmtp::config::ezsmtp::config85,3094
+proc ::ezsmtp::send::ezsmtp::send151,4737
+proc ::ezsmtp::private_add_header::ezsmtp::private_add_header273,9178
+proc ::ezsmtp::private_set_charset::ezsmtp::private_set_charset314,10464
+proc ::ezsmtp::private_add_recip::ezsmtp::private_add_recip362,11989
+proc ::ezsmtp::private_return_receipt::ezsmtp::private_return_receipt461,15217
+proc ::ezsmtp::private_smtp_begin::ezsmtp::private_smtp_begin519,17297
+proc ::ezsmtp::private_smtp_batch::ezsmtp::private_smtp_batch637,21702
+proc ::ezsmtp::private_send_mail_headers::ezsmtp::private_send_mail_headers758,25895
+proc ::ezsmtp::private_send_header::ezsmtp::private_send_header846,28934
+proc ::ezsmtp::private_send_line::ezsmtp::private_send_line875,29797
+proc ::ezsmtp::private_read_all::ezsmtp::private_read_all899,30557
+proc ::ezsmtp::private_proper_header::ezsmtp::private_proper_header945,32032
+proc ::ezsmtp::private_xtext::ezsmtp::private_xtext977,33000
+proc ::ezsmtp::private_valid_address::ezsmtp::private_valid_address1005,33715
+proc ::ezsmtp::private_log::ezsmtp::private_log1035,34586
+
+tcl/contrib/ezsmtp/install.tcl,321
+    proc outputoutput63,2368
+    proc output_erroroutput_error71,2573
+    proc promptprompt88,3114
+    proc prompt_ynprompt_yn100,3518
+    proc outputoutput118,4008
+    proc output_erroroutput_error123,4085
+    proc promptprompt129,4211
+    proc prompt_ynprompt_yn145,4650
+proc catcherrcatcherr153,4902
+
+tcl/dnd/tkdnd.tcl,731
+  proc initialiseinitialise71,2986
+proc tkdnd::get_drop_targettkdnd::get_drop_target174,5974
+proc tkdnd::drag_sourcetkdnd::drag_source185,6359
+proc tkdnd::drop_targettkdnd::drop_target213,7284
+proc tkdnd::_begin_dragtkdnd::_begin_drag266,8724
+proc tkdnd::_init_dragtkdnd::_init_drag296,9547
+proc tkdnd::_end_dragtkdnd::_end_drag335,11025
+proc tkdnd::set_drag_cursorstkdnd::set_drag_cursors351,11658
+proc tkdnd::platform_specific_typestkdnd::platform_specific_types367,12164
+proc tkdnd::platform_independent_typestkdnd::platform_independent_types375,12550
+proc tkdnd::platform_specific_typetkdnd::platform_specific_type383,12941
+proc tkdnd::platform_independent_typetkdnd::platform_independent_type391,13321
+
+tcl/dnd/tkdnd_macosx.tcl,1159
+proc macdnd::_DropTargetmacdnd::_DropTarget64,2555
+proc macdnd::_HandleEntermacdnd::_HandleEnter72,2835
+proc macdnd::_HandlePositionmacdnd::_HandlePosition79,3185
+proc macdnd::_HandleLeavemacdnd::_HandleLeave86,3536
+proc macdnd::_HandleDropmacdnd::_HandleDrop93,3836
+proc macdnd::_GetDroppedDatamacdnd::_GetDroppedData104,4268
+proc xdnd::_GetDroppedDataxdnd::_GetDroppedData108,4381
+proc macdnd::_GetDragSourcemacdnd::_GetDragSource115,4678
+proc macdnd::_GetDropTargetmacdnd::_GetDropTarget122,4974
+proc macdnd::_supported_typesmacdnd::_supported_types129,5272
+proc macdnd::_platform_specific_typesmacdnd::_platform_specific_types136,5597
+proc macdnd::_normalise_datamacdnd::_normalise_data143,5937
+proc macdnd::_platform_specific_typemacdnd::_platform_specific_type150,6267
+proc xdnd::_platform_specific_typexdnd::_platform_specific_type157,6513
+proc macdnd::_platform_independent_typemacdnd::_platform_independent_type164,6857
+proc xdnd::_platform_independent_typexdnd::_platform_independent_type171,7112
+proc macdnd::_supported_typemacdnd::_supported_type178,7454
+proc xdnd::_supported_typexdnd::_supported_type181,7534
+
+tcl/dnd/tkdnd_unix.tcl,1983
+  proc debugdebug60,2397
+  proc registerWrapperregisterWrapper64,2445
+proc xdnd::_HandleXdndEnterxdnd::_HandleXdndEnter70,2736
+proc xdnd::_HandleXdndPositionxdnd::_HandleXdndPosition91,3918
+proc xdnd::_HandleXdndLeavexdnd::_HandleXdndLeave233,9420
+proc xdnd::_HandleXdndDropxdnd::_HandleXdndDrop273,11042
+proc xdnd::_HandleDragPositionxdnd::_HandleDragPosition348,13865
+proc xdnd::_GetDroppedDataxdnd::_GetDroppedData385,15204
+proc xdnd::_GetDragSourcexdnd::_GetDragSource410,16166
+proc xdnd::_GetDropTargetxdnd::_GetDropTarget418,16462
+proc xdnd::_supported_typesxdnd::_supported_types429,16827
+proc xdnd::_platform_specific_typesxdnd::_platform_specific_types440,17222
+proc xdnd::_normalise_dataxdnd::_normalise_data451,17635
+proc xdnd::_platform_specific_typexdnd::_platform_specific_type482,18644
+proc xdnd::_platform_independent_typexdnd::_platform_independent_type501,19453
+proc xdnd::_supported_typexdnd::_supported_type522,20284
+proc xdnd::_selection_ownership_lostxdnd::_selection_ownership_lost549,21216
+proc xdnd::_dodragdropxdnd::_dodragdrop557,21515
+proc xdnd::_process_drag_eventsxdnd::_process_drag_events646,25039
+proc xdnd::_SendXdndEnterxdnd::_SendXdndEnter750,28834
+proc xdnd::_SendXdndPositionxdnd::_SendXdndPosition771,29785
+proc xdnd::_HandleXdndStatusxdnd::_HandleXdndStatus794,30914
+proc xdnd::_HandleXdndFinishedxdnd::_HandleXdndFinished819,31918
+proc xdnd::_SendXdndLeavexdnd::_SendXdndLeave835,32488
+proc xdnd::_SendXdndDropxdnd::_SendXdndDrop857,33459
+proc xdnd::_update_cursorxdnd::_update_cursor909,35258
+proc xdnd::_default_actionxdnd::_default_action936,36306
+proc xdnd::getFormatForTypexdnd::getFormatForType960,37183
+proc xdnd::registerSelectionHandlerxdnd::registerSelectionHandler984,38095
+proc xdnd::unregisterSelectionHandlerxdnd::unregisterSelectionHandler998,38695
+proc xdnd::_convert_to_unsignedxdnd::_convert_to_unsigned1012,39209
+proc xdnd::_SendDataxdnd::_SendData1028,39755
+
+tcl/dnd/tkdnd_windows.tcl,1063
+proc olednd::_DropTargetolednd::_DropTarget56,2267
+proc olednd::_HandleDragEnterolednd::_HandleDragEnter64,2552
+proc olednd::_HandleDragOverolednd::_HandleDragOver134,5544
+proc olednd::_HandleDragLeaveolednd::_HandleDragLeave171,7063
+proc olednd::_HandleDropolednd::_HandleDrop207,8432
+proc olednd::_GetDropTypesolednd::_GetDropTypes265,10862
+proc olednd::_GetDroppedDataolednd::_GetDroppedData273,11200
+proc olednd::_GetDragSourceolednd::_GetDragSource293,11925
+proc olednd::_GetDropTargetolednd::_GetDropTarget301,12227
+proc olednd::_supported_typesolednd::_supported_types309,12542
+proc olednd::_platform_specific_typesolednd::_platform_specific_types320,12943
+proc olednd::_platform_independent_typesolednd::_platform_independent_types331,13374
+proc olednd::_normalise_dataolednd::_normalise_data342,13802
+proc olednd::_platform_specific_typeolednd::_platform_specific_type354,14253
+proc olednd::_platform_independent_typeolednd::_platform_independent_type370,14849
+proc olednd::_supported_typeolednd::_supported_type381,15287
+
+tcl/edit.tcl,415
+proc setupBoardsetupBoard21,768
+proc setSetupBoardToFensetSetupBoardToFen202,8300
+proc makeSetupFenmakeSetupFen227,9109
+proc validateSetupvalidateSetup281,10539
+proc dragBoardPiecedragBoardPiece311,11752
+proc setupBoardPiecesetupBoardPiece323,12099
+proc exitSetupBoardexitSetupBoard346,12705
+proc fenErrorDialogfenErrorDialog365,13130
+proc copyFENcopyFEN377,13483
+proc pasteFENpasteFEN396,14006
+
+tcl/end.tcl,1175
+proc findNoveltyfindNovelty11,199
+proc updateNoveltyWinupdateNoveltyWin70,2009
+proc mergeGamemergeGame92,2769
+proc updateMergeGameupdateMergeGame149,4538
+proc setExportTextsetExportText184,5522
+proc exportOptionsexportOptions308,11751
+proc exportGamesexportGames380,14991
+proc updateMatchListupdateMatchList474,18130
+proc clearMatchListclearMatchList497,18936
+proc ::matchSelectKey::matchSelectKey517,19838
+proc bindMatchSelectbindMatchSelect538,20479
+proc editNameNewProceditNameNewProc563,21257
+proc makeNameEditormakeNameEditor579,21710
+proc setNameEditorTypesetNameEditorType583,21784
+proc nameEditornameEditor588,21903
+proc addGameSaveEntryaddGameSaveEntry747,28141
+proc gameSaveExtraTagsUndogameSaveExtraTagsUndo761,28813
+proc gameSavegameSave784,29597
+proc gsavegsave1015,38873
+proc gameAddgameAdd1047,40046
+proc gameAddToClipbasegameAddToClipbase1049,40078
+proc gameReplacegameReplace1059,40319
+proc helpAbouthelpAbout1065,40424
+proc getCommandLineOptionsgetCommandLineOptions1106,41905
+proc initDragDropinitDragDrop1194,44400
+proc fullnamefullname1223,44996
+proc ::file::openDelayed::file::openDelayed1228,45129
+
+tcl/enginecfg.tcl,4480
+proc ::enginecfg::defaultKey::enginecfg::defaultKey43,1811
+proc ::enginecfg::platform::enginecfg::platform53,2085
+proc ::enginecfg::normalizeKey::enginecfg::normalizeKey60,2338
+proc ::enginecfg::keyValid::enginecfg::keyValid87,3697
+proc ::enginecfg::keySequence::enginecfg::keySequence107,4345
+proc ::enginecfg::keyLabel::enginecfg::keyLabel119,4692
+proc ::enginecfg::keyFromEvent::enginecfg::keyFromEvent139,5424
+proc ::enginecfg::keyUsable::enginecfg::keyUsable177,6998
+proc ::enginecfg::keyReserved::enginecfg::keyReserved192,7696
+proc ::enginecfg::keyLoadable::enginecfg::keyLoadable242,10053
+proc ::enginecfg::keyVariants::enginecfg::keyVariants252,10585
+proc ::enginecfg::keyCanonical::enginecfg::keyCanonical279,11643
+proc ::enginecfg::keyConflicts::enginecfg::keyConflicts299,12415
+proc ::enginecfg::slotConflict::enginecfg::slotConflict325,13567
+proc ::enginecfg::keyAvailable::enginecfg::keyAvailable340,14111
+proc ::enginecfg::resolveKeys::enginecfg::resolveKeys354,14796
+proc ::enginecfg::seqTaken::enginecfg::seqTaken384,16152
+proc ::enginecfg::setKey::enginecfg::setKey393,16428
+proc ::enginecfg::resetKeys::enginecfg::resetKeys412,17221
+proc ::enginecfg::shortcutEngine::enginecfg::shortcutEngine425,17724
+proc ::enginecfg::windowEngine::enginecfg::windowEngine439,18264
+proc ::enginecfg::shortcutOf::enginecfg::shortcutOf448,18648
+proc ::enginecfg::shortcutLabel::enginecfg::shortcutLabel461,19064
+proc ::enginecfg::assignShortcut::enginecfg::assignShortcut469,19358
+proc ::enginecfg::refreshShortcutMenus::enginecfg::refreshShortcutMenus485,20011
+proc ::enginecfg::clearShortcut::enginecfg::clearShortcut495,20361
+proc ::enginecfg::renameRefs::enginecfg::renameRefs510,21003
+proc ::enginecfg::dropRefs::enginecfg::dropRefs530,21882
+proc ::enginecfg::names::enginecfg::names536,22056
+proc ::enginecfg::get::enginecfg::get544,22296
+proc ::enginecfg::rename::enginecfg::rename558,22814
+proc ::enginecfg::uniquename::enginecfg::uniquename574,23461
+proc ::enginecfg::add::enginecfg::add586,23842
+proc ::enginecfg::duplicate::enginecfg::duplicate600,24595
+proc ::enginecfg::remove::enginecfg::remove607,24820
+proc ::enginecfg::isReviewOption::enginecfg::isReviewOption642,26312
+proc ::enginecfg::reviewOptionLabel::enginecfg::reviewOptionLabel648,26511
+proc ::enginecfg::reviewOptionRow::enginecfg::reviewOptionRow660,26962
+proc ::enginecfg::switchValue::enginecfg::switchValue670,27418
+proc ::enginecfg::reviewOptions::enginecfg::reviewOptions681,27836
+proc ::enginecfg::withReviewOptions::enginecfg::withReviewOptions708,28811
+proc ::enginecfg::uciOptions::enginecfg::uciOptions714,29093
+proc ::enginecfg::saveReviewOption::enginecfg::saveReviewOption732,29845
+proc ::enginecfg::save::enginecfg::save761,31123
+proc ::enginecfg::write::enginecfg::write800,32803
+proc ::enginecfg::dlgNewLocal::enginecfg::dlgNewLocal835,34306
+proc ::enginecfg::dlgNewRemote::enginecfg::dlgNewRemote849,34879
+proc ::enginecfg::createConfigButtons::enginecfg::createConfigButtons872,35916
+proc ::enginecfg::createConfigOptions::enginecfg::createConfigOptions928,38245
+proc ::enginecfg::resetConfigOptions::enginecfg::resetConfigOptions934,38458
+proc ::enginecfg::updateConfigOptions::enginecfg::updateConfigOptions962,40015
+proc ::enginecfg::autoSaveConfig::enginecfg::autoSaveConfig1017,42415
+proc ::enginecfg::findOption::enginecfg::findOption1029,42817
+proc ::enginecfg::focusOption::enginecfg::focusOption1043,43351
+proc ::enginecfg::setOption::enginecfg::setOption1065,43974
+proc ::enginecfg::setOptionFromWidget::enginecfg::setOptionFromWidget1113,46194
+proc ::enginecfg::createConfigWidgets::enginecfg::createConfigWidgets1125,46606
+proc ::enginecfg::createOptionWidgets::enginecfg::createOptionWidgets1288,53632
+proc ::enginecfg::updateOptionWidgets::enginecfg::updateOptionWidgets1368,57571
+proc ::enginecfg::updateNetClients::enginecfg::updateNetClients1415,59217
+proc ::enginecfg::onSubmitReset::enginecfg::onSubmitReset1437,60212
+proc ::enginecfg::refreshReviewRows::enginecfg::refreshReviewRows1486,62385
+proc ::enginecfg::onReviewToggle::enginecfg::onReviewToggle1524,64309
+proc ::enginecfg::onSubmitButton::enginecfg::onSubmitButton1540,65037
+proc ::enginecfg::setupNetd::enginecfg::setupNetd1563,65873
+proc ::enginecfg::onSubmitNetd::enginecfg::onSubmitNetd1577,66323
+proc ::enginecfg::onChangeLayout::enginecfg::onChangeLayout1608,67103
+
+tcl/enginecomm.tcl,1747
+proc ::engine::setLogCmd::engine::setLogCmd160,3700
+proc ::engine::connect::engine::connect170,4130
+proc ::engine::netserver::engine::netserver190,4981
+proc ::engine::close::engine::close203,5331
+proc ::engine::pid::engine::pid219,5938
+proc ::engine::send::engine::send231,6413
+proc ::engine::state::engine::state273,8211
+proc ::engine::setState::engine::setState281,8511
+proc ::engine::unsetState::engine::unsetState288,8773
+proc ::engine::connected::engine::connected297,9124
+proc ::engine::init_::engine::init_301,9192
+proc ::engine::destroy_::engine::destroy_316,9694
+proc ::engine::closeServer_::engine::closeServer_360,11464
+proc ::engine::handshake_::engine::handshake_371,11781
+proc ::engine::connectd_::engine::connectd_414,13396
+proc ::engine::forwardNetMsg_::engine::forwardNetMsg_424,13872
+proc ::engine::open_::engine::open_445,14786
+proc ::engine::onMessages_::engine::onMessages_453,15136
+proc ::engine::done_::engine::done_492,16741
+proc ::engine::reply::engine::reply548,18922
+proc ::engine::replyInfoConfig::engine::replyInfoConfig567,19919
+proc ::engine::uciOptions::engine::uciOptions580,20603
+proc ::engine::updateOption::engine::updateOption587,20852
+proc ::engine::rawsend::engine::rawsend598,21229
+proc ::uci::sendOptions::uci::sendOptions608,21440
+proc ::xboard::sendOptions::xboard::sendOptions621,21836
+proc ::uci::sendNewGame::uci::sendNewGame643,22512
+proc ::xboard::sendNewGame::xboard::sendNewGame664,23515
+proc ::uci::sendGo::uci::sendGo682,24122
+proc ::xboard::sendGo::xboard::sendGo693,24379
+proc ::xboard::sendStopGo::xboard::sendStopGo722,25424
+proc ::xboard::parseline::xboard::parseline727,25529
+proc ::uci::parseline::uci::parseline833,29396
+
+tcl/errors.tcl,74
+  proc getErrorMsggetErrorMsg18,665
+  proc MessageBoxMessageBox26,923
+
+tcl/file.tcl,1011
+proc ::file::Exit::file::Exit5,59
+proc ::file::Exit_::file::Exit_17,419
+proc ::file::New::file::New67,1621
+proc ::file::Open::file::Open106,2645
+proc ::file::OpenOrSwitch::file::OpenOrSwitch173,4822
+proc ::file::openBaseAsTree::file::openBaseAsTree181,4993
+proc ::file::Open_::file::Open_191,5217
+proc ::file::Upgrade::file::Upgrade245,6909
+proc ::file::Close::file::Close291,8270
+proc ::file::SwitchToBase::file::SwitchToBase321,9103
+proc ::file::BaseName::file::BaseName335,9388
+proc ::file::autoLoadBases.load::file::autoLoadBases.load345,9664
+proc ::file::autoLoadBases.save::file::autoLoadBases.save356,10002
+proc ::file::autoLoadBases.find::file::autoLoadBases.find360,10167
+proc ::file::autoLoadBases.add::file::autoLoadBases.add365,10387
+proc ::file::autoLoadBases.remove::file::autoLoadBases.remove369,10535
+proc RegisterDropEventsRegisterDropEvents379,10857
+proc HandleDropEventHandleDropEvent387,11133
+proc OpenUriOpenUri398,11325
+proc bgerrorbgerror475,13693
+
+tcl/file/bookmark.tcl,1202
+proc ::bookmarks::PostMenu::bookmarks::PostMenu16,310
+proc ::bookmarks::Refresh::bookmarks::Refresh28,582
+proc ::bookmarks::RefreshMenu::bookmarks::RefreshMenu34,713
+proc ::bookmarks::CanAdd::bookmarks::CanAdd113,3161
+proc ::bookmarks::AddCurrent::bookmarks::AddCurrent122,3374
+proc ::bookmarks::New::bookmarks::New144,3936
+proc ::bookmarks::Go::bookmarks::Go166,4798
+proc ::bookmarks::DeleteChildren::bookmarks::DeleteChildren191,5466
+proc ::bookmarks::NewSubMenu::bookmarks::NewSubMenu202,5674
+proc ::bookmarks::Edit::bookmarks::Edit220,6029
+proc ::bookmarks::EditDone::bookmarks::EditDone277,8257
+proc ::bookmarks::EditRefresh::bookmarks::EditRefresh289,8514
+proc ::bookmarks::EditSelect::bookmarks::EditSelect307,9039
+proc ::bookmarks::isfolder::bookmarks::isfolder327,9538
+proc ::bookmarks::Text::bookmarks::Text335,9699
+proc ::bookmarks::IndexText::bookmarks::IndexText339,9762
+proc ::bookmarks::SetText::bookmarks::SetText349,9961
+proc ::bookmarks::EditMove::bookmarks::EditMove357,10128
+proc ::bookmarks::EditDelete::bookmarks::EditDelete387,10891
+proc ::bookmarks::EditNew::bookmarks::EditNew403,11297
+proc ::bookmarks::Save::bookmarks::Save437,12225
+
+tcl/file/epd.tcl,1964
+  proc placeWinplaceWin53,1824
+  proc applyThemeListboxapplyThemeListbox63,2207
+  proc epdFindTextepdFindText75,2670
+  proc newEpdWinnewEpdWin119,4041
+  proc isAlteredisAltered291,11662
+  proc closeEpdWincloseEpdWin298,11920
+  proc deleteEpdRowdeleteEpdRow342,13719
+  proc copyEpdRecordcopyEpdRecord382,14756
+  proc pasteEpdRecordpasteEpdRecord401,15355
+  proc saveEpdWinsaveEpdWin434,16174
+  proc updateEpdWinupdateEpdWin448,16739
+  proc updateEpdListboxupdateEpdListbox493,17969
+  proc updateEpdWinsupdateEpdWins506,18408
+  proc storeEpdTextstoreEpdText523,18964
+  proc loadEpdloadEpd535,19470
+  proc prevEpdprevEpd547,19857
+  proc nextEpdnextEpd561,20180
+  proc randomEpdrandomEpd575,20516
+  proc loadEpdLinesloadEpdLines588,21003
+  proc configAnnotateEpdconfigAnnotateEpd602,21351
+  proc startAnnotateEpdstartAnnotateEpd665,24074
+  proc showAnalysisWindowshowAnalysisWindow702,25467
+  proc launchAnnotateEpdlaunchAnnotateEpd736,27044
+  proc windowLimitswindowLimits1000,37802
+  proc watchEnginewatchEngine1017,38404
+  proc cutoffDrivecutoffDrive1063,40716
+  proc watchdogDrivewatchdogDrive1074,41216
+  proc finishDrivefinishDrive1082,41540
+  proc stopAnalysisstopAnalysis1099,42149
+  proc findEngineWinfindEngineWin1123,43115
+  proc buildEngineOpcodesbuildEngineOpcodes1134,43422
+  proc soughtMovesForsoughtMovesFor1193,45560
+  proc normMovenormMove1208,46178
+  proc evalBestMoveevalBestMove1222,46741
+  proc logAnnotateRowlogAnnotateRow1236,47357
+  proc clearOpcodesclearOpcodes1261,48359
+  proc stripAnalysisOpcodesstripAnalysisOpcodes1271,48719
+  proc pasteAnalysisDatapasteAnalysisData1287,49396
+  proc pasteAnalysispasteAnalysis1325,50723
+  proc sortEpdTextsortEpdText1347,51599
+  proc chooseStripFieldchooseStripField1365,52242
+  proc stripEpdFieldstripEpdField1400,53495
+  proc addPositionaddPosition1411,54047
+  proc moveToDeepestMatchmoveToDeepestMatch1432,54765
+
+tcl/file/finder.tcl,486
+proc ::file::finder::Open::file::finder::Open14,346
+proc ::file::finder::Refresh::file::finder::Refresh96,3459
+proc ::file::finder::contextMenu::file::finder::contextMenu276,9101
+proc ::file::finder::backup::file::finder::backup298,10052
+proc ::file::finder::copy::file::finder::copy321,10962
+proc ::file::finder::move::file::finder::move349,11975
+proc ::file::finder::delete::file::finder::delete376,13012
+proc ::file::finder::GetFiles::file::finder::GetFiles393,13632
+
+tcl/file/maint.tcl,1013
+proc ::maint::SetGameFlags::maint::SetGameFlags18,575
+proc ::maint::OpenClose::maint::OpenClose78,1685
+proc ::maint::validateCustomFlag::maint::validateCustomFlag227,8332
+proc ::maint::saveCustomFlags::maint::saveCustomFlags232,8486
+proc ::maint::Refresh::maint::Refresh240,8676
+proc markTwinsmarkTwins332,12049
+proc twinCriteriaOKtwinCriteriaOK452,16858
+proc doMarkDupsdoMarkDups487,18079
+proc classifyAllGamesclassifyAllGames534,19707
+proc makeClassifyWinmakeClassifyWin538,19755
+proc updateClassifyWinupdateClassifyWin603,22243
+proc updateTwinCheckerupdateTwinChecker617,22544
+proc shareTwinTagsshareTwinTags784,28957
+proc baseIsCompactablebaseIsCompactable805,29619
+proc compactDBcompactDB814,29891
+proc allocateRatingsallocateRatings873,32071
+proc doAllocateRatingsdoAllocateRatings903,33313
+proc stripTagsstripTags929,34119
+proc doStripTagsdoStripTags995,36041
+proc cleanerWincleanerWin1042,37407
+proc doCleanerdoCleaner1086,38906
+proc mtoolAddmtoolAdd1224,43506
+
+tcl/file/recent.tcl,397
+proc ::recentFiles::save::recentFiles::save18,553
+proc ::recentFiles::add::recentFiles::add47,1370
+proc ::recentFiles::load::recentFiles::load78,2141
+proc ::recentFiles::treeshow::recentFiles::treeshow83,2283
+proc ::recentFiles::show::recentFiles::show101,2872
+proc ::recentFiles::menuname::recentFiles::menuname157,4865
+proc ::recentFiles::configure::recentFiles::configure179,5514
+
+tcl/file/rtf.tcl,1612
+    proc nagToSymbolnagToSymbol82,2103
+    proc symbolToNagsymbolToNag103,2780
+    proc rtfEscapertfEscape120,3351
+    proc rtfUnescapertfUnescape134,3727
+    proc commentDefaultColor_commentDefaultColor_164,4874
+    proc buildColorTablebuildColorTable171,5070
+    proc buildFontTablebuildFontTable184,5540
+    proc rtfHeaderrtfHeader202,6271
+    proc markupToRtfmarkupToRtf232,7317
+    proc rtfRunsToMarkuprtfRunsToMarkup278,9091
+    proc collectGamecollectGame382,13777
+    proc collectLine_collectLine_387,13862
+    proc hasDiagramNag_hasDiagramNag_455,16169
+    proc piece2gifName_piece2gifName_462,16343
+    proc pieceImage_pieceImage_474,16703
+    proc fenToBoardPng_fenToBoardPng_488,17211
+    proc diagramToRtf_diagramToRtf_531,18698
+    proc renderLine_renderLine_542,19194
+    proc tagsToRtftagsToRtf588,21112
+    proc collectComments_collectComments_654,23955
+    proc collectCommentsLine_collectCommentsLine_661,24116
+    proc exportCurrentGameexportCurrentGame682,24874
+    proc exportCurrentGameToFile_exportCurrentGameToFile_702,25527
+    proc exportFilterGamesexportFilterGames737,26840
+    proc exportFilterGamesToFile_exportFilterGamesToFile_762,27673
+    proc importFromFileimportFromFile822,29850
+    proc importFile_importFile_841,30448
+    proc extractFontTable_extractFontTable_925,33494
+    proc extractColorTable_extractColorTable_945,34321
+    proc extractPgnTags_extractPgnTags_963,35004
+    proc rtfToPlain_rtfToPlain_993,36236
+    proc extractMoves_extractMoves_1001,36508
+    proc tokenizeRtf_tokenizeRtf_1051,38489
+
+tcl/file/spellchk.tcl,381
+proc loadSpellCheckFileloadSpellCheckFile29,713
+proc getSpellCheckFilegetSpellCheckFile56,2031
+proc readSpellCheckFilereadSpellCheckFile69,2644
+proc startScanningstartScanning94,3803
+proc stopScanningstopScanning116,4470
+proc startCorrectingstartCorrecting138,5096
+proc updateSpellCheckWinupdateSpellCheckWin165,5819
+proc openSpellCheckWinopenSpellCheckWin196,6762
+
+tcl/game.tcl,1139
+proc ::game::Clear::game::Clear8,117
+proc ::game::Strip::game::Strip22,462
+proc ::game::StripSelected::game::StripSelected39,986
+proc ::game::TruncateBegin::game::TruncateBegin91,2545
+proc ::game::Truncate::game::Truncate103,2806
+proc ::game::LoadNextPrev::game::LoadNextPrev118,3180
+proc ::game::Reload::game::Reload170,4628
+proc ::game::ToggleDeleteFlag::game::ToggleDeleteFlag180,4848
+proc ::game::LoadRandom::game::LoadRandom199,5297
+proc ::game::LoadMenu::game::LoadMenu214,5731
+proc ::game::GotoMoveNumber::game::GotoMoveNumber240,6443
+proc ::game::mergeInBase::game::mergeInBase286,7877
+proc ::game::Load::game::Load305,8322
+proc ::game::ConfirmDiscard::game::ConfirmDiscard341,9324
+proc ::game::updateFlipTag::game::updateFlipTag417,11849
+  proc GameChangedGameChanged444,12603
+  proc PosChangedPosChanged467,13597
+  proc privGameTextChangedprivGameTextChanged502,14790
+  proc privPosChangedprivPosChanged509,15023
+  proc DatabaseChangedDatabaseChanged527,15639
+  proc DatabaseModifiedDatabaseModified541,16078
+  proc filterfilter559,16721
+  proc EngineBestMoveEngineBestMove578,17558
+
+tcl/help/tips.tcl,34
+proc ::tip::show::tip::show4,26
+
+tcl/htext.tcl,1317
+proc help_PushStackhelp_PushStack18,475
+proc help_PopStackhelp_PopStack36,971
+proc helpWindowPertinenthelpWindowPertinent56,1544
+proc helpWindowhelpWindow72,1948
+proc updateHelpWindowupdateHelpWindow77,2046
+proc ::htext::updateRate::htext::updateRate160,4889
+proc ::htext::isDarkColor::htext::isDarkColor166,5094
+proc ::htext::linkColor::htext::linkColor177,5567
+proc ::htext::linkEnter::htext::linkEnter185,5905
+proc ::htext::linkLeave::htext::linkLeave190,6031
+proc ::htext::configureColors::htext::configureColors199,6427
+proc ::htext::setCommentColor::htext::setCommentColor237,7939
+proc ::htext::init::htext::init245,8196
+proc ::htext::isStartTag::htext::isStartTag321,10898
+proc ::htext::isEndTag::htext::isEndTag325,10985
+proc ::htext::isLinkTag::htext::isLinkTag329,11059
+proc ::htext::extractLinkName::htext::extractLinkName333,11135
+proc ::htext::extractSectionName::htext::extractSectionName340,11299
+proc ::htext::spanTagFor::htext::spanTagFor357,11871
+proc ::htext::resetSpanTags::htext::resetSpanTags414,14019
+proc ::htext::display::htext::display421,14181
+proc openURLopenURL712,26094
+proc ::htext::showVar::htext::showVar781,28813
+proc ::htext::resetToggleVar::htext::resetToggleVar788,29023
+proc ::htext::toggleHideVar::htext::toggleHideVar801,29382
+
+tcl/hyprland-menus.tcl,182
+  proc installinstall37,1827
+  proc onMaponMap47,2257
+  proc onConfigureonConfigure63,2894
+  proc restorerestore70,3103
+  proc nearnear88,3791
+  proc forgetforget92,3854
+
+tcl/keyboard.tcl,522
+proc ::keyboard::unbindEngineShortcut::keyboard::unbindEngineShortcut30,1271
+proc ::keyboard::bindEngineShortcut::keyboard::bindEngineShortcut38,1542
+proc ::keyboard::rebindEngineShortcuts::keyboard::rebindEngineShortcuts59,2416
+proc ::keyboard::bindEngineShortcuts::keyboard::bindEngineShortcuts64,2585
+proc keyboardShortcutskeyboardShortcuts73,2882
+proc excludeTextWidgetexcludeTextWidget207,7678
+proc spaceTriggersEngineMovespaceTriggersEngineMove247,9386
+proc addBindtagToTreeaddBindtagToTree281,11299
+
+tcl/lang/SerbCyr.tcl,41
+proc setLanguage_JsetLanguage_J44,1960
+
+tcl/lang/bengali.tcl,38
+proc setLanguage_bsetLanguage_b3,21
+
+tcl/lang/bulgarian.tcl,41
+proc setLanguage_gsetLanguage_g44,1896
+
+tcl/lang/catalan.tcl,39
+proc setLanguage_KsetLanguage_K7,141
+
+tcl/lang/checklangs.tcl,68
+proc multiLinesmultiLines53,1162
+proc checkfilecheckfile82,1974
+
+tcl/lang/chinese.tcl,40
+proc setLanguage_MsetLanguage_M11,354
+
+tcl/lang/czech.tcl,39
+proc setLanguage_CsetLanguage_C5,167
+
+tcl/lang/danish.tcl,38
+proc setLanguage_dsetLanguage_d2,72
+
+tcl/lang/deutsch.tcl,40
+proc setLanguage_DsetLanguage_D20,665
+
+tcl/lang/english.tcl,41
+proc setLanguage_EsetLanguage_E43,1850
+
+tcl/lang/francais.tcl,39
+proc setLanguage_FsetLanguage_F8,173
+
+tcl/lang/greek.tcl,41
+proc setLanguage_GsetLanguage_G34,2747
+
+tcl/lang/hebrew.tcl,39
+proc setLanguage_VsetLanguage_V4,103
+
+tcl/lang/hindi.tcl,38
+proc setLanguage_hsetLanguage_h3,19
+
+tcl/lang/hungary.tcl,39
+proc setLanguage_HsetLanguage_H5,117
+
+tcl/lang/italian.tcl,39
+proc setLanguage_IsetLanguage_I9,256
+
+tcl/lang/japanese.tcl,41
+proc setLanguage_AsetLanguage_A44,1952
+
+tcl/lang/korean.tcl,41
+proc setLanguage_ksetLanguage_k44,1952
+
+tcl/lang/nederlan.tcl,39
+proc setLanguage_NsetLanguage_N8,200
+
+tcl/lang/norsk.tcl,39
+proc setLanguage_OsetLanguage_O7,244
+
+tcl/lang/polish.tcl,41
+proc setLanguage_PsetLanguage_P43,2256
+
+tcl/lang/portbr.tcl,38
+proc setLanguage_BsetLanguage_B4,47
+
+tcl/lang/propagatelang.tcl,33
+proc checkfilecheckfile87,1972
+
+tcl/lang/removedeadlang.tcl,124
+proc buildEnglishKeysbuildEnglishKeys106,2686
+proc entryEndLineentryEndLine130,3553
+proc removeDeadremoveDead152,4315
+
+tcl/lang/removetoken.tcl,26
+proc removeremove43,943
+
+tcl/lang/romanian.tcl,41
+proc setLanguage_LsetLanguage_L44,1952
+
+tcl/lang/russian.tcl,39
+proc setLanguage_RsetLanguage_R9,341
+
+tcl/lang/serbian.tcl,38
+proc setLanguage_YsetLanguage_Y5,76
+
+tcl/lang/spanish.tcl,39
+proc setLanguage_SsetLanguage_S9,243
+
+tcl/lang/suomi.tcl,41
+proc setLanguage_UsetLanguage_U41,1848
+
+tcl/lang/swahili.tcl,38
+proc setLanguage_ZsetLanguage_Z3,21
+
+tcl/lang/swedish.tcl,39
+proc setLanguage_WsetLanguage_W7,261
+
+tcl/lang/turkish.tcl,39
+proc setLanguage_TsetLanguage_T7,131
+
+tcl/lang/ukrainian.tcl,38
+proc setLanguage_QsetLanguage_Q4,23
+
+tcl/language.tcl,590
+proc transtrans75,3496
+proc untransuntrans85,3803
+proc addLanguageaddLanguage97,4198
+proc graphemeClustersgraphemeClusters117,5213
+proc bidiVisualLinebidiVisualLine154,6393
+proc bidiVisualbidiVisual202,8269
+proc menuTextmenuText221,8884
+proc helpMsghelpMsg240,9686
+proc translatetranslate251,10058
+proc translateECOtranslateECO271,10840
+proc trtr280,11188
+proc loadTranslatedHelploadTranslatedHelp308,12562
+proc setLanguagesetLanguage322,13174
+proc updateSoundFolderForLanguageupdateSoundFolderForLanguage418,16645
+proc setLanguageTempsetLanguageTemp458,18167
+
+tcl/main.tcl,3295
+proc moveEntry_ClearmoveEntry_Clear37,1366
+proc moveEntry_CompletemoveEntry_Complete43,1470
+proc moveEntry_BackspacemoveEntry_Backspace53,1721
+proc moveEntry_CharmoveEntry_Char60,1915
+proc updateMainGameupdateMainGame115,4096
+proc updateTitleupdateTitle131,4623
+proc updateStatusBarupdateStatusBar154,5439
+proc updateMainToolbarupdateMainToolbar284,10417
+proc ::updateTreeFilter::updateTreeFilter324,12091
+proc ::cancelUpdateTreeFilter::cancelUpdateTreeFilter373,13871
+proc ::updateMainEvalBar::updateMainEvalBar396,14802
+proc ::updateMainEvalBarOnly::updateMainEvalBarOnly440,16846
+proc ::mainBoardSpaceKey::mainBoardSpaceKey458,17533
+proc ::spaceIsPlayArea::spaceIsPlayArea470,17908
+proc ::spacePlayWidget::spacePlayWidget485,18478
+proc ::spacePlayPointer::spacePlayPointer505,19244
+proc ::spacePlayGlobal::spacePlayGlobal517,19757
+proc ::addEngineBestMove::addEngineBestMove537,20646
+proc ::playMainEngineBestMove::playMainEngineBestMove555,21589
+proc ::createMainEvalBarMenu::createMainEvalBarMenu579,22514
+proc toggleRotateBoardtoggleRotateBoard634,24574
+proc main_isFlippedmain_isFlipped637,24634
+proc toggleShowMaterialtoggleShowMaterial647,24786
+proc main_mousewheelHandlermain_mousewheelHandler652,24885
+proc getNextMovesgetNextMoves664,25280
+proc showVarsshowVars678,25784
+proc updateBoardupdateBoard806,30037
+proc editMyPlayerNameseditMyPlayerNames814,30182
+proc editMyPlayerNamesOKeditMyPlayerNamesOK898,33966
+proc flipBoardForPlayerNamesflipBoardForPlayerNames920,34599
+proc updateGameInfoupdateGameInfo957,35618
+proc togglePhotosSizetogglePhotosSize981,36536
+proc readPhotoFilereadPhotoFile1004,37566
+proc normalizePhotoNamenormalizePhotoName1085,40489
+proc trimStringtrimString1137,41854
+proc getphotogetphoto1143,41980
+proc loadCustomPhotosloadCustomPhotos1162,42551
+proc loadPlayersPhoto_initloadPlayersPhoto_init1247,46340
+proc loadPlayersPhotoloadPlayersPhoto1255,46515
+proc normalizePlayerNamenormalizePlayerName1287,47617
+proc updatePlayerPhotosupdatePlayerPhotos1332,49347
+proc getPromoPiecegetPromoPiece1397,51463
+proc confirmReplaceMoveconfirmReplaceMove1475,54587
+proc addMoveExaddMoveEx1492,55355
+proc addMoveaddMove1527,56422
+proc addSanMoveaddSanMove1533,56637
+proc addMoveUCIaddMoveUCI1546,57012
+proc suggestMovesuggestMove1609,59290
+proc enterSquareenterSquare1624,59735
+proc leaveSquareleaveSquare1642,60265
+proc shiftClickSquareshiftClickSquare1657,60826
+proc pressSquarepressSquare1673,61261
+proc releaseSquarereleaseSquare1706,62396
+proc addMarkeraddMarker1744,63593
+proc selectMarkerselectMarker1797,65477
+proc addNagaddNag1885,68108
+proc undoFeatureundoFeature1894,68374
+proc setPlayModesetPlayMode1909,68724
+proc resizeMainBoardresizeMainBoard1918,69070
+proc toggleGameInfotoggleGameInfo1941,69993
+proc CreateMainBoardCreateMainBoard1951,70245
+proc CreateGameInfoCreateGameInfo2081,75516
+proc ::toolbarHelp::toolbarHelp2137,77743
+proc setToolbarTooltipssetToolbarTooltips2145,77960
+proc InitToolbarInitToolbar2160,78521
+proc toggleToolbarButtontoggleToolbarButton2170,78953
+proc toggleAllToolbarButtonstoggleAllToolbarButtons2182,79213
+proc ConfigToolbarConfigToolbar2193,79521
+proc redrawToolbarredrawToolbar2216,80533
+
+tcl/menus.tcl,1184
+  proc ::tk::mac::OpenDocument::tk::mac::OpenDocument23,474
+  proc ::tk::mac::Quit::tk::mac::Quit44,1147
+proc translateMenuLabelstranslateMenuLabels376,17594
+proc menuConfigmenuConfig418,19196
+proc ::menus::engineShortcutLabels::menus::engineShortcutLabels432,19716
+proc updateMenuStatesupdateMenuStates456,20577
+proc menuUpdateBasesmenuUpdateBases555,23931
+proc menuUpdateThemesmenuUpdateThemes604,26127
+proc configMenuTextconfigMenuText640,27594
+proc setLanguageMenussetLanguageMenus649,27947
+proc checkMenuUnderlinecheckMenuUnderline685,29218
+proc configInformantconfigInformant710,29926
+proc configFICSconfigFICS742,31102
+proc getBooksDirgetBooksDir759,31926
+proc setBooksDirsetBooksDir769,32188
+proc getTacticsBasesDirgetTacticsBasesDir774,32264
+proc setTacticsBasesDirsetTacticsBasesDir784,32540
+proc getPhotoDirgetPhotoDir789,32623
+proc setPhotoDirsetPhotoDir801,32966
+proc getThemePkgFilegetThemePkgFile811,33247
+proc readThemePkgFilereadThemePkgFile821,33706
+proc getECOFilegetECOFile839,34375
+proc readECOFilereadECOFile849,34713
+proc updateLocaleupdateLocale866,35366
+proc chooseHighlightColorchooseHighlightColor873,35488
+
+tcl/misc.tcl,3050
+proc vwaitTimedvwaitTimed12,444
+  proc triggertrigger14,499
+proc bindMouseWheelbindMouseWheel38,1066
+proc collapseMenubuttonscollapseMenubuttons66,2010
+proc dialogbuttonframedialogbuttonframe121,3797
+proc packbuttonspackbuttons144,4478
+proc packdlgbuttonspackdlgbuttons147,4557
+proc dialogbuttondialogbutton154,4748
+proc dialogbuttonsmalldialogbuttonsmall162,4966
+proc autoscrollframeautoscrollframe182,5689
+proc autoscrollBarsautoscrollBars216,6531
+proc _autoscrollMouseWheel_autoscrollMouseWheel243,7575
+proc _autoscroll_autoscroll260,8255
+proc _autoscrollMap_autoscrollMap281,8780
+proc doBusyCursordoBusyCursor293,9069
+proc busyCursorbusyCursor309,9483
+proc unbusyCursorunbusyCursor316,9669
+proc addHorizontalRuleaddHorizontalRule327,9968
+proc addVerticalRuleaddVerticalRule338,10346
+proc progressWindowprogressWindow353,10853
+proc progressBarSetprogressBarSet394,12350
+proc progressBarContinueprogressBarContinue409,12916
+proc progressBarCancelprogressBarCancel419,13270
+proc progressCallBackprogressCallBack424,13336
+proc changeProgressWindowchangeProgressWindow473,14687
+proc updateProgressWindowupdateProgressWindow481,14837
+proc closeProgressWindowcloseProgressWindow492,15073
+proc CreateSelectDBWidgetCreateSelectDBWidget510,15536
+proc SelectDBWidgetChoiceSelectDBWidgetChoice539,16447
+proc storeEmtCommentstoreEmtComment543,16576
+proc storeEvalCommentstoreEvalComment553,16920
+proc format_clockformat_clock565,17375
+proc format_clock_from_secondsformat_clock_from_seconds570,17587
+  proc newnew596,18692
+  proc sizeOfsizeOf637,20622
+  proc redrawredraw651,21094
+  proc widthwidth662,21510
+  proc digitalWidthdigitalWidth669,21834
+  proc familyfamily678,22180
+  proc dialGeometrydialGeometry697,23068
+  proc innerOffsetinnerOffset714,23866
+  proc innerFontinnerFont720,24076
+  proc faceFontfaceFont728,24306
+  proc digitalTypeSizedigitalTypeSize751,25250
+  proc digitalFontdigitalFont766,25891
+  proc faceface775,26229
+  proc setDisplaysetDisplay803,27708
+  proc drawdraw823,28419
+  proc everyevery887,31184
+  proc getSecgetSec896,31481
+  proc setSecsetSec900,31642
+  proc addadd905,31826
+  proc resetreset911,32049
+  proc startstart916,32221
+  proc stopstop925,32648
+  proc storeTimeCommentstoreTimeComment932,32919
+  proc toggleClocktoggleClock977,34934
+  proc setColorsetColor985,35140
+  proc isRunningisRunning1002,35786
+  proc htmlSourceDirhtmlSourceDir1021,36464
+  proc copyDirMergecopyDirMerge1036,37160
+  proc exportCurrentFilterexportCurrentFilter1051,37653
+  proc sc_progressBarsc_progressBar1116,40072
+  proc exportCurrentGameexportCurrentGame1120,40215
+  proc html_entitieshtml_entities1207,45263
+  proc toHtmltoHtml1212,45436
+  proc colorSqcolorSq1336,50585
+  proc piece2gifpiece2gif1344,50869
+  proc insertMiniDiaginsertMiniDiag1360,51490
+  proc fillDatafillData1389,52448
+  proc parseGameparseGame1397,52636
+  proc recordEltrecordElt1445,53869
+  proc exportPGNexportPGN1517,55724
+
+tcl/move.tcl,715
+proc ::move::drawVarArrows::move::drawVarArrows22,727
+proc ::move::showVarArrows::move::showVarArrows53,1499
+proc ::move::Start::move::Start68,2027
+proc ::move::End::move::End77,2222
+proc ::move::EndVar::move::EndVar86,2411
+proc ::move::EnterVar::move::EnterVar95,2606
+proc ::move::ExitVar::move::ExitVar106,2851
+proc ::move::ExitVarOrStart::move::ExitVarOrStart116,3090
+proc ::move::EnterFirstVariation::move::EnterFirstVariation122,3176
+proc ::move::ExitVariationToMainline::move::ExitVariationToMainline162,4431
+proc ::move::Back::move::Back174,4779
+proc ::move::Forward::move::Forward195,5226
+proc ::move::Follow::move::Follow225,5958
+proc ::move::PGNOffset::move::PGNOffset245,6463
+
+tcl/omarchy-theme.tcl,520
+  proc isOmarchyisOmarchy19,653
+  proc currentThemeDircurrentThemeDir29,961
+  proc colorsFilecolorsFile33,1075
+  proc themeNameFilethemeNameFile39,1214
+  proc hashStringhashString47,1589
+  proc readFilereadFile56,1792
+  proc fingerprintfingerprint64,1967
+  proc cacheFilecacheFile74,2293
+  proc cacheValidcacheValid78,2396
+  proc readColorsreadColors98,3025
+  proc colorcolor114,3583
+  proc generateScriptgenerateScript123,3883
+  proc writeCachewriteCache189,7732
+  proc ensureensure211,8392
+
+tcl/options.tcl,773
+proc options.storeoptions.store19,604
+proc InitDefaultToolbarInitDefaultToolbar28,856
+proc InitWinsDefaultGeometryInitWinsDefaultGeometry40,1194
+proc InitDefaultStatsInitDefaultStats66,2735
+proc InitDefaultFontsInitDefaultFonts99,3349
+proc raiseWinraiseWin561,16612
+proc scidConfigFilescidConfigFile599,17599
+proc ConvertOldOptionVariablesConvertOldOptionVariables695,21308
+proc options.writeoptions.write716,21843
+proc options.finishWriteoptions.finishWrite930,31356
+proc options.writeVaroptions.writeVar950,31959
+proc options.autoSaveHackoptions.autoSaveHack1035,34669
+proc ::pgn::applyTagOrder::pgn::applyTagOrder1046,35026
+proc ::pgn::applyMoveNumSpace::pgn::applyMoveNumSpace1057,35539
+proc ::pgn::applyPgnEol::pgn::applyPgnEol1068,36099
+
+tcl/search/board.tcl,917
+proc ::search::Open::search::Open25,1080
+proc ::search::updateScroll_::search::updateScroll_128,5949
+proc ::search::CloseAll::search::CloseAll160,7128
+proc ::search::DatabaseModified::search::DatabaseModified166,7222
+proc ::search::refresh_::search::refresh_174,7377
+proc ::search::use_dbfilter_::search::use_dbfilter_189,7785
+proc ::search::progressbar_::search::progressbar_194,7978
+proc ::search::start_::search::start_219,8610
+proc ::search::search_one_::search::search_one_269,10339
+proc ::search::do_search_::search::do_search_356,12853
+proc ::search::board::search::board399,14141
+proc ::search::boardCreateFrame::search::boardCreateFrame403,14284
+proc ::search::boardOptions::search::boardOptions430,15400
+proc ::search::moves::search::moves451,16080
+proc ::search::movesCreateFrame::search::movesCreateFrame455,16223
+proc ::search::movesOptions::search::movesOptions486,17339
+
+tcl/search/comments.tcl,257
+proc ::search::comments::Open::search::comments::Open14,280
+proc ::search::comments::Search::search::comments::Search94,3332
+proc ::search::comments::Copy::search::comments::Copy158,5456
+proc ::search::comments::Jump::search::comments::Jump175,5989
+
+tcl/search/cql.tcl,262
+proc ::search::cql::search::cql48,2276
+proc ::search::cqlCreateFrame::search::cqlCreateFrame84,3831
+proc ::search::cqlOptions::search::cqlOptions121,5235
+proc ::search::cqlQuery::search::cqlQuery132,5525
+proc ::search::cqlRun_::search::cqlRun_147,6111
+
+tcl/search/cql_kit.tcl,984
+proc ::search::cqlKitLabel::search::cqlKitLabel375,16907
+proc ::search::cqlKitPieceName::search::cqlKitPieceName384,17144
+proc ::search::cqlKitIsPiece::search::cqlKitIsPiece397,17415
+proc ::search::cqlKitChoices::search::cqlKitChoices404,17644
+proc ::search::cqlKitInit::search::cqlKitInit419,18093
+proc ::search::cqlKitPieceLetter::search::cqlKitPieceLetter453,19034
+proc ::search::cqlKitSubstitute::search::cqlKitSubstitute467,19392
+proc ::search::cqlKitBuild::search::cqlKitBuild486,20254
+proc ::search::cqlKitUpdateTabs::search::cqlKitUpdateTabs543,21819
+proc ::search::cqlKitSay::search::cqlKitSay571,22436
+proc ::search::cqlKitWrite::search::cqlKitWrite597,23421
+proc ::search::cqlKitMoved::search::cqlKitMoved649,25209
+proc ::search::cqlKitSpin::search::cqlKitSpin662,25564
+proc ::search::cqlKitClear::search::cqlKitClear670,25806
+proc ::search::cqlKitReset::search::cqlKitReset685,26266
+proc ::search::cqlKitFrame::search::cqlKitFrame697,26582
+
+tcl/search/header.tcl,1034
+proc checkDatescheckDates43,1249
+proc ::search::header::defaults::search::header::defaults55,1892
+proc ::search::header::preset_save::search::header::preset_save98,3714
+proc ::search::header::preset_load::search::header::preset_load146,5158
+proc ::search::header::preset_delete::search::header::preset_delete191,6919
+proc ::search::header::prompt_save_preset::search::header::prompt_save_preset205,7379
+proc ::search::header::rebuild_presets_menu::search::header::rebuild_presets_menu240,8399
+proc ::search::header::rebuild_presets_menu_one::search::header::rebuild_presets_menu_one252,8697
+proc ::search::header::search::header304,10483
+proc search::headerCreateFramesearch::headerCreateFrame308,10630
+proc ::search::headerGetOptions::search::headerGetOptions607,23429
+proc ::search::getRange::search::getRange635,24197
+proc ::search::headerPlayerOptions::search::headerPlayerOptions647,24515
+proc ::search::getSearchOptions::search::getSearchOptions662,25086
+proc chooseEcoRangechooseEcoRange787,29157
+
+tcl/search/material.tcl,515
+proc checkPieceCountscheckPieceCounts74,2957
+proc makeBoolMenumakeBoolMenu83,3134
+proc makePieceMenumakePieceMenu96,3635
+proc updatePatternImagesupdatePatternImages115,4269
+proc ::search::material::zero::search::material::zero136,4846
+proc ::search::material::any::search::material::any142,5061
+proc clearPatternsclearPatterns150,5319
+proc showPatternshowPattern167,5764
+proc setPatternssetPatterns180,6319
+proc set1Bishopsset1Bishops202,6843
+proc ::search::material::search::material215,7106
+
+tcl/search/search.tcl,239
+proc ::search::filter::reset::search::filter::reset15,250
+proc ::search::filter::resetAll::search::filter::resetAll19,343
+proc ::search::addFilterOpFrame::search::addFilterOpFrame32,763
+proc ::search::Config::search::Config57,1626
+
+tcl/start.tcl,1674
+proc trace_logtrace_log67,2605
+proc migrateEnginePathsmigrateEnginePaths104,3766
+proc InitDirsInitDirs136,4858
+  proc makeScidDirmakeScidDir207,8108
+proc InitImgInitImg272,10836
+proc InitTooltipInitTooltip325,12608
+    proc SetSet330,12779
+proc ::button_image::button_image345,13241
+proc ::splash::add::splash::add394,14603
+proc safeLoadConfigsafeLoadConfig428,15848
+proc ::safeConfigSet::safeConfigSet475,17244
+proc safeSourcesafeSource504,18497
+proc safeSetsafeSet526,19128
+proc safeAddSubDirsToAccessPathsafeAddSubDirsToAccessPath541,19732
+proc safeSourceStylesafeSourceStyle548,19961
+proc safePwdsafePwd569,20754
+proc safePackagesafePackage571,20774
+proc safeImagesafeImage582,21033
+proc safeStyleOptionsafeStyleOption592,21326
+proc safeStyleEvalBodysafeStyleEvalBody602,21744
+proc safeStylesafeStyle616,22347
+proc calculateTreeviewRowHeightcalculateTreeviewRowHeight647,23212
+proc updateFontsupdateFonts655,23543
+proc createFontscreateFonts679,24726
+proc styleOptionstyleOption713,25701
+proc ::registerDarkTheme::registerDarkTheme719,25829
+proc ::loadDeferredTheme::loadDeferredTheme745,26889
+proc configure_menusconfigure_menus782,28378
+      proc update_menu_colorsupdate_menu_colors811,29599
+proc configure_styleconfigure_style840,30666
+proc ::update_switch_btn::update_switch_btn965,35977
+proc autoscrollTextautoscrollText979,36360
+proc ttk_textttk_text989,36750
+proc ttk_canvasttk_canvas1005,37264
+proc ttk_createttk_create1013,37550
+proc applyThemeColor_backgroundapplyThemeColor_background1022,37807
+proc applyThemeStyleapplyThemeStyle1029,38061
+proc getFlagImagegetFlagImage1046,38655
+
+tcl/themes/sciddark/sciddark.tcl,122
+    proc styleOptionstyleOption21,881
+    proc applyStyleapplyStyle24,1001
+        proc LoadImagesLoadImages48,1960
+
+tcl/themes/scidlight/scidlight.tcl,121
+    proc styleOptionstyleOption19,733
+    proc applyStyleapplyStyle22,853
+        proc LoadImagesLoadImages46,1819
+
+tcl/tools/accuracy.tcl,285
+    proc winPercentwinPercent12,453
+    proc moveAccuracymoveAccuracy17,661
+    proc stdDevstdDev27,1001
+    proc calculatecalculate41,1532
+    proc calculatePairscalculatePairs53,2227
+    proc calculateFromcalculateFrom132,5492
+    proc computeFinalcomputeFinal147,6153
+
+tcl/tools/auto_comment.tcl,5241
+proc ::auto_comment::logDebug::auto_comment::logDebug93,4671
+proc ::auto_comment::fitWindow::auto_comment::fitWindow122,5697
+proc ::auto_comment::providerList::auto_comment::providerList150,6624
+proc ::auto_comment::providerLabel::auto_comment::providerLabel160,7158
+proc ::auto_comment::activeModelLabel::auto_comment::activeModelLabel178,7901
+proc ::auto_comment::providerLabels::auto_comment::providerLabels203,9018
+proc ::auto_comment::providerFromLabel::auto_comment::providerFromLabel215,9445
+proc ::auto_comment::providerReady::auto_comment::providerReady226,9861
+proc ::auto_comment::baseUrl::auto_comment::baseUrl273,12088
+proc ::auto_comment::urlHost::auto_comment::urlHost282,12400
+proc ::auto_comment::isLoopbackHost::auto_comment::isLoopbackHost297,12985
+proc ::auto_comment::cleartextKeyError::auto_comment::cleartextKeyError309,13561
+proc ::auto_comment::writeRequestFile::auto_comment::writeRequestFile321,14264
+proc ::auto_comment::writeCurlConfig::auto_comment::writeCurlConfig349,15522
+proc ::auto_comment::chatEndpoint::auto_comment::chatEndpoint356,15818
+proc ::auto_comment::modelsUrl::auto_comment::modelsUrl381,17150
+proc ::auto_comment::providerModel::auto_comment::providerModel392,17625
+proc ::auto_comment::chatBody::auto_comment::chatBody406,18166
+proc ::auto_comment::chatAuth::auto_comment::chatAuth428,19185
+proc ::auto_comment::replyText::auto_comment::replyText457,20510
+proc ::auto_comment::extractOpenAIChoice::auto_comment::extractOpenAIChoice463,20703
+proc ::auto_comment::extractOllamaMessage::auto_comment::extractOllamaMessage471,20957
+proc ::auto_comment::unescapeJson::auto_comment::unescapeJson484,21578
+proc ::auto_comment::replyError::auto_comment::replyError494,22060
+proc ::auto_comment::readAndDelete::auto_comment::readAndDelete509,22610
+proc ::auto_comment::replyFailure::auto_comment::replyFailure524,23151
+proc ::auto_comment::emptyReplyError::auto_comment::emptyReplyError548,24355
+proc ::auto_comment::query::auto_comment::query590,26872
+proc ::auto_comment::post303Flag::auto_comment::post303Flag609,27766
+proc ::auto_comment::chatSpec::auto_comment::chatSpec626,28462
+proc ::auto_comment::chatCleanup::auto_comment::chatCleanup693,32113
+proc ::auto_comment::queryChat::auto_comment::queryChat704,32614
+proc ::auto_comment::finishReply::auto_comment::finishReply745,34421
+proc ::auto_comment::queryAsync::auto_comment::queryAsync760,35269
+proc ::auto_comment::asyncRead::auto_comment::asyncRead808,37153
+proc ::auto_comment::cancelChild::auto_comment::cancelChild867,39363
+proc ::auto_comment::cancelAsync::auto_comment::cancelAsync879,39765
+proc ::auto_comment::modelChoices::auto_comment::modelChoices901,40578
+proc ::auto_comment::syncModelCombo::auto_comment::syncModelCombo930,41921
+proc ::auto_comment::syncProviderCombo::auto_comment::syncProviderCombo953,43083
+proc ::auto_comment::pickProvider::auto_comment::pickProvider964,43596
+proc ::auto_comment::chooseProvider::auto_comment::chooseProvider974,43973
+proc ::auto_comment::chooseProviderForModel::auto_comment::chooseProviderForModel983,44346
+proc ::auto_comment::refreshAfterSettings::auto_comment::refreshAfterSettings992,44737
+proc ::auto_comment::openSettings::auto_comment::openSettings1001,45085
+proc ::auto_comment::syncProviderSections::auto_comment::syncProviderSections1016,45881
+proc ::auto_comment::configureApiKey::auto_comment::configureApiKey1074,48915
+proc ::auto_comment::saveSettings::auto_comment::saveSettings1270,59280
+proc ::auto_comment::cleanupText::auto_comment::cleanupText1290,59965
+proc ::auto_comment::escapeJson::auto_comment::escapeJson1351,62793
+proc ::auto_comment::geminiModelsUrl::auto_comment::geminiModelsUrl1368,63336
+proc ::auto_comment::fetchGeminiModels::auto_comment::fetchGeminiModels1372,63438
+proc ::auto_comment::fetchDeepSeekModels::auto_comment::fetchDeepSeekModels1396,64275
+proc ::auto_comment::modelListTargets::auto_comment::modelListTargets1426,65526
+proc ::auto_comment::targetUrls::auto_comment::targetUrls1446,66585
+proc ::auto_comment::fetchUrlModels::auto_comment::fetchUrlModels1458,67162
+proc ::auto_comment::chatCompletionsOnly::auto_comment::chatCompletionsOnly1501,69276
+proc ::auto_comment::parseOllamaTags::auto_comment::parseOllamaTags1524,70396
+proc ::auto_comment::fetchTagModels::auto_comment::fetchTagModels1580,72976
+proc ::auto_comment::fetchOllamaModels::auto_comment::fetchOllamaModels1615,74782
+proc ::auto_comment::localModelList::auto_comment::localModelList1632,75608
+proc ::auto_comment::loadModels::auto_comment::loadModels1642,76041
+proc ::auto_comment::geminiSpec::auto_comment::geminiSpec1729,80174
+proc ::auto_comment::deepseekSpec::auto_comment::deepseekSpec1747,81116
+proc ::auto_comment::geminiText::auto_comment::geminiText1771,82442
+proc ::auto_comment::deepseekText::auto_comment::deepseekText1788,83121
+proc ::auto_comment::queryGemini::auto_comment::queryGemini1809,83852
+proc ::auto_comment::queryDeepSeek::auto_comment::queryDeepSeek1890,86765
+proc ::auto_comment::getOpeningName::auto_comment::getOpeningName1978,90071
+proc ::auto_comment::getTempDir::auto_comment::getTempDir2001,90821
+
+tcl/tools/batch_annotate.tcl,1111
+proc ::batch_annotate::config::batch_annotate::config49,2106
+proc ::batch_annotate::start::batch_annotate::start99,3829
+proc ::batch_annotate::start_engines::batch_annotate::start_engines175,6789
+proc ::batch_annotate::endProgress::batch_annotate::endProgress257,9951
+proc ::batch_annotate::cancel::batch_annotate::cancel265,10166
+proc ::batch_annotate::assign_game::batch_annotate::assign_game284,10840
+proc ::batch_annotate::check_completion::batch_annotate::check_completion377,14078
+proc ::batch_annotate::completionMessage::batch_annotate::completionMessage405,15292
+proc ::batch_annotate::feed_move::batch_annotate::feed_move413,15592
+proc ::batch_annotate::collect::batch_annotate::collect457,17548
+proc ::batch_annotate::read_engine::batch_annotate::read_engine493,19060
+proc ::batch_annotate::unjudgedCount::batch_annotate::unjudgedCount539,20931
+proc ::batch_annotate::finalize_game::batch_annotate::finalize_game555,21669
+proc ::batch_annotate::verifierEngine::batch_annotate::verifierEngine604,23881
+proc ::batch_annotate::writeGame::batch_annotate::writeGame616,24458
+
+tcl/tools/chesscom.tcl,453
+proc ::chesscom::importGames::chesscom::importGames27,727
+proc ::chesscom::startDownload::chesscom::startDownload85,3140
+proc ::chesscom::downloadUserGames::chesscom::downloadUserGames172,5855
+proc ::chesscom::downloadMonth::chesscom::downloadMonth248,8180
+proc ::chesscom::downloadWithHTTP::chesscom::downloadWithHTTP292,9955
+proc ::chesscom::openPGN::chesscom::openPGN320,10849
+proc ::chesscom::getTempDir::chesscom::getTempDir340,11677
+
+tcl/tools/comment_colors.tcl,343
+    proc escapeescape33,1733
+    proc wrapwrap37,1835
+    proc wrapReviewwrapReview42,1978
+    proc wrapCoachwrapCoach47,2084
+    proc wrapLineswrapLines55,2403
+    proc wrapReviewLineswrapReviewLines67,2750
+    proc wrapCoachLineswrapCoachLines72,2866
+    proc stripEmptystripEmpty79,3130
+    proc stripLinestripLine86,3414
+
+tcl/tools/comment_facts.tcl,2590
+proc ::facts::pieceName::facts::pieceName44,2258
+proc ::facts::valueOf::facts::valueOf50,2379
+proc ::facts::sideWord::facts::sideWord56,2499
+proc ::facts::other::facts::other60,2589
+proc ::facts::attacksFrom::facts::attacksFrom66,2812
+proc ::facts::attackersOf::facts::attackersOf102,4291
+proc ::facts::legalCapture::facts::legalCapture119,4903
+proc ::facts::hangingPieces::facts::hangingPieces131,5325
+proc ::facts::passTurn::facts::passTurn169,6963
+proc ::facts::mateInOne::facts::mateInOne177,7176
+proc ::facts::describeMove::facts::describeMove195,7802
+proc ::facts::biggestTarget::facts::biggestTarget231,9518
+proc ::facts::inventoryLine::facts::inventoryLine263,10670
+proc ::facts::epCaptureAvailable::facts::epCaptureAvailable305,12314
+proc ::facts::sig::facts::sig335,13496
+proc ::facts::epLine::facts::epLine343,13786
+proc ::facts::clockLine::facts::clockLine355,14343
+proc ::facts::repetitionLine::facts::repetitionLine366,14829
+proc ::facts::repFromMainline::facts::repFromMainline376,15426
+proc ::facts::castlingLine::facts::castlingLine413,17338
+proc ::facts::materialLine::facts::materialLine433,18141
+proc ::facts::namesOf::facts::namesOf482,20394
+proc ::facts::castleAfter::facts::castleAfter491,20686
+proc ::facts::development::facts::development506,21363
+proc ::facts::mobility::facts::mobility529,22306
+proc ::facts::materialEvalNote::facts::materialEvalNote555,23266
+proc ::facts::captureNet::facts::captureNet603,25723
+proc ::facts::gainsOf::facts::gainsOf638,27201
+proc ::facts::sliderMap::facts::sliderMap724,30667
+proc ::facts::freedPieces::facts::freedPieces749,31607
+proc ::facts::pieceOn::facts::pieceOn774,32567
+proc ::facts::motifLines::facts::motifLines783,32899
+proc ::facts::movePhrase::facts::movePhrase936,39012
+proc ::facts::moveWhy::facts::moveWhy947,39501
+proc ::facts::sanLine::facts::sanLine990,41663
+proc ::facts::numberedLine::facts::numberedLine1016,42783
+proc ::facts::fenStart::facts::fenStart1037,43428
+proc ::facts::numberedFor::facts::numberedFor1050,43943
+proc ::facts::afterMoveFen::facts::afterMoveFen1072,44636
+proc ::facts::lineText::facts::lineText1085,45085
+proc ::facts::mateAtEnd::facts::mateAtEnd1091,45356
+proc ::facts::phaseMoveLine::facts::phaseMoveLine1104,45914
+proc ::facts::forMove::facts::forMove1156,48383
+proc ::facts::pieceCounts::facts::pieceCounts1324,56590
+proc ::facts::_countPhrase::facts::_countPhrase1335,56982
+proc ::facts::materialSwing::facts::materialSwing1350,57649
+proc ::facts::forkLine::facts::forkLine1403,59906
+
+tcl/tools/engine_limits.tcl,467
+proc ::enginelimits::pad::enginelimits::pad19,836
+proc ::enginelimits::of::enginelimits::of27,1044
+proc ::enginelimits::valid::enginelimits::valid37,1374
+proc ::enginelimits::setLimit::enginelimits::setLimit54,1901
+proc ::enginelimits::goLimits::enginelimits::goLimits69,2413
+proc ::enginelimits::clean::enginelimits::clean83,2912
+proc ::enginelimits::forName::enginelimits::forName100,3516
+proc ::enginelimits::saveFor::enginelimits::saveFor115,4254
+
+tcl/tools/enginelist.tcl,1355
+proc engineengine17,430
+proc ::enginelist::read::enginelist::read61,2413
+proc ::enginelist::date::enginelist::date132,5076
+proc ::enginelist::sort::enginelist::sort141,5339
+proc ::enginelist::refreshShortcuts::enginelist::refreshShortcuts188,6812
+proc engine.singleclick_engine.singleclick_203,7494
+proc ::enginelist::openSelected::enginelist::openSelected220,8197
+proc ::enginelist::choose::enginelist::choose231,8562
+proc ::enginelist::editKeys::enginelist::editKeys306,11802
+proc ::enginelist::refreshKeysLabels::enginelist::refreshKeysLabels338,13156
+proc ::enginelist::captureKey::enginelist::captureKey348,13527
+proc ::enginelist::keyCaptured::enginelist::keyCaptured361,13962
+proc ::enginelist::setTime::enginelist::setTime397,15213
+proc ::enginelist::delete::enginelist::delete408,15532
+proc ::enginelist::applyEdit::enginelist::applyEdit438,16925
+proc ::enginelist::nameTaken::enginelist::nameTaken453,17480
+proc ::enginelist::saveEdit::enginelist::saveEdit473,18470
+proc ::enginelist::duplicate::enginelist::duplicate517,20507
+proc ::enginelist::showHideOptionsFrame::enginelist::showHideOptionsFrame534,21071
+proc ::enginelist::edit::enginelist::edit540,21364
+proc ::enginelist::cancelNewEngine::enginelist::cancelNewEngine749,29593
+proc ::enginelist::eng_messages::enginelist::eng_messages756,29768
+
+tcl/tools/enginenowin.tcl,685
+proc ::engineNoWin::initEngine::engineNoWin::initEngine12,520
+proc ::engineNoWin::closeEngine::engineNoWin::closeEngine47,1912
+proc ::engineNoWin::changeEngine::engineNoWin::changeEngine57,2422
+proc ::engineNoWin::fitDialogToOptions::engineNoWin::fitDialogToOptions74,3238
+proc ::engineNoWin::showHideOptionsFrame::engineNoWin::showHideOptionsFrame82,3513
+proc ::engineNoWin::createEngineOptionsFrame::engineNoWin::createEngineOptionsFrame96,3993
+proc ::engineNoWin::initEngineOptions::engineNoWin::initEngineOptions129,5667
+proc ::engineNoWin::saveEngineSetup::engineNoWin::saveEngineSetup149,6652
+proc ::engineNoWin::disconnected::engineNoWin::disconnected154,6819
+
+tcl/tools/epd_analysis.tcl,619
+proc ::epdanalysis::bareMoves::epdanalysis::bareMoves21,1016
+proc ::epdanalysis::pvSAN::epdanalysis::pvSAN33,1408
+proc ::epdanalysis::sanMove::epdanalysis::sanMove58,2446
+proc ::epdanalysis::sideSign::epdanalysis::sideSign72,2907
+proc ::epdanalysis::mateCe::epdanalysis::mateCe79,3238
+proc ::epdanalysis::emptyData::epdanalysis::emptyData87,3582
+proc ::epdanalysis::dataFromInfo::epdanalysis::dataFromInfo94,3834
+proc ::epdanalysis::shallower::epdanalysis::shallower135,5723
+proc ::epdanalysis::absorb::epdanalysis::absorb146,6133
+proc ::epdanalysis::withBestMove::epdanalysis::withBestMove158,6607
+
+tcl/tools/fics.tcl,1919
+  proc configconfig63,1491
+  proc getIPgetIP177,5867
+  proc setProfileVarssetProfileVars211,6932
+  proc syncProfileVarssyncProfileVars229,7852
+  proc storeTimestoreTime249,8778
+  proc arrangeClocksarrangeClocks254,8916
+  proc gamespopupmenugamespopupmenu266,9312
+  proc playerpopupmenuplayerpopupmenu295,11068
+  proc connectconnect323,12647
+  proc cmdcmd594,25818
+  proc cmdHistorycmdHistory610,26353
+  proc findOpponentfindOpponent627,27000
+  proc readchanreadchan689,30529
+  proc parseSoughtLineparseSoughtLine716,31436
+  proc parseGamesLineparseGamesLine764,33253
+  proc parseWhoLineparseWhoLine784,34050
+  proc readparsereadparse826,35423
+  proc setStatesetState1118,45027
+  proc updateConsoleupdateConsole1144,45788
+  proc removeSeekremoveSeek1170,46709
+  proc parseStyle12parseStyle121202,47610
+  proc parseSeekparseSeek1358,52851
+  proc updateOffersupdateOffers1379,54257
+  proc updateGamesupdateGames1389,54615
+  proc updatePlayerupdatePlayer1401,55079
+  proc configureCanvasconfigureCanvas1418,55665
+  proc displayOffersdisplayOffers1428,56060
+  proc clickGamesclickGames1504,58666
+  proc sortGamessortGames1517,59029
+  proc displayGamesdisplayGames1523,59273
+  proc clickPlayersclickPlayers1565,60833
+  proc sortPlayerssortPlayers1576,61145
+  proc displayPlayersdisplayPlayers1582,61401
+  proc getOffersGamegetOffersGame1602,62319
+  proc setOfferStatussetOfferStatus1609,62616
+  proc playplay1640,63556
+  proc writechanwritechan1648,63844
+  proc stayConnectedstayConnected1666,64554
+  proc setPremovesetPremove1675,64875
+  proc makePremovemakePremove1687,65396
+  proc playerCanMoveplayerCanMove1696,65866
+  proc consoleClickconsoleClick1717,66538
+  proc tabchangedtabchanged1779,68427
+  proc closeclose1803,69086
+  proc chooseTerminalColorchooseTerminalColor1835,70105
+  proc chooseTextColorchooseTextColor1846,70682
+
+tcl/tools/finish_game.tcl,1018
+proc ::finishgame::connection::finishgame::connection50,1891
+proc ::finishgame::message::finishgame::message58,2193
+proc ::finishgame::limits::finishgame::limits77,2783
+proc ::finishgame::atLineEnd::finishgame::atLineEnd92,3381
+proc ::finishgame::gameIdentity::finishgame::gameIdentity106,3933
+proc ::finishgame::positionKey::finishgame::positionKey124,4738
+proc ::finishgame::gameRepetitions::finishgame::gameRepetitions154,5976
+proc ::finishgame::start::finishgame::start177,6714
+proc ::finishgame::play::finishgame::play246,9939
+proc ::finishgame::commit::finishgame::commit382,15632
+proc ::finishgame::settle::finishgame::settle399,16391
+proc ::finishgame::stop::finishgame::stop411,16800
+proc ::finishgame::closeEngines::finishgame::closeEngines421,17060
+proc ::finishgame::done::finishgame::done426,17228
+proc ::finishgame::engineNames::finishgame::engineNames455,18394
+proc ::finishgame::dialog::finishgame::dialog460,18538
+proc ::finishgame::apply::finishgame::apply527,21282
+
+tcl/tools/game_review.tcl,3443
+proc ::review::defaults::review::defaults81,3694
+proc ::review::reset::review::reset87,3842
+proc ::review::saved::review::saved102,4446
+proc ::review::retireGlobals::review::retireGlobals169,7657
+proc ::review::save::review::save190,8279
+proc ::review::all::review::all196,8418
+proc ::review::get::review::get202,8527
+proc ::review::verifier::review::verifier215,9098
+proc ::review::setValue::review::setValue229,9588
+proc ::review::engineDefaults::review::engineDefaults341,13922
+proc ::review::flagValue::review::flagValue361,14767
+proc ::review::passLimits::review::passLimits383,15790
+proc ::review::effective::review::effective413,17199
+proc ::review::switchValue::review::switchValue454,19004
+proc ::review::problems::review::problems462,19278
+proc ::review::startPly::review::startPly482,20083
+proc ::review::bookEnd::review::bookEnd498,20815
+proc ::review::plan::review::plan537,22282
+proc ::review::searchPlies::review::searchPlies550,22876
+proc ::review::mainLineMap::review::mainLineMap574,23951
+proc ::review::playedMove::review::playedMove605,25115
+proc ::review::cursorSave::review::cursorSave626,26098
+proc ::review::cursorRestore::review::cursorRestore676,28386
+proc ::review::nodeMove::review::nodeMove725,30467
+proc ::review::nodeSan::review::nodeSan733,30672
+proc ::review::lineNode::review::lineNode742,31002
+proc ::review::currentLineMap::review::currentLineMap795,33658
+proc ::review::visitLine::review::visitLine954,40726
+proc ::review::setDiagramAt::review::setDiagramAt1054,45012
+proc ::review::diagramNode::review::diagramNode1069,45551
+proc ::review::clearMarksAt::review::clearMarksAt1087,46263
+proc ::review::marksNode::review::marksNode1113,47332
+proc ::review::moveCommentPlan::review::moveCommentPlan1135,48196
+proc ::review::nagForLabel::review::nagForLabel1149,48785
+proc ::review::scoreToNag::review::scoreToNag1173,49809
+proc ::review::assessmentNag::review::assessmentNag1193,50532
+proc ::review::assessmentNags::review::assessmentNags1199,50779
+proc ::review::setAssessment::review::setAssessment1206,51089
+proc ::review::dropAssessment::review::dropAssessment1232,51871
+proc ::review::labelOfComment::review::labelOfComment1252,52443
+proc ::review::nags::review::nags1284,53980
+proc ::review::hasMoveNag::review::hasMoveNag1296,54516
+proc ::review::addNagIfAbsent::review::addNagIfAbsent1303,54671
+proc ::review::dropNag::review::dropNag1313,55042
+proc ::review::setDiagram::review::setDiagram1327,55649
+proc ::review::commentText::review::commentText1339,56119
+proc ::review::labelWords::review::labelWords1355,57039
+proc ::review::stripReviewTokens::review::stripReviewTokens1367,57445
+proc ::review::markVariation::review::markVariation1383,58203
+proc ::review::annotatorRecord::review::annotatorRecord1393,58608
+proc ::review::appendAnnotator::review::appendAnnotator1406,59152
+proc ::review::mergeComment::review::mergeComment1459,61260
+proc ::review::writeMove::review::writeMove1474,62030
+proc ::review::writeNode::review::writeNode1599,68235
+proc ::review::writeNodeVerdict::review::writeNodeVerdict1661,71051
+proc ::review::writeNodeAlternatives::review::writeNodeAlternatives1701,72839
+proc ::review::writeNodeBranch::review::writeNodeBranch1749,74834
+proc ::review::variationWanted::review::variationWanted1812,77504
+proc ::review::selectLines::review::selectLines1830,78502
+
+tcl/tools/graphs.tcl,1629
+proc getScorefromCommentgetScorefromComment5,187
+proc ::tools::graphs::Save::tools::graphs::Save69,2556
+proc checkConfigFilterGraphcheckConfigFilterGraph101,3581
+proc configureFilterGraphconfigureFilterGraph114,4307
+proc tools::graphs::filter::Opentools::graphs::filter::Open243,9535
+proc tools::graphs::filter::Switchtools::graphs::filter::Switch309,12147
+proc ::tools::graphs::filter::Refresh::tools::graphs::filter::Refresh321,12423
+proc ::tools::graphs::filter::RefreshWinPct::tools::graphs::filter::RefreshWinPct547,21132
+proc MoveTimeListMoveTimeList641,24415
+proc ::tools::graphs::MoveScoreList::tools::graphs::MoveScoreList727,27840
+proc ::tools::graphs::rating::GetElo::tools::graphs::rating::GetElo769,29226
+proc ::tools::graphs::rating::Refresh::tools::graphs::rating::Refresh781,29668
+proc ::tools::graphs::rating::ConfigMenus::tools::graphs::rating::ConfigMenus892,34402
+proc tools::graphs::absfilter::Opentools::graphs::absfilter::Open916,35104
+proc tools::graphs::absfilter::Switchtools::graphs::absfilter::Switch981,37755
+proc ::tools::graphs::absfilter::Refresh::tools::graphs::absfilter::Refresh992,38002
+proc ::tools::graphs::time::ElapsedList::tools::graphs::time::ElapsedList1161,44425
+proc ::tools::graphs::time::Open::tools::graphs::time::Open1178,45009
+proc ::tools::graphs::time::Refresh::tools::graphs::time::Refresh1250,47608
+proc ::tools::graphs::time::DrawClock::tools::graphs::time::DrawClock1301,49183
+proc ::tools::graphs::time::DrawEval::tools::graphs::time::DrawEval1413,52868
+proc ::tools::graphs::score::Popup::tools::graphs::score::Popup1461,54461
+
+tcl/tools/iccf.tcl,2004
+proc ::iccf::config::iccf::config46,1073
+proc ::iccf::loginDialog::iccf::loginDialog78,1822
+proc ::iccf::escapeXml::iccf::escapeXml128,3505
+proc ::iccf::unescapeXml::iccf::unescapeXml136,3689
+proc ::iccf::soapRequest::iccf::soapRequest145,3938
+proc ::iccf::fetchGames::iccf::fetchGames181,5097
+proc ::iccf::parseGetMyGamesResponse::iccf::parseGetMyGamesResponse204,5806
+proc ::iccf::getTagValue::iccf::getTagValue247,7333
+proc ::iccf::connect::iccf::connect257,7544
+proc ::iccf::createWindow::iccf::createWindow291,8354
+proc ::iccf::updateGames::iccf::updateGames430,14514
+proc ::iccf::parseEventDate::iccf::parseEventDate552,18096
+proc ::iccf::addNewGame::iccf::addNewGame568,18603
+proc ::iccf::buildExtraTags::iccf::buildExtraTags651,21389
+proc ::iccf::syncGameTags::iccf::syncGameTags698,22899
+proc ::iccf::needsMoveUpdate::iccf::needsMoveUpdate792,26651
+proc ::iccf::updateGameMoves::iccf::updateGameMoves816,27247
+proc ::iccf::parseSanTokens::iccf::parseSanTokens853,28353
+proc ::iccf::dictGetDefault::iccf::dictGetDefault876,28952
+proc ::iccf::makeExtraTag::iccf::makeExtraTag887,29222
+proc ::iccf::normalizeMove::iccf::normalizeMove896,29462
+proc ::iccf::toInt::iccf::toInt904,29679
+proc ::iccf::gameStarted::iccf::gameStarted912,29866
+proc ::iccf::rowTags::iccf::rowTags923,30203
+proc ::iccf::dbMoves::iccf::dbMoves940,30928
+proc ::iccf::setSort::iccf::setSort954,31271
+proc ::iccf::onSortClick::iccf::onSortClick970,31782
+proc ::iccf::sortRows::iccf::sortRows984,32241
+proc ::iccf::populateGameList::iccf::populateGameList1035,33904
+proc ::iccf::buildGameRow::iccf::buildGameRow1094,35566
+proc ::iccf::onGameSelect::iccf::onGameSelect1176,38953
+proc ::iccf::loadSelectedGame::iccf::loadSelectedGame1210,39874
+proc ::iccf::onDrawClick::iccf::onDrawClick1228,40501
+proc ::iccf::sendMoves::iccf::sendMoves1279,42226
+proc ::iccf::sendMoveSoap::iccf::sendMoveSoap1387,45983
+proc ::iccf::closeWindow::iccf::closeWindow1418,47031
+
+tcl/tools/import.tcl,367
+proc importPgnGameimportPgnGame8,101
+proc importClipboardGameimportClipboardGame93,3570
+proc importPgnLineimportPgnLine108,4069
+proc importMoveListimportMoveList120,4392
+proc importMoveListTransimportMoveListTrans128,4645
+proc importPgnFileimportPgnFile145,5052
+proc importStripGamesimportStripGames262,9625
+proc importPgnNoDupimportPgnNoDup281,10084
+
+tcl/tools/inputengine.tcl,794
+  proc saveHardwareOptionssaveHardwareOptions34,1069
+  proc HWbuttonImgHWbuttonImg84,3507
+  proc HWbuttonBindHWbuttonBind94,3865
+  proc configconfig106,4274
+  proc consoleWindowconsoleWindow236,9528
+  proc updateConsoleupdateConsole315,12934
+  proc connectdisconnectconnectdisconnect326,13326
+  proc connectconnect344,13852
+  proc disconnectdisconnect369,14775
+  proc logEnginelogEngine388,15404
+  proc sendToEnginesendToEngine396,15696
+  proc InitInit409,16096
+  proc resetEngineresetEngine426,16680
+  proc sysinfosysinfo442,17232
+  proc rotateboardrotateboard454,17631
+  proc newgamenewgame472,18201
+  proc endgameendgame484,18601
+  proc synchronisesynchronise498,19007
+  proc strreversestrreverse508,19228
+  proc readFromEnginereadFromEngine520,19668
+
+tcl/tools/lichess.tcl,607
+proc ::lichess::importGames::lichess::importGames31,969
+proc ::lichess::startDownload::lichess::startDownload103,4096
+proc ::lichess::downloadUserGames::lichess::downloadUserGames210,7739
+proc ::lichess::downloadFile::lichess::downloadFile304,11491
+proc ::lichess::firstLine::lichess::firstLine351,13249
+proc ::lichess::isThrottled::lichess::isThrottled361,13480
+proc ::lichess::sleep::lichess::sleep368,13734
+proc ::lichess::downloadWithHTTP::lichess::downloadWithHTTP377,13957
+proc ::lichess::openPGN::lichess::openPGN415,15013
+proc ::lichess::getTempDir::lichess::getTempDir434,15799
+
+tcl/tools/lichess_eval.tcl,1247
+proc ::lichess_eval::formatScore::lichess_eval::formatScore31,982
+proc ::lichess_eval::uciToSan::lichess_eval::uciToSan63,1808
+proc ::lichess_eval::formatLine::lichess_eval::formatLine72,2097
+proc ::lichess_eval::queryCloudEval::lichess_eval::queryCloudEval105,3047
+proc ::lichess_eval::cloudEvalAsync::lichess_eval::cloudEvalAsync156,5227
+proc ::lichess_eval::onCloudEvalHttp::lichess_eval::onCloudEvalHttp201,7302
+proc ::lichess_eval::onCloudEvalData::lichess_eval::onCloudEvalData224,8058
+proc ::lichess_eval::lookupPosition::lichess_eval::lookupPosition272,9755
+proc ::lichess_eval::refresh::lichess_eval::refresh343,12015
+proc ::lichess_eval::doRefresh::lichess_eval::doRefresh372,12869
+proc ::lichess_eval::queryCloudEvalAsync::lichess_eval::queryCloudEvalAsync413,14071
+proc ::lichess_eval::onAsyncData_::lichess_eval::onAsyncData_440,15168
+proc ::lichess_eval::handleAsyncResponse::lichess_eval::handleAsyncResponse475,16070
+proc ::lichess_eval::displayResult::lichess_eval::displayResult506,17105
+proc ::lichess_eval::handleClick::lichess_eval::handleClick630,21252
+proc ::lichess_eval::cleanupPvData::lichess_eval::cleanupPvData651,21868
+proc ::lichess_eval::showError::lichess_eval::showError668,22263
+
+tcl/tools/lichess_openex.tcl,1783
+proc ::lichess_openex::openDialog::lichess_openex::openDialog37,1569
+proc ::lichess_openex::updateDialogFields::lichess_openex::updateDialogFields248,11964
+proc ::lichess_openex::onGo::lichess_openex::onGo291,13612
+proc ::lichess_openex::onCancel::lichess_openex::onCancel319,14649
+proc ::lichess_openex::syncSpeeds::lichess_openex::syncSpeeds345,15918
+proc ::lichess_openex::syncRatings::lichess_openex::syncRatings358,16313
+proc ::lichess_openex::syncModes::lichess_openex::syncModes371,16696
+proc ::lichess_openex::removeTraces::lichess_openex::removeTraces384,17027
+proc ::lichess_openex::buildUrl::lichess_openex::buildUrl399,17682
+proc ::lichess_openex::urlEncode::lichess_openex::urlEncode478,20438
+proc ::lichess_openex::lastJsonLine::lichess_openex::lastJsonLine489,20792
+proc ::lichess_openex::httpGet::lichess_openex::httpGet513,21821
+proc ::lichess_openex::queryExplorer::lichess_openex::queryExplorer601,24941
+proc ::lichess_openex::onResultConfigure::lichess_openex::onResultConfigure673,27569
+proc ::lichess_openex::displayResults::lichess_openex::displayResults693,28155
+proc ::lichess_openex::parseMoves::lichess_openex::parseMoves865,37051
+proc ::lichess_openex::parseGames::lichess_openex::parseGames944,39868
+proc ::lichess_openex::onMoveClick::lichess_openex::onMoveClick1057,43760
+proc ::lichess_openex::onGameClick::lichess_openex::onGameClick1077,44386
+proc ::lichess_openex::loadGame::lichess_openex::loadGame1106,45219
+proc ::lichess_openex::formatNumber::lichess_openex::formatNumber1163,47246
+proc ::lichess_openex::uciToSan::lichess_openex::uciToSan1188,47924
+proc ::lichess_openex::sortByColumn::lichess_openex::sortByColumn1203,48344
+proc ::lichess_openex::showError::lichess_openex::showError1236,49408
+
+tcl/tools/lichess_puzzles.tcl,1577
+    proc startstart125,5234
+    proc loadSeenIdsloadSeenIds141,5731
+    proc saveSeenIdssaveSeenIds155,6165
+    proc isSeenisSeen165,6389
+    proc markSeenmarkSeen170,6486
+    proc createWindowcreateWindow179,6775
+    proc onDiffChangeonDiffChange332,13541
+    proc normalizeDifficultynormalizeDifficulty347,14288
+    proc jitterOrderjitterOrder362,14908
+    proc nextUrlnextUrl381,15661
+    proc batchUrlbatchUrl392,16004
+    proc puzzleColorpuzzleColor408,16756
+    proc colorMatchescolorMatches415,17050
+    proc onColorChangeonColorChange423,17389
+    proc onThemeChangeonThemeChange435,17812
+    proc fetchDailyPuzzlefetchDailyPuzzle447,18279
+    proc fetchNextPuzzlefetchNextPuzzle473,19178
+    proc refillQueuerefillQueue601,24640
+    proc parseAndLoadparseAndLoad646,26606
+    proc updateInfoDisplayupdateInfoDisplay804,32940
+    proc loadPuzzlePositionloadPuzzlePosition876,35899
+    proc loadFromFenloadFromFen932,37567
+    proc callbackcallback973,38739
+    proc isPlayerTurnisPlayerTurn1044,41327
+    proc showHintshowHint1056,41745
+    proc showSolutionshowSolution1078,42524
+    proc clearHintsclearHints1114,43749
+    proc playComputerMoveplayComputerMove1126,44192
+    proc puzzleSolvedpuzzleSolved1150,45025
+    proc stopstop1173,45865
+    proc openBrowseropenBrowser1224,47395
+    proc setMsgsetMsg1237,47868
+    proc httpGethttpGet1246,48189
+    proc urlEncodeurlEncode1319,51349
+    proc extractJsonObjectextractJsonObject1329,51739
+    proc splitJsonObjectssplitJsonObjects1351,52584
+
+tcl/tools/lichess_study.tcl,2171
+proc ::lichstudy::gamesText::lichstudy::gamesText69,3405
+proc ::lichstudy::readFile::lichstudy::readFile74,3511
+proc ::lichstudy::writeFile::lichstudy::writeFile83,3706
+proc ::lichstudy::unescape::lichstudy::unescape93,4050
+proc ::lichstudy::openLink::lichstudy::openLink99,4264
+proc ::lichstudy::linkColor::lichstudy::linkColor109,4576
+proc ::lichstudy::applyThemeListbox::lichstudy::applyThemeListbox119,4925
+proc ::lichstudy::curlExe::lichstudy::curlExe131,5412
+proc ::lichstudy::api::lichstudy::api149,6053
+proc ::lichstudy::friendly::lichstudy::friendly169,6792
+proc ::lichstudy::freeChapters::lichstudy::freeChapters179,7108
+proc ::lichstudy::errorText::lichstudy::errorText188,7423
+proc ::lichstudy::pgnOptions::lichstudy::pgnOptions215,8638
+proc ::lichstudy::cleanGame::lichstudy::cleanGame223,9001
+proc ::lichstudy::gamePgn::lichstudy::gamePgn236,9587
+proc ::lichstudy::selectionNumbers::lichstudy::selectionNumbers252,10198
+proc ::lichstudy::publishGames::lichstudy::publishGames263,10474
+proc ::lichstudy::publishCurrent::lichstudy::publishCurrent287,11201
+proc ::lichstudy::loadStudies::lichstudy::loadStudies302,11700
+proc ::lichstudy::applyFilter::lichstudy::applyFilter340,12988
+proc ::lichstudy::setStatus::lichstudy::setStatus359,13519
+proc ::lichstudy::refresh::lichstudy::refresh366,13668
+proc ::lichstudy::saveToken::lichstudy::saveToken387,14218
+proc ::lichstudy::addByLink::lichstudy::addByLink406,14850
+proc ::lichstudy::publish::lichstudy::publish448,16279
+proc ::lichstudy::createStudy::lichstudy::createStudy466,16899
+proc ::lichstudy::createAndPublish::lichstudy::createAndPublish497,18305
+proc ::lichstudy::importGames::lichstudy::importGames542,19485
+proc ::lichstudy::idle::lichstudy::idle563,20238
+proc ::lichstudy::importChunked::lichstudy::importChunked575,20563
+proc ::lichstudy::nextName::lichstudy::nextName616,22327
+proc ::lichstudy::ovfDestroyed::lichstudy::ovfDestroyed628,22675
+proc ::lichstudy::askOverflow::lichstudy::askOverflow636,22997
+proc ::lichstudy::doPublish::lichstudy::doPublish716,25960
+proc ::lichstudy::openDialog::lichstudy::openDialog821,30119
+
+tcl/tools/lichess_tournament.tcl,2131
+proc ::lichess_tournament::vlog::lichess_tournament::vlog31,973
+proc ::lichess_tournament::openTournament::lichess_tournament::openTournament40,1236
+proc ::lichess_tournament::fetchBroadcastsList::lichess_tournament::fetchBroadcastsList65,2094
+proc ::lichess_tournament::downloadWithHTTP::lichess_tournament::downloadWithHTTP126,4349
+proc ::lichess_tournament::parseBroadcasts::lichess_tournament::parseBroadcasts157,5098
+proc ::lichess_tournament::showTournamentSelector::lichess_tournament::showTournamentSelector223,7280
+proc ::lichess_tournament::selectTournament::lichess_tournament::selectTournament289,9393
+proc ::lichess_tournament::downloadTournamentGames::lichess_tournament::downloadTournamentGames322,10536
+proc ::lichess_tournament::getBroadcastGameUrl::lichess_tournament::getBroadcastGameUrl398,13616
+proc ::lichess_tournament::onGameOpened::lichess_tournament::onGameOpened431,14534
+proc ::lichess_tournament::getGameMoves::lichess_tournament::getGameMoves489,16627
+proc ::lichess_tournament::findLastCommonMove::lichess_tournament::findLastCommonMove516,17259
+proc ::lichess_tournament::demoteUserMovesToVariation::lichess_tournament::demoteUserMovesToVariation546,18295
+proc ::lichess_tournament::updateGameFromPgn::lichess_tournament::updateGameFromPgn655,21968
+proc ::lichess_tournament::startGamePolling::lichess_tournament::startGamePolling837,28306
+proc ::lichess_tournament::pollGameUpdates::lichess_tournament::pollGameUpdates927,31935
+proc ::lichess_tournament::scheduleNextPoll::lichess_tournament::scheduleNextPoll980,33432
+proc ::lichess_tournament::stopGamePolling::lichess_tournament::stopGamePolling988,33718
+proc ::lichess_tournament::isMonitoring::lichess_tournament::isMonitoring1004,34271
+proc ::lichess_tournament::togglePause::lichess_tournament::togglePause1011,34478
+proc ::lichess_tournament::updatePauseButton::lichess_tournament::updatePauseButton1191,41978
+proc ::lichess_tournament::extractGameId::lichess_tournament::extractGameId1218,42660
+proc ::lichess_tournament::extractMovesFromPgn::lichess_tournament::extractMovesFromPgn1227,42911
+
+tcl/tools/lss.tcl,1879
+proc ::lss::config::lss::config47,1133
+proc ::lss::loginDialog::lss::loginDialog79,1862
+proc ::lss::escapeXml::lss::escapeXml129,3549
+proc ::lss::unescapeXml::lss::unescapeXml137,3731
+proc ::lss::soapRequest::lss::soapRequest146,3978
+proc ::lss::fetchGames::lss::fetchGames182,5131
+proc ::lss::parseGetMyGamesResponse::lss::parseGetMyGamesResponse205,5830
+proc ::lss::getTagValue::lss::getTagValue248,7354
+proc ::lss::connect::lss::connect258,7561
+proc ::lss::createWindow::lss::createWindow292,8350
+proc ::lss::updateGames::lss::updateGames447,15456
+proc ::lss::parseEventDate::lss::parseEventDate566,18859
+proc ::lss::addNewGame::lss::addNewGame582,19363
+proc ::lss::buildExtraTags::lss::buildExtraTags665,22141
+proc ::lss::syncGameTags::lss::syncGameTags712,23648
+proc ::lss::needsMoveUpdate::lss::needsMoveUpdate806,27395
+proc ::lss::updateGameMoves::lss::updateGameMoves830,27986
+proc ::lss::parseSanTokens::lss::parseSanTokens867,29086
+proc ::lss::dictGetDefault::lss::dictGetDefault890,29682
+proc ::lss::makeExtraTag::lss::makeExtraTag901,29950
+proc ::lss::normalizeMove::lss::normalizeMove910,30188
+proc ::lss::toInt::lss::toInt918,30403
+proc ::lss::rowTags::lss::rowTags927,30652
+proc ::lss::dbMoves::lss::dbMoves945,31398
+proc ::lss::setSort::lss::setSort959,31739
+proc ::lss::onSortClick::lss::onSortClick975,32246
+proc ::lss::sortRows::lss::sortRows989,32698
+proc ::lss::populateGameList::lss::populateGameList1040,34341
+proc ::lss::buildGameRow::lss::buildGameRow1098,35981
+proc ::lss::onGameSelect::lss::onGameSelect1180,39347
+proc ::lss::loadSelectedGame::lss::loadSelectedGame1230,40735
+proc ::lss::onDrawClick::lss::onDrawClick1248,41355
+proc ::lss::sendMoves::lss::sendMoves1300,43068
+proc ::lss::sendMoveSoap::lss::sendMoveSoap1405,46663
+proc ::lss::closeWindow::lss::closeWindow1436,47701
+
+tcl/tools/lucaschess.tcl,769
+proc ::lucaschess::expandDepthEngines::lucaschess::expandDepthEngines194,17951
+proc ::lucaschess::findEngine::lucaschess::findEngine207,18456
+proc ::lucaschess::downloadFile::lucaschess::downloadFile228,19242
+proc ::lucaschess::downloadWithHTTP::lucaschess::downloadWithHTTP257,20411
+proc ::lucaschess::fetchGitHubApi::lucaschess::fetchGitHubApi277,21049
+proc ::lucaschess::parseGitHubDir::lucaschess::parseGitHubDir295,21768
+proc ::lucaschess::urlEncodePath::lucaschess::urlEncodePath315,22565
+proc ::lucaschess::downloadEngineDir::lucaschess::downloadEngineDir320,22684
+proc ::lucaschess::installEngine::lucaschess::installEngine392,25417
+proc ::lucaschess::choose::lucaschess::choose442,27117
+proc ::lucaschess::sort::lucaschess::sort505,29472
+
+tcl/tools/move_labels.tcl,851
+proc ::movelabels::mateToCp::movelabels::mateToCp86,4077
+proc ::movelabels::isMate::movelabels::isMate95,4408
+proc ::movelabels::forMover::movelabels::forMover102,4658
+proc ::movelabels::cpLoss::movelabels::cpLoss116,5077
+proc ::movelabels::winDrop::movelabels::winDrop131,5761
+proc ::movelabels::label::movelabels::label144,6335
+proc ::movelabels::text::movelabels::text162,7215
+proc ::movelabels::game::movelabels::game171,7657
+proc ::movelabels::pieceValue::movelabels::pieceValue192,8510
+proc ::movelabels::captureVictim::movelabels::captureVictim205,8926
+proc ::movelabels::isFreeCapture::movelabels::isFreeCapture219,9500
+proc ::movelabels::balanceOf::movelabels::balanceOf237,10286
+proc ::movelabels::isTrivialRecapture::movelabels::isTrivialRecapture246,10694
+proc ::movelabels::refine::movelabels::refine296,13081
+
+tcl/tools/multicomp.tcl,2796
+proc ::comp::getBookList::comp::getBookList68,2371
+proc ::comp::FENtoBoard::comp::FENtoBoard91,2978
+proc ::comp:loadBook::comp:loadBook115,3658
+proc calcGamescalcGames137,4390
+proc ::comp::updateSelectedEngines::comp::updateSelectedEngines148,4727
+proc ::comp::editEngines::comp::editEngines159,5091
+proc ::comp::addEngines::comp::addEngines168,5427
+proc ::comp::removeEngines::comp::removeEngines183,5844
+proc ::comp::updownEngines::comp::updownEngines193,6120
+proc ::comp::configEngine::comp::configEngine205,6540
+proc compInitcompInit214,6804
+proc checkTimeControlcheckTimeControl460,18784
+proc loadComploadComp480,19277
+proc createGamescreateGames502,20092
+proc startCompstartComp570,22961
+proc  toggleEndAfterGametoggleEndAfterGame594,23705
+proc ::comp::resizeBoards::comp::resizeBoards605,23967
+proc compOkcompOk614,24141
+proc ::comp::compOkEnd::comp::compOkEnd705,27960
+proc ::comp::makeBookLine::comp::makeBookLine771,30285
+proc ::comp::readBookLine::comp::readBookLine780,30562
+proc compNMcompNM812,31356
+proc ::comp::compUpdateboard::comp::compUpdateboard946,37530
+proc ::comp::compCheckMove::comp::compCheckMove998,39761
+proc ::comp::compNextMove::comp::compNextMove1097,45115
+proc ::comp::adjucateGame::comp::adjucateGame1151,47930
+proc ::comp::compCheckAdjudication::comp::compCheckAdjudication1158,48123
+proc ::comp::compSaveGame::comp::compSaveGame1242,51331
+proc compPausecompPause1302,53648
+proc compResumecompResume1309,53804
+proc ::comp::getEngList::comp::getEngList1318,53984
+proc compTimeoutcompTimeout1330,54241
+proc compAbortcompAbort1344,54754
+proc compClosecompClose1358,55053
+proc compDestroycompDestroy1372,55477
+proc compSavecompSave1382,55645
+proc autocompSaveautocompSave1393,55987
+proc doCompSavedoCompSave1403,56230
+proc ::comp::eng_messages::comp::eng_messages1419,56794
+proc ::comp::checkRepetition::comp::checkRepetition1473,59315
+proc ::comp::threefoldPosition::comp::threefoldPosition1497,60669
+proc ::comp::repetitionKey::comp::repetitionKey1540,62455
+proc ::comp::epCaptureAvailable::comp::epCaptureAvailable1553,63264
+proc ::comp::epCaptureLegal::comp::epCaptureLegal1583,64813
+proc ::comp::initialPositionState::comp::initialPositionState1600,65757
+proc ::comp::stateFromPosition::comp::stateFromPosition1635,67341
+proc ::comp::startPositionKey::comp::startPositionKey1654,68121
+proc ::comp::nextPositionState::comp::nextPositionState1666,68658
+proc ::comp::bookLineJournal::comp::bookLineJournal1724,71681
+proc ::comp::timeControlTag::comp::timeControlTag1750,72735
+proc ::comp::permoveAllowed::comp::permoveAllowed1762,73262
+proc ::comp::moveOverrun::comp::moveOverrun1771,73685
+proc ::comp::checkfiftyMoveRule::comp::checkfiftyMoveRule1777,73848
+
+tcl/tools/novag.tcl,176
+  proc connectconnect14,321
+  proc disconnectdisconnect78,2522
+  proc addMoveaddMove85,2679
+  proc sendsend101,3104
+  proc recvrecv106,3236
+  proc waitwait152,4377
+
+tcl/tools/opening.tcl,749
+  proc configconfig40,1137
+  proc openRepopenRep79,3133
+  proc loadReploadRep141,5148
+  proc sc_progressBarsc_progressBar174,6543
+  proc parseGameparseGame180,6819
+  proc parseVarparseVar196,7342
+  proc fillFenfillFen217,8094
+  proc mainLoopmainLoop288,10337
+  proc isGoodMoveisGoodMove396,14050
+  proc getCmgetCm407,14553
+  proc playplay439,15610
+  proc openingWinopeningWin455,16188
+  proc endTrainingendTraining515,19201
+  proc  update_tCMupdate_tCM524,19539
+  proc loadStatsloadStats567,20970
+  proc saveStatssaveStats578,21453
+  proc getStatsgetStats592,22002
+  proc addStatsaddStats614,22634
+  proc addStatsPrevaddStatsPrev655,24029
+  proc updateStatsupdateStats665,24367
+  proc reportreport689,25283
+
+tcl/tools/optable.tcl,2231
+proc ::optable::selectRefBase::optable::selectRefBase16,424
+proc ::optable::abortReport::optable::abortReport103,2810
+proc ::optable::ConfigMenus::optable::ConfigMenus118,3262
+proc ::optable::makeReportWin::optable::makeReportWin136,3843
+proc ::optable::mergeGames::optable::mergeGames411,14623
+proc ::optable::flipBoard::optable::flipBoard499,17591
+proc ::optable::resizeBoard::optable::resizeBoard504,17721
+proc ::optable::setOptions::optable::setOptions511,17899
+proc ::optable::previewHTML::optable::previewHTML613,21870
+proc ::optable::saveReport::optable::saveReport641,22975
+proc ::optable::setupRatios::optable::setupRatios693,24733
+proc ::optable::_percent::optable::_percent756,26986
+proc ::optable::results::optable::results762,27134
+proc ::optable::stats::optable::stats837,30537
+proc ::optable::_reset::optable::_reset926,33476
+proc ::optable::_title::optable::_title931,33570
+proc ::optable::_sec::optable::_sec948,34168
+proc ::optable::_subsec::optable::_subsec964,34736
+proc ::optable::report::optable::report981,35503
+proc ::optable::table::optable::table1278,45374
+proc ::optable::updateFavoritesMenu::optable::updateFavoritesMenu1296,45831
+proc ::optable::favoriteReportNames::optable::favoriteReportNames1318,46443
+proc ::optable::addFavoriteDlg::optable::addFavoriteDlg1329,46700
+proc ::optable::addFavoriteOK::optable::addFavoriteOK1357,47723
+proc ::optable::editFavoritesDlg::optable::editFavoritesDlg1383,48482
+proc ::optable::editFavoritesRefresh::optable::editFavoritesRefresh1432,50440
+proc ::optable::editFavoritesSelect::optable::editFavoritesSelect1446,50925
+proc ::optable::editFavoritesDelete::optable::editFavoritesDelete1461,51297
+proc ::optable::editFavoritesMove::optable::editFavoritesMove1473,51605
+proc ::optable::editFavoritesOK::optable::editFavoritesOK1504,52437
+proc ::optable::favoritesFilename::optable::favoritesFilename1513,52649
+proc ::optable::saveFavorites::optable::saveFavorites1517,52725
+proc ::optable::loadFavorites::optable::loadFavorites1529,53011
+proc ::optable::generateFavoriteReports::optable::generateFavoriteReports1540,53218
+proc ::optable::reportFavoritesOK::optable::reportFavoritesOK1588,55465
+
+tcl/tools/perf_rating.tcl,543
+proc ::perfrating::table::perfrating::table86,4086
+proc ::perfrating::label::perfrating::label95,4441
+proc ::perfrating::tableMonotone::perfrating::tableMonotone103,4667
+proc ::perfrating::measuredMoves::perfrating::measuredMoves119,5264
+proc ::perfrating::pairs::perfrating::pairs144,6397
+proc ::perfrating::esl::perfrating::esl176,7692
+proc ::perfrating::keptPercent::perfrating::keptPercent192,8392
+proc ::perfrating::estimate::perfrating::estimate211,9149
+proc ::perfrating::estimateFor::perfrating::estimateFor243,10081
+
+tcl/tools/pinfo.tcl,390
+proc ::chart::piechart::chart::piechart23,537
+proc ::pinfo::setupDefaultResolvers::pinfo::setupDefaultResolvers69,2259
+proc ::pinfo::splitName::pinfo::splitName273,18954
+proc ::pinfo::formatName::pinfo::formatName289,19493
+proc ::pinfo::ReplaceIDTags::pinfo::ReplaceIDTags299,19781
+proc ::pinfo::Open::pinfo::Open361,22062
+proc ::pinfo::playerInfo::pinfo::playerInfo411,23978
+
+tcl/tools/preport.tcl,612
+proc ::preport::preportDlg::preport::preportDlg18,398
+proc ::preport::ConfigMenus::preport::ConfigMenus115,4095
+proc ::preport::makeReportWin::preport::makeReportWin131,4555
+proc ::preport::setOptions::preport::setOptions295,10208
+proc ::preport::previewHTML::preport::previewHTML360,12581
+proc ::preport::saveReport::preport::saveReport379,13179
+proc ::preport::_reset::preport::_reset413,14123
+proc ::preport::_title::preport::_title418,14217
+proc ::preport::_sec::preport::_sec433,14719
+proc ::preport::_subsec::preport::_subsec447,15220
+proc ::preport::report::preport::report459,15635
+
+tcl/tools/ptracker.tcl,370
+proc ::ptrack::sq::ptrack::sq18,404
+proc ::ptrack::unselect::ptrack::unselect27,615
+proc ::ptrack::select::ptrack::select41,1020
+proc ::ptrack::status::ptrack::status52,1256
+proc ::ptrack::recolor::ptrack::recolor64,1528
+proc ::ptrack::color::ptrack::color74,1805
+proc ::ptrack::make::ptrack::make109,3081
+proc ::ptrack::refresh::ptrack::refresh299,9960
+
+tcl/tools/rapid_annotate.tcl,782
+proc ::rapid_annotate::key::rapid_annotate::key45,2365
+proc ::rapid_annotate::record::rapid_annotate::record54,2750
+proc ::rapid_annotate::publishProgress::rapid_annotate::publishProgress118,5625
+proc ::rapid_annotate::progressDone::rapid_annotate::progressDone165,7680
+proc ::rapid_annotate::onNewGame::rapid_annotate::onNewGame189,8779
+proc ::rapid_annotate::mainLinePositions::rapid_annotate::mainLinePositions199,9204
+proc ::rapid_annotate::evals::rapid_annotate::evals212,9684
+proc ::rapid_annotate::pending::rapid_annotate::pending238,10732
+proc ::rapid_annotate::reviewResults::rapid_annotate::reviewResults247,11152
+proc ::rapid_annotate::commit::rapid_annotate::commit274,12304
+proc ::rapid_annotate::writeCommit::rapid_annotate::writeCommit335,15114
+
+tcl/tools/review_annotate.tcl,736
+proc ::reviewannotate::whiteScore::reviewannotate::whiteScore42,2162
+proc ::reviewannotate::setting::reviewannotate::setting51,2498
+proc ::reviewannotate::exercise::reviewannotate::exercise67,3245
+proc ::reviewannotate::difficulty::reviewannotate::difficulty101,4574
+proc ::reviewannotate::whiteVerdict::reviewannotate::whiteVerdict117,5215
+proc ::reviewannotate::writeTactical::reviewannotate::writeTactical139,6259
+proc ::reviewannotate::markExercise::reviewannotate::markExercise163,7657
+proc ::reviewannotate::openingTag::reviewannotate::openingTag224,10427
+proc ::reviewannotate::openingMark::reviewannotate::openingMark236,10969
+proc ::reviewannotate::appendAnnotator::reviewannotate::appendAnnotator275,12473
+
+tcl/tools/review_cloud.tcl,1044
+proc ::reviewcloud::reset::reviewcloud::reset62,3086
+proc ::reviewcloud::enabled::reviewcloud::enabled79,3503
+proc ::reviewcloud::newPass::reviewcloud::newPass94,4190
+proc ::reviewcloud::key::reviewcloud::key101,4387
+proc ::reviewcloud::cacheKey::reviewcloud::cacheKey105,4484
+proc ::reviewcloud::fenForSpec::reviewcloud::fenForSpec116,5032
+proc ::reviewcloud::parse::reviewcloud::parse163,6696
+proc ::reviewcloud::depth::reviewcloud::depth201,8462
+proc ::reviewcloud::lines::reviewcloud::lines213,8988
+proc ::reviewcloud::usable::reviewcloud::usable248,10311
+proc ::reviewcloud::decide::reviewcloud::decide258,10714
+proc ::reviewcloud::reaches::reviewcloud::reaches272,11256
+proc ::reviewcloud::deeper::reviewcloud::deeper284,11849
+proc ::reviewcloud::begin::reviewcloud::begin304,12820
+proc ::reviewcloud::query::reviewcloud::query369,15906
+proc ::reviewcloud::arrived::reviewcloud::arrived387,16586
+proc ::reviewcloud::take::reviewcloud::take421,18004
+proc ::reviewcloud::drop::reviewcloud::drop430,18272
+
+tcl/tools/review_coach.tcl,2796
+proc ::reviewcoach::gameNumber::reviewcoach::gameNumber30,1503
+proc ::reviewcoach::balanceWord::reviewcoach::balanceWord61,2874
+proc ::reviewcoach::levelBand::reviewcoach::levelBand71,3230
+proc ::reviewcoach::_cpSwing::reviewcoach::_cpSwing83,3706
+proc ::reviewcoach::_winSwing::reviewcoach::_winSwing89,4005
+proc ::reviewcoach::contestion::reviewcoach::contestion95,4355
+proc ::reviewcoach::_significance::reviewcoach::_significance102,4545
+proc ::reviewcoach::_bySignificance::reviewcoach::_bySignificance107,4729
+proc ::reviewcoach::_bySwing::reviewcoach::_bySwing117,5079
+proc ::reviewcoach::moveAt::reviewcoach::moveAt127,5412
+proc ::reviewcoach::turningMove::reviewcoach::turningMove141,6114
+proc ::reviewcoach::punishmentFacts::reviewcoach::punishmentFacts195,8290
+proc ::reviewcoach::moveFacts::reviewcoach::moveFacts254,11313
+proc ::reviewcoach::summaryFacts::reviewcoach::summaryFacts270,12068
+proc ::reviewcoach::gameFacts::reviewcoach::gameFacts399,17112
+proc ::reviewcoach::phaseNotable::reviewcoach::phaseNotable403,17199
+proc ::reviewcoach::phaseFacts::reviewcoach::phaseFacts422,17845
+proc ::reviewcoach::phrase::reviewcoach::phrase468,20010
+proc ::reviewcoach::escape::reviewcoach::escape479,20341
+proc ::reviewcoach::phaseWord::reviewcoach::phaseWord485,20520
+proc ::reviewcoach::labelWord::reviewcoach::labelWord491,20785
+proc ::reviewcoach::answerLanguage::reviewcoach::answerLanguage501,21173
+proc ::reviewcoach::languageDirective::reviewcoach::languageDirective520,22061
+proc ::reviewcoach::summaryLanguageDirective::reviewcoach::summaryLanguageDirective528,22418
+proc ::reviewcoach::banWords::reviewcoach::banWords534,22729
+proc ::reviewcoach::movePrompt::reviewcoach::movePrompt548,23186
+proc ::reviewcoach::momentPrompt::reviewcoach::momentPrompt567,24674
+proc ::reviewcoach::phasePrompt::reviewcoach::phasePrompt571,24743
+proc ::reviewcoach::summaryPrompt::reviewcoach::summaryPrompt593,26754
+proc ::reviewcoach::parseSummary::reviewcoach::parseSummary617,30196
+proc ::reviewcoach::gameMeta::reviewcoach::gameMeta647,31431
+proc ::reviewcoach::buildPrompts::reviewcoach::buildPrompts669,32537
+proc ::reviewcoach::strip::reviewcoach::strip715,34449
+proc ::reviewcoach::stripHeader::reviewcoach::stripHeader731,35363
+proc ::reviewcoach::headerLabels::reviewcoach::headerLabels746,36131
+proc ::reviewcoach::stripHeaderAtStart::reviewcoach::stripHeaderAtStart768,37020
+proc ::reviewcoach::tr::reviewcoach::tr781,37541
+proc ::reviewcoach::say::reviewcoach::say790,37857
+proc ::reviewcoach::place::reviewcoach::place812,38796
+proc ::reviewcoach::finish::reviewcoach::finish893,42610
+proc ::reviewcoach::clear::reviewcoach::clear920,43920
+proc ::reviewcoach::start::reviewcoach::start939,44655
+
+tcl/tools/review_driver.tcl,3594
+proc ::reviewdriver::reservedId::reviewdriver::reservedId48,2166
+proc ::reviewdriver::start::reviewdriver::start58,2737
+proc ::reviewdriver::busy::reviewdriver::busy98,4528
+proc ::reviewdriver::stop::reviewdriver::stop111,4946
+proc ::reviewdriver::runDoneHook::reviewdriver::runDoneHook153,6711
+proc ::reviewdriver::closeSoon::reviewdriver::closeSoon167,7335
+proc ::reviewdriver::closeConn::reviewdriver::closeConn176,7553
+proc ::reviewdriver::callback::reviewdriver::callback193,8153
+proc ::reviewdriver::configure::reviewdriver::configure230,9453
+proc ::reviewdriver::exactScore::reviewdriver::exactScore251,10468
+proc ::reviewdriver::collect::reviewdriver::collect276,11836
+proc ::reviewdriver::cloudModule::reviewdriver::cloudModule307,12935
+proc ::reviewdriver::next::reviewdriver::next311,13047
+proc ::reviewdriver::primaryDepth::reviewdriver::primaryDepth388,16373
+proc ::reviewdriver::settle::reviewdriver::settle404,17156
+proc ::reviewdriver::cloudArrived::reviewdriver::cloudArrived467,19383
+proc ::reviewdriver::cloudWaitDone::reviewdriver::cloudWaitDone491,20293
+proc ::reviewdriver::finish::reviewdriver::finish519,21228
+proc ::reviewdriver::lost::reviewdriver::lost545,22135
+proc ::reviewdriver::positions::reviewdriver::positions614,25325
+proc ::reviewdriver::planPositions::reviewdriver::planPositions628,26093
+proc ::reviewdriver::lineScore::reviewdriver::lineScore654,27053
+proc ::reviewdriver::lines::reviewdriver::lines672,27790
+proc ::reviewdriver::sides::reviewdriver::sides695,28729
+proc ::reviewdriver::specPosition::reviewdriver::specPosition744,30680
+proc ::reviewdriver::fenAt::reviewdriver::fenAt787,32200
+proc ::reviewdriver::fens::reviewdriver::fens807,33022
+proc ::reviewdriver::refineContext::reviewdriver::refineContext851,34753
+proc ::reviewdriver::moveCount::reviewdriver::moveCount865,35505
+proc ::reviewdriver::refineArgs::reviewdriver::refineArgs886,36525
+proc ::reviewdriver::judge::reviewdriver::judge1016,43480
+proc ::reviewdriver::labelRank::reviewdriver::labelRank1135,49764
+proc ::reviewdriver::verdicts::reviewdriver::verdicts1170,51304
+proc ::reviewdriver::blankState::reviewdriver::blankState1188,52083
+proc ::reviewdriver::status::reviewdriver::status1193,52288
+proc ::reviewdriver::run::reviewdriver::run1226,54161
+proc ::reviewdriver::cancel::reviewdriver::cancel1473,66855
+proc ::reviewdriver::proseProgress::reviewdriver::proseProgress1522,68819
+proc ::reviewdriver::runProgress::reviewdriver::runProgress1541,69605
+proc ::reviewdriver::sameEngine::reviewdriver::sameEngine1575,70949
+proc ::reviewdriver::verified::reviewdriver::verified1590,71719
+proc ::reviewdriver::verifyWrite::reviewdriver::verifyWrite1611,72776
+proc ::reviewdriver::verifiedDone::reviewdriver::verifiedDone1687,75862
+proc ::reviewdriver::runDone::reviewdriver::runDone1697,76203
+proc ::reviewdriver::verifyAfterIdle::reviewdriver::verifyAfterIdle1739,78167
+proc ::reviewdriver::writeRun::reviewdriver::writeRun1752,78712
+proc ::reviewdriver::proseActive::reviewdriver::proseActive1815,81601
+proc ::reviewdriver::proseDone::reviewdriver::proseDone1836,82662
+proc ::reviewdriver::clearMarks::reviewdriver::clearMarks1856,83597
+proc ::reviewdriver::writeResults::reviewdriver::writeResults1875,84420
+proc ::reviewdriver::writeLine::reviewdriver::writeLine2089,95857
+proc ::reviewdriver::restoreRun::reviewdriver::restoreRun2138,98141
+proc ::reviewdriver::notifyBoard::reviewdriver::notifyBoard2155,98873
+proc ::reviewdriver::endRun::reviewdriver::endRun2175,99885
+
+tcl/tools/review_progress.tcl,1176
+proc ::reviewprogress::positionToBoard::reviewprogress::positionToBoard35,1688
+proc ::reviewprogress::specFen::reviewprogress::specFen53,2432
+proc ::reviewprogress::specToBoard::reviewprogress::specToBoard73,3404
+proc ::reviewprogress::sourceLabel::reviewprogress::sourceLabel119,5472
+proc ::reviewprogress::originText::reviewprogress::originText134,6145
+proc ::reviewprogress::header::reviewprogress::header151,6843
+proc ::reviewprogress::setPainter::reviewprogress::setPainter174,7741
+proc ::reviewprogress::paint::reviewprogress::paint180,7839
+proc ::reviewprogress::begin::reviewprogress::begin195,8495
+proc ::reviewprogress::setProse::reviewprogress::setProse222,9627
+proc ::reviewprogress::job::reviewprogress::job235,10025
+proc ::reviewprogress::rehead::reviewprogress::rehead245,10456
+proc ::reviewprogress::setPosition::reviewprogress::setPosition261,11137
+proc ::reviewprogress::setSpec::reviewprogress::setSpec279,11899
+proc ::reviewprogress::progressText::reviewprogress::progressText297,12623
+proc ::reviewprogress::finish::reviewprogress::finish308,13068
+proc ::reviewprogress::commitMoves::reviewprogress::commitMoves333,14209
+
+tcl/tools/review_progress_ui.tcl,639
+proc ::reviewprogress::ui::title::reviewprogress::ui::title29,1357
+proc ::reviewprogress::ui::exists::reviewprogress::ui::exists36,1613
+proc ::reviewprogress::ui::build::reviewprogress::ui::build45,1945
+proc ::reviewprogress::ui::open::reviewprogress::ui::open112,5285
+proc ::reviewprogress::ui::idle::reviewprogress::ui::idle138,6182
+proc ::reviewprogress::ui::paintBoard::reviewprogress::ui::paintBoard163,7299
+proc ::reviewprogress::ui::draw::reviewprogress::ui::draw179,7974
+proc ::reviewprogress::ui::redraw::reviewprogress::ui::redraw250,11291
+proc ::reviewprogress::ui::cancel::reviewprogress::ui::cancel263,11690
+
+tcl/tools/review_prose.tcl,574
+proc ::reviewprose::clean::reviewprose::clean26,1092
+proc ::reviewprose::cacheKey::reviewprose::cacheKey56,2546
+proc ::reviewprose::run::reviewprose::run70,3230
+proc ::reviewprose::next::reviewprose::next84,3695
+proc ::reviewprose::reply::reviewprose::reply112,4651
+proc ::reviewprose::record::reviewprose::record130,5419
+proc ::reviewprose::finish::reviewprose::finish162,6581
+proc ::reviewprose::cancel::reviewprose::cancel177,7129
+proc ::reviewprose::status::reviewprose::status189,7445
+proc ::reviewprose::clearCache::reviewprose::clearCache199,7775
+
+tcl/tools/review_report.tcl,2031
+proc ::reviewreport::sideWord::reviewreport::sideWord72,3283
+proc ::reviewreport::winPct::reviewreport::winPct76,3378
+proc ::reviewreport::evalSeries::reviewreport::evalSeries94,4453
+proc ::reviewreport::accuracyOf::reviewreport::accuracyOf107,4928
+proc ::reviewreport::round1::reviewreport::round1117,5219
+proc ::reviewreport::eloFromAcpl::reviewreport::eloFromAcpl121,5298
+proc ::reviewreport::estimateElo::reviewreport::estimateElo149,6323
+proc ::reviewreport::keyMoments::reviewreport::keyMoments157,6680
+proc ::reviewreport::boardOf::reviewreport::boardOf220,9662
+proc ::reviewreport::majorsMinors::reviewreport::majorsMinors226,9784
+proc ::reviewreport::pointsOnBoard::reviewreport::pointsOnBoard240,10334
+proc ::reviewreport::minorsDeveloped::reviewreport::minorsDeveloped256,10879
+proc ::reviewreport::rooksConnected::reviewreport::rooksConnected271,11560
+proc ::reviewreport::smyrnovOver::reviewreport::smyrnovOver297,12478
+proc ::reviewreport::_mixedScore::reviewreport::_mixedScore314,13237
+proc ::reviewreport::mixedness::reviewreport::mixedness358,14482
+proc ::reviewreport::openingOver::reviewreport::openingOver379,15247
+proc ::reviewreport::endgameNow::reviewreport::endgameNow397,16330
+proc ::reviewreport::phaseStats::reviewreport::phaseStats401,16420
+proc ::reviewreport::phaseSplit::reviewreport::phaseSplit440,18472
+proc ::reviewreport::collect::reviewreport::collect475,19951
+proc ::reviewreport::sideSummary::reviewreport::sideSummary574,24546
+proc ::reviewreport::moveNumber::reviewreport::moveNumber605,26111
+proc ::reviewreport::phrase::reviewreport::phrase613,26487
+proc ::reviewreport::labelWord::reviewreport::labelWord625,26884
+proc ::reviewreport::escape::reviewreport::escape634,27195
+proc ::reviewreport::headerText::reviewreport::headerText639,27308
+proc ::reviewreport::stripHeader::reviewreport::stripHeader699,29989
+proc ::reviewreport::markers::reviewreport::markers722,31325
+proc ::reviewreport::write::reviewreport::write739,32028
+
+tcl/tools/review_threat.tcl,1481
+proc ::reviewthreat::sideName::reviewthreat::sideName50,2668
+proc ::reviewthreat::san::reviewthreat::san58,3080
+proc ::reviewthreat::threatClauses::reviewthreat::threatClauses71,3694
+proc ::reviewthreat::forcing::reviewthreat::forcing87,4341
+proc ::reviewthreat::answer::reviewthreat::answer97,4809
+proc ::reviewthreat::factsBlock::reviewthreat::factsBlock128,6171
+proc ::reviewthreat::prompt::reviewthreat::prompt153,7187
+proc ::reviewthreat::phrase::reviewthreat::phrase171,8207
+proc ::reviewthreat::title::reviewthreat::title183,8606
+proc ::reviewthreat::show::reviewthreat::show189,8848
+proc ::reviewthreat::refresh::reviewthreat::refresh198,9281
+proc ::reviewthreat::block::reviewthreat::block207,9573
+proc ::reviewthreat::stripOwn::reviewthreat::stripOwn217,10008
+proc ::reviewthreat::write::reviewthreat::write234,10714
+proc ::reviewthreat::defaultEngine::reviewthreat::defaultEngine300,13458
+proc ::reviewthreat::watchdogMs::reviewthreat::watchdogMs324,14297
+proc ::reviewthreat::search::reviewthreat::search339,14932
+proc ::reviewthreat::finish::reviewthreat::finish425,18662
+proc ::reviewthreat::timeout::reviewthreat::timeout454,19748
+proc ::reviewthreat::message::reviewthreat::message460,20001
+proc ::reviewthreat::prose::reviewthreat::prose475,20621
+proc ::reviewthreat::spoken::reviewthreat::spoken494,21653
+proc ::reviewthreat::ready::reviewthreat::ready509,22415
+proc ::reviewthreat::ask::reviewthreat::ask555,24755
+
+tcl/tools/review_ui.tcl,1583
+proc ::reviewui::runCall::reviewui::runCall42,2214
+proc ::reviewui::buttons::reviewui::buttons102,5637
+proc ::reviewui::settingKeys::reviewui::settingKeys154,7889
+proc ::reviewui::settingLabel::reviewui::settingLabel159,8001
+proc ::reviewui::settings::reviewui::settings166,8255
+proc ::reviewui::applySettings::reviewui::applySettings179,8787
+proc ::reviewui::verifierOff::reviewui::verifierOff199,9607
+proc ::reviewui::verifierChoices::reviewui::verifierChoices203,9693
+proc ::reviewui::verifierLabel::reviewui::verifierLabel211,9903
+proc ::reviewui::verifierValue::reviewui::verifierValue216,10024
+proc ::reviewui::presetLimits::reviewui::presetLimits224,10363
+proc ::reviewui::presetNote::reviewui::presetNote238,11113
+proc ::reviewui::movetimeFromPreset::reviewui::movetimeFromPreset255,12056
+proc ::reviewui::movetimeNote::reviewui::movetimeNote268,12633
+proc ::reviewui::tr::reviewui::tr276,13005
+proc ::reviewui::label::reviewui::label284,13319
+proc ::reviewui::moveCommentStatus::reviewui::moveCommentStatus296,13799
+proc ::reviewui::progressText::reviewui::progressText306,14208
+proc ::reviewui::passFraction::reviewui::passFraction320,14908
+proc ::reviewui::statusText::reviewui::statusText336,15778
+proc ::reviewui::failedText::reviewui::failedText393,18089
+proc ::reviewui::moveCommentDepth::reviewui::moveCommentDepth409,18931
+proc ::reviewui::moveCommentPly::reviewui::moveCommentPly432,20004
+proc ::reviewui::settingRange::reviewui::settingRange457,20914
+proc ::reviewui::presetValues::reviewui::presetValues476,21734
+
+tcl/tools/review_verify.tcl,607
+proc ::reviewverify::greatGap::reviewverify::greatGap66,3676
+proc ::reviewverify::topMove::reviewverify::topMove76,3917
+proc ::reviewverify::jobs::reviewverify::jobs95,4863
+proc ::reviewverify::corrections::reviewverify::corrections127,6450
+proc ::reviewverify::start::reviewverify::start163,7907
+proc ::reviewverify::begin::reviewverify::begin190,9350
+proc ::reviewverify::advance::reviewverify::advance221,10659
+proc ::reviewverify::answer::reviewverify::answer244,11669
+proc ::reviewverify::active::reviewverify::active258,12180
+proc ::reviewverify::stop::reviewverify::stop266,12445
+
+tcl/tools/score_seed.tcl,213
+proc ::seed::score::seed::score27,1259
+proc ::seed::forSide::seed::forSide60,2822
+proc ::seed::label::seed::label67,3111
+proc ::seed::points::seed::points82,3795
+proc ::seed::covers::seed::covers99,4368
+
+tcl/tools/sergame.tcl,2034
+  proc configconfig84,3800
+  proc syncConfigVarssyncConfigVars371,16997
+  proc toggleCoachControlstoggleCoachControls405,18435
+  proc playplay418,18938
+  proc callbackcallback614,27517
+  proc faceTypeSizefaceTypeSize658,29664
+  proc clockLayoutclockLayout677,30402
+  proc clockFirstclockFirst697,31247
+  proc placeClocksplaceClocks705,31591
+  proc clockLayoutApplyclockLayoutApply730,32897
+  proc abortGameabortGame742,33374
+  proc clockFaceclockFace768,34585
+  proc applyClockFaceapplyClockFace775,34844
+  proc clockRowMinWidthclockRowMinWidth788,35498
+  proc clockTextclockText795,35719
+  proc recordedClocksrecordedClocks807,36351
+  proc seedClockSecondsseedClockSeconds861,38788
+  proc setClockLabelsetClockLabel875,39447
+  proc clocksclocks886,39772
+  proc takeBacktakeBack930,41073
+  proc bestMoveColorbestMoveColor945,41702
+  proc blunderDialogblunderDialog952,41855
+  proc connIdconnId1015,44125
+  proc stst1021,44291
+  proc stSetstSet1025,44399
+  proc seedClocksseedClocks1031,44622
+  proc openEngineopenEngine1049,45571
+  proc closeEnginescloseEngines1096,47511
+  proc sendOptionssendOptions1114,48201
+  proc goLimitsgoLimits1123,48568
+  proc fenAfterfenAfter1148,49763
+  proc askask1168,50507
+  proc ponderHitponderHit1204,52068
+  proc whiteScorewhiteScore1216,52545
+  proc messagemessage1239,53343
+  proc onInfoonInfo1251,53755
+  proc coachRefreshNowcoachRefreshNow1277,55014
+  proc onBestMoveonBestMove1286,55320
+  proc engineGoneengineGone1306,56067
+  proc endOfGameendOfGame1319,56562
+  proc engineGoengineGo1330,56903
+  proc answeranswer1467,62258
+  proc repetitionrepetition1609,68086
+  proc startAnalyzestartAnalyze1626,68741
+  proc stopAnalyzestopAnalyze1639,69257
+  proc updateAnalysisTextupdateAnalysisText1651,69730
+  proc resetBlunderLabelsresetBlunderLabels1726,72431
+  proc _storeCoachEvalDeferred_storeCoachEvalDeferred1734,72643
+  proc changePVSizechangePVSize1746,73188
+  proc logEnginelogEngine1755,73596
+
+tcl/tools/stored_eval.tcl,657
+proc ::stored_eval::fenKey::stored_eval::fenKey31,1076
+proc ::stored_eval::get::stored_eval::get38,1328
+proc ::stored_eval::store::stored_eval::store48,1610
+proc ::stored_eval::clear::stored_eval::clear61,2002
+proc ::stored_eval::clearAll::stored_eval::clearAll69,2169
+proc ::stored_eval::cancelQuery::stored_eval::cancelQuery76,2318
+proc ::stored_eval::queryLichessAsync::stored_eval::queryLichessAsync89,2745
+proc ::stored_eval::onLichessData_::stored_eval::onLichessData_120,3654
+proc ::stored_eval::parseLichessJson_::stored_eval::parseLichessJson_150,4578
+proc ::stored_eval::formatForDisplay::stored_eval::formatForDisplay202,6269
+
+tcl/tools/tablebase.tcl,1271
+proc ::tablebase::buildUrl::tablebase::buildUrl14,450
+proc ::tablebase::countPieces::tablebase::countPieces28,880
+proc ::tablebase::findCurl::tablebase::findCurl49,1607
+proc ::tablebase::httpQuery::tablebase::httpQuery83,2904
+proc ::tablebase::queryTablebaseResult::tablebase::queryTablebaseResult194,7047
+proc ::tablebase::uciToSan::tablebase::uciToSan245,9161
+proc ::tablebase::lookupPosition::tablebase::lookupPosition254,9483
+proc ::tablebase::displayResult::tablebase::displayResult297,10805
+proc ::tablebase::showError::tablebase::showError482,18365
+proc ::tablebase::window::isOpen::tablebase::window::isOpen512,19267
+proc ::tablebase::window::Open::tablebase::window::Open517,19369
+proc ::tablebase::window::results::tablebase::window::results587,21865
+proc ::tablebase::window::httpCallback::tablebase::window::httpCallback659,24204
+proc ::tablebase::window::curlCallback::tablebase::window::curlCallback679,24781
+proc ::tablebase::window::compareWin::tablebase::window::compareWin696,25320
+proc ::tablebase::window::compareLoss::tablebase::window::compareLoss708,25798
+proc ::tablebase::window::displayResults::tablebase::window::displayResults720,26277
+proc ::tablebase::window::addMove::tablebase::window::addMove833,30506
+
+tcl/tools/tactics.tcl,1240
+    proc getBaseTypeFromFilegetBaseTypeFromFile58,2471
+    proc configBasesconfigBases69,2894
+    proc configValidDirconfigValidDir163,6608
+    proc configValidBaseconfigValidBase181,7413
+    proc configconfig195,8134
+    proc createWincreateWin306,12633
+    proc callbackcallback367,15302
+    proc endTrainingendTraining377,15592
+    proc openEngineopenEngine397,16379
+    proc closeEnginecloseEngine428,17607
+    proc messagemessage443,18057
+    proc onInfoonInfo462,18757
+    proc whiteScorewhiteScore485,19879
+    proc lineSANlineSAN506,20644
+    proc engineGoneengineGone514,20960
+    proc toggleSolutiontoggleSolution533,21827
+    proc resetScoresresetScores544,22320
+    proc loadNextGameloadNextGame598,24282
+    proc isPlayerTurnisPlayerTurn638,25593
+    proc exSolvedexSolved647,25963
+    proc abnormalContinuationabnormalContinuation659,26567
+    proc noAssessmentnoAssessment678,27483
+    proc mainLoopmainLoop687,27923
+    proc foundBestLinefoundBestLine787,32372
+    proc loadBaseloadBase861,35888
+    proc resetValuesresetValues878,36561
+    proc setInfoEnginesetInfoEngine890,37029
+    proc startAnalyzestartAnalyze898,37436
+    proc stopAnalyzestopAnalyze921,38557
+
+tcl/tools/twic.tcl,589
+proc ::twic::downloadWeek::twic::downloadWeek21,577
+proc ::twic::getCurrentWeekNumber::twic::getCurrentWeekNumber77,2271
+proc ::twic::downloadTWICWeek::twic::downloadTWICWeek101,3053
+proc ::twic::downloadWithHTTP::twic::downloadWithHTTP146,4599
+proc ::twic::downloadZIP::twic::downloadZIP176,5429
+proc ::twic::extractZIP::twic::extractZIP186,5776
+proc ::twic::mergePGNFiles::twic::mergePGNFiles373,11986
+proc ::twic::openPGNInImport::twic::openPGNInImport401,12619
+proc ::twic::getTempDir::twic::getTempDir450,14074
+proc ::twic::findBaseDir::twic::findBaseDir489,14884
+
+tcl/tools/uci_format.tcl,178
+proc ::ucifmt::sc_move_add::ucifmt::sc_move_add16,691
+proc ::ucifmt::formatPv::ucifmt::formatPv48,1731
+proc ::ucifmt::formatPvAfterMoves::ucifmt::formatPvAfterMoves72,2328
+
+tcl/tools/woodpecker_core.tcl,4213
+proc ::woodpecker::weight::woodpecker::weight53,2151
+proc ::woodpecker::markValue::woodpecker::markValue60,2396
+proc ::woodpecker::score::woodpecker::score77,3019
+proc ::woodpecker::exStart::woodpecker::exStart102,3933
+proc ::woodpecker::exAnswer::woodpecker::exAnswer108,4159
+proc ::woodpecker::foundString::woodpecker::foundString125,4684
+proc ::woodpecker::markFor::woodpecker::markFor148,6060
+proc ::woodpecker::moveFacts::woodpecker::moveFacts167,6944
+proc ::woodpecker::isMateMove::woodpecker::isMateMove186,7843
+proc ::woodpecker::dayNum::woodpecker::dayNum202,8416
+proc ::woodpecker::ymd::woodpecker::ymd207,8559
+proc ::woodpecker::today::woodpecker::today211,8668
+proc ::woodpecker::cycleDays::woodpecker::cycleDays218,8991
+proc ::woodpecker::dailyLoad::woodpecker::dailyLoad227,9434
+proc ::woodpecker::plan::woodpecker::plan251,10552
+proc ::woodpecker::clean::woodpecker::clean289,12248
+proc ::woodpecker::writeAtomic::woodpecker::writeAtomic291,12334
+proc ::woodpecker::readLines::woodpecker::readLines300,12546
+proc ::woodpecker::appendLine::woodpecker::appendLine315,12958
+proc ::woodpecker::readMeta::woodpecker::readMeta325,13203
+proc ::woodpecker::writeMeta::woodpecker::writeMeta333,13421
+proc ::woodpecker::readExercises::woodpecker::readExercises341,13741
+proc ::woodpecker::writeExercises::woodpecker::writeExercises352,14171
+proc ::woodpecker::readMarks::woodpecker::readMarks367,14844
+proc ::woodpecker::marksLatest::woodpecker::marksLatest382,15344
+proc ::woodpecker::marksAt::woodpecker::marksAt389,15638
+proc ::woodpecker::marksAppend::woodpecker::marksAppend399,15959
+proc ::woodpecker::rangesParse::woodpecker::rangesParse413,16546
+proc ::woodpecker::rangesFormat::woodpecker::rangesFormat433,17175
+proc ::woodpecker::logExercise::woodpecker::logExercise448,17558
+proc ::woodpecker::logSession::woodpecker::logSession452,17730
+proc ::woodpecker::logScope::woodpecker::logScope459,18090
+proc ::woodpecker::readLog::woodpecker::readLog465,18350
+proc ::woodpecker::scopeAt::woodpecker::scopeAt507,20570
+proc ::woodpecker::scopeDays::woodpecker::scopeDays546,21973
+proc ::woodpecker::rings::woodpecker::rings556,22422
+proc ::woodpecker::archiveLog::woodpecker::archiveLog574,23193
+proc ::woodpecker::resetLog::woodpecker::resetLog594,23958
+proc ::woodpecker::restoreRing::woodpecker::restoreRing605,24406
+proc ::woodpecker::progress::woodpecker::progress635,25897
+proc ::woodpecker::circlePlan::woodpecker::circlePlan686,28160
+proc ::woodpecker::openPlan::woodpecker::openPlan728,30079
+proc ::woodpecker::rowScore::woodpecker::rowScore744,30732
+proc ::woodpecker::sessionStats::woodpecker::sessionStats763,31440
+proc ::woodpecker::cycleStats::woodpecker::cycleStats805,33223
+proc ::woodpecker::compareCycles::woodpecker::compareCycles838,34523
+proc ::woodpecker::nextCycleDay::woodpecker::nextCycleDay862,35624
+proc ::woodpecker::fmtDuration::woodpecker::fmtDuration867,35788
+proc ::woodpecker::jsonParse::woodpecker::jsonParse879,36351
+proc ::woodpecker::jsonSpace::woodpecker::jsonSpace887,36546
+proc ::woodpecker::jsonValue::woodpecker::jsonValue892,36707
+proc ::woodpecker::jsonString::woodpecker::jsonString945,38742
+proc ::woodpecker::startFen::woodpecker::startFen981,39835
+proc ::woodpecker::sanToUci::woodpecker::sanToUci985,39941
+proc ::woodpecker::uciToSan::woodpecker::uciToSan1021,41373
+proc ::woodpecker::replaySans::woodpecker::replaySans1067,43442
+proc ::woodpecker::lichessExercise::woodpecker::lichessExercise1085,44146
+proc ::woodpecker::fenSide::woodpecker::fenSide1105,45158
+proc ::woodpecker::pgnGame::woodpecker::pgnGame1109,45389
+proc ::woodpecker::exerciseRow::woodpecker::exerciseRow1142,46504
+proc ::woodpecker::lineText::woodpecker::lineText1151,46967
+proc ::woodpecker::sameMove::woodpecker::sameMove1181,47908
+proc ::woodpecker::presets::woodpecker::presets1200,48806
+proc ::woodpecker::presetShares::woodpecker::presetShares1209,49063
+proc ::woodpecker::levelDelta::woodpecker::levelDelta1226,49888
+proc ::woodpecker::levelWindow::woodpecker::levelWindow1230,50019
+proc ::woodpecker::anonPlan::woodpecker::anonPlan1238,50394
+
+tcl/tools/woodpecker_eval.tcl,1532
+proc ::woodpecker::eval::mapOf::woodpecker::eval::mapOf29,1357
+proc ::woodpecker::eval::marksOf::woodpecker::eval::marksOf37,1735
+proc ::woodpecker::eval::deepPositions::woodpecker::eval::deepPositions64,2918
+proc ::woodpecker::eval::shallowPositions::woodpecker::eval::shallowPositions77,3283
+proc ::woodpecker::eval::marksFromResults::woodpecker::eval::marksFromResults92,3790
+proc ::woodpecker::eval::busy::woodpecker::eval::busy131,5420
+proc ::woodpecker::eval::cores::woodpecker::eval::cores137,5564
+proc ::woodpecker::eval::workerCount::woodpecker::eval::workerCount151,6246
+proc ::woodpecker::eval::workerCfg::woodpecker::eval::workerCfg161,6591
+proc ::woodpecker::eval::chunks::woodpecker::eval::chunks173,7038
+proc ::woodpecker::eval::start::woodpecker::eval::start192,7736
+proc ::woodpecker::eval::runPhase::woodpecker::eval::runPhase222,9223
+proc ::woodpecker::eval::progress::woodpecker::eval::progress245,10334
+proc ::woodpecker::eval::report::woodpecker::eval::report253,10677
+proc ::woodpecker::eval::chunkDone::woodpecker::eval::chunkDone263,11070
+proc ::woodpecker::eval::deepDone::woodpecker::eval::deepDone273,11505
+proc ::woodpecker::eval::shallowDone::woodpecker::eval::shallowDone285,11869
+proc ::woodpecker::eval::write::woodpecker::eval::write292,11996
+proc ::woodpecker::eval::flushPending::woodpecker::eval::flushPending327,13539
+proc ::woodpecker::eval::cancel::woodpecker::eval::cancel337,13764
+proc ::woodpecker::eval::finish::woodpecker::eval::finish344,13968
+
+tcl/tools/woodpecker_set.tcl,3797
+proc ::woodpecker::set::localDir::woodpecker::set::localDir40,1915
+proc ::woodpecker::set::dataRoot::woodpecker::set::dataRoot47,2142
+proc ::woodpecker::set::rootDir::woodpecker::set::rootDir55,2486
+proc ::woodpecker::set::readmeText::woodpecker::set::readmeText65,2875
+proc ::woodpecker::set::setDirs::woodpecker::set::setDirs101,4651
+proc ::woodpecker::set::closeBasesUnder::woodpecker::set::closeBasesUnder112,5073
+proc ::woodpecker::set::moveSets::woodpecker::set::moveSets128,5756
+proc ::woodpecker::set::all::woodpecker::set::all144,6235
+proc ::woodpecker::set::newDir::woodpecker::set::newDir160,6895
+proc ::woodpecker::set::usedIds::woodpecker::set::usedIds178,7715
+proc ::woodpecker::set::httpGet::woodpecker::set::httpGet198,8460
+proc ::woodpecker::set::httpRequest::woodpecker::set::httpRequest202,8555
+proc ::woodpecker::set::httpRead::woodpecker::set::httpRead247,10548
+proc ::woodpecker::set::pause::woodpecker::set::pause257,10847
+proc ::woodpecker::set::levelCounts::woodpecker::set::levelCounts272,11358
+proc ::woodpecker::set::fetchLichess::woodpecker::set::fetchLichess301,12452
+proc ::woodpecker::set::byRating::woodpecker::set::byRating442,18997
+proc ::woodpecker::set::urlPart::woodpecker::set::urlPart448,19166
+proc ::woodpecker::set::puzzlesDir::woodpecker::set::puzzlesDir459,19728
+proc ::woodpecker::set::readPool::woodpecker::set::readPool469,20219
+proc ::woodpecker::set::readBundledMarks::woodpecker::set::readBundledMarks504,21615
+proc ::woodpecker::set::bundledExercise::woodpecker::set::bundledExercise526,22531
+proc ::woodpecker::set::fetchBundled::woodpecker::set::fetchBundled572,25020
+proc ::woodpecker::set::buildFromExercises::woodpecker::set::buildFromExercises648,28543
+proc ::woodpecker::set::importPgn::woodpecker::set::importPgn684,30354
+proc ::woodpecker::set::restoreBase::woodpecker::set::restoreBase700,30874
+proc ::woodpecker::set::basePath::woodpecker::set::basePath706,31024
+proc ::woodpecker::set::openBase::woodpecker::set::openBase710,31191
+proc ::woodpecker::set::exerciseUid::woodpecker::set::exerciseUid734,32326
+proc ::woodpecker::set::dbMtime::woodpecker::set::dbMtime741,32604
+proc ::woodpecker::set::dbNewer::woodpecker::set::dbNewer754,32958
+proc ::woodpecker::set::maxExerciseId::woodpecker::set::maxExerciseId763,33331
+proc ::woodpecker::set::syncFromBase::woodpecker::set::syncFromBase795,34721
+proc ::woodpecker::set::dbModifiedTrace::woodpecker::set::dbModifiedTrace859,37417
+proc ::woodpecker::set::authorMarks::woodpecker::set::authorMarks877,38183
+proc ::woodpecker::set::extraTags::woodpecker::set::extraTags893,38715
+proc ::woodpecker::set::readGames::woodpecker::set::readGames907,39365
+proc ::woodpecker::set::countFileExercises::woodpecker::set::countFileExercises966,41905
+proc ::woodpecker::set::buildFromFile::woodpecker::set::buildFromFile985,42607
+proc ::woodpecker::set::markStatus::woodpecker::set::markStatus1019,43988
+proc ::woodpecker::set::writeMarks::woodpecker::set::writeMarks1035,44641
+proc ::woodpecker::set::retired::woodpecker::set::retired1071,45976
+proc ::woodpecker::set::retire::woodpecker::set::retire1078,46166
+proc ::woodpecker::set::splitOff::woodpecker::set::splitOff1090,46768
+proc ::woodpecker::set::newMeta::woodpecker::set::newMeta1143,48947
+proc ::woodpecker::set::tokenPath::woodpecker::set::tokenPath1153,49487
+proc ::woodpecker::set::tokenRead::woodpecker::set::tokenRead1155,49569
+proc ::woodpecker::set::tokenValid::woodpecker::set::tokenValid1164,49766
+proc ::woodpecker::set::tokenWrite::woodpecker::set::tokenWrite1166,49847
+proc ::woodpecker::set::tokenCreateUrl::woodpecker::set::tokenCreateUrl1190,50622
+proc ::woodpecker::set::tokenCheck::woodpecker::set::tokenCheck1197,50980
+
+tcl/tools/woodpecker_ui.tcl,8263
+proc ::woodpecker::ui::T::woodpecker::ui::T49,1985
+proc ::woodpecker::ui::pct::woodpecker::ui::pct54,2111
+proc ::woodpecker::ui::num::woodpecker::ui::num56,2175
+proc ::woodpecker::ui::dark::woodpecker::ui::dark65,2469
+proc ::woodpecker::ui::color::woodpecker::ui::color69,2595
+proc ::woodpecker::ui::fonts::woodpecker::ui::fonts89,3599
+proc ::woodpecker::ui::roundRect::woodpecker::ui::roundRect98,4003
+proc ::woodpecker::ui::cardNew::woodpecker::ui::cardNew108,4564
+proc ::woodpecker::ui::flash::woodpecker::ui::flash127,5469
+proc ::woodpecker::ui::mix::woodpecker::ui::mix135,5742
+proc ::woodpecker::ui::openLink::woodpecker::ui::openLink143,5951
+proc ::woodpecker::ui::open::woodpecker::ui::open154,6256
+proc ::woodpecker::ui::chooseDataDir::woodpecker::ui::chooseDataDir167,6622
+proc ::woodpecker::ui::setDataDir::woodpecker::ui::setDataDir180,7176
+proc ::woodpecker::ui::dataDirCheck::woodpecker::ui::dataDirCheck188,7482
+proc ::woodpecker::ui::build::woodpecker::ui::build215,8601
+proc ::woodpecker::ui::buildSession::woodpecker::ui::buildSession292,12926
+proc ::woodpecker::ui::buildSummary::woodpecker::ui::buildSummary385,18088
+proc ::woodpecker::ui::showPage::woodpecker::ui::showPage439,20901
+proc ::woodpecker::ui::homeScroll::woodpecker::ui::homeScroll447,21261
+proc ::woodpecker::ui::homeFit::woodpecker::ui::homeFit461,21821
+proc ::woodpecker::ui::closed::woodpecker::ui::closed480,22507
+proc ::woodpecker::ui::focusBoard::woodpecker::ui::focusBoard502,23415
+proc ::woodpecker::ui::focusBoardIdle::woodpecker::ui::focusBoardIdle520,24005
+proc ::woodpecker::ui::bindBoardFocus::woodpecker::ui::bindBoardFocus532,24456
+proc ::woodpecker::ui::layoutSaved::woodpecker::ui::layoutSaved547,25094
+proc ::woodpecker::ui::enterFocus::woodpecker::ui::enterFocus558,25533
+proc ::woodpecker::ui::leaveFocus::woodpecker::ui::leaveFocus612,27612
+proc ::woodpecker::ui::exitSession::woodpecker::ui::exitSession634,28336
+proc ::woodpecker::ui::refresh::woodpecker::ui::refresh647,28636
+proc ::woodpecker::ui::current::woodpecker::ui::current679,29931
+proc ::woodpecker::ui::syncQuiet::woodpecker::ui::syncQuiet688,30298
+proc ::woodpecker::ui::syncSet::woodpecker::ui::syncSet694,30543
+proc ::woodpecker::ui::openDatabase::woodpecker::ui::openDatabase717,31400
+proc ::woodpecker::ui::selected::woodpecker::ui::selected732,31939
+proc ::woodpecker::ui::dayPlan::woodpecker::ui::dayPlan764,33553
+proc ::woodpecker::ui::deleteSet::woodpecker::ui::deleteSet814,36479
+proc ::woodpecker::ui::restoreShow::woodpecker::ui::restoreShow846,37811
+proc ::woodpecker::ui::fmtDay::woodpecker::ui::fmtDay860,38272
+proc ::woodpecker::ui::resetDialog::woodpecker::ui::resetDialog864,38393
+proc ::woodpecker::ui::resetLoad::woodpecker::ui::resetLoad903,40148
+proc ::woodpecker::ui::resetApply::woodpecker::ui::resetApply908,40266
+proc ::woodpecker::ui::restoreStats::woodpecker::ui::restoreStats924,40862
+proc ::woodpecker::ui::circleDialog::woodpecker::ui::circleDialog946,41830
+proc ::woodpecker::ui::circlePlanNow::woodpecker::ui::circlePlanNow1085,48605
+proc ::woodpecker::ui::circleDaysDefault::woodpecker::ui::circleDaysDefault1093,48923
+proc ::woodpecker::ui::circleUpdate::woodpecker::ui::circleUpdate1112,49793
+proc ::woodpecker::ui::circleLoad::woodpecker::ui::circleLoad1132,50691
+proc ::woodpecker::ui::circleLength::woodpecker::ui::circleLength1149,51436
+proc ::woodpecker::ui::circleApply::woodpecker::ui::circleApply1156,51681
+proc ::woodpecker::ui::presetLabels::woodpecker::ui::presetLabels1224,54381
+proc ::woodpecker::ui::newDialog::woodpecker::ui::newDialog1230,54657
+proc ::woodpecker::ui::loadText::woodpecker::ui::loadText1361,61745
+proc ::woodpecker::ui::loadUpdate::woodpecker::ui::loadUpdate1369,62056
+proc ::woodpecker::ui::presetChosen::woodpecker::ui::presetChosen1385,62557
+proc ::woodpecker::ui::tokenShow::woodpecker::ui::tokenShow1412,63762
+proc ::woodpecker::ui::tokenSave::woodpecker::ui::tokenSave1444,65011
+proc ::woodpecker::ui::tokenVerify::woodpecker::ui::tokenVerify1463,65460
+proc ::woodpecker::ui::chooseFile::woodpecker::ui::chooseFile1480,66064
+proc ::woodpecker::ui::themeKey::woodpecker::ui::themeKey1491,66444
+proc ::woodpecker::ui::create::woodpecker::ui::create1498,66744
+proc ::woodpecker::ui::shortfall::woodpecker::ui::shortfall1623,72341
+proc ::woodpecker::ui::selectSet::woodpecker::ui::selectSet1644,73456
+proc ::woodpecker::ui::afterCreate::woodpecker::ui::afterCreate1656,73964
+proc ::woodpecker::ui::progressOpen::woodpecker::ui::progressOpen1679,74933
+proc ::woodpecker::ui::progressStep::woodpecker::ui::progressStep1701,75785
+proc ::woodpecker::ui::progressClose::woodpecker::ui::progressClose1713,76137
+proc ::woodpecker::ui::evaluate::woodpecker::ui::evaluate1726,76710
+proc ::woodpecker::ui::evalCancelled::woodpecker::ui::evalCancelled1782,79022
+proc ::woodpecker::ui::evalCleanup::woodpecker::ui::evalCleanup1784,79098
+proc ::woodpecker::ui::evalProgress::woodpecker::ui::evalProgress1789,79262
+proc ::woodpecker::ui::evalDone::woodpecker::ui::evalDone1793,79384
+proc ::woodpecker::ui::choice::woodpecker::ui::choice1811,80046
+proc ::woodpecker::ui::chooseEngine::woodpecker::ui::chooseEngine1835,80967
+proc ::woodpecker::ui::train::woodpecker::ui::train1872,82548
+proc ::woodpecker::ui::more::woodpecker::ui::more1960,86751
+proc ::woodpecker::ui::elapsedMs::woodpecker::ui::elapsedMs1966,86880
+proc ::woodpecker::ui::tick::woodpecker::ui::tick1973,87095
+proc ::woodpecker::ui::drawBars::woodpecker::ui::drawBars1989,87677
+proc ::woodpecker::ui::bar::woodpecker::ui::bar1997,87940
+proc ::woodpecker::ui::drawStrip::woodpecker::ui::drawStrip2014,88721
+proc ::woodpecker::ui::statsLine::woodpecker::ui::statsLine2040,89699
+proc ::woodpecker::ui::sumMs::woodpecker::ui::sumMs2082,91766
+proc ::woodpecker::ui::targetPace::woodpecker::ui::targetPace2090,91969
+proc ::woodpecker::ui::nextExercise::woodpecker::ui::nextExercise2106,92415
+proc ::woodpecker::ui::arrow::woodpecker::ui::arrow2160,94722
+proc ::woodpecker::ui::clearArrows::woodpecker::ui::clearArrows2168,95037
+proc ::woodpecker::ui::premove::woodpecker::ui::premove2173,95224
+proc ::woodpecker::ui::postmove::woodpecker::ui::postmove2201,96234
+proc ::woodpecker::ui::animating::woodpecker::ui::animating2224,97214
+proc ::woodpecker::ui::reply::woodpecker::ui::reply2228,97369
+proc ::woodpecker::ui::cardText::woodpecker::ui::cardText2242,97806
+proc ::woodpecker::ui::cardBegin::woodpecker::ui::cardBegin2244,97886
+proc ::woodpecker::ui::cardEnd::woodpecker::ui::cardEnd2253,98130
+proc ::woodpecker::ui::cardAsk::woodpecker::ui::cardAsk2259,98312
+proc ::woodpecker::ui::cardResult::woodpecker::ui::cardResult2275,98886
+proc ::woodpecker::ui::gotoPly::woodpecker::ui::gotoPly2315,100544
+proc ::woodpecker::ui::markCur::woodpecker::ui::markCur2324,100820
+proc ::woodpecker::ui::exerciseDone::woodpecker::ui::exerciseDone2337,101287
+proc ::woodpecker::ui::nextInOrder::woodpecker::ui::nextInOrder2382,103318
+proc ::woodpecker::ui::advance::woodpecker::ui::advance2391,103593
+proc ::woodpecker::ui::showSolution::woodpecker::ui::showSolution2399,103878
+proc ::woodpecker::ui::completeSolution::woodpecker::ui::completeSolution2423,104785
+proc ::woodpecker::ui::pauseForResult::woodpecker::ui::pauseForResult2440,105394
+proc ::woodpecker::ui::keyContinue::woodpecker::ui::keyContinue2455,105852
+proc ::woodpecker::ui::pause::woodpecker::ui::pause2467,106129
+proc ::woodpecker::ui::status::woodpecker::ui::status2504,107475
+proc ::woodpecker::ui::verdict::woodpecker::ui::verdict2518,107841
+proc ::woodpecker::ui::finish::woodpecker::ui::finish2534,108519
+proc ::woodpecker::ui::summary::woodpecker::ui::summary2551,108939
+proc ::woodpecker::ui::stop::woodpecker::ui::stop2605,111603
+proc ::woodpecker::ui::pauseEngines::woodpecker::ui::pauseEngines2625,112450
+proc ::woodpecker::ui::resumeEngines::woodpecker::ui::resumeEngines2636,112836
+proc ::woodpecker::ui::callback::woodpecker::ui::callback2641,113004
+proc ::woodpecker::ui::stats::woodpecker::ui::stats2664,113873
+proc ::woodpecker::ui::chart::woodpecker::ui::chart2726,117085
+
+tcl/updatecheck.tcl,1961
+proc ::appupdate::normalize::appupdate::normalize31,1468
+proc ::appupdate::newerAvailable::appupdate::newerAvailable39,1673
+proc ::appupdate::configFile::appupdate::configFile52,2256
+proc ::appupdate::stateRead::appupdate::stateRead56,2364
+proc ::appupdate::stateWrite::appupdate::stateWrite76,2962
+proc ::appupdate::resolve::appupdate::resolve98,3896
+proc ::appupdate::fetchAsync::appupdate::fetchAsync110,4307
+proc ::appupdate::_fetchRead::appupdate::_fetchRead137,5370
+proc ::appupdate::_syncFallback::appupdate::_syncFallback156,5883
+proc ::appupdate::parseRelease::appupdate::parseRelease173,6529
+proc ::appupdate::check::appupdate::check188,7178
+proc ::appupdate::autoCheck::appupdate::autoCheck195,7442
+proc ::appupdate::_checkDone::appupdate::_checkDone207,7965
+proc ::appupdate::checking::appupdate::checking239,9166
+proc ::appupdate::showChecking::appupdate::showChecking244,9328
+proc ::appupdate::hideChecking::appupdate::hideChecking258,9735
+proc ::appupdate::showUpdateDialog::appupdate::showUpdateDialog264,9985
+proc ::appupdate::downloading::appupdate::downloading302,11343
+proc ::appupdate::downloadAndInstall::appupdate::downloadAndInstall306,11426
+proc ::appupdate::showDownloading::appupdate::showDownloading327,12424
+proc ::appupdate::downloadAsync::appupdate::downloadAsync353,13509
+proc ::appupdate::_downloadPoll::appupdate::_downloadPoll383,14877
+proc ::appupdate::_downloadProgress::appupdate::_downloadProgress409,15857
+proc ::appupdate::humanBytes::appupdate::humanBytes422,16385
+proc ::appupdate::cancelDownload::appupdate::cancelDownload434,16672
+proc ::appupdate::_downloadSync::appupdate::_downloadSync457,17540
+proc ::appupdate::downloadFailed::appupdate::downloadFailed475,18164
+proc ::appupdate::_downloadDone::appupdate::_downloadDone481,18368
+proc ::appupdate::launchAndExit::appupdate::launchAndExit493,18845
+proc ::appupdate::tempDir::appupdate::tempDir520,20074
+
+tcl/utils.tcl,431
+proc ::utils::getClipboardText::utils::getClipboardText20,1096
+proc ::utils::annotationColors::utils::annotationColors43,1879
+proc ::utils::annotationColorValue::utils::annotationColorValue57,2476
+proc ::utils::isWayland::utils::isWayland72,3010
+proc ::utils::setClipboardText::utils::setClipboardText88,3707
+proc ::utils::thousands::utils::thousands105,4407
+proc ::utils::percentFormat::utils::percentFormat125,5022
+
+tcl/utils/chessboard.tcl,1084
+proc ::chessboard::fromFen::chessboard::fromFen38,1783
+proc ::chessboard::toFen::chessboard::toFen72,3205
+proc ::chessboard::pieceAt::chessboard::pieceAt100,4039
+proc ::chessboard::colorOf::chessboard::colorOf105,4156
+proc ::chessboard::fileOf::chessboard::fileOf111,4292
+proc ::chessboard::rankOf::chessboard::rankOf112,4351
+proc ::chessboard::sqName::chessboard::sqName114,4411
+proc ::chessboard::sqIndex::chessboard::sqIndex118,4514
+proc ::chessboard::attacked::chessboard::attacked123,4700
+proc ::chessboard::kingSquare::chessboard::kingSquare192,6933
+proc ::chessboard::inCheck::chessboard::inCheck203,7167
+proc ::chessboard::pseudoMoves::chessboard::pseudoMoves209,7343
+proc ::chessboard::dropRookRight::chessboard::dropRookRight332,12908
+proc ::chessboard::makeMove::chessboard::makeMove346,13418
+proc ::chessboard::legalMoves::chessboard::legalMoves445,17419
+proc ::chessboard::material::chessboard::material455,17659
+proc ::chessboard::see::chessboard::see471,18272
+proc ::chessboard::hangingMaterial::chessboard::hangingMaterial518,20217
+
+tcl/utils/colorpicker.tcl,856
+  proc isWaylandisWayland25,1049
+  proc isHyprlandisHyprland35,1302
+  proc desktopEnvdesktopEnv40,1473
+  proc hasGrimhasGrim52,1931
+  proc hasGdbushasGdbus56,2030
+  proc dbusAvailabledbusAvailable62,2235
+  proc backendsbackends70,2490
+  proc pickpick120,4375
+  proc _pick_hyprpicker_pick_hyprpicker160,5962
+  proc _pick_kde_pick_kde180,6693
+  proc _pick_gnome_pick_gnome205,7662
+  proc _pick_grim_pick_grim228,8506
+  proc _grabScreenFile_grabScreenFile249,9456
+  proc _pick_x11_pick_x11280,10416
+  proc _pick_mac_pick_mac299,11232
+  proc _pick_windows_pick_windows312,11613
+  proc _pickPoint_pickPoint447,17765
+  proc _pickPixelFromFile_pickPixelFromFile485,19357
+  proc _hexFromFile_hexFromFile523,20736
+  proc _parseColor_parseColor537,21094
+  proc _tempFile_tempFile551,21518
+  proc _tempDir_tempDir555,21635
+
+tcl/utils/date.tcl,401
+proc ::utils::date::today::utils::date::today9,237
+proc ::utils::date::chooser::utils::date::chooser29,879
+proc ::utils::date::_day::utils::date::_day80,2873
+proc ::utils::date::_month::utils::date::_month90,3275
+proc ::utils::date::_redraw::utils::date::_redraw111,3900
+proc ::utils::date::_layout::utils::date::_layout173,6118
+proc ::utils::date::_select::utils::date::_select206,6971
+
+tcl/utils/font.tcl,288
+proc FontDialogFontDialog12,371
+proc FontDialogFamilyFontDialogFamily192,5918
+proc FontDialogStyleFontDialogStyle208,6317
+proc FontDialogSizeFontDialogSize224,6715
+proc FontWeightFontWeight239,7111
+proc FontSlantFontSlant246,7235
+proc FontDialogRegenFontDialogRegen254,7414
+
+tcl/utils/graph.tcl,1188
+proc ::utils::graph::create::utils::graph::create71,3047
+proc ::utils::graph::delete::utils::graph::delete93,3700
+proc ::utils::graph::isgraph::utils::graph::isgraph110,4201
+proc ::utils::graph::data::utils::graph::data119,4400
+proc ::utils::graph::cget::utils::graph::cget152,5205
+proc ::utils::graph::configure::utils::graph::configure169,5685
+proc ::utils::graph::_configure::utils::graph::_configure181,6101
+proc ::utils::graph::redraw::utils::graph::redraw205,6778
+proc ::utils::graph::plot_axes::utils::graph::plot_axes216,7143
+proc ::utils::graph::plot_data::utils::graph::plot_data381,12758
+proc ::utils::graph::round::utils::graph::round473,15773
+proc ::utils::graph::point_visible::utils::graph::point_visible487,16094
+proc ::utils::graph::rescale::utils::graph::rescale502,16502
+proc ::utils::graph::xmap::utils::graph::xmap520,17108
+proc ::utils::graph::ymap::utils::graph::ymap529,17346
+proc ::utils::graph::xunmap::utils::graph::xunmap539,17629
+proc ::utils::graph::yunmap::utils::graph::yunmap549,17902
+proc ::utils::graph::scale_data::utils::graph::scale_data559,18185
+proc ::utils::graph::set_range::utils::graph::set_range571,18535
+
+tcl/utils/history.tcl,685
+proc ::utils::history::SetList::utils::history::SetList21,474
+proc ::utils::history::GetList::utils::history::GetList26,567
+proc ::utils::history::AddEntry::utils::history::AddEntry41,938
+proc ::utils::history::SetLimit::utils::history::SetLimit74,1786
+proc ::utils::history::GetLimit::utils::history::GetLimit80,1921
+proc ::utils::history::PruneList::utils::history::PruneList90,2153
+proc ::utils::history::GetCombobox::utils::history::GetCombobox105,2525
+proc ::utils::history::SetCombobox::utils::history::SetCombobox121,2984
+proc ::utils::history::RefillCombobox::utils::history::RefillCombobox132,3262
+proc ::utils::history::Save::utils::history::Save151,3760
+
+tcl/utils/pane.tcl,505
+proc ::utils::pane::Create::utils::pane::Create21,562
+proc ::utils::pane::SetDrag::utils::pane::SetDrag77,2909
+proc ::utils::pane::SetRange::utils::pane::SetRange81,2997
+proc ::utils::pane::Enter::utils::pane::Enter86,3129
+proc ::utils::pane::Leave::utils::pane::Leave91,3260
+proc ::utils::pane::Grab::utils::pane::Grab96,3389
+proc ::utils::pane::Drag::utils::pane::Drag101,3513
+proc ::utils::pane::Drop::utils::pane::Drop129,4250
+proc ::utils::pane::Divide::utils::pane::Divide136,4455
+
+tcl/utils/sound.tcl,1793
+proc ::utils::sound::Setup::utils::sound::Setup46,1963
+proc ::utils::sound::ListThemes::utils::sound::ListThemes143,5212
+proc ::utils::sound::SoundFile::utils::sound::SoundFile158,5690
+proc ::utils::sound::ReadFolder::utils::sound::ReadFolder178,6203
+proc ::utils::sound::GetMoveSoundFile::utils::sound::GetMoveSoundFile202,6848
+proc ::utils::sound::AnnounceMove::utils::sound::AnnounceMove226,7633
+proc ::utils::sound::AnnounceNewMove::utils::sound::AnnounceNewMove257,8391
+proc ::utils::sound::AnnounceForward::utils::sound::AnnounceForward261,8533
+proc ::utils::sound::AnnounceBack::utils::sound::AnnounceBack265,8679
+proc ::utils::sound::SoundFinished::utils::sound::SoundFinished269,8811
+proc ::utils::sound::CancelSounds::utils::sound::CancelSounds276,9039
+proc ::utils::sound::PlaySound::utils::sound::PlaySound296,9574
+proc ::utils::sound::WavDurationMs::utils::sound::WavDurationMs310,10265
+proc ::utils::sound::CheckSoundQueue::utils::sound::CheckSoundQueue349,11482
+proc ::utils::sound::UpdateOptions::utils::sound::UpdateOptions413,13896
+proc ::utils::sound::ThemeDisplayName::utils::sound::ThemeDisplayName431,14548
+proc ::utils::sound::ThemeValues::utils::sound::ThemeValues447,15067
+proc ::utils::sound::ThemeIndex::utils::sound::ThemeIndex457,15385
+proc ::utils::sound::ApplyTheme::utils::sound::ApplyTheme469,15845
+proc ::utils::sound::OnThemeSelected::utils::sound::OnThemeSelected475,15975
+proc ::utils::sound::OptionsDialog::utils::sound::OptionsDialog489,16436
+proc ::utils::sound::GetDialogChooseFolder::utils::sound::GetDialogChooseFolder518,18041
+proc ::utils::sound::OptionsDialogChooseFolder::utils::sound::OptionsDialogChooseFolder530,18546
+proc ::utils::sound::OptionsDialogOK::utils::sound::OptionsDialogOK538,18974
+
+tcl/utils/string.tcl,434
+proc ::utils::string::Surname::utils::string::Surname6,74
+proc ::utils::string::CityName::utils::string::CityName13,238
+proc ::utils::string::Capital::utils::string::Capital23,488
+proc ::utils::string::PadLeft::utils::string::PadLeft34,734
+proc ::utils::string::Pad::utils::string::Pad46,952
+proc ::utils::string::PadRight::utils::string::PadRight54,1161
+proc ::utils::string::PadCenter::utils::string::PadCenter66,1431
+
+tcl/utils/tklib_tooltip.tcl,1238
+proc ::tooltip::tooltip::tooltip::tooltip137,4468
+proc ::tooltip::register::tooltip::register185,5497
+proc ::tooltip::createToplevel::tooltip::createToplevel315,9138
+proc ::tooltip::configure::tooltip::configure346,10075
+proc ::tooltip::clear::tooltip::clear419,12107
+proc ::tooltip::show::tooltip::show440,12697
+proc ::tooltip::menuMotion::tooltip::menuMotion533,15791
+proc ::tooltip::hide::tooltip::hide561,16554
+proc ::tooltip::fade::tooltip::fade573,16782
+proc ::tooltip::wname::tooltip::wname586,17128
+proc ::tooltip::listitemTip::tooltip::listitemTip599,17355
+proc ::tooltip::listitemMotion::tooltip::listitemMotion624,18002
+proc ::tooltip::enableListbox::tooltip::enableListbox652,18811
+proc ::tooltip::canvasitemTip::tooltip::canvasitemTip661,19220
+proc ::tooltip::enableCanvas::tooltip::enableCanvas673,19519
+proc ::tooltip::notebooktabTip::tooltip::notebooktabTip681,19875
+proc ::tooltip::notebooktabMotion::tooltip::notebooktabMotion695,20298
+proc ::tooltip::enableNotebook::tooltip::enableNotebook714,20893
+proc ::tooltip::tagTip::tooltip::tagTip723,21312
+proc ::tooltip::enableTag::tooltip::enableTag736,21768
+proc ::tooltip::conditionally-hide::tooltip::conditionally-hide749,22345
+
+tcl/utils/validate.tcl,532
+    proc integerinteger11,446
+    proc datedate34,1629
+proc ::utils::validate::Integer::utils::validate::Integer60,2379
+proc ::utils::validate::Date::utils::validate::Date110,3425
+proc ::utils::validate::Result::utils::validate::Result127,3820
+proc ::utils::validate::Alpha::utils::validate::Alpha143,4171
+proc ::utils::validate::Regexp::utils::validate::Regexp161,4587
+proc ::utils::validate::roundScale::utils::validate::roundScale176,4986
+proc ::utils::validate::floatScale::utils::validate::floatScale182,5185
+
+tcl/utils/win.tcl,2516
+proc ::win::createWindow::win::createWindow21,749
+proc ::win::closeWindow::win::closeWindow40,1193
+proc setTitlesetTitle59,1729
+proc ::win::getMenu::win::getMenu77,2339
+proc setMenusetMenu92,2776
+proc ::win::saveWinGeometry::win::saveWinGeometry103,3040
+proc ::win::restoreWinGeometry::win::restoreWinGeometry117,3397
+proc ::win::isDocked::win::isDocked136,3833
+proc ::win::undockWindow::win::undockWindow147,4141
+proc ::win::dockWindow::win::dockWindow190,5407
+proc ::win::toggleDocked::win::toggleDocked236,6701
+proc ::win::manageWindow::win::manageWindow251,6982
+proc ::win::createDialog::win::createDialog275,7720
+proc ::win::makeVisible::win::makeVisible291,8185
+proc ::win::getWindows::win::getWindows312,8754
+proc ::docking::find_tbn::docking::find_tbn336,9320
+proc ::docking::_cleanup_tabs::docking::_cleanup_tabs348,9642
+proc ::docking::choose_notebook::docking::choose_notebook422,13411
+proc ::docking::insert_tab::docking::insert_tab474,15153
+proc ::docking::remove_tab::docking::remove_tab481,15350
+proc ::docking::generate_unique_path_::docking::generate_unique_path_488,15511
+proc ::docking::move_tab_::docking::move_tab_497,15698
+proc ::docking::orient_pw_::docking::orient_pw_514,16381
+proc ::docking::insert_pane_::docking::insert_pane_542,16988
+proc ::docking::insert_notebook_::docking::insert_notebook_550,17181
+proc ::docking::create_notebook_::docking::create_notebook_556,17331
+proc ::docking::identify_tab_::docking::identify_tab_588,18316
+proc ::docking::manage_motion_::docking::manage_motion_605,18773
+proc ::docking::manage_click_::docking::manage_click_634,19610
+proc ::docking::manage_rightclick_::docking::manage_rightclick_654,20330
+proc ::docking::_addDockTab::docking::_addDockTab685,21487
+proc ::docking::_removeDockTab::docking::_removeDockTab753,23711
+proc ::docking::_dockTabMenu::docking::_dockTabMenu786,24581
+proc ::docking::layout_save::docking::layout_save804,25242
+proc ::docking::layout_save_pw::docking::layout_save_pw827,26118
+proc ::docking::windowKinds::docking::windowKinds870,27667
+proc ::docking::windowKind::docking::windowKind893,28539
+proc ::docking::layoutRestorableWindows::docking::layoutRestorableWindows904,28808
+proc ::docking::layoutPrune::docking::layoutPrune918,29350
+proc ::docking::layout_restore_pw::docking::layout_restore_pw949,30311
+proc ::docking::create_window::docking::create_window982,31295
+proc ::docking::layout_restore::docking::layout_restore1010,32607
+
+tcl/windows.tcl,380
+proc isHyprlandSessionisHyprlandSession23,799
+proc createToplevelcreateToplevel30,1110
+proc createToplevelFinalizecreateToplevelFinalize66,2328
+proc cleanup_todo_removecleanup_todo_remove71,2454
+proc recordWinSizerecordWinSize85,2839
+proc setWinLocationsetWinLocation100,3208
+proc centerWindowHyprlandcenterWindowHyprland116,3933
+proc setWinSizesetWinSize128,4274
+
+tcl/windows/book.tcl,1185
+  proc scBookOpenscBookOpen38,1169
+  proc getMovegetMove71,2340
+  proc togglePositionsDisplaytogglePositionsDisplay94,3065
+  proc openopen111,3638
+  proc setBookCountsetBookCount243,8881
+  proc closeMainBookcloseMainBook276,9995
+  proc refreshrefresh298,10774
+  proc renderBookrenderBook402,14586
+  proc obrNagobrNag475,16986
+  proc obrColourobrColour484,17387
+  proc obrColourTextobrColourText495,17714
+  proc obrBarobrBar508,18235
+  proc obrSortByobrSortBy543,19709
+  proc showObrInfoshowObrInfo556,20108
+  proc renderObrBookrenderObrBook566,20589
+  proc hoverMovehoverMove690,25297
+  proc hoverColourhoverColour703,25765
+  proc makeBookMovemakeBookMove712,26172
+  proc bookSelectbookSelect719,26399
+  proc tuningtuning740,27234
+  proc closeTuningBookcloseTuningBook820,29603
+  proc bookTuningSelectbookTuningSelect829,29951
+  proc addBookMoveaddBookMove842,30477
+  proc removeBookMoveremoveBookMove872,31800
+  proc refreshTuningrefreshTuning889,32563
+  proc savesave935,34394
+  proc exportexport975,36239
+  proc convertCtgconvertCtg996,37155
+  proc book2pgnbook2pgn1027,38590
+  proc sc_progressBarsc_progressBar1070,39764
+
+tcl/windows/comment.tcl,2155
+	proc clearComment_clearComment_36,1025
+	proc clearNAGs_clearNAGs_45,1199
+	proc notify_notify_54,1362
+	proc notifyCancel_notifyCancel_61,1534
+	proc storeComment_storeComment_65,1609
+	proc storeNAGs_storeNAGs_101,2633
+	proc updateFromTotal_updateFromTotal_122,3107
+	proc updateFromHHMMSS_updateFromHHMMSS_134,3448
+	proc focusTimeEntry_focusTimeEntry_145,3801
+	proc submitTime_submitTime_153,3986
+	proc defaultStyle_defaultStyle_198,5316
+	proc styleGet_styleGet_202,5376
+	proc styleSetAttr_styleSetAttr_215,5642
+	proc styleMerge_styleMerge_228,5970
+	proc escapeText_escapeText_240,6334
+	proc unescapeText_unescapeText_244,6429
+	proc openTags_openTags_248,6526
+	proc closeTags_closeTags_264,7014
+	proc tagToStyle_tagToStyle_274,7274
+	proc parseMarkup_parseMarkup_296,7943
+	proc styleFont_styleFont_354,9602
+	proc tagForStyle_tagForStyle_373,10247
+	proc ensureTag_ensureTag_386,10535
+	proc styleAt_styleAt_395,10819
+	proc serializeComment_serializeComment_406,11084
+	proc renderComment_renderComment_428,11585
+	proc getSelection_getSelection_441,11901
+	proc selectionHasAttr_selectionHasAttr_450,12154
+	proc applyStyleAttr_applyStyleAttr_458,12363
+	proc toggleStyle_toggleStyle_472,12822
+	proc setStyleDim_setStyleDim_487,13254
+	proc removeFormatting_removeFormatting_501,13597
+	proc colorSwatchImage_colorSwatchImage_527,14351
+	proc chooseColor_chooseColor_538,14690
+	proc colorTagFor_colorTagFor_570,15963
+	proc pruneColorTags_pruneColorTags_591,16732
+	proc insertMarkup_insertMarkup_608,17338
+	proc chooseCustomColor_chooseCustomColor_627,17985
+	proc chooseDefaultColor_chooseDefaultColor_643,18724
+	proc applyDefaultColor_applyDefaultColor_659,19432
+	proc chooseFont_chooseFont_683,20356
+	proc applyFont_applyFont_720,21876
+	proc showFormatMenu_showFormatMenu_732,22238
+	proc onTypeStart_onTypeStart_749,23222
+	proc markupToHtmlmarkupToHtml759,23416
+proc ::windows::commenteditor::createWin::windows::commenteditor::createWin771,23691
+proc ::windows::commenteditor::Refresh::windows::commenteditor::Refresh898,29011
+proc makeCommentWinmakeCommentWin950,30852
+
+tcl/windows/crosstab.tcl,291
+proc ::crosstab::OpenClose::crosstab::OpenClose23,555
+proc ::crosstab::Open::crosstab::Open31,707
+proc ::crosstab::AddToFilter::crosstab::AddToFilter216,8613
+proc ::crosstab::CopyFlagsForHtml::crosstab::CopyFlagsForHtml229,9138
+proc ::crosstab::Refresh::crosstab::Refresh256,10135
+
+tcl/windows/eco.tcl,307
+proc ::windows::eco::OpenClose::windows::eco::OpenClose9,130
+proc ::windows::eco::Refresh::windows::eco::Refresh23,470
+proc ::windows::eco::update::windows::eco::update102,3705
+proc ::windows::eco::Select::windows::eco::Select194,7007
+proc ::windows::eco::KeyPress::windows::eco::KeyPress224,7745
+
+tcl/windows/engine.tcl,6741
+proc ::enginewin::playLimitReached::enginewin::playLimitReached82,3592
+proc ::enginewin::playSuccessor::enginewin::playSuccessor91,4033
+proc ::enginewin::playTimeMs::enginewin::playTimeMs100,4397
+proc ::enginewin::playLimitsFromInput::enginewin::playLimitsFromInput108,4704
+proc ::enginewin::playSearchLimits::enginewin::playSearchLimits129,5468
+proc ::enginewin::playTreeBusy::enginewin::playTreeBusy147,6322
+proc ::enginewin::playActive::enginewin::playActive157,6633
+proc ::enginewin::playBusy::enginewin::playBusy163,6878
+proc ::enginewin::playDialog::enginewin::playDialog176,7367
+proc ::enginewin::playToggle::enginewin::playToggle235,9800
+proc ::enginewin::playStop::enginewin::playStop302,12449
+proc ::enginewin::playCancel::enginewin::playCancel321,13261
+proc ::enginewin::playPosition::enginewin::playPosition333,13752
+proc ::enginewin::playArm::enginewin::playArm355,14529
+proc ::enginewin::playInfo::enginewin::playInfo368,15047
+proc ::enginewin::playCheck::enginewin::playCheck384,15928
+proc ::enginewin::playDone::enginewin::playDone429,18062
+proc ::enginewin::playFire::enginewin::playFire444,18795
+proc ::enginewin::listEngines::enginewin::listEngines468,19764
+proc ::enginewin::seedChart::enginewin::seedChart484,20597
+proc ::enginewin::seedLabel::enginewin::seedLabel552,23948
+proc ::enginewin::onNewGame::enginewin::onNewGame570,24618
+proc ::enginewin::onPosChanged::enginewin::onPosChanged594,25630
+proc ::enginewin::start::enginewin::start640,27645
+proc ::enginewin::stop::enginewin::stop659,28331
+proc ::enginewin::toggleStartStop::enginewin::toggleStartStop675,28867
+proc ::enginewin::idReserved::enginewin::idReserved690,29461
+proc ::enginewin::Open::enginewin::Open697,29631
+proc ::enginewin::createDisplayFrame::enginewin::createDisplayFrame902,38448
+proc ::enginewin::createStoredEvalFrame::enginewin::createStoredEvalFrame971,41914
+proc ::enginewin::updateStoredEvalDisplay::enginewin::updateStoredEvalDisplay991,42744
+proc ::enginewin::onLichessResult::enginewin::onLichessResult1039,44672
+proc ::enginewin::createButtonsBar::enginewin::createButtonsBar1054,45261
+proc ::enginewin::reviewWindow::enginewin::reviewWindow1245,55482
+proc ::enginewin::reviewPass::enginewin::reviewPass1254,55827
+proc ::enginewin::reviewState::enginewin::reviewState1266,56256
+proc ::enginewin::reviewRefresh::enginewin::reviewRefresh1315,58587
+proc ::enginewin::reviewBook::enginewin::reviewBook1337,59623
+proc ::enginewin::reviewRunState::enginewin::reviewRunState1369,61042
+proc ::enginewin::reviewStatus::enginewin::reviewStatus1444,64793
+proc ::enginewin::reviewStart::enginewin::reviewStart1461,65541
+proc ::enginewin::finishGame::enginewin::finishGame1512,68045
+proc ::enginewin::reviewGame::enginewin::reviewGame1535,68977
+proc ::enginewin::threat::enginewin::threat1548,69683
+proc ::enginewin::reviewMove::enginewin::reviewMove1577,71128
+proc ::enginewin::reviewCancel::enginewin::reviewCancel1628,73709
+proc ::enginewin::reviewStopAll::enginewin::reviewStopAll1645,74448
+proc ::enginewin::reviewProgress::enginewin::reviewProgress1662,75139
+proc ::enginewin::reviewRefreshAll::enginewin::reviewRefreshAll1670,75506
+proc ::enginewin::reviewSettings::enginewin::reviewSettings1682,76017
+proc ::enginewin::reviewSettingsApply::enginewin::reviewSettingsApply1850,84935
+proc ::enginewin::applyLimits::enginewin::applyLimits1868,85516
+proc ::enginewin::toggleConfigPane::enginewin::toggleConfigPane1902,87218
+proc ::enginewin::changeDisplayLayout::enginewin::changeDisplayLayout1922,87834
+proc ::enginewin::logEngine::enginewin::logEngine1941,88356
+proc ::enginewin::blackToMove::enginewin::blackToMove1962,89138
+proc ::enginewin::inMainLine::enginewin::inMainLine1983,89943
+proc ::enginewin::formatPV::enginewin::formatPV2001,90481
+proc ::enginewin::updateDebug::enginewin::updateDebug2015,90936
+proc ::enginewin::updateChart::enginewin::updateChart2024,91259
+proc ::enginewin::chartCallback::enginewin::chartCallback2072,93065
+proc ::enginewin::pvTagRemove::enginewin::pvTagRemove2121,95306
+proc ::enginewin::pvInsertText::enginewin::pvInsertText2134,95810
+proc ::enginewin::pvInsertBlock::enginewin::pvInsertBlock2152,96430
+proc ::enginewin::pvPushHistory::enginewin::pvPushHistory2201,98447
+proc ::enginewin::pvRenderLive::enginewin::pvRenderLive2234,99944
+proc ::enginewin::historyChanged::enginewin::historyChanged2252,100601
+proc ::enginewin::pvDepthWentBack::enginewin::pvDepthWentBack2275,101593
+proc ::enginewin::pvBlockUpdate::enginewin::pvBlockUpdate2286,102006
+proc ::enginewin::firstPvLine::enginewin::firstPvLine2341,104494
+proc ::enginewin::pvTimeLabel::enginewin::pvTimeLabel2350,104880
+proc ::enginewin::updateDisplay::enginewin::updateDisplay2354,104980
+proc ::enginewin::loadLimits::enginewin::loadLimits2568,114072
+proc ::enginewin::updateEngineName::enginewin::updateEngineName2587,114885
+proc ::enginewin::updateOptions::enginewin::updateOptions2598,115303
+proc ::enginewin::getMoves::enginewin::getMoves2630,116746
+proc ::enginewin::exportMoves::enginewin::exportMoves2657,118090
+proc ::enginewin::spaceKey::enginewin::spaceKey2679,119023
+proc ::enginewin::playBestMove::enginewin::playBestMove2689,119457
+proc ::enginewin::markEngineLine::enginewin::markEngineLine2715,120865
+proc ::enginewin::exportLines::enginewin::exportLines2733,121660
+proc ::enginewin::exportCurrentMove::enginewin::exportCurrentMove2757,122745
+proc ::enginewin::changeOption::enginewin::changeOption2764,123000
+proc ::enginewin::changeState::enginewin::changeState2805,125382
+proc ::enginewin::stateFollow::enginewin::stateFollow2901,129487
+proc ::enginewin::stateLocked::enginewin::stateLocked2902,129568
+proc ::enginewin::statePaused::enginewin::statePaused2903,129649
+proc ::enginewin::getEngineColor::enginewin::getEngineColor2905,129731
+proc ::enginewin::connectEngine::enginewin::connectEngine2919,130202
+proc ::enginewin::watch::enginewin::watch2999,133491
+proc ::enginewin::unwatch::enginewin::unwatch3004,133584
+proc ::enginewin::autorunOff::enginewin::autorunOff3014,134046
+proc ::enginewin::autorunRestore::enginewin::autorunRestore3024,134466
+proc ::enginewin::holdLimits::enginewin::holdLimits3040,135277
+proc ::enginewin::releaseLimits::enginewin::releaseLimits3049,135666
+proc ::enginewin::watcherGone::enginewin::watcherGone3059,136092
+proc ::enginewin::callback::enginewin::callback3066,136304
+proc ::enginewin::saveAccumulatedPVs::enginewin::saveAccumulatedPVs3161,140884
+proc ::enginewin::sendPosition::enginewin::sendPosition3195,142055
+proc ::enginewin::analyzeMainLine::enginewin::analyzeMainLine3258,145147
+
+tcl/windows/game3d.tcl,259
+proc ::windows::game3d::toggle::windows::game3d::toggle17,471
+proc ::windows::game3d::Close::windows::game3d::Close35,896
+proc ::windows::game3d::_create::windows::game3d::_create45,1075
+proc ::windows::game3d::update::windows::game3d::update103,2708
+
+tcl/windows/gamelist.tcl,4093
+proc ::windows::gamelist::Open::windows::gamelist::Open34,2071
+proc ::windows::gamelist::OpenTreeBest::windows::gamelist::OpenTreeBest74,3214
+proc ::windows::gamelist::Refresh::windows::gamelist::Refresh86,3514
+proc ::windows::gamelist::DatabaseModified::windows::gamelist::DatabaseModified101,4006
+proc ::windows::gamelist::listTreeBases::windows::gamelist::listTreeBases120,4716
+proc ::windows::gamelist::FilterReset::windows::gamelist::FilterReset133,5176
+proc ::windows::gamelist::FilterNegate::windows::gamelist::FilterNegate141,5431
+proc ::windows::gamelist::FilterExport::windows::gamelist::FilterExport149,5683
+proc ::windows::gamelist::ExportSelected::windows::gamelist::ExportSelected166,6404
+proc ::windows::gamelist::filterText::windows::gamelist::filterText206,7808
+proc ::windows::gamelist::formatFilterText::windows::gamelist::formatFilterText219,8247
+proc ::windows::gamelist::GetBase::windows::gamelist::GetBase227,8536
+proc ::windows::gamelist::SetBase::windows::gamelist::SetBase232,8662
+proc ::windows::gamelist::Awesome::windows::gamelist::Awesome266,10265
+proc ::windows::gamelist::AweInit::windows::gamelist::AweInit286,11031
+proc ::windows::gamelist::AweGuess::windows::gamelist::AweGuess346,12520
+proc ::windows::gamelist::AweParse::windows::gamelist::AweParse393,13679
+proc ::windows::gamelist::CopyGames::windows::gamelist::CopyGames415,14182
+proc ::windows::gamelist::ClearClipbase::windows::gamelist::ClearClipbase447,15463
+proc ::windows::gamelist::createWin_::windows::gamelist::createWin_461,15834
+proc ::windows::gamelist::createMenu_::windows::gamelist::createMenu_499,17153
+proc ::windows::gamelist::createGList_::windows::gamelist::createGList_578,20738
+proc ::windows::gamelist::createExportMenu_::windows::gamelist::createExportMenu_585,20973
+proc ::windows::gamelist::menu_::windows::gamelist::menu_602,21503
+proc ::windows::gamelist::filter_::windows::gamelist::filter_618,22015
+proc ::windows::gamelist::update_::windows::gamelist::update_630,22392
+proc ::windows::gamelist::searchpos_::windows::gamelist::searchpos_654,23200
+proc ::windows::gamelist::filterRelease_::windows::gamelist::filterRelease_669,23775
+proc ::windows::gamelist::updateStats_::windows::gamelist::updateStats_682,24167
+proc glist.createglist.create791,28363
+proc glist.updateglist.update996,35934
+proc glist.layout_applyglist.layout_apply1022,36960
+proc glist.layout_saveglist.layout_save1040,37661
+proc glist.layout_renameglist.layout_rename1053,38147
+proc glist.layout_rename_validateglist.layout_rename_validate1076,38860
+proc glist.layout_rename_doglist.layout_rename_do1091,39345
+proc glist.layout_deleteglist.layout_delete1112,40114
+proc glist.destroy_glist.destroy_1145,41449
+proc glist.update_glist.update_1167,42261
+proc glist.loadvalues_glist.loadvalues_1188,43060
+proc glist.showfindbar_glist.showfindbar_1252,44992
+proc glist.findcurrentgame_glist.findcurrentgame_1266,45363
+proc glist.findgame_glist.findgame_1277,45750
+proc glist.select_glist.select_1316,46993
+proc glist.movesel_glist.movesel_1323,47170
+proc glist.delflag_glist.delflag_1340,47661
+proc glist.doubleclick_glist.doubleclick_1345,47796
+proc glist.removeFromFilter_glist.removeFromFilter_1366,48368
+proc glist.popupmenu_glist.popupmenu_1377,48766
+proc glist.sortInit_glist.sortInit_1619,60289
+proc glist.sortClickEvent_glist.sortClickEvent_1631,60617
+proc glist.sort_glist.sort_1648,61220
+proc glist.sortStore_glist.sortStore_1675,62019
+proc glist.wheelRowsglist.wheelRows1707,63114
+proc glist.wheelScrollglist.wheelScroll1716,63353
+proc glist.wheelglist.wheel1723,63686
+proc glist.wheelDirglist.wheelDir1733,64140
+proc glist.tkPreciseglist.tkPrecise1742,64585
+proc glist.preciseglist.precise1755,65166
+proc glist.bindWheelglist.bindWheel1773,65986
+proc glist.ybar_glist.ybar_1794,66741
+proc glist.yscroll_glist.yscroll_1821,67538
+proc glist.insertcol_glist.insertcol_1851,68586
+proc glist.removecol_glist.removecol_1857,68821
+proc glist.release_glist.release_1863,69048
+
+tcl/windows/pfinder.tcl,290
+proc ::plist::defaults::plist::defaults12,147
+proc ::plist::toggle::plist::toggle23,347
+proc ::plist::Open::plist::Open32,477
+proc ::plist::refresh::plist::refresh112,3412
+proc ::plist::check::plist::check176,5306
+proc ::plist::getSearchOptions::plist::getSearchOptions189,5701
+
+tcl/windows/pgn.tcl,1313
+  proc ChooseColorChooseColor8,268
+  proc PgnClipboardCopyPgnClipboardCopy20,760
+  proc OpenCloseOpenClose39,1394
+  proc contextMenucontextMenu212,9252
+  proc deleteVardeleteVar269,11915
+  proc firstVarfirstVar275,12002
+  proc mainVarmainVar281,12087
+  proc ShowBoardShowBoard292,12490
+  proc HideBoardHideBoard308,13038
+  proc ResetColorsResetColors318,13359
+  proc RefreshRefresh346,14554
+  proc update_current_moveupdate_current_move388,16159
+proc ::pgn::openInChessCom::pgn::openInChessCom413,17148
+proc ::pgn::openInLichess::pgn::openInLichess448,18554
+proc ::pgn::openInChessDB::pgn::openInChessDB540,21953
+proc ::pgn::getRepetitionCount::pgn::getRepetitionCount553,22247
+proc ::pgn::positionKey::pgn::positionKey581,23091
+proc ::pgn::currentRepetitionCount::pgn::currentRepetitionCount590,23505
+proc ::pgn::resetRepetitionCache::pgn::resetRepetitionCache604,23847
+proc ::pgn::repetitionMessage::pgn::repetitionMessage610,24093
+proc ::pgn::noticeParent::pgn::noticeParent618,24411
+proc ::pgn::showRepetitionNotice::pgn::showRepetitionNotice638,25178
+proc ::pgn::hideRepetitionNotice::pgn::hideRepetitionNotice665,25996
+proc ::pgn::hideStaleRepetitionNotice::pgn::hideStaleRepetitionNotice682,26550
+proc ::pgn::CheckRepetition::pgn::CheckRepetition691,26835
+
+tcl/windows/pgnviewer.tcl,2397
+    proc ::pgnviewer::getPosition::pgnviewer::getPosition7,155
+    proc ::pgnviewer::goPositionMainLine::pgnviewer::goPositionMainLine27,876
+    proc ::pgnviewer::getMainline::pgnviewer::getMainline31,1023
+    proc ::pgnviewer::calcMainline::pgnviewer::calcMainline36,1240
+    proc ::pgnviewer::getSide::pgnviewer::getSide55,1970
+    proc ::pgnviewer::GotoScoreMove::pgnviewer::GotoScoreMove65,2400
+    proc ::pgnviewer::ScorePopupEval::pgnviewer::ScorePopupEval70,2640
+    proc ::pgnviewer::ScoreUpdate::pgnviewer::ScoreUpdate90,3658
+    proc ::pgnviewer::chartCallback::pgnviewer::chartCallback149,6106
+    proc ::pgnviewer::insertScore::pgnviewer::insertScore181,7257
+    proc ::pgnviewer::nextScoreMove::pgnviewer::nextScoreMove195,7903
+    proc ::pgnviewer::GetScore::pgnviewer::GetScore205,8272
+    proc ::pgnviewer::CalcScore::pgnviewer::CalcScore222,9048
+    proc ::pgnviewer::SaveScore::pgnviewer::SaveScore234,9463
+    proc ::pgnviewer::ScaleScoreGraph::pgnviewer::ScaleScoreGraph248,9899
+    proc ::pgnviewer::SetupScoreGraphPopup::pgnviewer::SetupScoreGraphPopup256,10248
+    proc ::pgnviewer::ScoreGraph::pgnviewer::ScoreGraph260,10380
+    proc ::pgnviewer::EngineBestMove::pgnviewer::EngineBestMove266,10592
+    proc ::pgnviewer::engineOnOff::pgnviewer::engineOnOff278,10972
+    proc ::pgnviewer::setupDefaults::pgnviewer::setupDefaults300,11823
+    proc ::pgnviewer::setupMenu::pgnviewer::setupMenu348,16200
+    proc ::pgnviewer::updateDefaults::pgnviewer::updateDefaults366,17801
+    proc ::pgnviewer::toggleheader::pgnviewer::toggleheader383,18667
+    proc ::pgnviewer::togglephoto::pgnviewer::togglephoto390,18944
+    proc ::pgnviewer::autosize::pgnviewer::autosize397,19208
+    proc ::pgnviewer::new::pgnviewer::new408,19660
+    proc ShowBoardShowBoard550,28077
+    proc HideBoardHideBoard562,28664
+    proc ::pgnviewer::FENtoBoard::pgnviewer::FENtoBoard568,28836
+    proc ::pgnviewer::mcallback::pgnviewer::mcallback592,29613
+    proc ::pgnviewer::ccallback::pgnviewer::ccallback610,30678
+    proc RefreshRefresh621,31227
+    proc update_current_moveupdate_current_move687,34462
+    proc lastMoveHighlightlastMoveHighlight698,34905
+    proc updateupdate723,36002
+    proc ::pgnviewer::autoplay::pgnviewer::autoplay820,40496
+    proc ::pgnviewer::mousewheelHandler::pgnviewer::mousewheelHandler830,40857
+
+tcl/windows/preferences.tcl,1328
+proc ::preferences::replaceConfig::preferences::replaceConfig22,857
+proc ::preferences::moves::preferences::moves32,1149
+proc ::preferences::validateWheelRows::preferences::validateWheelRows123,6909
+proc ::preferences::gamelist::preferences::gamelist129,7091
+proc ::preferences::tagOrderLabel::preferences::tagOrderLabel147,8038
+proc ::preferences::tagOrderPopulate::preferences::tagOrderPopulate159,8427
+proc ::preferences::tagOrderMove::preferences::tagOrderMove166,8595
+proc ::preferences::eolChanged::preferences::eolChanged184,9228
+proc ::preferences::syncEolDisplay::preferences::syncEolDisplay190,9454
+proc ::preferences::pgnExport::preferences::pgnExport197,9717
+proc ::preferences::updateScrollBar::preferences::updateScrollBar235,11598
+proc ::preferences::Open::preferences::Open241,11773
+proc ::preferences::checkFileDir::preferences::checkFileDir300,14088
+proc ::preferences::resources::preferences::resources316,14520
+proc ::preferences::createResourceEntry::preferences::createResourceEntry354,16365
+proc ::preferences::validateautoplay::preferences::validateautoplay382,17282
+proc ::preferences::numbers::preferences::numbers395,17617
+proc ::preferences::internationalization::preferences::internationalization403,17857
+proc ::preferences::fonts::preferences::fonts426,18886
+
+tcl/windows/present.tcl,1007
+proc ::windows::present::toggle::windows::present::toggle42,1373
+proc ::windows::present::open::windows::present::open53,1619
+proc ::windows::present::close::windows::present::close117,3846
+proc ::windows::present::update::windows::present::update135,4337
+proc ::windows::present::redraw::windows::present::redraw156,5019
+proc ::windows::present::resize::windows::present::resize172,5568
+proc ::windows::present::syncFlip::windows::present::syncFlip201,6684
+proc ::windows::present::flip::windows::present::flip214,7095
+proc ::windows::present::fullscreen::windows::present::fullscreen226,7502
+proc ::windows::present::freeze::windows::present::freeze244,8138
+proc ::windows::present::toggleFreeze::windows::present::toggleFreeze265,8734
+proc ::windows::present::maxBoardSize::windows::present::maxBoardSize279,9193
+proc ::windows::present::restoreGeometry::windows::present::restoreGeometry295,9725
+proc ::windows::present::saveGeometry::windows::present::saveGeometry318,10506
+
+tcl/windows/stats.tcl,196
+proc ::windows::stats::Open::windows::stats::Open13,306
+proc ::windows::stats::Refresh::windows::stats::Refresh77,2820
+proc ::windows::stats::refresh_wnd::windows::stats::refresh_wnd81,2898
+
+tcl/windows/switcher.tcl,816
+proc getBaseTypegetBaseType495,25514
+proc selectBaseTypeselectBaseType504,25674
+proc changeBaseTypechangeBaseType511,25806
+proc ::windows::switcher::pressMouseEvent::windows::switcher::pressMouseEvent568,27629
+proc ::windows::switcher::releaseMouseEvent::windows::switcher::releaseMouseEvent575,27817
+proc ::windows::switcher::popupmenu::windows::switcher::popupmenu593,28357
+proc ::windows::switcher::Open::windows::switcher::Open641,30522
+proc ::windows::switcher::Create::windows::switcher::Create651,30812
+proc ::windows::switcher::calcSpace::windows::switcher::calcSpace696,32540
+proc ::windows::switcher::Draw::windows::switcher::Draw726,33539
+proc ::windows::switcher::Refresh::windows::switcher::Refresh750,34175
+proc ::windows::switcher::Update_::windows::switcher::Update_756,34307
+
+tcl/windows/tourney.tcl,368
+proc ::tourney::toggle::tourney::toggle15,334
+proc ::tourney::Open::tourney::Open24,459
+proc ::tourney::defaults::tourney::defaults145,5689
+proc ::tourney::refresh::tourney::refresh162,6106
+proc ::tourney::check::tourney::check271,9709
+proc ::tourney::select::tourney::select304,10926
+proc ::tourney::getSearchOptions::tourney::getSearchOptions314,11151
+
+tcl/windows/tree.tcl,4406
+proc ::tree::menuCopyToSelection::tree::menuCopyToSelection18,574
+proc ::tree::make::tree::make22,774
+proc ::tree::hideCtxtMenu::tree::hideCtxtMenu210,9442
+proc ::tree::selectCallback::tree::selectCallback218,9686
+proc ::tree::closeTree::tree::closeTree229,10145
+proc ::tree::toggleTraining::tree::toggleTraining247,10755
+proc ::tree::doTraining::tree::doTraining272,11593
+proc ::tree::trainingHasMoves::tree::trainingHasMoves367,15366
+proc ::tree::trainingFeedback::tree::trainingFeedback381,15990
+proc ::tree::toggleLock::tree::toggleLock406,16693
+proc ::tree::select::tree::select411,16848
+proc ::tree::listTreeBases::tree::listTreeBases434,17587
+proc ::tree::restoreButtons::tree::restoreButtons470,19032
+proc ::tree::cancelPendingTraining::tree::cancelPendingTraining485,19707
+proc ::tree::refresh::tree::refresh494,19971
+proc ::tree::dorefresh::tree::dorefresh503,20303
+proc ::tree::getMoveNags::tree::getMoveNags655,26813
+proc ::tree::contextMenu::tree::contextMenu669,27367
+proc ::tree::gameHasNag::tree::gameHasNag719,29241
+proc ::tree::findAnnotatedGames::tree::findAnnotatedGames753,30528
+proc ::tree::displayLines::tree::displayLines855,34019
+proc ::tree::getLineValues::tree::getLineValues1094,42921
+proc ::tree::getColorScore::tree::getColorScore1147,44126
+proc ::tree::getColorWin::tree::getColorWin1174,45283
+proc ::tree::status::tree::status1196,46099
+proc ::tree::best::tree::best1351,50533
+proc ::tree::graphRedraw::tree::graphRedraw1370,51150
+proc ::tree::graph::tree::graph1383,51867
+proc ::tree::configGraphMenus::tree::configGraphMenus1507,56890
+proc ::tree::toggleRefresh::tree::toggleRefresh1520,57345
+proc ::tree::setCacheSize::tree::setCacheSize1542,58122
+proc ::tree::mask::safeReadMaskFile::tree::mask::safeReadMaskFile1590,59901
+proc ::tree::mask::open::tree::mask::open1665,62428
+proc ::tree::mask::addRecent::tree::mask::addRecent1706,63905
+proc ::tree::mask::askForSave::tree::mask::askForSave1734,64876
+proc ::tree::mask::new::tree::mask::new1746,65324
+proc ::tree::mask::close::tree::mask::close1768,65962
+proc ::tree::mask::save::tree::mask::save1782,66386
+proc ::tree::mask::contextMenu::tree::mask::contextMenu1791,66750
+proc ::tree::mask::addToMask::tree::mask::addToMask1865,69772
+proc ::tree::mask::removeFromMask::tree::mask::removeFromMask1885,70418
+proc ::tree::mask::moveExists::tree::mask::moveExists1911,71225
+proc ::tree::mask::getAllMoves::tree::mask::getAllMoves1928,71762
+proc ::tree::mask::getColor::tree::mask::getColor1939,72146
+proc ::tree::mask::setColor::tree::mask::setColor1960,72727
+proc ::tree::mask::getNag::tree::mask::getNag1984,73642
+proc ::tree::mask::setNag::tree::mask::setNag2007,74308
+proc ::tree::mask::getComment::tree::mask::getComment2035,75273
+proc ::tree::mask::setComment::tree::mask::setComment2058,75903
+proc ::tree::mask::getPositionComment::tree::mask::getPositionComment2083,76819
+proc ::tree::mask::setPositionComment::tree::mask::setPositionComment2100,77281
+proc ::tree::mask::setImage::tree::mask::setImage2117,77839
+proc ::tree::mask::getImage::tree::mask::getImage2141,78764
+proc ::tree::mask::addComment::tree::mask::addComment2170,79641
+proc ::tree::mask::updateComment::tree::mask::updateComment2200,80767
+proc ::tree::mask::fillWithBase::tree::mask::fillWithBase2215,81274
+proc ::tree::mask::fillWithGame::tree::mask::fillWithGame2233,81949
+proc ::tree::mask::feedMask::tree::mask::feedMask2275,83273
+proc ::tree::mask::toShortFen::tree::mask::toShortFen2330,84795
+proc ::tree::mask::setCacheFenIndex::tree::mask::setCacheFenIndex2337,85049
+proc ::tree::mask::infoMask::tree::mask::infoMask2343,85318
+proc ::tree::mask::displayMask::tree::mask::displayMask2358,85959
+proc ::tree::mask::updateDisplayMask::tree::mask::updateDisplayMask2403,87594
+proc ::tree::mask::createImage::tree::mask::createImage2428,88491
+proc  ::tree::mask::maskTreeUnfold::tree::mask::maskTreeUnfold2447,89212
+  proc unfoldunfold2450,89281
+proc ::tree::mask::trimToFirstLine::tree::mask::trimToFirstLine2464,89688
+proc ::tree::mask::populateDisplayMask::tree::mask::populateDisplayMask2471,89946
+proc ::tree::mask::searchMask::tree::mask::searchMask2568,93217
+proc  ::tree::mask::performSearch::tree::mask::performSearch2651,97034
+proc  ::tree::mask::searchClick::tree::mask::searchClick2733,99326
+
+tcl/themes/sand.tcl,0
+
+tcl/themes/sand-evening.tcl,0
+
+tcl/themes/paper.tcl,0
+
+tcl/themes/light-sand.tcl,0
+
+tcl/themes/light-blue.tcl,0
+
+tcl/themes/green-tones.tcl,0
+
+tcl/themes/dark.tcl,0
+
+tcl/themes/cobalt2.tcl,0
+
+tcl/themes/catppuccin_mocha.tcl,0
+
+tcl/help/helpZ.tcl,0
+
+tcl/help/helpW.tcl,0
+
+tcl/help/helpV.tcl,0
+
+tcl/help/helpU.tcl,0
+
+tcl/help/helpT.tcl,0
+
+tcl/help/helpS.tcl,0
+
+tcl/help/helpR.tcl,0
+
+tcl/help/helpQ.tcl,0
+
+tcl/help/helpPL.tcl,0
+
+tcl/help/helpO.tcl,0
+
+tcl/help/helpN.tcl,0
+
+tcl/help/helpM.tcl,0
+
+tcl/help/helpL.tcl,0
+
+tcl/help/helpKO.tcl,0
+
+tcl/help/helpK.tcl,0
+
+tcl/help/helpJ.tcl,0
+
+tcl/help/helpI.tcl,0
+
+tcl/help/helpHI.tcl,0
+
+tcl/help/helpH.tcl,0
+
+tcl/help/helpG.tcl,0
+
+tcl/help/helpF.tcl,0
+
+tcl/help/helpD.tcl,0
+
+tcl/help/helpC.tcl,0
+
+tcl/help/helpBN.tcl,0
+
+tcl/help/helpBG.tcl,0
+
+tcl/help/helpB.tcl,0
+
+tcl/help/helpA.tcl,0
+
+tcl/help/help.tcl,0
+
+tcl/contrib/ezsmtp/postinst.tcl,0
