@@ -70,7 +70,8 @@ GPL-2.0-or-later. Their 2CBH and CBH layouts are derived from
 oschess-cb-bridge v1.0.3 (https://github.com/asavis/oschess-cb-bridge,
 commit bffebfc4), which is MIT-licensed, Copyright (c) 2026 the
 oschess-cb-bridge contributors. The MIT notice is reproduced in
-docs/third-party-notices.md.
+third-party-notices.md (in docs/ in the source tree, installed beside
+this file).
 
 The only files in scidCommunity NOT distributed under the GPL (since
 they have a different author and copyright, but they are freely 
