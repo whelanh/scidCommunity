@@ -138,7 +138,10 @@ void parseAnnotations(Bytes record, uint32_t gameId,
 			return;
 		}
 		i += size;
-		++count;
+		if (++count > cb2::kMaxDecodedAnnotations) {
+			out.stopped = "too many annotations";
+			return;
+		}
 		if (a.kind == cb2::Annotation::Other)
 			continue;
 		if (out.blocks.empty() || out.blocks.back().position != position)

@@ -418,6 +418,7 @@ int annotation(Reader& r, uint16_t t, Annotation& a) {
 void parseAnnotations(Bytes content, GameAnnotations& out) {
 	out = {};
 	Reader r{content};
+	size_t decoded = 0;
 	while (true) {
 		int32_t position;
 		if (!r.i32(position))
@@ -439,6 +440,11 @@ void parseAnnotations(Bytes content, GameAnnotations& out) {
 			r.fail("annotation count out of range");
 			break;
 		}
+		if (++decoded + size_t(count) > kMaxDecodedAnnotations) {
+			r.fail("too many annotations");
+			break;
+		}
+		decoded += size_t(count);
 		out.blocks.push_back({position, {}});
 		auto& items = out.blocks.back().items;
 		for (int32_t k = 0; k < count; ++k) {

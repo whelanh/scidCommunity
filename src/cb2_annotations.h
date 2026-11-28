@@ -33,6 +33,10 @@ namespace cb2 {
 
 /// The tag of an annotation record's frame.
 constexpr uint16_t kAnnotationTag = 0x2000;
+/// The most blocks and annotations, together, decoded from one record: each
+/// takes far more memory than its few bytes, and a Scid game, 128 KB, holds
+/// much less.
+constexpr size_t kMaxDecodedAnnotations = size_t(1) << 18;
 /// The position of the annotations of the game as a whole.
 constexpr int32_t kGamePosition = -1;
 

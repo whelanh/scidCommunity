@@ -1016,6 +1016,22 @@ TEST(Test_CB2Annotations, a_quote_cut_after_its_move_count_is_reported) {
 	EXPECT_EQ(1u, codec.counts().incomplete) << codec.parseErrors();
 }
 
+TEST(Test_CB2Annotations, the_number_decoded_from_a_record_is_bounded) {
+	// Symbols, 5 bytes each: a 64 MiB frame would decode to over 1 GB.
+	const auto record = [](size_t n) {
+		return annRecord(
+		    {annBlock(0, std::vector<Buf>(n, annSymbols(1)))});
+	};
+	cb2::GameAnnotations out;
+	const auto within = record(cb2::kMaxDecodedAnnotations - 1);
+	cb2::parseAnnotations(within, out);
+	EXPECT_EQ(nullptr, out.stopped);
+	const auto over = record(cb2::kMaxDecodedAnnotations);
+	cb2::parseAnnotations(over, out);
+	ASSERT_NE(nullptr, out.stopped);
+	EXPECT_STREQ("too many annotations", out.stopped);
+}
+
 TEST(Test_CB2Moves, trees_a_scid_game_cannot_hold_are_skipped) {
 	Fixture fx;
 	auto knights = [](size_t plies) {

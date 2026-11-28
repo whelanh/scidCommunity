@@ -432,6 +432,25 @@ TEST(Test_CBHAnnotations, a_count_that_disagrees_is_reported) {
 	EXPECT_EQ(nullptr, out.stopped);
 }
 
+TEST(Test_CBHAnnotations, the_number_decoded_from_a_record_is_bounded) {
+	const auto item = annotation(0, 0x03, {1});
+	const auto parse = [&](size_t n) {
+		Buf record;
+		addBE(record, 7, 3);
+		addBytes(record, {1, 0, 0x0e, 0x0e});
+		addBE(record, n + 1, 3);
+		addBE(record, n * item.size() + 14, 4);
+		for (size_t i = 0; i < n; ++i)
+			addBytes(record, item);
+		cb2::GameAnnotations out;
+		cbh::parseAnnotations(record, 7, out);
+		return std::string(out.stopped ? out.stopped : "");
+	};
+	EXPECT_EQ("", parse(cb2::kMaxDecodedAnnotations));
+	EXPECT_EQ("too many annotations",
+	          parse(cb2::kMaxDecodedAnnotations + 1));
+}
+
 TEST(Test_CBHCodec, a_database_under_uppercase_names_opens) {
 	// Tells something only on a case-sensitive file system (Linux CI).
 	Fixture fx;
