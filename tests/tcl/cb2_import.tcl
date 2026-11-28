@@ -160,9 +160,9 @@ check "a missing database is an error" [catch {sc_base import $h2 "${stem}_missi
 sc_base close $h2
 sc_base close $h
 
-# The import window (Tools > Import Games from PGN Files...) sends a .2cbh
-# file to sc_base import, since sc_base import_nodup reads PGN only. The real
-# importPgnFile runs with the GUI helpers it calls stubbed.
+# The import window (Database > Import Games from PGN/ChessBase Files...)
+# sends a .2cbh file to sc_base import, since sc_base import_nodup reads PGN
+# only. The real importPgnFile runs with the GUI helpers it calls stubbed.
 package require Tk
 wm withdraw .
 namespace eval win { proc createDialog {w} { toplevel $w } }
