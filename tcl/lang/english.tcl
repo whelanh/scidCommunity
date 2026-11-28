@@ -287,6 +287,8 @@ menuText E ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
 menuText E ToolsImportOne "Import One PGN Game..." 0 \
   {Import a game from PGN text}
 menuText E ToolsImportFile "Import Games from PGN/ChessBase Files..." 7 {Import games from PGN files or ChessBase databases}
+menuText E ToolsConvertFolder "Convert a Folder to Scid Databases..." 0 \
+  {Create a Scid database from each PGN and ChessBase file in a folder}
 menuText E FileImportRTF "Import RTF Game..." 0 \
   {Import a game from an RTF file created by scidCommunity}
 menuText E ToolsStartEngine1 "Start engine 1" 13  {Start engine 1}
@@ -2382,6 +2384,18 @@ translate E ImportingFiles {Importing PGN files in}
 translate E ImportingFrom {Importing from}
 translate E ImportingIn {Import games in}
 translate E ChessBaseDatabases {ChessBase databases}
+translate E ConvertFolderTitle {Convert a Folder to Scid Databases}
+translate E SourceFolder {Source folder:}
+translate E DestinationFolder {Destination folder:}
+translate E KeepFolderStructure {Keep the folder structure}
+translate E KeepFolderStructureHelp {Each subfolder of the source gets the same subfolder in the destination.}
+translate E AllInOneFolder {All in one folder}
+translate E AllInOneFolderHelp {Every database goes straight into the destination folder; repeated names get _2, _3...}
+translate E ConvertFolderNote {Every .pgn and .2cbh file, subfolders included, becomes a new Scid database (.si5). Databases already in the destination are left untouched.}
+translate E Convert {Convert}
+translate E ChooseBothFolders {Choose an existing source folder and an existing destination folder.}
+translate E AlreadyExistsSkipped {skipped, already exists}
+translate E ConvertFolderDone {Databases created: %d, skipped: %d, failed: %d.}
 translate E PgnAndChessBase {PGN and ChessBase files}
 translate E CbhNotSupported {ChessBase .cbh databases (ChessBase 16 and older) cannot be imported yet.}
 translate E ImportErrorsWarnings {Errors/warnings:}

@@ -195,6 +195,57 @@ check "a .cbh database is reported and nothing is imported" \
            && [string match "*<CbhNotSupported>*" [.ipgnWin.text get 1.0 end]]}]
 sc_base close $h4
 
+# Database > Convert a Folder to Scid Databases.
+set root "${stem}_root"
+file mkdir [file join $root sub]
+set game "\[White \"A\"\]\n\[Black \"B\"\]\n\n1. e4 *\n"
+foreach rel {a.pgn sub/A.PGN sub/games.v2.pgn sub/x.txt} {
+    set fd [open [file join $root $rel] w]
+    puts $fd $game
+    close $fd
+}
+foreach ext {.2cbh .2cbg .2cba .2lid} {
+    file copy $stem$ext [file join $root a$ext]
+}
+
+proc targets {plan} {
+    lmap item $plan { string range [lindex $item 1] [string length "${::stem}_out/"] end }
+}
+set keep [targets [importFolderPlan $root "${stem}_out" 0]]
+check "the plan keeps the subfolders and numbers a repeated name" \
+    [expr {$keep eq {a a_2 sub/A sub/games.v2}}] $keep
+set flat [targets [importFolderPlan $root "${stem}_out" 1]]
+check "the flat plan numbers names that differ only in case" \
+    [expr {$flat eq {a a_2 A_3 games.v2}}] $flat
+
+proc progressBarCancel {} {}
+set ::progressCanvas(cancel) 0
+set out "${stem}_out"
+set before [sc_base current]
+importFolderRun $root $out 0
+set found {}
+foreach name {a a_2 sub/A sub/games.v2} {
+    if {[catch {sc_base open SCID5 [file join $out $name.si5]} h]} {
+        lappend found $h
+        continue
+    }
+    lappend found [sc_base numGames $h]
+    sc_base close $h
+}
+check "each file becomes a database with its game" \
+    [expr {$found eq {1 1 1 1}}] "$found\n[.ipgnWin.text get 1.0 end]"
+check "the current database is put back" [expr {[sc_base current] == $before}]
+importFolderRun $root $out 0
+set log [.ipgnWin.text get 1.0 end]
+check "a second run skips every database" \
+    [expr {[regexp -all {<AlreadyExistsSkipped>} $log] == 4}] $log
+
+# A file that cannot be imported leaves no database behind, to be retried.
+close [open [file join $root bad.2cbh] w]
+importFolderRun $root $out 0
+check "a failed import leaves no partial database" \
+    [expr {[glob -nocomplain -directory $out bad.*] eq ""}] [.ipgnWin.text get 1.0 end]
+
 foreach f [glob -nocomplain "${stem}*"] {
     catch {file delete -force $f}
 }

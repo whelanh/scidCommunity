@@ -267,6 +267,164 @@ proc importPgnFile {{base} {fnames ""}} {
   if { $autoclose } { destroy $w }
 }
 
+### Convert a folder of PGN and ChessBase files into Scid databases.
+
+# The .pgn and .2cbh files under <dir>, each as {path relativeDir}.
+proc importFolderFiles {dir {rel ""}} {
+  set found {}
+  foreach f [glob -nocomplain -directory $dir -types f *] {
+    if {[string tolower [file extension $f]] in {.pgn .2cbh}} {
+      lappend found [list $f $rel]
+    }
+  }
+  foreach d [glob -nocomplain -directory $dir -types d *] {
+    # A link to a parent folder would recurse for ever.
+    if {[file type $d] eq "link"} { continue }
+    lappend found {*}[importFolderFiles $d [file join $rel [file tail $d]]]
+  }
+  return $found
+}
+
+# What to convert: a list of {sourceFile targetStem}, one database each.
+# With <flatten> every database goes into <dest>, otherwise into the same
+# subfolder as its source. A name already taken gets _2, _3...; names are
+# compared ignoring case, as Windows and macOS do.
+proc importFolderPlan {src dest flatten} {
+  set plan {}
+  set taken [dict create]
+  foreach item [lsort -index 0 [importFolderFiles $src]] {
+    lassign $item f rel
+    if {$flatten} { set rel "" }
+    set stem [file join $dest $rel [file rootname [file tail $f]]]
+    set target $stem
+    for {set n 2} {[dict exists $taken [string tolower $target]]} {incr n} {
+      set target "${stem}_$n"
+    }
+    dict set taken [string tolower $target] 1
+    lappend plan [list $f $target]
+  }
+  return $plan
+}
+
+# Create one SCID5 database for each planned file. A database that is already
+# there is left alone, so converting again after Stop resumes the work.
+proc importFolderRun {src dest flatten} {
+  set plan [importFolderPlan $src $dest $flatten]
+  set prev [sc_base current]
+  set w .ipgnWin
+  importLogWindow $w [tr ConvertFolderTitle]
+  set created 0
+  set skipped 0
+  set failed 0
+  foreach item $plan {
+    lassign $item f target
+    # The extension is explicit: sc_base would take the ".v2" of a name
+    # like "games.v2" as the index file's own extension.
+    set si5 "$target.si5"
+    if {[file exists $si5]} {
+      incr skipped
+      $w.text configure -state normal
+      $w.text insert end "[file tail $si5]: [tr AlreadyExistsSkipped]\n\n"
+      continue
+    }
+    $w.text configure -state normal
+    if {[catch {
+      file mkdir [file dirname $target]
+      set base [sc_base create SCID5 $si5]
+    } msg]} {
+      incr failed
+      $w.text insert end "$si5\n[ERROR::getErrorMsg]\n$msg\n\n"
+      continue
+    }
+    set ::progressCanvas(cancel) 0
+    lassign [importFileToBase $w $base $f] err
+    sc_base close $base
+    if {$err == 0} {
+      incr created
+    } else {
+      # Do not keep a partial database: the next run would skip it. These
+      # files are new, since create fails if any of them exists.
+      file delete -- $si5 "$target.sg5" "$target.sn5"
+      if {$err == 1} { incr failed }
+    }
+    # A small file may import without a progress report, so handle a click
+    # on Stop here, before the next file resets the cancel flag.
+    update
+    if {$err == 3 || $::progressCanvas(cancel)} { break }
+  }
+  if {[catch { sc_base switch $prev }]} {
+    catch { sc_base switch [sc_info clipbase] }
+  }
+  $w.text configure -state normal
+  $w.text insert end "[format [tr ConvertFolderDone] $created $skipped $failed]\n"
+  $w.text see end
+  importLogDone $w
+}
+
+# The window asking what to convert, where to and how.
+proc importFolder {} {
+  set w .convertFolderWin
+  if {[winfo exists $w]} { raise $w; return }
+  win::createDialog $w
+  wm title $w "scidCommunity: [tr ConvertFolderTitle]"
+  if {![info exists ::importFolderOpt(src)]} {
+    array set ::importFolderOpt [list src "" dest "" flatten 0]
+  }
+
+  ttk::frame $w.f -padding 10
+  pack $w.f -side top -fill both -expand 1
+  set row 0
+  foreach {key label initial} {src SourceFolder pgn dest DestinationFolder base} {
+    ttk::label $w.f.l$key -text [tr $label]
+    ttk::entry $w.f.e$key -textvariable ::importFolderOpt($key) -width 50
+    ttk::button $w.f.b$key -text [tr Browse] \
+      -command [list importFolderBrowse $w $key $initial]
+    grid $w.f.l$key $w.f.e$key $w.f.b$key -row $row -sticky ew -pady 3 -padx 3
+    incr row
+  }
+  foreach {value label} {0 KeepFolderStructure 1 AllInOneFolder} {
+    ttk::radiobutton $w.f.r$value -text [tr $label] \
+      -variable ::importFolderOpt(flatten) -value $value
+    ttk::label $w.f.h$value -text [tr ${label}Help] -wraplength 450
+    grid $w.f.r$value -row $row -columnspan 3 -sticky w -pady {8 0}
+    grid $w.f.h$value -row [incr row] -columnspan 3 -sticky w -padx {24 0}
+    incr row
+  }
+  ttk::label $w.f.note -text [tr ConvertFolderNote] -wraplength 480
+  grid $w.f.note -row $row -columnspan 3 -sticky w -pady {12 0}
+  grid columnconfigure $w.f 1 -weight 1
+
+  ttk::frame $w.buttons
+  pack $w.buttons -side bottom -fill x
+  ttk::button $w.buttons.ok -text [tr Convert] -default active \
+    -command [list importFolderStart $w]
+  ttk::button $w.buttons.cancel -text [tr Cancel] -command [list destroy $w]
+  packdlgbuttons $w.buttons.cancel $w.buttons.ok
+  bind $w <Return> [list $w.buttons.ok invoke]
+  bind $w <Escape> [list $w.buttons.cancel invoke]
+  focus $w.f.esrc
+}
+
+proc importFolderBrowse {w key initial} {
+  set start $::importFolderOpt($key)
+  if {$start eq ""} { set start $::initialDir($initial) }
+  set dir [tk_chooseDirectory -parent $w -initialdir $start -mustexist 1]
+  if {$dir ne ""} { set ::importFolderOpt($key) $dir }
+}
+
+proc importFolderStart {w} {
+  set src $::importFolderOpt(src)
+  set dest $::importFolderOpt(dest)
+  # "file isdirectory" is false for an empty name.
+  if {![file isdirectory $src] || ![file isdirectory $dest]} {
+    tk_messageBox -parent $w -icon warning -type ok \
+      -title [tr ConvertFolderTitle] -message [tr ChooseBothFolders]
+    return
+  }
+  destroy $w
+  importFolderRun $src $dest $::importFolderOpt(flatten)
+}
+
 ### Import a PGN file into a chosen database, skipping duplicate games.
 #
 #   Prompts the user to pick a destination database (the clipbase or any
