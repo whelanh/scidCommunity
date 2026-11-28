@@ -2365,6 +2365,7 @@ translate I ConvertFolderNote {Ogni file .pgn, .2cbh e .cbh, sottocartelle compr
 translate I Convert {Converti}
 translate I ChooseBothFolders {Scegli una cartella di origine e una di destinazione esistenti.}
 translate I AlreadyExistsSkipped {saltato, esiste già}
+translate I CannotRemoveFile {Impossibile rimuovere un file di un database incompleto:}
 translate I ConvertFolderDone {Database creati: %d, saltati: %d, falliti: %d.}
 translate I PgnAndChessBase {File PGN e ChessBase}
 translate I ImportErrorsWarnings {Errori/avvisi:}

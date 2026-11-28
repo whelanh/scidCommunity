@@ -2395,6 +2395,7 @@ translate E ConvertFolderNote {Every .pgn, .2cbh and .cbh file, subfolders inclu
 translate E Convert {Convert}
 translate E ChooseBothFolders {Choose an existing source folder and an existing destination folder.}
 translate E AlreadyExistsSkipped {skipped, already exists}
+translate E CannotRemoveFile {Could not remove a partial database file:}
 translate E ConvertFolderDone {Databases created: %d, skipped: %d, failed: %d.}
 translate E PgnAndChessBase {PGN and ChessBase files}
 translate E ImportErrorsWarnings {Errors/warnings:}

@@ -167,7 +167,10 @@ package require Tk
 wm withdraw .
 namespace eval win { proc createDialog {w} { toplevel $w } }
 namespace eval notify { proc DatabaseModified {args} {} }
-namespace eval ERROR { proc getErrorMsg {} { return "error" } }
+namespace eval ERROR {
+    variable UserCancel 2
+    proc getErrorMsg {} { return "error" }
+}
 proc autoscrollText {bars frame text style} { ttk::frame $frame; text $text; pack $text -in $frame }
 proc progressBarSet {args} {}
 proc busyCursor {args} {}
@@ -296,6 +299,46 @@ close [open [file join $root bad.2cbh] w]
 importFolderRun $root $out 0
 check "a failed import leaves no partial database" \
     [expr {[glob -nocomplain -directory $out bad.*] eq ""}] [.ipgnWin.text get 1.0 end]
+
+# A creation refused because of a leftover file removes only what it made.
+set fd [open [file join $root orphan.pgn] w]
+puts $fd $game
+close $fd
+close [open [file join $out orphan.sg5] w]
+importFolderRun $root $out 0
+set left [glob -nocomplain -tails -directory $out orphan.s?5]
+check "a refused creation keeps the file that was there and leaves no other" \
+    [expr {$left eq "orphan.sg5"}] $left
+
+# A partial database that cannot be removed is reported; the run goes on.
+rename file real_file
+proc file {args} {
+    if {[lindex $args 0] eq "delete"} { error "held by another program" }
+    uplevel 1 [list real_file {*}$args]
+}
+set code [catch {importFolderRun $root $out 0} msg]
+rename file {}
+rename real_file file
+set log [.ipgnWin.text get 1.0 end]
+check "a file that cannot be removed is reported and the run finishes" \
+    [expr {!$code && [string first "<CannotRemoveFile> held by" $log] >= 0
+           && [.ipgnWin.buttons.close cget -state] eq "normal"}] "$msg\n$log"
+
+# Stop reaches Tcl as an error with the UserCancel code: no further file is read.
+rename sc_base real_sc_base
+set ::asked 0
+proc sc_base {cmd args} {
+    if {$cmd ne "import"} { return [uplevel 1 [list real_sc_base $cmd {*}$args]] }
+    incr ::asked
+    return -code error -errorcode $::ERROR::UserCancel "user cancel"
+}
+set h5 [real_sc_base create SCID5 "${stem}_db5"]
+importPgnFile $h5 [list "${stem}.2cbh" "${stem}.2cbh"]
+rename sc_base {}
+rename real_sc_base sc_base
+check "Stop ends the import of several files" \
+    [expr {$::asked == 1 && [string first INTERRUPTED [.ipgnWin.text get 1.0 end]] >= 0}] $::asked
+sc_base close $h5
 
 foreach f [glob -nocomplain "${stem}*"] {
     catch {file delete -force $f}

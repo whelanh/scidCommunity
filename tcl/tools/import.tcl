@@ -204,6 +204,11 @@ proc importFileToBase {w base fname} {
     set err [catch {sc_base import_nodup $base $fname} result]
   }
   $w.text configure -state normal
+  # Stop comes back from sc_base as an error: it must end the whole run.
+  if {$err == 1 && $::errorCode == $::ERROR::UserCancel} {
+    $w.text insert end "INTERRUPTED\n\n"
+    return {3 0}
+  }
   if {$err == 1} {
     $w.text insert end "[ERROR::getErrorMsg]\n$result\n\n"
     return {1 0}
@@ -308,6 +313,17 @@ proc importFolderPlan {src dest flatten} {
   return $plan
 }
 
+# Delete <files>, reporting in the log window <w> what cannot be removed (a
+# sync client or an antivirus may hold a file) so that the run goes on.
+proc importRemoveFiles {w files} {
+  foreach f $files {
+    if {[catch {file delete -- $f} msg]} {
+      $w.text configure -state normal
+      $w.text insert end "[tr CannotRemoveFile] $msg\n\n"
+    }
+  }
+}
+
 # Create one SCID5 database for each planned file. A database that is already
 # there is left alone, so converting again after Stop resumes the work.
 proc importFolderRun {src dest flatten} {
@@ -330,12 +346,18 @@ proc importFolderRun {src dest flatten} {
       continue
     }
     $w.text configure -state normal
+    # What a failed creation or import may remove: only what this run makes.
+    set new {}
+    foreach part [list $si5 "$target.sg5" "$target.sn5"] {
+      if {![file exists $part]} { lappend new $part }
+    }
     if {[catch {
       file mkdir [file dirname $target]
       set base [sc_base create SCID5 $si5]
     } msg]} {
       incr failed
       $w.text insert end "$si5\n[ERROR::getErrorMsg]\n$msg\n\n"
+      importRemoveFiles $w $new
       continue
     }
     set ::progressCanvas(cancel) 0
@@ -344,9 +366,8 @@ proc importFolderRun {src dest flatten} {
     if {$err == 0} {
       incr created
     } else {
-      # Do not keep a partial database: the next run would skip it. These
-      # files are new, since create fails if any of them exists.
-      file delete -- $si5 "$target.sg5" "$target.sn5"
+      # Do not keep a partial database: the next run would skip it.
+      importRemoveFiles $w $new
       if {$err == 1} { incr failed }
     }
     # A small file may import without a progress report, so handle a click
