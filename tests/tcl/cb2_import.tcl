@@ -187,6 +187,14 @@ check "the import window reports it without the PGN wording" \
            && ![string match "*Pgn*" $log]}] $log
 sc_base close $h3
 
+# A .cbh database is reported, not read as PGN, and the window stays open.
+set h4 [sc_base create SCID5 "${stem}_db4"]
+importPgnFile $h4 [list "${stem}.cbh"]
+check "a .cbh database is reported and nothing is imported" \
+    [expr {[winfo exists .ipgnWin] && [sc_base numGames $h4] == 0
+           && [string match "*<CbhNotSupported>*" [.ipgnWin.text get 1.0 end]]}]
+sc_base close $h4
+
 foreach f [glob -nocomplain "${stem}*"] {
     catch {file delete -force $f}
 }

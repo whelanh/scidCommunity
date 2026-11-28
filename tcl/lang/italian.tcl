@@ -251,8 +251,8 @@ menuText I ToolsExpFilterRTF "Esporta filtro in file RTF..." 17 \
   {Scrivi tutti i giochi filtrati in un file RTF preservando la formattazione dei commenti}
 menuText I ToolsImportOne "Importa una partita in formato PGN..." 0 \
   {Importa una partita da testo PGN}
-menuText I ToolsImportFile "Importa partite da files PGN..." 27 \
-  {Importa le partite da uno o più file PGN}
+menuText I ToolsImportFile "Importa partite da file PGN/ChessBase..." 26 \
+  {Importa le partite da file PGN o database ChessBase}
 menuText I FileImportRTF "Importa gioco RTF..." 0 \
   {Importa un gioco da un file RTF creato da scidCommunity}
 menuText I ToolsStartEngine1 "Avvia il motore 1" 16  {Avvia il primo motore per l'analisi della posizione}
@@ -2352,6 +2352,8 @@ translate I ImportingFiles {Importazione di file PGN in}
 translate I ImportingFrom {Importazione da}
 translate I ImportingIn {Importa giochi in}
 translate I ChessBaseDatabases {Database ChessBase}
+translate I PgnAndChessBase {File PGN e ChessBase}
+translate I CbhNotSupported {I database ChessBase .cbh (ChessBase 16 e precedenti) non possono ancora essere importati.}
 translate I ImportErrorsWarnings {Errori/avvisi:}
 translate I NoImportErrorsWarnings {senza errori o avvisi.}
 translate I UseLastTag {Utilizza i tag dell'ultimo\ngioco}

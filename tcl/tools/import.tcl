@@ -141,26 +141,12 @@ proc importMoveListTrans {line} {
 }
 
 
-### Import file of Pgn games:
-proc importPgnFile {{base} {fnames ""}} {
-  if {$fnames == ""} {
-      set ftypes { { "Portable Game Notation files" {".pgn" ".PGN"} } }
-    lappend ftypes [list [tr ChessBaseDatabases] {".2cbh" ".2CBH"}]
-    lappend ftypes { "Text files" {".txt" ".TXT"} }
-    lappend ftypes { "All files" {"*"} }
-
-    set fnames [tk_getOpenFile -multiple 1 -initialdir $::initialDir(pgn) -filetypes $ftypes -title "$::tr(ImportingIn) [file tail [sc_base filename $base] ]" ]
-    if {$fnames == ""} { return }
-    set ::initialDir(pgn) [file dirname [lindex $fnames 0]]
-    set autoclose 0
-  } else {
-    set autoclose 1
-  }
-  
-  set w .ipgnWin
+### The log window of a file import: a progress bar, Stop and Close, and the
+### text widget $w.text. It stays busy until importLogDone.
+proc importLogWindow {w title} {
   if {[winfo exists $w]} { destroy $w }
   win::createDialog $w
-  wm title $w "scidCommunity: $::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
+  wm title $w "scidCommunity: $title"
 
   ttk::frame $w.buttons
   canvas $w.progress -width 400 -height 20 -bg white -relief solid -border 1 -highlightthickness 0
@@ -176,7 +162,7 @@ proc importPgnFile {{base} {fnames ""}} {
   grid $w.progress $w.buttons.stop $w.buttons.close -in $w.buttons
   grid rowconfigure $w.buttons 0 -weight 1
   grid columnconfigure $w.buttons 0 -weight 1
-    
+
   autoscrollText both $w.t $w.text TLabel
   $w.text configure -wrap none
   grid $w.t -pady {0 10} -sticky news
@@ -187,61 +173,95 @@ proc importPgnFile {{base} {fnames ""}} {
   grab $w.buttons.stop
 
   busyCursor .
-  foreach fname $fnames {
-    $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
-    $w.text configure -state disabled
-    progressBarSet $w.progress 401 21
-    set cb2 [string equal -nocase [file extension $fname] .2cbh]
-    if {$cb2} {
-      # shortcut: no duplicate check for a ChessBase database (importGamesNoDup
-      # reads PGN only), fine for importing into a new base; add it if asked.
-      set err [catch {sc_base import $base $fname} result]
-      if {$err == 0} {
-        lassign $result nImported warnings
-        set result [list $nImported 0 0 $warnings]
-      }
-    } else {
-      set err [catch {sc_base import_nodup $base $fname} result]
-    }
-    $w.text configure -state normal
-    if {$err == 1} {
-      set autoclose 0
-      $w.text insert end "[ERROR::getErrorMsg]\n$result\n\n"
-    } else {
-      set nImported [lindex $result 0]
-      set nSkipped  [lindex $result 1]
-      set nUpdated  [lindex $result 2]
-      set warnings  [lindex $result 3]
-      set str "[tr Imported] $nImported "
-      if {$nImported == 1} { append str [tr game] } else { append str [tr games] }
-      if {$nSkipped > 0} {
-        append str ", [tr Skipped] $nSkipped "
-        if {$nSkipped == 1} { append str [tr DuplicateGame] } else { append str [tr DuplicateGames] }
-      }
-      if {$nUpdated > 0} {
-        append str ", [tr Updated] $nUpdated "
-        if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
-      }
-      if {$warnings == ""} {
-        append str " [tr [expr {$cb2 ? "NoImportErrorsWarnings" : "NoPgnErrorsWarnings"}]]"
-      } else {
-        set autoclose 0
-        append str ".\n[tr [expr {$cb2 ? "ImportErrorsWarnings" : "PgnErrorsWarnings"}]]\n$warnings"
-      }
-      $w.text insert end "$str\n\n"
-      if {$err == 3} {
-        $w.text insert end ".\nINTERRUPTED\n"
-        set autoclose 0
-        break
-      }
-    }
-  }
-  unbusyCursor .
+}
 
+proc importLogDone {w} {
+  unbusyCursor .
   $w.text configure -state disabled
   $w.buttons.close configure -state normal
   $w.buttons.stop configure -state disabled
   grab release $w.buttons.stop
+}
+
+### Import one file into <base>, writing the outcome to the log window <w>.
+#   Returns {code clean}: code is 0 (done), 1 (error) or 3 (interrupted),
+#   clean is false when there is something the user should read.
+proc importFileToBase {w base fname} {
+  $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
+  set ext [string tolower [file extension $fname]]
+  if {$ext eq ".cbh"} {
+    # Not readable yet, and read as PGN it would give garbage.
+    $w.text insert end "[tr CbhNotSupported]\n\n"
+    return {1 0}
+  }
+  $w.text configure -state disabled
+  progressBarSet $w.progress 401 21
+  set cb2 [expr {$ext eq ".2cbh"}]
+  if {$cb2} {
+    # shortcut: no duplicate check for a ChessBase database (importGamesNoDup
+    # reads PGN only), fine for importing into a new base; add it if asked.
+    set err [catch {sc_base import $base $fname} result]
+    if {$err == 0} {
+      lassign $result nImported warnings
+      set result [list $nImported 0 0 $warnings]
+    }
+  } else {
+    set err [catch {sc_base import_nodup $base $fname} result]
+  }
+  $w.text configure -state normal
+  if {$err == 1} {
+    $w.text insert end "[ERROR::getErrorMsg]\n$result\n\n"
+    return {1 0}
+  }
+  lassign $result nImported nSkipped nUpdated warnings
+  set str "[tr Imported] $nImported "
+  if {$nImported == 1} { append str [tr game] } else { append str [tr games] }
+  if {$nSkipped > 0} {
+    append str ", [tr Skipped] $nSkipped "
+    if {$nSkipped == 1} { append str [tr DuplicateGame] } else { append str [tr DuplicateGames] }
+  }
+  if {$nUpdated > 0} {
+    append str ", [tr Updated] $nUpdated "
+    if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
+  }
+  if {$warnings == ""} {
+    append str " [tr [expr {$cb2 ? "NoImportErrorsWarnings" : "NoPgnErrorsWarnings"}]]"
+  } else {
+    append str ".\n[tr [expr {$cb2 ? "ImportErrorsWarnings" : "PgnErrorsWarnings"}]]\n$warnings"
+  }
+  $w.text insert end "$str\n\n"
+  if {$err == 3} {
+    $w.text insert end ".\nINTERRUPTED\n"
+    return {3 0}
+  }
+  return [list 0 [expr {$warnings == ""}]]
+}
+
+### Import file of Pgn or ChessBase games:
+proc importPgnFile {{base} {fnames ""}} {
+  if {$fnames == ""} {
+    set ftypes [list [list [tr PgnAndChessBase] {.pgn .PGN .2cbh .2CBH .cbh .CBH}]]
+    lappend ftypes { "Portable Game Notation files" {".pgn" ".PGN"} }
+    lappend ftypes [list [tr ChessBaseDatabases] {.2cbh .2CBH .cbh .CBH}]
+    lappend ftypes { "Text files" {".txt" ".TXT"} }
+    lappend ftypes { "All files" {"*"} }
+
+    set fnames [tk_getOpenFile -multiple 1 -initialdir $::initialDir(pgn) -filetypes $ftypes -title "$::tr(ImportingIn) [file tail [sc_base filename $base] ]" ]
+    if {$fnames == ""} { return }
+    set ::initialDir(pgn) [file dirname [lindex $fnames 0]]
+    set autoclose 0
+  } else {
+    set autoclose 1
+  }
+  
+  set w .ipgnWin
+  importLogWindow $w "$::tr(ImportingFiles) [file tail [sc_base filename $base] ]"
+  foreach fname $fnames {
+    lassign [importFileToBase $w $base $fname] err clean
+    if {!$clean} { set autoclose 0 }
+    if {$err == 3} { break }
+  }
+  importLogDone $w
 
   after idle "::notify::DatabaseModified $base"
   if { $autoclose } { destroy $w }

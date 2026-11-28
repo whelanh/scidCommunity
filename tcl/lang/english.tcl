@@ -286,7 +286,7 @@ menuText E ToolsExpFilterRTF "Export Filter to RTF File..." 17 \
   {Write all filtered games to an RTF file preserving comment formatting}
 menuText E ToolsImportOne "Import One PGN Game..." 0 \
   {Import a game from PGN text}
-menuText E ToolsImportFile "Import Games from PGN Files..." 7 {Import games from PGN file(s)}
+menuText E ToolsImportFile "Import Games from PGN/ChessBase Files..." 7 {Import games from PGN files or ChessBase databases}
 menuText E FileImportRTF "Import RTF Game..." 0 \
   {Import a game from an RTF file created by scidCommunity}
 menuText E ToolsStartEngine1 "Start engine 1" 13  {Start engine 1}
@@ -2382,6 +2382,8 @@ translate E ImportingFiles {Importing PGN files in}
 translate E ImportingFrom {Importing from}
 translate E ImportingIn {Import games in}
 translate E ChessBaseDatabases {ChessBase databases}
+translate E PgnAndChessBase {PGN and ChessBase files}
+translate E CbhNotSupported {ChessBase .cbh databases (ChessBase 16 and older) cannot be imported yet.}
 translate E ImportErrorsWarnings {Errors/warnings:}
 translate E NoImportErrorsWarnings {with no errors or warnings.}
 translate E UseLastTag {Use last\ngame's tags}
