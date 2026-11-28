@@ -20,6 +20,8 @@
 #include "misc.h"
 #include "movelist.h"
 #include <algorithm>
+#include <cstdio>
+#include <optional>
 
 namespace {
 
@@ -291,7 +293,215 @@ const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
 	return nullptr;
 }
 
-const char* CodecCB2::writeTree(Game& game) {
+namespace {
+
+/// A text fit for a PGN comment: no braces, no control characters, single
+/// spaces.
+std::string cleanText(std::string_view text) {
+	std::string res;
+	res.reserve(text.size());
+	bool space = false;
+	for (unsigned char c : text) {
+		if (c == '{')
+			c = '(';
+		else if (c == '}')
+			c = ')';
+		if (c < 0x20 || c == 0x7f || c == ' ') {
+			space = !res.empty();
+			continue;
+		}
+		if (space)
+			res += ' ';
+		space = false;
+		res += char(c);
+	}
+	return res;
+}
+
+void appendPart(std::string& dest, std::string_view part) {
+	if (part.empty())
+		return;
+	if (!dest.empty())
+		dest += ' ';
+	dest += part;
+}
+
+using Anns = std::vector<const cb2::Annotation*>;
+
+/// A game's annotations by position, written as Scid comments and NAGs the
+/// way ChessBase writes them in its own PGN: one language for the texts,
+/// `[%csl]`/`[%cal]` for coloured squares and arrows, `[%mdl]` for medals and
+/// `[%evp]` for the evaluation profile.
+class Commentary {
+	std::vector<Anns> byPosition_;
+	Anns game_;
+	/// Annotations past the last move, in order: they follow the main line's
+	/// last move.
+	Anns pastEnd_;
+	int language_ = -1;
+
+public:
+	Commentary(const cb2::GameAnnotations& a, size_t plies,
+	           const std::vector<uint16_t>& preferred) {
+		byPosition_.resize(plies);
+		std::vector<uint16_t> languages;
+		for (const auto& b : a.blocks) {
+			for (const auto& item : b.items) {
+				if (b.position == cb2::kGamePosition)
+					game_.push_back(&item);
+				else if (size_t(b.position) < plies)
+					byPosition_[b.position].push_back(&item);
+				else
+					pastEnd_.push_back(&item);
+				if (item.kind == cb2::Annotation::Text &&
+				    item.language != cb2::language::Any)
+					languages.push_back(item.language);
+			}
+		}
+		// The first preferred language the game has, else English, else the
+		// first one stored. Texts for any language are always written.
+		auto has = [&](uint16_t l) {
+			return std::find(languages.begin(), languages.end(), l) !=
+			       languages.end();
+		};
+		for (auto l : preferred)
+			if (language_ < 0 && has(l))
+				language_ = l;
+		if (language_ < 0 && has(cb2::language::English))
+			language_ = cb2::language::English;
+		if (language_ < 0 && !languages.empty())
+			language_ = languages.front();
+	}
+
+	/// The comment before the first move: the evaluation profile, then the
+	/// game's medals, graphics and texts; and, in a game without moves, what
+	/// would follow its last move.
+	std::string gameComment() const {
+		std::string res;
+		for (auto a : game_) {
+			if (a->kind == cb2::Annotation::Other && a->type == 0x26) {
+				auto values = cb2::evaluationProfile(a->data);
+				if (!values.empty()) {
+					res = "[%evp 0," + std::to_string(values.size() - 1);
+					for (auto v : values)
+						res += ',' + std::to_string(v);
+					res += ']';
+				}
+				break;
+			}
+		}
+		Anns all = game_;
+		if (byPosition_.empty())
+			all.insert(all.end(), pastEnd_.begin(), pastEnd_.end());
+		appendPart(res, medals(all));
+		appendPart(res, graphics(all));
+		appendPart(res, texts(all, true));
+		appendPart(res, texts(all, false));
+		return res;
+	}
+
+	/// The texts meant to precede move @p k (PGN order).
+	std::string before(uint32_t k) const {
+		return k < byPosition_.size() ? texts(byPosition_[k], true) : "";
+	}
+
+	/// Adds the NAGs and the comment that follow move @p k; @p lastMain
+	/// when it is the main line's last move.
+	void after(uint32_t k, bool lastMain, Game& game) const {
+		if (k >= byPosition_.size())
+			return;
+		const auto& own = byPosition_[k];
+		Anns all = own;
+		if (lastMain)
+			all.insert(all.end(), pastEnd_.begin(), pastEnd_.end());
+		for (auto a : all)
+			if (a->kind == cb2::Annotation::Symbols)
+				for (auto nag : a->nags)
+					if (nag)
+						game.AddNag(nag);
+		std::string res = medals(all);
+		appendPart(res, graphics(all));
+		appendPart(res, texts(own, false));
+		if (lastMain) {
+			appendPart(res, texts(pastEnd_, true));
+			appendPart(res, texts(pastEnd_, false));
+		}
+		appendPart(game.accessMoveComment(), res);
+	}
+
+private:
+	std::string texts(const Anns& anns, bool before) const {
+		std::string res;
+		for (auto a : anns) {
+			if (a->kind == cb2::Annotation::Text && a->before == before &&
+			    (a->language == cb2::language::Any ||
+			     a->language == language_))
+				appendPart(res, cleanText(a->text));
+		}
+		return res;
+	}
+
+	static std::string medals(const Anns& anns) {
+		std::string res;
+		for (auto a : anns)
+			if (a->kind == cb2::Annotation::Other && a->type == 0x22 &&
+			    a->data.size() == 4)
+				appendPart(res, "[%mdl " + std::to_string(cb2::le_u32(a->data, 0)) +
+				                    "]");
+		return res;
+	}
+
+	/// `[%csl ...]` and `[%cal ...]`, as one token when both are there.
+	/// ChessBase's colours 2, 3 and 4 are green, yellow and red; the others
+	/// have no known meaning and are left out.
+	static std::string graphics(const Anns& anns) {
+		auto colour = [](uint8_t c) -> char {
+			switch (c) {
+			case 2:
+				return 'G';
+			case 3:
+				return 'Y';
+			case 4:
+				return 'R';
+			}
+			return 0;
+		};
+		auto name = [](std::string& s, uint8_t sq) {
+			s += char('a' + sq % 8);
+			s += char('1' + sq / 8);
+		};
+		std::string squares, arrows;
+		for (auto a : anns) {
+			if (a->kind != cb2::Annotation::Squares &&
+			    a->kind != cb2::Annotation::Arrows)
+				continue;
+			const bool isArrow = a->kind == cb2::Annotation::Arrows;
+			auto& dest = isArrow ? arrows : squares;
+			for (const auto& m : a->marks) {
+				const char c = colour(m[0]);
+				if (!c)
+					continue;
+				if (!dest.empty())
+					dest += ',';
+				dest += c;
+				name(dest, m[1]);
+				if (isArrow)
+					name(dest, m[2]);
+			}
+		}
+		std::string res;
+		if (!squares.empty())
+			res = "[%csl " + squares + "]";
+		if (!arrows.empty())
+			res += "[%cal " + arrows + "]";
+		return res;
+	}
+};
+
+} // namespace
+
+const char* CodecCB2::writeTree(Game& game,
+                                const cb2::GameAnnotations* annotations) {
 	// The moves in PGN order, as the PGN reader would add them: each
 	// alternative, with everything after it, right after the move it
 	// replaces. Iterative, so that deep nesting costs heap, not stack.
@@ -301,11 +511,29 @@ const char* CodecCB2::writeTree(Game& game) {
 		uint32_t alt;
 	};
 	std::vector<Step> steps = {{Step::Line, 0, kNone}};
+
+	std::optional<Commentary> notes;
+	uint32_t lastMain = kNone;
+	if (annotations) {
+		notes.emplace(*annotations, nodes_.size() - 1, preferredLanguages_);
+		for (auto n = nodes_[0].firstChild; n != kNone;
+		     n = nodes_[n].firstChild)
+			lastMain = n;
+		appendPart(game.accessMoveComment(), notes->gameComment());
+	}
+	uint32_t index = 0; // the move's position in PGN order
 	auto add = [&](uint32_t id) {
+		if (notes)
+			appendPart(game.accessMoveComment(), notes->before(index));
 		const auto& n = nodes_[id];
 		simpleMoveT sm;
 		game.GetCurrentPos()->makeMove(n.from, n.to, n.promo, sm);
-		return game.AddMove(sm) == OK;
+		if (game.AddMove(sm) != OK)
+			return false;
+		if (notes)
+			notes->after(index, id == lastMain, game);
+		++index;
+		return true;
 	};
 	while (!steps.empty()) {
 		const auto step = steps.back();
@@ -360,7 +588,32 @@ const char* CodecCB2::readMoves(const cb2::Record& r, Game& game) {
 		return "start position not valid";
 	if (auto why = buildTree(mr, *game.GetCurrentPos()))
 		return why;
-	return writeTree(game);
+
+	// Every game record of a database with a .2cba file names an
+	// annotation record, most of them empty.
+	const auto ao = r.annotationsOffset();
+	if (!db_.hasAnnotations || ao < 12)
+		return writeTree(game, nullptr);
+	cb2::GameAnnotations ann;
+	if (auto why = cb2::readFrame(db_.annotations, ao, frame)) {
+		ann.stopped = why;
+	} else if (frame.tag != cb2::kAnnotationTag) {
+		ann.stopped = "not an annotation record";
+	} else {
+		cb2::parseAnnotations(frame.content, ann);
+	}
+	if (ann.stopped) {
+		++counts_.incomplete;
+		std::string what = "annotations: ";
+		what += ann.stopped;
+		if (ann.stoppedType) {
+			char type[16];
+			snprintf(type, sizeof type, " (type 0x%02x)", ann.stoppedType);
+			what += type;
+		}
+		logRecord(currentId_, what + "; imported with those before it");
+	}
+	return writeTree(game, &ann);
 }
 
 errorT CodecCB2::parseNext(Game& game) {
@@ -391,6 +644,7 @@ errorT CodecCB2::parseNext(Game& game) {
 		}
 
 		game.Clear();
+		currentId_ = id;
 		if (auto why = readMoves(r, game)) {
 			++counts_.damaged;
 			logRecord(id, std::string("moves: ") + why);

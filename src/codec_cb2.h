@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include "cb2_annotations.h"
 #include "cb2_format.h"
 #include "cb2_moves.h"
 #include "common.h"
@@ -42,6 +43,8 @@ class CodecCB2 {
 	std::string log_;
 	std::string summary_;
 	size_t nLogged_ = 0;
+	uint32_t currentId_ = 0;
+	std::vector<uint16_t> preferredLanguages_;
 
 	static constexpr uint32_t kNone = 0xffffffff;
 	/// A move of the tree being read: Position::makeMove()'s arguments, and
@@ -95,6 +98,14 @@ public:
 
 	const Counts& counts() const { return counts_; }
 
+	/// The languages wanted for the comments, best first, as ChessBase's
+	/// language numbers (cb2::language). A game whose texts are in none of
+	/// them gets its English texts, else those of its first language; texts
+	/// for any language are always kept.
+	void setLanguages(std::vector<uint16_t> languages) {
+		preferredLanguages_ = std::move(languages);
+	}
+
 private:
 	void logRecord(uint32_t id, std::string_view what);
 	void readTags(const cb2::Record& r, Game& game) const;
@@ -102,5 +113,5 @@ private:
 	/// position; then gives them to @p game. nullptr or what is wrong.
 	const char* readMoves(const cb2::Record& r, Game& game);
 	const char* buildTree(const cb2::MoveRecord& mr, const Position& start);
-	const char* writeTree(Game& game);
+	const char* writeTree(Game& game, const cb2::GameAnnotations* annotations);
 };

@@ -142,6 +142,57 @@ inline Buf moveContent(const std::vector<uint16_t>& tree,
 	return b;
 }
 
+/// @name Annotation records: blocks of (position, count, annotations),
+/// ended by 0x7fffffff.
+///@{
+inline Buf annText(const std::string& text, uint16_t language = 0,
+                   bool before = false) {
+	Buf b;
+	addLE(b, before ? 0x82 : 0x02, 2);
+	addLE(b, 0, 2);
+	addLE(b, language, 2);
+	addLE(b, text.size(), 4);
+	b.insert(b.end(), text.begin(), text.end());
+	return b;
+}
+inline Buf annSymbols(uint8_t move, uint8_t position = 0, uint8_t prefix = 0) {
+	return {0x03, 0x00, move, position, prefix};
+}
+/// Squares as (colour, ChessBase square from 1, file by file).
+inline Buf annMarks(uint16_t type, const Buf& items) {
+	Buf b;
+	addLE(b, type, 2);
+	addLE(b, items.size(), 4);
+	addBytes(b, items);
+	return b;
+}
+/// The square numbered from 1, file by file, that ChessBase uses: a1 1, a2 2.
+inline uint8_t cbSq(const char* s) {
+	return uint8_t((s[0] - 'a') * 8 + (s[1] - '1') + 1);
+}
+inline Buf annRaw(uint16_t type, const Buf& data) {
+	Buf b;
+	addLE(b, type, 2);
+	addBytes(b, data);
+	return b;
+}
+inline Buf annBlock(int32_t position, const std::vector<Buf>& items) {
+	Buf b;
+	addLE(b, uint32_t(position), 4);
+	addLE(b, items.size(), 4);
+	for (auto& i : items)
+		addBytes(b, i);
+	return b;
+}
+inline Buf annRecord(const std::vector<Buf>& blocks) {
+	Buf b;
+	for (auto& bl : blocks)
+		addBytes(b, bl);
+	addLE(b, 0x7fffffff, 4);
+	return b;
+}
+///@}
+
 /// A game (or another record) of a fixture database.
 struct GameSpec {
 	uint8_t byte0 = 0; ///< 0x80 deleted, 0x02 text (with kind 1)

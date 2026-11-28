@@ -411,12 +411,16 @@ std::string pgnOf(Game& g) {
 	std::string s(pgn.first, pgn.second);
 	auto body = s.find("\n\n");
 	s = body == std::string::npos ? s : s.substr(body + 2);
-	for (auto& c : s)
+	std::string res;
+	for (auto c : s) {
 		if (c == '\n')
 			c = ' ';
-	while (!s.empty() && s.back() == ' ')
-		s.pop_back();
-	return s;
+		if (c != ' ' || (!res.empty() && res.back() != ' '))
+			res += c;
+	}
+	while (!res.empty() && res.back() == ' ')
+		res.pop_back();
+	return res;
 }
 
 } // namespace
@@ -716,6 +720,176 @@ TEST(Test_CB2Moves, mutated_move_records_never_crash) {
 			CodecCB2 codec;
 			auto games = readAll(name, codec);
 			EXPECT_LE(games.size(), 1u);
+		}
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Annotations
+
+namespace {
+
+/// 1.e4 e5 2.Nf3 (2.f4 exf4) 2...Nc6: positions in PGN order are
+/// 0 e4, 1 e5, 2 Nf3, 3 f4, 4 exf4, 5 Nc6.
+std::vector<uint16_t> annotatedMoves() {
+	return {W("e2", "e4"), B("e7", "e5"), W("g1", "f3"), ALT,
+	        B("b8", "c6"), END, W("f2", "f4"), B("e5", "f4", C::Pawn), END};
+}
+
+} // namespace
+
+TEST(Test_CB2Annotations, texts_nags_and_graphics) {
+	Fixture fx;
+	auto& g = fx.game();
+	g.moves = moveContent(annotatedMoves());
+	g.annotations = annRecord({
+	    annBlock(-1, {annText("A {model} game."), annText("Ein Spiel.", 1)}),
+	    annBlock(0, {annSymbols(1, 0, 0), annText("Best by test.")}),
+	    annBlock(2, {annText("The main move.", 0, true),
+	                 annMarks(0x04, {2, cbSq("e5"), 4, cbSq("d4"), 9, 1}),
+	                 annMarks(0x05, {3, cbSq("f3"), cbSq("e5")})}),
+	    annBlock(3, {annText("Sharp.", 7, true), annSymbols(5, 13, 0),
+	                 annText("Gambit!", 0)}),
+	    annBlock(5, {annText("\tDefending\r\n  e5.  ", 0)}),
+	});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	EXPECT_EQ(0u, codec.counts().incomplete) << codec.parseErrors();
+	EXPECT_EQ("{A (model) game.} 1.e4 $1 {Best by test.} 1...e5 "
+	          "{The main move.} 2.Nf3 {[%csl Ge5,Rd4][%cal Yf3e5]} "
+	          "( {Sharp.} 2.f4 $5 $13 {Gambit!} 2...exf4 ) 2...Nc6 "
+	          "{Defending e5.} 1-0",
+	          pgnOf(games[0]));
+}
+
+TEST(Test_CB2Annotations, one_language_is_chosen) {
+	Fixture fx;
+	auto add = [&](std::vector<Buf> texts) {
+		auto& g = fx.game();
+		g.moves = moveContent({W("e2", "e4"), END});
+		g.annotations = annRecord({annBlock(0, texts)});
+	};
+	add({annText("Gut.", 1), annText("Good.", 0), annText("Bene.", 4),
+	     annText("!!", 7)});
+	add({annText("Gut.", 1), annText("Bien.", 2)});
+	{
+		CodecCB2 codec;
+		auto games = readAll(fx.write(), codec);
+		ASSERT_EQ(2u, games.size());
+		EXPECT_EQ("1.e4 {Good. !!} 1-0", pgnOf(games[0]));
+		EXPECT_EQ("1.e4 {Gut.} 1-0", pgnOf(games[1]));
+	}
+	{
+		CodecCB2 codec;
+		codec.setLanguages({cb2::language::Italian, cb2::language::French});
+		auto games = readAll(fx.write(), codec);
+		ASSERT_EQ(2u, games.size());
+		EXPECT_EQ("1.e4 {Bene. !!} 1-0", pgnOf(games[0]));
+		EXPECT_EQ("1.e4 {Bien.} 1-0", pgnOf(games[1]));
+	}
+}
+
+TEST(Test_CB2Annotations, past_the_end_medals_and_evaluations) {
+	Fixture fx;
+	auto& g = fx.game();
+	g.moves = moveContent(annotatedMoves());
+	Buf evp = {0x01};
+	addLE(evp, 2 + 4 * 3, 4);
+	addLE(evp, 3, 2);
+	for (auto [v, flag] : {std::pair{25, 0}, {-3, 1}, {0, 0xff}}) {
+		addLE(evp, uint16_t(int16_t(v)), 2);
+		evp.push_back(20);
+		evp.push_back(uint8_t(flag));
+	}
+	g.annotations = annRecord({
+	    annBlock(-1, {annRaw(0x26, evp)}),
+	    annBlock(5, {annRaw(0x22, {4, 0, 0, 0}), annText("Last.")}),
+	    annBlock(6, {annText("After the end.", 0, true), annSymbols(18)}),
+	    annBlock(40, {annText("Far after.")}),
+	});
+	auto& empty = fx.game(); // no moves: everything goes before them
+	empty.annotations = annRecord({annBlock(0, {annText("Nothing.")})});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(2u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("{[%evp 0,2,25,-29997,32767]} 1.e4 e5 2.Nf3 ( 2.f4 exf4 ) "
+	          "2...Nc6 $18 {[%mdl 4] Last. After the end. Far after.} 1-0",
+	          pgnOf(games[0]));
+	EXPECT_EQ("{Nothing.} 1-0", pgnOf(games[1]));
+}
+
+TEST(Test_CB2Annotations, known_types_are_skipped_unknown_ones_stop) {
+	Fixture fx;
+	auto& known = fx.game();
+	known.moves = moveContent({W("e2", "e4"), END});
+	Buf tc = {0x01};
+	tc.resize(38, 0);
+	known.annotations = annRecord({annBlock(
+	    0, {annRaw(0x07, {0, 5, 1, 0}), annRaw(0x24, tc), annRaw(0x18, {2}),
+	        annRaw(0x21, {1, 0, 0, 0, 0, 0}), annRaw(0x27, {1, 0}),
+	        annRaw(0x1c, {1, 1, 0, 0, 0, 'x', 0, 0, 0, 0}),
+	        annText("Kept.")})});
+	auto& unknown = fx.game();
+	unknown.moves = moveContent({W("e2", "e4"), B("e7", "e5"), END});
+	unknown.annotations = annRecord(
+	    {annBlock(0, {annText("Before.")}),
+	     annBlock(1, {annRaw(0x77, {1, 2, 3}), annText("Lost.")})});
+	auto& damaged = fx.game();
+	damaged.moves = moveContent({W("e2", "e4"), B("e7", "e5"), END});
+	damaged.annotations = annRecord({annBlock(0, {annText("Kept too.")})});
+	putLE(damaged.annotations, damaged.annotations.size() - 4, 1000, 4);
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(3u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 {Kept.} 1-0", pgnOf(games[0]));
+	EXPECT_EQ("1.e4 {Before.} 1...e5 1-0", pgnOf(games[1]));
+	EXPECT_EQ("1.e4 {Kept too.} 1...e5 1-0", pgnOf(games[2]));
+	EXPECT_EQ(2u, codec.counts().incomplete);
+	std::string log = codec.parseErrors();
+	EXPECT_NE(std::string::npos,
+	          log.find("(record 2) annotations: annotation of unknown layout "
+	                   "(type 0x77); imported with those before it"))
+	    << log;
+	EXPECT_NE(std::string::npos, log.find("(record 3) annotations: "));
+	EXPECT_NE(std::string::npos,
+	          log.find("2 game(s) imported without some of their annotations"));
+}
+
+TEST(Test_CB2Annotations, mutated_annotation_records_never_crash) {
+	Fixture fx;
+	auto& g = fx.game();
+	g.moves = moveContent(annotatedMoves());
+	g.annotations = annRecord({
+	    annBlock(-1, {annText("Game.")}),
+	    annBlock(0, {annSymbols(1), annText("Text.", 0, true)}),
+	    annBlock(2, {annMarks(0x04, {2, cbSq("e5")}),
+	                 annMarks(0x05, {3, cbSq("f3"), cbSq("e5")}),
+	                 annRaw(0x22, {4, 0, 0, 0})}),
+	});
+	auto name = fx.write();
+	auto stem = name.substr(0, name.size() - 5);
+	std::ifstream in(stem + ".2cba", std::ios::binary);
+	Buf cba((std::istreambuf_iterator<char>(in)), {});
+	in.close();
+	for (size_t i = 12 + 0x1a; i + 8 < cba.size(); ++i) {
+		for (uint8_t x : {0x01, 0x80, 0xff}) {
+			auto bad = cba;
+			bad[i] ^= x;
+			const auto size = le32(bad, 12 + 8);
+			if (size <= bad.size() - 12 - 0x1a) {
+				Buf content(bad.begin() + 12 + 0x1a,
+				            bad.begin() + 12 + 0x1a + size);
+				putBE(bad, 12 + 0x10, checksum(content), 8);
+			}
+			writeFile(stem + ".2cba", bad);
+			CodecCB2 codec;
+			auto games = readAll(name, codec);
+			// The moves are untouched: the game is always imported.
+			ASSERT_EQ(1u, games.size()) << i;
+			const std::vector<std::string> main = {
+			    "position startpos moves", "e2e4", "e7e5", "g1f3", "b8c6"};
+			EXPECT_EQ(main, games[0].mainLineUCI()) << i;
 		}
 	}
 }
