@@ -150,6 +150,7 @@ TEST(Test_CB2Frame, checksum_and_damage_are_checked) {
 	for (size_t i = 12; i < file.size(); ++i) {
 		auto bad = file;
 		bad[i] ^= 0x40;
+		f.close(); // Windows does not rewrite a mapped file
 		writeFile(name, bad);
 		ASSERT_EQ(OK, f.open(name));
 		auto err = cb2::readFrame(f, 12, fr);
