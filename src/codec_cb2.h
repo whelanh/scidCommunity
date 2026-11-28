@@ -27,9 +27,12 @@
 #pragma once
 
 #include "cb2_format.h"
+#include "cb2_moves.h"
 #include "common.h"
+#include "position.h"
 #include <string>
 #include <utility>
+#include <vector>
 
 class Game;
 
@@ -39,6 +42,20 @@ class CodecCB2 {
 	std::string log_;
 	std::string summary_;
 	size_t nLogged_ = 0;
+
+	static constexpr uint32_t kNone = 0xffffffff;
+	/// A move of the tree being read: Position::makeMove()'s arguments, and
+	/// the links of a first-child/next-sibling tree. Node 0 is the start.
+	struct Node {
+		squareT from = 0;
+		squareT to = 0;
+		pieceT promo = EMPTY;
+		uint32_t firstChild = kNone;
+		uint32_t lastChild = kNone;
+		uint32_t nextSibling = kNone;
+	};
+	std::vector<Node> nodes_;
+	std::vector<std::pair<Position, uint32_t>> branches_;
 
 	struct Counts {
 		uint64_t games = 0;     ///< Games produced.
@@ -53,6 +70,9 @@ class CodecCB2 {
 public:
 	/// Most detail lines parseErrors() lists; the counts cover the rest.
 	static constexpr size_t kMaxLogLines = 1000;
+	/// Most variations open at once: each keeps a saved position. The
+	/// deepest nesting measured in Mega Database 2026 is 74.
+	static constexpr size_t kMaxVariationDepth = 1024;
 
 	/// Opens the database whose .2cbh file is @p filename (UTF-8). Only
 	/// FMODE_ReadOnly is supported.
@@ -78,4 +98,9 @@ public:
 private:
 	void logRecord(uint32_t id, std::string_view what);
 	void readTags(const cb2::Record& r, Game& game) const;
+	/// Reads the moves of @p r into a tree, checking every word against the
+	/// position; then gives them to @p game. nullptr or what is wrong.
+	const char* readMoves(const cb2::Record& r, Game& game);
+	const char* buildTree(const cb2::MoveRecord& mr, const Position& start);
+	const char* writeTree(Game& game);
 };

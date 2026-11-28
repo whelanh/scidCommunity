@@ -7,11 +7,14 @@
 
 #include "cb2_fixture.h"
 #include "cb2_format.h"
+#include "cb2_moves.h"
 #include "codec_cb2.h"
 #include "date.h"
 #include "game.h"
 #include "misc.h"
 #include <deque>
+#include <set>
+#include <tuple>
 #include <filesystem>
 #include <gtest/gtest.h>
 
@@ -346,5 +349,373 @@ TEST(Test_CB2Codec, open_needs_all_files) {
 		EXPECT_NE(OK, codec.open(name.c_str(), FMODE_ReadOnly));
 		std::string log = codec.parseErrors();
 		EXPECT_NE(std::string::npos, log.find(".2lid"));
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Moves
+
+namespace {
+
+/// The square named @p s ("e4") counted a1 = 0, b1 = 1 ... h8 = 63.
+uint8_t sqOf(const char* s) { return uint8_t((s[1] - '1') * 8 + (s[0] - 'a')); }
+
+using P = cb2::Piece;
+using C = cb2::Captured;
+
+/// The move word for a move of side @p black, found by searching the
+/// reader's own table; the anchors in Test_CB2Moves.table_matches_the_format
+/// pin the table. From and to alone may fit several pieces: unless @p piece
+/// names one, a pawn is preferred, then a knight, a bishop, a rook, a king
+/// and a queen.
+uint16_t mv(bool black, const char* from, const char* to,
+            C captured = C::Nothing, int promo = -1, int piece = -1) {
+	const P order[] = {P::Pawn, P::Knight, P::Bishop,
+	                   P::Rook, P::King,   P::Queen};
+	for (auto p : order) {
+		if (piece >= 0 && int(p) != piece)
+			continue;
+		for (unsigned w = 1; w < 0xc02d; ++w) {
+			auto m = cb2::decodeMove(uint16_t(w));
+			if (m.kind == cb2::MoveWord::Normal && m.piece == p &&
+			    m.black == black && m.from == sqOf(from) &&
+			    m.to == sqOf(to) && m.captured == captured &&
+			    m.promotes == (promo >= 0) &&
+			    (promo < 0 || int(m.promotion) == promo))
+				return uint16_t(w);
+		}
+	}
+	ADD_FAILURE() << "no word for " << from << to;
+	return 0;
+}
+uint16_t W(const char* f, const char* t, C c = C::Nothing, int promo = -1) {
+	return mv(false, f, t, c, promo);
+}
+uint16_t B(const char* f, const char* t, C c = C::Nothing, int promo = -1) {
+	return mv(true, f, t, c, promo);
+}
+/// A move of a named piece.
+uint16_t Wx(P p, const char* f, const char* t, C c = C::Nothing) {
+	return mv(false, f, t, c, -1, int(p));
+}
+uint16_t Bx(P p, const char* f, const char* t, C c = C::Nothing) {
+	return mv(true, f, t, c, -1, int(p));
+}
+constexpr uint16_t ALT = 0xfffd, END = 0xffff, NUL = 0xfffa;
+constexpr uint16_t W_OOO = 0xb129, W_OO = 0xb12a, B_OOO = 0xb12b;
+
+std::string pgnOf(Game& g) {
+	g.ResetPgnStyle(PGN_STYLE_VARS | PGN_STYLE_COMMENTS);
+	g.SetPgnFormat(PGN_FORMAT_Plain);
+	auto pgn = g.WriteToPGN();
+	std::string s(pgn.first, pgn.second);
+	auto body = s.find("\n\n");
+	s = body == std::string::npos ? s : s.substr(body + 2);
+	for (auto& c : s)
+		if (c == '\n')
+			c = ' ';
+	while (!s.empty() && s.back() == ' ')
+		s.pop_back();
+	return s;
+}
+
+} // namespace
+
+TEST(Test_CB2Moves, table_matches_the_format) {
+	auto first = [](P p, bool black) {
+		for (unsigned w = 1; w < 0xc02d; ++w) {
+			auto m = cb2::decodeMove(uint16_t(w));
+			if (m.kind == cb2::MoveWord::Normal && m.piece == p &&
+			    m.black == black)
+				return w;
+		}
+		return 0u;
+	};
+	// Block boundaries as the format has them.
+	EXPECT_EQ(0x0001u, first(P::King, false));
+	EXPECT_EQ(0x09d9u, first(P::Queen, false));
+	EXPECT_EQ(0x2bf9u, first(P::Knight, false));
+	EXPECT_EQ(0x33d9u, first(P::Bishop, false));
+	EXPECT_EQ(0x40f9u, first(P::Rook, false));
+	EXPECT_EQ(0x55f9u, first(P::King, true));
+	EXPECT_EQ(0x5fd1u, first(P::Queen, true));
+	EXPECT_EQ(0x81f1u, first(P::Knight, true));
+	EXPECT_EQ(0x89d1u, first(P::Bishop, true));
+	EXPECT_EQ(0x96f1u, first(P::Rook, true));
+	EXPECT_EQ(0xabf1u, first(P::Pawn, false));
+	EXPECT_EQ(0xae8du, first(P::Pawn, true));
+	// a1-a2 is word 1, a1-b1 word 7: six words per destination.
+	auto m1 = cb2::decodeMove(1);
+	EXPECT_EQ(cb2::MoveWord::Normal, m1.kind);
+	EXPECT_EQ(sqOf("a1"), m1.from);
+	EXPECT_EQ(sqOf("a2"), m1.to);
+	EXPECT_EQ(C::Nothing, m1.captured);
+	EXPECT_EQ(C::Queen, cb2::decodeMove(2).captured);
+	EXPECT_EQ(sqOf("b1"), cb2::decodeMove(7).to);
+	// Castling words, and the four per Chess960 start position.
+	auto c = cb2::decodeMove(0xb12a);
+	EXPECT_EQ(cb2::MoveWord::Castle, c.kind);
+	EXPECT_FALSE(c.black);
+	EXPECT_TRUE(c.kingside);
+	c = cb2::decodeMove(0xb12d + 4 * 7 + 3);
+	EXPECT_EQ(cb2::MoveWord::Castle, c.kind);
+	EXPECT_TRUE(c.black);
+	EXPECT_TRUE(c.kingside);
+	EXPECT_EQ(cb2::MoveWord::Null, cb2::decodeMove(0xfffa).kind);
+	for (uint16_t w : {0, 0xc02d, 0xfffb, 0xfffc, 0xfffd, 0xffff})
+		EXPECT_EQ(cb2::MoveWord::Invalid, cb2::decodeMove(w).kind) << w;
+	// Every normal word names a different move.
+	std::set<std::tuple<int, int, int, int, int, int, int>> seen;
+	for (unsigned w = 1; w < 0xb129; ++w) {
+		auto m = cb2::decodeMove(uint16_t(w));
+		ASSERT_EQ(cb2::MoveWord::Normal, m.kind) << w;
+		EXPECT_TRUE(seen.insert({m.black, int(m.piece), m.from, m.to,
+		                         int(m.captured), m.promotes,
+		                         int(m.promotion)})
+		                .second)
+		    << w;
+	}
+	// Promotion captures: the captured piece first, then the promotion
+	// (queen, knight, bishop, rook in both).
+	const auto q = W("a7", "b8", C::Queen, int(P::Queen));
+	EXPECT_EQ(q + 1, W("a7", "b8", C::Queen, int(P::Knight)));
+	EXPECT_EQ(q + 4, W("a7", "b8", C::Knight, int(P::Queen)));
+}
+
+TEST(Test_CB2Moves, setup_piece_words) {
+	cb2::SetupPiece p;
+	ASSERT_TRUE(cb2::decodePieceWord(0xc02d, p));
+	EXPECT_EQ(sqOf("a1"), p.square);
+	EXPECT_FALSE(p.black);
+	EXPECT_EQ(P::King, p.piece);
+	ASSERT_TRUE(cb2::decodePieceWord(0xc16d, p));
+	EXPECT_TRUE(p.black);
+	EXPECT_EQ(P::King, p.piece);
+	ASSERT_TRUE(cb2::decodePieceWord(0xc2ad, p));
+	EXPECT_EQ(sqOf("a2"), p.square);
+	EXPECT_EQ(P::Pawn, p.piece);
+	ASSERT_TRUE(cb2::decodePieceWord(0xc2dd, p));
+	EXPECT_TRUE(p.black);
+	EXPECT_EQ(sqOf("a2"), p.square);
+	ASSERT_TRUE(cb2::decodePieceWord(0xc02d + 4 * 64 + 6 * 8, p));
+	EXPECT_EQ(P::Rook, p.piece);
+	EXPECT_EQ(sqOf("g1"), p.square);
+	ASSERT_TRUE(cb2::decodePieceWord(0xc30c, p));
+	EXPECT_EQ(sqOf("h7"), p.square);
+	EXPECT_FALSE(cb2::decodePieceWord(0xc02c, p));
+	EXPECT_FALSE(cb2::decodePieceWord(0xc30d, p));
+}
+
+TEST(Test_CB2Moves, chess960_start_positions) {
+	cb2::Start s;
+	s.kind = cb2::Start::Chess960;
+	s.chess960 = 518;
+	EXPECT_EQ("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w HAha - 0 1",
+	          cb2::startFen(s));
+	s.chess960 = 0;
+	EXPECT_EQ("bbqnnrkr/pppppppp/8/8/8/8/PPPPPPPP/BBQNNRKR w HFhf - 0 1",
+	          cb2::startFen(s));
+	s.chess960 = 959;
+	EXPECT_EQ("rkrnnqbb/pppppppp/8/8/8/8/PPPPPPPP/RKRNNQBB w CAca - 0 1",
+	          cb2::startFen(s));
+	s.kind = cb2::Start::Standard;
+	EXPECT_EQ("", cb2::startFen(s));
+}
+
+TEST(Test_CB2Moves, main_line_and_variations) {
+	Fixture fx;
+	// 1.e4 e5 2.Nf3 Nc6 (2...d6 3.d4 (3.Bc4) 3...exd4) (2...Nf6) 3.Bb5 a6
+	fx.game().moves = moveContent(
+	    {W("e2", "e4"), B("e7", "e5"), W("g1", "f3"), B("b8", "c6"), ALT,
+	     W("f1", "b5"), B("a7", "a6"), END,
+	     B("d7", "d6"), ALT, W("d2", "d4"), ALT,
+	     B("e5", "d4", C::Pawn), END,
+	     W("f1", "c4"), END,
+	     B("g8", "f6"), END});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 e5 2.Nf3 Nc6 ( 2...d6 3.d4 ( 3.Bc4 ) 3...exd4 ) "
+	          "( 2...Nf6 ) 3.Bb5 a6 1-0",
+	          pgnOf(games[0]));
+}
+
+TEST(Test_CB2Moves, castling_en_passant_promotion_and_null_moves) {
+	Fixture fx;
+	// 1.e4 d5 2.e5 f5 3.exf6 -- 4.fxg7 Nc6 5.gxh8=N Bh3 6.Nf3 Qd7
+	// 7.Be2 O-O-O 8.O-O
+	fx.game().moves = moveContent(
+	    {W("e2", "e4"), B("d7", "d5"), W("e4", "e5"), B("f7", "f5"),
+	     W("e5", "f6", C::EnPassant), NUL, W("f6", "g7", C::Pawn),
+	     B("b8", "c6"), W("g7", "h8", C::Rook, int(P::Knight)),
+	     B("c8", "h3"), W("g1", "f3"), Bx(P::Queen, "d8", "d7"),
+	     W("f1", "e2"), B_OOO, W_OO, END});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 d5 2.e5 f5 3.exf6 -- 4.fxg7 Nc6 5.gxh8=N Bh3 6.Nf3 Qd7 "
+	          "7.Be2 O-O-O 8.O-O 1-0",
+	          pgnOf(games[0]));
+}
+
+TEST(Test_CB2Moves, damaged_moves_skip_the_game_only) {
+	Fixture fx;
+	const auto e4 = W("e2", "e4"), e5 = B("e7", "e5");
+	struct Bad {
+		std::vector<uint16_t> words;
+		const char* why;
+	};
+	const std::vector<Bad> bad = {
+	    {{e4, W("d2", "d4"), END}, "move out of turn"},
+	    {{W("e2", "e3"), B("d7", "d6"), W("e3", "e5"), END},
+	     "no such piece on the origin square"},
+	    {{W("g1", "f3"), e5, W("f3", "e5"), END},
+	     "capture not named by the move word"},
+	    {{e4, B("d7", "d5"), W("e4", "d5", C::Queen), END},
+	     "captured piece not the one named"},
+	    {{e4, B("a7", "a6"), W("e4", "e5"), B("f7", "f6"),
+	      W("e5", "f6", C::EnPassant), END},
+	     "en passant not available"},
+	    {{W("g1", "f3"), B("b8", "c6"), W("f3", "e1"), END},
+	     "move onto an own piece"},
+	    {{W("f2", "f3"), e5, W("g2", "g4"), Bx(P::Queen, "d8", "h4"),
+	      W("a2", "a3"), END},
+	     "illegal move"},
+	    {{W_OO, END}, "illegal castling"},
+	    {{e4, e5, Wx(P::King, "e1", "e2"), B("b8", "c6"), W_OO, END},
+	     "castling without the right"},
+	    {{e4, e5, Wx(P::Queen, "d1", "h5"), B("b8", "c6"),
+	      Wx(P::Queen, "h5", "f7", C::Pawn), NUL, END},
+	     "null move in check"},
+	    {{e4, ALT, ALT, END, END}, "alternative marker not after a move"},
+	    {{ALT, e4, END}, "alternative marker not after a move"},
+	    {{e4, e5}, "move tree not terminated"},
+	    {{e4, END, e5}, "words after the final end of line"},
+	    {{e4, 0xc02d, END}, "not a move word"},
+	};
+	for (auto& b : bad)
+		fx.game().moves = moveContent(b.words);
+	fx.game().moves = moveContent({e4, e5, END});
+	fx.game().rawMoves = Buf{1, 2, 3}; // no frame at all
+	fx.game().moves = Buf{0x01};        // odd length
+	fx.game().moves = Buf{};            // empty
+	fx.game().moves = moveContent({e4, END}, {1, 0, 0}); // set-up, no kings
+	fx.game().round = 9;                // the last one is good
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(2u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 e5 1-0", pgnOf(games[0]));
+	EXPECT_STREQ("9", games[1].GetRoundStr());
+	EXPECT_EQ("1-0", pgnOf(games[1]));
+	EXPECT_EQ(bad.size() + 4, codec.counts().damaged);
+	std::string log = codec.parseErrors();
+	for (size_t i = 0; i < bad.size(); ++i) {
+		auto line = "(record " + std::to_string(i + 1) + ") moves: " +
+		            bad[i].why + "\n";
+		EXPECT_NE(std::string::npos, log.find(line)) << line << log;
+	}
+	EXPECT_NE(std::string::npos, log.find("bad magic"));
+	EXPECT_NE(std::string::npos, log.find("start position not valid"));
+}
+
+TEST(Test_CB2Moves, chess960_games) {
+	Fixture fx;
+	// Start 3: BQNNRKRB, king f1 and rooks e1 and g1. 1.Ne3 Ne6 2.O-O
+	// (the king to g1, the rook to f1) O-O.
+	auto& g = fx.game();
+	g.movesTag = 2;
+	g.moves = moveContent({Wx(P::Knight, "d1", "e3"),
+	                       Bx(P::Knight, "d8", "e6"),
+	                       uint16_t(0xb12d + 4 * 3 + 1),
+	                       uint16_t(0xb12d + 4 * 3 + 3), END},
+	                      {3});
+	auto& std960 = fx.game(); // a Chess960 game from the standard position
+	std960.movesTag = 2;
+	std960.moves = moveContent({W("e2", "e4"), END});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(2u, games.size()) << codec.parseErrors();
+	char fen[256];
+	ASSERT_TRUE(games[0].HasNonStandardStart(fen));
+	// Scid writes Chess960 castling rights as KQkq (X-FEN).
+	EXPECT_STREQ("bqnnrkrb/pppppppp/8/8/8/8/PPPPPPPP/BQNNRKRB w KQkq - 0 1",
+	             fen);
+	EXPECT_EQ("1.Ne3 Ne6 2.O-O O-O 1-0", pgnOf(games[0]));
+	EXPECT_FALSE(games[1].HasNonStandardStart());
+	EXPECT_EQ("1.e4 1-0", pgnOf(games[1]));
+}
+
+TEST(Test_CB2Moves, setup_positions) {
+	Fixture fx;
+	// White Ke1 Ra1 Rh1 Pe5, black Ke8 Pd5 (just played d7-d5); the
+	// castling rights white O-O-O, white O-O and black O-O (which the pieces
+	// do not allow); white to move, move 30, en passant on the d-file.
+	const std::vector<uint16_t> start = {
+	    30, uint16_t(0 | (1 | 2 | 8) << 8), 4,
+	    uint16_t(0xc02d + 0 * 64 + 4 * 8 + 0), // white king e1
+	    uint16_t(0xc02d + 4 * 64 + 0 * 8 + 0), // white rook a1
+	    uint16_t(0xc02d + 4 * 64 + 7 * 8 + 0), // white rook h1
+	    uint16_t(0xc2ad + 4 * 6 + 3),          // white pawn e5
+	    uint16_t(0xc16d + 0 * 64 + 4 * 8 + 7), // black king e8
+	    uint16_t(0xc2dd + 3 * 6 + 3)};         // black pawn d5
+	fx.game().moves = moveContent(
+	    {W("e5", "d6", C::EnPassant), Bx(P::King, "e8", "d7"), W_OOO, END},
+	    start);
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	char fen[256];
+	ASSERT_TRUE(games[0].HasNonStandardStart(fen));
+	EXPECT_STREQ("4k3/8/8/3pP3/8/8/8/R3K2R w KQ d6 0 30", fen);
+	EXPECT_EQ("30.exd6 Kd7 31.O-O-O 1-0", pgnOf(games[0]));
+}
+
+TEST(Test_CB2Moves, records_of_192_and_208_bytes_give_the_same_games) {
+	Fixture fx;
+	fx.game().moves = moveContent(
+	    {W("d2", "d4"), B("g8", "f6"), ALT, W("c2", "c4"), END,
+	     B("d7", "d5"), END});
+	fx.game().moves = moveContent({W("e2", "e4"), END});
+	CodecCB2 a, b;
+	auto g192 = readAll(fx.write(192, 5), a);
+	auto g208 = readAll(fx.write(208, 6), b);
+	ASSERT_EQ(2u, g192.size()) << a.parseErrors();
+	ASSERT_EQ(g192.size(), g208.size());
+	for (size_t i = 0; i < g192.size(); ++i)
+		EXPECT_EQ(pgnOf(g192[i]), pgnOf(g208[i]));
+	EXPECT_EQ("1.d4 Nf6 ( 1...d5 ) 2.c4 1-0", pgnOf(g192[0]));
+}
+
+TEST(Test_CB2Moves, mutated_move_records_never_crash) {
+	Fixture fx;
+	fx.game().moves = moveContent(
+	    {W("e2", "e4"), B("e7", "e5"), ALT, W("g1", "f3"), NUL, W("f1", "c4"),
+	     NUL, W_OO, END, B("c7", "c5"), END});
+	auto name = fx.write();
+	auto stem = name.substr(0, name.size() - 5);
+	std::ifstream in(stem + ".2cbg", std::ios::binary);
+	Buf cbg((std::istreambuf_iterator<char>(in)), {});
+	in.close();
+	{
+		CodecCB2 codec;
+		ASSERT_EQ(1u, readAll(name, codec).size()) << codec.parseErrors();
+	}
+	for (size_t i = 12; i < cbg.size(); ++i) {
+		for (uint8_t x : {0x01, 0x80, 0xff}) {
+			auto bad = cbg;
+			bad[i] ^= x;
+			// Keep the checksum right, so that the mutation reaches the
+			// move decoder instead of failing the frame check.
+			const auto size = le32(bad, 12 + 8);
+			if (size <= bad.size() - 12 - 0x1a) {
+				Buf content(bad.begin() + 12 + 0x1a,
+				            bad.begin() + 12 + 0x1a + size);
+				putBE(bad, 12 + 0x10, checksum(content), 8);
+			}
+			writeFile(stem + ".2cbg", bad);
+			CodecCB2 codec;
+			auto games = readAll(name, codec);
+			EXPECT_LE(games.size(), 1u);
+		}
 	}
 }

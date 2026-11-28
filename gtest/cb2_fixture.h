@@ -60,6 +60,10 @@ inline void putBE(Buf& b, size_t at, uint64_t v, int n) {
 	for (int i = 0; i < n; ++i)
 		b[at + i] = static_cast<uint8_t>(v >> (8 * (n - 1 - i)));
 }
+inline uint32_t le32(const Buf& b, size_t at) {
+	return uint32_t(b[at]) | uint32_t(b[at + 1]) << 8 | uint32_t(b[at + 2]) << 16 |
+	       uint32_t(b[at + 3]) << 24;
+}
 inline void addLE(Buf& b, uint64_t v, int n) { putLE(b, b.size(), v, n); }
 inline void addBE(Buf& b, uint64_t v, int n) { putBE(b, b.size(), v, n); }
 inline void addBytes(Buf& b, const Buf& v) {
