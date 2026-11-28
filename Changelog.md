@@ -13,6 +13,8 @@ The latest downloads are on the [Releases page](https://github.com/whelanh/scidC
 
 ---
 ## Unreleased
+- **Database > Convert a Folder to Scid Databases...** creates a Scid database from every `.pgn` and `.2cbh` file in a folder and its subfolders, keeping the folder structure or putting all the databases in one folder. Databases that already exist are left untouched, so a conversion that was stopped resumes when run again.
+- The game import window shows PGN and ChessBase files together by default, and says so when given a `.cbh` database (ChessBase 16 and older), which cannot be imported yet.
 - **Import Games from PGN Files...** also reads ChessBase databases (`.2cbh`, the newer ChessBase format, also used by Mega Database 2026 and 2027): games come in with their variations, comments, symbols, coloured squares and arrows and game quotations. The database is read a game at a time, so even a Mega Database of millions of games can be imported. A game with more annotations than a Scid game can hold is imported with its moves only, and the import says how many. Duplicate games are not checked for, so import into a new database. The file layout follows the [oschess-cb-bridge](docs/third-party-notices.md) notes.
 
 ## 5.1.4.79 - 28 November 2026
