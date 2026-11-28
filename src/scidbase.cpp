@@ -303,6 +303,37 @@ errorT scidBaseT::importGameHelper(const scidBaseT* srcBase, gamenumT gNum) {
 	return ERROR_FileRead;
 }
 
+namespace {
+
+/// Streams every game of @p src (a source with the interface that
+/// CodecProxy::parseGames() takes: CodecPgn) into @p dest. @p errorMsg gets
+/// the source's errors and warnings.
+template <typename TSource>
+errorT importFromSource(ICodecDatabase& dest, TSource& src,
+                        const Progress& progress, std::string& errorMsg) {
+	uint64_t nChess960Errors = 0;
+	std::vector<byte> buf;
+	auto res = CodecPgn::parseGames(progress, src, [&](Game& game) {
+		buf.clear();
+		auto [ie, tags] = game.Encode(buf);
+		auto err = dest.addGame(ie, tags, {buf.data(), buf.size()});
+		if (err == ERROR_CodecChess960) {
+			++nChess960Errors;
+			err = OK;
+		}
+		return err;
+	});
+	errorMsg = src.parseErrors();
+	if (nChess960Errors) {
+		errorMsg.append("Ignored ");
+		errorMsg.append(std::to_string(nChess960Errors));
+		errorMsg.append(" chess960 game(s).\n");
+	}
+	return res;
+}
+
+} // namespace
+
 errorT scidBaseT::importGames(ICodecDatabase::Codec dbtype,
                               const char* filename, const Progress& progress,
                               std::string& errorMsg) {
@@ -313,26 +344,8 @@ errorT scidBaseT::importGames(ICodecDatabase::Codec dbtype,
 
 	CodecPgn pgn;
 	auto res = pgn.open(filename, FMODE_ReadOnly);
-	if (res == OK) {
-		uint64_t nChess960Errors = 0;
-		std::vector<byte> buf;
-		res = CodecPgn::parseGames(progress, pgn, [&](Game& game) {
-			buf.clear();
-			auto [ie, tags] = game.Encode(buf);
-			auto err = codec_->addGame(ie, tags, {buf.data(), buf.size()});
-			if (err == ERROR_CodecChess960) {
-				++nChess960Errors;
-				err = OK;
-			}
-			return err;
-		});
-		errorMsg = pgn.parseErrors();
-		if (nChess960Errors) {
-			errorMsg.append("Ignored ");
-			errorMsg.append(std::to_string(nChess960Errors));
-			errorMsg.append(" chess960 game(s).\n");
-		}
-	}
+	if (res == OK)
+		res = importFromSource(*codec_, pgn, progress, errorMsg);
 
 	auto res_endTrans = endTransaction();
 	return (res != OK) ? res : res_endTrans;
