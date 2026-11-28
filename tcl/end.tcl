@@ -793,7 +793,7 @@ proc gameSave { gnum } {
   if {$gnum == 0} {
     wm title $w "scidCommunity: [tr GameAdd]"
     pack [ttk::frame $w.refdb] -side top -fill x -pady {0 10}
-    CreateSelectDBWidget "$w.refdb" "gameSave_toBase" [sc_base current] 0
+    CreateSelectDBWidget "$w.refdb" "gameSave_toBase" [sc_base current] 0 0
   } else {
     wm title $w "scidCommunity: [tr GameReplace]"
   }

@@ -233,7 +233,7 @@ proc ::search::material {{ref_base ""}} {
   bind $w <Return> "$w.b3.search invoke"
 
   pack [ttk::frame $w.refdb] -side top -fill x
-  CreateSelectDBWidget "$w.refdb" "refDatabaseM" "$ref_base"
+  CreateSelectDBWidget $w.refdb refDatabaseM $ref_base 1 0
 
   ttk::frame $w.mp
   ttk::labelframe $w.mp.material -text $::tr(Material)

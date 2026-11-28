@@ -507,30 +507,44 @@ proc closeProgressWindow {{force false}} {
   catch {focus $::progressWin_focus}
 }
 
-proc CreateSelectDBWidget {{w} {varname} {ref_base ""} {readOnly 1}} {
+proc CreateSelectDBWidget {{w} {varname} {ref_base ""} {readOnly 1} {includeAll 0}} {
+  # labels of dropdown rows
   set listbases {}
+  # Database ID or "all" for each dropdown row.
+  set baseIds {}
   if {$ref_base == ""} { set ref_base [sc_base current] }
   set tr_database [tr Database]
-  set tr_prefix_len [expr {[string length $tr_database] + 1}]
   set selected 0
   foreach i [sc_base list] {
       if {$readOnly || ![sc_base isReadOnly $i]} {
         set fname [::file::BaseName $i]
         if {$i == $ref_base} { set selected [llength $listbases] }
         lappend listbases "$tr_database $i: $fname"
+        lappend baseIds $i
       }
   }
 
+  if {$includeAll} {
+    lappend listbases [tr SearchAllOpenDatabases]
+    lappend baseIds all
+  }
   ttk::combobox $w.lb -values $listbases -state readonly
   grid $w.lb -sticky news
   grid columnconfigure $w 0 -weight 1
 
-  bind $w.lb <<ComboboxSelected>> "
-    set $varname \[ string index \[$w.lb get\] $tr_prefix_len \]
-  "
   $w.lb current $selected
-  event generate $w.lb <<ComboboxSelected>>
+  # Initial choice
+  uplevel #0 [list set $varname [lindex $baseIds $selected]]
+  # callback for row selection
+  bind $w.lb <<ComboboxSelected>> \
+    [list SelectDBWidgetChoice $w.lb $varname $baseIds]
 }
+
+proc SelectDBWidgetChoice {selector varname baseIds} {
+  # Write user's new choice to the same variable at global scope.
+  uplevel #0 [list set $varname [lindex $baseIds [$selector current]]]
+}
+
 proc storeEmtComment { h m s } {
     set time "[format "%d" $h]:[format "%02d" $m]:[format "%02d" $s]"
 

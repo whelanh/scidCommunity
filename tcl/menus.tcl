@@ -214,6 +214,7 @@ $m add command -label SearchMaterial -command ::search::material -accelerator "C
 $m add command -label SearchMoves -command ::search::moves
 $m add command -label SearchCQL -command ::search::cql
 $m add command -label SearchComments -command ::search::comments::Open
+$m add command -label SearchResetAll -command ::search::filter::resetAll
 $m add separator
 $m add checkbutton -label WindowsPList -variable plistWin -command ::plist::toggle -accelerator "Ctrl+Shift+P"
 $m add checkbutton -label WindowsTmt -variable tourneyWin -command ::tourney::toggle -accelerator "Ctrl+Shift+T"

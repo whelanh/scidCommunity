@@ -33,7 +33,7 @@ proc tr {tag args} { return $tag }
 namespace eval ::win {}
 proc ::win::createDialog {w {y 10}} { toplevel $w }
 proc ::setTitle {w title} { wm title $w $title }
-proc CreateSelectDBWidget {parent varname refbase} {
+proc CreateSelectDBWidget {parent varname {refbase ""} {readOnly 1} {includeAll 0}} {
     ttk::frame $parent.db
     grid $parent.db -sticky news
     set $varname 1

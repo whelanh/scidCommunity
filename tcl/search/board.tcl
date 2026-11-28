@@ -34,7 +34,12 @@ proc ::search::Open {ref_base ref_filter title create_subwnd} {
 	::setTitle $w [::tr $title]
 
 	grid [ttk::frame $w.refdb] -sticky news
-	CreateSelectDBWidget "$w.refdb" "::search::dbase_($w)" "$ref_base"
+	set includeAll [expr {$title in {HeaderSearch BoardSearch SearchMoves}}]
+	CreateSelectDBWidget $w.refdb "::search::dbase_($w)" $ref_base 1 $includeAll
+	if {$includeAll} {
+		# Append refresh so the filter label reflects the newly stored selection.
+		bind $w.refdb.lb <<ComboboxSelected>> +[list ::search::refresh_ $w]
+	}
 	trace add variable ::search::dbase_($w) write ::search::use_dbfilter_
 	set ::search::filter_($w) $ref_filter
 
@@ -168,6 +173,10 @@ proc ::search::DatabaseModified {dbase} {
 }
 
 proc ::search::refresh_ {w} {
+	if {$::search::dbase_($w) eq "all"} {
+		$w.filterOp configure -text [::tr FilterOperation]
+		return
+	}
 	if {[catch {
 		lassign [sc_filter sizes $::search::dbase_($w) $::search::filter_($w)] filterSz gameSz
 	}]} {
@@ -180,6 +189,7 @@ proc ::search::refresh_ {w} {
 
 proc ::search::use_dbfilter_ { unused1 w {unused2 ""} } {
 	set ::search::filter_($w) dbfilter
+	$w.buttons.search_new state [expr {$::search::dbase_($w) eq "all" ? "disabled" : "!disabled"}]
 }
 
 proc ::search::progressbar_ {w show_hide} {
@@ -214,45 +224,73 @@ proc ::search::start_ {new_filter w options_cmd {invert_search 0}} {
 
 	lassign [$options_cmd] options ignore_color_hack
 
-	set dest_filter [::search::search_one_ $w $dbase $src_filter $src_op $options $ignore_color_hack $invert_search $new_filter]
-	if {$dest_filter eq ""} { return }
-
-	set ::search::filter_($w) $dest_filter
-	::notify::filter $dbase $dest_filter
-
-	if {$new_filter} {
-		::windows::gamelist::Open $dbase $dest_filter
+	::search::progressbar_ $w show
+	try {
+		if {$dbase eq "all"} {
+			set databases [sc_base list]
+			set index 0
+			foreach db $databases {
+				$w.filterOp configure -text [format "%d/%d — %s" \
+					[incr index] [llength $databases] [::file::BaseName $db]]
+				# Publish this database only after all its search passes finish.
+				lassign [::search::search_one_ $w $db dbfilter $src_op $options \
+					$ignore_color_hack $invert_search 1] dest_filter err
+				if {$dest_filter eq ""} { break }
+				try {
+					if {$err} { break }
+					sc_filter copy $db dbfilter $dest_filter
+				} finally {
+					sc_filter release $db $dest_filter
+				}
+				::notify::filter $db dbfilter
+			}
+		} else {
+			# An ordinary single-database search also publishes partial results on Stop.
+			lassign [::search::search_one_ $w $dbase $src_filter $src_op $options \
+				$ignore_color_hack $invert_search $new_filter] dest_filter
+			if {$dest_filter eq ""} { return }
+			set ::search::filter_($w) $dest_filter
+			::notify::filter $dbase $dest_filter
+			if {$new_filter} {
+				::windows::gamelist::Open $dbase $dest_filter
+			}
+		}
+	} on error {msg opts} {
+		if {[dict get $opts -errorcode] ne $::ERROR::UserCancel} { ERROR::MessageBox }
+	} finally {
+		if {[winfo exists $w]} {
+			::search::progressbar_ $w hide
+			if {$dbase eq "all"} { ::search::refresh_ $w }
+		}
 	}
 }
 
+# Return the destination filter and the search error flag. A failed inverted
+# search has no destination. An ordinary search can return a partial filter.
 proc ::search::search_one_ {w dbase src_filter src_op options ignore_color_hack invert_search new_filter} {
 	if {$invert_search} {
 		set temp_filter [sc_filter new $dbase]
 		
 		# do_search_ with 'reset' computes the exact pure match into temp_filter
-		set err [catch {::search::do_search_ $dbase $temp_filter "reset" $options "::search::progressbar_ $w show"}]
+		set err [catch {::search::do_search_ $dbase $temp_filter "reset" $options $w}]
 		if {$err} {
 			sc_filter release $dbase $temp_filter
-			::search::progressbar_ $w hide
 			if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 			return
 		}
 
 		if {$ignore_color_hack ne ""} {
 			set filter_hack [sc_filter new $dbase]
-			set err [catch {::search::do_search_ $dbase $filter_hack "reset" $ignore_color_hack "::search::progressbar_ $w show"}]
+			set err [catch {::search::do_search_ $dbase $filter_hack "reset" $ignore_color_hack $w}]
 			if {$err} {
 				sc_filter release $dbase $filter_hack
 				sc_filter release $dbase $temp_filter
-				::search::progressbar_ $w hide
 				if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 				return
 			}
 			sc_filter or $dbase $temp_filter $filter_hack
 			sc_filter release $dbase $filter_hack
 		}
-		
-		::search::progressbar_ $w hide
 
 		# Invert the pure match
 		sc_filter negate $dbase $temp_filter
@@ -295,15 +333,13 @@ proc ::search::search_one_ {w dbase src_filter src_op options ignore_color_hack 
 			sc_filter copy $dbase $filter_hack $dest_filter
 		}
 
-		set err [catch {::search::do_search_ $dbase $dest_filter $src_op $options "::search::progressbar_ $w show"}]
-		::search::progressbar_ $w hide
+		set err [catch {::search::do_search_ $dbase $dest_filter $src_op $options $w}]
 		if {$err} {
 			if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 		}
 
 		if {!$err && $ignore_color_hack ne ""} {
-			set err [catch {::search::do_search_ $dbase $filter_hack $src_op $ignore_color_hack "::search::progressbar_ $w show"}]
-			::search::progressbar_ $w hide
+			set err [catch {::search::do_search_ $dbase $filter_hack $src_op $ignore_color_hack $w}]
 			if {$err} {
 				if {$::errorCode != $::ERROR::UserCancel} { ERROR::MessageBox }
 			} else {
@@ -315,10 +351,10 @@ proc ::search::search_one_ {w dbase src_filter src_op options ignore_color_hack 
 		}
 	}
 
-	return $dest_filter
+	return [list $dest_filter $err]
 }
 
-proc ::search::do_search_ {dbase filter filter_op options reset_progressbar} {
+proc ::search::do_search_ {dbase filter filter_op options w} {
 	switch $filter_op {
 		reset {
 			sc_filter reset $dbase $filter full
@@ -333,21 +369,27 @@ proc ::search::do_search_ {dbase filter filter_op options reset_progressbar} {
 	}
 
 	set tag_pairs [lsearch -all -inline -index 0 -exact $options "-tag_pair"]
-	if {[llength tag_pairs] > 0} {
-		set options [lsearch -all -inline -index 0 -not -exact $options "-tag_pair"]
-	}
-
-	{*}$reset_progressbar
-	sc_filter search $dbase $filter {*}$options -filter AND
-	foreach {elem} $tag_pairs {
-		{*}$reset_progressbar
+	set options [lsearch -all -inline -not -index 0 -exact $options "-tag_pair"]
+	set passes [list [list {*}$options -filter AND]]
+	foreach elem $tag_pairs {
 		lassign $elem -> tagName tagValue
-		sc_filter search $dbase $filter tags $tagName $tagValue
+		lappend passes [list tags $tagName $tagValue]
 	}
-
-	if {[info exists or_filter]} {
-		sc_filter or $dbase $filter $or_filter
-		sc_filter release $dbase $or_filter
+	try {
+		foreach pass $passes {
+			# Each backend call registers its own progress callback. Preserve Stop
+			# across passes, including backends that return success after a late Stop.
+			progressBarContinue $w.progressbar 301 21 0
+			if {!$::progressCanvas(cancel)} {
+				sc_filter search $dbase $filter {*}$pass
+			}
+			if {$::progressCanvas(cancel) || ![winfo exists $w]} {
+				return -code error -errorcode $::ERROR::UserCancel ""
+			}
+		}
+		if {[info exists or_filter]} { sc_filter or $dbase $filter $or_filter }
+	} finally {
+		if {[info exists or_filter]} { sc_filter release $dbase $or_filter }
 	}
 }
 
