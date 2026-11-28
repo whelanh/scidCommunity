@@ -183,6 +183,8 @@ install(DIRECTORY puzzles DESTINATION share/scid
 install(DIRECTORY scripts DESTINATION share/scid)
 install(DIRECTORY sounds DESTINATION share/scid)
 install(DIRECTORY tcl DESTINATION share/scid)
+# The licence, and the notices of ported code that must travel with binaries.
+install(FILES COPYING docs/third-party-notices.md DESTINATION share/scid)
 
 # Install desktop file, appdata, and icons
 # Rasterised PNG icons are installed instead of the scalable SVG. flatpak-builder
