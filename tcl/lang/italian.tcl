@@ -2361,13 +2361,12 @@ translate I KeepFolderStructure {Mantieni la struttura delle cartelle}
 translate I KeepFolderStructureHelp {Ogni sottocartella dell'origine ha la stessa sottocartella nella destinazione.}
 translate I AllInOneFolder {Tutto in una cartella}
 translate I AllInOneFolderHelp {Tutti i database vanno direttamente nella cartella di destinazione; i nomi ripetuti ricevono _2, _3...}
-translate I ConvertFolderNote {Ogni file .pgn e .2cbh, sottocartelle comprese, diventa un nuovo database Scid (.si5). I database già presenti nella destinazione non vengono toccati.}
+translate I ConvertFolderNote {Ogni file .pgn, .2cbh e .cbh, sottocartelle comprese, diventa un nuovo database Scid (.si5). I database già presenti nella destinazione non vengono toccati.}
 translate I Convert {Converti}
 translate I ChooseBothFolders {Scegli una cartella di origine e una di destinazione esistenti.}
 translate I AlreadyExistsSkipped {saltato, esiste già}
 translate I ConvertFolderDone {Database creati: %d, saltati: %d, falliti: %d.}
 translate I PgnAndChessBase {File PGN e ChessBase}
-translate I CbhNotSupported {I database ChessBase .cbh (ChessBase 16 e precedenti) non possono ancora essere importati.}
 translate I ImportErrorsWarnings {Errori/avvisi:}
 translate I NoImportErrorsWarnings {senza errori o avvisi.}
 translate I UseLastTag {Utilizza i tag dell'ultimo\ngioco}

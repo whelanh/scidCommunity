@@ -2391,13 +2391,12 @@ translate E KeepFolderStructure {Keep the folder structure}
 translate E KeepFolderStructureHelp {Each subfolder of the source gets the same subfolder in the destination.}
 translate E AllInOneFolder {All in one folder}
 translate E AllInOneFolderHelp {Every database goes straight into the destination folder; repeated names get _2, _3...}
-translate E ConvertFolderNote {Every .pgn and .2cbh file, subfolders included, becomes a new Scid database (.si5). Databases already in the destination are left untouched.}
+translate E ConvertFolderNote {Every .pgn, .2cbh and .cbh file, subfolders included, becomes a new Scid database (.si5). Databases already in the destination are left untouched.}
 translate E Convert {Convert}
 translate E ChooseBothFolders {Choose an existing source folder and an existing destination folder.}
 translate E AlreadyExistsSkipped {skipped, already exists}
 translate E ConvertFolderDone {Databases created: %d, skipped: %d, failed: %d.}
 translate E PgnAndChessBase {PGN and ChessBase files}
-translate E CbhNotSupported {ChessBase .cbh databases (ChessBase 16 and older) cannot be imported yet.}
 translate E ImportErrorsWarnings {Errors/warnings:}
 translate E NoImportErrorsWarnings {with no errors or warnings.}
 translate E UseLastTag {Use last\ngame's tags}

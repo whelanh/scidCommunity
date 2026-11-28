@@ -42,7 +42,7 @@ class ICodecDatabase {
 public:
 	virtual ~ICodecDatabase(){};
 
-	/// CB2 (a ChessBase 2CBH database) is a source for importGames() only: it
+	/// CB2 (a ChessBase 2CBH or CBH database) is a source for importGames() only: it
 	/// cannot be opened as a database.
 	enum Codec { MEMORY, PGN, SCID4, SCID5, CB2 };
 	/**

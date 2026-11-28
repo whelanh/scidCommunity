@@ -1,7 +1,7 @@
 # Copyright (C) 2026 Tommaso Bergamasco
 # SPDX-License-Identifier: GPL-2.0-or-later
 #
-# cb2_import.tcl -- sc_base import reads a ChessBase 2CBH database.
+# cb2_import.tcl -- sc_base import reads ChessBase 2CBH and CBH databases.
 #
 #   xvfb-run -a ./scidCommunity tests/tcl/cb2_import.tcl
 #
@@ -10,7 +10,9 @@
 # and checks the counts, the tags, a variation and a comment. The format
 # details are covered by gtest/test_codec_cb2.cpp; this checks the binary's
 # own command, which chooses the reader by the .2cbh extension, and the
-# import window's importPgnFile, which sends a .2cbh file to it.
+# import window's importPgnFile, which sends a ChessBase file to it.
+# A one-game classic CBH database, covered by gtest/test_codec_cbh.cpp, goes
+# through the import window and the folder conversion.
 
 set fails 0
 set checks 0
@@ -187,12 +189,51 @@ check "the import window reports it without the PGN wording" \
            && ![string match "*Pgn*" $log]}] $log
 sc_base close $h3
 
-# A .cbh database is reported, not read as PGN, and the window stays open.
+# A classic .cbh database: 46-byte big-endian records, entity files of
+# fixed-size records, and move bytes encrypted by encoding mode 0.
+proc field {s width} {
+    return $s[string repeat \0 [expr {$width - [string length $s]}]]
+}
+proc entityFile {records size} {
+    set b [binary format iiiiiiii [llength $records] 0 1234567890 $size 0 0 4 0]
+    foreach r $records { append b [string repeat \0 9][field $r $size] }
+    return $b
+}
+proc be3 {n} { return [string range [binary format I $n] 1 3] }
+
+set old "${stem}_old"
+# 1.e4 e5 and the end of the line; flags 0 (mode 0) and the record's size.
+set cbg [string repeat \0 26][binary format c 0][be3 7][binary format c3 {0xff 0x00 0x0e}]
+# "Old game." after 1.e4 (text, any language).
+set item "[be3 0][binary format cS 2 17][binary format cc 0 0]Old game."
+set cba [string repeat \0 26][be3 1][binary format c4 {1 0 14 14}][be3 2][binary format I [expr {14 + [string length $item]}]]$item
+set head [string repeat \0 46]
+set head [string replace $head 3 4 [binary format S 46]]
+# One game: moves at 26, annotations at 26, White 0, Black 1.
+set r [binary format cII 1 26 26][be3 0][be3 1][be3 0][be3 0xffffff][be3 0]
+append r [string repeat \0 [expr {0x1b - [string length $r]}]][binary format c 2]
+set cbh $head[field $r 46]
+set players [list [field Morphy 30][field Paul 20] [field Anderssen 30][field Adolf 20]]
+foreach {ext data} [list .cbh $cbh .cbg $cbg .cba $cba \
+        .cbp [entityFile $players 58] \
+        .cbt [entityFile [list [field Casual 40][field Paris 30]] 90] \
+        .cbc [entityFile {} 53]] {
+    set fd [open $old$ext wb]
+    puts -nonewline $fd $data
+    close $fd
+}
+
 set h4 [sc_base create SCID5 "${stem}_db4"]
-importPgnFile $h4 [list "${stem}.cbh"]
-check "a .cbh database is reported and nothing is imported" \
-    [expr {[winfo exists .ipgnWin] && [sc_base numGames $h4] == 0
-           && [string match "*<CbhNotSupported>*" [.ipgnWin.text get 1.0 end]]}]
+importPgnFile $h4 [list "${old}.cbh"]
+sc_base switch $h4
+set got ""
+if {[sc_base numGames $h4] == 1} {
+    sc_game load 1
+    set got "[sc_game tags get White] / [string map {"\n" " "} [sc_game pgn -tags 0]]"
+}
+check "the import window imports a classic .cbh database" \
+    [string match "Morphy, Paul / *1.e4 \{Old game.\} 1...e5*" $got] \
+    "$got\n[expr {[winfo exists .ipgnWin] ? [.ipgnWin.text get 1.0 end] : ""}]"
 sc_base close $h4
 
 # Database > Convert a Folder to Scid Databases.
@@ -207,16 +248,21 @@ foreach rel {a.pgn sub/A.PGN sub/games.v2.pgn sub/x.txt} {
 foreach ext {.2cbh .2cbg .2cba .2lid} {
     file copy $stem$ext [file join $root a$ext]
 }
+# The same database in both formats, and one that is only classic.
+foreach ext {.cbh .cbg .cba .cbp .cbt .cbc} {
+    file copy $old$ext [file join $root a$ext]
+    file copy $old$ext [file join $root sub old$ext]
+}
 
 proc targets {plan} {
     lmap item $plan { string range [lindex $item 1] [string length "${::stem}_out/"] end }
 }
 set keep [targets [importFolderPlan $root "${stem}_out" 0]]
-check "the plan keeps the subfolders and numbers a repeated name" \
-    [expr {$keep eq {a a_2 sub/A sub/games.v2}}] $keep
+check "the plan keeps the subfolders, numbers a repeated name and skips a .cbh twin" \
+    [expr {$keep eq {a a_2 sub/A sub/games.v2 sub/old}}] $keep
 set flat [targets [importFolderPlan $root "${stem}_out" 1]]
 check "the flat plan numbers names that differ only in case" \
-    [expr {$flat eq {a a_2 A_3 games.v2}}] $flat
+    [expr {$flat eq {a a_2 A_3 games.v2 old}}] $flat
 
 proc progressBarCancel {} {}
 set ::progressCanvas(cancel) 0
@@ -224,7 +270,7 @@ set out "${stem}_out"
 set before [sc_base current]
 importFolderRun $root $out 0
 set found {}
-foreach name {a a_2 sub/A sub/games.v2} {
+foreach name {a a_2 sub/A sub/games.v2 sub/old} {
     if {[catch {sc_base open SCID5 [file join $out $name.si5]} h]} {
         lappend found $h
         continue
@@ -233,12 +279,12 @@ foreach name {a a_2 sub/A sub/games.v2} {
     sc_base close $h
 }
 check "each file becomes a database with its game" \
-    [expr {$found eq {1 1 1 1}}] "$found\n[.ipgnWin.text get 1.0 end]"
+    [expr {$found eq {1 1 1 1 1}}] "$found\n[.ipgnWin.text get 1.0 end]"
 check "the current database is put back" [expr {[sc_base current] == $before}]
 importFolderRun $root $out 0
 set log [.ipgnWin.text get 1.0 end]
 check "a second run skips every database" \
-    [expr {[regexp -all {<AlreadyExistsSkipped>} $log] == 4}] $log
+    [expr {[regexp -all {<AlreadyExistsSkipped>} $log] == 5}] $log
 
 # A file that cannot be imported leaves no database behind, to be retried.
 close [open [file join $root bad.2cbh] w]

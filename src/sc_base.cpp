@@ -522,8 +522,8 @@ UI_res_t sc_base_getGame(scidBaseT* dbase, UI_handle_t ti, int argc,
 /**
  * sc_base_import() - import games from non-native database
  *
- * The file is read as a ChessBase 2CBH database when its name ends in
- * ".2cbh" (any case), else as a PGN file.
+ * The file is read as a ChessBase database when its name ends in ".2cbh" or
+ * ".cbh" (any case), else as a PGN file.
  *
  * Return:
  *   On success, returns a list of two elements: the number of
@@ -536,15 +536,15 @@ UI_res_t sc_base_import(scidBaseT* dbase, UI_handle_t ti, int argc,
 	if (argc != 4)
 		return UI_Result(ti, ERROR_BadArg, usage);
 
-	// A ChessBase 2CBH database (.2cbh) or, for any other name, a PGN file.
+	// A ChessBase database (.2cbh, .cbh) or, for any other name, a PGN file.
 	const auto filename = argv[3];
 	auto codec = ICodecDatabase::PGN;
 	const std::string_view fname(filename);
-	if (fname.size() > 5) {
-		std::string ext(fname.substr(fname.size() - 5));
+	if (const auto dot = fname.rfind('.'); dot != std::string_view::npos) {
+		std::string ext(fname.substr(dot));
 		for (auto& c : ext)
 			c = char(std::tolower(static_cast<unsigned char>(c)));
-		if (ext == ".2cbh")
+		if (ext == ".2cbh" || ext == ".cbh")
 			codec = ICodecDatabase::CB2;
 	}
 

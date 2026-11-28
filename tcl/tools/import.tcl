@@ -189,14 +189,9 @@ proc importLogDone {w} {
 proc importFileToBase {w base fname} {
   $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
   set ext [string tolower [file extension $fname]]
-  if {$ext eq ".cbh"} {
-    # Not readable yet, and read as PGN it would give garbage.
-    $w.text insert end "[tr CbhNotSupported]\n\n"
-    return {1 0}
-  }
   $w.text configure -state disabled
   progressBarSet $w.progress 401 21
-  set cb2 [expr {$ext eq ".2cbh"}]
+  set cb2 [expr {$ext in {.2cbh .cbh}}]
   if {$cb2} {
     # shortcut: no duplicate check for a ChessBase database (importGamesNoDup
     # reads PGN only), fine for importing into a new base; add it if asked.
@@ -269,13 +264,20 @@ proc importPgnFile {{base} {fnames ""}} {
 
 ### Convert a folder of PGN and ChessBase files into Scid databases.
 
-# The .pgn and .2cbh files under <dir>, each as {path relativeDir}.
+# The .pgn, .2cbh and .cbh files under <dir>, each as {path relativeDir}.
+# A .cbh beside a .2cbh of the same name is the same database in the older
+# format: only the .2cbh is taken.
 proc importFolderFiles {dir {rel ""}} {
   set found {}
-  foreach f [glob -nocomplain -directory $dir -types f *] {
-    if {[string tolower [file extension $f]] in {.pgn .2cbh}} {
-      lappend found [list $f $rel]
+  set files [glob -nocomplain -directory $dir -types f *]
+  set lower [lmap f $files { string tolower $f }]
+  foreach f $files {
+    set ext [string tolower [file extension $f]]
+    if {$ext ni {.pgn .2cbh .cbh}} { continue }
+    if {$ext eq ".cbh" && "[string tolower [file rootname $f]].2cbh" in $lower} {
+      continue
     }
+    lappend found [list $f $rel]
   }
   foreach d [glob -nocomplain -directory $dir -types d *] {
     # A link to a parent folder would recurse for ever.
