@@ -336,6 +336,15 @@ jobs:
       - name: Help text icons
         run: xvfb-run -a wish tests/tcl/htext_icons.tcl
 
+      # #568: the Tree window and both report windows lay their tables out by
+      # padding each field with spaces, so font_Fixed has to be one cell per
+      # character. A fontconfig substitution can answer "monospace" with a
+      # proportional face, and then every column drifts. The guard measures
+      # the font the app actually got and swaps in a family that measures
+      # fixed; the harness hands it a proportional font and checks the repair.
+      - name: Fixed-width font guard
+        run: xvfb-run -a wish tests/tcl/fixed_font.tcl
+
       # An old layout naming .analysisWin1 must draw nothing now that the
       # Analysis window has no restore door (#436 item 3).
       - name: Window layout

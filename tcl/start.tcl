@@ -705,6 +705,55 @@ proc createFonts {} {
   }
 
   set ::utils::tooltip::font font_Small
+  repairFixedFont
+}
+
+# repairFixedFont:
+#   The Tree window, the Opening Report and the Player Report lay their
+#   tables out by padding each field with spaces, so one character has to be
+#   one cell: font_Fixed must be a genuinely fixed-width font. Nothing
+#   guarantees that. Its family comes from TkFixedFont (see InitDefaultFonts
+#   in options.tcl) or from a saved fontOptions(Fixed), and a fontconfig
+#   substitution can hand back a proportional font for "monospace" - the
+#   whole desktop then renders in one serif face. In such a font a space is
+#   narrower than a digit, so every column drifts a little further right on
+#   each row and the tables become unreadable (#568).
+#
+#   So measure what we actually got and, if it is not fixed-width, fall back
+#   to the first family that measures equal for ten spaces and ten digits.
+#   The font's size, weight and slant are kept. A proportional family chosen
+#   for "Fixed" on purpose is replaced too: a fixed font that is not fixed
+#   cannot lay out those three windows. If no candidate fits, font_Fixed is
+#   left as it was.
+proc repairFixedFont {} {
+  if {![info exists ::fontOptions(Fixed)]} { return }
+  if {[isFixedWidthFont font_Fixed]} { return }
+
+  set size [font actual font_Fixed -size]
+  foreach family {
+      monospace {DejaVu Sans Mono} {Liberation Mono} {Noto Sans Mono}
+      {Ubuntu Mono} Courier {Courier New} Consolas Menlo Monaco
+  } {
+    catch {font delete ::fixedFontProbe}
+    if {[catch {font create ::fixedFontProbe -family $family -size $size}]} {
+      continue
+    }
+    set fixed [isFixedWidthFont ::fixedFontProbe]
+    catch {font delete ::fixedFontProbe}
+    if {$fixed} {
+      font configure font_Fixed -family $family
+      return
+    }
+  }
+}
+
+# isFixedWidthFont:
+#   True if a space and a digit have the same advance width. Every font that
+#   calls itself fixed-width does; a proportional font never does, however
+#   nicely its digits are tabulated.
+proc isFixedWidthFont {fontName} {
+  expr {[font measure $fontName "0000000000"]
+        == [font measure $fontName "          "]}
 }
 createFonts
 

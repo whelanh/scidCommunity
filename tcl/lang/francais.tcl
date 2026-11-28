@@ -1025,7 +1025,7 @@ translate F TreeFindStalePos {La position actuelle ne correspond plus à la posi
 # Note: the next message is the tree window title row. After editing it,
 # check the tree window to make sure it lines up with the actual columns.
 translate F TreeTitleRow \
-{Coup                          ECO        Fréquence   Score EloMoy Perf avLen AnnéeMoy %Nulle   %Victoires}
+{    Coup                      ECO       Fréquence    Score EloMoy Perf avLen AnnéeMoy %Nulle %Victoires}
 translate F TreeTotal {TOTAL}
 translate F DoYouWantToSaveFirst {Voulez-vous d'abord sauvegarder}
 translate F AddToMask {Ajouter au masque}
