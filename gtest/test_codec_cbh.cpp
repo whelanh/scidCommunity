@@ -413,6 +413,42 @@ TEST(Test_CBHAnnotations, damage_keeps_what_was_read) {
 	          std::string(codec.parseErrors()).find("square out of range"));
 }
 
+TEST(Test_CBHAnnotations, a_count_that_disagrees_is_reported) {
+	// One item, in a record whose head announces two.
+	const auto item = text(0, "kept");
+	Buf record;
+	addBE(record, 7, 3);
+	addBytes(record, {1, 0, 0x0e, 0x0e});
+	addBE(record, 3, 3);
+	addBE(record, item.size() + 14, 4);
+	addBytes(record, item);
+	cb2::GameAnnotations out;
+	cbh::parseAnnotations(record, 7, out);
+	ASSERT_NE(nullptr, out.stopped);
+	EXPECT_STREQ("annotation count disagrees with the record", out.stopped);
+	ASSERT_EQ(1u, out.blocks.size()); // what was read is kept
+	record[9] = 2;
+	cbh::parseAnnotations(record, 7, out);
+	EXPECT_EQ(nullptr, out.stopped);
+}
+
+TEST(Test_CBHCodec, a_database_under_uppercase_names_opens) {
+	// Tells something only on a case-sensitive file system (Linux CI).
+	Fixture fx;
+	fx.game();
+	const auto name = fx.write();
+	const auto stem = name.substr(0, name.size() - 4);
+	for (std::string ext : {"cbh", "cbg", "cba", "cbp", "cbt", "cbc"}) {
+		auto upper = ext;
+		for (auto& c : upper)
+			c = char(c - 'a' + 'A');
+		std::filesystem::rename(stem + "." + ext, stem + "_UP." + upper);
+	}
+	CodecCB2 codec;
+	EXPECT_EQ(1u, readAll(stem + "_UP.CBH", codec).size())
+	    << codec.parseErrors();
+}
+
 TEST(Test_CBHCodec, mutated_records_never_crash) {
 	Fixture fx;
 	auto& g = fx.game(moveRecord(compact(kVariations)));

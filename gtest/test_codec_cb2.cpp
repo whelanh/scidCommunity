@@ -996,6 +996,65 @@ TEST(Test_CB2Annotations, quotation_of_unknown_start_stops_the_decoding) {
 	EXPECT_EQ(1u, codec.counts().incomplete);
 }
 
+TEST(Test_CB2Annotations, a_quote_cut_after_its_move_count_is_reported) {
+	// One quoted move announced and four bytes left, the end marker: read as
+	// the next block, they would end the record as if nothing were missing.
+	Fixture fx;
+	auto& g = fx.game();
+	g.moves = moveContent({W("e2", "e4"), END});
+	QuoteSpec q;
+	q.whiteLast = "A";
+	q.blackLast = "B";
+	auto cut = annQuote(q);
+	cut.resize(cut.size() - 4);
+	putLE(cut, cut.size() - 4, 1, 4);
+	g.annotations = annRecord({annBlock(0, {annText("Kept."), cut})});
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(1u, games.size()) << codec.parseErrors();
+	EXPECT_EQ("1.e4 {Kept.} 1-0", pgnOf(games[0]));
+	EXPECT_EQ(1u, codec.counts().incomplete) << codec.parseErrors();
+}
+
+TEST(Test_CB2Moves, trees_a_scid_game_cannot_hold_are_skipped) {
+	Fixture fx;
+	auto knights = [](size_t plies) {
+		const uint16_t cycle[4] = {W("g1", "f3"), B("g8", "f6"),
+		                           W("f3", "g1"), B("f6", "g8")};
+		std::vector<uint16_t> words;
+		for (size_t i = 0; i < plies; ++i)
+			words.push_back(cycle[i % 4]);
+		words.push_back(END);
+		return moveContent(words);
+	};
+	// 1.e4 and @p n alternatives to it.
+	auto alternatives = [](size_t n) {
+		std::vector<uint16_t> words;
+		for (size_t i = 0; i < n; ++i)
+			words.insert(words.end(), {W("e2", "e4"), ALT, END});
+		words.insert(words.end(), {W("e2", "e4"), END});
+		return moveContent(words);
+	};
+	fx.game().moves = knights(1023);
+	fx.game().moves = knights(1024);
+	fx.game().moves = alternatives(255);
+	fx.game().moves = alternatives(256);
+	CodecCB2 codec;
+	auto games = readAll(fx.write(), codec);
+	ASSERT_EQ(2u, games.size()) << codec.parseErrors();
+	EXPECT_EQ(2u, codec.counts().unfit);
+	EXPECT_EQ(0u, codec.counts().damaged);
+	const std::string log = codec.parseErrors();
+	EXPECT_NE(std::string::npos,
+	          log.find("(record 2) moves: main line longer than 1023"))
+	    << log;
+	EXPECT_NE(std::string::npos,
+	          log.find("(record 4) moves: more than 255 variations"))
+	    << log;
+	EXPECT_NE(std::string::npos, log.find("Skipped 2 game(s) with more moves"))
+	    << log;
+}
+
 // ---------------------------------------------------------------------------
 // Import into a Scid database
 

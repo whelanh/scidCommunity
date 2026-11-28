@@ -237,7 +237,28 @@ struct Cursor {
 	}
 };
 
+bool fileExists(const std::string& name) {
+	auto u8 = reinterpret_cast<const char8_t*>(name.data());
+	std::error_code ec;
+	return std::filesystem::exists(std::filesystem::path(u8, u8 + name.size()),
+	                               ec);
+}
+
 } // namespace
+
+std::string companionPath(std::string_view header, std::string_view ext) {
+	const auto dot = header.rfind('.');
+	const auto own = header.substr(dot);
+	const bool upperFirst = std::none_of(
+	    own.begin(), own.end(), [](unsigned char c) { return std::islower(c); });
+	std::string upper(ext);
+	std::transform(upper.begin(), upper.end(), upper.begin(),
+	               [](unsigned char c) { return char(std::toupper(c)); });
+	const std::string stem(header.substr(0, dot));
+	auto first = stem + (upperFirst ? upper : std::string(ext));
+	auto other = stem + (upperFirst ? std::string(ext) : upper);
+	return !fileExists(first) && fileExists(other) ? other : first;
+}
 
 bool Entities::player(int64_t id, std::string& name) const {
 	Cursor c{raw(PLAYER, id)};
@@ -260,29 +281,25 @@ bool Entities::tournament(int64_t id, Tournament& t) const {
 
 errorT Database::open(std::string_view path, std::string& why) {
 	close();
-	std::string stem(path);
-	if (stem.size() > 5) {
-		auto ext = stem.substr(stem.size() - 5);
-		std::transform(ext.begin(), ext.end(), ext.begin(),
-		               [](unsigned char c) { return char(std::tolower(c)); });
-		if (ext == ".2cbh")
-			stem.resize(stem.size() - 5);
-	}
-	if (auto err = headers.open(stem + ".2cbh", why))
+	// The header is the file named: only a name without the extension gets it.
+	std::string header(path);
+	std::string ext(path.substr(path.size() > 5 ? path.size() - 5 : 0));
+	std::transform(ext.begin(), ext.end(), ext.begin(),
+	               [](unsigned char c) { return char(std::tolower(c)); });
+	if (ext != ".2cbh")
+		header += ".2cbh";
+	if (auto err = headers.open(header, why))
 		return err;
-	if (auto err = moves.open(stem + ".2cbg")) {
+	if (auto err = moves.open(companionPath(header, ".2cbg"))) {
 		why = "cannot open the .2cbg file";
 		return err;
 	}
-	if (auto err = entities.open(stem + ".2lid", why))
+	if (auto err = entities.open(companionPath(header, ".2lid"), why))
 		return err;
 
 	// A database may have no annotation file; one that is there must open.
-	auto cba = stem + ".2cba";
-	auto u8 = reinterpret_cast<const char8_t*>(cba.data());
-	std::error_code ec;
-	if (std::filesystem::exists(std::filesystem::path(u8, u8 + cba.size()),
-	                            ec)) {
+	const auto cba = companionPath(header, ".2cba");
+	if (fileExists(cba)) {
 		if (auto err = annotations.open(cba)) {
 			why = "cannot open the .2cba file";
 			return err;

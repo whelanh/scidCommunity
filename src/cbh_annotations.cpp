@@ -115,6 +115,7 @@ void parseAnnotations(Bytes record, uint32_t gameId,
 		out.stopped = "not the annotation record of this game";
 		return;
 	}
+	uint32_t count = 0;
 	for (size_t i = 14; i < record.size();) {
 		if (record.size() - i < kItemHead) {
 			out.stopped = "annotation head runs past the record";
@@ -137,12 +138,15 @@ void parseAnnotations(Bytes record, uint32_t gameId,
 			return;
 		}
 		i += size;
+		++count;
 		if (a.kind == cb2::Annotation::Other)
 			continue;
 		if (out.blocks.empty() || out.blocks.back().position != position)
 			out.blocks.push_back({position, {}});
 		out.blocks.back().items.push_back(std::move(a));
 	}
+	if (be_u24(record, 7) != count + 1)
+		out.stopped = "annotation count disagrees with the record";
 }
 
 } // namespace cbh

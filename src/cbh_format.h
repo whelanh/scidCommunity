@@ -114,7 +114,7 @@ class Entities {
 
 public:
 	/// Opens the entity files of the database whose stem is @p stem.
-	errorT open(const std::string& stem, std::string& why);
+	errorT open(const std::string& header, std::string& why);
 	void close();
 
 	/// Player @p id as "Last, First" (or "Last"); false when there is none.

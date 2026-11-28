@@ -43,7 +43,8 @@ class CodecCB2 {
 	cb2::Database db_;
 	cbh::Database cbh_;
 	bool classic_ = false; ///< Set when cbh_ is the open database.
-	uint32_t next_ = 1;
+	uint64_t next_ = 1; ///< Wider than a record id: it ends past the last one.
+	bool unfit_ = false; ///< Set when readMoves() failed in treeLimits().
 	std::string log_;
 	std::string summary_;
 	size_t nLogged_ = 0;
@@ -74,6 +75,7 @@ class CodecCB2 {
 		uint64_t unknown = 0;   ///< Records of an unknown kind, skipped.
 		uint64_t damaged = 0;   ///< Games skipped: their moves are damaged.
 		uint64_t incomplete = 0; ///< Games produced without some annotations.
+		uint64_t unfit = 0; ///< Games skipped: a Scid game cannot hold them.
 	} counts_;
 
 public:
@@ -82,6 +84,10 @@ public:
 	/// Most variations open at once: each keeps a saved position. The
 	/// deepest nesting measured in Mega Database 2026 is 74.
 	static constexpr size_t kMaxVariationDepth = 1024;
+	/// The most a Scid game holds: its index counts the main line's
+	/// half-moves in 10 bits, and a move counts its variations in a byte.
+	static constexpr size_t kMaxMainLinePlies = 1023;
+	static constexpr size_t kMaxVariationsPerMove = 255;
 
 	/// Opens the database whose file is @p filename (UTF-8): a classic one
 	/// when its name ends in ".cbh" (any case), else a 2CBH one. Only
@@ -97,7 +103,7 @@ public:
 
 	/// Records read so far and the number of records.
 	std::pair<size_t, size_t> parseProgress() const {
-		return {next_ - 1, recordCount()};
+		return {static_cast<size_t>(next_ - 1), recordCount()};
 	}
 
 	/// A summary of what was read and skipped, then one line per problem.
@@ -131,6 +137,8 @@ private:
 	                             unsigned& missingRight);
 	/// Adds @p node as the last child of node @p parent; gives its index.
 	uint32_t addNode(uint32_t parent, const Node& node);
+	/// Why a Scid game cannot hold the tree in nodes_, else nullptr.
+	const char* treeLimits();
 	/// writeTree() with the annotations @p ann, logged if incomplete.
 	const char* writeAnnotated(Game& game, const cb2::GameAnnotations& ann);
 	const char* writeTree(Game& game, const cb2::GameAnnotations* annotations);

@@ -104,12 +104,13 @@ Bytes EntityFile::data(int64_t id) const {
 	return r.subspan(9);
 }
 
-errorT Entities::open(const std::string& stem, std::string& why) {
-	if (auto err = players_.open(stem + ".cbp", 50, why))
+errorT Entities::open(const std::string& header, std::string& why) {
+	using cb2::companionPath;
+	if (auto err = players_.open(companionPath(header, ".cbp"), 50, why))
 		return err;
-	if (auto err = tournaments_.open(stem + ".cbt", 0x4a, why))
+	if (auto err = tournaments_.open(companionPath(header, ".cbt"), 0x4a, why))
 		return err;
-	return annotators_.open(stem + ".cbc", 45, why);
+	return annotators_.open(companionPath(header, ".cbc"), 45, why);
 }
 
 void Entities::close() {
@@ -161,16 +162,15 @@ bool wideOffsets(Bytes record, uint32_t shortMoves, uint32_t shortAnnotations,
 
 errorT Database::open(std::string_view path, std::string& why) {
 	close();
-	std::string stem(path);
-	if (stem.size() > 4) {
-		auto ext = stem.substr(stem.size() - 4);
-		std::transform(ext.begin(), ext.end(), ext.begin(),
-		               [](unsigned char c) { return char(std::tolower(c)); });
-		if (ext == ".cbh")
-			stem.resize(stem.size() - 4);
-	}
+	// The header is the file named: only a name without the extension gets it.
+	std::string header(path);
+	std::string ext(path.substr(path.size() > 4 ? path.size() - 4 : 0));
+	std::transform(ext.begin(), ext.end(), ext.begin(),
+	               [](unsigned char c) { return char(std::tolower(c)); });
+	if (ext != ".cbh")
+		header += ".cbh";
 
-	if (auto err = headers_.open(stem + ".cbh")) {
+	if (auto err = headers_.open(header)) {
 		why = "cannot open the .cbh file";
 		return err;
 	}
@@ -184,15 +184,16 @@ errorT Database::open(std::string_view path, std::string& why) {
 		why = ".cbh record size not supported";
 		return ERROR_FileVersion;
 	}
-	if (auto err = moves_.open(stem + ".cbg")) {
+	if (auto err = moves_.open(cb2::companionPath(header, ".cbg"))) {
 		why = "cannot open the .cbg file";
 		return err;
 	}
-	if (auto err = entities.open(stem, why))
+	if (auto err = entities.open(header, why))
 		return err;
 	// A database may have no annotation file; one that is there must open.
-	if (exists(stem + ".cba")) {
-		if (auto err = annotations_.open(stem + ".cba")) {
+	const auto cba = cb2::companionPath(header, ".cba");
+	if (exists(cba)) {
+		if (auto err = annotations_.open(cba)) {
 			why = "cannot open the .cba file";
 			return err;
 		}
@@ -203,7 +204,7 @@ errorT Database::open(std::string_view path, std::string& why) {
 	constexpr uint64_t limit = std::numeric_limits<uint32_t>::max();
 	if (moves_.size() > limit ||
 	    (hasAnnotations_ && annotations_.size() > limit)) {
-		if (auto err = wide_.open(stem + ".cbj")) {
+		if (auto err = wide_.open(cb2::companionPath(header, ".cbj"))) {
 			why = "cannot open the .cbj file, needed over 4 GiB";
 			return err;
 		}
@@ -239,15 +240,16 @@ Record Database::record(uint32_t id) const {
 		return {};
 	const auto moves = cb2::be_u32(b, 0x01);
 	const auto annotations = cb2::be_u32(b, 0x05);
-	// A record past those .cbj holds keeps the .cbh offsets.
-	if (!hasWide_ || id > wideCount_)
+	// A record past those .cbj holds keeps the .cbh offsets. A guiding text
+	// keeps other fields where a game has its annotations, and it is skipped
+	// without reading either offset, so .cbj cannot make it damaged.
+	const bool text = b[0] & 2;
+	if (!hasWide_ || text || id > wideCount_)
 		return Record(b, moves, annotations);
 	int64_t mo, ao;
 	const auto w = wide_.view(kWideHeader + wideRecord_ * (id - 1),
 	                          kWideLayout);
-	// A guiding text keeps other fields where a game has its annotations.
-	const bool text = b[0] & 2;
-	if (!wideOffsets(w, moves, text ? 0 : annotations, mo, ao))
+	if (!wideOffsets(w, moves, annotations, mo, ao))
 		return {};
 	return Record(b, mo, ao);
 }

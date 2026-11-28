@@ -452,8 +452,10 @@ void parseAnnotations(Bytes content, GameAnnotations& out) {
 				out.stoppedType = type;
 				return;
 			}
-			if (res < 0)
+			if (res < 0) {
+				r.fail("damaged annotation"); // keeps an earlier reason
 				break;
+			}
 			items.push_back(std::move(a));
 		}
 		if (r.error)

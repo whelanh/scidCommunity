@@ -34,6 +34,13 @@
 
 namespace cb2 {
 
+/// The file of extension @p ext (lowercase, with its dot) that belongs to the
+/// header file @p header, whose name ends in an extension. It is looked for in
+/// the case of that extension first, then in the other one.
+/// shortcut: all lowercase or all uppercase only; list the directory if a
+/// database with mixed-case companion names turns up.
+std::string companionPath(std::string_view header, std::string_view ext);
+
 using Bytes = std::span<const unsigned char>;
 
 /// @name Little- and big-endian integers at fixed offsets.

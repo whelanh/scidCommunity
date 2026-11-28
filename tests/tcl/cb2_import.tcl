@@ -176,8 +176,13 @@ proc tr {key} { return "<$key>" }
 array set ::tr {Stop Stop Close Close ImportingFrom From ImportingFiles Files}
 source [file join [file dirname [info script]] .. .. tcl tools import.tcl]
 
+# Under uppercase names, as old databases have them: on a case-sensitive file
+# system the header named is opened and its files are found in the same case.
+foreach ext {.2cbh .2cbg .2cba .2lid} {
+    file copy $stem$ext ${stem}_UP[string toupper $ext]
+}
 set h3 [sc_base create SCID5 "${stem}_db3"]
-importPgnFile $h3 [list "${stem}.2CBH"]
+importPgnFile $h3 [list "${stem}_UP.2CBH"]
 set log [.ipgnWin.text get 1.0 end]
 # Read as PGN, the binary file would still give one (empty) game: check White.
 sc_base switch $h3

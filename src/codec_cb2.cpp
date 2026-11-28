@@ -273,8 +273,6 @@ const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
 			// line that it starts: come back to the position before it.
 			if (!lastWasMove)
 				return "alternative marker not after a move";
-			if (branches_.size() >= kMaxVariationDepth)
-				return "variations nested too deeply";
 			// The position before the last move was saved in the slot that
 			// the move left at the end of branches_ (see below).
 			lastWasMove = false;
@@ -608,6 +606,25 @@ private:
 
 } // namespace
 
+const char* CodecCB2::treeLimits() {
+	size_t plies = 0;
+	for (auto n = nodes_[0].firstChild; n != kNone; n = nodes_[n].firstChild)
+		++plies;
+	const char* why = nullptr;
+	if (plies > kMaxMainLinePlies)
+		why = "main line longer than 1023 half-moves";
+	for (const auto& parent : nodes_) {
+		// The first child continues the line, the others are variations.
+		size_t children = 0;
+		for (auto n = parent.firstChild; n != kNone; n = nodes_[n].nextSibling)
+			++children;
+		if (children > kMaxVariationsPerMove + 1)
+			why = "more than 255 variations on a move";
+	}
+	unfit_ = why != nullptr;
+	return why;
+}
+
 const char* CodecCB2::writeTree(Game& game,
                                 const cb2::GameAnnotations* annotations) {
 	// The moves in PGN order, as the PGN reader would add them: each
@@ -699,6 +716,8 @@ const char* CodecCB2::readMoves(const cb2::Record& r, Game& game) {
 		return "start position not valid";
 	if (auto why = buildTree(mr, *game.GetCurrentPos()))
 		return why;
+	if (auto why = treeLimits())
+		return why;
 
 	// Every game record of a database with a .2cba file names an
 	// annotation record, most of them empty.
@@ -743,6 +762,8 @@ const char* CodecCB2::readMoves(const cbh::Record& r, Game& game) {
 			return why;
 		start.castling |= missing;
 	}
+	if (auto why = treeLimits())
+		return why;
 
 	const auto ao = r.annotationsOffset();
 	if (!cbh_.hasAnnotations() || ao == 0)
@@ -778,7 +799,7 @@ errorT CodecCB2::parseNext(Game& game) {
 template <class Db>
 errorT CodecCB2::parseNextIn(const Db& db, Game& game) {
 	while (next_ <= db.count()) {
-		const auto id = next_++;
+		const auto id = static_cast<uint32_t>(next_++);
 		const auto r = db.record(id);
 		if (!r.valid()) {
 			++counts_.damaged;
@@ -805,8 +826,9 @@ errorT CodecCB2::parseNextIn(const Db& db, Game& game) {
 
 		game.Clear();
 		currentId_ = id;
+		unfit_ = false;
 		if (auto why = readMoves(r, game)) {
-			++counts_.damaged;
+			++(unfit_ ? counts_.unfit : counts_.damaged);
 			logRecord(id, std::string("moves: ") + why);
 			continue;
 		}
@@ -830,6 +852,7 @@ const char* CodecCB2::parseErrors() {
 	skipped(counts_.analyses, "analysis record(s)");
 	skipped(counts_.unknown, "record(s) of an unknown kind");
 	skipped(counts_.damaged, "game(s) whose moves are damaged");
+	skipped(counts_.unfit, "game(s) with more moves or variations than Scid holds");
 	if (counts_.incomplete)
 		summary_ += std::to_string(counts_.incomplete) +
 		            " game(s) imported without some of their annotations.\n";
