@@ -151,7 +151,7 @@ proc ::xfcceval::run {ns prefix parent} {
     # Commits are made into the database the pass started in: the reader may
     # switch databases during a long search, and a game number means a
     # different game there.
-    set base [sc_base current]
+    set base [::xfcceval::baseId]
 
     # Everything from here to the end of the pass is cleaned up whatever
     # happens: an error in one game must not leave the pass marked as running,
@@ -249,9 +249,19 @@ proc ::xfcceval::one {ns gid id limits base} {
     return failed
 }
 
+# The identity of the current database: its slot and the file in it. A slot
+# number alone is reused when a database is closed and another opened, so a pass
+# that only remembered the slot could write into a different database.
+proc ::xfcceval::baseId {} {
+    set slot [sc_base current]
+    set file ""
+    catch { set file [sc_base filename $slot] }
+    return [list $slot $file]
+}
+
 # Is the database the pass started in still the current one?
 proc ::xfcceval::baseIs {base} {
-    if {[catch { expr {[sc_base inUse] && [sc_base current] eq $base} } same]} {
+    if {[catch { expr {[sc_base inUse] && [::xfcceval::baseId] eq $base} } same]} {
         return 0
     }
     return $same

@@ -27,7 +27,8 @@ array set ::tr {Cancel Cancel
 
 # environment
 set ::curbase 1
-proc sc_base {sub args} { return [expr {$sub eq "current" ? $::curbase : 1}] }
+set ::curfile a.si5
+proc sc_base {sub args} { switch $sub { current { return $::curbase } filename { return $::curfile } } ; return 1 }
 proc sc_game {sub args} {
     switch $sub {
         variant { return [expr {[info exists ::variants($::loaded)] ? $::variants($::loaded) : 0}] }
@@ -138,6 +139,13 @@ set ::duringSearch(fenA) {set ::curbase 2}
 checkEq "nothing written" $::commits {}
 check "inactive afterwards" [expr {!$::xfcceval::active}]
 unset ::duringSearch(fenA) ; set ::curbase 1
+
+puts "-- same slot, different database file ends the pass"
+set ::commits {}
+set ::duringSearch(fenA) {set ::curfile b.si5}
+::xfcceval::run lss LSS .lss
+checkEq "nothing written" $::commits {}
+unset ::duringSearch(fenA) ; set ::curfile a.si5
 
 puts "-- legacy preset: the window's global limits apply"
 set ::legacy 1
