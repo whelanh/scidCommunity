@@ -94,6 +94,62 @@ project's:
 Every file in `src/cql/` carries `SPDX-License-Identifier: GPL-2.0-or-later`,
 and every imported file names Scid vs. PC as its origin.
 
+## oschess-cb-bridge v1.0.3 — MIT
+
+The ChessBase 2CBH reader (`src/cb2_*.h`, `src/cb2_*.cpp`, `src/codec_cb2.h`,
+`src/codec_cb2.cpp`) ports the 2CBH layout from oschess-cb-bridge
+(<https://github.com/asavis/oschess-cb-bridge>), **release v1.0.3 only**: tag
+object `b5c18be3781e8cbb304f6d08753a8cb10efd6f80`, commit
+`bffebfc498d52b4e4631aed32b2f8e8194d125ff`. That release is MIT-licensed, as
+its `LICENSE` and `Cargo.toml` state; later releases of that project are under
+another licence, and nothing from them is used here.
+
+| Part of the reader | Ported from (v1.0.3, `crates/cbformat/src/`) |
+| --- | --- |
+| record frames and their checksum | `v2/frame.rs` |
+| header record fields, result, ECO, date | `v2/record.rs`, `game/fields.rs` |
+| `.2lid` entity table | `v2/entities.rs` |
+| move words, set-up piece words, start section | `movetable/`, `v2/moves.rs` |
+| move-tree walk and its checks | `replay/mod.rs` |
+| annotation types and their sizes | `v2/annotations/`, `game/annotations/` |
+| quotation text, as ChessBase writes it | `game/annotations/quote.rs` |
+| Windows-1252 decoding of non-UTF-8 text | `codepage.rs` |
+
+Not taken from it: the variable header-record size (192 or 208 bytes) and the
+game-quotation strings that ChessBase 2027 databases fill. Those come from our
+own measurements of real databases and are written as format facts in the code.
+
+Every ported file carries `SPDX-License-Identifier: GPL-2.0-or-later` and the
+line "2CBH layout derived from oschess-cb-bridge v1.0.3 (MIT), commit
+bffebfc4". The MIT notice of v1.0.3, reproduced as its `LICENSE` file states
+it:
+
+```text
+MIT License
+
+Copyright (c) 2026 the oschess-cb-bridge contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Neither this project nor oschess-cb-bridge is affiliated with ChessBase GmbH.
+
 ## Other references
 
 The reference-coding workflow and the indexed peer projects are described in
