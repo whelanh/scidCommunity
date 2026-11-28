@@ -319,8 +319,10 @@ proc ::lss::createWindow {w} {
   ttk::frame $tab1.top
   ttk::button $tab1.top.update -text $::tr(LSSUpdateGames) -command ::lss::updateGames
   ttk::button $tab1.top.send -text $::tr(LSSSendMoves) -command ::lss::sendMoves
+  ttk::button $tab1.top.eval -text $::tr(LSSEvaluate) -command [list ::xfcceval::run lss LSS $w]
   ttk::label $tab1.top.status -textvariable ::lss::statusText -width 50
   pack $tab1.top.update -side left -padx 5 -pady 5
+  pack $tab1.top.eval -side left -padx 5 -pady 5
   pack $tab1.top.status -side left -padx 5 -pady 5
   pack $tab1.top.send -side right -padx 5 -pady 5
 
@@ -1434,6 +1436,7 @@ proc ::lss::sendMoveSoap {gameId moveCount move message offerDraw resign acceptD
 # ::lss::closeWindow - Close the LSS window and clean up
 #
 proc ::lss::closeWindow {} {
+  ::xfcceval::stop
   set ::lss::playing 0
   if {[winfo exists .lss]} {
     destroy .lss

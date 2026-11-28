@@ -318,8 +318,10 @@ proc ::iccf::createWindow {w} {
   ttk::frame $tab1.top
   ttk::button $tab1.top.update -text $::tr(ICCFUpdateGames) -command ::iccf::updateGames
   ttk::button $tab1.top.send -text $::tr(ICCFSendMoves) -command ::iccf::sendMoves
+  ttk::button $tab1.top.eval -text $::tr(ICCFEvaluate) -command [list ::xfcceval::run iccf ICCF $w]
   ttk::label $tab1.top.status -textvariable ::iccf::statusText -width 50
   pack $tab1.top.update -side left -padx 5 -pady 5
+  pack $tab1.top.eval -side left -padx 5 -pady 5
   pack $tab1.top.status -side left -padx 5 -pady 5
   pack $tab1.top.send -side right -padx 5 -pady 5
 
@@ -1416,6 +1418,7 @@ proc ::iccf::sendMoveSoap {gameId moveCount move message offerDraw resign accept
 # ::iccf::closeWindow - Close the ICCF window and clean up
 #
 proc ::iccf::closeWindow {} {
+  ::xfcceval::stop
   set ::iccf::playing 0
   if {[winfo exists .iccf]} {
     destroy .iccf

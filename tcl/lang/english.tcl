@@ -2456,6 +2456,10 @@ translate E ICCFConnect {Connect}
 translate E ICCFClose {Close}
 translate E ICCFUpdateGames {Update Games}
 translate E ICCFSendMoves {Send Moves}
+translate E ICCFEvaluate {Evaluate}
+translate E ICCFEvaluating {Evaluating game %s of %s...}
+translate E ICCFEvaluated {Evaluated: %s moves added, %s skipped, %s failed}
+translate E ICCFEvaluateNoEngine {No engine is available. Assign an engine to the F2 shortcut in Configure Engines first.}
 translate E ICCFYourMessage {Your Message}
 translate E ICCFGameID {Game}
 translate E ICCFOpponent {Opponent}
@@ -2492,6 +2496,10 @@ translate E LSSConnect {Connect}
 translate E LSSClose {Close}
 translate E LSSUpdateGames {Update Games}
 translate E LSSSendMoves {Send Moves}
+translate E LSSEvaluate {Evaluate}
+translate E LSSEvaluating {Evaluating game %s of %s...}
+translate E LSSEvaluated {Evaluated: %s moves added, %s skipped, %s failed}
+translate E LSSEvaluateNoEngine {No engine is available. Assign an engine to the F2 shortcut in Configure Engines first.}
 translate E LSSGamesList {Games List}
 translate E LSSOpponentMessage {Opponent's Message}
 translate E LSSYourMessage {Your Message}

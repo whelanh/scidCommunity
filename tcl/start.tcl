@@ -1216,6 +1216,7 @@ tools/auto_comment.tcl
 tools/multicomp.tcl
 tools/sergame.tcl
 tools/fics.tcl
+tools/xfcc_eval.tcl
 tools/iccf.tcl
 tools/lss.tcl
 tools/opening.tcl
