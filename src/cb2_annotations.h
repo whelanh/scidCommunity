@@ -75,6 +75,9 @@ struct AnnotationBlock {
 
 struct GameAnnotations {
 	std::vector<AnnotationBlock> blocks;
+	/// Set when positions count the moves in the order a classic CBH game
+	/// stores them: depth first, each line before its alternatives.
+	bool storedOrder = false;
 	/// Set when decoding stopped before the end: why, and the type of
 	/// unknown layout that stopped it (0 for damage).
 	const char* stopped = nullptr;

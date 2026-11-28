@@ -119,10 +119,25 @@ Not taken from it: the variable header-record size (192 or 208 bytes) and the
 game-quotation strings that ChessBase 2027 databases fill. Those come from our
 own measurements of real databases and are written as format facts in the code.
 
+The classic CBH reader (`src/cbh_*.h`, `src/cbh_*.cpp`, and the part of
+`src/codec_cb2.cpp` that walks a classic game) ports the CBH layout of the same
+release:
+
+| Part of the reader | Ported from (v1.0.3, `crates/cbformat/src/`) |
+| --- | --- |
+| database files and header records | `cbh/mod.rs`, `cbh/record.rs` |
+| 64-bit offsets of `.cbj` | `cbh/wide.rs` |
+| player, tournament and annotator files, their text fields | `cbh/entities.rs`, `cbh/bytes.rs` |
+| move record and start position | `cbh/moves.rs` |
+| move decoding tables | `cbh/tables.rs` (copied byte for byte) |
+| piece lists | `cbh/pieces.rs` |
+| move decoding, tree walk and missing castling rights | `cbh/decode.rs` |
+| annotation records | `cbh/annotations.rs` |
+
 Every ported file carries `SPDX-License-Identifier: GPL-2.0-or-later` and the
-line "2CBH layout derived from oschess-cb-bridge v1.0.3 (MIT), commit
-bffebfc4". The MIT notice of v1.0.3, reproduced as its `LICENSE` file states
-it:
+line "2CBH layout" or "CBH layout derived from oschess-cb-bridge v1.0.3 (MIT),
+commit bffebfc4". The MIT notice of v1.0.3, reproduced as its `LICENSE` file
+states it:
 
 ```text
 MIT License

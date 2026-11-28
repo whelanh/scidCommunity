@@ -254,6 +254,10 @@ public:
 	/// Player @p id as "Last, First" (or "Last"); false when there is none.
 	bool player(int64_t id, std::string& name) const;
 	bool tournament(int64_t id, Tournament& t) const;
+	/// An annotator is a player in 2CBH.
+	bool annotatorName(int64_t id, std::string& name) const {
+		return player(id, name);
+	}
 };
 
 /// An open 2CBH database: `.2cbh`, `.2cbg`, `.2lid` and, when present,
@@ -270,6 +274,9 @@ public:
 	/// files share its name. On failure, @p why says what is wrong.
 	errorT open(std::string_view path, std::string& why);
 	void close();
+
+	uint32_t count() const { return headers.count(); }
+	Record record(uint32_t id) const { return headers.record(id); }
 };
 
 } // namespace cb2

@@ -20,6 +20,7 @@
 #include "misc.h"
 #include "movelist.h"
 #include <algorithm>
+#include <cctype>
 #include <cstdio>
 #include <optional>
 
@@ -78,40 +79,10 @@ std::string roundText(int16_t round, int16_t sub) {
 	return res;
 }
 
-} // namespace
-
-errorT CodecCB2::open(const char* filename, fileModeT fmode) {
-	if (fmode != FMODE_ReadOnly)
-		return ERROR_FileMode;
-
-	next_ = 1;
-	counts_ = {};
-	log_.clear();
-	nLogged_ = 0;
-	std::string why;
-	if (auto err = db_.open(filename ? filename : "", why)) {
-		log_ = why + '\n';
-		return err;
-	}
-	db_.headers.sequential(true);
-	db_.moves.sequential(true);
-	if (db_.hasAnnotations)
-		db_.annotations.sequential(true);
-	return OK;
-}
-
-void CodecCB2::logRecord(uint32_t id, std::string_view what) {
-	if (++nLogged_ > kMaxLogLines)
-		return;
-	log_ += "(record ";
-	log_ += std::to_string(id);
-	log_ += ") ";
-	log_ += what;
-	log_ += '\n';
-}
-
-void CodecCB2::readTags(const cb2::Record& r, Game& game) const {
-	const auto& e = db_.entities;
+/// The header tags of record @p r of @p db, a cb2:: or cbh:: database.
+template <class Db, class Record>
+void readTags(const Db& db, const Record& r, Game& game) {
+	const auto& e = db.entities;
 	std::string name;
 	game.SetWhiteStr(e.player(r.white(), name) && !name.empty() ? name.c_str()
 	                                                            : "?");
@@ -134,8 +105,52 @@ void CodecCB2::readTags(const cb2::Record& r, Game& game) const {
 	game.SetBlackElo(scidElo(r.blackElo()));
 	game.SetEco(scidEco(r.eco()));
 	name.clear();
-	if (e.player(r.annotator(), name) && !name.empty())
+	if (e.annotatorName(r.annotator(), name) && !name.empty())
 		game.addTag("Annotator", name);
+}
+
+} // namespace
+
+errorT CodecCB2::open(const char* filename, fileModeT fmode) {
+	if (fmode != FMODE_ReadOnly)
+		return ERROR_FileMode;
+
+	next_ = 1;
+	counts_ = {};
+	log_.clear();
+	nLogged_ = 0;
+	db_.close();
+	cbh_.close();
+	const std::string_view path(filename ? filename : "");
+	std::string ext(path.substr(path.size() > 4 ? path.size() - 4 : 0));
+	for (auto& ch : ext)
+		ch = char(std::tolower(static_cast<unsigned char>(ch)));
+	classic_ = ext == ".cbh";
+
+	std::string why;
+	if (auto err = classic_ ? cbh_.open(path, why) : db_.open(path, why)) {
+		log_ = why + '\n';
+		return err;
+	}
+	if (classic_) {
+		cbh_.sequential(true);
+		return OK;
+	}
+	db_.headers.sequential(true);
+	db_.moves.sequential(true);
+	if (db_.hasAnnotations)
+		db_.annotations.sequential(true);
+	return OK;
+}
+
+void CodecCB2::logRecord(uint32_t id, std::string_view what) {
+	if (++nLogged_ > kMaxLogLines)
+		return;
+	log_ += "(record ";
+	log_ += std::to_string(id);
+	log_ += ") ";
+	log_ += what;
+	log_ += '\n';
 }
 
 namespace {
@@ -226,6 +241,18 @@ const char* toScidMove(Position& pos, const cb2::MoveWord& m,
 
 } // namespace
 
+uint32_t CodecCB2::addNode(uint32_t parent, const Node& node) {
+	const auto id = static_cast<uint32_t>(nodes_.size());
+	nodes_.push_back(node);
+	auto& p = nodes_[parent];
+	if (p.lastChild == kNone)
+		p.firstChild = id;
+	else
+		nodes_[p.lastChild].nextSibling = id;
+	p.lastChild = id;
+	return id;
+}
+
 const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
                                 const Position& start) {
 	nodes_.assign(1, Node{});
@@ -277,18 +304,84 @@ const char* CodecCB2::buildTree(const cb2::MoveRecord& mr,
 		pos.makeMove(node.from, node.to, node.promo, sm);
 		pos.DoSimpleMove(sm);
 
-		const auto id = static_cast<uint32_t>(nodes_.size());
-		nodes_.push_back(node);
-		auto& parent = nodes_[cur];
-		if (parent.lastChild == kNone)
-			parent.firstChild = id;
-		else
-			nodes_[parent.lastChild].nextSibling = id;
-		parent.lastChild = id;
-		cur = id;
+		cur = addNode(cur, node);
 		lastWasMove = true;
 	}
 	if (!ended)
+		return "move tree not terminated";
+	return nullptr;
+}
+
+const char* CodecCB2::buildClassicTree(const cbh::MoveRecord& mr,
+                                       const Position& start,
+                                       unsigned& missingRight) {
+	missingRight = 0;
+	nodes_.assign(1, Node{});
+	branches_.clear();
+	branchPieces_.clear();
+	Position pos = start;
+	cbh::Pieces pieces;
+	if (!pieces.scan(pos))
+		return "too many pieces of a kind";
+	cbh::MoveStream stream;
+	if (auto why = stream.open(mr))
+		return why;
+	uint32_t cur = 0;
+	bool branchNext = false;
+	// Bytes after the final end of line, which some records carry, are left.
+	bool ended = false;
+	while (!ended && !stream.atEnd()) {
+		cbh::Token t;
+		if (auto why = stream.next(pos, pieces, t))
+			return why;
+		if (t.branch) {
+			if (branchNext)
+				return "two variation starts in a row";
+			if (branches_.size() >= kMaxVariationDepth)
+				return "variations nested too deeply";
+			branchNext = true;
+		}
+		if (t.hasMove) {
+			// After the line that this move starts comes an alternative to
+			// it, from the position before it.
+			if (branchNext) {
+				branches_.emplace_back(pos, cur);
+				branchPieces_.push_back(pieces);
+				branchNext = false;
+			}
+			Node node;
+			if (auto why = toScidMove(pos, t.move, node.from, node.to,
+			                          node.promo)) {
+				if (t.move.kind == cb2::MoveWord::Castle &&
+				    !pos.GetCastling(pos.GetToMove(),
+				                     t.move.kingside ? KSIDE : QSIDE))
+					missingRight = (t.move.kingside ? 2u : 1u)
+					               << (t.move.black ? 2 : 0);
+				return why;
+			}
+			simpleMoveT sm;
+			pos.makeMove(node.from, node.to, node.promo, sm);
+			pos.DoSimpleMove(sm);
+			if (!pieces.update(t.move, pos))
+				return "piece lists do not match the board";
+			cur = addNode(cur, node);
+		}
+		if (t.endLine) {
+			if (branchNext)
+				return "variation start before the end of a line";
+			if (branches_.empty()) {
+				ended = true;
+				continue;
+			}
+			pos = branches_.back().first;
+			cur = branches_.back().second;
+			pieces = branchPieces_.back();
+			branches_.pop_back();
+			branchPieces_.pop_back();
+		}
+	}
+	// A game without moves may be stored with no bytes at all.
+	if (!ended && !mr.stream().empty())
 		return "move tree not terminated";
 	return nullptr;
 }
@@ -531,17 +624,20 @@ const char* CodecCB2::writeTree(Game& game,
 			lastMain = n;
 		appendPart(game.accessMoveComment(), notes->gameComment());
 	}
+	const bool storedOrder = annotations && annotations->storedOrder;
 	uint32_t index = 0; // the move's position in PGN order
 	auto add = [&](uint32_t id) {
+		// Nodes are numbered in stored order, after the start.
+		const uint32_t key = storedOrder ? id - 1 : index;
 		if (notes)
-			appendPart(game.accessMoveComment(), notes->before(index));
+			appendPart(game.accessMoveComment(), notes->before(key));
 		const auto& n = nodes_[id];
 		simpleMoveT sm;
 		game.GetCurrentPos()->makeMove(n.from, n.to, n.promo, sm);
 		if (game.AddMove(sm) != OK)
 			return false;
 		if (notes)
-			notes->after(index, id == lastMain, game);
+			notes->after(key, id == lastMain, game);
 		++index;
 		return true;
 	};
@@ -612,6 +708,50 @@ const char* CodecCB2::readMoves(const cb2::Record& r, Game& game) {
 	} else {
 		cb2::parseAnnotations(frame.content, ann);
 	}
+	return writeAnnotated(game, ann);
+}
+
+const char* CodecCB2::readMoves(const cbh::Record& r, Game& game) {
+	cb2::Bytes record;
+	if (auto why = cbh_.readMoveRecord(r.movesOffset(), record))
+		return why;
+	cbh::MoveRecord mr;
+	if (auto why = mr.parse(record))
+		return why;
+	cb2::Start start;
+	if (auto why = mr.readStart(start))
+		return why;
+	// ChessBase castles in set-up games whose stored rights lack it, and old
+	// databases store none: add each right a castling move needs and read
+	// the game again. startFen() keeps only a right that the king and rook
+	// can have, and none is added twice, so at most five rounds.
+	for (;;) {
+		const auto fen = cb2::startFen(start);
+		if (!fen.empty() && game.SetStartFen(fen.c_str()) != OK)
+			return "start position not valid";
+		unsigned missing = 0;
+		const auto why = buildClassicTree(mr, *game.GetCurrentPos(), missing);
+		if (!why)
+			break;
+		if (start.kind != cb2::Start::Setup || !missing ||
+		    (start.castling & missing))
+			return why;
+		start.castling |= missing;
+	}
+
+	const auto ao = r.annotationsOffset();
+	if (!cbh_.hasAnnotations() || ao == 0)
+		return writeTree(game, nullptr);
+	cb2::GameAnnotations ann;
+	if (auto why = cbh_.readAnnotationRecord(ao, record))
+		ann.stopped = why;
+	else
+		cbh::parseAnnotations(record, currentId_, ann);
+	return writeAnnotated(game, ann);
+}
+
+const char* CodecCB2::writeAnnotated(Game& game,
+                                     const cb2::GameAnnotations& ann) {
 	if (ann.stopped) {
 		++counts_.incomplete;
 		std::string what = "annotations: ";
@@ -627,9 +767,14 @@ const char* CodecCB2::readMoves(const cb2::Record& r, Game& game) {
 }
 
 errorT CodecCB2::parseNext(Game& game) {
-	while (next_ <= db_.headers.count()) {
+	return classic_ ? parseNextIn(cbh_, game) : parseNextIn(db_, game);
+}
+
+template <class Db>
+errorT CodecCB2::parseNextIn(const Db& db, Game& game) {
+	while (next_ <= db.count()) {
 		const auto id = next_++;
-		const auto r = db_.headers.record(id);
+		const auto r = db.record(id);
 		if (!r.valid()) {
 			++counts_.damaged;
 			logRecord(id, "cannot be read");
@@ -660,7 +805,7 @@ errorT CodecCB2::parseNext(Game& game) {
 			logRecord(id, std::string("moves: ") + why);
 			continue;
 		}
-		readTags(r, game);
+		readTags(db, r, game);
 		++counts_.games;
 		return OK;
 	}
@@ -668,8 +813,8 @@ errorT CodecCB2::parseNext(Game& game) {
 }
 
 const char* CodecCB2::parseErrors() {
-	summary_ = "ChessBase 2CBH database: " +
-	           std::to_string(db_.headers.count()) + " records, " +
+	summary_ = std::string("ChessBase ") + (classic_ ? "CBH" : "2CBH") +
+	           " database: " + std::to_string(recordCount()) + " records, " +
 	           std::to_string(counts_.games) + " games read.\n";
 	auto skipped = [&](uint64_t n, const char* what) {
 		if (n)

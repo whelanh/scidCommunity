@@ -14,14 +14,14 @@
  */
 
 /** @file
- * Reads the games of a ChessBase 2CBH database one by one, as Scid games,
- * for importing them into a Scid database.
+ * Reads the games of a ChessBase database, 2CBH or classic CBH, one by one,
+ * as Scid games, for importing them into a Scid database.
  *
  * CodecCB2 has the source interface of CodecProxy::parseGames() (open(),
  * parseNext(), parseProgress(), parseErrors()), so games stream to the
  * destination database without the source ever being loaded whole. It is not
- * an ICodecDatabase: opening a .2cbh file as a database would hold all of its
- * games in memory.
+ * an ICodecDatabase: opening a ChessBase file as a database would hold all of
+ * its games in memory.
  */
 
 #pragma once
@@ -29,6 +29,8 @@
 #include "cb2_annotations.h"
 #include "cb2_format.h"
 #include "cb2_moves.h"
+#include "cbh_format.h"
+#include "cbh_moves.h"
 #include "common.h"
 #include "position.h"
 #include <string>
@@ -39,6 +41,8 @@ class Game;
 
 class CodecCB2 {
 	cb2::Database db_;
+	cbh::Database cbh_;
+	bool classic_ = false; ///< Set when cbh_ is the open database.
 	uint32_t next_ = 1;
 	std::string log_;
 	std::string summary_;
@@ -59,6 +63,8 @@ class CodecCB2 {
 	};
 	std::vector<Node> nodes_;
 	std::vector<std::pair<Position, uint32_t>> branches_;
+	/// The piece lists saved with each of branches_, classic games only.
+	std::vector<cbh::Pieces> branchPieces_;
 
 	struct Counts {
 		uint64_t games = 0;     ///< Games produced.
@@ -77,7 +83,8 @@ public:
 	/// deepest nesting measured in Mega Database 2026 is 74.
 	static constexpr size_t kMaxVariationDepth = 1024;
 
-	/// Opens the database whose .2cbh file is @p filename (UTF-8). Only
+	/// Opens the database whose file is @p filename (UTF-8): a classic one
+	/// when its name ends in ".cbh" (any case), else a 2CBH one. Only
 	/// FMODE_ReadOnly is supported.
 	errorT open(const char* filename, fileModeT fmode);
 
@@ -90,7 +97,7 @@ public:
 
 	/// Records read so far and the number of records.
 	std::pair<size_t, size_t> parseProgress() const {
-		return {next_ - 1, db_.headers.count()};
+		return {next_ - 1, recordCount()};
 	}
 
 	/// A summary of what was read and skipped, then one line per problem.
@@ -107,11 +114,24 @@ public:
 	}
 
 private:
+	uint32_t recordCount() const {
+		return classic_ ? cbh_.count() : db_.count();
+	}
 	void logRecord(uint32_t id, std::string_view what);
-	void readTags(const cb2::Record& r, Game& game) const;
+	template <class Db> errorT parseNextIn(const Db& db, Game& game);
 	/// Reads the moves of @p r into a tree, checking every word against the
 	/// position; then gives them to @p game. nullptr or what is wrong.
 	const char* readMoves(const cb2::Record& r, Game& game);
+	const char* readMoves(const cbh::Record& r, Game& game);
 	const char* buildTree(const cb2::MoveRecord& mr, const Position& start);
+	/// As buildTree(). @p missingRight gets the set-up castling right (as in
+	/// cb2::Start) whose absence stopped the walk, else 0.
+	const char* buildClassicTree(const cbh::MoveRecord& mr,
+	                             const Position& start,
+	                             unsigned& missingRight);
+	/// Adds @p node as the last child of node @p parent; gives its index.
+	uint32_t addNode(uint32_t parent, const Node& node);
+	/// writeTree() with the annotations @p ann, logged if incomplete.
+	const char* writeAnnotated(Game& game, const cb2::GameAnnotations& ann);
 	const char* writeTree(Game& game, const cb2::GameAnnotations* annotations);
 };
