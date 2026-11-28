@@ -64,8 +64,9 @@ the changes made for scidCommunity are in src/cql/README.md. The CQL
 building blocks in tcl/search/cql_kit.tcl are ported from Scid vs. PC's
 tcl/search/board.tcl.
 
-The ChessBase 2CBH reader (src/cb2_*.h, src/cb2_*.cpp, src/codec_cb2.h and
-src/codec_cb2.cpp) is GPL-2.0-or-later. Its 2CBH layout is derived from
+The ChessBase readers (src/cb2_*.h, src/cb2_*.cpp, src/cbh_*.h,
+src/cbh_*.cpp, src/codec_cb2.h and src/codec_cb2.cpp) are
+GPL-2.0-or-later. Their 2CBH and CBH layouts are derived from
 oschess-cb-bridge v1.0.3 (https://github.com/asavis/oschess-cb-bridge,
 commit bffebfc4), which is MIT-licensed, Copyright (c) 2026 the
 oschess-cb-bridge contributors. The MIT notice is reproduced in
