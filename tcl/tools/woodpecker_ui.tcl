@@ -1348,10 +1348,11 @@ proc ::woodpecker::ui::newDialog {} {
     # The buttons stay at the bottom; the form above scrolls when the screen
     # is too small for it (large fonts, scaling, a long translation).
     pack $d.b -side bottom -fill x
-    scrollForm $d $f
     presetChosen
     tokenShow
     sourceShow
+    # After the rows above are in place, so the window is sized for what shows.
+    scrollForm $d $f
     set newCfg(fileCount) ""
     set newCfg(fileCounted) ""
     loadUpdate
@@ -1374,6 +1375,8 @@ proc ::woodpecker::ui::scrollForm {d f} {
     $cv create window 0 0 -window $f -anchor nw -tags in
     # The form was made before the canvas, which would hide it: stack it above.
     raise $f
+    # The form may run past the canvas, over the buttons: they stay on top.
+    raise $d.b
     set fit [list ::woodpecker::ui::formFit $d]
     bind $cv <Configure> $fit
     bind $f <Configure> $fit
@@ -1390,7 +1393,7 @@ proc ::woodpecker::ui::formWheelDelta {d delta} {
     formWheel $d [expr {$delta > 0 ? -3 : 3}]
 }
 
-proc ::woodpecker::ui::formFit {d} {
+proc ::woodpecker::ui::formFit {d {natural 0}} {
     set cv $d.cv
     set f $d.f
     if {![winfo exists $cv] || ![winfo exists $f]} { return }
@@ -1400,6 +1403,7 @@ proc ::woodpecker::ui::formFit {d} {
     set maxh [expr {max(200, [winfo screenheight $d] - 170)}]
     $cv configure -width $rw -height [expr {min($rh, $maxh)}]
     set cw [expr {max([winfo width $cv], $rw)}]
+    # The form's size is set here, so whatever adds or hides rows must call formFit.
     $cv itemconfigure in -width $cw -height $rh
     $cv configure -scrollregion [list 0 0 $cw $rh]
     if {$rh > [winfo height $cv] && [winfo height $cv] > 1} {
@@ -1408,6 +1412,8 @@ proc ::woodpecker::ui::formFit {d} {
         $d.vs state disabled
         $cv yview moveto 0
     }
+    # A window mapped for another layout keeps its size: let it follow the form.
+    if {$natural} { wm geometry $d {} }
 }
 
 # Only the options of the chosen source take room in the dialog.
@@ -1423,7 +1429,7 @@ proc ::woodpecker::ui::sourceShow {} {
         grid $f.lich
         grid remove $f.file $f.filehelp
     }
-    after idle [list ::woodpecker::ui::formFit .woodpeckerNew]
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew 1]
 }
 
 # The daily load of a first cycle, as one sentence (empty while the number of
@@ -1476,6 +1482,7 @@ proc ::woodpecker::ui::presetChosen {} {
     } elseif {[string is integer -strict $newCfg(rating)]} {
         append newCfg(presetHelp) " " [T WoodpeckerPresetStated $newCfg(rating)]
     }
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew]
 }
 
 # The line under the token: what the token is, or why a set needs one. The
@@ -1510,6 +1517,7 @@ proc ::woodpecker::ui::tokenShow {} {
     } else {
         grid $l.lrating $l.rating
     }
+    after idle [list ::woodpecker::ui::formFit .woodpeckerNew]
 }
 
 proc ::woodpecker::ui::tokenSave {} {
@@ -1572,7 +1580,10 @@ proc ::woodpecker::ui::create {} {
     set d .woodpeckerNew
     set name [string trim $newCfg(name)]
     if {$name eq ""} { return }
-    foreach k {days1 restDays count} {
+    # The exercise count belongs to the puzzle options, hidden for a file.
+    set numbers {days1 restDays}
+    if {$newCfg(source) eq "puzzles"} { lappend numbers count }
+    foreach k $numbers {
         if {![string is integer -strict $newCfg($k)] || $newCfg($k) < 0} {
             tk_messageBox -icon error -parent $d -message [T WoodpeckerBadNumber $k]
             return

@@ -388,7 +388,20 @@ proc ::wpgui::run {} {
     wait 400
     check "a squeezed dialog has a working scrollbar" \
         [expr {[winfo ismapped .woodpeckerNew.vs] && ![.woodpeckerNew.vs instate disabled]}]
-    check "the buttons stay visible when squeezed" [winfo ismapped .woodpeckerNew.b.ok]
+    # The form is taller than the canvas now and must not cover the buttons.
+    set ok .woodpeckerNew.b.ok
+    check "the buttons stay visible when squeezed" \
+        [expr {[winfo containing [expr {[winfo rootx $ok] + 5}] [expr {[winfo rooty $ok] + 5}]] eq $ok}]
+    check "the buttons are inside the dialog when squeezed" \
+        [expr {[winfo rooty $ok] + [winfo height $ok] <= [winfo rooty .woodpeckerNew] + [winfo height .woodpeckerNew]}]
+    # Rows added later (the custom preset's level boxes) extend the scrolled form.
+    set before [winfo reqheight .woodpeckerNew.f]
+    set ::woodpecker::ui::newCfg(presetLabel) [dict get [::woodpecker::ui::presetLabels] custom]
+    ::woodpecker::ui::presetChosen
+    wait 400
+    check "a row added later makes the form taller" [expr {[winfo reqheight .woodpeckerNew.f] > $before}]
+    checkEq "and the scrolled area follows it" \
+        [lindex [.woodpeckerNew.cv cget -scrollregion] 3] [winfo reqheight .woodpeckerNew.f]
     destroy .woodpeckerNew
 
     ::woodpecker::ui::stats
