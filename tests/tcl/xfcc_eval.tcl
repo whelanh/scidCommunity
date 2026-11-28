@@ -39,11 +39,13 @@ proc sc_pos {args} { return $::fens($::loaded) }
 namespace eval ::chessboard {}
 proc ::chessboard::fromFen {f} { return [dict create fen $f] }
 proc ::chessboard::legalMoves {p} { return [expr {[dict get $p fen] eq "mated" ? {} : {e2e4}}] }
+namespace eval ::enginewin {}
 namespace eval ::enginecfg {}
 proc ::enginecfg::windowEngine {id last} { return $::f2 }
 proc ::enginecfg::get {n} { return [expr {$n eq "" ? "" : [list $n]}] }
 namespace eval ::enginelimits {}
-proc ::enginelimits::forName {n} { return $::lim }
+proc ::enginelimits::forName {n {fb {}}} { return [expr {$::legacy ? [dict merge {depth {} movetime {}} $fb] : $::lim}] }
+set ::legacy 0
 proc ::enginelimits::goLimits {l} {
     set o {} ; foreach k {depth movetime} { if {[dict exists $l $k] && [dict get $l $k] ne ""} { lappend o [list $k [dict get $l $k]] } } ; return $o
 }
@@ -100,6 +102,11 @@ checkEq "status" $::lss::statusText "done 2 skipped 3 failed 0"
 check "list refreshed" [info exists ::repopulated]
 check "idle after run" [expr {!$::xfcceval::active}]
 
+puts "-- legacy preset: the window's global limits apply"
+set ::legacy 1
+set ::enginewin::depth_limit 66 ; set ::enginewin::movetime_limit 310000
+checkEq "global limits used" [::xfcceval::limits Stockfish] {{depth 66} {movetime 310000}}
+set ::legacy 0
 puts "-- fallback limits"
 set ::lim {depth {} movetime {}}
 checkEq "fixed movetime" [::xfcceval::limits Stockfish] {{movetime 5000}}

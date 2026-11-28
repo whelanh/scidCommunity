@@ -60,9 +60,18 @@ proc ::xfcceval::engineName {} {
     return ""
 }
 
-# The Go limits of a preset, or a fixed movetime when the preset sets none.
+# The Go limits of a preset, or a fixed movetime when there are none.
+#
+# The fallback is the one the engine window itself uses (::enginewin::loadLimits):
+# a preset from before presets carried limits has none of its own, and the window
+# then shows the global depth/movetime settings. Without the same fallback here
+# such a preset would be searched for the fixed movetime instead of the limits
+# the F2 window displays.
 proc ::xfcceval::limits {name} {
-    set lim [::enginelimits::goLimits [::enginelimits::forName $name]]
+    set fallback {depth {} movetime {}}
+    catch { dict set fallback depth $::enginewin::depth_limit }
+    catch { dict set fallback movetime $::enginewin::movetime_limit }
+    set lim [::enginelimits::goLimits [::enginelimits::forName $name $fallback]]
     if {![llength $lim]} {
         set lim [list [list movetime $::xfcceval::defaultMovetime]]
     }
