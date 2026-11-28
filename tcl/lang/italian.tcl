@@ -802,7 +802,7 @@ translate I LichessStudyReports {Rapporti Lichess: %s}
 translate I About {Di}
 translate I Back {Indietro}
 translate I Apply {Applica}
-translate I Browse {Browse}
+translate I Browse {Sfoglia}
 translate I Cancel {Annulla}
 translate I Continue {Continua}
 translate I Clear {Cancella}
