@@ -848,6 +848,7 @@ TEST(Test_CB2Annotations, known_types_are_skipped_unknown_ones_stop) {
 	    0, {annRaw(0x07, {0, 5, 1, 0}), annRaw(0x24, tc), annRaw(0x18, {2}),
 	        annRaw(0x21, {1, 0, 0, 0, 0, 0}), annRaw(0x27, {1, 0}),
 	        annRaw(0x1c, {1, 1, 0, 0, 0, 'x', 0, 0, 0, 0}),
+	        annRaw(0x0a, {3, 0, 0, 0, '{', '}', 0, 1, 0, 0, 0}),
 	        annText("Kept.")})});
 	auto& unknown = fx.game();
 	unknown.moves = moveContent({W("e2", "e4"), B("e7", "e5"), END});

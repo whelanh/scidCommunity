@@ -340,6 +340,12 @@ int annotation(Reader& r, uint16_t t, Annotation& a) {
 		if (!r.skipCounted())
 			return -1;
 		break;
+	// An engine's win, draw and loss chances, as JSON text, then 4 bytes
+	// (measured on 38 games of real databases).
+	case 0x0a:
+		if (!r.skipCounted() || !r.skip(4))
+			return -1;
+		break;
 	// Time spent, an unknown type, the clocks, medals, the variation colour,
 	// a video's stream time: 4 bytes.
 	case 0x07:
