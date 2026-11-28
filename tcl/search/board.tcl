@@ -214,6 +214,18 @@ proc ::search::start_ {new_filter w options_cmd {invert_search 0}} {
 
 	lassign [$options_cmd] options ignore_color_hack
 
+	set dest_filter [::search::search_one_ $w $dbase $src_filter $src_op $options $ignore_color_hack $invert_search $new_filter]
+	if {$dest_filter eq ""} { return }
+
+	set ::search::filter_($w) $dest_filter
+	::notify::filter $dbase $dest_filter
+
+	if {$new_filter} {
+		::windows::gamelist::Open $dbase $dest_filter
+	}
+}
+
+proc ::search::search_one_ {w dbase src_filter src_op options ignore_color_hack invert_search new_filter} {
 	if {$invert_search} {
 		set temp_filter [sc_filter new $dbase]
 		
@@ -303,13 +315,7 @@ proc ::search::start_ {new_filter w options_cmd {invert_search 0}} {
 		}
 	}
 
-
-	set ::search::filter_($w) $dest_filter
-	::notify::filter $dbase $dest_filter
-
-	if {$new_filter} {
-		::windows::gamelist::Open $dbase $dest_filter
-	}
+	return $dest_filter
 }
 
 proc ::search::do_search_ {dbase filter filter_op options reset_progressbar} {
