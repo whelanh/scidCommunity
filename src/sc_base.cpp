@@ -23,9 +23,11 @@
 #include "searchtournaments.h"
 #include "ui.h"
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <map>
 #include <string>
+#include <string_view>
 #include <vector>
 
 namespace {
@@ -520,6 +522,9 @@ UI_res_t sc_base_getGame(scidBaseT* dbase, UI_handle_t ti, int argc,
 /**
  * sc_base_import() - import games from non-native database
  *
+ * The file is read as a ChessBase 2CBH database when its name ends in
+ * ".2cbh" (any case), else as a PGN file.
+ *
  * Return:
  *   On success, returns a list of two elements: the number of
  *   games imported and a string containing import errors
@@ -531,15 +536,23 @@ UI_res_t sc_base_import(scidBaseT* dbase, UI_handle_t ti, int argc,
 	if (argc != 4)
 		return UI_Result(ti, ERROR_BadArg, usage);
 
-	// if (pgn)
+	// A ChessBase 2CBH database (.2cbh) or, for any other name, a PGN file.
+	const auto filename = argv[3];
 	auto codec = ICodecDatabase::PGN;
+	const std::string_view fname(filename);
+	if (fname.size() > 5) {
+		std::string ext(fname.substr(fname.size() - 5));
+		for (auto& c : ext)
+			c = char(std::tolower(static_cast<unsigned char>(c)));
+		if (ext == ".2cbh")
+			codec = ICodecDatabase::CB2;
+	}
 
 	if (dbase->isBusy())
 		return UI_Result(ti, ERROR_Busy);
 
 	auto nImported = dbase->numGames();
 	std::string errorMsg;
-	const auto filename = argv[3];
 	if (auto err = dbase->importGames(codec, filename, UI_CreateProgress(ti),
 	                                  errorMsg))
 		return UI_Result(ti, err);

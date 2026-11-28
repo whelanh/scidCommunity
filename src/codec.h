@@ -42,7 +42,9 @@ class ICodecDatabase {
 public:
 	virtual ~ICodecDatabase(){};
 
-	enum Codec { MEMORY, PGN, SCID4, SCID5 };
+	/// CB2 (a ChessBase 2CBH database) is a source for importGames() only: it
+	/// cannot be opened as a database.
+	enum Codec { MEMORY, PGN, SCID4, SCID5, CB2 };
 	/**
 	 * Creates a new object and calls the virtual function dyn_open().
 	 * @param codec:    the type of the object to be created.

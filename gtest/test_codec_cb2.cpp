@@ -12,6 +12,7 @@
 #include "date.h"
 #include "game.h"
 #include "misc.h"
+#include "scidbase.h"
 #include <deque>
 #include <set>
 #include <tuple>
@@ -974,4 +975,73 @@ TEST(Test_CB2Annotations, quotation_of_unknown_start_stops_the_decoding) {
 	ASSERT_EQ(1u, games.size());
 	EXPECT_EQ("1.e4 {Kept.} 1-0", pgnOf(games[0]));
 	EXPECT_EQ(1u, codec.counts().incomplete);
+}
+
+// ---------------------------------------------------------------------------
+// Import into a Scid database
+
+TEST(Test_CB2Import, games_are_imported_and_counted) {
+	Fixture fx;
+	fx.game().moves = moveContent({W("e2", "e4"), B("e7", "e5"), END});
+	fx.game().byte0 = 0x02; // a guiding text
+	fx.game().moves = moveContent({W("e2", "e4"), W("d2", "d4"), END});
+	auto& annotated = fx.game();
+	annotated.moves = moveContent({W("d2", "d4"), END});
+	annotated.annotations = annRecord({annBlock(0, {annText("Solid.")})});
+	auto name = fx.write(208, 6);
+
+	for (auto type : {"MEMORY", "SCID5"}) {
+		TempDir out;
+		scidBaseT dbase;
+		ASSERT_EQ(OK, dbase.open(type, FMODE_Create,
+		                         out.file("imported").c_str()));
+		std::string msg;
+		ASSERT_EQ(OK, dbase.importGames(ICodecDatabase::CB2, name.c_str(), {},
+		                                msg));
+		EXPECT_EQ(2u, dbase.numGames()) << msg;
+		EXPECT_NE(std::string::npos, msg.find("4 records, 2 games read"))
+		    << msg;
+		EXPECT_NE(std::string::npos, msg.find("Skipped 1 guiding text"));
+		EXPECT_NE(std::string::npos,
+		          msg.find("(record 3) moves: move out of turn"));
+		Game g;
+		ASSERT_EQ(OK, dbase.getGame(*dbase.getIndexEntry(1), g));
+		EXPECT_EQ("1.d4 {Solid.} 1-0", pgnOf(g));
+		EXPECT_STREQ("Anand, Viswanathan", g.GetWhiteStr());
+	}
+
+	scidBaseT dbase;
+	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
+	std::string msg;
+	EXPECT_EQ(ERROR_FileOpen,
+	          dbase.importGames(ICodecDatabase::CB2, "missing.2cbh", {}, msg));
+	EXPECT_NE(std::string::npos, msg.find("cannot open the .2cbh file"));
+	EXPECT_EQ(0u, dbase.numGames());
+}
+
+TEST(Test_CB2Import, a_game_too_long_for_scid_keeps_its_moves) {
+	Fixture fx;
+	auto& big = fx.game();
+	big.moves = moveContent({W("e2", "e4"), B("e7", "e5"), ALT,
+	                         W("g1", "f3"), END, B("c7", "c5"), END});
+	big.annotations = annRecord(
+	    {annBlock(0, {annText(std::string(150000, 'x')), annSymbols(1)})});
+	fx.game().moves = moveContent({W("d2", "d4"), END});
+	auto name = fx.write();
+
+	scidBaseT dbase;
+	ASSERT_EQ(OK, dbase.open("MEMORY", FMODE_Create, "Memory"));
+	std::string msg;
+	ASSERT_EQ(OK,
+	          dbase.importGames(ICodecDatabase::CB2, name.c_str(), {}, msg));
+	ASSERT_EQ(2u, dbase.numGames()) << msg;
+	EXPECT_NE(std::string::npos,
+	          msg.find("1 game(s) too long for the database: imported "
+	                   "without variations, comments and NAGs"))
+	    << msg;
+	Game g;
+	ASSERT_EQ(OK, dbase.getGame(*dbase.getIndexEntry(0), g));
+	EXPECT_EQ("1.e4 e5 2.Nf3 1-0", pgnOf(g));
+	ASSERT_EQ(OK, dbase.getGame(*dbase.getIndexEntry(1), g));
+	EXPECT_EQ("1.d4 1-0", pgnOf(g));
 }

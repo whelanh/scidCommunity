@@ -17,6 +17,7 @@
 */
 
 #include "scidbase.h"
+#include "codec_cb2.h"
 #include "codec_memory.h"
 #include "codec_pgn.h"
 #include "codec_scid4.h"
@@ -34,6 +35,7 @@
 #include <filesystem>
 #include <string_view>
 #include <thread>
+#include <type_traits>
 #include <unordered_map>
 
 std::pair<ICodecDatabase*, errorT>
@@ -49,12 +51,15 @@ ICodecDatabase::open(Codec codec, fileModeT fMode, const char* filename,
 			return new CodecPgn();
 		case ICodecDatabase::SCID5:
 			return new CodecSCID5();
+		case ICodecDatabase::CB2:
+			break; // an import source only
 		}
-		ASSERT(0);
 		return nullptr;
 	};
 
 	auto obj = createCodec(codec);
+	if (!obj)
+		return {nullptr, ERROR_CodecUnsupFeat};
 	auto err = obj->dyn_open(fMode, filename, progress, idx, nb);
 	if (err != OK && err != ERROR_NameDataLoss) {
 		delete obj;
@@ -306,17 +311,29 @@ errorT scidBaseT::importGameHelper(const scidBaseT* srcBase, gamenumT gNum) {
 namespace {
 
 /// Streams every game of @p src (a source with the interface that
-/// CodecProxy::parseGames() takes: CodecPgn) into @p dest. @p errorMsg gets
-/// the source's errors and warnings.
+/// CodecProxy::parseGames() takes: CodecPgn or CodecCB2) into @p dest.
+/// @p errorMsg gets the source's errors and warnings.
 template <typename TSource>
 errorT importFromSource(ICodecDatabase& dest, TSource& src,
                         const Progress& progress, std::string& errorMsg) {
 	uint64_t nChess960Errors = 0;
+	uint64_t nTooLong = 0;
 	std::vector<byte> buf;
 	auto res = CodecPgn::parseGames(progress, src, [&](Game& game) {
 		buf.clear();
 		auto [ie, tags] = game.Encode(buf);
 		auto err = dest.addGame(ie, tags, {buf.data(), buf.size()});
+		if constexpr (std::is_same_v<TSource, CodecCB2>) {
+			// A ChessBase game can carry more annotations than a Scid game
+			// holds (128 KB): keep its moves rather than stop the import.
+			if (err == ERROR_GameLengthLimit) {
+				++nTooLong;
+				game.strip(true, true, true);
+				buf.clear();
+				auto [ie2, tags2] = game.Encode(buf);
+				err = dest.addGame(ie2, tags2, {buf.data(), buf.size()});
+			}
+		}
 		if (err == ERROR_CodecChess960) {
 			++nChess960Errors;
 			err = OK;
@@ -329,6 +346,11 @@ errorT importFromSource(ICodecDatabase& dest, TSource& src,
 		errorMsg.append(std::to_string(nChess960Errors));
 		errorMsg.append(" chess960 game(s).\n");
 	}
+	if (nTooLong) {
+		errorMsg.append(std::to_string(nTooLong));
+		errorMsg.append(" game(s) too long for the database: imported without "
+		                "variations, comments and NAGs.\n");
+	}
 	return res;
 }
 
@@ -337,15 +359,25 @@ errorT importFromSource(ICodecDatabase& dest, TSource& src,
 errorT scidBaseT::importGames(ICodecDatabase::Codec dbtype,
                               const char* filename, const Progress& progress,
                               std::string& errorMsg) {
-	ASSERT(dbtype == ICodecDatabase::PGN);
+	ASSERT(dbtype == ICodecDatabase::PGN || dbtype == ICodecDatabase::CB2);
 
 	if (auto errModify = beginTransaction())
 		return errModify;
 
-	CodecPgn pgn;
-	auto res = pgn.open(filename, FMODE_ReadOnly);
-	if (res == OK)
-		res = importFromSource(*codec_, pgn, progress, errorMsg);
+	errorT res;
+	if (dbtype == ICodecDatabase::CB2) {
+		CodecCB2 cb2;
+		res = cb2.open(filename, FMODE_ReadOnly);
+		if (res == OK)
+			res = importFromSource(*codec_, cb2, progress, errorMsg);
+		else
+			errorMsg = cb2.parseErrors();
+	} else {
+		CodecPgn pgn;
+		res = pgn.open(filename, FMODE_ReadOnly);
+		if (res == OK)
+			res = importFromSource(*codec_, pgn, progress, errorMsg);
+	}
 
 	auto res_endTrans = endTransaction();
 	return (res != OK) ? res : res_endTrans;
