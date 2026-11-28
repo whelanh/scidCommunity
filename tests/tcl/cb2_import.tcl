@@ -9,7 +9,8 @@
 # header records), imports it into a new SCID5 database with sc_base import,
 # and checks the counts, the tags, a variation and a comment. The format
 # details are covered by gtest/test_codec_cb2.cpp; this checks the binary's
-# own command, which chooses the reader by the .2cbh extension.
+# own command, which chooses the reader by the .2cbh extension, and the
+# import window's importPgnFile, which sends a .2cbh file to it.
 
 set fails 0
 set checks 0
@@ -156,6 +157,35 @@ set h2 [sc_base create SCID5 "${stem}_db2"]
 check "a missing database is an error" [catch {sc_base import $h2 "${stem}_missing.2cbh"}]
 sc_base close $h2
 sc_base close $h
+
+# The import window (Tools > Import Games from PGN Files...) sends a .2cbh
+# file to sc_base import, since sc_base import_nodup reads PGN only. The real
+# importPgnFile runs with the GUI helpers it calls stubbed.
+package require Tk
+wm withdraw .
+namespace eval win { proc createDialog {w} { toplevel $w } }
+namespace eval notify { proc DatabaseModified {args} {} }
+namespace eval ERROR { proc getErrorMsg {} { return "error" } }
+proc autoscrollText {bars frame text style} { ttk::frame $frame; text $text; pack $text -in $frame }
+proc progressBarSet {args} {}
+proc busyCursor {args} {}
+proc unbusyCursor {args} {}
+proc tr {key} { return "<$key>" }
+array set ::tr {Stop Stop Close Close ImportingFrom From ImportingFiles Files}
+source [file join [file dirname [info script]] .. .. tcl tools import.tcl]
+
+set h3 [sc_base create SCID5 "${stem}_db3"]
+importPgnFile $h3 [list "${stem}.2CBH"]
+set log [.ipgnWin.text get 1.0 end]
+# Read as PGN, the binary file would still give one (empty) game: check White.
+sc_base switch $h3
+sc_game load 1
+check "the import window imports the ChessBase game" \
+    [expr {[sc_base numGames $h3] == 1 && [sc_game tags get White] eq "Anand, Viswanathan"}] $log
+check "the import window reports it without the PGN wording" \
+    [expr {[string match "*<Imported> 1 <game>.\n<ImportErrorsWarnings>\n*2 records*" $log]
+           && ![string match "*Pgn*" $log]}] $log
+sc_base close $h3
 
 foreach f [glob -nocomplain "${stem}*"] {
     catch {file delete -force $f}

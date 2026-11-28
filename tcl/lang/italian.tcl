@@ -2351,6 +2351,9 @@ translate I ImportPGN {Importa il gioco PGN}
 translate I ImportingFiles {Importazione di file PGN in}
 translate I ImportingFrom {Importazione da}
 translate I ImportingIn {Importa giochi in}
+translate I ChessBaseDatabases {Database ChessBase}
+translate I ImportErrorsWarnings {Errori/avvisi:}
+translate I NoImportErrorsWarnings {senza errori o avvisi.}
 translate I UseLastTag {Utilizza i tag dell'ultimo\ngioco}
 translate I Random {Casuale}
 translate I BackToMainline {Torna alla linea principale}

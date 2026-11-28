@@ -2381,6 +2381,9 @@ translate E ImportPGN {Import PGN game}
 translate E ImportingFiles {Importing PGN files in}
 translate E ImportingFrom {Importing from}
 translate E ImportingIn {Import games in}
+translate E ChessBaseDatabases {ChessBase databases}
+translate E ImportErrorsWarnings {Errors/warnings:}
+translate E NoImportErrorsWarnings {with no errors or warnings.}
 translate E UseLastTag {Use last\ngame's tags}
 translate E Random {Random}
 translate E BackToMainline {Go back to mainline}

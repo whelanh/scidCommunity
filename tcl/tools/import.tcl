@@ -145,6 +145,7 @@ proc importMoveListTrans {line} {
 proc importPgnFile {{base} {fnames ""}} {
   if {$fnames == ""} {
       set ftypes { { "Portable Game Notation files" {".pgn" ".PGN"} } }
+    lappend ftypes [list [tr ChessBaseDatabases] {".2cbh" ".2CBH"}]
     lappend ftypes { "Text files" {".txt" ".TXT"} }
     lappend ftypes { "All files" {"*"} }
 
@@ -190,7 +191,18 @@ proc importPgnFile {{base} {fnames ""}} {
     $w.text insert end "$::tr(ImportingFrom) [file tail $fname]...\n"
     $w.text configure -state disabled
     progressBarSet $w.progress 401 21
-    set err [catch {sc_base import_nodup $base $fname} result]
+    set cb2 [string equal -nocase [file extension $fname] .2cbh]
+    if {$cb2} {
+      # shortcut: no duplicate check for a ChessBase database (importGamesNoDup
+      # reads PGN only), fine for importing into a new base; add it if asked.
+      set err [catch {sc_base import $base $fname} result]
+      if {$err == 0} {
+        lassign $result nImported warnings
+        set result [list $nImported 0 0 $warnings]
+      }
+    } else {
+      set err [catch {sc_base import_nodup $base $fname} result]
+    }
     $w.text configure -state normal
     if {$err == 1} {
       set autoclose 0
@@ -211,10 +223,10 @@ proc importPgnFile {{base} {fnames ""}} {
         if {$nUpdated == 1} { append str [tr game] } else { append str [tr games] }
       }
       if {$warnings == ""} {
-        append str " [tr NoPgnErrorsWarnings]"
+        append str " [tr [expr {$cb2 ? "NoImportErrorsWarnings" : "NoPgnErrorsWarnings"}]]"
       } else {
         set autoclose 0
-        append str ".\n[tr PgnErrorsWarnings]\n$warnings"
+        append str ".\n[tr [expr {$cb2 ? "ImportErrorsWarnings" : "PgnErrorsWarnings"}]]\n$warnings"
       }
       $w.text insert end "$str\n\n"
       if {$err == 3} {
