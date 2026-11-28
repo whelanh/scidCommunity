@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <cstdint>
 #include <filesystem>
@@ -88,5 +89,184 @@ inline Buf headerFile(int recordSize, unsigned version,
 	}
 	return out;
 }
+
+/// The checksum of a frame's content, written independently of the reader:
+/// byte i is the sum of the i-th of eight equal runs.
+inline uint64_t checksum(const Buf& c) {
+	const size_t m = c.size() / 8;
+	uint64_t v = 0;
+	if (m == 0) {
+		for (size_t i = 0; i < c.size(); ++i)
+			v |= uint64_t(c[i]) << (8 * i);
+		return v;
+	}
+	for (size_t i = 0; i < 8; ++i) {
+		uint8_t s = 0;
+		for (size_t j = 0; j < m; ++j)
+			s = uint8_t(s + c[i * m + j]);
+		v |= uint64_t(s) << (8 * i);
+	}
+	return v;
+}
+
+/// One framed record of `.2cbg` or `.2cba`.
+inline Buf frame(uint16_t tag, const Buf& content, size_t spare = 0) {
+	Buf f = {0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11};
+	addLE(f, content.size(), 4);
+	addLE(f, spare, 4);
+	addBE(f, checksum(content), 8);
+	addLE(f, tag, 2);
+	addBytes(f, content);
+	f.resize(f.size() + spare, 0xAA);
+	addLE(f, content.size() + spare + 34, 8);
+	return f;
+}
+
+/// Move-record words: the optional start section, the move marker, the
+/// tree's words.
+inline Buf moveContent(const std::vector<uint16_t>& tree,
+                       const std::vector<uint16_t>& start = {}) {
+	Buf b;
+	if (!start.empty()) {
+		addLE(b, 0xfffb, 2);
+		for (auto w : start)
+			addLE(b, w, 2);
+	}
+	addLE(b, 0xfffc, 2);
+	for (auto w : tree)
+		addLE(b, w, 2);
+	return b;
+}
+
+/// A game (or another record) of a fixture database.
+struct GameSpec {
+	uint8_t byte0 = 0; ///< 0x80 deleted, 0x02 text (with kind 1)
+	uint8_t kind = 1;  ///< 1 game or text, 2 analysis
+	int64_t white = -1, black = -1, tournament = -1, annotator = -1;
+	uint8_t result = 2;
+	int16_t round = 0, subround = 0, whiteElo = 0, blackElo = 0;
+	uint16_t eco = 0;
+	int32_t date = 0;
+	uint16_t movesTag = 1; ///< 2 for Chess960
+	Buf moves = moveContent({0xffff});
+	/// An annotation record's content; empty for none.
+	Buf annotations;
+	/// Raw bytes for the move record in place of a frame (for damage).
+	Buf rawMoves;
+};
+
+/// Writes a small 2CBH database: `.2cbh`, `.2cbg`, `.2cba` and `.2lid`.
+struct Builder {
+	std::vector<std::pair<std::string, std::string>> players;
+	struct T {
+		std::string title, place;
+		int32_t date;
+	};
+	std::vector<T> tournaments;
+	std::vector<GameSpec> games;
+
+	int64_t player(const std::string& last, const std::string& first = "") {
+		players.emplace_back(last, first);
+		return int64_t(players.size()) - 1;
+	}
+	int64_t tournament(const std::string& title, const std::string& place,
+	                   int32_t date = 0) {
+		tournaments.push_back({title, place, date});
+		return int64_t(tournaments.size()) - 1;
+	}
+
+	static constexpr size_t kPlayerSize = 96, kTournamentSize = 160,
+	                        kOtherSize = 16;
+
+	static void str(Buf& b, const std::string& s) {
+		addLE(b, s.size(), 4);
+		b.insert(b.end(), s.begin(), s.end());
+	}
+
+	Buf lid() const {
+		const int ntypes = 6;
+		const size_t header = 8 + 20 * ntypes + 4; // a few spare bytes
+		Buf b;
+		addBE(b, header, 4);
+		addBE(b, ntypes, 4);
+		const size_t sizes[ntypes] = {kPlayerSize, kTournamentSize, kOtherSize,
+		                              kOtherSize,  kOtherSize,      kOtherSize};
+		const size_t counts[ntypes] = {players.size(), tournaments.size(), 0,
+		                               0, 0, 0};
+		for (int i = 0; i < ntypes; ++i) {
+			addBE(b, sizes[i], 4);
+			addBE(b, counts[i], 8);
+			addBE(b, uint64_t(-1), 8);
+		}
+		b.resize(header, 0);
+		const size_t n = std::max(players.size(), tournaments.size());
+		for (size_t id = 0; id < n; ++id) {
+			for (int t = 0; t < ntypes; ++t) {
+				Buf rec;
+				if (t == 0 && id < players.size()) {
+					str(rec, players[id].first);
+					str(rec, players[id].second);
+				} else if (t == 1 && id < tournaments.size()) {
+					str(rec, tournaments[id].place);
+					str(rec, tournaments[id].title);
+					addLE(rec, uint32_t(tournaments[id].date), 4);
+				}
+				Buf c;
+				addLE(c, rec.size(), 4);
+				addBytes(c, rec);
+				c.resize(sizes[t], 0);
+				addBytes(b, c);
+			}
+		}
+		return b;
+	}
+
+	static RecordBytes record(const GameSpec& g, int64_t moves,
+	                          int64_t annotations) {
+		Buf b(192, 0);
+		b[0] = g.byte0;
+		b[2] = g.kind;
+		putLE(b, 0x08, moves, 8);
+		putLE(b, 0x10, annotations, 8);
+		putLE(b, 0x18, g.white, 8);
+		putLE(b, 0x20, g.black, 8);
+		putLE(b, 0x28, g.tournament, 8);
+		putLE(b, 0x30, g.annotator, 8);
+		putLE(b, 0x38, -1, 8);
+		b[0x58] = g.result;
+		putLE(b, 0x5a, uint16_t(g.round), 2);
+		putLE(b, 0x5c, uint16_t(g.subround), 2);
+		putLE(b, 0x60, uint16_t(g.whiteElo), 2);
+		putLE(b, 0x70, uint16_t(g.blackElo), 2);
+		putLE(b, 0x80, g.eco, 2);
+		putLE(b, 0xbc, uint32_t(g.date), 4);
+		RecordBytes r;
+		std::copy(b.begin(), b.end(), r.begin());
+		return r;
+	}
+
+	/// Writes the files of database @p stem (a path without extension).
+	void write(const std::string& stem, int recordSize = 192,
+	           unsigned version = 5, bool withAnnotationFile = true) const {
+		Buf cbg(12, 0), cba(12, 0);
+		std::vector<RecordBytes> recs;
+		for (auto& g : games) {
+			const int64_t mo = int64_t(cbg.size());
+			addBytes(cbg, g.rawMoves.empty() ? frame(g.movesTag, g.moves, 2)
+			                                 : g.rawMoves);
+			int64_t ao = -1;
+			if (!g.annotations.empty()) {
+				ao = int64_t(cba.size());
+				addBytes(cba, frame(0x2000, g.annotations));
+			}
+			recs.push_back(record(g, mo, ao));
+		}
+		writeFile(stem + ".2cbh", headerFile(recordSize, version, recs));
+		writeFile(stem + ".2cbg", cbg);
+		if (withAnnotationFile)
+			writeFile(stem + ".2cba", cba);
+		writeFile(stem + ".2lid", lid());
+	}
+};
 
 } // namespace cb2test

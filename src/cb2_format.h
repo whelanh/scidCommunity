@@ -30,6 +30,7 @@
 #include <span>
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace cb2 {
 
@@ -187,6 +188,88 @@ public:
 	}
 
 	void sequential(bool on) { file_.sequential(on); }
+};
+
+/// @name Records of `.2cbg` (moves) and `.2cba` (annotations).
+/// A frame is the magic `88 77 66 55 44 33 22 11`, the content size and the
+/// spare size (int32), a big-endian checksum (u64), a tag (u16), the
+/// content, the spare area and a trailing int64 equal to
+/// content + spare + 34.
+///@{
+constexpr size_t kFrameHeader = 0x1a;
+/// Largest content or spare area accepted; the largest seen in a Mega
+/// Database is about 1.2 MB, a guiding text.
+constexpr size_t kMaxFramePart = size_t(64) << 20;
+
+struct Frame {
+	uint16_t tag = 0;
+	Bytes content;
+};
+
+/// Byte @e i of the checksum is the sum, modulo 256, of the @e i-th of eight
+/// equal runs of the content; a trailing remainder is ignored. Content
+/// shorter than eight bytes is its own checksum, little-endian.
+uint64_t frameChecksum(Bytes content);
+
+/// Reads and checks the frame at @p offset of @p file. Returns nullptr on
+/// success, else what is wrong.
+const char* readFrame(const File& file, int64_t offset, Frame& out);
+///@}
+
+/// Text as ChessBase stores it: UTF-8 when the bytes are valid UTF-8, else
+/// Windows-1252 (a byte the page leaves undefined keeps its value as a C1
+/// control), so no byte is lost and the result is always valid UTF-8.
+std::string decodeText(Bytes b);
+
+/// A tournament of `.2lid`.
+struct Tournament {
+	std::string title;
+	std::string place;
+	int32_t start = 0; ///< A packed date, as Record::date().
+};
+
+/// The `.2lid` entity file: players, tournaments and others, each type in
+/// fixed-size containers of its own, interleaved by id.
+class Entities {
+	File file_;
+	size_t headerSize_ = 0;
+	size_t blockSize_ = 0;
+	struct Type {
+		size_t size;
+		int64_t count;
+		size_t offset; ///< Of the type's container within an id's block.
+	};
+	std::vector<Type> types_;
+
+public:
+	enum { PLAYER = 0, TOURNAMENT = 1 };
+
+	errorT open(std::string_view path, std::string& why);
+	void close() { file_.close(); }
+
+	/// The bytes stored for @p id of @p type, without their length field;
+	/// empty for an unused id or one the file does not hold.
+	Bytes raw(size_t type, int64_t id) const;
+
+	/// Player @p id as "Last, First" (or "Last"); false when there is none.
+	bool player(int64_t id, std::string& name) const;
+	bool tournament(int64_t id, Tournament& t) const;
+};
+
+/// An open 2CBH database: `.2cbh`, `.2cbg`, `.2lid` and, when present,
+/// `.2cba`.
+class Database {
+public:
+	HeaderTable headers;
+	File moves;
+	File annotations;
+	bool hasAnnotations = false;
+	Entities entities;
+
+	/// Opens the database whose `.2cbh` file is @p path (UTF-8); the other
+	/// files share its name. On failure, @p why says what is wrong.
+	errorT open(std::string_view path, std::string& why);
+	void close();
 };
 
 } // namespace cb2
